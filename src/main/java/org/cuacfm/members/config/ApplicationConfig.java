@@ -11,15 +11,30 @@ import org.springframework.stereotype.Controller;
 
 import org.cuacfm.members.Application;
 
+/**
+ * The Class ApplicationConfig.
+ */
 @Configuration
-@ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({Controller.class, Configuration.class}))
+@ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({
+		Controller.class, Configuration.class }))
 class ApplicationConfig {
-	
+	/**
+	 * Instantiates a new application config.
+	 */
+	public ApplicationConfig() {
+		// Default empty constructor.
+	}
+
+	/**
+	 * Property placeholder configurer.
+	 *
+	 * @return the property placeholder configurer
+	 */
 	@Bean
 	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
 		PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
 		ppc.setLocation(new ClassPathResource("/persistence.properties"));
 		return ppc;
 	}
-	
+
 }

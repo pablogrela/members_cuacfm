@@ -6,37 +6,73 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import javax.servlet.*;
 
-public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+/** The Class WebAppInitializer. */
+public class WebAppInitializer extends
+		AbstractAnnotationConfigDispatcherServletInitializer {
 
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
+	/** Instantiates a new webb app initializer. */
+	public WebAppInitializer() {
+		// Default empty constructor.
+	}
 
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {ApplicationConfig.class, JpaConfig.class, SecurityConfig.class};
-    }
+	/**
+	 * getServletMappings.
+	 * 
+	 * @return String[]
+	 */
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
 
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {WebMvcConfig.class};
-    }
+	/**
+	 * getRootConfigClasses.
+	 * 
+	 * @return Class<?>[]
+	 */
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		return new Class<?>[] { ApplicationConfig.class, JpaConfig.class,
+				SecurityConfig.class };
+	}
 
-    @Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true);
+	/**
+	 * getServletConfigClasses.
+	 * 
+	 * @return Class<?>[]
+	 */
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class<?>[] { WebMvcConfig.class };
+	}
 
-        DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
+	/**
+	 * getServletFilters.
+	 * 
+	 * @return Filter[]
+	 */
+	@Override
+	protected Filter[] getServletFilters() {
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
 
-        return new Filter[] {characterEncodingFilter, securityFilterChain};
-    }
+		DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy(
+				"springSecurityFilterChain");
 
-    @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        registration.setInitParameter("defaultHtmlEscape", "true");
-        registration.setInitParameter("spring.profiles.active", "default");
-    }
+		return new Filter[] { characterEncodingFilter, securityFilterChain };
+	}
+
+	/**
+	 * ustomizeRegistration.
+	 * 
+	 * @param ServletRegistration
+	 *            .Dynamic registration
+	 */
+	@Override
+	protected void customizeRegistration(
+			ServletRegistration.Dynamic registration) {
+		registration.setInitParameter("defaultHtmlEscape", "true");
+		registration.setInitParameter("spring.profiles.active", "default");
+	}
 }

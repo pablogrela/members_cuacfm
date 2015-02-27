@@ -23,83 +23,153 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 import org.cuacfm.members.Application;
 
+/** The Class WebMvcConfig. */
 @Configuration
 @ComponentScan(basePackageClasses = Application.class, includeFilters = @Filter(Controller.class), useDefaultFilters = false)
-class WebMvcConfig extends WebMvcConfigurationSupport {
+public class WebMvcConfig extends WebMvcConfigurationSupport {
 
-    private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
-    private static final String VIEWS = "/WEB-INF/views/";
+	/** The Constant MESSAGE_SOURCE. */
+	private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
 
-    private static final String RESOURCES_LOCATION = "/resources/";
-    private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
+	/** The Constant VIEWS. */
+	private static final String VIEWS = "/WEB-INF/views/";
 
-    @Override
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping requestMappingHandlerMapping = super.requestMappingHandlerMapping();
-        requestMappingHandlerMapping.setUseSuffixPatternMatch(false);
-        requestMappingHandlerMapping.setUseTrailingSlashMatch(false);
-        return requestMappingHandlerMapping;
-    }
+	/** The Constant RESOURCES_HANDLER. */
+	private static final String RESOURCES_LOCATION = "/resources/";
 
-    @Bean(name = "messageSource")
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename(MESSAGE_SOURCE);
-        messageSource.setCacheSeconds(5);
-        return messageSource;
-    }
+	/** The Constant RESOURCES_LOCATION. */
+	private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
 
-    @Bean
-    public TemplateResolver templateResolver() {
-        TemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setPrefix(VIEWS);
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
-        templateResolver.setCacheable(false);
-        return templateResolver;
-    }
+	/** Instantiates a new web mvc config. */
+	public WebMvcConfig() {
+		// Default empty constructor.
+	}
 
-    @Bean
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.addDialect(new SpringSecurityDialect());
-        return templateEngine;
-    }
+	/**
+	 * RequestMappingHandlerMapping.
+	 * 
+	 * @param RequestMappingHandlerMapping
+	 *            requestMappingHandlerMapping
+	 * @return RequestMappingHandlerMapping
+	 */
+	@Override
+	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+		RequestMappingHandlerMapping requestMappingHandlerMapping = super
+				.requestMappingHandlerMapping();
+		requestMappingHandlerMapping.setUseSuffixPatternMatch(false);
+		requestMappingHandlerMapping.setUseTrailingSlashMatch(false);
+		return requestMappingHandlerMapping;
+	}
 
-    @Bean
-    public ThymeleafViewResolver viewResolver() {
-        ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
-        thymeleafViewResolver.setTemplateEngine(templateEngine());
-        thymeleafViewResolver.setCharacterEncoding("UTF-8");
-        return thymeleafViewResolver;
-    }
+	/**
+	 * Message source.
+	 *
+	 * @return the message source
+	 */
+	@Bean(name = "messageSource")
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename(MESSAGE_SOURCE);
+		messageSource.setCacheSeconds(5);
+		return messageSource;
+	}
 
-    @Override
-    public Validator getValidator() {
-        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.setValidationMessageSource(messageSource());
-        return validator;
-    }
+	/**
+	 * Template resolver.
+	 *
+	 * @return the template resolver
+	 */
+	@Bean
+	public TemplateResolver templateResolver() {
+		TemplateResolver templateResolver = new ServletContextTemplateResolver();
+		templateResolver.setPrefix(VIEWS);
+		templateResolver.setSuffix(".html");
+		templateResolver.setTemplateMode("HTML5");
+		templateResolver.setCacheable(false);
+		return templateResolver;
+	}
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
-    }
+	/**
+	 * Template engine.
+	 *
+	 * @return the spring template engine
+	 */
+	@Bean
+	public SpringTemplateEngine templateEngine() {
+		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+		templateEngine.setTemplateResolver(templateResolver());
+		templateEngine.addDialect(new SpringSecurityDialect());
+		return templateEngine;
+	}
 
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
+	/**
+	 * View resolver.
+	 *
+	 * @return the thymeleaf view resolver
+	 */
+	@Bean
+	public ThymeleafViewResolver viewResolver() {
+		ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
+		thymeleafViewResolver.setTemplateEngine(templateEngine());
+		thymeleafViewResolver.setCharacterEncoding("UTF-8");
+		return thymeleafViewResolver;
+	}
 
-    /**
-     * Handles favicon.ico requests assuring no <code>404 Not Found</code> error is returned.
-     */
-    @Controller
-    static class FaviconController {
-        @RequestMapping("favicon.ico")
-        String favicon() {
-            return "forward:/resources/images/favicon.ico";
-        }
-    }
+	/**
+	 * Get Validator .
+	 *
+	 * @return validator
+	 */
+	@Override
+	public Validator getValidator() {
+		LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+		validator.setValidationMessageSource(messageSource());
+		return validator;
+	}
+
+	/**
+	 * Get Validator .
+	 *
+	 * @param ResourceHandlerRegistry
+	 *            registry
+	 */
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(
+				RESOURCES_LOCATION);
+	}
+
+	/**
+	 * Configure Default Server Handling
+	 *
+	 * @return DefaultServletHandlerConfigurer configurer
+	 */
+	@Override
+	public void configureDefaultServletHandling(
+			DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
+	}
+
+	/**
+	 * Handles favicon.ico requests assuring no <code>404 Not Found</code> error
+	 * is returned.
+	 */
+	@Controller
+	static class FaviconController {
+		/** Instantiates a new favicon controller. */
+
+		FaviconController() {
+			// Default empty constructor.
+		}
+
+		/**
+		 * Favicon.
+		 *
+		 * @return the string
+		 */
+		@RequestMapping("favicon.ico")
+		String favicon() {
+			return "forward:/resources/images/favicon.ico";
+		}
+	}
 }

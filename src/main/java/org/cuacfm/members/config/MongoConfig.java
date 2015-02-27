@@ -18,9 +18,10 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 @Configuration
 class MongoConfig {
 
-    @Bean
+    @SuppressWarnings("deprecation")
+	@Bean
     public MongoDbFactory mongoDbFactory() throws UnknownHostException {
-        return new SimpleMongoDbFactory(new Mongo(), "members");
+        return new SimpleMongoDbFactory(new Mongo(), "nue");
     }
 
     @Bean
@@ -41,7 +42,8 @@ class MongoConfig {
 
     @Bean
     public MappingMongoConverter mongoConverter() throws UnknownHostException {
-        MappingMongoConverter converter = new MappingMongoConverter(mongoDbFactory(), mongoMappingContext());
+        @SuppressWarnings("deprecation")
+		MappingMongoConverter converter = new MappingMongoConverter(mongoDbFactory(), mongoMappingContext());
         converter.setTypeMapper(mongoTypeMapper());
         return converter;
     }

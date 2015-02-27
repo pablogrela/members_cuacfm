@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{profile.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+    <script src="../../../resources/js/profile.js" th:src="@{/resources/js/profile.js}"></script>   
+</head>
+
+
+<body>
+
+<!-- Generic Header -->
+<div th:replace="fragments/header :: header(active='Profile')">&nbsp;</div>
+
+
+<form class="form-narrow form-horizontal" method="post" th:action="@{/profile}" th:object="${profileForm}">
+    
+    <!--/* Show general error message when form contains errors */-->
+    <th:block th:if="${#fields.hasErrors('${profileForm.*}')}">
+        <div th:replace="fragments/alert :: alert (type='danger', message=#{profile.error})">Alert</div>
+    </th:block>
+		
+		
+	<!-- /* Handle the flash message */-->
+	<th:block th:if="${message != null}">
+        <!-- /* The message code is returned from the @Controller */ -->
+        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
+    </th:block>
+      
+    <fieldset>
+    
+        <!-- Message help-->
+        <legend th:text="#{profile.please}">Would you like to change any of the information?</legend>
+        
+        <!-- Insert Name, with a checkbox to enable field name -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+            <label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+            <div class="col-lg-10">
+                <input type="text" name="name" disabled="disabled" class="form-control" id="name" th:placeholder="${name}" th:field="*{name}" />
+                <input type="checkbox" id="enableModify" th:text="#{profile}" name="onName" onChange="checkedName(this.form)" />
+                <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+            </div>
+        </div>
+        
+        <!-- Insert Login, with a checkbox to enable field login-->
+        <div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+            <label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+            <div class="col-lg-10">
+                <input type="text" name="login" disabled="disabled" class="form-control" id="login" th:placeholder="${login}" th:field="*{login}" />
+                <input type="checkbox" id="enableModify2" th:text="#{profile}" name="onLogin" onChange="checkedLogin(this.form)" />
+                <span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+            </div>
+        </div>
+        
+
+        <!-- Insert Email, with a checkbox to enable field email -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+            <label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
+            <div class="col-lg-10">
+                <input type="text" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="${email}" th:field="*{email}" />
+                <input type="checkbox" id="enableModify3" th:text="#{profile}" name="onEmail" onChange="checkedEmail(this.form)" />
+                <span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
+            </div>
+        </div>
+        
+        <!-- Insert Password, with a checkbox to enable field password and rePassword-->
+        <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+            <label for="password"  class="col-lg-2 control-label" th:text="#{password}">Password</label>
+            <div class="col-lg-10">
+                <input type="password" name="password" disabled="disabled" class="form-control" id="password" th:placeholder="#{password}" th:field="*{password}"/>
+                <input type="checkbox" id="enablePasswords" th:text="#{profile}" name="onPassword" onChange="checkedPassword(this.form)" />
+                <span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
+            </div>
+        </div>
+		
+		
+        <!-- Reinsert Password -->
+        <div id="visibleRePasswords" style="display: none;">
+	        <div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
+	            <label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
+	            <div class="col-lg-10">
+	                <input type="password" name="rePassword" disabled="disabled" class="form-control" id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}"/>
+	                <span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
+	            </div>
+	        </div>
+        </div>
+        
+        
+        <!-- Button Modify, visible if a checkbox enable is pressed -->
+        <div id="visibleModify" style="display: none;">
+	        <div class="form-group">
+	            <div class="col-lg-offset-2 col-lg-10">
+	                <button type="submit" class="btn btn-success btn-lg" th:text="#{profile}">Sign Up</button>
+	            </div>
+	        </div>
+        </div>
+        
+    </fieldset>
+</form>
+</body>
+</html>

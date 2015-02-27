@@ -1,37 +1,104 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Demo project</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#" th:href="@{/}">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a href="/signin" th:href="@{/signin}">Sign in</a>
-                </li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a href="/logout" th:href="@{#}" onclick="$('#form').submit();">Logout</a>
-                    <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
-                </li>
-            </ul>
-        </div>
-        <!--/.nav-collapse -->
-    </div>
-</div>
+
+	<!-- fix head -->
+	<!-- <div class="navbar navbar-inverse navbar-fixed-top"-->
+	
+	<!-- mobile head -->
+	<div class="navbar navbar-inverse top"
+		th:fragment="header">
+		
+		<!-- Image title with hiperlink at home-->
+		<div class="containerImage">
+			<a href="#" th:href="@{/}">
+				<img src="resources/images/cuacfm.png" />
+			</a>
+		</div>
+		
+		<!-- Menu -->
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".nav-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+										
+						
+						
+					<!-- Pruebas Role -->		
+					<th:block th:if="${role == 'ROLE_ADMIN'}">
+						<li><a href="#contact">Admin: </a></li>
+					</th:block>
+					<th:block th:if="${role == 'ROLE_USER'}">
+						<li><a href="#contact">User: </a></li>
+					</th:block>
+					<!-- Pruebas Role -->		
+						
+						
+					
+					<!-- Button Home -->
+					<th:block th:if="${active != 'Home'}">
+						<li>
+							<a href="#" th:href="@{/}" th:text="#{home}">Home</a>
+						</li>
+					</th:block>	
+					<th:block th:if="${active == 'Home'}">
+						<li class="active">
+							<a href="#" th:href="@{/}" th:text="#{home}">Home</a>
+						</li>
+					</th:block>						
+					
+					<!-- Button Training -->
+					<li class="disable"><a href="#training" th:text="#{training}">Trainig</a></li>
+										
+					<!-- Button About -->
+					<li><a href="#about">About</a></li>
+					
+					<!-- Button Contact -->
+					<li><a href="#contact">Contact</a></li>
+	
+				</ul>
+				<ul class="nav navbar-nav navbar-right">						
+							
+					<!-- Button SignIn -->
+					<li th:if="${#authorization.expression('!isAuthenticated()')}">
+						<a href="/signin" th:href="@{/signin}" th:text="#{signin}">Sign In</a>
+					</li>
+					
+					<!-- Button logout -->
+					<li th:if="${#authorization.expression('isAuthenticated()')}">
+						<a href="/logout" th:href="@{#}" onclick="$('#form').submit();" th:text="#{logout}">Logout</a>
+						<form style="visibility: hidden" id="form" method="post"
+							action="#" th:action="@{/logout}"></form>
+					</li>
+					
+
+					<!-- Message Login, welcome -->					
+					<li th:if="${#authorization.expression('isAuthenticated()')}">
+						<th:block th:if="${active != 'Profile'}">
+							<li>
+								<a href="/profile" th:href="@{/profile}" th:text="${#authentication.name}">Sign In</a>
+							</li>
+						</th:block>	
+						<th:block th:if="${active == 'Profile'}">
+							<li class="active">
+								<a href="/profile" th:href="@{/profile}" th:text="${#authentication.name}">Sign In</a>
+							</li>
+						</th:block>		
+					</li>					
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
 </body>
 </html>
