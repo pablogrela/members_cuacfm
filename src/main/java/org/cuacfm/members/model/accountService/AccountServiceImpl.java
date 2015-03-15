@@ -1,6 +1,7 @@
 package org.cuacfm.members.model.accountService;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.AccountRepository;
@@ -34,6 +35,19 @@ public class AccountServiceImpl implements AccountService {
 	 */
 	@Override
 	public Account save(Account account) {
+
+		// It is verified that there is not exist login
+		if (accountRepository.findByLogin(account.getLogin()) != null) {
+			throw new PersistenceException("Already exist login: "
+					+ account.getLogin());
+		}
+
+		// It is verified that there is not exist email
+		if (accountRepository.findByEmail(account.getEmail()) != null) {
+			throw new PersistenceException("Already exist email: "
+					+ account.getEmail());
+		}
+
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		return accountRepository.save(account);
 	}
@@ -49,7 +63,26 @@ public class AccountServiceImpl implements AccountService {
 	 * @return the account
 	 */
 	@Override
-	public Account update(Account account, boolean newPassword) {
+	public Account update(Account account, boolean newPassword) throws PersistenceException {
+
+		// It is verified that there is not exist login
+		Account accountSearch = accountRepository.findByLogin(account.getLogin());
+		if (accountSearch != null) {
+			if (accountSearch.getId() != account.getId()) {
+				throw new PersistenceException("Already exist login: "
+						+ account.getLogin());
+			}
+		}
+		
+		// It is verified that there is not exist email
+		accountSearch = accountRepository.findByEmail(account.getEmail());
+		if (accountSearch != null) {
+			if (accountSearch.getId() != account.getId()) {
+				throw new PersistenceException("Already exist email: "
+						+ account.getEmail());
+			}
+		}
+
 		if (newPassword) {
 			account.setPassword(passwordEncoder.encode(account.getPassword()));
 		}

@@ -25,11 +25,7 @@ public abstract class WebSecurityConfigurationAware extends WebAppConfigurationA
     @Qualifier("userService")
     protected UserDetailsService userDetailsService;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see es.udc.fi.dc.fd.config.WebAppConfigurationAware#before()
-     */
+    /** Inizialize mockMVC*/
     @Before
     public void before() {
         this.mockMvc = webAppContextSetup(this.wac).addFilters(

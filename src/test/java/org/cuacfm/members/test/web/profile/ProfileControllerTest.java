@@ -67,7 +67,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void displaysProfileForm() throws Exception {    
+	public void displaysProfileFormTest() throws Exception {    
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(model().attributeExists("profileForm"))
 				.andExpect(view().name("profile/profile"))
@@ -83,7 +83,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void loginAlreadyExists() throws Exception {
+	public void loginAlreadyExistsTest() throws Exception {
 
 		Account user2 = new Account("user2", "user2", "email2@udc.es", "demo", "ROLE_USER");
 		accountService.save(user2);
@@ -176,13 +176,12 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
                         		.andExpect(view().name("profile/profile"));
     }
   
-    
     /**
      * Send profile form with more of 30 characters.
      * @throws Exception the exception
      */
     @Test
-    public void maximumCharacters() throws Exception {
+    public void maxTest() throws Exception {
         mockMvc.perform(
                 post("/profile").locale(Locale.ENGLISH).session(defaultSession)
 						.param("name", "1234567890123456789012345678901")
@@ -200,7 +199,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void updateProfileBlankMessage() throws Exception {		
+	public void updateProfileBlankMessageTest() throws Exception {		
         mockMvc.perform(
                 post("/profile").locale(Locale.ENGLISH).session(defaultSession)
 						.param("name", " ")
@@ -233,16 +232,14 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void updateProfileSuccesfull() throws Exception {	
+	public void updateProfileSuccesfullTest() throws Exception {	
         mockMvc.perform(
                 post("/profile").locale(Locale.ENGLISH).session(defaultSession)
 						.param("name", "name")
 						.param("login", "login")
-						.param("radioEmail", "true")
 						.param("email", "email2@udc.es")
 						.param("password", "1234")
 						.param("rePassword", "1234"))
-
                         		.andExpect(view().name("redirect:/profile"));
 	}
 	
@@ -255,6 +252,6 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		
         mockMvc.perform(
                 post("/profile").locale(Locale.ENGLISH).session(defaultSession))
-                	.andExpect(view().name("profile/profile"));
+                	.andExpect(view().name("redirect:/profile"));
 	}
 }

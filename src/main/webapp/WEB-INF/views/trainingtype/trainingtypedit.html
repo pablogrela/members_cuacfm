@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{trainingTypeEdit.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<!-- Generic Header -->
+<div th:replace="fragments/header :: header(active='trainingType')">&nbsp;</div>
+
+
+<form class="form-narrow form-horizontal" method="post" th:action="@{trainingTypeEdit}" th:object="${trainingTypeForm}">
+    
+    
+    <!--/* Show general error message when form contains errors */-->
+    <th:block th:if="${#fields.hasErrors('${trainingTypeForm.*}')}">
+        <div th:replace="fragments/alert :: alert (type='danger', message=#{training.error})">Alert</div>
+    </th:block>
+			   
+    <fieldset>
+    
+        <!-- Message help-->
+        <legend th:text="#{trainingType.infoEdit}">Edit Type Training</legend>
+        
+        
+        <!-- Edit Name -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+            <label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+            <div class="col-lg-10">
+                <span th:text="${name}" class="col-sm-1">name</span>
+                <input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" />
+                <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+            </div>
+        </div>
+        
+        
+        <!-- Insert Required -->
+        <div class="form-group">
+            <label for="required" class="col-lg-2 control-label" th:text="#{trainingType.required}">Required</label>
+            <div class="col-lg-2">
+                <input type="checkbox" class="form-control" th:checked="${trainingType.required}" id="trainingType.required" name="required" th:title="#{requiredType.infoRequired}"/>            
+            </div>
+        </div>
+         
+              
+        <!-- Edit Description -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+            <label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
+            <div class="col-lg-10">
+            	<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" rows="5" cols="40">
+            	Description</textarea>
+                <span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
+            </div>
+        </div>
+        
+        
+        <!-- Edit Place -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('place')}? 'has-error'">
+            <label for="place" class="col-lg-2 control-label" th:text="#{place}">place</label>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="place" th:placeholder="#{place}" th:field="*{place}"/>
+                <span class="help-block" th:if="${#fields.hasErrors('place')}" th:errors="*{place}">Incorrect place</span>
+            </div>
+        </div>
+        
+        
+       <!-- Edit Duration -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
+            <label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
+            <div class="col-lg-3">
+                <input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}"/>
+                <span class="help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">Incorrect duration</span>
+            </div>
+        </div>
+        
+        
+        <!-- Button Edit Training -->
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button type="submit" class="btn btn-success btn-lg" th:text="#{trainingType.modify}">Create</button>
+            </div>
+        </div>
+        
+    </fieldset>
+</form>
+</body>
+</html>

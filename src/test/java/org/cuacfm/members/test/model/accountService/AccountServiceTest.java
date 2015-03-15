@@ -80,7 +80,21 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 	}
 
 	/**
-	 * Exception the same email.
+	 * insert Exception the same login.
+	 */
+	@Test(expected = PersistenceException.class)
+	public void insertUserTheSameLoginException() {
+		Account account = new Account("user", "user.new", "user1@example.com",
+				"demo", "ROLE_USER");
+		accountService.save(account);
+
+		Account account2 = new Account("user", "user.new", "user2@example.com",
+				"demo", "ROLE_USER");
+		accountService.save(account2);
+	}
+	
+	/**
+	 * insert Exception the same email.
 	 */
 	@Test(expected = PersistenceException.class)
 	public void insertUserTheSameEmailException() {
@@ -94,7 +108,25 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 	}
 
 	/**
-	 * Exception the same email.
+	 * update Exception the same login.
+	 */
+	@Test(expected = PersistenceException.class)
+	public void updateUserTheSameLoginException() {
+		Account account = new Account("user1", "user1", "user1@example.com",
+				"demo", "ROLE_USER");
+		Account accountSaved = accountService.save(account);
+
+		Account account2 = new Account("user2", "user2", "user2@example.com",
+				"demo", "ROLE_USER");
+		accountService.save(account2);
+
+		accountSaved.setLogin("user2");
+		accountService.update(accountSaved, false);
+	}
+	
+
+	/**
+	 * update Exception the same email.
 	 */
 	@Test(expected = PersistenceException.class)
 	public void updateUserTheSameEmailException() {
@@ -110,36 +142,6 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 		accountService.update(accountSaved, false);
 	}
 
-	/**
-	 * Exception the same login.
-	 */
-	@Test(expected = PersistenceException.class)
-	public void updateUserTheSameLoginException() {
-		Account account = new Account("user1", "user1", "user1@example.com",
-				"demo", "ROLE_USER");
-		Account accountSaved = accountService.save(account);
-
-		Account account2 = new Account("user2", "user2", "user2@example.com",
-				"demo", "ROLE_USER");
-		accountService.save(account2);
-
-		accountSaved.setLogin("user2");
-		accountService.update(accountSaved, false);
-	}
-
-	/**
-	 * Exception the same login.
-	 */
-	@Test(expected = PersistenceException.class)
-	public void insertUserTheSameLoginException() {
-		Account account = new Account("user", "user.new", "user1@example.com",
-				"demo", "ROLE_USER");
-		accountService.save(account);
-
-		Account account2 = new Account("user", "user.new", "user2@example.com",
-				"demo", "ROLE_USER");
-		accountService.save(account2);
-	}
 
 	/**
 	 * Save and find by login account test.

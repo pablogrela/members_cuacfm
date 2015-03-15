@@ -1,16 +1,18 @@
 package org.cuacfm.members.config;
 
-import static org.springframework.context.annotation.ComponentScan.Filter;
-
+import org.cuacfm.members.Application;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -20,8 +22,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
-
-import org.cuacfm.members.Application;
 
 /** The Class WebMvcConfig. */
 @Configuration
@@ -45,6 +45,14 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		// Default empty constructor.
 	}
 
+	
+	// Formateo de las fechas
+	@Override
+	public void addFormatters(FormatterRegistry registry) {	
+		DateFormatter dateFormatter = new DateFormatter("HH:mm dd/MM/yyyy");	
+		registry.addFormatter(dateFormatter);
+	}
+	
 	/**
 	 * RequestMappingHandlerMapping.
 	 * 

@@ -43,19 +43,19 @@ public class ProfileForm {
 	}
 
 	/**
-	 * Gets the email.
+	 * Gets the login.
 	 *
-	 * @return the email
+	 * @return the login
 	 */
 	public String getLogin() {
 		return login;
 	}
 
 	/**
-	 * Sets the email.
+	 * Sets the login.
 	 *
-	 * @param email
-	 *            the new email
+	 * @param login
+	 *            the new login
 	 */
 	public void setLogin(String login) {
 		this.login = login;

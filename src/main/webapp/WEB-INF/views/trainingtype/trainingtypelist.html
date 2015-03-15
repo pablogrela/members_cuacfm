@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:tiles="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{trainingType.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/core.css}" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../../../resources/js/bootstrap.min.js"
+	th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='trainingType')">&nbsp;</div>
+
+
+	<!-- Button Create New Training Type -->
+	<div class="text-center">
+		<a href="#" class="btn btn-success btn-lg"
+			th:href="@{/trainingTypeList/trainingTypeCreate}"
+			th:text="#{trainingType.createNewTraining}">Create New Training Type
+		</a>
+	</div>
+	<br></br>
+
+
+	<div class="container text-center">
+		<!-- /* Handle the flash message */-->
+		<th:block th:if="${message != null}">
+			<!-- /* The message code is returned from the @Controller */ -->
+			<div
+				th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</th:block>
+	</div>
+
+
+	<fieldset>
+
+		<!-- Verify if exits Trainings -->
+		<div th:unless="${#lists.isEmpty(trainingTypes)}">
+
+			<h2 class="text-center" th:text="#{trainingType.trainingTypelist}">List
+				of Training Types</h2>
+
+			<!-- Table List of Training Types -->
+			<table class="table table-striped table-hover form-narrow ">
+				<thead>
+					<tr>
+						<th th:text="#{name}">Name</th>
+						<th th:text="#{trainingType.required}">Close</th>
+						<th th:text="#{place}">Place</th>
+						<th th:text="#{duration}">Duration</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<!-- Table entry -->
+					<tr th:each="trainingType : ${trainingTypes}">
+						<td th:text="${trainingType.name}">name</td>
+						<td class="text-center"><input type="checkbox"
+							th:checked="${trainingType.required}" onClick="return false"
+							th:title="#{requiredType.infoRequired}" /></td>
+						<td th:text="${trainingType.place}">place</td>
+						<td th:text="${trainingType.duration}">duration</td>
+
+
+						<!-- Delete TrainingType -->
+						<td class="text-center">
+							<form
+								th:action="@{'trainingTypeList/trainingTypeDelete/'+${trainingType.id}}"
+								method="post">
+								<button class="btn btn-link glyphicon glyphicon-remove"
+									th:title="#{remove}" style="color: red"></button>
+							</form>
+						</td>
+
+						<!-- Modify TrainingType -->
+						<td class="text-center">
+							<form
+								th:action="@{'trainingTypeList/trainingTypeEdit/'+${trainingType.id}}"
+								method="post">
+								<button class="btn btn-link glyphicon glyphicon-edit"
+									th:title="#{edit}" style="color: orange"></button>
+							</form>
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+	</fieldset>
+</body>
+</html>

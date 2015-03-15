@@ -3,7 +3,9 @@ package org.cuacfm.members.config;
 import org.cuacfm.members.model.userService.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
@@ -13,6 +15,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 
 /** The Class SecurityConfig.*/
 @Configuration
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @EnableWebMvcSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -23,6 +26,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Default empty constructor.
     }
 
+    
+    // No sirve para nada, ni el @EnableGlobalMethodSecurity(securedEnabled = true)
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+    
     /**
      * User service.
      *
@@ -76,6 +87,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()
+                //.antMatchers("/training/**").hasRole("ADMIN") 
+                
+                .antMatchers("/trainingList", "/trainingList/trainingView/**", "/trainingList/trainingUserList/**", 
+                		"trainingList/trainingJoin/**", "trainingList/trainingJoin/",  "trainingList/trainingJoin","trainingList/trainingRemoveJoin/**").hasAnyRole("USER", "TRAINER", "ADMIN") 
+                //.antMatchers("/trainingList/**").hasAnyRole("TRAINER", "ADMIN")
+                .antMatchers("/trainingTypeList/**").hasAnyRole("TRAINER", "ADMIN")
+                //.antMatchers("/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

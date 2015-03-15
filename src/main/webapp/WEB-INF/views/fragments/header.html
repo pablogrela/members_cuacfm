@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:tiles="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<link rel="shortcut icon"
+	href="/sites/default/files/carndriver_favicon.ico" type="image/x-icon" />
 <head>
 <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
 	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
@@ -8,20 +12,19 @@
 
 	<!-- fix head -->
 	<!-- <div class="navbar navbar-inverse navbar-fixed-top"-->
-	
+
 	<!-- mobile head -->
-	<div class="navbar navbar-inverse top"
-		th:fragment="header">
-		
+	<div class="navbar top" th:fragment="header">
+
 		<!-- Image title with hiperlink at home-->
-		<div class="containerImage">
-			<a href="#" th:href="@{/}">
-				<img src="resources/images/cuacfm.png" />
+		<div class=" container containerImage">
+			<a href="/" th:href="@{/}"> <img
+				th:src="@{/resources/images/cuacfm.png}" />
 			</a>
 		</div>
-		
+
 		<!-- Menu -->
-		<div class="container">
+		<div class="container navbar-default">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target=".nav-collapse">
@@ -31,70 +34,99 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-										
-						
-						
-					<!-- Pruebas Role -->		
-					<th:block th:if="${role == 'ROLE_ADMIN'}">
+
+
+					<!-- Pruebas Role -->
+					<th:block sec:authorize="hasRole('ROLE_ADMIN')">
 						<li><a href="#contact">Admin: </a></li>
 					</th:block>
-					<th:block th:if="${role == 'ROLE_USER'}">
+					<th:block sec:authorize="hasRole('ROLE_USER')">
 						<li><a href="#contact">User: </a></li>
 					</th:block>
-					<!-- Pruebas Role -->		
-						
-						
-					
+					<th:block sec:authorize="hasRole('ROLE_TRAINER')">
+						<li><a href="#contact">Trainer: </a></li>
+					</th:block>
+					<!-- Pruebas Role -->
+
+
 					<!-- Button Home -->
 					<th:block th:if="${active != 'Home'}">
-						<li>
-							<a href="#" th:href="@{/}" th:text="#{home}">Home</a>
-						</li>
-					</th:block>	
+						<li><a href="/" th:href="@{/}" th:text="#{home}">Home</a></li>
+					</th:block>
 					<th:block th:if="${active == 'Home'}">
-						<li class="active">
-							<a href="#" th:href="@{/}" th:text="#{home}">Home</a>
-						</li>
-					</th:block>						
-					
+						<li class="active"><a href="#" th:href="@{/}"
+							th:text="#{home}">Home</a></li>
+					</th:block>
+
+
+					<!-- Button Trainings of User -->
+					<th:block th:if="${active != 'trainingUserList'}"
+						sec:authorize="hasRole('ROLE_USER')">
+						<li><a href="#" th:href="@{/trainingList/trainingUserList}"
+							th:text="#{training.trainingUserList}">trainingUser</a></li>
+					</th:block>
+					<th:block th:if="${active == 'trainingUserList'}"
+						sec:authorize="hasRole('ROLE_USER')">
+						<li class="active"><a href="#"
+							th:href="@{/trainingList/trainingUserList}"
+							th:text="#{training.trainingUserList}">trainingUser</a></li>
+					</th:block>
+
+
+					<!-- Button Training Type -->
+					<th:block th:if="${active != 'trainingType'}"
+						sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
+						<li><a href="#" th:href="@{/trainingTypeList}"
+							th:text="#{trainingType}">trainingList</a></li>
+					</th:block>
+					<th:block th:if="${active == 'trainingType'}"
+						sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
+						<li class="active"><a href="#" th:href="@{/trainingTypeList}"
+							th:text="#{trainingType}">trainingList</a></li>
+					</th:block>
+
+
 					<!-- Button Training -->
-					<li class="disable"><a href="#training" th:text="#{training}">Trainig</a></li>
-										
+					<th:block th:if="${active != 'training'}">
+						<li><a href="#" th:href="@{/trainingList}"
+							th:text="#{training}">trainingList</a></li>
+					</th:block>
+					<th:block th:if="${active == 'training'}">
+						<li class="active"><a href="#" th:href="@{/trainingList}"
+							th:text="#{training}">trainingList</a></li>
+					</th:block>
+
+
+
 					<!-- Button About -->
 					<li><a href="#about">About</a></li>
-					
+
 					<!-- Button Contact -->
 					<li><a href="#contact">Contact</a></li>
-	
-				</ul>
-				<ul class="nav navbar-nav navbar-right">						
-							
-					<!-- Button SignIn -->
-					<li th:if="${#authorization.expression('!isAuthenticated()')}">
-						<a href="/signin" th:href="@{/signin}" th:text="#{signin}">Sign In</a>
-					</li>
-					
-					<!-- Button logout -->
-					<li th:if="${#authorization.expression('isAuthenticated()')}">
-						<a href="/logout" th:href="@{#}" onclick="$('#form').submit();" th:text="#{logout}">Logout</a>
-						<form style="visibility: hidden" id="form" method="post"
-							action="#" th:action="@{/logout}"></form>
-					</li>
-					
 
-					<!-- Message Login, welcome -->					
-					<li th:if="${#authorization.expression('isAuthenticated()')}">
-						<th:block th:if="${active != 'Profile'}">
-							<li>
-								<a href="/profile" th:href="@{/profile}" th:text="${#authentication.name}">Sign In</a>
-							</li>
-						</th:block>	
-						<th:block th:if="${active == 'Profile'}">
-							<li class="active">
-								<a href="/profile" th:href="@{/profile}" th:text="${#authentication.name}">Sign In</a>
-							</li>
-						</th:block>		
-					</li>					
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+
+					<!-- Button SignIn -->
+					<li sec:authorize="!isAuthenticated()"><a href="/signin"
+						th:href="@{/signin}" th:text="#{signin}">Sign In</a></li>
+
+					<!-- Button logout -->
+					<li sec:authorize="isAuthenticated()"><a href="/logout"
+						th:href="@{#}" onclick="$('#form').submit();" th:text="#{logout}">Logout</a>
+						<form style="visibility: hidden" id="form" method="post"
+							action="#" th:action="@{/logout}"></form></li>
+
+
+					<!-- Message Login, welcome -->
+					<li sec:authorize="isAuthenticated()"><th:block
+							th:if="${active != 'Profile'}">
+							<li><a href="/profile" th:href="@{/profile}"
+								sec:authentication="name">Name</a></li>
+						</th:block> <th:block th:if="${active == 'Profile'}">
+							<li class="active"><a href="/profile" th:href="@{/profile}"
+								sec:authentication="name">Name</a></li>
+						</th:block></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->

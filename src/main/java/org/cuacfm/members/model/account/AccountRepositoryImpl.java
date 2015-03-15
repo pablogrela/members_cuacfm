@@ -1,9 +1,8 @@
 package org.cuacfm.members.model.account;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
@@ -35,20 +34,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 	 */
 	@Override
 	@Transactional
-	public Account save(Account account) {
-
-		// It is verified that there is not exist login
-		if (findByLogin(account.getLogin()) != null) {
-			throw new PersistenceException("Already exist login: "
-					+ account.getLogin());
-		}
-
-		// It is verified that there is not exist email
-		if (findByEmail(account.getEmail()) != null) {
-			throw new PersistenceException("Already exist email: "
-					+ account.getEmail());
-		}
-
+	public Account save(Account account) throws PersistenceException {
 		entityManager.persist(account);
 		return account;
 	}
@@ -59,29 +45,10 @@ public class AccountRepositoryImpl implements AccountRepository {
 	 * @param account
 	 *            the account
 	 * @return the account
-	 */	
+	 */
 	@Override
 	@Transactional
-	public Account update(Account account) {
-		
-		// It is verified that there is not exist login
-		Account accountSearch = findByLogin(account.getLogin());
-		if (accountSearch != null) {
-			if (accountSearch.getId() != account.getId()) {
-				throw new PersistenceException("Already exist login: "
-						+ account.getLogin());
-			}
-		}
-		
-		// It is verified that there is not exist email
-		accountSearch = findByEmail(account.getEmail());
-		if (accountSearch != null) {
-			if (accountSearch.getId() != account.getId()) {
-				throw new PersistenceException("Already exist email: "
-						+ account.getEmail());
-			}
-		}
-
+	public Account update(Account account) throws PersistenceException {
 		return entityManager.merge(account);
 	}
 
@@ -126,13 +93,15 @@ public class AccountRepositoryImpl implements AccountRepository {
 	 */
 	@Override
 	public Account findByEmail(String email) {
-		List<Account> accounts = entityManager
-				.createNamedQuery(Account.FIND_BY_EMAIL, Account.class)
-				.setParameter("email", email).getResultList();
-		if (accounts.isEmpty()) {
+		try {
+			return entityManager
+					.createNamedQuery(Account.FIND_BY_EMAIL, Account.class)
+					.setParameter("email", email).getSingleResult();
+		} catch (NoResultException e) {
 			return null;
+		} catch (PersistenceException e) {
+			throw new PersistenceException();
 		}
-		return accounts.get(0);
 	}
 
 	/**
@@ -144,12 +113,14 @@ public class AccountRepositoryImpl implements AccountRepository {
 	 */
 	@Override
 	public Account findByLogin(String login) {
-		List<Account> accounts = entityManager
-				.createNamedQuery(Account.FIND_BY_LOGIN, Account.class)
-				.setParameter("login", login).getResultList();
-		if (accounts.isEmpty()) {
+		try {
+			return entityManager
+					.createNamedQuery(Account.FIND_BY_LOGIN, Account.class)
+					.setParameter("login", login).getSingleResult();
+		} catch (NoResultException e) {
 			return null;
+		} catch (PersistenceException e) {
+			throw new PersistenceException();
 		}
-		return accounts.get(0);
 	}
 }

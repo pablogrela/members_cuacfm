@@ -1,15 +1,13 @@
 package org.cuacfm.members.config;
 
-import static org.springframework.context.annotation.ComponentScan.Filter;
-
+import org.cuacfm.members.Application;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
-
-import org.cuacfm.members.Application;
 
 /**
  * The Class ApplicationConfig.
