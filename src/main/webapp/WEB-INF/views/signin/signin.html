@@ -1,76 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{signin.title}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<title th:text="#{signin.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+	th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen"
+	th:href="@{/resources/css/core.css}" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 </head>
 <body>
 
-<!-- Generic Header -->
-<div th:replace="fragments/header :: header">&nbsp;</div>
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header">&nbsp;</div>
 
 
-<form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/authenticate}">
+	<form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/authenticate}">
 
-    <!--/* Show general error message when form contains errors */-->
-    <th:block th:if="${param.error != null}">
-        <div th:replace="fragments/alert :: alert (type='danger', message=#{signin.error})">Alert</div>
-    </th:block>
-       
-    <fieldset>
-    
-         <!-- Message help-->
-        <legend th:text="#{signin.please}"></legend>
-        
-        <!-- Insert Login -->
-        <div class="form-group" >
-            <label for="inputLogin" class="col-lg-2 control-label" th:text="#{login}">Login</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputLogin" th:placeholder="#{login}" name="username" />
+		<!--/* Show general error message when form contains errors */-->
+		<th:block th:if="${param.error != null}">
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{signin.error})">Alert</div>
+		</th:block>
 
-            </div>
-        </div>
-        
-        <!-- Insert Password -->
-        <div class="form-group">
-            <label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
-            <div class="col-lg-10">
-                <input type="password" class="form-control" id="inputpPassword" th:placeholder="#{password}" name="password"/>
-            </div>
-        </div>
-        
-         <!-- Checkbox remeber me -->
-        <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="_spring_security_remember_me"/> 
-                        <span th:text="#{signin.remember}">Remember me </span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Button SignIn -->
-        <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-                <button type="submit" class="btn btn-default" th:text="#{signin}">Sign In</button>
-            </div>
-        </div>
-        
-        <!-- Button SignUp -->
-        <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-                <span th:text="#{signin.newhere}"> New here?</span>
-                <a href="signup" th:href="@{/signup}" th:text="#{signup}">Sign Up</a>
-            </div>
-        </div>
-        
-    </fieldset>
-</form>
+		<fieldset>
+
+			<!-- Message help-->
+			<legend th:text="#{signin.please}"></legend>
+
+			<!-- Insert Login -->
+			<div class="form-group">
+				<label for="inputLogin" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="inputLogin" th:placeholder="#{login}"
+						name="username" />
+
+				</div>
+			</div>
+
+			<!-- Insert Password -->
+			<div class="form-group">
+				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
+				<div class="col-lg-10">
+					<input type="password" class="form-control" id="inputpPassword" th:placeholder="#{password}"
+						name="password" />
+				</div>
+			</div>
+
+			<!-- Checkbox remeber me -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<div class="checkbox">
+						<label> <input type="checkbox" name="_spring_security_remember_me" /> <span
+							th:text="#{signin.remember}">Remember me </span>
+						</label>
+					</div>
+				</div>
+			</div>
+
+			<!-- Button SignIn -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<button type="submit" class="btn btn-default" th:text="#{signin}">Sign In</button>
+				</div>
+			</div>
+
+			<!-- Button SignUp -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<span th:text="#{signin.newhere}"> New here?</span> <a href="signup" th:href="@{/signup}"
+						th:text="#{signup}">Sign Up</a>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
 </body>
 </html>

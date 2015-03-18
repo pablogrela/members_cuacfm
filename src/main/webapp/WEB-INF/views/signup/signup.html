@@ -1,91 +1,112 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{signup.title}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<title th:text="#{signup.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="http://cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
+<script src="../../../resources/js/formcfg-es.js" th:src="@{/resources/js/formcfg-es.js}"></script>
+<script src="../../../resources/js/chargeWebshim.js" th:src="@{/resources/js/chargeWebshim.js}"></script>
 </head>
 <body>
 
-<!-- Generic Header -->
-<div th:replace="fragments/header :: header">&nbsp;</div>
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header">&nbsp;</div>
 
 
-<form class="form-narrow form-horizontal" method="post" th:action="@{/signup}" th:object="${signupForm}">
-    
-    <!--/* Show general error message when form contains errors */-->
-    <th:block th:if="${#fields.hasErrors('${signupForm.*}')}">
-        <div th:replace="fragments/alert :: alert (type='danger', message=#{signup.error})">Alert</div>
-    </th:block>
-			
-    <fieldset>
-    
-        <!-- Message help-->
-        <legend th:text="#{signup.please}">Please Sign Up</legend>
-        
-        <!-- Insert Name -->
-        <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
-            <label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" />
-                <span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
-            </div>
-        </div>
-        
-        <!-- Insert Login -->
-        <div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
-            <label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}" />
-                <span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
-            </div>
-        </div>
-        
-        <!-- Insert Email -->
-        <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
-            <label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" />
-                <span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
-            </div>
-        </div>
-        
-        <!-- Insert Password -->
-        <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
-            <label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
-            <div class="col-lg-10">
-                <input type="password" class="form-control" id="password" th:placeholder="#{password}" th:field="*{password}"/>
-                <span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
-            </div>
-        </div>
-        
-        <!-- Reinsert Password -->
-        <div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
-            <label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
-            <div class="col-lg-10">
-                <input type="password" class="form-control" id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}"/>
-                <span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
-            </div>
-        </div>
-        
-        <!-- Button SignUp -->
-        <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-                <button type="submit" class="btn btn-success btn-lg" th:text="#{signup}">Sign Up</button>
-            </div>
-        </div>
-        
-        <!-- Button SignIn -->
-        <div class="form-group">
-            <div class="col-lg-offset-2 col-lg-10">
-                <span th:text="#{signup.already}">Already have an account? </span><a href="signin" th:href="@{/signin}" th:text="#{signin}">Sign In</a>
-            </div>
-        </div>
-        
-    </fieldset>
-</form>
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/signup}"
+		th:object="${signupForm}">
+
+		<!--/* Show general error message when form contains errors */-->
+		<th:block th:if="${#fields.hasErrors('${signupForm.*}')}">
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{signup.error})">Alert</div>
+		</th:block>
+
+		<fieldset>
+
+			<!-- Message help-->
+			<legend th:text="#{signup.please}">Please Sign Up</legend>
+
+			<!-- Insert Name -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}"
+						maxlength="30" required="required" /> <span class="help-block ws-errorbox"
+						th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			<!-- Insert Login -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="login" th:placeholder="#{login}"
+						th:field="*{login}" maxlength="30" required="required" /> <span class="help-block"
+						th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			<!-- Insert Email -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
+				<div class="col-lg-10">
+					<input type="email" class="form-control" id="email" th:placeholder="#{email}"
+						th:field="*{email}" maxlength="30" required="required" /> <span class="help-block"
+						th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+
+			</div>
+
+			<!-- Insert Password -->
+			<div class="form-group ws-validate"
+				th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
+				<div class="col-lg-10">
+					<input type="password" class="form-control" id="password" th:placeholder="#{password}"
+						th:field="*{password}" minlength="4" maxlength="20" required="required" /> <span
+						class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect
+						password</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			<!-- Reinsert Password -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
+				<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
+				<div class="col-lg-10">
+					<input type="password" class="form-control" id="rePassword" th:placeholder="#{rePassword}"
+						th:field="*{rePassword}" minlength="4" data-dependent-validation="password" maxlength="20"
+						required="required" /> <span class="help-block" th:if="${#fields.hasErrors('rePassword')}"
+						th:errors="*{rePassword}">Incorrect password</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			<!-- Button SignUp -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<button type="submit" class="btn btn-success btn-lg" th:text="#{signup}">Sign Up</button>
+				</div>
+			</div>
+
+			<!-- Button SignIn -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<span th:text="#{signup.already}">Already have an account? </span><a href="signin"
+						th:href="@{/signin}" th:text="#{signin}">Sign In</a>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
 </body>
 </html>

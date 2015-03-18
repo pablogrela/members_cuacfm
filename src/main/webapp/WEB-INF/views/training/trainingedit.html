@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<title th:text="#{trainingEdit.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+	th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen"
+	th:href="@{/resources/css/core.css}" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="http://cdn.jsdelivr.net/webshim/1.15.7/extras/modernizr-custom.js"></script>
+<script src="http://cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
+<script src="../../../resources/js/formcfg-es.js" th:src="@{/resources/js/formcfg-es.js}"></script>
+<script src="../../../resources/js/chargeWebshim.js" th:src="@{/resources/js/chargeWebshim.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
+
+
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{trainingEdit}"
+		th:object="${trainingForm}">
+
+		<!--/* Show general error message when form contains errors */-->
+		<th:block th:if="${#fields.hasErrors('${trainingForm.*}')}">
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{training.error})">Alert</div>
+		</th:block>
+
+		<fieldset>
+
+			<!-- Message help-->
+			<legend th:text="#{trainingEdit.infoEdit}">Edit Training</legend>
+
+
+			<!-- Edit Name -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+				<div class="col-lg-10">
+					<span th:text="${name}" class="col-sm-1">name</span> <input type="text" class="form-control"
+						id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="30" required="required" /> <span
+						class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect
+						name</span> 
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			<!-- Edit DateLimit -->
+			<div class="form-inline form-group"
+				th:classappend="${#fields.hasErrors('dateLimit')}? 'has-error'">
+				<label for="dateLimit" class="col-lg-1 control-label" th:text="#{training.dateLimit}">DateTLimit</label>
+				<div class="col-lg-10">
+					<input type="time" class="form-control" id="timeLimit" th:placeholder="#{training.timeLimit}"
+						th:field="*{timeLimit}" required="required" /> <input type="date" class="form-control"
+						id="dateLimit" th:placeholder="#{training.dateLimit}" th:field="*{dateLimit}"
+						required="required" /> <span class="help-block" th:if="${#fields.hasErrors('dateLimit')}"
+						th:errors="*{dateLimit}">Incorrect dateLimit</span> 
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Edit DateTraining -->
+			<div class="form-inline form-group"
+				th:classappend="${#fields.hasErrors('dateTraining')}? 'has-error'">
+				<label for="dateTraining" class="col-lg-1 control-label" th:text="#{training.dateTraining}">DateTraining</label>
+				<div class="col-lg-10">
+					<input type="time" class="form-control" id="timeTraining"
+						th:placeholder="#{training.timeTraining}" th:field="*{timeTraining}" required="required" /> <input
+						type="date" class="form-control" id="dateTraining" th:placeholder="#{training.dateTraining}"
+						th:field="*{dateTraining}" required="required" /> <span class="help-block"
+						th:if="${#fields.hasErrors('dateTraining')}" th:errors="*{dateTraining}">Incorrect
+						dateTraining</span> 
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Edit Description -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
+				<div class="col-lg-10">
+					<textarea class="form-control" id="description" th:placeholder="#{description}"
+						th:field="*{description}" rows="5" cols="40" required="required">
+            	Description</textarea>
+					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect
+						description</span> 
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Edit Place -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('place')}? 'has-error'">
+				<label for="place" class="col-lg-2 control-label" th:text="#{place}">place</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="place" th:placeholder="#{place}"
+						th:field="*{place}" maxlength="30" required="required" /> <span class="help-block"
+						th:if="${#fields.hasErrors('place')}" th:errors="*{place}">Incorrect place</span> <span
+						class="help-block with-errors"></span>
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Edit Duration -->
+	        <div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
+	            <label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
+	            <div class="col-lg-10">
+	            	<div class="col-lg-3-edit">
+	                	<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" 
+	                		step="0.01" min="0.01" required="required"/>
+	            	</div>
+	            	<br></br>
+	            	<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">
+	            		Incorrect duration</span>
+	                <div class="ws-errorbox" hidden=""></div>
+	            </div>
+	        </div>
+
+
+			<!-- Edit countPlaces -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('countPlaces')}? 'has-error'">
+				<label for="countPlaces" class="col-lg-2 control-label" th:text="#{training.countPlaces}">place</label>
+				<div class="col-lg-10">
+					<div class="col-lg-3-edit">
+						<input type="number" class="form-control" id="countPlaces"
+							th:placeholder="#{training.countPlaces}" th:field="*{countPlaces}" min="0" required="required" />
+					</div>
+	            	<br></br>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('countPlaces')}" th:errors="*{countPlaces}">
+						Incorrect countPlaces</span> 
+	                <div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Edit maxPlaces -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('maxPlaces')}? 'has-error'">
+				<label for="countPlaces" class="col-lg-2 control-label" th:text="#{training.maxPlaces}">place</label>
+				<div class="col-lg-10">
+					<div class="col-lg-3-edit">
+					<input type="number" class="form-control" id="maxPlaces" th:placeholder="#{training.maxPlaces}"
+						th:field="*{maxPlaces}" min="1" required="required" /> 
+					</div>
+	            	<br></br>
+					<span class="col-lg-10-edit help-block"
+						th:if="${#fields.hasErrors('maxPlaces')}" th:errors="*{maxPlaces}">Incorrect maxPlaces</span>
+	                <div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			<!-- Edit Close -->
+			<div class="form-group">
+				<label for="close" class="col-lg-2-edit control-label" th:text="#{close}">Close</label>
+				<div class="col-lg-2">
+					<input type="checkbox" class="form-control-edit" th:checked="${training.close}" id="close"
+						name="close" th:title="#{training.infoClose}" />
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Button Create Training -->
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<button type="submit" class="btn btn-success btn-lg" th:text="#{training.modify}">Create</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</body>
+</html>

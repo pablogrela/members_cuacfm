@@ -4,7 +4,7 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.3-SNAPSHOT-members management, trainingTypes</version>
+	<version>0.0.4-SNAPSHOT-members management, trainingTypes, trainings</version>
 	<name>members</name>
 
 	<properties>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="#{home.title}">Welcome!</title>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<title th:text="#{home.title}">Home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
-	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<link href="../../../resources/css/core.css" rel="stylesheet"
-	media="screen" th:href="@{/resources/css/core.css}" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+	th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen"
+	th:href="@{/resources/css/core.css}" />
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="../../../resources/js/bootstrap.min.js"
-	th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 </head>
 
 <body>
@@ -29,8 +29,7 @@
 
 		<!-- Welcome message -->
 		<div class="text-center">
-			<p class="lead" th:text="#{home.welcome}">Welcome to the Spring
-				MVC Quickstart application!</p>
+			<p class="lead" th:text="#{home.welcome}">Welcome to the Spring MVC Quickstart application!</p>
 		</div>
 
 	</div>

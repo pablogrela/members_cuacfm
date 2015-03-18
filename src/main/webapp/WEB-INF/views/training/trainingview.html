@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<title th:text="#{trainingView.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+	th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen"
+	th:href="@{/resources/css/core.css}" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
+
+	<!-- Button Back to Training List -->
+	<div class="text-center">
+		<a class="btn btn-info btn-lg" th:href="@{/trainingList}" th:text="#{back}">Back</a>
+	</div>
+	<br></br>
+
+	<div class="form-narrow form-horizontal">
+		<fieldset>
+
+			<!-- Message help-->
+			<legend th:text="#{training.infoView}">View Training</legend>
+
+			<!-- Insert Name, sin caja alrededor 
+			<div class="form-group">
+				<label for="name" class="control-label col-sm-2" th:text="#{name}">Name</label>
+				<div class="col-sm-10">
+					<p th:text="${training.name}" class="form-control-static"></p>
+				</div>
+			</div>
+			-->
+
+			<!-- Insert Name -->
+			<div class="form-group">
+				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+				<div class="col-lg-10">
+					<span th:text="${training.name}" class="form-control"></span>
+				</div>
+			</div>
+
+
+			<!-- View DateLimit -->
+			<div class="form-group">
+				<label for="dateLimit" class="col-lg-1 control-label" th:text="#{training.dateLimit}">DateLimit</label>
+				<div class="col-lg-4">
+					<span th:text="${{training.dateLimit}}" class="form-control"></span>
+				</div>
+			</div>
+
+
+			<!-- View DateTraining -->
+			<div class="form-group">
+				<label for="dateTraining" class="col-lg-1 control-label" th:text="#{training.dateTraining}">DateTraining</label>
+				<div class="col-lg-4">
+					<span th:text="${{training.dateTraining}}" class="form-control"></span>
+				</div>
+			</div>
+
+
+			<!-- View Description -->
+			<div class="form-group">
+				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
+				<div class="col-lg-10">
+					<textarea readonly="readonly" disabled="disabled" th:text="${training.description}"
+						class="form-control" rows="5" cols="40">
+            	Description</textarea>
+				</div>
+			</div>
+
+
+			<!-- View Place -->
+			<div class="form-group">
+				<label for="place" class="col-lg-2 control-label" th:text="#{place}">place</label>
+				<div class="col-lg-10">
+					<span th:text="${training.place}" class="form-control"></span>
+				</div>
+			</div>
+
+
+			<!-- View Duration -->
+			<div class="form-group">
+				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">duration</label>
+				<div class="col-lg-3">
+					<span th:text="${training.duration}" class="form-control"></span>
+				</div>
+			</div>
+
+
+			<!-- View countPlaces -->
+			<div class="form-group">
+				<label for="countPlaces" class="col-lg-2 control-label" th:text="#{training.countPlaces}">countPlaces</label>
+				<div class="col-lg-3">
+					<span th:text="${training.countPlaces}" class="form-control"></span>
+				</div>
+			</div>
+
+
+			<!-- View maxPlaces -->
+			<div class="form-group">
+				<label for="maxPlaces" class="col-lg-2 control-label" th:text="#{training.maxPlaces}">maxPlaces</label>
+				<div class="col-lg-3">
+					<span th:text="${training.maxPlaces}" class="form-control"></span>
+				</div>
+			</div>
+
+
+			<!-- View Close -->
+			<div class="form-group">
+				<label for="close" class="col-lg-2-edit control-label" th:text="#{close}">Required</label>
+				<div class="col-lg-2">
+					<input type="checkbox" onClick="return false" class="form-control-edit"
+						th:checked="${training.close}" th:title="#{training.infoClose}" />
+				</div>
+			</div>
+
+
+		</fieldset>
+	</div>
+</body>
+</html>

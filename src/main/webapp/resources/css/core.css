@@ -19,6 +19,40 @@ body {
 	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 }
 
+/* columns edit*/
+@media (min-width: 1200px) {
+  .col-lg-1-edit, .col-lg-2-edit, .col-lg-3-edit, .col-lg-10-edit {
+    float: left;
+  }
+
+  
+.col-lg-1-edit, .col-lg-2-edit {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+  
+.col-lg-2-edit {
+	top: -5px;
+	left: -3px;
+    width: 16.66666667%;
+}
+  
+.col-lg-3-edit {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  width: 25%;
+}
+
+.col-lg-10-edit {
+  position: relative;
+  min-height: 1px;
+  width: 83.33333333%;
+}
+
+
 /* form label */
 .col-lg-2 {
 	padding-right: 10%;
@@ -35,33 +69,12 @@ body {
 	cursor: default;
 	background-color: #FFFFFF;
 }
+/*****************************************************************************/
 
-.navbar-inverse {
-	background-color: #82CAFA;
-	color: #C11B17;
-	border-radius: 0;
-}
 
-.navbar-inverse .navbar-nav>a {
-	color: #ffffff;
-}
 
-.navbar-inverse .navbar-nav>li {
-	color: #B048B5;
-}
 
-.navbar-inverse .navbar-nav>.active>a, .navbar-nav>.active>a:hover,
-	.navbar-nav>.active>a:focus {
-	color: #ffffff;
-	/* color de boton pulsado */
-	/*background-color:transparent;*/
-}
-
-.navbar-inverse .navbar-brand {
-	color: #000000;
-}
-
-/* navbar */
+/****************************** navbar ***************************************/
 .navbar-default {
 	background-color: #82CAFA;
 	border-color: #C11B17;
@@ -139,6 +152,9 @@ body {
 		color: #333;
 	}
 }
+/****************************** navbar ***************************************/
+
+
 
 .tooltip {
 	display: inline;
@@ -212,17 +228,6 @@ a:hover span.tooltip {
 	border: 1px #CCC solid;
 }
 
-.padre {
-	width: 750px;
-	/*Esto lo cambias según la resolución que quieras para tu página*/
-}
-
-.hijo {
-	width: 30%; /*Esta propiedad hará los 3 espacios del mismo tamaño*/
-	float: left;
-	/*Esto, pone a los objetos flotante alineados a la izquierda*/
-}
-
 .containerColums {
 	padding: 5px;
 	padding-left: 250px;
@@ -237,4 +242,67 @@ a:hover span.tooltip {
 .columRight {
 	width: 300px;
 	float: right;
+}
+
+input[type="checkbox"]:focus {
+  /* outline: thin dotted;*/
+  /*outline: 5px auto -webkit-focus-ring-color; */
+  /*outline-offset: -2px;*/
+  outline: none;
+}
+
+
+.form-control-edit {
+  display: block;
+  width: 100%;
+  height: 20px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.form-control-edit:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+.form-control-edit::-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+.form-control-edit:-ms-input-placeholder {
+  color: #999;
+}
+.form-control-edit::-webkit-input-placeholder {
+  color: #999;
+}
+.form-control-edit[disabled],
+.form-control-edit[readonly],
+fieldset[disabled] .form-control-edit {
+  /*cursor: not-allowed;*/
+  /*background-color: #eee;*/
+  /*opacity: 1;*/
+  cursor: default;
+  background-color: #FFFFFF;
+}
+textarea.form-control-edit {
+  height: auto;
+}
+input[type="radio"][disabled],
+input[type="checkbox"][disabled],
+input[type="radio"].disabled,
+input[type="checkbox"].disabled,
+fieldset[disabled] input[type="radio"],
+fieldset[disabled] input[type="checkbox"] {
+  cursor: default;
 }

@@ -90,8 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/training/**").hasRole("ADMIN") 
                 
                 .antMatchers("/trainingList", "/trainingList/trainingView/**", "/trainingList/trainingUserList/**", 
-                		"trainingList/trainingJoin/**", "trainingList/trainingJoin/",  "trainingList/trainingJoin","trainingList/trainingRemoveJoin/**").hasAnyRole("USER", "TRAINER", "ADMIN") 
-                //.antMatchers("/trainingList/**").hasAnyRole("TRAINER", "ADMIN")
+                		"trainingList/trainingJoin/**","trainingList/trainingRemoveJoin/**").hasAnyRole("USER", "TRAINER", "ADMIN") 
                 .antMatchers("/trainingTypeList/**").hasAnyRole("TRAINER", "ADMIN")
                 //.antMatchers("/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

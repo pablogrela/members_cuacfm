@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:tiles="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{training.trainingUserList.tittle}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet"
+	media="screen" th:href="@{/resources/css/core.css}" />
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="../../../resources/js/bootstrap.min.js"
+	th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='trainingUserList')">&nbsp;</div>
+
+	<fieldset>
+
+		<!-- Verify if exits Trainings -->
+		<div th:unless="${#lists.isEmpty(inscriptions)}">
+
+			<!-- Tittle -->
+			<h2 class="text-center" th:text="#{training.trainingUserList}">List
+				of Trainings</h2>
+
+
+			<!-- Message Info -->
+			<div class="container text-center ">
+				<!-- /* Handle the flash message */-->
+				<th:block th:if="${message != null}">
+					<!-- /* The message code is returned from the @Controller */ -->
+					<div
+						th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
+						message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+				</th:block>
+			</div>
+
+
+			<!-- Table List of Trainings by Inscriptions-->
+			<table class="table table-striped table-hover form-narrow ">
+				<thead>
+					<tr>
+						<th th:text="#{name}">Name</th>
+						<th th:text="#{training.dateLimit}">Date Limit</th>
+						<th th:text="#{training.dateTraining}">Date Training</th>
+						<th th:text="#{training.countPlaces}">Place</th>
+						<th th:text="#{training.maxPlaces}">Place</th>
+						<th th:text="#{close}">Close</th>
+						<th th:text="#{inscription.pass}">Pass</th>
+						<th th:text="#{inscription.unsubscribe}">Pass</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr th:each="inscription : ${inscriptions}">
+
+						<td th:text="${inscription.training.name}">name</td>
+						<td th:text="${{inscription.training.dateLimit}}">13/01/2015</td>
+						<td th:text="${{inscription.training.dateTraining}}">15/01/2015</td>
+						<td th:text="${inscription.training.countPlaces}">place</td>
+						<td th:text="${inscription.training.maxPlaces}">place</td>
+						<td class="text-center"><input type="checkbox"
+							th:checked="${inscription.training.close}" disabled="disabled" /></td>
+						<td class="text-center"><input type="checkbox"
+							th:checked="${inscription.pass}" disabled="disabled" /></td>
+						<td class="text-center"><input type="checkbox"
+							th:checked="${inscription.unsubscribe}" disabled="disabled" /></td>
+							
+						<td class="text-center">
+							<form th:action="@{'trainingView/'+${inscription.training.id}}"
+								method="post">
+								<button class="btn btn-link glyphicon glyphicon-search"
+									th:title="#{info}" style="color: blue"></button>
+							</form>
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</fieldset>
+</body>
+</html>
