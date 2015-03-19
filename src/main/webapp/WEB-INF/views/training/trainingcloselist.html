@@ -3,16 +3,17 @@
 	xmlns:tiles="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 <title th:text="#{trainingCloseList.title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
-	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<link href="../../../resources/css/core.css" rel="stylesheet"
-	media="screen" th:href="@{/resources/css/core.css}" />
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="../../../resources/js/bootstrap.min.js"
-	th:src="@{/resources/js/bootstrap.min.js}"></script>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<script src="../../../resources/js/chargeTable.js" th:src="@{/resources/js/chargeTable.js}"></script>
 </head>
 <body>
 
@@ -28,7 +29,7 @@
 	<fieldset>
 
 		<!-- Verify if exits close trainings -->
-		<div th:unless="${#lists.isEmpty(closeTrainings)}">
+		<div class="container" th:unless="${#lists.isEmpty(closeTrainings)}">
 
 			<!-- Tittle -->
 			<h2 class="text-center" th:text="#{training.trainingCloseList}">List
@@ -36,8 +37,8 @@
 
 
 			<!-- Table List of Trainings -->
-			<table class="table table-striped table-hover form-narrow ">
-				<thead>
+			<table class="table table-striped table-hover table-responsive" id="customTable">
+				<thead class="table-bordered">
 					<tr>
 						<th th:text="#{name}">Name</th>
 						<th th:text="#{training.dateLimit}">Date Limit</th>
@@ -45,9 +46,11 @@
 						<th th:text="#{training.countPlaces}">Place</th>
 						<th th:text="#{training.maxPlaces}">Place</th>
 						<th th:text="#{close}">Close</th>
+						<th class="no-sort"></th>
+						<th class="no-sort"></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="table-bordered">
 
 					<tr th:each="training : ${closeTrainings}">
 						<td th:text="${training.name}">name</td>

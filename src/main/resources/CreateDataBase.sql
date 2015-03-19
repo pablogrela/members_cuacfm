@@ -41,7 +41,7 @@ CREATE TABLE Training(
     dateLimit TIMESTAMP NOT NULL,
     description VARCHAR(500),
     place VARCHAR(30),
-    duration DECIMAL(3,2),
+    duration DECIMAL(4,2),
     maxPlaces INT NOT NULL,
     countPlaces INT NOT NULL,
     close BOOLEAN,
