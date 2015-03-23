@@ -79,7 +79,7 @@ public class TrainingCloseListControllerTest extends WebSecurityConfigurationAwa
 	public void displaysTrainingCloseListTest() throws Exception {    
 		mockMvc.perform(get("/trainingList/trainingCloseList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("training/trainingcloselist"))
-				.andExpect(content().string(containsString("<title>Trainings</title>")));
+				.andExpect(content().string(containsString("<title>Close Trainings</title>")));
 	}
 
 
@@ -101,6 +101,6 @@ public class TrainingCloseListControllerTest extends WebSecurityConfigurationAwa
 				.andExpect(view().name("training/trainingcloselist"))
 				.andExpect(
 						content()
-								.string(containsString("<title>Trainings</title>")));
+								.string(containsString("<title>Close Trainings</title>")));
 	}
 }

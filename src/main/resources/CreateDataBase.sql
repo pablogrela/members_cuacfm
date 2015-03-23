@@ -8,7 +8,7 @@ CREATE TABLE Account(
     name VARCHAR(30) NOT NULL,
     login VARCHAR(30) NOT NULL,
     email VARCHAR(30) NOT NULL UNIQUE,
-    password VARCHAR(500) NOT NULL,
+    password VARCHAR(80) NOT NULL,
     role VARCHAR(12) NOT NULL,
     CONSTRAINT AccountId_PK PRIMARY KEY (id),
     CONSTRAINT LoginUniqueKey UNIQUE (login),
@@ -26,6 +26,7 @@ CREATE TABLE TrainingType(
     description VARCHAR(500),
     place VARCHAR(30),
     duration DECIMAL(3,2),
+    hasTrainings BOOLEAN,
     CONSTRAINT TrainingId_PK PRIMARY KEY (id),
     CONSTRAINT NameUniqueKey UNIQUE (name)
 	);
@@ -89,13 +90,13 @@ insert into Account values
 
 -- Insert Trainings Type:
 insert into TrainingType values 
-(1, 'Camara', true, 'Se enseñara a grabar', 'Estudio Cuac', 1.30);
+(1, 'Camara', true, 'Se enseñara a grabar', 'Estudio Cuac', 1.30, true);
 insert into TrainingType values 
-(2, 'Locución', true, 'Se enseñara a hablar', 'Estudio Cuac', 2.00);
+(2, 'Locución', true, 'Se enseñara a hablar', 'Estudio Cuac', 2.00, true);
 insert into TrainingType values 
-(3, 'Redacción', false, 'Se enseñara a redactar el programa', 'Estudio Cuac', 1);
+(3, 'Redacción', false, 'Se enseñara a redactar el programa', 'Estudio Cuac', 1, true);
 insert into TrainingType values 
-(4, 'Audacity', false, 'Se enseñara a posicionarse en el estudio', 'Estudio Cuac', 2.10);
+(4, 'Audacity', false, 'Se enseñara a posicionarse en el estudio', 'Estudio Cuac', 2.10, true);
 
 
 

@@ -15,6 +15,8 @@ import org.cuacfm.members.model.inscription.Inscription;
 import org.cuacfm.members.model.inscription.InscriptionRepository;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.training.TrainingRepository;
+import org.cuacfm.members.model.trainingType.TrainingType;
+import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,10 @@ public class TrainingServiceImpl implements TrainingService {
 	/** The training repository. */
 	@Autowired
 	private TrainingRepository trainingRepository;
+	
+	/** The training Type Service. */
+	@Autowired
+	private TrainingTypeService trainingTypeService;
 
 	/** The inscription repository. */
 	@Autowired
@@ -53,6 +59,11 @@ public class TrainingServiceImpl implements TrainingService {
 			throw new DateLimitException(training.getDateLimit(),
 					training.getDateTraining());
 		}
+		// Update dependecy
+		TrainingType trainingType = training.getTrainingType();
+		trainingType.setHasTrainings(true);
+		trainingTypeService.update(trainingType);
+		
 		return trainingRepository.save(training);
 	}
 
@@ -88,7 +99,19 @@ public class TrainingServiceImpl implements TrainingService {
 		if (!inscriptionRepository.getInscriptionListByTrainingId(id).isEmpty()) {
 			throw new ExistInscriptionsException();
 		}
+					
+		Training training = trainingRepository.findById(id);
+		TrainingType trainingType = training.getTrainingType();
+		
+		// Delete training
 		trainingRepository.delete(id);
+		
+		// Update dependencies
+		List<Training> trainings = trainingRepository.getTrainingListByTrainingTypeId(trainingType.getId());		
+		if (trainings.isEmpty()){
+			trainingType.setHasTrainings(false);
+			trainingTypeService.update(trainingType);
+		}
 	}
 
 	/**

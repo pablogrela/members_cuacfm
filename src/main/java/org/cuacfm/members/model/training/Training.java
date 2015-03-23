@@ -23,7 +23,7 @@ public class Training implements java.io.Serializable {
 	private Long id;
 
 	/** The trainingType. */
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "trainingTypeId")
 	private TrainingType trainingType;
 

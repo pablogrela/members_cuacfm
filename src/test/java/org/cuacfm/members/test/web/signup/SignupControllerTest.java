@@ -227,6 +227,6 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 				.andExpect(
 						content()
 								.string(
-										containsString("<title>Error page</title>")));
+										containsString("<title>Error Page</title>")));
 	}
 }

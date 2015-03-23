@@ -4,7 +4,7 @@
 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}"/>
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+
 </head>
 <body>
 
@@ -15,24 +15,28 @@
 	<div class="navbar top" th:fragment="header">
 
 		<!-- Image title with hiperlink at home-->
-		<div class=" container containerImage">
-			<a href="/" th:href="@{/}"> <img
-				th:src="@{/resources/images/cuacfm.png}" />
-			</a>
+		<div class="container">
+			<div class="containerImage">
+				<a href="/" th:href="@{/}"> <img
+					th:src="@{/resources/images/cuacfm.png}" />
+				</a>
+			</div>
 		</div>
 
+				
 		<!-- Menu -->
-		<div class="container navbar-default">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".nav-collapse">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-
+		<div class="container navbar navbar-inverse">
+	        <div class="navbar-header">
+	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">    
+	            <span class="sr-only">Toggle navigation</span>    
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+	            </button>
+	            <span class="navbar-brand">Menu</span>
+	        </div>
+	        <div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
 
 					<!-- Pruebas Role -->
 					<th:block sec:authorize="hasRole('ROLE_ADMIN')">

@@ -31,6 +31,9 @@ public class TrainingType implements java.io.Serializable {
 	/** The duration. */
 	private Float duration;
 
+	/** The hasTrainings, is more efficient save this parameter for display valor in table. */
+	private boolean hasTrainings;
+	
 	/** Instantiates a new training. */
 	protected TrainingType() {
 		// Default empty constructor.
@@ -58,6 +61,7 @@ public class TrainingType implements java.io.Serializable {
 		this.description = description;
 		this.place = place;
 		this.duration = duration;
+		this.hasTrainings=false;
 	}
 
 	/**
@@ -162,5 +166,24 @@ public class TrainingType implements java.io.Serializable {
 	 */
 	public void setDuration(Float duration) {
 		this.duration = duration;
+	}
+	
+	/**
+	 * Get the hasTrainings.
+	 *
+	 * @return the boolean isHasTrainings
+	 */
+	public boolean isHasTrainings() {
+		return hasTrainings;
+	}
+
+	/**
+	 * Set the hasTrainings
+	 *
+	 * @param hasTrainings
+	 *            boolean
+	 */
+	public void setHasTrainings(boolean hasTrainings) {
+		this.hasTrainings = hasTrainings;
 	}
 }

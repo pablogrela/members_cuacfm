@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html 
+xmlns:th="http://www.thymeleaf.org" 
+xmlns:tiles="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{trainingType.title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -13,7 +15,6 @@
 <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 <script src="../../../resources/js/chargeTable.js" th:src="@{/resources/js/chargeTable.js}"></script>
-
 </head>
 <body>
 
@@ -66,24 +67,30 @@
 					<!-- Table entry -->
 					<tr th:each="trainingType : ${trainingTypes}">
 						<td th:text="${trainingType.name}">name</td>
-						<td class="text-center"><input type="checkbox" th:checked="${trainingType.required}"
-							onClick="return false" th:title="#{requiredType.infoRequired}" /></td>
+						<td><input type="checkbox" th:checked="${trainingType.required}"
+							onClick="return false" th:title="#{trainingType.infoShowRequired}" /></td>
 						<td th:text="${trainingType.place}">place</td>
 						<td th:text="${trainingType.duration}">duration</td>
 
 
+						<!-- It doesn´t delete TrainingType because TrainingType has trainings-->
+						<td th:if="${trainingType.hasTrainings == true}">				
+								<button class="btnTableLocked btn-link glyphicon glyphicon-remove" th:title="#{trainingType.infoRemoveLocked}" style="color: black">
+								</button>
+						</td>
+						
 						<!-- Delete TrainingType -->
-						<td class="text-center">
+						<td th:if="${trainingType.hasTrainings == false}" >	
 							<form th:action="@{'trainingTypeList/trainingTypeDelete/'+${trainingType.id}}" method="post">
-								<button class="btn btn-link glyphicon glyphicon-remove" th:title="#{remove}"
+								<button class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{trainingType.infoRemove}"
 									style="color: red"></button>
 							</form>
 						</td>
 
 						<!-- Modify TrainingType -->
-						<td class="text-center">
+						<td>
 							<form th:action="@{'trainingTypeList/trainingTypeEdit/'+${trainingType.id}}" method="post">
-								<button class="btn btn-link glyphicon glyphicon-edit" th:title="#{edit}"
+								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}"
 									style="color: orange"></button>
 							</form>
 						</td>

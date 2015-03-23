@@ -296,10 +296,58 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(trainingService.getTrainingList().size(), 0);
 		
 		// Delete with trainingId no exist, no trainings
-		trainingService.delete(training.getId());
-		assertEquals(trainingService.getTrainingList().size(), 0);
+		//trainingService.delete(training.getId());
+		//assertEquals(trainingService.getTrainingList().size(), 0);
 	}
 
+
+	/**
+	 * saveUpdateAndDeleteTraining test.
+	 * 
+	 * @throws ExistInscriptionsException
+	 * @throws DateLimitException
+	 */
+	@Test
+	public void updateHasTrainingTest()
+			throws ExistInscriptionsException, DateLimitException {
+
+		Account account = new Account("user", "user.new", "user@example.com",
+				"demo", "ROLE_USER");
+		account = accountService.save(account);
+		TrainingType trainingType = new TrainingType("Locution", true,
+				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		trainingTypeService.save(trainingType);
+		TrainingType trainingType2 = new TrainingType("Filming", true,
+				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		trainingTypeService.save(trainingType2);
+		String dateTraining = "10:30,2015-12-05";
+
+		Training training = new Training(trainingType, "training1",
+				stringToDate(dateTraining), stringToDate(dateTraining),
+				"description", "place", Float.valueOf((float) 2.3), 10);
+
+		trainingService.save(training);
+
+		TrainingType trainingTypeSarched = trainingTypeService.findById(training.getTrainingType().getId());
+		assertEquals(trainingTypeSarched.isHasTrainings(), true);
+		
+		// Delete, no trainings
+		trainingService.delete(training.getId());
+		assertEquals(trainingService.getTrainingList().size(), 0);
+		
+		
+		trainingTypeSarched = trainingTypeService.findById(training.getTrainingType().getId());
+		assertEquals(trainingTypeSarched.isHasTrainings(), false);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * existInscriptionsException test.
 	 * 

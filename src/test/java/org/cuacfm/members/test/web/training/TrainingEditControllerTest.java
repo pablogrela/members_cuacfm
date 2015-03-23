@@ -305,4 +305,38 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
                 		.string(containsString("The date limit should be before or equal to date training.")))
                 		.andExpect(view().name("training/trainingedit"));
 	}
+	
+	
+	/**
+	 * Send displaysTrainingEdit.
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void countPlaceExceptionTest() throws Exception {    
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		trainingTypeService.save(trainingType);
+		String dateTraining = "10:30,2015-12-05";	
+		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
+				"description", "place", Float.valueOf((float) 2.3), 10);		
+		trainingService.save(training);
+		
+		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		.andExpect(view().name("redirect:/trainingList/trainingEdit"));
+		
+		mockMvc.perform(post("/trainingList/trainingEdit").locale(Locale.ENGLISH).session(defaultSession)
+				.param("name", "Locution")
+				.param("timeLimit", "10:30")
+				.param("dateLimit", "2015-12-05")
+				.param("timeTraining", "10:30")
+				.param("dateTraining", "2015-12-05")
+				.param("description", "Very interesting2")
+				.param("place", "livingRoom2")
+				.param("duration", "2.6")
+				.param("countPlaces", "12")
+				.param("maxPlaces", "10")
+				.param("close", "false"))
+				.andExpect(content()
+                		.string(containsString("The number of reservations can not exceed 10")))
+                		.andExpect(view().name("training/trainingedit"));
+	}
 }

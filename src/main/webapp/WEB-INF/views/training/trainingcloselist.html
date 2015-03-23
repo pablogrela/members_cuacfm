@@ -58,23 +58,23 @@
 						<td th:text="${{training.dateTraining}}">15/01/2015</td>
 						<td th:text="${training.countPlaces}">countPlaces</td>
 						<td th:text="${training.maxPlaces}">maxPlaces</td>
-						<td class="text-center"><input type="checkbox"
-							th:checked="${training.close}" onClick="return false" /></td>
+						<td><input type="checkbox" th:checked="${training.close}" 
+							onClick="return false" th:title="#{training.infoShowClose}"/></td>
 
 						<!-- View info of training -->
-						<td class="text-center">
+						<td>
 							<form th:action="@{'trainingView/'+${training.id}}" method="post">
-								<button class="btn btn-link glyphicon glyphicon-search"
+								<button class="btnTable btn-link glyphicon glyphicon-search"
 									th:title="#{info}" style="color: blue"></button>
 							</form>
 						</td>
 						
 						<!-- View Close Inscriptions -->
-						<td class="text-center">
+						<td>
 							<form
 								th:action="@{'inscriptionCloseList/'+${training.id}}"
 								method="post">
-								<button class="btn btn-link glyphicon glyphicon-user"
+								<button class="btnTable btn-link glyphicon glyphicon-user"
 									th:title="#{training.infoInscriptions}" style="color: green"></button>
 							</form>
 						</td>
