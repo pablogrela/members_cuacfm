@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:tiles="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{inscriptions.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
+<script src="../../../resources/js/formcfg-es.js" th:src="@{/resources/js/formcfg-es.js}"></script>
+<script src="../../../resources/js/chargeWebshim.js" th:src="@{/resources/js/chargeWebshim.js}"></script>
+<script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<script src="../../../resources/js/chargeTable.js" th:src="@{/resources/js/chargeTable.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
+
+	<!-- Form to add user by login -->
+	<div>
+		<form class="form-narrow form-horizontal ws-validate" method="post"
+			th:action="@{inscriptionList}" th:object="${findUserForm}">
+
+			<fieldset>
+				<!-- Title -->
+				<legend th:text="#{inscription.info}">Add user to training</legend>
+
+				<!-- Insert Login -->
+				<div class="form-group"
+					th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+					<label for="login" class="col-lg-2 control-label"
+						th:text="#{login}">Login</label>
+					<div class="col-lg-10 text-danger">
+						<input type="text" class="form-control " id="login" th:placeholder="#{login}" th:field="*{login}" required="required"/> 
+						<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}" >Incorrect login</span>	
+						<div class="ws-errorbox" hidden=""></div>				
+					</div>
+				</div>
+
+
+				<!-- Button Add User to Training-->
+				<div class="form-group">
+					<div class="text-center">
+						<button type="submit" class="btn btn-success btn-lg"
+							th:text="#{inscription.addUser}">Add User</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	
+		<!-- Message Info -->
+		<div class="container text-center ">
+			<!-- /* Handle the flash message */-->
+			<th:block th:if="${message != null}">
+				<!-- /* The message code is returned from the @Controller */ -->
+				<div
+					th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
+						message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+			</th:block>
+		</div>
+		
+	<!-- Verify if exits Inscriptions -->
+	<div class="container" th:unless="${#lists.isEmpty(inscriptionsForm.inscriptions)}">
+
+		<!-- Tittle -->
+		<h2 class="text-center"
+			th:text="#{inscription.inscriptionList} + ${training.name}">
+			List of Training Types</h2>
+
+		<!-- Table List of Inscriptions -->
+		<form  method="post" th:action="@{/trainingList/inscriptionList/save}"
+			th:object="${inscriptionsForm}">
+			<table class="table table-striped table-hover table-responsive" id="customTable">
+				<thead>
+					<tr>
+						<th th:text="#{name}">Name</th>
+						<th th:text="#{inscription.attend}">Attend</th>
+						<th th:text="#{inscription.note}">Note</th>
+						<th th:text="#{inscription.pass}">Pass</th>
+						<th th:text="#{inscription.unsubscribe}">Baja</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr th:each="inscription, stat : *{inscriptions}">
+						<!--<td> <input type="hidden" th:field="*{inscriptions[__${stat.index}__].account}" /> </td>-->
+						<!--<td> <input type="hidden" th:field="*{inscriptions[__${stat.index}__].training}" /> </td>-->
+
+
+						<td th:text="${inscription.account.name}">name</td>
+
+						<td ><input 
+							th:field="*{inscriptions[__${stat.index}__].attend}"
+							th:value="${inscription.attend}" type="checkbox"
+							th:checked="${inscription.attend}"
+							th:title="#{inscription.infoAttend}" /></td>
+
+						<td><textarea class="form-control"
+								th:field="*{inscriptions[__${stat.index}__].note}" id="note"
+								th:text="${inscription.note}" th:placeholder="#{note}" rows="3"
+								cols="40"> Note </textarea></td>
+
+						<td><input th:field="*{inscriptions[__${stat.index}__].pass}"
+							type="checkbox" th:checked="${inscription.pass}"
+							th:title="#{inscription.infoPass}" /></td>
+
+						<td><input
+							th:field="*{inscriptions[__${stat.index}__].unsubscribe}"
+							type="checkbox" th:checked="${inscription.unsubscribe}"
+							th:title="#{inscription.infoUnsubscribe}" /></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<!-- Button Update, update the list of inscription  -->
+			<div class="text-center">
+				<button
+					type="submit" class="btn btn-default btn-lg"			
+					th:name="update" 					
+					th:text="#{inscription.update}"
+					th:title="#{inscription.infoUpdate}">Confirm</button>
+			</div>
+			<br></br>
+
+			<!-- Button Confirm, confirm the list of inscription -->
+			<div class="text-center">
+				<button 
+					type="submit" class="btn btn-success btn-lg"
+					th:name="save" 
+					th:text="#{inscription.confirm}"
+					th:title="#{inscription.infoConfirm}">Confirm</button>
+			</div>
+
+
+		</form>
+	</div>
+
+
+
+
+	<!-- Table List of Inscriptions, desactivado
+	<table class="table table-striped table-hover form-narrow ">
+		<thead>
+			<tr>
+				<th th:text="#{name}">Name</th>
+			</tr>
+		</thead>
+		<tbody th:each="inscription : ${inscriptions}">
+			<tr>
+				<td th:text="${inscription.account.name}">name</td>
+				 Remove Join Training 
+				<td class="text-center">
+					<form
+						th:action="@{'inscriptionList/trainingRemoveJoin/'+${inscription.account.id}}"
+						method="post">
+						<button class="btn btn-link glyphicon glyphicon-remove-sign"
+							th:title="#{inscription.infoRemove}" style="color: red"></button>
+					</form>
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+	-->
+
+
+
+
+
+	<!-- Show message, if inscription list is empty -->
+	<div th:unless="!${#lists.isEmpty(inscriptionsForm.inscriptions)}">
+		<h2 class="text-center"
+			th:text="#{inscription.inscriptionListEmpty} + ${training.name}">
+			List of Training Types</h2>
+	</div>
+
+</body>
+</html>

@@ -20,7 +20,7 @@ body {
 }
 
 /* columns edit*/
-@media ( min-width : 1200px) {
+@media ( min-width : 768px) {
 	.col-lg-1-edit, .col-lg-2-edit, .col-lg-3-edit, .col-lg-10-edit {
 		float: left;
 	}
@@ -33,6 +33,12 @@ body {
 	.col-lg-2-edit {
 		top: -5px;
 		left: -3px;
+		width: 16.66666667%;
+	}
+	.col-lg-2-right {
+	position: relative;
+		top: 8px;
+		left: -10px;
 		width: 16.66666667%;
 	}
 	.col-lg-3-edit {
@@ -48,6 +54,11 @@ body {
 	}
 
 	/* form label */
+	.col-lg-2 {
+		padding-right: 10%;
+	}
+	
+		/* form label */
 	.col-lg-2 {
 		padding-right: 10%;
 	}

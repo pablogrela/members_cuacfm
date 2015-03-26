@@ -82,7 +82,9 @@
             	<div class="col-lg-3-edit">
                 	<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" 
                 		step="0.01" min="0.01" required="required"/>
+                		
             	</div>
+            	<span class="col-lg-2-right control-label" th:text="#{hours}">hours</span>
             	<br></br>
             	<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">
             		Incorrect duration</span>

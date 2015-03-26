@@ -1,5 +1,6 @@
 package org.cuacfm.members.web.training;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -52,8 +53,7 @@ public class TrainingForm {
 	/** The duration. */
 	@NotNull
 	@Digits(fraction = 2, integer = 2)
-	//@DecimalMin("0.01")
-	@Min(0)
+	@DecimalMin("0.01")
 	private float duration;
 
 	/** The countPlaces. */

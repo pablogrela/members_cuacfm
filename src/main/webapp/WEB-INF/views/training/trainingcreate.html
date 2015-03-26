@@ -23,7 +23,7 @@
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${trainingForm.*}')}">
-			<div th:replace="fragments/alert :: alert (type='danger', message=#{training.error})">Alert</div>
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
 		</th:block>
 
 		<fieldset>
@@ -46,15 +46,12 @@
 			<!-- Insert DateLimit -->
 			<div class="form-inline form-group"
 				th:classappend="${#fields.hasErrors('dateLimit')}? 'has-error'">
-				<label for="dateLimit" class="col-lg-1 control-label" th:text="#{training.dateLimit}">DateTLimit</label>
+				<label for="dateLimit" class="col-lg-1 control-label" th:text="#{training.dateLimit}">DateLimit</label>
 				<div class="col-lg-10">
 					<input type="time" class="form-control" id="timeLimit" th:placeholder="#{training.timeLimit}"
 						th:field="*{timeLimit}" required="required" /> <input type="date" class="form-control"
 						id="dateLimit" th:placeholder="#{training.dateLimit}" th:field="*{dateLimit}"
-						
-						 data-dependent-validation='{"from": "dateTraining", "prop": "max"}' 
-						 
-						 required="required" /> <span class="help-block" th:if="${#fields.hasErrors('dateLimit')}"
+						required="required" /> <span class="help-block" th:if="${#fields.hasErrors('dateLimit')}"
 						th:errors="*{dateLimit}">Incorrect dateLimit</span>
 						<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -67,11 +64,8 @@
 				<label for="dateTraining" class="col-lg-1 control-label" th:text="#{training.dateTraining}">DateTraining</label>
 				<div class="col-lg-10">
 					<input type="time" class="form-control" id="timeTraining"
-						th:placeholder="#{training.timeTraining}" th:field="*{timeTraining}" required="required" /> <input
-						type="date" class="form-control" id="dateTraining" th:placeholder="#{training.dateTraining}"
-						
-						data-dependent-validation='{"to": "dateLimit", "prop": "min"}'
-						
+						th:placeholder="#{training.timeTraining}" th:field="*{timeTraining}" required="required" /> 
+					<input type="date" class="form-control" id="dateTraining" th:placeholder="#{training.dateTraining}"
 						th:field="*{dateTraining}"  required="required" /> <span class="help-block"
 						th:if="${#fields.hasErrors('dateTraining')}" th:errors="*{dateTraining}">Incorrect
 						dateTraining</span>
@@ -113,6 +107,7 @@
 	                	<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" 
 	                		step="0.01" min="0.01" required="required"/>
 	            	</div>
+	            	<span class="col-lg-2-right control-label" th:text="#{hours}">hours</span>
 	            	<br></br>
 	            	<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">
 	            		Incorrect duration</span>

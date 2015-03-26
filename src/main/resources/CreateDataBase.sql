@@ -1,3 +1,6 @@
+DROP TABLE InstallmentPayInscription;
+DROP TABLE UserPayInscription;
+DROP TABLE PayInscription;
 DROP TABLE Inscription;
 DROP TABLE Training;
 DROP TABLE TrainingType;
@@ -25,7 +28,7 @@ CREATE TABLE TrainingType(
     required BOOLEAN,
     description VARCHAR(500),
     place VARCHAR(30),
-    duration DECIMAL(3,2),
+    duration DECIMAL(3,2) NOT NULL,
     hasTrainings BOOLEAN,
     CONSTRAINT TrainingId_PK PRIMARY KEY (id),
     CONSTRAINT NameUniqueKey UNIQUE (name)
@@ -41,8 +44,8 @@ CREATE TABLE Training(
     dateTraining TIMESTAMP NOT NULL,
     dateLimit TIMESTAMP NOT NULL,
     description VARCHAR(500),
-    place VARCHAR(30),
-    duration DECIMAL(4,2),
+    place VARCHAR(30) NOT NULL,
+    duration DECIMAL(4,2) NOT NULL,
     maxPlaces INT NOT NULL,
     countPlaces INT NOT NULL,
     close BOOLEAN,
@@ -66,7 +69,47 @@ CREATE TABLE Inscription(
 	CONSTRAINT TrainingId_FK FOREIGN KEY (trainingId) REFERENCES Training(id)
     );
 
+    
+DROP TABLE PayInscription;
 
+CREATE TABLE PayInscription(
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(30) NOT NULL,
+    year int NOT NULL,
+    price DECIMAL(4,2) NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT PayInscription_PK PRIMARY KEY (id),
+    CONSTRAINT NameUniqueKey UNIQUE (year)
+	);    
+    
+	
+DROP TABLE UserPayInscription;
+
+CREATE TABLE UserPayInscription(
+    id INT NOT NULL auto_increment, 
+    accountId INT NOT NULL,
+    payInscriptionId INT NOT NULL,
+    hasPay BOOLEAN,
+    pricePay DECIMAL(4,2),
+    datePay TIMESTAMP,
+    installment INT,
+    CONSTRAINT UserPayInscription_PK PRIMARY KEY (id),
+	CONSTRAINT AccountId2_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+	CONSTRAINT PayInscriptionId_FK FOREIGN KEY (payInscriptionId) REFERENCES PayInscription(id)
+	);   	
+
+DROP TABLE InstallmentPayInscription;
+
+CREATE TABLE InstallmentPayInscription(
+    id INT NOT NULL auto_increment, 
+    userPayInscriptionId INT NOT NULL,
+	numInstallment INT NOT NULL,
+    pricePay DECIMAL(4,2),
+    datePay TIMESTAMP,
+    CONSTRAINT InstallmentPayInscription_PK PRIMARY KEY (id),
+	CONSTRAINT UserPayInscription_FK FOREIGN KEY (userPayInscriptionId) REFERENCES UserPayInscription(id)
+	); 
+	
 -- Insert Users:
 insert into Account values 
 (1, 'user', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 'ROLE_USER');
@@ -92,11 +135,11 @@ insert into Account values
 insert into TrainingType values 
 (1, 'Camara', true, 'Se enseñara a grabar', 'Estudio Cuac', 1.30, true);
 insert into TrainingType values 
-(2, 'Locución', true, 'Se enseñara a hablar', 'Estudio Cuac', 2.00, true);
+(2, 'Producción', true, 'Se enseñara producir un programa', 'Estudio Cuac', 2.00, true);
 insert into TrainingType values 
-(3, 'Redacción', false, 'Se enseñara a redactar el programa', 'Estudio Cuac', 1, true);
+(3, 'Técnica e Locución', false, 'Se enseñara a hablar', 'Estudio Cuac', 1, true);
 insert into TrainingType values 
-(4, 'Audacity', false, 'Se enseñara a posicionarse en el estudio', 'Estudio Cuac', 2.10, true);
+(4, 'Practica', false, 'Se enseñara a posicionarse en el estudio', 'Estudio Cuac', 2.10, true);
 
 
 
