@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:tiles="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}"/>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 
 </head>
 <body>
@@ -17,26 +16,24 @@
 		<!-- Image title with hiperlink at home-->
 		<div class="container">
 			<div class="containerImage">
-				<a href="/" th:href="@{/}"> <img
-					th:src="@{/resources/images/cuacfm.png}" />
+				<a href="/" th:href="@{/}"> <img th:src="@{/resources/images/cuacfm.png}" />
 				</a>
 			</div>
 		</div>
 
-				
+
 		<!-- Menu -->
 		<div class="container navbar navbar-inverse">
-	        <div class="navbar-header">
-	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">    
-	            <span class="sr-only">Toggle navigation</span>    
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-	            </button>
-	            <span class="navbar-brand">Menu</span>
-	        </div>
-	        <div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<span class="navbar-brand">Menu</span>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
 
 					<!-- Pruebas Role -->
 					<th:block sec:authorize="hasRole('ROLE_ADMIN')">
@@ -56,21 +53,17 @@
 						<li><a href="/" th:href="@{/}" th:text="#{home}">Home</a></li>
 					</th:block>
 					<th:block th:if="${active == 'Home'}">
-						<li class="active"><a href="#" th:href="@{/}"
-							th:text="#{home}">Home</a></li>
+						<li class="active"><a href="#" th:href="@{/}" th:text="#{home}">Home</a></li>
 					</th:block>
 
 
 					<!-- Button Trainings of User -->
-					<th:block th:if="${active != 'trainingUserList'}"
-						sec:authorize="hasRole('ROLE_USER')">
+					<th:block th:if="${active != 'trainingUserList'}" sec:authorize="hasRole('ROLE_USER')">
 						<li><a href="#" th:href="@{/trainingList/trainingUserList}"
 							th:text="#{training.trainingUserList}">trainingUser</a></li>
 					</th:block>
-					<th:block th:if="${active == 'trainingUserList'}"
-						sec:authorize="hasRole('ROLE_USER')">
-						<li class="active"><a href="#"
-							th:href="@{/trainingList/trainingUserList}"
+					<th:block th:if="${active == 'trainingUserList'}" sec:authorize="hasRole('ROLE_USER')">
+						<li class="active"><a href="#" th:href="@{/trainingList/trainingUserList}"
 							th:text="#{training.trainingUserList}">trainingUser</a></li>
 					</th:block>
 
@@ -78,28 +71,62 @@
 					<!-- Button Training Type -->
 					<th:block th:if="${active != 'trainingType'}"
 						sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
-						<li><a href="#" th:href="@{/trainingTypeList}"
-							th:text="#{trainingType}">trainingList</a></li>
+						<li><a href="#" th:href="@{/trainingTypeList}" th:text="#{trainingType}">trainingList</a></li>
 					</th:block>
 					<th:block th:if="${active == 'trainingType'}"
 						sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
-						<li class="active"><a href="#" th:href="@{/trainingTypeList}"
-							th:text="#{trainingType}">trainingList</a></li>
+						<li class="active"><a href="#" th:href="@{/trainingTypeList}" th:text="#{trainingType}">trainingList</a></li>
 					</th:block>
 
 
 					<!-- Button Training -->
 					<th:block th:if="${active != 'training'}">
-						<li><a href="#" th:href="@{/trainingList}"
-							th:text="#{training}">trainingList</a></li>
+						<li><a href="#" th:href="@{/trainingList}" th:text="#{training}">trainingList</a></li>
 					</th:block>
 					<th:block th:if="${active == 'training'}">
-						<li class="active"><a href="#" th:href="@{/trainingList}"
-							th:text="#{training}">trainingList</a></li>
+						<li class="active"><a href="#" th:href="@{/trainingList}" th:text="#{training}">trainingList</a></li>
 					</th:block>
 
+					<!-- Button User Payments -->
+					<th:block th:if="${active != 'userPayments'}"
+						sec:authorize="hasAnyRole('ROLE_USER')">
+						<li><a href="#" th:href="@{/userPayments}" th:text="#{userPayments}">userPayments</a></li>
+					</th:block>
+					<th:block th:if="${active == 'userPayments'}"
+						sec:authorize="hasAnyRole('ROLE_USER')">
+						<li class="active"><a href="#" th:href="@{/userPayments}" th:text="#{userPayments}">userPayments</a></li>
+					</th:block>
+					
+					<!-- Button Pay Inscription -->
+					<th:block th:if="${active != 'payInscription'}"
+						sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<li><a href="#" th:href="@{/payInscriptionList}" th:text="#{payInscription}">payInscriptionList</a></li>
+					</th:block>
+					<th:block th:if="${active == 'payInscription'}"
+						sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<li class="active"><a href="#" th:href="@{/payInscriptionList}" th:text="#{payInscription}">payInscriptionList</a></li>
+					</th:block>
+					
+					<!-- Button Accounts -->
+					<th:block th:if="${active != 'account'}"
+						sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<li><a href="#" th:href="@{/accountList}" th:text="#{accounts}">accountList</a></li>
+					</th:block>
+					<th:block th:if="${active == 'account'}"
+						sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<li class="active"><a href="#" th:href="@{/accountList}" th:text="#{accounts}">accountList</a></li>
+					</th:block>
 
-
+					<!-- Button Configuration -->
+					<th:block th:if="${active != 'configuration'}"
+						sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<li><a href="#" th:href="@{/configuration}" th:text="#{configuration}">configuration</a></li>
+					</th:block>
+					<th:block th:if="${active == 'configuration'}"
+						sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<li class="active"><a href="#" th:href="@{/configuration}" th:text="#{configuration}">configuration</a></li>
+					</th:block>
+					
 					<!-- Button About -->
 					<li><a href="#about">About</a></li>
 
@@ -110,24 +137,20 @@
 				<ul class="nav navbar-nav navbar-right">
 
 					<!-- Button SignIn -->
-					<li sec:authorize="!isAuthenticated()"><a href="/signin"
-						th:href="@{/signin}" th:text="#{signin}">Sign In</a></li>
+					<li sec:authorize="!isAuthenticated()"><a href="/signin" th:href="@{/signin}"
+						th:text="#{signin}">Sign In</a></li>
 
 					<!-- Button logout -->
-					<li sec:authorize="isAuthenticated()"><a href="/logout"
-						th:href="@{#}" onclick="$('#form').submit();" th:text="#{logout}">Logout</a>
-						<form style="visibility: hidden" id="form" method="post"
-							action="#" th:action="@{/logout}"></form></li>
+					<li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}"
+						onclick="$('#form').submit();" th:text="#{logout}">Logout</a>
+						<form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form></li>
 
 
 					<!-- Message Login, welcome -->
-					<li sec:authorize="isAuthenticated()"><th:block
-							th:if="${active != 'Profile'}">
-							<li><a href="/profile" th:href="@{/profile}"
-								sec:authentication="name">Name</a></li>
+					<li sec:authorize="isAuthenticated()"><th:block th:if="${active != 'Profile'}">
+							<li><a href="/profile" th:href="@{/profile}" sec:authentication="name">Name</a></li>
 						</th:block> <th:block th:if="${active == 'Profile'}">
-							<li class="active"><a href="/profile" th:href="@{/profile}"
-								sec:authentication="name">Name</a></li>
+							<li class="active"><a href="/profile" th:href="@{/profile}" sec:authentication="name">Name</a></li>
 						</th:block></li>
 				</ul>
 			</div>

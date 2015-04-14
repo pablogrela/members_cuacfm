@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{userPayments.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}"/>
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<!-- SCRIPT -->
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<script th:src="@{/resources/js/chargeTable.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='userPayments')">&nbsp;</div>
+
+	<!-- Message if trainingUserList is Empty -->
+	<th:block th:if="${#lists.isEmpty(userPayInscriptions)}">
+		<h2 class="text-center" th:text="#{userPayInscription.userPayInscriptionListEmpty}">List of
+			PayInscription Empty</h2>
+	</th:block>
+
+
+	<!-- Verify if exits payInscriptions -->
+	<div class="container" th:unless="${#lists.isEmpty(userPayInscriptions)}">
+
+		<h2 class="text-center" th:text="#{userPayInscription.userPayInscriptionList}">List of User
+			Pay Inscriptions</h2>
+
+		<div class="container text-center">
+			<!-- /* Handle the flash message */-->
+			<th:block th:if="${message != null}">
+				<!-- /* The message code is returned from the @Controller */ -->
+				<div
+					th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+			</th:block>
+		</div>
+
+		<!-- Table List of Training Types -->
+		<table class="table table-striped table-hover table-responsive" id="customTable">
+			<thead class="table-bordered">
+				<tr>
+					<th th:text="#{user}">Name</th>
+					<th th:text="#{accountType}">Account Type</th>
+					<th th:text="#{year}">Year</th>
+					<th th:text="#{price}">Price</th>
+					<th th:text="#{userPayInscription.hasPay}">Has Pay</th>
+					<th th:text="#{userPayInscription.installment}">Installment</th>
+					<th class="no-sort"></th>
+				</tr>
+			</thead>
+			<tbody class="table-bordered">
+
+				<!-- Table entry -->
+				<tr th:each="userPayInscription : ${userPayInscriptions}">
+					<td th:text="${userPayInscription.account.name}">name</td>
+					<td th:text="${userPayInscription.account.accountType.name}">Account Type;</td>
+					<td th:text="${userPayInscription.payInscription.year}">2015</td>
+					<td th:text="${userPayInscription.price}">price</td>
+					<th:block th:if="${userPayInscription.hasPay == false}">
+						<td th:text="#{false}">false</td>
+					</th:block>
+					<th:block th:if="${userPayInscription.hasPay == true}">
+						<td th:text="#{true}">true</td>
+					</th:block>
+					<td th:text="${userPayInscription.installment} + #{of} + ${userPayInscription.installments}">installment of installments</td>
+
+					<!-- Pay inscription -->
+					<td th:if="!${userPayInscription.hasPay}" class="text-center">
+					
+						<!--<form th:action="@{'userPayments/pay/'+${userPayInscription.id}}" method="post">
+							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{pay}"
+								style="color: green"></button>
+						</form>-->
+						
+						<!-- Form for pay in paypal -->
+						<form name='formTpv' method='post' action='https://www.sandbox.paypal.com/cgi-bin/webscr'>
+					    	<input type='hidden' name='cmd' value='_xclick'/>
+						    <input type='hidden' name='business' value='cuacfm@hotmail.com'/>
+						    <input type='hidden' name='item_name' th:value="${userPayInscription.payInscription.name}"/>
+						    <input type='hidden' name='item_number' value='VENTA-X2561'/>
+						    <input type='hidden' name='amount' th:value="${userPayInscription.price}"/>
+					    	<input type='hidden' name='page_style' value='primary'/>
+						    <input type='hidden' name='no_shipping' value='1'/> 
+						    <input type='hidden' name='return' th:value="@{'http://localhost:8080/members/userPayments/pay/' + ${userPayInscription.id}} + 
+						    '?' + ${_csrf.parameterName} + '=' + ${_csrf.token}"/>
+							<input type='hidden' name='rm' value='2'/>
+							<input type='hidden' name='cancel_return' th:value="'http://localhost:8080/members/userPayments'"/>
+						    <input type='hidden' name='no_note' value='1'/>
+						    <input type='hidden' name='currency_code' th:value="#{currencyCode}"/>
+						    <input type='hidden' name='cn' value='PP-BuyNowBF'/>
+						    <input type='hidden' name='custom' value=''/>
+						    <input type='hidden' name='first_name' th:value="${userPayInscription.account.name}"/>
+						    <input type='hidden' name='last_name' value='APELLIDOS'/>
+						    <input type='hidden' name='address1' value='DIRECCIÓN'/>
+					    	<input type='hidden' name='city' value='POBLACIÓN'/>
+						    <input type='hidden' name='zip' value='CÓDIGO POSTAL'/>
+						    <input type='hidden' name='night_phone_a' value=''/>
+						    <input type='hidden' name='night_phone_b' value='TELÉFONO'/>
+						    <input type='hidden' name='night_phone_c' value=''/>
+						    <input type='hidden' name='lc' th:value="#{lcCode}"/>
+						    <input type='hidden' name='country' th:value="#{countryCode}"/>
+						    <input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}"/>														
+						</form>
+						<!--<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{pay}" style="color: green"></button>-->
+					</td>
+					
+					<!-- Fill table entry, pay inscription -->
+					<td th:if="${userPayInscription.hasPay}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

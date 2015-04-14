@@ -5,16 +5,16 @@
 			},
 			badInput : {
 				number : "Por favor ingresa una número",
-				date : "Por favor ingresa un numero",
-				time : "Por favor ingresa una fecha",
-				range : "Valor no v\xe1lido",
-				"datetime-local" : "Valor no v\xe1lido"
+				date : "Por favor ingresa una fecha",
+				time : "Por favor ingresa una hora",
+				range : "Valor no válido",
+				"datetime-local" : "Por favor ingresa una fecha con una hora"
 			},
 			validatevalue:"aqui",
 			dependentValidation:"aqui",
-			tooLong : "Porfavor ingresa como máximo {%maxlength} caracteres, tú has ingresado solo {%valueLen}.",
+			tooLong : "Por favor ingresa como máximo {%maxlength} caracteres, tú has ingresado solo {%valueLen}.",
 			tooShort : "El mínimo de caracteres es {%minlength}, tú solo ingresaste {%valueLen}.",
-			patternMismatch : "Por favor, aj\xfastese al formato solicitado: {%title}.",
+			patternMismatch : "Por favor, ajustese al formato solicitado: {%title}.",
 			valueMissing : {
 				defaultMessage : "Por favor, rellene este campo.",
 				checkbox : "Por favor, marque esta casilla si desea continuar.",

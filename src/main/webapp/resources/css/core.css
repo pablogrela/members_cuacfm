@@ -21,10 +21,10 @@ body {
 
 /* columns edit*/
 @media ( min-width : 768px) {
-	.col-lg-1-edit, .col-lg-2-edit, .col-lg-3-edit, .col-lg-10-edit {
+	.col-lg-1-edit, .col-lg-2-edit, .col-lg-2-large, .col-lg-3-edit, .col-lg-10-edit {
 		float: left;
 	}
-	.col-lg-1-edit, .col-lg-2-edit {
+	.col-lg-1-edit, .col-lg-2-edit, .col-lg-2-large {
 		position: relative;
 		min-height: 1px;
 		padding-right: 15px;
@@ -36,7 +36,7 @@ body {
 		width: 16.66666667%;
 	}
 	.col-lg-2-right {
-	position: relative;
+		position: relative;
 		top: 8px;
 		left: -10px;
 		width: 16.66666667%;
@@ -52,17 +52,19 @@ body {
 		min-height: 1px;
 		width: 83.33333333%;
 	}
-
+	
 	/* form label */
 	.col-lg-2 {
 		padding-right: 10%;
 	}
-	
-		/* form label */
-	.col-lg-2 {
-		padding-right: 10%;
-	}
 
+	/* form label */
+	.col-lg-2-large {
+		top: -10px;
+		left: -10px;
+		width: 16.66666667%;
+	}
+	
 	/* form label by label retry password*/
 	.col-lg-1 {
 		top: -10px;

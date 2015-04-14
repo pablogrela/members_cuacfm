@@ -1,26 +1,51 @@
-DROP TABLE InstallmentPayInscription;
 DROP TABLE UserPayInscription;
 DROP TABLE PayInscription;
 DROP TABLE Inscription;
 DROP TABLE Training;
 DROP TABLE TrainingType;
 DROP TABLE Account;
+DROP TABLE AccountType;
+DROP TABLE MethodPayment;
+
+
+CREATE TABLE MethodPayment (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(30) NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT MethodPaymentId_PK PRIMARY KEY (id),
+    CONSTRAINT NameMethodPaymentUniqueKey UNIQUE (name)
+);
+
+
+CREATE TABLE AccountType (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(30) NOT NULL,
+    description VARCHAR(100),
+    discount INT NOT NULL,
+    CONSTRAINT AccountTypeId_PK PRIMARY KEY (id),
+    CONSTRAINT NameAccountTypeUniqueKey UNIQUE (name)
+);
+
 
 CREATE TABLE Account(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
     login VARCHAR(30) NOT NULL,
-    email VARCHAR(30) NOT NULL UNIQUE,
+    email VARCHAR(30) NOT NULL,
     password VARCHAR(80) NOT NULL,
+    methodPaymentId INT,
+    accountTypeId INT,
+    active BOOLEAN,
+    installments INT NOT NULL,
+    
     role VARCHAR(12) NOT NULL,
     CONSTRAINT AccountId_PK PRIMARY KEY (id),
+    CONSTRAINT AccountTypeId_FK FOREIGN KEY (accountTypeId) REFERENCES AccountType(id),
+	CONSTRAINT MethodPaymentId_FK FOREIGN KEY (methodPaymentId) REFERENCES MethodPayment(id),
     CONSTRAINT LoginUniqueKey UNIQUE (login),
     CONSTRAINT EmailUniqueKey UNIQUE (email)
-    );
+    );   
 
-
-    
-DROP TABLE TrainingType;
 
 CREATE TABLE TrainingType(
     id INT NOT NULL auto_increment, 
@@ -31,11 +56,9 @@ CREATE TABLE TrainingType(
     duration DECIMAL(3,2) NOT NULL,
     hasTrainings BOOLEAN,
     CONSTRAINT TrainingId_PK PRIMARY KEY (id),
-    CONSTRAINT NameUniqueKey UNIQUE (name)
+    CONSTRAINT NameTrainingTypeUniqueKey UNIQUE (name)
 	);
     
-    
-DROP TABLE Training;
 
 CREATE TABLE Training(	
     id INT NOT NULL auto_increment, 
@@ -50,11 +73,9 @@ CREATE TABLE Training(
     countPlaces INT NOT NULL,
     close BOOLEAN,
     CONSTRAINT TrainingId_PK PRIMARY KEY (id),
-    CONSTRAINT TrainingeId_FK FOREIGN KEY (trainingTypeId) REFERENCES TrainingType(id)
+    CONSTRAINT TrainingTypeId_FK FOREIGN KEY (trainingTypeId) REFERENCES TrainingType(id)
 	);
 
-
-DROP TABLE Inscription;
 
 CREATE TABLE Inscription(
     id INT NOT NULL auto_increment, 
@@ -64,13 +85,21 @@ CREATE TABLE Inscription(
     note VARCHAR(500),
     pass BOOLEAN,
     unsubscribe BOOLEAN,
-    CONSTRAINT Inscription_PK PRIMARY KEY (id),
+    CONSTRAINT InscriptionId_PK PRIMARY KEY (id),
 	CONSTRAINT AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
 	CONSTRAINT TrainingId_FK FOREIGN KEY (trainingId) REFERENCES Training(id)
     );
 
     
-DROP TABLE PayInscription;
+CREATE TABLE Service(
+    id INT NOT NULL auto_increment, 
+    typeFeed VARCHAR(30) NOT NULL,
+    periodicity int NOT NULL,
+    price DECIMAL(4,2) NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT ServiceId_PK PRIMARY KEY (id)
+	);  
+	
 
 CREATE TABLE PayInscription(
     id INT NOT NULL auto_increment, 
@@ -78,56 +107,64 @@ CREATE TABLE PayInscription(
     year int NOT NULL,
     price DECIMAL(4,2) NOT NULL,
     description VARCHAR(100),
-    CONSTRAINT PayInscription_PK PRIMARY KEY (id),
-    CONSTRAINT NameUniqueKey UNIQUE (year)
+    CONSTRAINT PayInscriptionId_PK PRIMARY KEY (id),
+    CONSTRAINT YearUniqueKey UNIQUE (year)
 	);    
-    
-	
-DROP TABLE UserPayInscription;
+
 
 CREATE TABLE UserPayInscription(
     id INT NOT NULL auto_increment, 
     accountId INT NOT NULL,
     payInscriptionId INT NOT NULL,
-    hasPay BOOLEAN,
-    pricePay DECIMAL(4,2),
-    datePay TIMESTAMP,
+    price DECIMAL(4,2) NOT NULL,
     installment INT,
-    CONSTRAINT UserPayInscription_PK PRIMARY KEY (id),
-	CONSTRAINT AccountId2_FK FOREIGN KEY (accountId) REFERENCES Account(id),
-	CONSTRAINT PayInscriptionId_FK FOREIGN KEY (payInscriptionId) REFERENCES PayInscription(id)
+    installments INT,
+    hasPay BOOLEAN,
+   	idPayer VARCHAR(30),
+   	idTxn VARCHAR(30),
+   	emailPayer VARCHAR(30),
+   	statusPay VARCHAR(30),
+    datePay TIMESTAMP NULL,
+    CONSTRAINT UserPayInscriptionId_PK PRIMARY KEY (id),
+	CONSTRAINT UserPayInscriptionId_Account_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+	CONSTRAINT PayInscriptionId_FK FOREIGN KEY (payInscriptionId) REFERENCES PayInscription(id),
+	CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
 	);   	
 
-DROP TABLE InstallmentPayInscription;
 
-CREATE TABLE InstallmentPayInscription(
-    id INT NOT NULL auto_increment, 
-    userPayInscriptionId INT NOT NULL,
-	numInstallment INT NOT NULL,
-    pricePay DECIMAL(4,2),
-    datePay TIMESTAMP,
-    CONSTRAINT InstallmentPayInscription_PK PRIMARY KEY (id),
-	CONSTRAINT UserPayInscription_FK FOREIGN KEY (userPayInscriptionId) REFERENCES UserPayInscription(id)
-	); 
+-- Insert Account Types:
+insert into AccountType values (1, 'No', 'No tiene que pagar', 100);
+insert into AccountType values (2, 'Adulto', 'Tarifa adulta', 0);
+insert into AccountType values (3, 'Juvenil', 'Tarifa juvenil', 50);
+insert into AccountType values (4, 'Jubilado', 'Tarifa adulta', 50);
+
+
+-- Insert Method Payment:
+insert into MethodPayment values (1, 'No', 'No tiene que pagar');
+insert into MethodPayment values (2, 'Efectivo', 'Pago en efectivo');
+insert into MethodPayment values (3, 'Domiciliado', 'Domiciliado');
+insert into MethodPayment values (4, 'Paypal', 'Paypal');	
 	
--- Insert Users:
+
+-- Insert Account:
 insert into Account values 
-(1, 'user', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 'ROLE_USER');
+(1, 'user', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 2, 2, 1, true, 'ROLE_USER');
 
 insert into Account values 
-(2, 'admin', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 'ROLE_ADMIN');
+(2, 'admin', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 1, 1, 1, true, 'ROLE_ADMIN');
 
 insert into Account values 
-(3, 'trainer', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 'ROLE_TRAINER');
+(3, 'trainer', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 1, 1, 1, true, 'ROLE_TRAINER');
 
 insert into Account values 
-(4, 'pablo', 'pablo', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 'ROLE_USER');
+(4, 'pablo', 'pablo', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 3, 3, 1, true, 'ROLE_USER');
 
 insert into Account values 
-(5, 'manu', 'manu', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 'ROLE_USER');
+(5, 'manu', 'manu', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 2, 2, 1, true, 'ROLE_USER');
 
 insert into Account values 
-(6, 'lore', 'lore', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 'ROLE_USER');
+(6, 'lore', 'lore', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 2, 2 , 1, true, 'ROLE_USER');
+
 
 
 
@@ -145,7 +182,7 @@ insert into TrainingType values
 
 -- Insert Trainings:
 insert into Training values 
-(1, 1, 'Camara', "2015-06-10 11:00", "2015-06-08 11:00", 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, true);
+(1, 1, 'Camara', "2015-06-10 11:00", null, 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, true);
 insert into Training values 
 (2, 2, 'Locución', "2015-06-17 11:00", "2015-06-15 11:00", 'Se enseñara a hablar', 'Estudio Cuac', 2.00, 10, 0, 1, true);
 insert into Training values 
