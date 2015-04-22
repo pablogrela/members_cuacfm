@@ -1,4 +1,5 @@
 //lock and unlock field name
+/*
 function checkedFunction (form, nameChecked, nameField) {
 	if (form.nameChecked.checked == true) {
 		form.nameField.disabled = false;
@@ -7,6 +8,26 @@ function checkedFunction (form, nameChecked, nameField) {
 		form.nameField.disabled = true;
 	}
 }
+*/
+
+//View by defect show message
+function evaluateModal2(){ 
+    if (confirm('¿Estas seguro de enviar este formulario?')){ 
+       document.form.submit() 
+    } 
+} 
+
+//Show and evaluate function
+function evaluateModal(){ 
+	$(document).ready(function(){
+		$("#modal").modal('show');
+		$("#accept").click (
+				function(evento) {
+						document.formEvaluate.submit() 
+				});
+	}); 
+} 
+
 
 //lock and unlock field name
 function checkedName(form) {
@@ -15,6 +36,26 @@ function checkedName(form) {
 	}
 	if (form.onName.checked == false) {
 		form.name.disabled = true;
+	}
+}
+
+//lock and unlock field dni
+function checkedDni(form) {
+	if (form.onDni.checked == true) {
+		form.dni.disabled = false;
+	}
+	if (form.onDni.checked == false) {
+		form.dni.disabled = true;
+	}
+}
+
+//lock and unlock field address
+function checkedAddress(form) {
+	if (form.onAddress.checked == true) {
+		form.address.disabled = false;
+	}
+	if (form.onAddress.checked == false) {
+		form.address.disabled = true;
 	}
 }
 
@@ -28,13 +69,53 @@ function checkedLogin(form) {
 	}
 }
 
-// lock and unlock field mail
+// lock and unlock field email
 function checkedEmail(form) {
 	if (form.onEmail.checked == true) {
 		form.email.disabled = false;
 	}
 	if (form.onEmail.checked == false) {
 		form.email.disabled = true;
+	}
+}
+
+//lock and unlock field phone
+function checkedPhone(form) {
+	if (form.onPhone.checked == true) {
+		form.phone.disabled = false;
+	}
+	if (form.onPhone.checked == false) {
+		form.phone.disabled = true;
+	}
+}
+
+//lock and unlock field mobile
+function checkedMobile(form) {
+	if (form.onMobile.checked == true) {
+		form.mobile.disabled = false;
+	}
+	if (form.onMobile.checked == false) {
+		form.mobile.disabled = true;
+	}
+}
+
+//lock and unlock field Student
+function checkedStudent(form) {
+	if (form.onStudent.checked == true) {
+		form.student.disabled = false;
+	}
+	if (form.onStudent.checked == false) {
+		form.student.disabled = true;
+	}
+}
+
+//lock and unlock field DateBirth
+function checkedDateBirth(form) {
+	if (form.onDateBirth.checked == true) {
+		form.dateBirth.disabled = false;
+	}
+	if (form.onDateBirth.checked == false) {
+		form.dateBirth.disabled = true;
 	}
 }
 
@@ -50,14 +131,107 @@ function checkedPassword(form) {
 	}
 }
 
+//lock and unlock field accountType
+function checkedAccountType(form) {
+	if (form.onAccountType.checked == true) {
+		form.accountType.disabled = false;
+	}
+	if (form.onAccountType.checked == false) {
+		form.accountType.disabled = true;
+	}
+}
+
+//lock and unlock field methodPayment
+function checkedMethodPayment(form) {
+	if (form.onMethodPayment.checked == true) {
+		form.methodPayment.disabled = false;
+	}
+	if (form.onMethodPayment.checked == false) {
+		form.methodPayment.disabled = true;
+	}
+}
+
+//lock and unlock field installments
+function checkedInstallments(form) {
+	if (form.onInstallments.checked == true) {
+		form.installments.disabled = false;
+	}
+	if (form.onInstallments.checked == false) {
+		form.installments.disabled = true;
+	}
+}
+
+//lock and unlock field Observations
+function checkedObservations(form) {
+	if (form.onObservations.checked == true) {
+		form.observations.disabled = false;
+	}
+	if (form.onObservations.checked == false) {
+		form.observations.disabled = true;
+	}
+}
+
+//lock and unlock field Observations
+function checkedRole(form) {
+	if (form.onRole.checked == true) {
+		form.role.disabled = false;
+	}
+	if (form.onRole.checked == false) {
+		form.role.disabled = true;
+	}
+}
+
+
+
+
+//////////// SHOW BUTTON MODIFY ////////////////////////////////////////////////////
 // hide and show button modify
 $(document).ready(
 		function() {
-			$("#enableModify").click(
+			$("#enableModify").click (
 					function(evento) {
-						if (($("#enableModify").prop("checked"))
+						if ($("#enableModify").prop("checked")
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify2").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
 								|| ($("#enableModify2").prop("checked"))
 								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
 								|| ($("#enablePasswords").prop("checked"))) {
 							$("#visibleModify").css("display", "block");
 						} else {
@@ -66,14 +240,25 @@ $(document).ready(
 					});
 		});
 
-// hide and show button modify
+//hide and show button modify
 $(document).ready(
 		function() {
-			$("#enableModify2").click(
+			$("#enableModify3").click (
 					function(evento) {
-						if (($("#enableModify").prop("checked"))
+						if ($("#enableModify").prop("checked")
 								|| ($("#enableModify2").prop("checked"))
 								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
 								|| ($("#enablePasswords").prop("checked"))) {
 							$("#visibleModify").css("display", "block");
 						} else {
@@ -82,14 +267,25 @@ $(document).ready(
 					});
 		});
 
-// hide and show button modify
+//hide and show button modify
 $(document).ready(
 		function() {
-			$("#enableModify3").click(
+			$("#enableModify4").click (
 					function(evento) {
-						if (($("#enableModify").prop("checked"))
+						if ($("#enableModify").prop("checked")
 								|| ($("#enableModify2").prop("checked"))
 								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
 								|| ($("#enablePasswords").prop("checked"))) {
 							$("#visibleModify").css("display", "block");
 						} else {
@@ -98,6 +294,275 @@ $(document).ready(
 					});
 		});
 
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify5").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify6").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify7").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify8").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify9").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify10").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify11").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify12").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify13").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify14").click (
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| ($("#enableModify2").prop("checked"))
+								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
+								|| ($("#enablePasswords").prop("checked"))) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
 // hide and show button modify
 // hide and show field rePassword
 $(document).ready(
@@ -109,11 +574,21 @@ $(document).ready(
 						} else {
 							$("#visibleRePasswords").css("display", "none");
 						}
-						if (($("#enableModify").prop("checked"))
+						if ($("#enableModify").prop("checked")
 								|| ($("#enableModify2").prop("checked"))
 								|| ($("#enableModify3").prop("checked"))
+								|| ($("#enableModify4").prop("checked"))
+								|| ($("#enableModify5").prop("checked"))
+								|| ($("#enableModify6").prop("checked"))
+								|| ($("#enableModify7").prop("checked"))
+								|| ($("#enableModify8").prop("checked"))
+								|| ($("#enableModify9").prop("checked"))
+								|| ($("#enableModify10").prop("checked"))
+								|| ($("#enableModify11").prop("checked"))
+								|| ($("#enableModify12").prop("checked"))
+								|| ($("#enableModify13").prop("checked"))
+								|| ($("#enableModify14").prop("checked"))
 								|| ($("#enablePasswords").prop("checked"))) {
-							$("#visibleModify").css("display", "block");
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");

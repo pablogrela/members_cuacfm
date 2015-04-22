@@ -30,18 +30,26 @@ CREATE TABLE AccountType (
 CREATE TABLE Account(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
+    dni VARCHAR(30) NOT NULL,
+    address VARCHAR(30) NOT NULL,
     login VARCHAR(30) NOT NULL,
     email VARCHAR(30) NOT NULL,
     password VARCHAR(80) NOT NULL,
+    phone INT,
+    mobile INT NOT NULL,
     methodPaymentId INT,
-    accountTypeId INT,
-    active BOOLEAN,
+    accountTypeId INT,   
     installments INT NOT NULL,
-    
+    student BOOLEAN,
+    dateBirth TIMESTAMP NULL,
+    active BOOLEAN,
+    observations VARCHAR(500),
+    programName VARCHAR(30),
     role VARCHAR(12) NOT NULL,
     CONSTRAINT AccountId_PK PRIMARY KEY (id),
-    CONSTRAINT AccountTypeId_FK FOREIGN KEY (accountTypeId) REFERENCES AccountType(id),
-	CONSTRAINT MethodPaymentId_FK FOREIGN KEY (methodPaymentId) REFERENCES MethodPayment(id),
+    CONSTRAINT AccountTypeId_FK FOREIGN KEY (accountTypeId) REFERENCES AccountType(id) ON DELETE Set NULL,
+	CONSTRAINT MethodPaymentId_FK FOREIGN KEY (methodPaymentId) REFERENCES MethodPayment(id) ON DELETE Set NULL,
+	CONSTRAINT DniUniqueKey UNIQUE (dni),
     CONSTRAINT LoginUniqueKey UNIQUE (login),
     CONSTRAINT EmailUniqueKey UNIQUE (email)
     );   
@@ -53,7 +61,7 @@ CREATE TABLE TrainingType(
     required BOOLEAN,
     description VARCHAR(500),
     place VARCHAR(30),
-    duration DECIMAL(3,2) NOT NULL,
+    duration INT NOT NULL,
     hasTrainings BOOLEAN,
     CONSTRAINT TrainingId_PK PRIMARY KEY (id),
     CONSTRAINT NameTrainingTypeUniqueKey UNIQUE (name)
@@ -68,7 +76,7 @@ CREATE TABLE Training(
     dateLimit TIMESTAMP NOT NULL,
     description VARCHAR(500),
     place VARCHAR(30) NOT NULL,
-    duration DECIMAL(4,2) NOT NULL,
+    duration INT NOT NULL,
     maxPlaces INT NOT NULL,
     countPlaces INT NOT NULL,
     close BOOLEAN,
@@ -105,7 +113,9 @@ CREATE TABLE PayInscription(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
     year int NOT NULL,
-    price DECIMAL(4,2) NOT NULL,
+    price DOUBLE(4,2) NOT NULL,
+    dateLimit1 TIMESTAMP NOT NULL,
+    dateLimit2 TIMESTAMP NOT NULL,
     description VARCHAR(100),
     CONSTRAINT PayInscriptionId_PK PRIMARY KEY (id),
     CONSTRAINT YearUniqueKey UNIQUE (year)
@@ -116,7 +126,7 @@ CREATE TABLE UserPayInscription(
     id INT NOT NULL auto_increment, 
     accountId INT NOT NULL,
     payInscriptionId INT NOT NULL,
-    price DECIMAL(4,2) NOT NULL,
+    price DOUBLE(4,2) NOT NULL,
     installment INT,
     installments INT,
     hasPay BOOLEAN,
@@ -148,22 +158,28 @@ insert into MethodPayment values (4, 'Paypal', 'Paypal');
 
 -- Insert Account:
 insert into Account values 
-(1, 'user', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 2, 2, 1, true, 'ROLE_USER');
+(1, 'user', '12345678A', 'CuacFM', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(2, 'admin', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 1, 1, 1, true, 'ROLE_ADMIN');
+(2, 'admin', '12345678B', 'CuacFM', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_ADMIN');
 
 insert into Account values 
-(3, 'trainer', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 1, 1, 1, true, 'ROLE_TRAINER');
+(3, 'trainer', '12345678C', 'CuacFM', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_TRAINER');
 
 insert into Account values 
-(4, 'pablo', 'pablo', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 3, 3, 1, true, 'ROLE_USER');
+(4, 'pablo', '12345678D', 'CuacFM', 'pablo', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 3, 3, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(5, 'manu', 'manu', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 2, 2, 1, true, 'ROLE_USER');
+(5, 'manu', '12345678E', 'CuacFM', 'manu', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(6, 'lore', 'lore', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 2, 2 , 1, true, 'ROLE_USER');
+(6, 'lore', '12345678F', 'CuacFM', 'lore', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
 
 

@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    
+
     /**
      * User service.
      *
@@ -85,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // Por defecto el csrf esta enable para bloquear posibles ataques.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http      
+        http     
             .authorizeRequests()
                 .antMatchers("/", "/favicon.ico", "/resources/**", "/signup").permitAll()
                 //.antMatchers("/training/**").hasRole("ADMIN") 
@@ -94,7 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 		"trainingList/trainingJoin/**","trainingList/trainingRemoveJoin/**").hasAnyRole("USER", "TRAINER", "ADMIN") 
                 .antMatchers("/trainingTypeList/**").hasAnyRole("TRAINER", "ADMIN")
                 .antMatchers("/payInscriptionList/**").hasAnyRole("ADMIN", "SALES")
-                .antMatchers("/accountList/**").hasRole("ADMIN")
+                .antMatchers("/accountList/**", "/configuration/**").hasRole("ADMIN")
                 //.antMatchers("/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
