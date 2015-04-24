@@ -1,9 +1,7 @@
 package org.cuacfm.members.web.configuration;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.accountType.AccountType;
@@ -29,8 +27,6 @@ public class AccountTypeForm {
 	private String description;
 
 	/** The discount. */
-	@NotNull
-	@Digits(fraction = 0, integer = 2)
 	@Min(0)
 	@Max(100)
 	private int discount;

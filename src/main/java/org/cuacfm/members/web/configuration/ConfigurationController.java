@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.cuacfm.members.model.accountType.AccountType;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
-import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.methodPayment.MethodPayment;
 import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
 import org.cuacfm.members.web.support.MessageHelper;
@@ -64,22 +63,45 @@ public class ConfigurationController {
 	 *
 	 * @param model
 	 *            the model
-	 * @param principal
-	 *            the principal
 	 * @return the string
 	 */
 	@RequestMapping(value = "configuration")
 	public String Configuration(Model model) {
 		return CONFIGURATION_VIEW_NAME;
 	}
-	
+
+	/**
+	 * Removes the account type.
+	 *
+	 * @param ra
+	 *            the ra
+	 * @param id
+	 *            the id
+	 * @return the string
+	 */
 	@RequestMapping(value = "configuration/accountTypeDelete/{id}", method = RequestMethod.POST)
-	public String remove(RedirectAttributes ra, @PathVariable Long id) throws UniqueException {
-
+	public String removeAccountType(RedirectAttributes ra, @PathVariable Long id) {
 		String name = accountTypeService.findById(id).getName();
-
 		accountTypeService.delete(id);
 		MessageHelper.addInfoAttribute(ra, "accountType.successDelete", name);
+		return "redirect:/configuration";
+	}
+
+	/**
+	 * Remov method payment.
+	 *
+	 * @param ra
+	 *            the ra
+	 * @param id
+	 *            the id
+	 * @return the string
+	 */
+	@RequestMapping(value = "configuration/methodPaymentDelete/{id}", method = RequestMethod.POST)
+	public String removMethodPayment(RedirectAttributes ra,
+			@PathVariable Long id) {
+		String name = methodPaymentService.findById(id).getName();
+		methodPaymentService.delete(id);
+		MessageHelper.addInfoAttribute(ra, "methodPayment.successDelete", name);
 		return "redirect:/configuration";
 	}
 }

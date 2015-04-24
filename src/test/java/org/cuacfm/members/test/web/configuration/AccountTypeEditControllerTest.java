@@ -25,8 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
-/** The class ProfileControlTest. */
+/** The Class AccountTypeEditControllerTest.*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class AccountTypeEditControllerTest extends WebSecurityConfigurationAware {
@@ -42,11 +41,13 @@ public class AccountTypeEditControllerTest extends WebSecurityConfigurationAware
 	@Inject
 	private AccountTypeService accountTypeService;
 	
+	/** The account type. */
 	private AccountType accountType;
 	
     /**
      * Initialize default session.
-     * @throws UniqueException 
+     *
+     * @throws UniqueException the unique exception
      */
     @Before
     public void initializeDefaultSession() throws UniqueException {
@@ -124,7 +125,7 @@ public class AccountTypeEditControllerTest extends WebSecurityConfigurationAware
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void nameAlreadExistTest() throws Exception {    
+	public void nameAlreadyExistTest() throws Exception {    
 		
 		mockMvc.perform(post("/configuration/accountTypeEdit").locale(Locale.ENGLISH).session(defaultSession)
 				.param("name", "Adult")

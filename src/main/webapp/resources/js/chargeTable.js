@@ -13,11 +13,20 @@ if(ln == 'es'){
 		       },
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
+		   $('#customTable2').dataTable( {
+		       "language": {
+		           "url": "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/Spanish.json"
+		       },
+		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+		   } );
 	} );
 // By defect English	
-}else{
+} else {
 	$(document).ready(function() {
 	    $('#customTable').dataTable( {
+	        "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+	    } );
+	    $('#customTable2').dataTable( {
 	        "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 	    } );
 	} );

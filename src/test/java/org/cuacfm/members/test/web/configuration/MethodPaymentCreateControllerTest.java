@@ -13,8 +13,8 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountService.AccountService;
-import org.cuacfm.members.model.accountType.AccountType;
-import org.cuacfm.members.model.accountTypeService.AccountTypeService;
+import org.cuacfm.members.model.methodPayment.MethodPayment;
+import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 /** The class ProfileControlTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAware {
+public class MethodPaymentCreateControllerTest extends WebSecurityConfigurationAware {
 
     /** The default session. */
     private MockHttpSession defaultSession;
@@ -40,7 +40,7 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
 	
 	/** The account Type service. */
 	@Inject
-	private AccountTypeService accountTypeService;
+	private MethodPaymentService methodPaymentService;
 	
 	
     /**
@@ -57,58 +57,56 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
 	
 	
     /**
-     * Display accountTypeList page without signin in test.
+     * Display methodPaymentList page without signin in test.
      *
      * @throws Exception
      *             the exception
      */
     @Test
     public void displayaccountCreateCreatePageWithoutSiginInTest() throws Exception {
-        mockMvc.perform(get("/configuration/accountTypeCreate")).andExpect(
+        mockMvc.perform(get("/configuration/methodPaymentCreate")).andExpect(
                 redirectedUrl("http://localhost/signin"));
     }
     
 	/**
-	 * Send displaysaccountTypeList.
+	 * Send displaysmethodPaymentList.
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void displaysAccountTypeCreateTest() throws Exception {    
-		mockMvc.perform(get("/configuration/accountTypeCreate").locale(Locale.ENGLISH).session(defaultSession))
-				.andExpect(view().name("configuration/accountypecreate"))
-				.andExpect(content().string(containsString("<title>Create Account Type</title>")));
+	public void displaysMethodPaymentCreateTest() throws Exception {    
+		mockMvc.perform(get("/configuration/methodPaymentCreate").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("configuration/methodpaymentcreate"))
+				.andExpect(content().string(containsString("<title>Create Method Payment</title>")));
 	}
 
 
 	/**
-	 * Send displaysaccountTypeList.
+	 * Send displaysmethodPaymentList.
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void postAccountTypeCreateTest() throws Exception {    
-		mockMvc.perform(post("/configuration/accountTypeCreate").locale(Locale.ENGLISH).session(defaultSession)
-				.param("name", "Adult")
-				.param("description", "Tax for adult")
-				.param("discount", "0"))
+	public void postMethodPaymentCreateTest() throws Exception {    
+		mockMvc.perform(post("/configuration/methodPaymentCreate").locale(Locale.ENGLISH).session(defaultSession)
+				.param("name", "Paypal")
+				.param("description", "Pay by Paypal"))
 		.andExpect(view().name("redirect:/configuration"));
 	}
 
 	/**
-	 * Send displaysaccountTypeList.
+	 * Send displaysmethodPaymentList.
 	 * @throws Exception the exception
 	 */
 	@Test
 	public void nameAlreadyExistTest() throws Exception {    
-		AccountType accountType = new AccountType("Adult", "Tax for Adult", 0);
-		accountTypeService.save(accountType);
+		MethodPayment methodPayment = new MethodPayment("Paypal", "Tax for Paypal");
+		methodPaymentService.save(methodPayment);
 		
-		mockMvc.perform(post("/configuration/accountTypeCreate").locale(Locale.ENGLISH).session(defaultSession)
-				.param("name", "Adult")
-				.param("description", "Tax for adult")
-				.param("discount", "0"))
+		mockMvc.perform(post("/configuration/methodPaymentCreate").locale(Locale.ENGLISH).session(defaultSession)
+				.param("name", "Paypal")
+				.param("description", "Pay by Paypal"))
 				.andExpect(content()
-                        		.string(containsString("Already exist account type with name "+ accountType.getName() + ", please chose other")))
-                        		.andExpect(view().name("configuration/accountypecreate"));
+                        		.string(containsString("Already exist method payment with name "+ methodPayment.getName() + ", please chose other")))
+                        		.andExpect(view().name("configuration/methodpaymentcreate"));
 
 	}
 	
@@ -118,26 +116,26 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
 	 */
 	@Test
 	public void notBlankMessageTest() throws Exception {    
-		mockMvc.perform(post("/configuration/accountTypeCreate").locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/configuration/methodPaymentCreate").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(content()
                         		.string(containsString("The value may not be empty!")))
-                        		.andExpect(view().name("configuration/accountypecreate"));
+                        		.andExpect(view().name("configuration/methodpaymentcreate"));
 	}
 	
 	/**
-	 * "Already exist type of formation with name "+ accountType.getName() + ", please chose other"
-	 * Send displaysaccountTypeList.
+	 * "Already exist type of formation with name "+ methodPayment.getName() + ", please chose other"
+	 * Send displaysmethodPaymentList.
 	 * @throws Exception the exception
 	 */
 	@Test
 	public void maxCharactersTest() throws Exception {    
-		mockMvc.perform(post("/configuration/accountTypeCreate").locale(Locale.ENGLISH).session(defaultSession)
+		mockMvc.perform(post("/configuration/methodPaymentCreate").locale(Locale.ENGLISH).session(defaultSession)
 				.param("name", "1111111111111111111111111111111111111111111111111111111")
 				.param("description", "111111111111111111111111111111111111111111111111")
 				.param("discount", "0"))
 				.andExpect(content()
                         		.string(containsString("Maximum 30 characters")))
-                        		.andExpect(view().name("configuration/accountypecreate"));
+                        		.andExpect(view().name("configuration/methodpaymentcreate"));
 
 	}
 }

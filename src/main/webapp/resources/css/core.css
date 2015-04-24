@@ -21,36 +21,55 @@ body {
 
 /* columns edit*/
 @media ( min-width : 768px) {
-	.col-lg-1-edit, .col-lg-2-edit, .col-lg-2-large, .col-lg-3-edit, .col-lg-10-edit {
+	
+	.col-lg-1-edit, .col-lg-2-edit, .col-lg-2-large, .col-lg-2-check, .col-lg-3-edit, .col-lg-10-edit {
 		float: left;
 	}
-	.col-lg-1-edit, .col-lg-2-edit, .col-lg-2-large {
+	
+	.col-lg-1-edit, .col-lg-2-edit, .col-lg-2-large, .col-lg-2-check {
 		position: relative;
 		min-height: 1px;
 		padding-right: 15px;
 		padding-left: 15px;
 	}
+	
 	.col-lg-2-edit {
 		top: -5px;
 		left: -3px;
 		width: 16.66666667%;
 	}
+	
 	.col-lg-2-right {
 		position: relative;
 		top: 8px;
 		left: -10px;
 		width: 16.66666667%;
 	}
+	
+	.col-lg-2-check {
+		left: -16px;
+		width: 12.66666667%;
+	}
+	
 	.col-lg-3-edit {
 		position: relative;
 		min-height: 1px;
 		padding-right: 15px;
 		width: 25%;
 	}
+	
 	.col-lg-10-edit {
 		position: relative;
 		min-height: 1px;
 		width: 83.33333333%;
+	}
+		
+	.col-lg-10-modify {
+		position: relative;
+		min-height: 1px;
+		top: 3px;
+		left: -51px;
+		width: 40%;
 	}
 	
 	/* form label */
@@ -410,4 +429,65 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
 	input[type="checkbox"].disabled, fieldset[disabled] input[type="radio"],
 	fieldset[disabled] input[type="checkbox"] {
 	cursor: default;
+}
+
+.modal-header-success {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #5cb85c;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-warning {
+	color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #f0ad4e;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-danger {
+	color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #d9534f;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-info {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #5bc0de;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+.modal-header-primary {
+	color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #428bca;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
 }

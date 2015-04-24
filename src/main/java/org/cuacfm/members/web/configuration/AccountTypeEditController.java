@@ -55,7 +55,7 @@ public class AccountTypeEditController {
 			model.addAttribute(accountTypeForm);
 			return ACCOUNTYPE_VIEW_NAME;
 		}
-		// If not have trainingType, redirect to trainingList
+		// If not have accountType, redirect to configuration
 		else {
 			return "redirect:/configuration";
 		}

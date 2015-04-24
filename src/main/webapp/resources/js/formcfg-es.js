@@ -22,15 +22,15 @@
 				radio : "Por favor, seleccione una de estas opciones."
 			},
 			rangeUnderflow : {
-				defaultMessage : "El valor debe superior o igual a {%min}.",
-				date : "El valor debe superior o igual a {%min}.",
-				time : "El valor debe superior o igual a {%min}.",
+				defaultMessage : "El valor debe ser superior o igual a {%min}.",
+				date : "El valor debe ser superior o igual a {%min}.",
+				time : "El valor debe ser superior o igual a {%min}.",
 				"datetime-local" : "El valor debe superior o igual a {%min}."
 			},
 			rangeOverflow : {
-				defaultMessage : "El valor debe inferior o igual a {%max}.",
-				date : "El valor debe inferior o igual a {%max}.",
-				time : "El valor debe inferior o igual a {%max}.",
+				defaultMessage : "El valor debe ser inferior o igual a {%max}.",
+				date : "El valor debe ser inferior o igual a {%max}.",
+				time : "El valor debe ser inferior o igual a {%max}.",
 				"datetime-local" : "El valor debe inferior o igual a {%max}."
 			},
 			stepMismatch : "Valor no v\xe1lido"

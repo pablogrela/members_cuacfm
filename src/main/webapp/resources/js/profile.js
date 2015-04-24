@@ -1,29 +1,60 @@
 //lock and unlock field name
+
 /*
-function checkedFunction (form, nameChecked, nameField) {
-	if (form.nameChecked.checked == true) {
-		form.nameField.disabled = false;
+function checkedFunction (form, checked, field) {
+	if (form.checked.checked == true) {
+		form.name.disabled = false;
 	}
-	if (form.nameChecked.checked == false) {
-		form.nameField.disabled = true;
+	if (form.checked.checked == false) {
+		form.name.disabled = true;
 	}
+
+}*/
+
+/*
+/Show and evaluate function
+function evaluateModal(){ 
+	$(document).ready(function(){
+		$("#modal").modal('show');
+		$("#accept").click (
+				function(evento) {
+					$("#formEvaluate").submit() 
+				});
+	}); 
+} 
+} 
+*/
+
+/*
+function checkedFunction (checked, field) {
+	$(document).ready(function(){
+			$(checked).click (
+					function(evento) {
+						if ($(checked).prop("checked")) {
+							$(field).disabled = false;
+						} else {
+							$(field).disabled = true;
+						}
+		});
+	});
 }
 */
 
+
 //View by defect show message
-function evaluateModal2(){ 
+function evaluateModal5(){ 
     if (confirm('¿Estas seguro de enviar este formulario?')){ 
        document.form.submit() 
     } 
 } 
 
 //Show and evaluate function
-function evaluateModal(){ 
+function evaluateModal(form, modal, accept){ 
 	$(document).ready(function(){
-		$("#modal").modal('show');
-		$("#accept").click (
+		$(modal).modal('show');
+		$(accept).click (
 				function(evento) {
-						document.formEvaluate.submit() 
+					$(form).submit() 
 				});
 	}); 
 } 
