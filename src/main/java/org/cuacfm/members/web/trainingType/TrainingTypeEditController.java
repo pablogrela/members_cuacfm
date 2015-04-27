@@ -2,6 +2,7 @@ package org.cuacfm.members.web.trainingType;
 
 import javax.validation.Valid;
 
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.trainingType.TrainingType;
 import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
 import org.cuacfm.members.web.support.MessageHelper;
@@ -45,10 +46,10 @@ public class TrainingTypeEditController {
 	 */
 	@RequestMapping(value = "trainingTypeList/trainingTypeEdit")
 	public String training(Model model) {
-		
+
 		if (trainingType != null) {
 			TrainingTypeForm trainingTypeForm = new TrainingTypeForm();
-			trainingTypeForm.setName(trainingType.getName());	
+			trainingTypeForm.setName(trainingType.getName());
 			trainingTypeForm.setRequired(trainingType.isRequired());
 			trainingTypeForm.setDescription(trainingType.getDescription());
 			trainingTypeForm.setPlace(trainingType.getPlace());
@@ -72,7 +73,7 @@ public class TrainingTypeEditController {
 	public TrainingType trainingType() {
 		return trainingType;
 	}
-	
+
 	/**
 	 * Training.
 	 *
@@ -86,38 +87,25 @@ public class TrainingTypeEditController {
 	 */
 
 	@RequestMapping(value = "trainingTypeList/trainingTypeEdit", method = RequestMethod.POST)
-	public String training(@Valid @ModelAttribute TrainingTypeForm trainingTypeForm,
+	public String training(
+			@Valid @ModelAttribute TrainingTypeForm trainingTypeForm,
 			Errors errors, RedirectAttributes ra, Model model) {
 
 		if (errors.hasErrors()) {
 			return TRAINING_VIEW_NAME;
 		}
-		
-		// check that doesn't exist other name
-		String name = trainingTypeForm.getName();		
-		TrainingType trainingTypeSearch = trainingTypeService.findByName(name);
-		if (trainingTypeSearch != null) {
-			if (trainingTypeSearch.getId() != trainingType.getId()) {
-				errors.rejectValue("name", "trainingType.existentName",
-						new Object[] { name }, "name");
-			}
-		}
 
-		// If exist errors no continue
-		if (errors.hasErrors()) {
+		try {
+			trainingTypeService.update(trainingTypeForm
+					.updateTrainingType(trainingType));
+		} catch (UniqueException e) {
+			errors.rejectValue("name", "trainingType.existentName",
+					new Object[] { e.getValue() }, "name");
 			return TRAINING_VIEW_NAME;
 		}
-	
-		// Modify Training
-		trainingType.setName(trainingTypeForm.getName());
-		trainingType.setRequired(trainingTypeForm.getRequired());		
-		trainingType.setDescription(trainingTypeForm.getDescription());
-		trainingType.setPlace(trainingTypeForm.getPlace());
-		trainingType.setDuration(trainingTypeForm.getDuration());
-		
-		trainingTypeService.update(trainingType);
-		MessageHelper.addWarningAttribute(ra, "trainingType.successModify", trainingTypeForm.getName());
-		
+
+		MessageHelper.addWarningAttribute(ra, "trainingType.successModify",
+				trainingTypeForm.getName());
 		return "redirect:/trainingTypeList";
 	}
 
@@ -125,7 +113,7 @@ public class TrainingTypeEditController {
 	 * Modify TrainingType by Id.
 	 *
 	 * @param @PathVariable Long id
-	 *           
+	 * 
 	 * @param errors
 	 *            the errors
 	 * @param ra

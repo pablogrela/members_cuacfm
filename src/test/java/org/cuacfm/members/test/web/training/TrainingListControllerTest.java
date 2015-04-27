@@ -13,7 +13,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingService.TrainingService;
 import org.cuacfm.members.model.trainingType.TrainingType;
@@ -51,10 +53,11 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
-		Account trainer = new Account("trainer", "trainer", "trainer@udc.es", "trainer", "ROLE_TRAINER");
+    public void initializeDefaultSession() throws UniqueException {
+		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", 666666666, 666666666, "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
         defaultSession = getDefaultSession("trainer");
     }
@@ -91,11 +94,11 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void displaysTrainingListwithDatabaseTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(get("/trainingList").locale(Locale.ENGLISH).session(defaultSession))
@@ -111,11 +114,11 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void deleteTrainingListTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingDelete/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -131,13 +134,13 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void deleteExistInscriptionsInTrainingListTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
-		Account user = new Account("user2", "user2", "email2@udc.es", "demo", "ROLE_USER");
+		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		
 		trainingService.createInscription(user.getId(), training.getId());
@@ -155,13 +158,13 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void createInscriptionTrainingListTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
-		Account user = new Account("user2", "user2", "email2@udc.es", "demo", "ROLE_USER");
+		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		
 		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -174,13 +177,13 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void joinInscriptionTrainingListMaxInscriptionsTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 1);		
+				"description", "place", 90, 1);		
 		trainingService.save(training);
-		Account user = new Account("user2", "user2", "email2@udc.es", "demo", "ROLE_USER");
+		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user.getId(), training.getId());
 		
@@ -194,11 +197,11 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void JoinInscriptionMaxInscriptionsExceptionTrainingListTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 1);		
+				"description", "place", 90, 1);		
 		trainingService.save(training);
 
 		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -214,11 +217,11 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void createInscriptionsDateLimitExpirationExceptionInTrainingListTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-01-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 1);		
+				"description", "place", 90, 1);		
 		trainingService.save(training);
 
 		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -230,11 +233,11 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void removeJoinInscriptionTrainingListUnsubscribeExceptionTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 1);		
+				"description", "place", 90, 1);		
 		trainingService.save(training);
 
 		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -253,11 +256,11 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void TrainingEditFromTrainingListTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))

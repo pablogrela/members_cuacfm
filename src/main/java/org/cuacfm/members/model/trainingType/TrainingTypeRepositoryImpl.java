@@ -114,12 +114,12 @@ public class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
 	 */
 	@Override
 	public List<TrainingType> getTrainingTypeList() {
-		List<TrainingType> trainingTypes = entityManager.createQuery(
-				"select a from TrainingType a order by a.name",
-				TrainingType.class).getResultList();
-		if (trainingTypes.isEmpty()) {
+		try {
+			return entityManager.createQuery(
+					"select a from TrainingType a order by a.name",
+					TrainingType.class).getResultList();
+		} catch (PersistenceException e) {
 			return null;
 		}
-		return trainingTypes;
 	}
 }

@@ -2,6 +2,7 @@ package org.cuacfm.members.web.trainingType;
 
 import javax.validation.Valid;
 
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,24 +60,21 @@ public class TrainingTypeCreateController {
 	public String trainingType(
 			@Valid @ModelAttribute TrainingTypeForm trainingTypeForm,
 			Errors errors, RedirectAttributes ra, Model model) {
-		
+
 		if (errors.hasErrors()) {
 			return TRAINING_VIEW_NAME;
 		}
-		
-		// check that doesn't exist other name
-		String name = trainingTypeForm.getName();
-		if (trainingTypeService.findByName(name) != null) {
+
+		try {
+			trainingTypeService.save(trainingTypeForm.createTrainingType());
+		} catch (UniqueException e) {
 			errors.rejectValue("name", "trainingType.existentName",
-					new Object[] { name }, "name");
-		}
-
-		if (errors.hasErrors()) {
+					new Object[] { e.getValue() }, "name");
 			return TRAINING_VIEW_NAME;
 		}
 
-		trainingTypeService.save(trainingTypeForm.createTrainingType());
-		MessageHelper.addSuccessAttribute(ra, "trainingType.successCreate", name);
+		MessageHelper.addSuccessAttribute(ra, "trainingType.successCreate",
+				trainingTypeForm.getName());
 		return "redirect:/trainingTypeList";
 	}
 

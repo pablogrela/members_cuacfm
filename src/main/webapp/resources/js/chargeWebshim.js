@@ -1,5 +1,5 @@
 /* ========================================================================
- * Charge Options for webshim
+ * Charge Options of Webshim
  * ========================================================================
 
  * ======================================================================== */
@@ -9,7 +9,21 @@ webshim.setOptions(
 		replaceValidationUI: true,
 		lazyCustomMessages: true, 
 		addValidators: true, 
-		overrideMessages: true,         
+		overrideMessages: true, 
+		// Replaces the datalist to make it look the same in all browsers
+		customDatalist: "auto",
+		list: {
+			"filter": "*",
+			"multiple": false,
+			"focus": false,
+			"highlight": false,
+			"valueCompletion": false,
+			"inlineValue": false,
+			"noHtmlEscape": false,
+			"popover": {
+				"constrainWidth": true
+			}
+		},
 		iVal: {
 		    sel: '.ws-validate',
 		 	// hide error bubble

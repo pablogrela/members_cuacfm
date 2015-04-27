@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+// TODO: Auto-generated Javadoc
 /** The Class TrainingType. */
 @SuppressWarnings("serial")
 @Entity
@@ -29,7 +30,7 @@ public class TrainingType implements java.io.Serializable {
 	private String place;
 
 	/** The duration. */
-	private Float duration;
+	private int duration;
 
 	/** The hasTrainings, is more efficient save this parameter for display valor in table. */
 	private boolean hasTrainings;
@@ -51,10 +52,10 @@ public class TrainingType implements java.io.Serializable {
 	 * @param place
 	 *            String
 	 * @param duration
-	 *            Float
+	 *            int
 	 */
 	public TrainingType(String name, boolean required, String description,
-			String place, Float duration) {
+			String place, int duration) {
 		super();
 		this.name = name;
 		this.required = required;
@@ -71,6 +72,17 @@ public class TrainingType implements java.io.Serializable {
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	// If necessary to probe test in Junit, because is necessary one object in detach
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**
@@ -152,9 +164,9 @@ public class TrainingType implements java.io.Serializable {
 	/**
 	 * Get the duration.
 	 *
-	 * @return Float
+	 * @return int
 	 */
-	public Float getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 
@@ -162,9 +174,9 @@ public class TrainingType implements java.io.Serializable {
 	 * Set the duration.
 	 *
 	 * @param duration
-	 *            Float, the new duration
+	 *            int, the new duration
 	 */
-	public void setDuration(Float duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 	
@@ -178,10 +190,9 @@ public class TrainingType implements java.io.Serializable {
 	}
 
 	/**
-	 * Set the hasTrainings
+	 * Set the hasTrainings.
 	 *
-	 * @param hasTrainings
-	 *            boolean
+	 * @param hasTrainings            boolean
 	 */
 	public void setHasTrainings(boolean hasTrainings) {
 		this.hasTrainings = hasTrainings;

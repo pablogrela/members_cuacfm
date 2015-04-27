@@ -170,18 +170,28 @@ insert into Account values
 	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_TRAINER');
 
 insert into Account values 
-(4, 'pablo', '12345678D', 'CuacFM', 'pablo', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(4, 'Pablo Grela', '12345678D', 'CuacFM', 'pablo', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 3, 3, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(5, 'manu', '12345678E', 'CuacFM', 'manu', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(5, 'Manuel Fernandez', '12345678E', 'CuacFM', 'manu', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(6, 'lore', '12345678F', 'CuacFM', 'lore', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(6, 'Lorena Borrazás', '12345678F', 'CuacFM', 'lore', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
+insert into Account values 
+(7, 'Lorena Fernandez', '12345678Z', 'CuacFM', 'loref', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+	
+insert into Account values 
+(8, 'Manuel Borrazás', '12345678P', 'CuacFM', 'manub', 'manuf@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
+insert into Account values 
+(9, 'Pablo Martínez Pérez', '12347678P', 'CuacFM', 'pmp', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
 
 -- Insert Trainings Type:

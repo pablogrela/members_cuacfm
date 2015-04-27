@@ -12,6 +12,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.methodPayment.MethodPayment;
@@ -52,7 +53,7 @@ public class MethodPaymentEditControllerTest extends WebSecurityConfigurationAwa
      */
     @Before
     public void initializeDefaultSession() throws UniqueException {
-    	Account admin = new Account("admin", "55555555C", "London", "admin", "admin@udc.es", 666666666, 666666666, "admin", "ROLE_ADMIN");
+    	Account admin = new Account("admin", "55555555C", "London", "admin", "admin@udc.es", 666666666, 666666666, "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
         defaultSession = getDefaultSession("admin");
         

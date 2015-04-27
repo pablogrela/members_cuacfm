@@ -78,4 +78,30 @@ public interface InscriptionRepository {
      * @return List<Inscription>
      */
 	public List<Inscription> getInscriptionListByTrainingId(Long trainingId);
+	
+	/**
+	 * Find by accountId.
+	 *
+	 * @param accountId
+	 *            the id of user
+	 * @return the List<Inscription> pertain to user
+	 */
+	public List<Long> getIdsByAccountId(Long accountId);
+	
+	/**
+	 * Get inscriptionsId by accountId with unsubscribe = true.
+	 *
+	 * @param accountId
+	 *            the id of account
+	 * @return List<Long> pertain to account
+	 */
+	public List<Long> getUnsubscribeIdsByAccountId(Long accountId);
+	
+	/**
+	 * Gets the name users by inscription with role=ROLE_USER an active=true.
+	 *
+	 * @param trainingId the training id
+	 * @return the name users by inscription
+	 */
+	public List<String> getUsernamesByInscription(Long trainingId);
 }

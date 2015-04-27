@@ -47,6 +47,9 @@ public class UserPayInscriptionListController {
 	/** The payInscriptions. */
 	private List<UserPayInscription> userPayInscriptions;
 
+	/** The nameUsers. */
+	public List<String> usernames;
+	
 	/**
 	 * Instantiates a new training Controller.
 	 */
@@ -65,6 +68,16 @@ public class UserPayInscriptionListController {
 	}
 
 	/**
+	 * Usernames.
+	 *
+	 * @return the list
+	 */
+	@ModelAttribute("usernames")
+	public List<String> usernames() {
+		return usernames;
+	}
+	
+	/**
 	 * User pay inscriptions.
 	 *
 	 * @param model
@@ -79,6 +92,9 @@ public class UserPayInscriptionListController {
 					.getUserPayInscriptionListByPayInscriptionId(payInscription
 							.getId());
 			model.addAttribute("userPayInscriptions", userPayInscriptions);
+			usernames = userPayInscriptionService.getUsernamesByPayInscription(payInscription
+					.getId());
+			model.addAttribute("usernames", usernames);
 			return USERPAYINSCRIPTION_VIEW_NAME;
 		} else {
 			return "redirect:/payInscriptionList";
@@ -145,7 +161,6 @@ public class UserPayInscriptionListController {
 		}
 
 		payInscriptionService.saveUserPayInscription(account, payInscription);
-
 		MessageHelper.addSuccessAttribute(ra, "userPayInscription.successJoin",
 				login);
 		return "redirect:/payInscriptionList/userPayInscriptionList";

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.cuacfm.members.model.account.*;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.userService.UserService;
 import org.cuacfm.members.web.support.*;
 
@@ -64,18 +65,7 @@ public class SignupController {
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra) {
 		
-        // check that doesn't exist other email
-        String email = signupForm.getEmail();
-        if (accountService.findByEmail(email) != null) {
-            errors.rejectValue("email", "signup.existentEmail", new Object[] { email }, "email");
-        }
-        
-        // check that doesn't exist other login
-        String login = signupForm.getLogin();
-        if (accountService.findByLogin(login) != null) {
-        	 errors.rejectValue("login", "signup.existentLogin", new Object[] { login }, "login");
-        }
-                
+
         // check that the password and rePassword are the same
         String password = signupForm.getPassword();
         String rePassword = signupForm.getRePassword();
@@ -83,12 +73,41 @@ public class SignupController {
         	 errors.rejectValue("rePassword", "signup.passwordsDontMatch");
         }      
         
+        // check that rule = true
+        boolean rule = signupForm.getRule();
+        if (!rule) {
+            errors.rejectValue("rule", "signup.existentRule", new Object[] { "rule" }, "rule");
+        }
+
 		if (errors.hasErrors()) {
 			return SIGNUP_VIEW_NAME;
 		}
+
+		try {
+			Account account;
+			account = accountService.save(signupForm.createAccount());
+			account.setProgramName(signupForm.getProgramName());
+			accountService.update(account, false);
+			userService.signin(account);
+		} catch (UniqueException e) {
+			if (e.getAttribute() == "Dni") {
+				errors.rejectValue("dni", "signup.existentDni",
+						new Object[] { e.getValue() }, "dni");
+			}
+			if (e.getAttribute() == "Login") {
+				errors.rejectValue("login", "signup.existentLogin",
+						new Object[] { e.getValue() }, "login");
+			}
+			if (e.getAttribute() == "Email") {
+				errors.rejectValue("email", "signup.existentEmail",
+						new Object[] { e.getValue() }, "email");
+			}
+		}
 		
-		Account account = accountService.save(signupForm.createAccount());
-		userService.signin(account);
+		if (errors.hasErrors()) {
+			return SIGNUP_VIEW_NAME;
+		}
+
         // see /WEB-INF/i18n/messages.properties and /WEB-INF/views/homeSignedIn.html
         MessageHelper.addSuccessAttribute(ra, "signup.success");
 		return "redirect:/";

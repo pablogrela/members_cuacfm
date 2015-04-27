@@ -1,6 +1,5 @@
 package org.cuacfm.members.web.training;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,9 +10,10 @@ import org.cuacfm.members.model.trainingType.TrainingType;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.hibernate.validator.constraints.NotBlank;
 
+/** The Class TrainingForm. */
 public class TrainingForm {
 
-/** The Constant NOT_BLANK_MESSAGE. */
+	/** The Constant NOT_BLANK_MESSAGE. */
 	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
 
 	/** The Constant MAX_CHARACTERS. */
@@ -52,27 +52,24 @@ public class TrainingForm {
 
 	/** The duration. */
 	@NotNull
-	@Digits(fraction = 2, integer = 2)
-	@DecimalMin("0.01")
-	private float duration;
+	@Min(0)
+	private int duration;
 
 	/** The countPlaces. */
 	@NotNull
 	@Digits(fraction = 0, integer = 2)
 	@Min(0)
 	private int countPlaces;
-	
+
 	/** The maxPlaces. */
 	@NotNull
 	@Digits(fraction = 0, integer = 2)
 	@Min(1)
 	private int maxPlaces;
 
-
 	/** The close. */
-	private Boolean close;
-	
-	
+	private boolean close;
+
 	/** Instantiates a new training form. */
 	public TrainingForm() {
 		// Default empty constructor.
@@ -102,12 +99,7 @@ public class TrainingForm {
 	 *
 	 * @return the String getClose
 	 */
-	public Boolean getClose() {
-		if (close == null) {
-			close = false;
-		} else {
-			close = true;
-		}
+	public boolean getClose() {
 		return close;
 	}
 
@@ -131,10 +123,9 @@ public class TrainingForm {
 	}
 
 	/**
-	 * Set the dateTraining
+	 * Set the dateTraining.
 	 *
-	 * @param dateTraining
-	 *            String, Calendar
+	 * @param timeTraining the new time training
 	 */
 	public void setTimeTraining(String timeTraining) {
 		this.timeTraining = timeTraining;
@@ -150,10 +141,9 @@ public class TrainingForm {
 	}
 
 	/**
-	 * Set the dateTraining
+	 * Set the dateTraining.
 	 *
-	 * @param dateTraining
-	 *            String, Calendar
+	 * @param dateTraining            String, Calendar
 	 */
 	public void setDateTraining(String dateTraining) {
 		this.dateTraining = dateTraining;
@@ -169,10 +159,9 @@ public class TrainingForm {
 	}
 
 	/**
-	 * Set the dateLimit
+	 * Set the dateLimit.
 	 *
-	 * @param dateLimit
-	 *            String, Calendar
+	 * @param timeLimit the new time limit
 	 */
 	public void setTimeLimit(String timeLimit) {
 		this.timeLimit = timeLimit;
@@ -188,10 +177,9 @@ public class TrainingForm {
 	}
 
 	/**
-	 * Set the dateLimit
+	 * Set the dateLimit.
 	 *
-	 * @param dateLimit
-	 *            String, Calendar
+	 * @param dateLimit            String, Calendar
 	 */
 	public void setDateLimit(String dateLimit) {
 		this.dateLimit = dateLimit;
@@ -238,9 +226,9 @@ public class TrainingForm {
 	/**
 	 * Get The duration.
 	 *
-	 * @return float duration
+	 * @return int duration
 	 */
-	public float getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 
@@ -248,9 +236,9 @@ public class TrainingForm {
 	 * Set the duration.
 	 *
 	 * @param duration
-	 *            float, the new duration
+	 *            int, the new duration
 	 */
-	public void setDuration(float duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
@@ -266,8 +254,7 @@ public class TrainingForm {
 	/**
 	 * Set the Max Places.
 	 *
-	 * @param Place
-	 *            int, the max Places
+	 * @param maxPlaces the new max places
 	 */
 	public void setMaxPlaces(int maxPlaces) {
 		this.maxPlaces = maxPlaces;
@@ -285,20 +272,20 @@ public class TrainingForm {
 	/**
 	 * Set the Count Places.
 	 *
-	 * @param Count
-	 *            int, the count Places
+	 * @param countPlaces the new count places
 	 */
 	public void setCountPlaces(int countPlaces) {
 		this.countPlaces = countPlaces;
 	}
-	
+
 	/**
 	 * Creates the training.
 	 *
+	 * @param trainingType the training type
 	 * @return the training
 	 */
 	public Training createTraining(TrainingType trainingType) {
-		
+
 		return new Training(trainingType, getName(),
 				DisplayDate.stringToDate(timeTraining + "," + dateTraining),
 				DisplayDate.stringToDate(timeLimit + "," + dateLimit),

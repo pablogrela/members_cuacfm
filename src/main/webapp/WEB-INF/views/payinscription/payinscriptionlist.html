@@ -30,8 +30,19 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		<a href="#" class="btn btn-success btn-lg" th:href="@{/payInscriptionList/payInscriptionCreate}"
 			th:text="#{payInscription.createNewPayInscription}">Create New Pay Inscription </a>
 	</div>
-	<br></br>
-
+	
+	<br></br><br></br>
+	<!-- Message Info -->
+	<div class="container text-center ">
+		<!-- /* Handle the flash message */-->
+		<th:block th:if="${message != null}">
+			<!-- /* The message code is returned from the @Controller */ -->
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
+						message=#{${message.message}(${message.args[0]})})">&nbsp;
+			</div>
+		</th:block>
+	</div>
+	
 	<!-- Message if payInscriptions is Empty -->
 	<th:block th:if="${#lists.isEmpty(payInscriptions)}">
 		<h2 class="text-center" th:text="#{payInscription.payInscriptionListEmpty}">List of
@@ -42,15 +53,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<div class="container" th:unless="${#lists.isEmpty(payInscriptions)}">
 		<h2 class="text-center" th:text="#{payInscription.payInscriptionList}">List of Pay
 			Inscriptions</h2>
-
-		<div class="container text-center">
-			<!-- /* Handle the flash message */-->
-			<th:block th:if="${message != null}">
-				<!-- /* The message code is returned from the @Controller */ -->
-				<div
-					th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-			</th:block>
-		</div>
 
 		<!-- Table List of Training Types -->
 		<table class="table table-striped table-hover table-responsive" id="customTable">

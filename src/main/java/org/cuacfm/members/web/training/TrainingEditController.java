@@ -46,6 +46,16 @@ public class TrainingEditController {
 	/**
 	 * Training.
 	 *
+	 * @return Training
+	 */
+	@ModelAttribute("training")
+	public Training training() {
+		return training;
+	}
+	
+	/**
+	 * Training.
+	 *
 	 * @param model
 	 *            the model
 	 * @return the string
@@ -77,16 +87,6 @@ public class TrainingEditController {
 		
 		
 	}
-
-	/**
-	 * Training.
-	 *
-	 * @return Training
-	 */
-	@ModelAttribute("training")
-	public Training training() {
-		return training;
-	}
 	
 	/**
 	 * Training.
@@ -103,22 +103,7 @@ public class TrainingEditController {
 
 	@RequestMapping(value = "trainingList/trainingEdit", method = RequestMethod.POST)
 	public String training(@Valid @ModelAttribute TrainingForm trainingForm,
-			Errors errors, RedirectAttributes ra, Model model) throws DateLimitException {
-
-		if (errors.hasErrors()) {
-			return TRAINING_VIEW_NAME;
-		}
-		
-		String timeLimit = trainingForm.getTimeLimit();
-		String dateLimit = trainingForm.getDateLimit();
-		String timeTraining = trainingForm.getTimeTraining();
-		String dateTraining = trainingForm.getDateTraining();
-
-		if (DisplayDate.stringToDate(timeTraining + "," + dateTraining).before(
-				DisplayDate.stringToDate(timeLimit + "," + dateLimit))) {
-			errors.rejectValue("dateLimit", "dateLimit.message",
-					new Object[] { dateTraining }, "dateTraining");
-		}
+			Errors errors, RedirectAttributes ra, Model model) {
 		
 		if (trainingForm.getCountPlaces()> trainingForm.getMaxPlaces()) {
 			errors.rejectValue("countPlaces", "training.countPlacesException",
@@ -130,6 +115,10 @@ public class TrainingEditController {
 		}
 	
 		// Modify Training
+		String timeLimit = trainingForm.getTimeLimit();
+		String dateLimit = trainingForm.getDateLimit();
+		String timeTraining = trainingForm.getTimeTraining();
+		String dateTraining = trainingForm.getDateTraining();
 		training.setName(trainingForm.getName());
 		training.setDateLimit(DisplayDate.stringToDate(timeLimit +","+dateLimit));
 		training.setDateTraining(DisplayDate.stringToDate(timeTraining +","+dateTraining));
@@ -139,11 +128,16 @@ public class TrainingEditController {
 		training.setCountPlaces(trainingForm.getCountPlaces());
 		training.setMaxPlaces(trainingForm.getMaxPlaces());
 		training.setClose(trainingForm.getClose());			
-				
+						
+		try {
+			trainingService.update(training);
+		} catch (DateLimitException e) {
+			errors.rejectValue("dateLimit", "dateLimit.message",
+					new Object[] { e.getDateTraining() }, "dateTraining");
+			return TRAINING_VIEW_NAME;
+		}
 		
-		trainingService.update(training);
 		MessageHelper.addSuccessAttribute(ra, "training.successModify", trainingForm.getName());
-		
 		return "redirect:/trainingList";
 	}
 

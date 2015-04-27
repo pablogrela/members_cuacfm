@@ -49,10 +49,12 @@
 		<div class="form-group" th:classappend="${#fields.hasErrors('year')}? 'has-error'">
 			<label for="year" class="col-lg-2 control-label" th:text="#{year}">Year</label>
 			<div class="col-lg-10">
-				<input type="number" class="form-control" id="year"
-					th:placeholder="#{year}" th:field="*{year}" required="required" min="2015"/> 
-					<span class="help-block" th:if="${#fields.hasErrors('year')}" th:errors="*{year}" >Incorrect year</span>
-					<div class="ws-errorbox" hidden=""></div>
+				<div class="col-lg-3-edit">
+					<input type="number" class="form-control" id="year" th:placeholder="#{year}" th:field="*{year}" min="2015" required="required" /> 		
+				</div>
+				<br></br>
+				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('year')}" th:errors="*{year}" >Incorrect year</span>
+				<div class="ws-errorbox" hidden=""></div>
 			</div>
 		</div>
         
@@ -62,8 +64,7 @@
 	          <label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
 	           <div class="col-lg-10">
 	           		<div class="col-lg-3-edit">
-	                	<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" 
-	                		step="0.01" min="0.01" required="required"/>
+	                	<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0.01" required="required"/>
 	            	</div>
 	            	<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
 	            	<br></br>
@@ -73,6 +74,29 @@
 	         </div>
 	    </div>
         
+        <!-- Insert dateLimit1 -->
+		<div class="form-inline form-group"
+			th:classappend="${#fields.hasErrors('dateLimit1')}? 'has-error'">
+			<label for="dateLimit1" class="col-lg-1 control-label" th:text="#{payInscription.dateLimit1}">dateLimit1</label>
+			<div class="col-lg-10">
+					<input type="date" name="dateLimit1" class="form-control" id="dateLimit1" th:placeholder="#{payInscription.dateLimit1}"
+					th:field="*{dateLimit1}"/> 
+					<span class="help-block" th:if="${#fields.hasErrors('dateLimit1')}" th:errors="*{dateLimit1}">Incorrect dateLimit1</span> 
+					<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+		
+        <!-- Insert dateLimit2 -->
+		<div class="form-inline form-group"
+			th:classappend="${#fields.hasErrors('dateLimit2')}? 'has-error'">
+			<label for="dateLimit2" class="col-lg-1 control-label" th:text="#{payInscription.dateLimit2}">dateLimit2</label>
+			<div class="col-lg-10">
+					<input type="date" name="dateLimit2" class="form-control" id="dateLimit2" th:placeholder="#{payInscription.dateLimit2}"
+					th:field="*{dateLimit2}"/>
+					<span class="help-block" th:if="${#fields.hasErrors('dateLimit2')}" th:errors="*{dateLimit2}">Incorrect dateLimit2</span> 
+					<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
         
         <!-- Insert Description -->
         <div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">

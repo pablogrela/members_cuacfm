@@ -62,7 +62,10 @@
 				<!-- Table entry -->
 				<tr th:each="userPayInscription : ${userPayInscriptions}">
 					<td th:text="${userPayInscription.account.name}">name</td>
-					<td th:text="${userPayInscription.account.accountType.name}">Account Type;</td>
+					<td th:if="${userPayInscription.account.accountType != null}" 
+						th:text="${userPayInscription.account.accountType.name}">Account Type</td>
+					<td th:if="${userPayInscription.account.accountType == null}" 
+						th:text="${userPayInscription.account.accountType}">Account Type</td>
 					<td th:text="${userPayInscription.payInscription.year}">2015</td>
 					<td th:text="${userPayInscription.price}">price</td>
 					<th:block th:if="${userPayInscription.hasPay == false}">

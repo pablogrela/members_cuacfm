@@ -56,7 +56,7 @@
 						<li class="active"><a href="#" th:href="@{/}" th:text="#{home}">Home</a></li>
 					</th:block>
 
-
+					
 					<!-- Button Trainings of User -->
 					<th:block th:if="${active != 'trainingUserList'}" sec:authorize="hasRole('ROLE_USER')">
 						<li><a href="#" th:href="@{/trainingList/trainingUserList}"
@@ -80,12 +80,13 @@
 
 
 					<!-- Button Training -->
-					<th:block th:if="${active != 'training'}">
+					<th:block th:if="${active != 'training'}" sec:authorize="isAuthenticated()">
 						<li><a href="#" th:href="@{/trainingList}" th:text="#{training}">trainingList</a></li>
 					</th:block>
-					<th:block th:if="${active == 'training'}">
+					<th:block th:if="${active == 'training'}" sec:authorize="isAuthenticated()">
 						<li class="active"><a href="#" th:href="@{/trainingList}" th:text="#{training}">trainingList</a></li>
 					</th:block>
+
 
 					<!-- Button User Payments -->
 					<th:block th:if="${active != 'userPayments'}"
@@ -97,6 +98,7 @@
 						<li class="active"><a href="#" th:href="@{/userPayments}" th:text="#{userPayments}">userPayments</a></li>
 					</th:block>
 					
+					
 					<!-- Button Pay Inscription -->
 					<th:block th:if="${active != 'payInscription'}"
 						sec:authorize="hasAnyRole('ROLE_ADMIN')">
@@ -106,6 +108,7 @@
 						sec:authorize="hasAnyRole('ROLE_ADMIN')">
 						<li class="active"><a href="#" th:href="@{/payInscriptionList}" th:text="#{payInscription}">payInscriptionList</a></li>
 					</th:block>
+					
 					
 					<!-- Button Accounts -->
 					<th:block th:if="${active != 'account'}"
@@ -117,6 +120,7 @@
 						<li class="active"><a href="#" th:href="@{/accountList}" th:text="#{accounts}">accountList</a></li>
 					</th:block>
 
+
 					<!-- Button Configuration -->
 					<th:block th:if="${active != 'configuration'}"
 						sec:authorize="hasAnyRole('ROLE_ADMIN')">
@@ -126,6 +130,7 @@
 						sec:authorize="hasAnyRole('ROLE_ADMIN')">
 						<li class="active"><a href="#" th:href="@{/configuration}" th:text="#{configuration}">configuration</a></li>
 					</th:block>
+					
 					
 					<!-- Button About -->
 					<li><a href="#about">About</a></li>

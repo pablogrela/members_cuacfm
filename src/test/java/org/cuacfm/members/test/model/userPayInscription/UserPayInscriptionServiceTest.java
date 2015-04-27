@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.accountType.AccountType;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
@@ -64,7 +65,7 @@ public class UserPayInscriptionServiceTest extends
 		accountTypeService.save(accountType);
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 
 		// Update Account
@@ -121,9 +122,9 @@ public class UserPayInscriptionServiceTest extends
 		accountTypeService.save(accountType);
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
-		Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		// Update Account
@@ -188,9 +189,9 @@ public class UserPayInscriptionServiceTest extends
 		accountTypeService.save(accountType);
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
-		Account account = new Account("user2", "55555555D", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account account = new Account("user2", "55555555D", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		// Update Account
@@ -232,9 +233,9 @@ public class UserPayInscriptionServiceTest extends
 		accountTypeService.save(accountType);
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
-		Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		// Update Account
@@ -281,9 +282,9 @@ public class UserPayInscriptionServiceTest extends
 		accountTypeService.save(accountType);
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
-		Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		// Update Account
@@ -323,7 +324,7 @@ public class UserPayInscriptionServiceTest extends
 		accountTypeService.save(accountType);
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 
 		// Update Account

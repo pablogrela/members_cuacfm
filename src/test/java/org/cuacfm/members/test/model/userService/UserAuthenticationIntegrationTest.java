@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Assert;
@@ -39,10 +40,10 @@ public class UserAuthenticationIntegrationTest extends WebSecurityConfigurationA
     @Test
     public void userAuthenticates() throws Exception {
     		
-    	Account demoUser = new Account("user", "user.new", "user@example.com", "demo", "ROLE_USER");
+    	Account demoUser = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
     	accountService.save(demoUser);
     	
-        final String username = "user.new";
+        final String username = "user";
         ResultMatcher matcher = new ResultMatcher() {
             public void match(MvcResult mvcResult) throws Exception {
                 HttpSession session = mvcResult.getRequest().getSession();

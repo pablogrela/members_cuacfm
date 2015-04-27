@@ -44,7 +44,7 @@ public class Training implements java.io.Serializable {
 	private String place;
 
 	/** The duration. */
-	private Float duration;
+	private int duration;
 
 	/** The maxPlaces. */
 	private int maxPlaces;
@@ -76,12 +76,12 @@ public class Training implements java.io.Serializable {
 	 * @param place
 	 *            String
 	 * @param duration
-	 *            Float
+	 *            int
 	 * @param maxPlaces
 	 *            int
 	 */
 	public Training(TrainingType trainingType, String name, Date dateTraining,
-			Date dateLimit, String description, String place, Float duration,
+			Date dateLimit, String description, String place, int duration,
 			int maxPlaces) {
 		super();
 		this.trainingType = trainingType;
@@ -229,9 +229,9 @@ public class Training implements java.io.Serializable {
 	/**
 	 * Get the duration.
 	 *
-	 * @return Float
+	 * @return int
 	 */
-	public Float getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 
@@ -239,9 +239,9 @@ public class Training implements java.io.Serializable {
 	 * Set the duration.
 	 *
 	 * @param duration
-	 *            float, the new duration.
+	 *            int, the new duration.
 	 */
-	public void setDuration(Float duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 

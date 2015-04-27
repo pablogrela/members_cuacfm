@@ -8,7 +8,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +33,11 @@ public class HomeControllerTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Initialize default session.
+	 * @throws UniqueException 
 	 */
 	@Before
-	public void initializeDefaultSession() {
-		Account user = new Account("user", "user", "email1@udc.es", "demo",
-				"ROLE_USER");
+	public void initializeDefaultSession() throws UniqueException {
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		defaultSession = getDefaultSession("user");
 	}

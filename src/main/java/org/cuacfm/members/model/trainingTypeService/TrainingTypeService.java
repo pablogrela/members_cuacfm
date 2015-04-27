@@ -3,6 +3,7 @@ package org.cuacfm.members.model.trainingTypeService;
 import java.util.List;
 
 import org.cuacfm.members.model.exceptions.ExistTrainingsException;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingType.TrainingType;
 
@@ -12,20 +13,22 @@ public interface TrainingTypeService {
 	/**
 	 * Save an training into database.
 	 *
-	 * @param training
+	 * @param trainingType
 	 *            the training
-	 * @return the training
+	 * @return TrainingType
+	 * @throws UniqueException 
 	 */
-	public TrainingType save(TrainingType trainingType);
+	public TrainingType save(TrainingType trainingType) throws UniqueException;
 
 	/**
-	 * Update TraininfType
+	 * Update TrainingType
 	 *
 	 * @param trainingType
 	 *            the trainingType
 	 * @return TrainingType
+	 * @throws UniqueException 
 	 */
-	public TrainingType update(TrainingType trainingType);
+	public TrainingType update(TrainingType trainingType) throws UniqueException ;
 
 	/**
 	 * Delete.

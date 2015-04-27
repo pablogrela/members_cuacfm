@@ -9,6 +9,7 @@ import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
+import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.inscription.Inscription;
 import org.cuacfm.members.model.inscription.InscriptionRepository;
 import org.cuacfm.members.model.training.Training;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class InscriptionListController. */
@@ -40,15 +42,22 @@ public class InscriptionListController {
 	@Autowired
 	private TrainingService trainingService;
 
+	/** The inscription repository. */
 	@Autowired
 	private InscriptionRepository inscriptionRepository;
-
-	/** The trainingTypes. */
+	
+	/** The inscriptions. */
 	public List<Inscription> inscriptions;
 
-	/** The trainingTypes. */
-	public List<Training> trainings;
+	/** The inscriptions form. */
+	public InscriptionsForm inscriptionsForm;
 
+	/** The nameUsers. */
+	public List<String> usernames;
+
+	/** The users. */
+	//public List<Account> users;
+	
 	/** The training. */
 	private Training training;
 
@@ -60,7 +69,7 @@ public class InscriptionListController {
 	}
 
 	/**
-	 * Add training to view
+	 * Add training to view.
 	 *
 	 * @return Training
 	 */
@@ -70,15 +79,25 @@ public class InscriptionListController {
 	}
 
 	/**
-	 * Add trainings to view
+	 * Add training to view.
 	 *
-	 * @return Trainings
+	 * @return Training
 	 */
-	@ModelAttribute("trainings")
-	public List<Training> trainings() {
-		return trainings;
+	@ModelAttribute("inscriptionsForm")
+	public InscriptionsForm inscriptionsForm() {
+		return inscriptionsForm;
 	}
-
+	
+	/**
+	 * Usernames.
+	 *
+	 * @return the list
+	 */
+	@ModelAttribute("usernames")
+	public List<String> usernames() {
+		return usernames;
+	}
+	
 	/**
 	 * Show inscriptionList.
 	 *
@@ -89,14 +108,21 @@ public class InscriptionListController {
 	@RequestMapping(value = "trainingList/inscriptionList")
 	public String getInscriptionList(Model model) {
 		if (training != null) {
-			inscriptions = trainingService.getInscriptionsByTrainingId(training
-					.getId());
+
 			training = trainingService.findById(training.getId());
-			InscriptionsForm inscriptionsForm = new InscriptionsForm();
+			model.addAttribute("training", training);
+			
+			inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
+			inscriptionsForm = new InscriptionsForm();
 			inscriptionsForm.setInscriptions(inscriptions);
 			model.addAttribute(inscriptionsForm);
-			model.addAttribute("training", training);
-			model.addAttribute("inscriptions", inscriptions);
+			usernames = trainingService.getUsernamesByInscription(training
+					.getId());
+			model.addAttribute("usernames", usernames);
+			
+			//users = accountService.getUsers();
+			//model.addAttribute("users", users);
+
 			model.addAttribute(new FindUserForm());
 			return TRAINING_VIEW_NAME;
 		}
@@ -106,10 +132,12 @@ public class InscriptionListController {
 		}
 	}
 
+
 	/**
-	 * Charge inscription
+	 * Charge inscription.
 	 *
-	 * @param @PathVariable Long trainingId
+	 * @param trainingId
+	 *            the training id
 	 * @return string the view
 	 */
 	@RequestMapping(value = "trainingList/inscriptionList/{trainingId}", method = RequestMethod.POST)
@@ -119,19 +147,28 @@ public class InscriptionListController {
 	}
 
 	/**
-	 * Save and Close InscriptionList
+	 * Save or update depend on submit.
 	 *
-	 * @param @Valid @ModelAttribute InscriptionsForm inscriptionsForm
-	 * @param RedirectAttributes
-	 *            ra
-	 * @return string the view
+	 * @param inscriptionsForm            the inscriptions form
+	 * @param submit            the submit
+	 * @param ra            the ra
+	 * @return the string
+	 * @throws DateLimitException             the date limit exception
 	 */
-	@RequestMapping(value = "trainingList/inscriptionList/save", method = RequestMethod.POST, params = { "save" })
+	@RequestMapping(value = "trainingList/inscriptionList/save", method = RequestMethod.POST)
 	public String save(
 			@Valid @ModelAttribute InscriptionsForm inscriptionsForm,
-			RedirectAttributes ra) throws DateLimitException {
+			@RequestParam("submit") String submit, RedirectAttributes ra)
+			throws DateLimitException {
 
 		List<Inscription> insUpdate = inscriptionsForm.getInscriptions();
+		// System.out.println("inscriptionsForm: " + inscriptionsForm);
+		// System.out.println("inscriptionsForm inscriptions: " +
+		// inscriptionsForm.getInscriptions());
+		// System.out.println("inscriptions: " + inscriptions);
+		// System.out.println("training: " + training);
+		// System.out.println("insUpdate: " + insUpdate);
+		// System.out.println("submit: " + submit);
 
 		boolean modify = false;
 		int count = training.getCountPlaces();
@@ -170,173 +207,76 @@ public class InscriptionListController {
 			}
 		}
 		training.setCountPlaces(count);
-		training.setClose(true);
-		trainingService.update(training);
-		MessageHelper.addSuccessAttribute(ra, "training.successClose",
-				training.getName());
-		return "redirect:/trainingList";
-	}
 
-
-	/**
-	 * Update InscriptionList
-	 *
-	 * @param @Valid @ModelAttribute InscriptionsForm inscriptionsForm
-	 * @param RedirectAttributes
-	 *            ra
-	 * @return string the view
-	 */
-	@RequestMapping(value = "trainingList/inscriptionList/save", method = RequestMethod.POST, params = { "update" })
-	public String update(
-			@Valid @ModelAttribute InscriptionsForm inscriptionsForm,
-			RedirectAttributes ra) throws DateLimitException {
-
-		System.out.println("update");
-		/*
-		 * if( action.equals("save") ){ System.out.println(action); } else if(
-		 * action.equals("update") ){ System.out.println(action); }
-		 */
-		List<Inscription> insUpdate = inscriptionsForm.getInscriptions();
-
-		boolean modify = false;
-		int count = training.getCountPlaces();
-
-		for (int index = 0; index < insUpdate.size(); index++) {
-
-			if (insUpdate.get(index).getNote() != inscriptions.get(index)
-					.getNote()) {
-				inscriptions.get(index).setNote(insUpdate.get(index).getNote());
-				modify = true;
-			}
-			if (insUpdate.get(index).isAttend() != inscriptions.get(index)
-					.isAttend()) {
-				inscriptions.get(index).setAttend(
-						insUpdate.get(index).isAttend());
-				modify = true;
-			}
-			if (insUpdate.get(index).isPass() != inscriptions.get(index)
-					.isPass()) {
-				inscriptions.get(index).setPass(insUpdate.get(index).isPass());
-				modify = true;
-			}
-			if (insUpdate.get(index).isUnsubscribe() != inscriptions.get(index)
-					.isUnsubscribe()) {
-				inscriptions.get(index).setUnsubscribe(
-						insUpdate.get(index).isUnsubscribe());
-				if (insUpdate.get(index).isUnsubscribe() == true)
-					count = count - 1;
-				else
-					count = count + 1;
-				modify = true;
-			}
-			if (modify) {
-				trainingService.updateInscription(inscriptions.get(index));
-				modify = false;
-			}
+		// If update
+		if (submit.contains("update")) {
+			trainingService.update(training);
+			MessageHelper.addSuccessAttribute(ra, "training.successModify",
+					training.getName());
+			return "redirect:/trainingList/inscriptionList";
 		}
-		training.setCountPlaces(count);
-		trainingService.update(training);
-		MessageHelper.addSuccessAttribute(ra, "training.successModify",
-				training.getName());
-		return "redirect:/trainingList/inscriptionList";
+		// If save
+		else {
+			training.setClose(true);
+			trainingService.update(training);
+			MessageHelper.addSuccessAttribute(ra, "training.successClose",
+					training.getName());
+			return "redirect:/trainingList";
+		}
 	}
 
 	/**
 	 * Join account to training by trainingId.
 	 *
-	 * @param @Valid @ModelAttribute FindUserForm FindUserForm
-	 * 
-	 * @param errors
-	 *            the errors
-	 * @param ra
-	 *            the redirect atributes
-     * @param model
-	 *            the model
+	 * @param findUserForm the find user form
+	 * @param errors            the errors
+	 * @param ra            the redirect atributes
+	 * @param model            the model
 	 * @return the string destinity page to page trainingList
 	 */
 	@RequestMapping(value = "trainingList/inscriptionList", method = RequestMethod.POST)
-	public String addUserToInscriptionList(@Valid @ModelAttribute FindUserForm FindUserForm,
-			Errors errors, RedirectAttributes ra, Model model) {
-
-		// Charge database in table
-		InscriptionsForm inscriptionsForm = new InscriptionsForm();
-		inscriptionsForm.setInscriptions(inscriptions);
-		model.addAttribute(inscriptionsForm);
-
+	public String addUserToInscriptionList(
+			@Valid @ModelAttribute FindUserForm findUserForm, Errors errors,
+			RedirectAttributes ra, Model model) {
+		
 		if (errors.hasErrors()) {
 			return TRAINING_VIEW_NAME;
 		}
-
-		// Find by login
-		String login = FindUserForm.getLogin();
-
+		
+		
 		// Check if account exist
-		Account account = accountService.findByLogin(login);
+		String login = findUserForm.getLogin();
+		Account account = accountService.findByLogin(findUserForm.getLogin());
 		if (account == null) {
 			errors.rejectValue("login", "inscription.noExistLogin",
 					new Object[] { login }, "login");
 			return TRAINING_VIEW_NAME;
 		}
 
-		// Check if account already inscription
-		Inscription inscription = trainingService.findByInscriptionIds(
-				account.getId(), training.getId());
-		if (inscription != null) {
-			errors.rejectValue("login", "inscription.alreadyExistLogin",
-					new Object[] { login }, "login");
-			return TRAINING_VIEW_NAME;
-		}
 
 		try {
 			trainingService
 					.createInscription(account.getId(), training.getId());
 			MessageHelper.addSuccessAttribute(ra, "inscription.successJoin",
 					login);
-		// If not have space in this training
+			
+		} catch (UserAlreadyJoinedException e) {
+			errors.rejectValue("login", "inscription.alreadyExistLogin",
+					new Object[] { e.getName() }, "login");
+			return TRAINING_VIEW_NAME;
+			
 		} catch (MaximumCapacityException e) {
 			MessageHelper.addErrorAttribute(ra,
 					"training.maxInscriptionsException", training.getName());
-		// If Date limit was espirated
+			
 		} catch (DateLimitExpirationException e) {
 			MessageHelper.addErrorAttribute(ra,
 					"training.dateLimitExpirationException",
 					training.getName(),
 					DisplayDate.dateTimeToString(training.getDateLimit()));
-		}
+	}
 
 		return "redirect:/trainingList/inscriptionList";
 	}
 
-	/**
-	 * Remove join account to training.
-	 *
-	 * @param @PathVariable Long accountId
-	 * @param ra
-	 *            the redirect atributes
-	 * @param principal
-	 *            Principal
-	 * @return the string destinity page to page trainingList/inscriptionList
-	 * @throws UnsubscribeException
-	
-	@RequestMapping(value = "trainingList/inscriptionList/trainingRemoveJoin/{accountId}", method = RequestMethod.POST)
-	public String removeJoin(@PathVariable Long accountId,
-			RedirectAttributes ra, Principal principal)
-			throws UnsubscribeException {
-
-		try {
-			trainingService.unsubscribeInscription(accountId, training.getId());
-			System.out.println("si");
-
-			MessageHelper.addErrorAttribute(ra, "training.removeJoin",
-					training.getName());
-		} catch (UnsubscribeException e) {
-			System.out.println("no");
-			MessageHelper.addErrorAttribute(ra,
-					"training.unsubscribeInscriptionException",
-					training.getName());
-		}
-
-		return "redirect:/trainingList/inscriptionList";
-	}
-	 */
 }

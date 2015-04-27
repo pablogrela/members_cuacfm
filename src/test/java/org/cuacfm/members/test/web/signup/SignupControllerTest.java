@@ -14,6 +14,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.test.config.WebAppConfigurationAware;
 import org.junit.Test;
@@ -65,6 +66,32 @@ public class SignupControllerTest extends WebAppConfigurationAware {
                         		.andExpect(view().name("signup/signup"));
 	}
 	
+	/**
+	 * Send sign up form with dni existent.
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void dniAlreadyExists() throws Exception {
+		Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		accountServiceMock.save(demoUser);
+		
+        mockMvc.perform(
+                post("/signup").locale(Locale.ENGLISH)
+						.param("name", "name")
+						.param("dni", "55555555C")
+						.param("address", "London")
+						.param("login", "user")
+						.param("email", "user@example.es")
+						.param("phone", "12356789")
+						.param("mobile", "12356789")
+						.param("programName", "12356789")
+						.param("password", "1234")
+						.param("rePassword", "1234")
+						.param("rule", "true"))
+                        .andExpect(content()
+                        		.string(containsString("Already existent dni 55555555C, please chose other")))
+                        		.andExpect(view().name("signup/signup"));
+	}
 	 
 	/**
 	 * Send sign up form with email existent.
@@ -72,17 +99,24 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	 */
 	@Test
 	public void emailAlreadyExists() throws Exception {
-		Account demoUser = new Account("user", "user.new", "email@udc.es", "demo", "ROLE_USER");
+		Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountServiceMock.save(demoUser);
+		
         mockMvc.perform(
                 post("/signup").locale(Locale.ENGLISH)
 						.param("name", "name")
-						.param("login", "login")
-						.param("email", "email@udc.es")
+						.param("dni", "11111111F")
+						.param("address", "London")
+						.param("login", "user2")
+						.param("email", "user@udc.es")
+						.param("phone", "12356789")
+						.param("mobile", "12356789")
+						.param("programName", "12356789")
 						.param("password", "1234")
-						.param("rePassword", "1234"))
+						.param("rePassword", "1234")
+						.param("rule", "true"))
                         .andExpect(content()
-                        		.string(containsString("Already existent email email@udc.es, please chose other")))
+                        		.string(containsString("Already existent email user@udc.es, please chose other")))
                         		.andExpect(view().name("signup/signup"));
 	}
 	
@@ -95,6 +129,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
         mockMvc.perform(
                 post("/signup").locale(Locale.ENGLISH)
 						.param("name", "name")
+						.param("dni", "55555555C")
 						.param("login", "login")
 						.param("email", "email")
 						.param("password", "1234")
@@ -116,7 +151,8 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 						.param("login", "login")
 						.param("email", "email")
 						.param("password", "1234")
-						.param("rePassword", "1234"))
+						.param("rePassword", "1234")
+						.param("rule", "true"))
                         .andExpect(content()
                         		.string(containsString("The value must be a valid email!")))
                         		.andExpect(view().name("signup/signup"));
@@ -128,17 +164,24 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	 */
 	@Test
 	public void loginAlreadyExist()  throws Exception {
-		Account demoUser = new Account("user", "user.new", "email@udc.es", "demo", "ROLE_USER");
+		Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		
 		accountServiceMock.save(demoUser);
         mockMvc.perform(
                 post("/signup").locale(Locale.ENGLISH)
 						.param("name", "name")
-						.param("login", "user.new")
-						.param("email", "email@udc.es")
+						.param("dni", "11111111F")
+						.param("address", "London")
+						.param("login", "user")
+						.param("email", "email@example.es")
+						.param("phone", "12356789")
+						.param("mobile", "12356789")
+						.param("programName", "12356789")
 						.param("password", "1234")
-						.param("rePassword", "1234"))
+						.param("rePassword", "1234")
+						.param("rule", "true"))
                         .andExpect(content()
-                        		.string(containsString("Already existent login user.new, please chose other")))
+                        		.string(containsString("Already existent login user, please chose other")))
                         		.andExpect(view().name("signup/signup"));
 	}
     
@@ -209,12 +252,17 @@ public class SignupControllerTest extends WebAppConfigurationAware {
         mockMvc.perform(
                 post("/signup").locale(Locale.ENGLISH)
 						.param("name", "name")
+						.param("dni", "55555555C")
+						.param("address", "London")
 						.param("login", "login")
 						.param("email", "email@example.es")
+						.param("phone", "12356789")
+						.param("mobile", "12356789")
+						.param("programName", "12356789")
 						.param("password", "1234")
-						.param("rePassword", "1234"))
+						.param("rePassword", "1234")
+						.param("rule", "true"))
                         .andExpect(redirectedUrl("/"));
-
     }
     
 	/**

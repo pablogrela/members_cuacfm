@@ -15,7 +15,6 @@ public class UnsubscribeException extends Exception{
 	 */
 	public UnsubscribeException(String nameTraining) {
 			super("You have already unsubscribed from this formation " + nameTraining);
-
 			this.nameTraining=nameTraining;
 	}
 

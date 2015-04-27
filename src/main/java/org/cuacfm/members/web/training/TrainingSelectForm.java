@@ -13,22 +13,40 @@ public class TrainingSelectForm {
 	/** The Global variable trainingTypeId. */
 	private Long trainingTypeId;
 
-	/** The getTrainingTypes. */
+	/**
+	 * Gets the training types.
+	 *
+	 * @return the training types
+	 */
 	public List<TrainingType> getTrainingTypes() {
 		return trainingTypes;
 	}
 
-	/** The setTrainingTypes. */
+	/**
+	 * Sets the training types.
+	 *
+	 * @param trainingTypes
+	 *            the new training types
+	 */
 	public void setTrainingTypes(List<TrainingType> trainingTypes) {
 		this.trainingTypes = trainingTypes;
 	}
 
-	/** The getTrainingTypeId. */
+	/**
+	 * Gets the training type id.
+	 *
+	 * @return the training type id
+	 */
 	public Long getTrainingTypeId() {
 		return trainingTypeId;
 	}
 
-	/** The setTrainingTypeId. */
+	/**
+	 * Sets the training type id.
+	 *
+	 * @param trainingTypeId
+	 *            the new training type id
+	 */
 	public void setTrainingTypeId(Long trainingTypeId) {
 		this.trainingTypeId = trainingTypeId;
 	}

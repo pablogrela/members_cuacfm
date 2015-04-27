@@ -12,7 +12,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.trainingType.TrainingType;
 import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -45,10 +47,11 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
-		Account trainer = new Account("trainer", "trainer", "trainer@udc.es", "trainer", "ROLE_TRAINER");
+    public void initializeDefaultSession() throws UniqueException {
+		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", 666666666, 666666666, "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
         defaultSession = getDefaultSession("trainer");
     }
@@ -86,7 +89,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 	 */
 	@Test
 	public void displaysTrainingCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingList/trainingLoad").locale(Locale.ENGLISH).session(defaultSession)
@@ -105,7 +108,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 	 */
 	@Test
 	public void postTrainingCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingList/trainingLoad").locale(Locale.ENGLISH).session(defaultSession)
@@ -120,7 +123,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 				.param("dateTraining", "2015-12-05")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -134,7 +137,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 	 */
 	@Test
 	public void maxCharactersTrainingCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingList/trainingLoad").locale(Locale.ENGLISH).session(defaultSession)
@@ -149,7 +152,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 				.param("dateTraining", "")
 				.param("description", "Very interesting2")
 				.param("place", "11111111111111111111111111111111111111111111111111111111111111")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -164,7 +167,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 	 */
 	@Test
 	public void dataBlankTrainingCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingList/trainingLoad").locale(Locale.ENGLISH).session(defaultSession)
@@ -179,7 +182,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 				.param("dateTraining", "")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -194,7 +197,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 	 */
 	@Test
 	public void dataBlank2TrainingCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingList/trainingLoad").locale(Locale.ENGLISH).session(defaultSession)
@@ -209,7 +212,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 				.param("dateTraining", "2015-12-05")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -224,7 +227,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 	 */
 	@Test
 	public void dataBlank3TrainingCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingList/trainingLoad").locale(Locale.ENGLISH).session(defaultSession)
@@ -239,7 +242,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 				.param("dateTraining", "")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -254,7 +257,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 	 */
 	@Test
 	public void dataLimitExceptionTrainingCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingList/trainingLoad").locale(Locale.ENGLISH).session(defaultSession)
@@ -269,7 +272,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 				.param("dateTraining", "2015-12-05")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))

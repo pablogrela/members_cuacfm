@@ -11,6 +11,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.accountType.AccountType;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
@@ -71,12 +72,12 @@ public class PayInscriptionListTest extends WebSecurityConfigurationAware {
      */
     @Before
     public void initializeDefaultSession() throws UniqueException {
-		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", "ROLE_ADMIN");
+		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", roles.ROLE_ADMIN);
 		accountService.save(admin);
         defaultSession = getDefaultSession("admin");
         
         // Create User
-		user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		accountType = new AccountType("Adult", "Fee for adults", 0);
 		accountTypeService.save(accountType);

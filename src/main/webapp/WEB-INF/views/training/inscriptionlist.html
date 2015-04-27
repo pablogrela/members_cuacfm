@@ -7,23 +7,26 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <title th:text="#{inscriptions.title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}"/>
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<!-- SCRIPT -->
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
 <script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
-<script src="../../../resources/js/formcfg-es.js" th:src="@{/resources/js/formcfg-es.js}"></script>
-<script src="../../../resources/js/chargeWebshim.js" th:src="@{/resources/js/chargeWebshim.js}"></script>
-<script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-<script src="../../../resources/js/chargeTable.js" th:src="@{/resources/js/chargeTable.js}"></script>
+<script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/chargeWebshim.js}"></script>
+<script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<script th:src="@{/resources/js/chargeTable.js}"></script>
 </head>
 <body>
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
-
+	
 	<!-- Form to add user by login -->
 	<div>
 		<form class="form-narrow form-horizontal ws-validate" method="post"
@@ -34,17 +37,21 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				<legend th:text="#{inscription.info}">Add user to training</legend>
 
 				<!-- Insert Login -->
-				<div class="form-group"
+				<div class="form-group ui-widget"
 					th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 					<label for="login" class="col-lg-2 control-label"
 						th:text="#{login}">Login</label>
 					<div class="col-lg-10 text-danger">
-						<input type="text" class="form-control " id="login" th:placeholder="#{login}" th:field="*{login}" required="required"/> 
-						<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}" >Incorrect login</span>	
-						<div class="ws-errorbox" hidden=""></div>				
+						<input type="text" class="form-control"  list="userlist" th:placeholder="#{login}" 
+						th:field="*{login}" required="required" autocomplete="off"/> 
+						<datalist  id="userlist">
+						  	<option th:each="username : ${usernames}" th:value="${username}"/>
+						</datalist>
+						<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect
+						login</span>
+						<div class="ws-errorbox"  hidden=""></div>
 					</div>
 				</div>
-
 
 				<!-- Button Add User to Training-->
 				<div class="form-group">
@@ -56,18 +63,25 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			</fieldset>
 		</form>
 	</div>
-	
-		<!-- Message Info -->
-		<div class="container text-center ">
-			<!-- /* Handle the flash message */-->
-			<th:block th:if="${message != null}">
-				<!-- /* The message code is returned from the @Controller */ -->
-				<div
-					th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-						message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-			</th:block>
-		</div>
+
+	<!-- Message Info -->
+	<div class="container text-center ">
+		<!-- /* Handle the flash message */-->
+		<th:block th:if="${message != null}">
+			<!-- /* The message code is returned from the @Controller */ -->
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
+						message=#{${message.message}(${message.args[0]})})">&nbsp;
+			</div>
+		</th:block>
+	</div>
 		
+	<!-- Show message, if inscription list is empty -->
+	<div th:if="${#lists.isEmpty(inscriptionsForm.inscriptions)}">
+		<h2 class="text-center"
+			th:text="#{inscription.inscriptionListEmpty} + ${training.name}">
+			List of Training Types</h2>
+	</div>
+	
 	<!-- Verify if exits Inscriptions -->
 	<div class="container" th:unless="${#lists.isEmpty(inscriptionsForm.inscriptions)}">
 
@@ -79,7 +93,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		<!-- Table List of Inscriptions -->
 		<form  method="post" th:action="@{/trainingList/inscriptionList/save}"
 			th:object="${inscriptionsForm}">
-			<table class="table table-striped table-hover table-responsive" id="customTable">
+			<table class="display" id="customTable">
 				<thead>
 					<tr>
 						<th th:text="#{name}">Name</th>
@@ -125,19 +139,22 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			<div class="text-center">
 				<button
 					type="submit" class="btn btn-default btn-lg"			
-					th:name="update" 					
+					th:name="submit" 		
+					th:value="update"			
 					th:text="#{inscription.update}"
 					th:title="#{inscription.infoUpdate}">Confirm</button>
 			</div>
 			<br></br>
-
+ 
 			<!-- Button Confirm, confirm the list of inscription -->
 			<div class="text-center">
 				<button 
 					type="submit" class="btn btn-success btn-lg"
-					th:name="save" 
+					th:name="submit"
+					th:value="save" 
 					th:text="#{inscription.confirm}"
-					th:title="#{inscription.infoConfirm}">Confirm</button>
+					th:title="#{inscription.infoConfirm}"
+					onclick="evaluateModal(this.form, modal, accept)">Confirm</button>
 			</div>
 
 
@@ -172,16 +189,25 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	</table>
 	-->
 
+	<!-- Modal Info Close Inscriptions	-->
+	<div id="modal" class="modal fade">
+	    <div class="modal-dialog">
+	        <div class="modal-content  panel-success">
+	            <div class="modal-header  modal-header-sucess">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+	            </div>
+	            <div class="modal-body">
+	                <p th:text="#{inscription.infoModalClose}">Message</p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-success" th:text="#{accept}" id="accept" name="accept">Accept</button>
+	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+	            </div>
+	        </div>
+	    </div>
+    </div>
 
-
-
-
-	<!-- Show message, if inscription list is empty -->
-	<div th:unless="!${#lists.isEmpty(inscriptionsForm.inscriptions)}">
-		<h2 class="text-center"
-			th:text="#{inscription.inscriptionListEmpty} + ${training.name}">
-			List of Training Types</h2>
-	</div>
 
 </body>
 </html>

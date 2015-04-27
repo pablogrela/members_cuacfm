@@ -12,7 +12,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingService.TrainingService;
 import org.cuacfm.members.model.trainingType.TrainingType;
@@ -51,10 +53,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
-		Account trainer = new Account("trainer", "trainer", "trainer@udc.es", "trainer", "ROLE_TRAINER");
+    public void initializeDefaultSession() throws UniqueException {
+		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", 666666666, 666666666, "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
         defaultSession = getDefaultSession("trainer");
     }
@@ -93,11 +96,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void displaysTrainingEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -115,11 +118,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void postTrainingEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -133,7 +136,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 				.param("dateTraining", "2015-12-05")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -147,11 +150,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void maxCharactersTrainingEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -165,7 +168,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 				.param("dateTraining", "")
 				.param("description", "Very interesting2")
 				.param("place", "11111111111111111111111111111111111111111111111111111111111111")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -180,11 +183,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void dataBlankTrainingEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -198,7 +201,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 				.param("dateTraining", "")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -213,11 +216,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void dataBlank2TrainingEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -231,7 +234,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 				.param("dateTraining", "2015-12-05")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -246,11 +249,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void dataBlank3TrainingEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -264,7 +267,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 				.param("dateTraining", "")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -279,11 +282,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void dateLimitTrainingEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -297,7 +300,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 				.param("dateTraining", "2015-12-05")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "2")
 				.param("maxPlaces", "10")
 				.param("close", "false"))
@@ -313,11 +316,11 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void countPlaceExceptionTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";	
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
-				"description", "place", Float.valueOf((float) 2.3), 10);		
+				"description", "place", 90, 10);		
 		trainingService.save(training);
 		
 		mockMvc.perform(post("/trainingList/trainingEdit/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -331,7 +334,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 				.param("dateTraining", "2015-12-05")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6")
+				.param("duration", "90")
 				.param("countPlaces", "12")
 				.param("maxPlaces", "10")
 				.param("close", "false"))

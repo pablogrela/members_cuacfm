@@ -12,7 +12,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.trainingType.TrainingType;
 import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -44,10 +46,11 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
-		Account trainer = new Account("trainer", "trainer", "trainer@udc.es", "trainer", "ROLE_TRAINER");
+    public void initializeDefaultSession() throws UniqueException {
+		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", 666666666, 666666666, "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
         defaultSession = getDefaultSession("trainer");
     }
@@ -72,7 +75,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 	 */
 	@Test
 	public void displaysTrainingTypeCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		
@@ -88,7 +91,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 	 */
 	@Test
 	public void postTrainingTypeCreateTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeCreate").locale(Locale.ENGLISH).session(defaultSession)
@@ -96,7 +99,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 				.param("required", "false")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6"))
+				.param("duration", "90"))
 		.andExpect(view().name("redirect:/trainingTypeList"));
 	}
 
@@ -106,7 +109,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 	 */
 	@Test
 	public void nameAlreadExistTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeCreate").locale(Locale.ENGLISH).session(defaultSession)
@@ -114,7 +117,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 				.param("required", "false")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6"))
+				.param("duration", "90"))
 				.andExpect(content()
                         		.string(containsString("Already exist type of formation with name "+ trainingType.getName() + ", please chose other")))
                         		.andExpect(view().name("trainingtype/trainingtypecreate"));
@@ -127,7 +130,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 	 */
 	@Test
 	public void notBlankMessageTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeCreate").locale(Locale.ENGLISH).session(defaultSession))
@@ -144,7 +147,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 	 */
 	@Test
 	public void maxCharactersTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeCreate").locale(Locale.ENGLISH).session(defaultSession)
@@ -152,7 +155,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 				.param("required", "false")
 				.param("description", "111111111111111111111111111111111111111111111111")
 				.param("place", "111111111111111111111111111111111111111111111111111111")
-				.param("duration", "2.6"))
+				.param("duration", "90"))
 				.andExpect(content()
                         		.string(containsString("Maximum 30 characters")))
                         		.andExpect(view().name("trainingtype/trainingtypecreate"));

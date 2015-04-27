@@ -95,6 +95,26 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
 	}
 
 	/**
+	 * Find by accountId.
+	 *
+	 * @param accountId
+	 *            the id of user
+	 * @return the List<Long> pertain to user
+	 */
+	@Override
+	public List<Long> getIdsByAccountId(Long accountId) {
+		try {
+			return entityManager
+					.createQuery(
+							"select training.id from Inscription i where i.account.id = :accountId",
+							Long.class)
+					.setParameter("accountId", accountId).getResultList();
+		} catch (PersistenceException e) {
+			return null;
+		}
+	}
+	
+	/**
 	 * Find by traningId.
 	 *
 	 * @param traningId
@@ -170,6 +190,52 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
 							"select i from Inscription i where i.account.id = :accountId and i.unsubscribe = true",
 							Inscription.class)
 					.setParameter("accountId", accountId).getResultList();
+		} catch (PersistenceException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * Get inscriptionsId by accountId with unsubscribe = true.
+	 *
+	 * @param accountId
+	 *            the id of account
+	 * @return List<Long> pertain to account
+	 */
+	@Override
+	public List<Long> getUnsubscribeIdsByAccountId(Long accountId) {
+		try {
+			return entityManager
+					.createQuery(
+							"select training.id from Inscription i where i.account.id = :accountId and i.unsubscribe = true",
+							Long.class)
+					.setParameter("accountId", accountId).getResultList();
+		} catch (PersistenceException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * Gets the name users by inscription with role=ROLE_USER an active=true.
+	 *
+	 * @param trainingId the training id
+	 * @return the name users by inscription
+	 */
+	@Override
+	public List<String> getUsernamesByInscription(Long trainingId) {
+		try {
+			return entityManager
+					.createQuery(
+							"select a.login from Account a "
+							+ "where a.role = 'ROLE_USER' "
+							+ "and a.active = true "
+							+ "and a.id not in "
+							+ "(select c.id from Account c, Inscription i "
+							+ "where i.training.id = :trainingId and i.account.id = c.id) "
+							+ "order by a.login"
+							,String.class)
+							.setParameter("trainingId", trainingId)		
+					.getResultList();
 		} catch (PersistenceException e) {
 			return null;
 		}

@@ -45,7 +45,7 @@ CREATE TABLE Account(
     active BOOLEAN,
     observations VARCHAR(500),
     programName VARCHAR(30),
-    role VARCHAR(12) NOT NULL,
+    role VARCHAR(20) NOT NULL,
     CONSTRAINT AccountId_PK PRIMARY KEY (id),
     CONSTRAINT AccountTypeId_FK FOREIGN KEY (accountTypeId) REFERENCES AccountType(id) ON DELETE Set NULL,
 	CONSTRAINT MethodPaymentId_FK FOREIGN KEY (methodPaymentId) REFERENCES MethodPayment(id) ON DELETE Set NULL,

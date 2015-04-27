@@ -12,7 +12,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.trainingType.TrainingType;
 import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -44,10 +46,11 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
-		Account trainer = new Account("trainer", "trainer", "trainer@udc.es", "trainer", "ROLE_TRAINER");
+    public void initializeDefaultSession() throws UniqueException {
+		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", 666666666, 666666666, "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
         defaultSession = getDefaultSession("trainer");
     }
@@ -86,7 +89,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 	 */
 	@Test
 	public void displaysTrainingTypeEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeEdit/"+trainingType.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -104,7 +107,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 	 */
 	@Test
 	public void postTrainingTypeEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeEdit/"+trainingType.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -115,7 +118,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 				.param("required", "false")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6"))
+				.param("duration", "2"))
 		.andExpect(view().name("redirect:/trainingTypeList"));
 	}
 
@@ -125,7 +128,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 	 */
 	@Test
 	public void nameAlreadExistTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeEdit").locale(Locale.ENGLISH).session(defaultSession)
@@ -133,7 +136,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 				.param("required", "false")
 				.param("description", "Very interesting2")
 				.param("place", "livingRoom2")
-				.param("duration", "2.6"))
+				.param("duration", "2"))
 				.andExpect(content()
                         		.string(containsString("Already exist type of formation with name "+ trainingType.getName() + ", please chose other")))
                         		.andExpect(view().name("trainingtype/trainingtypedit"));
@@ -141,12 +144,33 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 	}
 	
 	/**
+	 * Send displaysTrainingTypeList.
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void updateTrainingTypeTheSameParamsTest() throws Exception {    
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
+		trainingTypeService.save(trainingType);
+		
+		mockMvc.perform(post("/trainingTypeList/trainingTypeEdit/"+trainingType.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		.andExpect(view().name("redirect:/trainingTypeList/trainingTypeEdit"));
+		
+		mockMvc.perform(post("/trainingTypeList/trainingTypeEdit").locale(Locale.ENGLISH).session(defaultSession)
+				.param("name", "Locution")
+				.param("required", "false")
+				.param("description", "Very interesting2")
+				.param("place", "livingRoom2")
+				.param("duration", "2"))
+				.andExpect(view().name("redirect:/trainingTypeList"));
+
+	}
+	/**
 	 * notBlankMessage.
 	 * @throws Exception the exception
 	 */
 	@Test
 	public void notBlankMessageInTrainingTypeEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeEdit/"+trainingType.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -166,7 +190,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 	 */
 	@Test
 	public void maxCharactersInTrainingTypeEditTest() throws Exception {    
-		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		
 		mockMvc.perform(post("/trainingTypeList/trainingTypeEdit/"+trainingType.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -177,7 +201,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 				.param("required", "false")
 				.param("description", "111111111111111111111111111111111111111111111111")
 				.param("place", "111111111111111111111111111111111111111111111111111111")
-				.param("duration", "2.6"))
+				.param("duration", "2"))
 				.andExpect(content()
                         		.string(containsString("Maximum 30 characters")))
                         		.andExpect(view().name("trainingtype/trainingtypedit"));

@@ -3,10 +3,10 @@ package org.cuacfm.members.web.training;
 import javax.validation.Valid;
 
 import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.trainingService.TrainingService;
 import org.cuacfm.members.model.trainingType.TrainingType;
 import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -106,34 +106,27 @@ public class TrainingCreateController {
 	 * @param ra
 	 *            the ra
 	 * @return String to redirect to trainingList or if fault trainingCreate
+	 * @throws UniqueException 
 	 * 
 	 * @throws DateLimitException 
 	 */
 	@RequestMapping(value = "trainingList/trainingCreate", method = RequestMethod.POST)
 	public String trainingCreate(
 			@Valid @ModelAttribute TrainingForm trainingForm, Errors errors,
-			RedirectAttributes ra) throws DateLimitException {
+			RedirectAttributes ra) throws UniqueException {
 
 		if (errors.hasErrors()) {
+			return TRAINING_VIEW_NAME;
+		}
+
+		try {
+			trainingService.save(trainingForm.createTraining(trainingType));
+		} catch (DateLimitException  e) {
+			errors.rejectValue("dateLimit", "dateLimit.message",
+					new Object[] { e.getDateTraining() }, "dateTraining");
 			return TRAINING_VIEW_NAME;
 		}
 		
-		String timeLimit = trainingForm.getTimeLimit();
-		String dateLimit = trainingForm.getDateLimit();
-		String timeTraining = trainingForm.getTimeTraining();
-		String dateTraining = trainingForm.getDateTraining();
-
-		if (DisplayDate.stringToDate(timeTraining + "," + dateTraining).before(
-				DisplayDate.stringToDate(timeLimit + "," + dateLimit))) {
-			errors.rejectValue("dateLimit", "dateLimit.message",
-					new Object[] { dateTraining }, "dateTraining");
-		}
-
-		if (errors.hasErrors()) {
-			return TRAINING_VIEW_NAME;
-		}
-
-		trainingService.save(trainingForm.createTraining(trainingType));
 		MessageHelper.addSuccessAttribute(ra, "training.successCreate",
 				trainingForm.getName());
 		return "redirect:/trainingList";

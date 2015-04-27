@@ -13,6 +13,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.accountType.AccountType;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
@@ -80,7 +81,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
     @Before
     public void initializeDefaultSession() throws UniqueException {
         // Create User
-		user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		accountType = new AccountType("Adult", "Fee for adults", 0);
 		accountTypeService.save(accountType);
@@ -233,7 +234,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		UserPayInscription userPayInscription = userPayInscriptionService.findByUserPayInscriptionIds(user.getId(), payInscription.getId()).get(0);
 		//Assert no pay
 		assertEquals(userPayInscription.isHasPay(), false);
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);

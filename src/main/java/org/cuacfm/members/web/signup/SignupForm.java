@@ -4,10 +4,9 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.*;
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 
-/**
- * The Class SignupForm.
- */
+/** The Class SignupForm. */
 public class SignupForm {
 
 	/** The Constant NOT_BLANK_MESSAGE. */
@@ -29,11 +28,36 @@ public class SignupForm {
 	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
 	private String login;
 
+	/** The dni. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String dni;
+
+	/** The address. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String address;
+
 	/** The email. */
 	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
 	@Email(message = SignupForm.EMAIL_MESSAGE)
 	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
 	private String email;
+
+	/** The phone. */
+	// @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private Integer phone;
+
+	/** The mobile. */
+	// @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private Integer mobile;
+
+	/** The rule. */
+	private boolean rule;
+
+	/** The program name. */
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String programName;
 
 	/** The password. */
 	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
@@ -89,6 +113,25 @@ public class SignupForm {
 	}
 
 	/**
+	 * Gets the address.
+	 *
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * Sets the address.
+	 *
+	 * @param address
+	 *            the new address
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
 	 * Gets the email.
 	 *
 	 * @return the email
@@ -105,6 +148,107 @@ public class SignupForm {
 	 */
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	/**
+	 * Gets the phone.
+	 *
+	 * @return the phone
+	 */
+
+	/**
+	 * Gets the dni.
+	 *
+	 * @return the dni
+	 */
+	public String getDni() {
+		return dni;
+	}
+
+	/**
+	 * Gets the phone.
+	 *
+	 * @return the phone
+	 */
+	public Integer getPhone() {
+		return phone;
+	}
+
+	/**
+	 * Sets the phone.
+	 *
+	 * @param phone
+	 *            the new phone
+	 */
+	public void setPhone(Integer phone) {
+		this.phone = phone;
+	}
+
+	/**
+	 * Gets the mobile.
+	 *
+	 * @return the mobile
+	 */
+	public Integer getMobile() {
+		return mobile;
+	}
+
+	/**
+	 * Sets the mobile.
+	 *
+	 * @param mobile
+	 *            the new mobile
+	 */
+	public void setMobile(Integer mobile) {
+		this.mobile = mobile;
+	}
+
+	/**
+	 * Sets the dni.
+	 *
+	 * @param dni
+	 *            the new dni
+	 */
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+	/**
+	 * Checks if is rule.
+	 *
+	 * @return true, if is rule
+	 */
+	public boolean getRule() {
+		return rule;
+	}
+
+	/**
+	 * Sets the rule.
+	 *
+	 * @param rule
+	 *            the new rule
+	 */
+	public void setRule(boolean rule) {
+		this.rule = rule;
+	}
+
+	/**
+	 * Gets the program name.
+	 *
+	 * @return the program name
+	 */
+	public String getProgramName() {
+		return programName;
+	}
+
+	/**
+	 * Sets the program name.
+	 *
+	 * @param programName
+	 *            the new program name
+	 */
+	public void setProgramName(String programName) {
+		this.programName = programName;
 	}
 
 	/**
@@ -138,8 +282,8 @@ public class SignupForm {
 	/**
 	 * Sets the retry password.
 	 *
-	 * @param retry
-	 *            password the new retry password
+	 * @param rePassword
+	 *            the new re password
 	 */
 	public void setRePassword(String rePassword) {
 		this.rePassword = rePassword;
@@ -151,7 +295,7 @@ public class SignupForm {
 	 * @return the account
 	 */
 	public Account createAccount() {
-		return new Account(getName(), getLogin(), getEmail(), getPassword(),
-				"ROLE_USER");
+		return new Account(getName(), getDni(), getAddress(), getLogin(), 
+				getEmail(), getPhone(), getMobile(), getPassword(),roles.ROLE_PRESCRIPTION);
 	}
 }

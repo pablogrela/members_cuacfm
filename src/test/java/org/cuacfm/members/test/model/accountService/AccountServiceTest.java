@@ -4,11 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import javax.inject.Inject;
-import javax.persistence.PersistenceException;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.accountType.AccountType;
+import org.cuacfm.members.model.accountTypeService.AccountTypeService;
+import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.methodPayment.MethodPayment;
+import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +31,14 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 	/** The account service. */
 	@Inject
 	private AccountService accountService;
+	
+	/** The account type service. */
+	@Inject
+	private AccountTypeService accountTypeService;
+	
+	/** The method payment service. */
+	@Inject
+	private MethodPaymentService methodPaymentService;
 
 	/**
 	 * Assert equal accounts.
@@ -43,27 +58,27 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Save and find by email account test.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void saveAndFindByEmailAccountTest() {
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+	public void saveAndFindByEmailAccountTest() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		Account accountSaved = accountService.save(account);
 
 		assertEqualAccounts(accountSaved, account);
 		Assert.notNull(account.getEmail());
 
-		Account account2 = accountService.findByEmail("user@example.com");
+		Account account2 = accountService.findByEmail("user@udc.es");
 		assertEqualAccounts(account, account2);
 	}
 
 	/**
 	 * Find by id.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void findById() {
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+	public void findById() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		Account accountSaved = accountService.save(account);
 		Account accountSearch = accountService.findById(accountSaved.getId());
 
@@ -81,77 +96,73 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * insert Exception the same login.
+	 * @throws UniqueException 
 	 */
-	@Test(expected = PersistenceException.class)
-	public void insertUserTheSameLoginException() {
-		Account account = new Account("user", "user.new", "user1@example.com",
-				"demo", "ROLE_USER");
+	@Test(expected = UniqueException.class)
+	public void insertUserTheSameLoginException() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account);
 
-		Account account2 = new Account("user", "user.new", "user2@example.com",
-				"demo", "ROLE_USER");
+		Account account2 = new Account("user", "55555555B", "London", "user", "email2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account2);
 	}
-	
+
 	/**
 	 * insert Exception the same email.
+	 * @throws UniqueException 
 	 */
-	@Test(expected = PersistenceException.class)
-	public void insertUserTheSameEmailException() {
-		Account account = new Account("user", "user.new1", "user@example.com",
-				"demo", "ROLE_USER");
+	@Test(expected = UniqueException.class)
+	public void insertUserTheSameEmailException() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account);
 
-		Account account2 = new Account("user", "user.new2", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account2 = new Account("user", "55555555B", "London", "user2", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account2);
 	}
 
 	/**
 	 * update Exception the same login.
+	 * @throws UniqueException 
 	 */
-	@Test(expected = PersistenceException.class)
-	public void updateUserTheSameLoginException() {
-		Account account = new Account("user1", "user1", "user1@example.com",
-				"demo", "ROLE_USER");
-		Account accountSaved = accountService.save(account);
+	@Test(expected = UniqueException.class)
+	public void updateUserTheSameLoginException() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		accountService.save(account);
 
-		Account account2 = new Account("user2", "user2", "user2@example.com",
-				"demo", "ROLE_USER");
+		Account account2 = new Account("user2", "55555555B", "London", "user2", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account2);
 
-		accountSaved.setLogin("user2");
-		accountService.update(accountSaved, false);
+		Account account3 = new Account("user", "55555555C", "London", "user2", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		account3.setId(account.getId());
+		accountService.update(account3, false);
 	}
-	
 
 	/**
 	 * update Exception the same email.
+	 * @throws UniqueException 
 	 */
-	@Test(expected = PersistenceException.class)
-	public void updateUserTheSameEmailException() {
-		Account account = new Account("user1", "user.new1",
-				"user1@example.com", "demo", "ROLE_USER");
-		Account accountSaved = accountService.save(account);
+	@Test(expected = UniqueException.class)
+	public void updateUserTheSameEmailException() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		accountService.save(account);
 
-		Account account2 = new Account("user1", "user.new2",
-				"user2@example.com", "demo", "ROLE_USER");
+		Account account2 = new Account("user2", "55555555B", "London", "user2", "email2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account2);
 
-		accountSaved.setEmail("user2@example.com");
-		accountService.update(accountSaved, false);
+		Account account3 = new Account("user", "55555555C", "London", "user", "email2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		account3.setId(account.getId());
+		accountService.update(account3, false);
 	}
-
 
 	/**
 	 * Save and find by login account test.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void saveAndFindByLoginAccountTest() {
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+	public void saveAndFindByLoginAccountTest() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(account);
-		Account account2 = accountService.findByLogin("user.new");
+		Account account2 = accountService.findByLogin("user");
 		assertEqualAccounts(account, account2);
 	}
 
@@ -175,16 +186,17 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Update user data without password.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void updateUserDataWithoutPassword() {
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+	public void updateUserDataWithoutPassword() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		Account savedAccount = accountService.save(account);
 		assertEqualAccounts(account, savedAccount);
 		/* changing properties */
+		savedAccount.setName("user2");
 		savedAccount.setEmail("user2@user2.es");
-		savedAccount.setRole("ROLE_ADMIN");
+		savedAccount.setRole(roles.ROLE_ADMIN);
 		savedAccount.setLogin("user2");
 		/* updating */
 		Account updatedAccount = accountService.update(savedAccount, false);
@@ -201,17 +213,17 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Update user data with password.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void updateUserDataWithPassword() {
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+	public void updateUserDataWithPassword() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		Account savedAccount = accountService.save(account);
 		assertEqualAccounts(account, savedAccount);
 
 		/* changing properties */
 		savedAccount.setEmail("user2@user2.es");
-		savedAccount.setRole("ROLE_ADMIN");
+		savedAccount.setRole(roles.ROLE_ADMIN);
 		savedAccount.setLogin("user2");
 		savedAccount.setPassword("rawPassword2");
 
@@ -237,11 +249,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Match password test.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void matchPasswordTest() {
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+	public void matchPasswordTest() throws UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 
 		Account savedAccount = accountService.save(account);
 
@@ -250,4 +262,91 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 				"otherRawPassword"));
 	}
 
+	@Test
+	public void getUsersTest() throws UniqueException {
+		// Save
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		accountService.save(user);
+		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", roles.ROLE_ADMIN);
+		accountService.save(admin);
+
+		List<Account> users = accountService.getUsers();
+
+		// Assert, getUsers only returns account with rol = ROLE_USER
+		assertTrue(users.contains(user));
+		assertFalse(users.contains(admin));
+	}
+
+	/**
+	 * Gets the accounts test.
+	 *
+	 * @return the accounts test
+	 * @throws UniqueException 
+	 */
+	@Test
+	public void getAccountsTest() throws UniqueException {
+		// Save
+		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		accountService.save(user);
+		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", roles.ROLE_ADMIN);
+		accountService.save(admin);
+
+		List<Account> accounts = accountService.getAccounts();
+
+		// Assert, getAccount return all accounts
+		assertTrue(accounts.contains(user));
+		assertTrue(accounts.contains(admin));
+	}
+	
+	@Test
+	public void SaveTest() throws UniqueException{
+		// Save
+		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		accountService.save(user);
+		
+		// Assert
+		Account accountSearched = accountService.findById(user.getId());
+		assertEquals(accountSearched.getAccountType(), null);
+		assertEquals(accountSearched.getMethodPayment(), null);
+		assertEquals(accountSearched.getInstallments(), 1);
+	}
+	
+	@Test
+	public void UnsubscribeAndSubscribeTest() throws UniqueException{
+		// Save
+		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		accountService.save(user);
+		
+		// Assert, Unsubscribe
+		accountService.Unsubscribe(user.getId());
+		assertEquals(user.isActive(), false);
+		
+		// Assert, Subscribe
+		accountService.Subscribe(user.getId());
+		assertEquals(user.isActive(), true);
+	}
+	
+	@Test
+	public void UpdateTest() throws UniqueException{
+		// Save
+		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		accountTypeService.save(accountType);
+		MethodPayment methodPayment = new MethodPayment("cash", "cash");
+		methodPaymentService.save(methodPayment);
+		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		accountService.save(user);
+	
+		// Update
+		user.setAccountType(accountType);
+		user.setMethodPayment(methodPayment);
+		user.setInstallments(2);
+		accountService.update(user, false);
+		
+		// Assert
+		Account accountSearched = accountService.findById(user.getId());
+		assertEquals(accountSearched.getAccountType(), user.getAccountType());
+		assertEquals(accountSearched.getMethodPayment(), user.getMethodPayment());
+		assertEquals(accountSearched.getInstallments(), user.getInstallments());
+	}
+	
 }

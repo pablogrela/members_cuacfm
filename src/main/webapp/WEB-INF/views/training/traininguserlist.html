@@ -3,31 +3,36 @@
 	xmlns:tiles="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="#{training.trainingUserList.tittle}"></title>
+<title th:text="#{training.trainingUserList.title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}"/>
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<!-- SCRIPT -->
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
-<script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-<script src="../../../resources/js/chargeTable.js" th:src="@{/resources/js/chargeTable.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<script th:src="@{/resources/js/chargeTable.js}"></script>
 </head>
 <body>
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='trainingUserList')">&nbsp;</div>
 
-	<fieldset>
-
+		<!-- Message if trainingUserList is Empty -->
+		<th:block th:if="${#lists.isEmpty(inscriptions)}">
+			<h2 class="text-center" th:text="#{training.trainingUserListEmpty}">List of Trainings Empty</h2>
+		</th:block>
+		
 		<!-- Verify if exits Trainings -->
 		<div class="container" th:unless="${#lists.isEmpty(inscriptions)}">
 
 			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{training.trainingUserList}">List
-				of Trainings</h2>
+			<h2 class="text-center" th:text="#{training.trainingUserList}">List of Trainings</h2>
 
 
 			<!-- Message Info -->
@@ -67,11 +72,11 @@
 						<td th:text="${inscription.training.countPlaces}">place</td>
 						<td th:text="${inscription.training.maxPlaces}">place</td>
 						<td class="text-center"><input type="checkbox"
-							th:checked="${inscription.training.close}" disabled="disabled" /></td>
+							th:checked="${inscription.training.close}" onClick="return false" /></td>
 						<td class="text-center"><input type="checkbox"
-							th:checked="${inscription.pass}" disabled="disabled" /></td>
+							th:checked="${inscription.pass}" onClick="return false" /></td>
 						<td class="text-center"><input type="checkbox"
-							th:checked="${inscription.unsubscribe}" disabled="disabled" /></td>
+							th:checked="${inscription.unsubscribe}" onClick="return false" /></td>
 							
 						<td class="text-center">
 							<form th:action="@{'trainingView/'+${inscription.training.id}}"
@@ -85,7 +90,5 @@
 				</tbody>
 			</table>
 		</div>
-
-	</fieldset>
 </body>
 </html>

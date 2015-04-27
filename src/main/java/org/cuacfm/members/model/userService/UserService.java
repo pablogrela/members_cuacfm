@@ -2,13 +2,12 @@ package org.cuacfm.members.model.userService;
 
 import java.util.Collections;
 
-import javax.annotation.PostConstruct;
-
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,14 +28,6 @@ public class UserService implements UserDetailsService {
 	 */
 	public UserService() {
 		// Default empty constructor.
-	}
-
-	@PostConstruct
-	protected void initialize() {
-		// accountRepository.save(new Account("user", "user", "user@udc.es",
-		// "demo", "ROLE_USER"));
-		// accountRepository.save(new Account("admin", "admin", "admin@udc.es",
-		// "demo", "ROLE_ADMIN"));
 	}
 
 	@Override
@@ -67,7 +58,7 @@ public class UserService implements UserDetailsService {
 	 *            the account
 	 * @return the authentication
 	 */
-	private Authentication authenticate(Account account) {
+	private Authentication authenticate(Account account) throws AuthenticationException {
 		return new UsernamePasswordAuthenticationToken(createUser(account),
 				null, Collections.singleton(createAuthority(account)));
 	}
@@ -80,8 +71,14 @@ public class UserService implements UserDetailsService {
 	 * @return the user
 	 */
 	private User createUser(Account account) {
-		return new User(account.getLogin(), account.getPassword(),
-				Collections.singleton(createAuthority(account)));
+        boolean enabled = account.isActive();
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+        boolean accountNonLocked = true;
+        
+        return new User (account.getLogin(), account.getPassword(), enabled, 
+        	accountNonExpired, credentialsNonExpired, accountNonLocked, 
+        	Collections.singleton(createAuthority(account)));
 	}
 
 	/**
@@ -92,7 +89,7 @@ public class UserService implements UserDetailsService {
 	 * @return the granted authority
 	 */
 	private GrantedAuthority createAuthority(Account account) {
-		return new SimpleGrantedAuthority(account.getRole());
+		return new SimpleGrantedAuthority(String.valueOf(account.getRole()));
 	}
 
 }

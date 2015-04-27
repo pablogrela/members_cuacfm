@@ -5,16 +5,20 @@ xmlns:tiles="http://www.thymeleaf.org"
 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{trainingList.title}"></title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css"/>
-<link href="../../../resources/css/bootstrap.css" rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
-<link href="../../../resources/css/core.css" rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}"/>
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}"/>
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/resources/css/core.css}"/>
+<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<!-- SCRIPT -->
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
-<script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-<script src="../../../resources/js/chargeTable.js" th:src="@{/resources/js/chargeTable.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<script th:src="@{/resources/js/chargeTable.js}"></script>
+<script th:src="@{/resources/js/profile.js}"></script>
 </head>
 <body>
 
@@ -30,28 +34,17 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
 
 				<!-- DropList Box -->
-
 				<select onchange="this.form.submit()" class="btn btn-success btn-lg" id="trainingTypeId"
 					name="trainingTypeId" th:field="*{trainingTypeId}">
 
 					<!-- Default option in droplist -->
-					<option th:value="0" th:text="#{trainingType.createNewTraining}">Create New Training</option>
+					<option th:value="0" th:text="#{training.createNewTraining}" style="display:none;" >Create New Training</option>
 
 					<!-- Selected option in droplist -->
 					<option th:field="*{trainingTypeId}"
 						th:each="trainingType : ${trainingSelectForm.trainingTypes}" th:value="${trainingType.id}"
 						th:text="${trainingType.name}">name</option>
 				</select> <br></br>
-
-				<!-- Button Create New Training Type -->
-				<!--
-			<div class="text-center">
-				<button type="submit" class="btn btn-success btn-lg"
-					th:text="#{training.createNewTraining}">Create New
-					Training</button>
-			</div>
-			<br></br>
-			-->
 			</form>
 		</div>
 
@@ -64,6 +57,25 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 
 
+	<br></br><br></br>
+	<!-- Message Info -->
+	<div class="container text-center ">
+		<!-- /* Handle the flash message */-->
+		<th:block th:if="${message != null}">
+			<!-- /* The message code is returned from the @Controller */ -->
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
+				message=#{${message.message}(${message.args[0]})})">&nbsp;
+			</div>
+		</th:block>
+	</div>
+			
+	<!-- Show message, if training list is empty -->
+	<div th:if="${#lists.isEmpty(trainings)}">
+		<h2 class="text-center"
+			th:text="#{training.traininglistEmpty}">
+			List of Training Types</h2>
+	</div>
+	
 	<fieldset>
 
 		<!-- Verify if exits Trainings -->
@@ -72,22 +84,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			<!-- Tittle -->
 			<h2 class="text-center" th:text="#{training.traininglist}">List of Trainings</h2>
 
-
-			<!-- Message Info -->
-			<div class="container text-center ">
-				<!-- /* Handle the flash message */-->
-				<th:block th:if="${message != null}">
-					<!-- /* The message code is returned from the @Controller */ -->
-					<div
-						th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-						message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-				</th:block>
-			</div>
-
-
 			<!-- Table List of Trainings -->
-			<table class="table table-striped table-hover table-responsive" id="customTable">
-				<thead class="table-bordered">
+			<table class="display" id="customTable">
+				<thead>
 					<tr>
 						<th th:text="#{name}">Name</th>
 						<th th:text="#{training.dateLimit}">Date Limit</th>
@@ -103,7 +102,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						</th:block>
 					</tr>
 				</thead>
-				<tbody class="table-bordered">
+				<tbody>
 
 					<tr th:each="training : ${trainings}">
 
@@ -124,13 +123,14 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						</td>
 
 
-						<!-- Only Admin or Trainer -->
+						<!-- Start Only Admin or Trainer -->
 						<th:block sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
+							
 							<!-- Delete Training -->
 							<td class="text-center">
-								<form th:action="@{'trainingList/trainingDelete/'+${training.id}}" method="post">
-									<button class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{remove}"
-										style="color: red"></button>
+								<form th:action="@{'trainingList/trainingDelete/'+${training.id}}" method="post" >
+									<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{remove}"
+										style="color: red" onclick="evaluateModal(this.form, modal, accept)"></button>
 								</form>
 							</td>
 
@@ -150,10 +150,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 								</form>
 							</td>
 						</th:block>
-						<!-- finish -->
+						<!-- Finish Only Admin or Trainer-->
 
 
-						<!-- Only Users -->
+						<!-- Start Only Users -->
 						<th:block sec:authorize="hasRole('ROLE_USER')">
 
 							<th:block th:if="!${#lists.contains(trainingUnsubscribeIds, training.id)}">
@@ -165,26 +165,64 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 									</form>
 								</td>
 
-
-								<!-- Remove Join Training -->
-								<td th:if="${#lists.contains(trainingAccountIds, training.id)}" class="text-center">
-									<form th:action="@{'trainingList/trainingRemoveJoin/'+${training.id}}" method="post">
-										<button class="btnTable btn-link glyphicon glyphicon-remove-sign"
-											th:title="#{training.removeJoin}" style="color: red"></button>
-									</form>
+								<!-- Remove Join Training -->		
+								<td th:if="${#lists.contains(trainingAccountIds, training.id)}" class="text-center">						
+									<form th:action="@{'trainingList/trainingRemoveJoin/'+${training.id}}" method="post" id="formEvaluate2">
+										<button type="button" class="btnTable btn-link glyphicon glyphicon-remove-sign"
+											th:title="#{training.infoRemoveJoin}" style="color: red" onclick="evaluateModal(this.form, modal2, accept2)"></button>
+									</form>												
 								</td>
 							</th:block>
 
 							<!-- Fill table entry -->
 							<td th:if="${#lists.contains(trainingUnsubscribeIds, training.id)}"></td>
 						</th:block>
-						<!-- Only Users finish -->
+						<!-- Finish Only Users -->
 
 					</tr>
 				</tbody>
 			</table>
 		</div>
-
 	</fieldset>
+
+    
+    <!-- Modal Info Delete	-->
+	<div id="modal" class="modal fade">
+	    <div class="modal-dialog">
+	        <div class="modal-content  panel-danger">
+	            <div class="modal-header  modal-header-danger">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+	            </div>
+	            <div class="modal-body">
+	                <p th:text="#{training.infoModalDelete}">Message</p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
+	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+    	
+			
+	<!-- Modal Info Unsubscribe	-->
+	<div id="modal2" class="modal fade">
+	    <div class="modal-dialog">
+	        <div class="modal-content  panel-danger">
+	            <div class="modal-header  modal-header-danger">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+	            </div>
+	            <div class="modal-body">
+	                <p th:text="#{training.infoModalRemoveJoin}">Message</p>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-danger" th:text="#{accept}" id="accept2" name="accept2">Accept</button>
+	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+	            </div>
+	        </div>
+	    </div>
+    </div>
 </body>
 </html>

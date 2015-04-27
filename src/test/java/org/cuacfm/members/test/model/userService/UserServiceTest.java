@@ -9,7 +9,9 @@ import static org.mockito.Mockito.when;
 import java.util.Collection;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountServiceImpl;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.userService.UserService;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,10 +37,10 @@ public class UserServiceTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-	public void shouldInitializeWithTwoDemoUsers() {
+	public void shouldInitializeWithTwoDemoUsers() throws UniqueException {
 		// act
-		accountRepositoryMock.save(new Account("usuario nuevo", "usuario.nuevo", "user@example.com", "demo", "ROLE_USER"));
-		accountRepositoryMock.save(new Account("Admin nuevo", "admin", "admin@example.com", "demo", "ROLE_ADMIN"));
+		accountRepositoryMock.save(new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER));
+		accountRepositoryMock.save(new Account("admin", "55555555B", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", roles.ROLE_ADMIN));
 		//userService.initialize();
 		// assert
 		verify(accountRepositoryMock, times(2)).save(any(Account.class));
@@ -58,7 +60,7 @@ public class UserServiceTest {
 	@Test
 	public void shouldReturnUserDetails() {
 		// arrange
-		Account demoUser = new Account("usuario nuevo", "usuario.nuevo", "user@example.com", "demo", "ROLE_USER");
+		Account demoUser = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		when(accountRepositoryMock.findByLogin("usuario.nuevo")).thenReturn(demoUser);
 
 		// act
@@ -67,7 +69,7 @@ public class UserServiceTest {
 		// assert
 		assertThat(demoUser.getLogin()).isEqualTo(userDetails.getUsername());
 		assertThat(demoUser.getPassword()).isEqualTo(userDetails.getPassword());
-        assertThat(hasAuthority(userDetails, demoUser.getRole()));
+        assertThat(hasAuthority(userDetails, String.valueOf(demoUser.getRole())));
 	}
 
 	private boolean hasAuthority(UserDetails userDetails, String role) {

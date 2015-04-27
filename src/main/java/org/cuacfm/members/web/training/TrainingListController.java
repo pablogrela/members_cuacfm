@@ -8,7 +8,9 @@ import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UnsubscribeException;
+import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingService.TrainingService;
 import org.cuacfm.members.model.trainingType.TrainingType;
@@ -155,9 +157,10 @@ public class TrainingListController {
 	 * @param ra
 	 *            the redirect atributes
 	 * @return the string destinity page to page trainingList
+	 * @throws UniqueException 
 	 */
 	@RequestMapping(value = "trainingList/trainingDelete/{id}", method = RequestMethod.POST)
-	public String remove(RedirectAttributes ra, @PathVariable Long id) {
+	public String remove(RedirectAttributes ra, @PathVariable Long id) throws UniqueException {
 
 		String name = trainingService.findById(id).getName();
 		try {
@@ -191,6 +194,9 @@ public class TrainingListController {
 			trainingService.createInscription(accountId, trainingId);
 			MessageHelper.addSuccessAttribute(ra, "training.successJoin",
 					training.getName());
+		} catch (UserAlreadyJoinedException e) {
+			MessageHelper.addErrorAttribute(ra, "inscription.alreadyExistLogin",
+					e.getName());
 		} catch (MaximumCapacityException e) {
 			MessageHelper.addErrorAttribute(ra, "training.maxInscriptionsException",
 					training.getName());

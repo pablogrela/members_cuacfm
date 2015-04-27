@@ -1,6 +1,5 @@
 package org.cuacfm.members.web.trainingType;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,6 +9,7 @@ import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/** The Class TrainingTypeForm. */
 public class TrainingTypeForm {
 
 	/** The training type service. */
@@ -23,7 +23,7 @@ public class TrainingTypeForm {
 	private static final String MAX_CHARACTERS = "{max.characters}";
 
 	/** The required. */
-	private Boolean required;
+	private boolean required;
 
 	/** The name. */
 	@NotBlank(message = TrainingTypeForm.NOT_BLANK_MESSAGE)
@@ -42,10 +42,8 @@ public class TrainingTypeForm {
 
 	/** The duration. */
 	@NotNull
-	@Digits(fraction = 2, integer = 2)
-	// @DecimalMin("0.01")
 	@Min(0)
-	private float duration;
+	private int duration;
 
 	/** Instantiates a new training form. */
 	public TrainingTypeForm() {
@@ -76,22 +74,17 @@ public class TrainingTypeForm {
 	 *
 	 * @return the String getClose
 	 */
-	public Boolean getRequired() {
-		if (required == null) {
-			required = false;
-		} else {
-			required = true;
-		}
+	public boolean getRequired() {
 		return required;
 	}
 
 	/**
 	 * Set the close.
 	 *
-	 * @param close
-	 *            Boolean
+	 * @param required
+	 *            the new required
 	 */
-	public void setRequired(Boolean required) {
+	public void setRequired(boolean required) {
 		this.required = required;
 	}
 
@@ -134,21 +127,21 @@ public class TrainingTypeForm {
 	}
 
 	/**
-	 * Get The duration.
+	 * Gets the duration.
 	 *
-	 * @return float duration
+	 * @return the duration
 	 */
-	public float getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 
 	/**
-	 * Set the duration.
+	 * Sets the duration.
 	 *
 	 * @param duration
-	 *            float, the new duration
+	 *            the new duration
 	 */
-	public void setDuration(float duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
@@ -158,9 +151,23 @@ public class TrainingTypeForm {
 	 * @return TrainingType
 	 */
 	public TrainingType createTrainingType() {
-
 		return new TrainingType(getName(), getRequired(), getDescription(),
 				getPlace(), getDuration());
 	}
 
+	/**
+	 * Update training type.
+	 *
+	 * @param trainingType
+	 *            the training type
+	 * @return the training type
+	 */
+	public TrainingType updateTrainingType(TrainingType trainingType) {
+		trainingType.setName(getName());
+		trainingType.setRequired(getRequired());
+		trainingType.setDescription(getDescription());
+		trainingType.setPlace(getPlace());
+		trainingType.setDuration(getDuration());
+		return trainingType;
+	}
 }

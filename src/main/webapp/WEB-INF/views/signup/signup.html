@@ -4,13 +4,15 @@
 <title th:text="#{signup.title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<!-- SCRIPT -->
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
 <script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
-<script src="../../../resources/js/formcfg-es.js" th:src="@{/resources/js/formcfg-es.js}"></script>
-<script src="../../../resources/js/chargeWebshim.js" th:src="@{/resources/js/chargeWebshim.js}"></script>
+<script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/chargeWebshim.js}"></script>
 </head>
 <body>
 
@@ -42,6 +44,28 @@
 				</div>
 			</div>
 
+			<!-- Insert dni -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
+				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="dni" th:placeholder="#{dni}"
+						th:field="*{dni}" maxlength="30" required="required" /> <span class="help-block"
+						th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Incorrect dni</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Insert address -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-error'">
+				<label for="address" class="col-lg-2 control-label" th:text="#{address}">address</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="address" th:placeholder="#{address}"
+						th:field="*{address}" maxlength="30" required="required" /> <span class="help-block"
+						th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect address</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
 			<!-- Insert Login -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
@@ -62,9 +86,41 @@
 						th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
-
 			</div>
 
+			<!-- Insert phone -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
+				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
+				<div class="col-lg-10">
+					<input type="number" class="form-control" id="phone" th:placeholder="#{phone}"
+						th:field="*{phone}" maxlength="30" value=""/> <span class="help-block"
+						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Insert mobile -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
+				<label for="mobile" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
+				<div class="col-lg-10">
+					<input type="number" class="form-control" id="mobile" th:placeholder="#{mobile}"
+						th:field="*{mobile}" maxlength="30" required="required" /> <span class="help-block"
+						th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Insert ProgramName -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('programName')}? 'has-error'">
+				<label for="programName" class="col-lg-1 control-label" th:text="#{programName}">programName</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}"
+						th:field="*{programName}" maxlength="30" th:title="#{infoProgramName}" /> <span class="help-block"
+						th:if="${#fields.hasErrors('programName')}" th:errors="*{programName}">Incorrect programName</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
 			<!-- Insert Password -->
 			<div class="form-group ws-validate"
 				th:classappend="${#fields.hasErrors('password')}? 'has-error'">
@@ -90,6 +146,23 @@
 				</div>
 			</div>
 
+			<!-- Edit rule -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('rule')}? 'has-error'">
+				<label for="rule" class="col-lg-2-edit control-label" th:text="#{signup.rule}">rule</label>
+				<div class="col-lg-10">
+					<div class="col-lg-2-check">  
+						<input type="checkbox" class="form-control-edit" id="rule"
+							name="rule" th:title="#{signup.infoRule}" required="required"/>
+					</div>
+					<a th:text="#{signup.viewRule}" href="http://cuacfm.org/">view rule</a>
+	            	<br></br>
+            	    <span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('rule')}" th:errors="*{rule}">
+            		Incorrect rule</span>
+	                <div class="ws-errorbox col-lg-10" hidden=""></div>
+				 </div>
+			</div>
+
+			
 			<!-- Button SignUp -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">

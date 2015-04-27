@@ -1,6 +1,5 @@
 package org.cuacfm.members.model.trainingService;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +9,9 @@ import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UnsubscribeException;
+import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.inscription.Inscription;
 import org.cuacfm.members.model.inscription.InscriptionRepository;
 import org.cuacfm.members.model.training.Training;
@@ -52,9 +53,10 @@ public class TrainingServiceImpl implements TrainingService {
 	 *            the training
 	 * @return the training
 	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
 	@Override
-	public Training save(Training training) throws DateLimitException {
+	public Training save(Training training) throws DateLimitException, UniqueException {
 		if (training.getDateTraining().before(training.getDateLimit())) {
 			throw new DateLimitException(training.getDateLimit(),
 					training.getDateTraining());
@@ -63,7 +65,7 @@ public class TrainingServiceImpl implements TrainingService {
 		TrainingType trainingType = training.getTrainingType();
 		trainingType.setHasTrainings(true);
 		trainingTypeService.update(trainingType);
-		
+
 		return trainingRepository.save(training);
 	}
 
@@ -92,9 +94,10 @@ public class TrainingServiceImpl implements TrainingService {
 	 *            the training
 	 * @return the training
 	 * @throws ExistInscriptionsException
+	 * @throws UniqueException 
 	 */
 	@Override
-	public void delete(Long id) throws ExistInscriptionsException {
+	public void delete(Long id) throws ExistInscriptionsException, UniqueException {
 		// If Exist Dependencies Inscriptions
 		if (!inscriptionRepository.getInscriptionListByTrainingId(id).isEmpty()) {
 			throw new ExistInscriptionsException();
@@ -175,13 +178,14 @@ public class TrainingServiceImpl implements TrainingService {
 	 *            the id of training
 	 * @throws MaximumCapacityException
 	 * @throws DateLimitExpirationException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Override
 	public void createInscription(Long accountId, Long trainingId)
-			throws MaximumCapacityException, DateLimitExpirationException {
+			throws MaximumCapacityException, DateLimitExpirationException, UserAlreadyJoinedException {
 		
 		Training training = trainingRepository.findById(trainingId);
-
+		
 		// Checks if a limit past the deadline
 		Date nowDate = new Date();
 		if (training.getDateLimit().before(nowDate)) {
@@ -195,10 +199,23 @@ public class TrainingServiceImpl implements TrainingService {
 			throw new MaximumCapacityException(maxPlaces);
 		}
 
+		Account account = accountRepository.findById(accountId);
+		// Check if account exist
+
+		if (account == null) {
+			//throw new UsernameNotFoundException(accountId);
+		}
+		
+		// Check if account already inscription
+		Inscription inscriptionSearched  = inscriptionRepository.findByInscriptionIds(accountId, trainingId);
+		if (inscriptionSearched != null) {
+			throw new UserAlreadyJoinedException(account.getLogin());
+		}
+		
+		
 		training.setCountPlaces(training.getCountPlaces() + 1);
 		trainingRepository.update(training);
 		
-		Account account = accountRepository.findById(accountId);
 		Inscription inscription = new Inscription(account, training);
 		inscriptionRepository.save(inscription);
 	}
@@ -302,14 +319,7 @@ public class TrainingServiceImpl implements TrainingService {
 	 */
 	@Override
 	public List<Long> getInscriptionsIdsByAccountId(Long accountId) {
-		List<Long> longs = new ArrayList<Long>();
-		List<Inscription> inscriptions = inscriptionRepository
-				.getByAccountId(accountId);
-
-		for (Inscription inscription : inscriptions) {
-			longs.add(inscription.getTraining().getId());
-		}
-		return longs;
+		return inscriptionRepository.getIdsByAccountId(accountId);
 	}
 
 	/**
@@ -321,13 +331,17 @@ public class TrainingServiceImpl implements TrainingService {
 	 */
 	@Override
 	public List<Long> getUnsubscribeIdsByAccountId(Long accountId) {
-		List<Long> longs = new ArrayList<Long>();
-		List<Inscription> inscriptions = inscriptionRepository
-				.getUnsubscribeByAccountId(accountId);
-
-		for (Inscription inscription : inscriptions) {
-			longs.add(inscription.getTraining().getId());
-		}
-		return longs;
+		return inscriptionRepository.getUnsubscribeIdsByAccountId(accountId);
+	}
+	
+	/**
+	 * Gets the name users by inscription with role=ROLE_USER an active=true.
+	 *
+	 * @param trainingId the training id
+	 * @return the name users by inscription
+	 */
+	@Override
+	public List<String> getUsernamesByInscription(Long trainingId){
+		return inscriptionRepository.getUsernamesByInscription(trainingId);
 	}
 }

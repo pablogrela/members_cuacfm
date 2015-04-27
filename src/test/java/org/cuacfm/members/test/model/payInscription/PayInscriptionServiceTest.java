@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.accountType.AccountType;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
@@ -77,14 +78,14 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
 		
-		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
 		user.setInstallments(1);
 		accountService.update(user, false);
 		
-		Account user2 = new Account("user2", "11111111C", "London", "user2", "email2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user2 = new Account("user2", "11111111C", "London", "user2", "email2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user2);
 		
 		// Save
@@ -137,7 +138,7 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
 		
-		Account user = new Account("user", "11111111C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user = new Account("user", "11111111C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
@@ -145,18 +146,18 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 		accountService.update(user, false);
 		payInscriptionService.saveUserPayInscription(user, payInscription);
 		
-		Account user2 = new Account("user2", "22222222C", "London", "user2", "email2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user2 = new Account("user2", "22222222C", "London", "user2", "email2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user2);
 		payInscriptionService.saveUserPayInscription(user2, payInscription);
 		
 		
-		Account user3 = new Account("user3", "33333333C", "London", "user3", "email3@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user3 = new Account("user3", "33333333C", "London", "user3", "email3@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user3);
 		user.setInstallments(2);
 		accountService.update(user3, false);
 		payInscriptionService.saveUserPayInscription(user3, payInscription);
 		
-		Account user4 = new Account("user4", "44444444C", "London", "user4", "email4@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		Account user4 = new Account("user4", "44444444C", "London", "user4", "email4@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user4);
 		user.setInstallments(6);
 		accountService.update(user4, false);

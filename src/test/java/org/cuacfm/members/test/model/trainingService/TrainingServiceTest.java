@@ -3,26 +3,27 @@ package org.cuacfm.members.test.model.trainingService;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UnsubscribeException;
+import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.inscription.Inscription;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingService.TrainingService;
 import org.cuacfm.members.model.trainingType.TrainingType;
 import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -45,46 +46,31 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	@Inject
 	private TrainingTypeService trainingTypeService;
 
-	public static Date stringToDate(String dateTraining) {
-		Date newDate = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm,yyyy-MM-dd");
-
-		if (!dateTraining.equals(",")) {
-			try {
-				newDate = dateFormat.parse(dateTraining);
-			} catch (ParseException ex) {
-				ex.printStackTrace();
-
-			}
-		}
-		return newDate;
-	}
-
 	/**
 	 * Save and find by training test.
 	 * 
 	 * @throws ExistInscriptionsException
 	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
 	@Test
 	public void saveAndFindsByIdTest() throws ExistInscriptionsException,
-			DateLimitException {
+			DateLimitException, UniqueException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		TrainingType trainingType2 = new TrainingType("Filming", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
 
 		Training trainingSearch;
@@ -102,21 +88,20 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * 
 	 * @throws ExistInscriptionsException
 	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
 	@Test(expected = DateLimitException.class)
 	public void saveDateLimitExceptionTest() throws ExistInscriptionsException,
-			DateLimitException {
+			DateLimitException, UniqueException {
 
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateLimit = "10:30,2015-13-05";
-		String dateTraining = "10:30,2015-12-05";
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateLimit),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-13-05"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
 	}
 
@@ -125,19 +110,20 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * 
 	 * @throws ExistInscriptionsException
 	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
 	@Test
 	public void updateTrainingTest() throws ExistInscriptionsException,
-			DateLimitException {
+			DateLimitException, UniqueException {
 
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
 
 		int size = trainingService.getTrainingList().size();
@@ -146,16 +132,15 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 				training.getName());
 
 		// Update Training
-		String newDateTraining = "10:30,2015-20-05";
 		training.setName("new training");
 		training.setClose(false);
 		training.setCountPlaces(2);
 		training.setDescription("new Description");
 		training.setMaxPlaces(20);
 		training.setPlace("new place");
-		training.setDateLimit(stringToDate(newDateTraining));
-		training.setDateTraining(stringToDate(newDateTraining));
-		training.setDuration(Float.valueOf(4));
+		training.setDateLimit(DisplayDate.stringToDate("10:30,2015-20-05"));
+		training.setDateTraining(DisplayDate.stringToDate("10:30,2015-20-05"));
+		training.setDuration(120);
 		Training trainingUpdate = trainingService.update(training);
 
 		// Assert
@@ -179,25 +164,24 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * 
 	 * @throws ExistInscriptionsException
 	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
 	@Test(expected = DateLimitException.class)
 	public void updateDateLimitExceptionTest()
-			throws ExistInscriptionsException, DateLimitException {
+			throws ExistInscriptionsException, DateLimitException, UniqueException {
 
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateLimit = "10:40,2015-13-06";
-		String dateTraining = "10:30,2015-12-05";
 
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
 
 		// Update Training
-		training.setDateLimit(stringToDate(dateLimit));
-		training.setDateTraining(stringToDate(dateTraining));
+		training.setDateLimit(DisplayDate.stringToDate("10:40,2015-13-06"));
+		training.setDateTraining(DisplayDate.stringToDate("10:30,2015-12-05"));
 		trainingService.update(training);
 	}
 
@@ -209,23 +193,24 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UnsubscribeException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test
 	public void inscriptionUpdateTest() throws ExistInscriptionsException,
-			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException {
+			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 1);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 1);
 		trainingService.save(training);
 
 		// Join and Update
@@ -259,25 +244,25 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * 
 	 * @throws ExistInscriptionsException
 	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
 	@Test
 	public void saveUpdateAndDeleteTrainingTest()
-			throws ExistInscriptionsException, DateLimitException {
+			throws ExistInscriptionsException, DateLimitException, UniqueException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		TrainingType trainingType2 = new TrainingType("Filming", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 
 		trainingService.save(training);
 
@@ -294,10 +279,6 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		// Delete, no trainings
 		trainingService.delete(training.getId());
 		assertEquals(trainingService.getTrainingList().size(), 0);
-		
-		// Delete with trainingId no exist, no trainings
-		//trainingService.delete(training.getId());
-		//assertEquals(trainingService.getTrainingList().size(), 0);
 	}
 
 
@@ -306,46 +287,42 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * 
 	 * @throws ExistInscriptionsException
 	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
 	@Test
 	public void updateHasTrainingTest()
-			throws ExistInscriptionsException, DateLimitException {
+			throws ExistInscriptionsException, DateLimitException, UniqueException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		TrainingType trainingType2 = new TrainingType("Filming", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
-		trainingTypeService.save(trainingType2);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
-
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
+		
+		Training training2 = new Training(trainingType, "training1",
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
+		trainingService.save(training2);
 
+		// Assert
 		TrainingType trainingTypeSarched = trainingTypeService.findById(training.getTrainingType().getId());
 		assertEquals(trainingTypeSarched.isHasTrainings(), true);
 		
-		// Delete, no trainings
+		// Delete, 1 training
 		trainingService.delete(training.getId());
-		assertEquals(trainingService.getTrainingList().size(), 0);
+		assertEquals(trainingService.getTrainingList().size(), 1);	
 		
-		
+		// Delete, no trainings
+		trainingService.delete(training2.getId());
 		trainingTypeSarched = trainingTypeService.findById(training.getTrainingType().getId());
 		assertEquals(trainingTypeSarched.isHasTrainings(), false);
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/**
@@ -355,24 +332,25 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws MaximumCapacityException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test(expected = ExistInscriptionsException.class)
 	public void existInscriptionsExceptionTest()
 			throws ExistInscriptionsException, MaximumCapacityException,
-			DateLimitException, DateLimitExpirationException {
+			DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
 
 		// Join
@@ -389,24 +367,24 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws MaximumCapacityException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test(expected = DateLimitExpirationException .class)
 	public void dateLimitExpirationExceptionTest()
 			throws ExistInscriptionsException, MaximumCapacityException,
-			DateLimitException, DateLimitExpirationException {
+			DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-01-01";
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-01-01"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
 
 		// Join
@@ -420,27 +398,27 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws MaximumCapacityException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test(expected = MaximumCapacityException.class)
 	public void maximumCapacityExceptionTest()
 			throws ExistInscriptionsException, MaximumCapacityException,
-			DateLimitException, DateLimitExpirationException {
+			DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
-		Account account2 = new Account("user2", "user.new2",
-				"user2@example.com", "demo", "ROLE_USER");
+		Account account2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account2 = accountService.save(account2);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 1);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 1);
 		trainingService.save(training);
 
 		// Join
@@ -456,24 +434,25 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UnsubscribeException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test
 	public void unsubscribeInscriptionSuccesfullTest()
 			throws ExistInscriptionsException, MaximumCapacityException,
-			UnsubscribeException, DateLimitException, DateLimitExpirationException {
+			UnsubscribeException, DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 1);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 1);
 		trainingService.save(training);
 
 		// Join
@@ -498,23 +477,24 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UnsubscribeException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test(expected = UnsubscribeException.class)
 	public void UnsubscribeExceptionTest() throws ExistInscriptionsException,
-			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException {
+			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 1);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 1);
 		trainingService.save(training);
 
 		// Join
@@ -537,28 +517,29 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UnsubscribeException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test
 	public void getByAccountIdTest() throws ExistInscriptionsException,
-			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException {
+			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		Training trainingSaved = trainingService.save(training);
 
 		Training training2 = new Training(trainingType, "training2",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		Training trainingSaved2 = trainingService.save(training2);
 
 		// Joins
@@ -583,26 +564,26 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UnsubscribeException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test
 	public void getByTrainingIdTest() throws ExistInscriptionsException,
-			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException {
+			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
-		Account account2 = new Account("user2", "user.new2",
-				"user2@example.com", "demo", "ROLE_USER");
+		Account account2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account2 = accountService.save(account2);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
 
 		// Joins
@@ -627,23 +608,24 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UnsubscribeException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test
 	public void deleteInscriptionTest() throws ExistInscriptionsException,
-			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException {
+			MaximumCapacityException, UnsubscribeException, DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingService.save(training);
 
 		// Joins
@@ -676,24 +658,25 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UnsubscribeException
 	 * @throws DateLimitException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test
 	public void getIdsUnsubscribeByAccountIdTest()
 			throws ExistInscriptionsException, MaximumCapacityException,
-			UnsubscribeException, DateLimitException, DateLimitExpirationException {
+			UnsubscribeException, DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
 
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		// Save
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 1);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 1);
 		trainingService.save(training);
 
 		// Join
@@ -721,27 +704,28 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws DateLimitException
 	 * @throws MaximumCapacityException
 	 * @throws DateLimitExpirationException 
+	 * @throws UniqueException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	@Test
 	public void getIdsByAccountIdTest() throws DateLimitException,
-			MaximumCapacityException, DateLimitExpirationException {
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+			MaximumCapacityException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		Training training = new Training(trainingType, "training1",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		Training trainingSaved = trainingService.save(training);
 
 		Training training2 = new Training(trainingType, "training2",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		Training trainingSaved2 = trainingService.save(training2);
 
 		int size = trainingService.getTrainingList().size();
@@ -784,31 +768,31 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * getTrainingsOpenAndCloseTest.
 	 * 
 	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void getTrainingsOpenAndCloseTest() throws DateLimitException {
-		Account account = new Account("user", "user.new", "user@example.com",
-				"demo", "ROLE_USER");
+	public void getTrainingsOpenAndCloseTest() throws DateLimitException, UniqueException {
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		account = accountService.save(account);
 
 		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		TrainingType trainingType2 = new TrainingType("Filming", true,
-				"Very interesting", "livingRoom", Float.valueOf((float) 2.3));
+				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
 
-		String dateTraining = "10:30,2015-12-05";
+		
 
 		Training trainingClose = new Training(trainingType, "trainingClose",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingClose.setClose(true);
 		trainingService.save(trainingClose);
 
 		Training trainingOpen = new Training(trainingType, "trainingOpen",
-				stringToDate(dateTraining), stringToDate(dateTraining),
-				"description", "place", Float.valueOf((float) 2.3), 10);
+				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				"description", "place", 90, 10);
 		trainingService.save(trainingOpen);
 
 		// it have 2 trainings into database

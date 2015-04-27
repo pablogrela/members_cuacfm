@@ -6,7 +6,9 @@ import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UnsubscribeException;
+import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.inscription.Inscription;
 import org.cuacfm.members.model.training.Training;
 
@@ -20,8 +22,10 @@ public interface TrainingService {
 	 * @param training
 	 *            the training
 	 * @return the training
+	 * @throws DateLimitException
+	 * @throws UniqueException 
 	 */
-	public Training save(Training training) throws DateLimitException;
+	public Training save(Training training) throws DateLimitException, UniqueException;
 
 	/**
 	 * Update, updates an user registered into bd depending if he wants to
@@ -41,8 +45,10 @@ public interface TrainingService {
 	 * @param training
 	 *            the training
 	 * @return the training
+	 * @throws ExistInscriptionsException
+	 * @throws UniqueException 
 	 */
-	public void delete(Long id) throws ExistInscriptionsException;
+	public void delete(Long id) throws ExistInscriptionsException, UniqueException;
 
 	/**
 	 * Find by id returns user which has this identifier.
@@ -90,9 +96,12 @@ public interface TrainingService {
 	 *            the id of user
 	 * @param trainingId
 	 *            the id of training
+	 * @throws MaximumCapacityException
+	 * @throws DateLimitExpirationException 
+	 * @throws UserAlreadyJoinedException 
 	 */
 	public void createInscription(Long accountId, Long trainingId)
-			throws MaximumCapacityException, DateLimitExpirationException;
+			throws MaximumCapacityException, DateLimitExpirationException, UserAlreadyJoinedException;
 
 	/**
 	 * Update.
@@ -175,4 +184,12 @@ public interface TrainingService {
 	 * @return the List<Long> pertain to traing
 	 */
 	public List<Long> getUnsubscribeIdsByAccountId(Long accountId);
+	
+	/**
+	 * Gets the name users by inscription with role=ROLE_USER an active=true.
+	 *
+	 * @param trainingId the training id
+	 * @return the name users by inscription
+	 */
+	public List<String> getUsernamesByInscription(Long trainingId);
 }

@@ -2,9 +2,8 @@ package org.cuacfm.members.model.trainingTypeService;
 
 import java.util.List;
 
-import javax.persistence.PersistenceException;
-
 import org.cuacfm.members.model.exceptions.ExistTrainingsException;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.training.TrainingRepository;
 import org.cuacfm.members.model.trainingType.TrainingType;
@@ -35,35 +34,36 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
 	 * @param trainingType
 	 *            the training
 	 * @return TrainingType
+	 * @throws UniqueException 
 	 */
 	@Override
-	public TrainingType save(TrainingType trainingType) {
+	public TrainingType save(TrainingType trainingType) throws UniqueException {
 		// It is verified that there is not exist name of trainingType in other trainingType
 		if (trainingTypeRepository.findByName(trainingType.getName()) != null) {
-			throw new PersistenceException("Already exist name: "
-					+ trainingType.getName());
+			throw new UniqueException("Name", trainingType.getName());
 		}
 		return trainingTypeRepository.save(trainingType);
 	}
 
 	/**
-	 * Update TraininfType
+	 * Update TrainingType
 	 *
 	 * @param trainingType
 	 *            the trainingType
 	 * @return TrainingType
+	 * @throws UniqueException 
 	 */
 	@Override
-	public TrainingType update(TrainingType trainingType) {
+	public TrainingType update(TrainingType trainingType) throws UniqueException {
 		// It is verified that there is not exist name of trainingType in other trainingType
 		TrainingType trainingTypeSearch = trainingTypeRepository.findByName(trainingType.getName());
 		if (trainingTypeSearch != null) {
 			if (trainingTypeSearch.getId() != trainingType.getId()) {
-				throw new PersistenceException("Already exist name: "
-						+ trainingType.getName());
+				throw new UniqueException("Name", trainingType.getName());
 			}
 		}
 		return trainingTypeRepository.update(trainingType);
+		
 	}
 
 	/**
