@@ -1,5 +1,10 @@
 package org.cuacfm.members.model.account;
 
+import java.util.List;
+
+import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
+
+/** The Interface AccountRepository. */
 public interface AccountRepository {
 
 	/**
@@ -22,6 +27,16 @@ public interface AccountRepository {
 	public Account update(Account account);
 
 	/**
+	 * Delete.
+	 *
+	 * @param id
+	 *            the id
+	 * @throws ExistInscriptionsException
+	 *             the exist inscriptions exception
+	 */
+	public void delete(Long id);
+
+	/**
 	 * Match password.
 	 *
 	 * @param account
@@ -42,6 +57,15 @@ public interface AccountRepository {
 	public Account findById(Long id);
 
 	/**
+	 * Find by dni.
+	 *
+	 * @param dni
+	 *            the dni
+	 * @return the account
+	 */
+	public Account findByDni(String dni);
+
+	/**
 	 * Find by email.
 	 *
 	 * @param email
@@ -59,4 +83,24 @@ public interface AccountRepository {
 	 */
 	public Account findByLogin(String login);
 
+	/**
+	 * Gets the users.
+	 *
+	 * @return the users
+	 */
+	public List<Account> getUsers();
+
+	/**
+	 * Gets the accounts.
+	 *
+	 * @return the accounts
+	 */
+	public List<Account> getAccounts();
+	
+	/**
+	 * Gets the roles.
+	 *
+	 * @return the roles
+	 */
+	public List<String> getRoles();
 }

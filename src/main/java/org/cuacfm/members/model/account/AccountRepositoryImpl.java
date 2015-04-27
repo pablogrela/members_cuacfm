@@ -1,18 +1,19 @@
 package org.cuacfm.members.model.account;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * The Class AccountRepositoryImpl.
- */
+/** The Class AccountRepositoryImpl. */
 @Repository
 @Transactional(readOnly = true)
 public class AccountRepositoryImpl implements AccountRepository {
@@ -31,6 +32,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 	 * @param account
 	 *            the account
 	 * @return the account
+	 * @throws PersistenceException
+	 *             the persistence exception
 	 */
 	@Override
 	@Transactional
@@ -45,11 +48,29 @@ public class AccountRepositoryImpl implements AccountRepository {
 	 * @param account
 	 *            the account
 	 * @return the account
+	 * @throws PersistenceException
+	 *             the persistence exception
 	 */
 	@Override
 	@Transactional
 	public Account update(Account account) throws PersistenceException {
 		return entityManager.merge(account);
+	}
+
+	/**
+	 * Delete.
+	 *
+	 * @param id
+	 *            the id
+	 * @throws ExistInscriptionsException
+	 *             the exist inscriptions exception
+	 */
+	@Override
+	public void delete(Long id) {
+		Account account = findById(id);
+		if (account != null) {
+			entityManager.remove(account);
+		}
 	}
 
 	/**
@@ -77,13 +98,35 @@ public class AccountRepositoryImpl implements AccountRepository {
 	public Account findById(Long id) {
 		try {
 			return entityManager
-					.createNamedQuery(Account.FIND_BY_ID, Account.class)
-					.setParameter("id", id).getSingleResult();
+					.createQuery("select a from Account a where a.id = :id",
+							Account.class).setParameter("id", id)
+					.getSingleResult();
 		} catch (PersistenceException e) {
 			return null;
 		}
 	}
 
+	/**
+	 * Find by dni.
+	 *
+	 * @param dni
+	 *            the dni
+	 * @return the account
+	 */
+	@Override
+	public Account findByDni(String dni){
+		try {
+			return entityManager
+					.createQuery(
+							"select a from Account a where a.dni = :dni",
+							Account.class).setParameter("dni", dni)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		} catch (PersistenceException e) {
+			throw new PersistenceException();
+		}	
+	}
 	/**
 	 * Find by email.
 	 *
@@ -95,8 +138,10 @@ public class AccountRepositoryImpl implements AccountRepository {
 	public Account findByEmail(String email) {
 		try {
 			return entityManager
-					.createNamedQuery(Account.FIND_BY_EMAIL, Account.class)
-					.setParameter("email", email).getSingleResult();
+					.createQuery(
+							"select a from Account a where a.email = :email",
+							Account.class).setParameter("email", email)
+					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		} catch (PersistenceException e) {
@@ -115,12 +160,65 @@ public class AccountRepositoryImpl implements AccountRepository {
 	public Account findByLogin(String login) {
 		try {
 			return entityManager
-					.createNamedQuery(Account.FIND_BY_LOGIN, Account.class)
-					.setParameter("login", login).getSingleResult();
+					.createQuery(
+							"select a from Account a where a.login = :login",
+							Account.class).setParameter("login", login)
+					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		} catch (PersistenceException e) {
 			throw new PersistenceException();
+		}
+	}
+
+	/**
+	 * Gets the users.
+	 *
+	 * @return the users
+	 */
+	@Override
+	public List<Account> getUsers() {
+		try {
+			return entityManager
+					.createQuery(
+							"select a from Account a where a.role = 'ROLE_USER' and a.active = true",
+							Account.class)						
+					.getResultList();
+		} catch (PersistenceException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Gets the accounts.
+	 *
+	 * @return the accounts
+	 */
+	@Override
+	public List<Account> getAccounts() {
+		try {
+			return entityManager.createQuery("select a from Account a",
+					Account.class).getResultList();
+		} catch (PersistenceException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * Gets the roles.
+	 *
+	 * @return the roles
+	 */
+	@Override
+	public List<String> getRoles() {
+		try {
+			return entityManager
+					.createQuery(
+							"select distinct(role) from Account",
+							String.class)
+					.getResultList();
+		} catch (PersistenceException e) {
+			return null;
 		}
 	}
 }

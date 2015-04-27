@@ -3,11 +3,14 @@ package org.cuacfm.members.web.account;
 import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
 import org.cuacfm.members.model.userService.UserService;
 import org.cuacfm.members.web.profile.ProfileForm;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,14 +70,30 @@ public class AccountController {
 			// Show info about user
 			ProfileForm profileForm = new ProfileForm();
 			profileForm.setName(account.getName());
+			profileForm.setDni(account.getDni());
+			profileForm.setAddress(account.getAddress());
 			profileForm.setLogin(account.getLogin());
 			profileForm.setEmail(account.getEmail());
-			profileForm.setAccountTypeId(account.getAccountType().getId());
+			profileForm.setPhone(account.getPhone());
+			profileForm.setMobile(account.getMobile());
+			profileForm.setProgramName(account.getProgramName());
+			profileForm.setStudent(account.isStudent());
+			profileForm.setDateBirth(DisplayDate.dateToString(account
+					.getDateBirth()));
+			if (account.getAccountType() != null) {
+				profileForm.setAccountTypeId(account.getAccountType().getId());
+			}
 			profileForm.setAccountTypes(accountTypeService.getAccountTypes());
-			profileForm.setMethodPaymentId(account.getMethodPayment().getId());
+			if (account.getMethodPayment() != null) {
+				profileForm.setMethodPaymentId(account.getMethodPayment()
+						.getId());
+			}
 			profileForm.setMethodPayments(methodPaymentService
 					.getMethodPayments());
 			profileForm.setInstallments(account.getInstallments());
+			profileForm.setObservations(account.getObservations());
+			profileForm.setRole(String.valueOf(account.getRole()));
+			profileForm.setRoles(java.util.Arrays.asList(roles.values()));
 			model.addAttribute(profileForm);
 			return PROFILE_VIEW_NAME;
 		}
@@ -95,7 +114,6 @@ public class AccountController {
 	 */
 	@RequestMapping(value = "account/{id}", method = RequestMethod.POST)
 	public String modifyAccount(@PathVariable Long id, RedirectAttributes ra) {
-
 		account = accountService.findById(id);
 		return "redirect:/account";
 	}
@@ -119,91 +137,134 @@ public class AccountController {
 	public String profile(@Valid @ModelAttribute ProfileForm profileForm,
 			Errors errors, RedirectAttributes ra, Model model) {
 
-		boolean modify = false;
+		if (errors.hasErrors()) {
+			return PROFILE_VIEW_NAME;
+		}
 
+		boolean modify = false;
 		// Name
 		String name = profileForm.getName();
-		if (profileForm.getOnName() && name != "") {
+		if (profileForm.isOnName() && name != "") {
 			account.setName(name);
 			modify = true;
 		}
 
-		// Password
-		boolean modifyPassword = false;
-		if (profileForm.getOnPassword()) {
-			// check that the password and rePassword are the same
-			String password = profileForm.getPassword();
-			String rePassword = profileForm.getRePassword();
-			if (!password.equals(rePassword)) {
-				errors.rejectValue("password", "profile.passwordsDontMatch");
-				errors.rejectValue("rePassword", "profile.passwordsDontMatch");
-			} else {
-				account.setPassword(password);
-				modify = true;
-				modifyPassword = true;
-			}
+		// Dni
+		String dni = profileForm.getDni();
+		if (profileForm.isOnDni() && dni != "") {
+			// check that doesn't exist other email
+			account.setDni(dni);
+			modify = true;
+
+		}
+
+		// Adrress
+		String address = profileForm.getAddress();
+		if (profileForm.isOnAddress() && address != "") {
+			account.setAddress(address);
+			modify = true;
 		}
 
 		// Login, Queries to database
-		Account accountSearch;
 		String login = profileForm.getLogin();
-		if (profileForm.getOnLogin() && login != "") {
-			// check that doesn't exist other login
-			accountSearch = accountService.findByLogin(login);
-			if (accountSearch != null) {
-				if (accountSearch.getId() != account.getId()) {
-					errors.rejectValue("login", "profile.existentLogin",
-							new Object[] { login }, "login");
-				}
-			} else {
-				account.setLogin(login);
-				modify = true;
-			}
+		if (profileForm.isOnLogin() && login != "") {
+			account.setLogin(login);
+			modify = true;
 		}
 
 		// Email
 		String email = profileForm.getEmail();
-		if (profileForm.getOnEmail() && email != "") {
-			// check that doesn't exist other email
-			accountSearch = accountService.findByEmail(email);
-			if (accountSearch != null) {
-				if (accountSearch.getId() != account.getId()) {
-					errors.rejectValue("email", "profile.existentEmail",
-							new Object[] { email }, "email");
-				}
-			} else {
-				account.setEmail(email);
-				modify = true;
-			}
+		if (profileForm.isOnEmail() && email != "") {
+			account.setEmail(email);
+			modify = true;
+		}
+
+		// Phone
+		if (profileForm.isOnPhone()) {
+			account.setPhone(profileForm.getPhone());
+			modify = true;
+		}
+
+		// Mobile
+		if (profileForm.isOnMobile()) {
+			account.setMobile(profileForm.getMobile());
+			modify = true;
+		}
+
+		// // ProgramName
+		String programName = profileForm.getProgramName();
+		if (profileForm.isOnProgramName() && programName != "") {
+			account.setProgramName(programName);
+			modify = true;
+		}
+
+		// Student
+		if (profileForm.isOnStudent()) {
+			account.setStudent(profileForm.isStudent());
+			modify = true;
+		}
+
+		// DateBirth
+		if (profileForm.isOnDateBirth()) {
+			account.setDateBirth(DisplayDate.stringToDate2(profileForm
+					.getDateBirth()));
+			modify = true;
 		}
 
 		// AccountType
-		if (profileForm.getOnAccountType()) {
+		if (profileForm.isOnAccountType()) {
 			account.setAccountType(accountTypeService.findById(profileForm
 					.getAccountTypeId()));
 			modify = true;
 		}
 
 		// MethodPayment
-		if (profileForm.getOnMethodPayment()) {
+		if (profileForm.isOnMethodPayment()) {
 			account.setMethodPayment(methodPaymentService.findById(profileForm
 					.getMethodPaymentId()));
 			modify = true;
 		}
 
 		// Installments
-		if (profileForm.getOnInstallments()) {
+		if (profileForm.isOnInstallments()) {
 			account.setInstallments(profileForm.getInstallments());
 			modify = true;
 		}
 
-		if (errors.hasErrors()) {
-			return PROFILE_VIEW_NAME;
+		// Observations
+		if (profileForm.isOnObservations()) {
+			account.setObservations(profileForm.getObservations());
+			modify = true;
+		}
+
+		// Role
+		if (profileForm.isOnRole()) {
+			account.setRole(roles.valueOf(profileForm.getRole()));
+			modify = true;
 		}
 
 		// If correct
 		if (modify) {
-			accountService.update(account, modifyPassword);
+			try {
+				accountService.update(account, false);
+			} catch (UniqueException e) {
+				if (e.getAttribute() == "Dni") {
+					errors.rejectValue("dni", "signup.existentDni",
+							new Object[] { dni }, "dni");
+				}
+				if (e.getAttribute() == "Login") {
+					errors.rejectValue("login", "signup.existentLogin",
+							new Object[] { login }, "login");
+				}
+				if (e.getAttribute() == "Email") {
+					errors.rejectValue("email", "signup.existentEmail",
+							new Object[] { email }, "email");
+				}
+			}
+
+			if (errors.hasErrors()) {
+				return PROFILE_VIEW_NAME;
+			}
 		}
 
 		MessageHelper.addWarningAttribute(ra, "account.successModify",
