@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:tiles="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{profile.title}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<!-- SCRIPT -->
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-<script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
-<script src="../../../resources/js/profile.js" th:src="@{/resources/js/profile.js}"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/js/profile.js}"></script>
 <script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
-<script src="../../../resources/js/formcfg-es.js" th:src="@{/resources/js/formcfg-es.js}"></script>
-<script src="../../../resources/js/chargeWebshim.js" th:src="@{/resources/js/chargeWebshim.js}"></script>
+<script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/chargeWebshim.js}"></script>
 </head>
 <body>
 
@@ -40,7 +45,7 @@
 			<!-- Message help-->
 			<legend th:text="#{profile.please}">Would you like to change any of the information?</legend>
 
-			<!-- Insert Name, with a checkbox to enable field name -->
+			<!-- Edit Name, with a checkbox to enable field name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
@@ -53,26 +58,56 @@
 				</div>
 			</div>
 
-			<!-- Insert Login, with a checkbox to enable field login-->
+
+			<!-- Edit dni, with a checkbox to enable field dni -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
+				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
+				<div class="col-lg-10">
+					<input type="text" name="dni" disabled="disabled" class="form-control" id="dni" th:placeholder="#{dni}"
+						th:field="*{dni}" maxlength="30" required="required" /> 
+					<input type="checkbox" id="enableModify2"
+						th:text="#{profile}" name="onDni" onChange="checkedDni(this.form)" /> <span class="help-block"
+						th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Incorrect dni</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			
+			<!-- Edit address, with a checkbox to enable field address -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-error'">
+				<label for="address" class="col-lg-2 control-label" th:text="#{address}">address</label>
+				<div class="col-lg-10">
+					<input type="text" name="address" disabled="disabled" class="form-control" id="address" th:placeholder="#{address}"
+						th:field="*{address}" maxlength="30" required="required" /> 
+						<input type="checkbox" id="enableModify3"
+						th:text="#{profile}" name="onAddress" onChange="checkedAddress(this.form)" /> <span class="help-block"
+						th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect address</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			
+			<!-- Edit Login, with a checkbox to enable field login-->
 			<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="login" disabled="disabled" class="form-control" id="login"
-						th:placeholder="#{login}" th:field="*{login}" maxlength="30" required="required"/> <input type="checkbox" id="enableModify2"
-						th:text="#{profile}" name="onLogin" onChange="checkedLogin(this.form)" /> <span
-						class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect
+						th:placeholder="#{login}" th:field="*{login}" maxlength="30" required="required"/> 
+						<input type="checkbox" id="enableModify4"
+						th:text="#{profile}" name="onLogin" onChange="checkedLogin(this.form)" /> 
+						<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect
 						login</span>
 						<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
 
-			<!-- Insert Email, with a checkbox to enable field email -->
+			<!-- Edit Email, with a checkbox to enable field email -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
 					<input type="text" name="email" disabled="disabled" class="form-control" id="email"
-						th:placeholder="#{email}" th:field="*{email}" maxlength="30" required="required"/> <input type="checkbox" id="enableModify3"
+						th:placeholder="#{email}" th:field="*{email}" maxlength="30" required="required"/> <input type="checkbox" id="enableModify5"
 						th:text="#{profile}" name="onEmail" onChange="checkedEmail(this.form)" /> <span
 						class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect
 						email</span>
@@ -80,14 +115,84 @@
 				</div>
 			</div>
 
-			<!-- Insert Password, with a checkbox to enable field password and rePassword-->
-			<div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+
+			<!-- Edit phone, with a checkbox to enable field phone -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
+				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
+				<div class="col-lg-10">
+					<input type="number" name="phone" disabled="disabled" class="form-control" id="phone" th:placeholder="#{phone}"
+						th:field="*{phone}" maxlength="30" value=""/> <input type="checkbox" id="enableModify6"
+						th:text="#{profile}" name="onPhone" onChange="checkedPhone(this.form)" /><span class="help-block"
+						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			
+			<!-- Edit mobile, with a checkbox to enable field mobile -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
+				<label for="mobile" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
+				<div class="col-lg-10">
+					<input type="number" name="mobile" disabled="disabled" class="form-control" id="mobile" th:placeholder="#{mobile}"
+						th:field="*{mobile}" maxlength="30" required="required" /> <input type="checkbox" id="enableModify7"
+						th:text="#{profile}" name="onMobile" onChange="checkedMobile(this.form)" /><span class="help-block"
+						th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Edit ProgramName -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('programName')}? 'has-error'">
+				<label for="programName" class="col-lg-1 control-label" th:text="#{programName}">programName</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}"
+						th:field="*{programName}" maxlength="30" th:title="#{infoProgramName}" /> <input type="checkbox" id="enableModify15"
+						th:text="#{profile}" name="onProgramName" onChange="checkedProgramName(this.form)" />
+						<span class="help-block"
+						th:if="${#fields.hasErrors('programName')}" th:errors="*{programName}">Incorrect programName</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Edit student, with a checkbox to enable field student -->
+			<div class="form-group" >
+				<label for="student" class="col-lg-2 control-label" th:text="#{student}">student</label>
+				<div class="col-lg-15">
+					<input type="checkbox" name="student" disabled="disabled" id="student"
+						th:title="#{signup.infoStudent}"/>
+				 </div>
+				 <div class="col-lg-10">
+						<input type="checkbox" id="enableModify8"
+						th:text="#{profile}" name="onStudent" onChange="checkedStudent(this.form)" />	
+				 </div>
+			</div>
+			
+			
+			<!-- Edit dateBirth, with a checkbox to enable field dateBirth -->
+			<div class="form-inline form-group"
+				th:classappend="${#fields.hasErrors('dateBirth')}? 'has-error'">
+				<label for="dateBirth" class="col-lg-1 control-label" th:text="#{dateBirth}">dateBirth</label>
+				<div class="col-lg-10">
+						<input type="date" name="dateBirth" disabled="disabled" class="form-control" id="dateBirth" th:placeholder="#{account.dateBirth}"
+						th:field="*{dateBirth}"/> 
+						<br></br><input type="checkbox" id="enableModify9"
+						th:text="#{profile}" name="onDateBirth" onChange="checkedDateBirth(this.form)" /><span class="help-block"
+						th:if="${#fields.hasErrors('dateBirth')}" th:errors="*{dateBirth}">Incorrect
+						dateBirth</span> 
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Edit Password, with a checkbox to enable field password and rePassword-->
+			<div sec:authorize="hasAnyRole('ROLE_USER')" class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
 				<div class="col-lg-10">
 					<input type="password" name="password" disabled="disabled" class="form-control" id="password"
-						th:placeholder="#{password}" th:field="*{password}" minlength="4" maxlength="20" required="required"/> <input type="checkbox"
+						th:placeholder="#{password}" th:field="*{password}" minlength="4" maxlength="20" required="required"/> 
+						<input type="checkbox"
 						id="enablePasswords" th:text="#{profile}" name="onPassword"
-						onChange="checkedPassword(this.form)" /> <span class="help-block"
+						onChange="checkedPassword(this.form)" /> 
+						<span class="help-block"
 						th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
 						<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -95,9 +200,9 @@
 
 
 			<!-- Reinsert Password -->
-			<div id="visibleRePasswords" style="display: none;">
+			<div sec:authorize="hasAnyRole('ROLE_USER')" id="visibleRePasswords" style="display: none;">
 				<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
-					<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}" required="required">rePassword</label>
+					<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
 					<div class="col-lg-10">
 						<input type="password" name="rePassword" disabled="disabled" class="form-control"
 							id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}" minlength="4" data-dependent-validation="password" maxlength="20" required="required"/> <span
@@ -107,16 +212,18 @@
 					</div>
 				</div>
 			</div>
-
-
+			
+			
 			<!-- Button Modify, visible if a checkbox enable is pressed -->
 			<div id="visibleModify" style="display: none;">
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-10">
-						<button type="submit" class="btn btn-success btn-lg" th:text="#{profile}">Sign Up</button>
+						<button type="submit" class="btn btn-success btn-lg" th:text="#{edit}">Sign Up</button>
 					</div>
 				</div>
 			</div>
+			
+
 
 		</fieldset>
 	</form>
