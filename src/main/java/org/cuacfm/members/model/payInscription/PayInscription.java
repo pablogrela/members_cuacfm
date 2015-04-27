@@ -1,5 +1,7 @@
 package org.cuacfm.members.model.payInscription;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,6 +25,12 @@ public class PayInscription implements java.io.Serializable {
 	/** The duration. */
 	private Double price;
 
+	/** The dateLimit1. */
+	private Date dateLimit1;
+
+	/** The dateLimit2. */
+	private Date dateLimit2;
+
 	/** The description. */
 	private String description;
 
@@ -42,15 +50,21 @@ public class PayInscription implements java.io.Serializable {
 	 *            the year
 	 * @param price
 	 *            the price
+	 * @param dateLimit1
+	 *            the date limit1
+	 * @param dateLimit2
+	 *            the date limit2
 	 * @param description
 	 *            the description
 	 */
-	public PayInscription(String name, int year, Double price,
-			String description) {
+	public PayInscription(String name, int year, Double price, Date dateLimit1,
+			Date dateLimit2, String description) {
 		super();
 		this.name = name;
 		this.year = year;
 		this.price = price;
+		this.dateLimit1 = dateLimit1;
+		this.dateLimit2 = dateLimit2;
 		this.description = description;
 	}
 
@@ -61,6 +75,17 @@ public class PayInscription implements java.io.Serializable {
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id
+	 *            the new id
+	 */
+	// If necessary to probe test in Junit, because is necessary one object in detach
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**
@@ -118,6 +143,44 @@ public class PayInscription implements java.io.Serializable {
 	 */
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	/**
+	 * Gets the date limit1.
+	 *
+	 * @return the date limit1
+	 */
+	public Date getDateLimit1() {
+		return dateLimit1;
+	}
+
+	/**
+	 * Sets the date limit1.
+	 *
+	 * @param dateLimit1
+	 *            the new date limit1
+	 */
+	public void setDateLimit1(Date dateLimit1) {
+		this.dateLimit1 = dateLimit1;
+	}
+
+	/**
+	 * Gets the date limit2.
+	 *
+	 * @return the date limit2
+	 */
+	public Date getDateLimit2() {
+		return dateLimit2;
+	}
+
+	/**
+	 * Sets the date limit2.
+	 *
+	 * @param dateLimit2
+	 *            the new date limit2
+	 */
+	public void setDateLimit2(Date dateLimit2) {
+		this.dateLimit2 = dateLimit2;
 	}
 
 	/**

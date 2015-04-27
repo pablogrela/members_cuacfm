@@ -13,9 +13,11 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.payInscription.PayInscription;
 import org.cuacfm.members.model.payInscriptionService.PayInscriptionService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,16 +47,17 @@ public class PayInscriptionEditTest extends WebSecurityConfigurationAware {
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
-		Account admin = new Account("admin", "admin", "admin@udc.es", "admin", "ROLE_ADMIN");
+    public void initializeDefaultSession() throws UniqueException {
+		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", "ROLE_ADMIN");
 		accountService.save(admin);
         defaultSession = getDefaultSession("admin");
         
 		//Create Payment
 		payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),  "pay of 2015");
 		payInscriptionService.save(payInscription);
     }
 
@@ -122,6 +125,8 @@ public class PayInscriptionEditTest extends WebSecurityConfigurationAware {
 				.param("name", "Pay 2015")
 				.param("year", "2016")
 				.param("price", "24")
+				.param("dateLimit1", "2015-04-05")
+				.param("dateLimit2", "2015-07-05")
 				.param("description", "Pay of inscription 2015"))
 		.andExpect(view().name("redirect:/payInscriptionList"));
 	}
@@ -172,17 +177,16 @@ public class PayInscriptionEditTest extends WebSecurityConfigurationAware {
 	public void yearAlreadyExistPayInscriptionEditTest() throws Exception {
 		
 		//Edit Payment
-		PayInscription payInscription2 = new PayInscription("pay of 2016", 2016,
-				Double.valueOf(20), "pay of 2016");
+		PayInscription payInscription2 = new PayInscription("pay of 2016",
+				2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
 		payInscriptionService.save(payInscription2);
-		
-		mockMvc.perform(post("/payInscriptionList/payInscriptionEdit/"+payInscription.getId()).locale(Locale.ENGLISH).session(defaultSession))
-		.andExpect(view().name("redirect:/payInscriptionList/payInscriptionEdit"));
 		
 		mockMvc.perform(post("/payInscriptionList/payInscriptionEdit").locale(Locale.ENGLISH).session(defaultSession)
 				.param("name", "pay of 2015")
 				.param("year", "2016")
 				.param("price", "24")
+				.param("dateLimit1", "2015-04-05")
+				.param("dateLimit2", "2015-07-05")
 				.param("description", "pay of 2015"))
 					.andExpect(content()
 						.string(containsString("Year repeated")))

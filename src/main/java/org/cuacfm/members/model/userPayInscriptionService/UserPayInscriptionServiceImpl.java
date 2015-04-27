@@ -176,4 +176,14 @@ public class UserPayInscriptionServiceImpl implements UserPayInscriptionService 
 				.getUserPayInscriptionListByAccountId(accountId);
 	}
 
+	/**
+	 * Gets the name users by Pay Inscription with role=ROLE_USER an active=true.
+	 *
+	 * @param trainingId the pay inscription id
+	 * @return the name users by pay inscription
+	 */
+	@Override
+	public List<String> getUsernamesByPayInscription(Long payInscriptionId) {
+		return userPayInscriptionRepository.getUsernamesByPayInscription(payInscriptionId);
+	}
 }

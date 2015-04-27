@@ -5,17 +5,19 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.PersistenceException;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.accountType.AccountType;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.methodPayment.MethodPayment;
 import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
 import org.cuacfm.members.model.payInscription.PayInscription;
 import org.cuacfm.members.model.payInscriptionService.PayInscriptionService;
+import org.cuacfm.members.model.userPayInscriptionService.UserPayInscriptionService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,6 +31,10 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 	/** The training service. */
 	@Inject
 	private PayInscriptionService payInscriptionService;
+	
+	/** The training service. */
+	@Inject
+	private UserPayInscriptionService userPayInscriptionService;
 
 	/** The account service. */
 	@Inject
@@ -44,13 +50,14 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 	
 	/**
 	 * Save and find by PayInscription test.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void savePayInscriptionTest() {
+	public void savePayInscriptionTest() throws UniqueException {
 
 		// Save
 		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 
 		// findById
@@ -61,16 +68,50 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Save and find by PayInscription test.
+	 * @throws UniqueException 
 	 */
-	@Test(expected = PersistenceException.class)
-	public void savePayInscriptionExceptionTest() {
+	@Test
+	public void savePayInscriptionWithUsersTest() throws UniqueException {
+		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		accountTypeService.save(accountType);
+		MethodPayment methodPayment = new MethodPayment("cash", "cash");
+		methodPaymentService.save(methodPayment);
+		
+		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		accountService.save(user);
+		user.setAccountType(accountType);
+		user.setMethodPayment(methodPayment);
+		user.setInstallments(1);
+		accountService.update(user, false);
+		
+		Account user2 = new Account("user2", "11111111C", "London", "user2", "email2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		accountService.save(user2);
+		
+		// Save
+		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		payInscriptionService.save(payInscription);
+
+		// findById
+		PayInscription payInscriptionSearch = payInscriptionService
+				.findById(payInscription.getId());
+		assertEquals(payInscription, payInscriptionSearch);
+
+		assertEquals(userPayInscriptionService.getUserPayInscriptionListByPayInscriptionId(payInscription.getId()).size(),2);
+	}
+	/**
+	 * Save and find by PayInscription test.
+	 * @throws UniqueException 
+	 */
+	@Test(expected = UniqueException.class)
+	public void savePayInscriptionExceptionTest() throws UniqueException {
 
 		// Save
 		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 		PayInscription payInscription2 = new PayInscription("pay of 2016",
-				2015, Double.valueOf(20), "pay of 2016");
+				2015, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
 		payInscriptionService.save(payInscription2);
 
 		// findById
@@ -81,32 +122,48 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Save and find by PayInscription test.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void saveUserPayInscriptionTest() {
+	public void saveUserPayInscriptionTest() throws UniqueException {
 
 		// Save
 		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 
 		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
 		accountTypeService.save(accountType);
 		MethodPayment methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
-		Account user = new Account("user", "user", "user@email.com", "demo",
-				"ROLE_USER");
+		
+		Account user = new Account("user", "11111111C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
 		accountService.save(user);
-
-		// Update Account
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
 		user.setInstallments(1);
 		accountService.update(user, false);
-		
 		payInscriptionService.saveUserPayInscription(user, payInscription);
 		
+		Account user2 = new Account("user2", "22222222C", "London", "user2", "email2@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		accountService.save(user2);
+		payInscriptionService.saveUserPayInscription(user2, payInscription);
+		
+		
+		Account user3 = new Account("user3", "33333333C", "London", "user3", "email3@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		accountService.save(user3);
+		user.setInstallments(2);
+		accountService.update(user3, false);
+		payInscriptionService.saveUserPayInscription(user3, payInscription);
+		
+		Account user4 = new Account("user4", "44444444C", "London", "user4", "email4@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
+		accountService.save(user4);
+		user.setInstallments(6);
+		accountService.update(user4, false);
+		payInscriptionService.saveUserPayInscription(user4, payInscription);
+		
 		// findById
+		
 		PayInscription payInscriptionSearch = payInscriptionService
 				.findById(payInscription.getId());
 		assertEquals(payInscription, payInscriptionSearch);
@@ -114,13 +171,14 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 	
 	/**
 	 * Update Inscription
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void UpdatePayInscriptionTest() {
+	public void UpdatePayInscriptionTest() throws UniqueException {
 
 		// Save
 		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 
 		// Update
@@ -143,32 +201,36 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Update Inscription Exception
+	 * @throws UniqueException 
 	 */
-	@Test(expected = PersistenceException.class)
-	public void UpdatePayInscriptionExceptionTest() {
+	@Test(expected = UniqueException.class)
+	public void UpdatePayInscriptionExceptionTest() throws UniqueException {
 
 		// Save
 		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 		PayInscription payInscription2 = new PayInscription("pay of 2016", 2016,
-				Double.valueOf(20), "pay of 2016");
+				Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
 		payInscriptionService.save(payInscription2);
 
 		// Update
-		payInscription.setYear(2016);
-		payInscriptionService.update(payInscription);
+		PayInscription payInscription3 = new PayInscription("pay of 2016", 2016,
+				Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		payInscription3.setId(payInscription.getId());
+		payInscriptionService.update(payInscription3);
 	}
 
 	/**
 	 * findByName test.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void findByNameTest() {
+	public void findByNameTest() throws UniqueException {
 
 		// Save
 		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 
 		// findByName
@@ -179,13 +241,14 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * findByYear test.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void findByYearTest() {
+	public void findByYearTest() throws UniqueException {
 
 		// Save
 		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 
 		// findByName
@@ -196,9 +259,10 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * getPayInscriptionList test.
+	 * @throws UniqueException 
 	 */
 	@Test
-	public void getPayInscriptionListTest() {
+	public void getPayInscriptionListTest() throws UniqueException {
 
 		// getPayInscriptionList, no PayInscriptions
 		List<PayInscription> payInscriptionList = payInscriptionService
@@ -208,10 +272,10 @@ public class PayInscriptionServiceTest extends WebSecurityConfigurationAware {
 
 		// Save
 		PayInscription payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 		PayInscription payInscription2 = new PayInscription("pay of 2016",
-				2016, Double.valueOf(20), "pay of 2016");
+				2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
 		payInscriptionService.save(payInscription2);
 
 		// getPayInscriptionList

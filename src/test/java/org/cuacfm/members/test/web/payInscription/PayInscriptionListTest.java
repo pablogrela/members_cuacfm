@@ -14,11 +14,13 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.accountType.AccountType;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.methodPayment.MethodPayment;
 import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
 import org.cuacfm.members.model.payInscription.PayInscription;
 import org.cuacfm.members.model.payInscriptionService.PayInscriptionService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,16 +67,16 @@ public class PayInscriptionListTest extends WebSecurityConfigurationAware {
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
-		Account admin = new Account("admin", "admin", "admin@udc.es", "admin", "ROLE_ADMIN");
+    public void initializeDefaultSession() throws UniqueException {
+		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", "ROLE_ADMIN");
 		accountService.save(admin);
         defaultSession = getDefaultSession("admin");
         
         // Create User
-		user = new Account("user", "user", "email1@udc.es", "demo",
-				"ROLE_USER");
+		user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
 		accountService.save(user);
 		accountType = new AccountType("Adult", "Fee for adults", 0);
 		accountTypeService.save(accountType);
@@ -86,8 +88,8 @@ public class PayInscriptionListTest extends WebSecurityConfigurationAware {
 		accountService.update(user, false);
 		
 		//Create Payment
-		payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+		payInscription = new PayInscription("pay of 2016",
+				2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
 		payInscriptionService.save(payInscription);
     }
 

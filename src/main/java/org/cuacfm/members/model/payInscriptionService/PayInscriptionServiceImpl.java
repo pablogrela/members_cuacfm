@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.PersistenceException;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.payInscription.PayInscription;
 import org.cuacfm.members.model.payInscription.PayInscriptionRepository;
 import org.cuacfm.members.model.userPayInscription.UserPayInscription;
@@ -42,20 +42,29 @@ public class PayInscriptionServiceImpl implements PayInscriptionService {
 	 * @param payInscription
 	 *            the pay inscription
 	 * @return the pay inscription
+	 * @throws UniqueException 
 	 */
 	@Override
-	public PayInscription save(PayInscription payInscription) {
+	public PayInscription save(PayInscription payInscription) throws UniqueException {
 		// It is verified that there is not exist year of payInscription in other payInscription
 		if (payInscriptionRepository.findByYear(payInscription.getYear()) != null) {
-			throw new PersistenceException("Already exist name: "
-					+ payInscription.getYear());
+			throw new UniqueException("Year", String.valueOf(payInscription.getYear()));
 		}
 		
 		payInscriptionRepository.save(payInscription);
+		int percent;
+		
 		
 		// Create payments of users
 		for (Account user :accountService.getUsers()){
-			Double discount = (payInscription.getPrice() * user.getAccountType().getDiscount()) / 100;
+			if (user.getAccountType() != null){
+				percent = user.getAccountType().getDiscount();
+			}
+			else {
+				percent = 0;
+			}
+			
+			Double discount = (payInscription.getPrice() * percent) / 100;
 			Double price = payInscription.getPrice() - discount;
 			price = (price/user.getInstallments());
 			
@@ -84,14 +93,23 @@ public class PayInscriptionServiceImpl implements PayInscriptionService {
 		Double discount = fee * account.getAccountType().getDiscount() / 100;
 		Double price = fee - discount;*/
 		
-		int month = LocalDate.now().getMonthValue();
+		int month = 0;
+		int percent = 0;
+		if (account.getAccountType() != null){
+			percent = account.getAccountType().getDiscount();
+		}
+
+		// If the same year applied the discount
+		if (payInscription.getYear()==LocalDate.now().getYear()){
+			month = LocalDate.now().getMonthValue();
+		}
 		
 		Double fee = payInscription.getPrice()/12 * month;
-		Double discount = (payInscription.getPrice() * account.getAccountType().getDiscount()) / 100;
+		Double discount = (payInscription.getPrice() * percent) / 100;
 		Double price = payInscription.getPrice() - discount;
 		price = (price/account.getInstallments());	
 		Double amount = Double.valueOf(0);
-		
+
 		// Create installments
 		for (int installment=1; installment<=account.getInstallments(); installment++){
 			
@@ -116,15 +134,15 @@ public class PayInscriptionServiceImpl implements PayInscriptionService {
 	 * @param payInscription
 	 *            the pay inscription
 	 * @return the pay inscription
+	 * @throws UniqueException 
 	 */
 	@Override
-	public PayInscription update(PayInscription payInscription) {
+	public PayInscription update(PayInscription payInscription) throws UniqueException {
 		// It is verified that there is not exist name of trainingType in other trainingType
 		PayInscription payInscriptionSearch = payInscriptionRepository.findByYear(payInscription.getYear());
 		if (payInscriptionSearch != null) {
 			if (payInscriptionSearch.getId() != payInscription.getId()) {
-				throw new PersistenceException("Already exist name: "
-						+ payInscription.getYear());
+				throw new UniqueException("Year", String.valueOf(payInscription.getYear()));
 			}
 		}
 		return payInscriptionRepository.update(payInscription);

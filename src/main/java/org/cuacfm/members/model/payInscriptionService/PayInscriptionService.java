@@ -3,6 +3,7 @@ package org.cuacfm.members.model.payInscriptionService;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.payInscription.PayInscription;
 
 
@@ -15,8 +16,9 @@ public interface PayInscriptionService {
 	 * @param payInscription
 	 *            the pay inscription
 	 * @return the pay inscription
+	 * @throws UniqueException 
 	 */
-	public PayInscription save(PayInscription payInscription);
+	public PayInscription save(PayInscription payInscription) throws UniqueException;
 
 	/**
 	 * Save user pay inscription.
@@ -35,8 +37,9 @@ public interface PayInscriptionService {
 	 * @param payInscription
 	 *            the pay inscription
 	 * @return the pay inscription
+	 * @throws UniqueException 
 	 */
-	public PayInscription update(PayInscription payInscription);
+	public PayInscription update(PayInscription payInscription) throws UniqueException;
 
 	/**
 	 * Find by Name the payInscription.

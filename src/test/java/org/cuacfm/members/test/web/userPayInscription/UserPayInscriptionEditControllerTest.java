@@ -16,6 +16,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.accountType.AccountType;
 import org.cuacfm.members.model.accountTypeService.AccountTypeService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.methodPayment.MethodPayment;
 import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
 import org.cuacfm.members.model.payInscription.PayInscription;
@@ -23,6 +24,7 @@ import org.cuacfm.members.model.payInscriptionService.PayInscriptionService;
 import org.cuacfm.members.model.userPayInscription.UserPayInscription;
 import org.cuacfm.members.model.userPayInscriptionService.UserPayInscriptionService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -77,15 +79,16 @@ public class UserPayInscriptionEditControllerTest extends WebSecurityConfigurati
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
+    public void initializeDefaultSession() throws UniqueException {
 		accountType = new AccountType("Adult", "Fee for adults", 0);
 		accountTypeService.save(accountType);
 		methodPayment = new MethodPayment("cash", "cash");
 		methodPaymentService.save(methodPayment);
-		
-		Account admin = new Account("admin", "admin", "admin@udc.es", "admin", "ROLE_ADMIN");
+				
+		Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es", 666666666, 666666666, "admin", "ROLE_ADMIN");
 		accountService.save(admin);
         admin.setAccountType(accountType);
         admin.setMethodPayment(methodPayment);
@@ -95,8 +98,7 @@ public class UserPayInscriptionEditControllerTest extends WebSecurityConfigurati
 		
         
         // Create User
-		user = new Account("user", "user", "email1@udc.es", "demo",
-				"ROLE_USER");
+		user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", "ROLE_USER");
 		accountService.save(user);
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
@@ -105,7 +107,7 @@ public class UserPayInscriptionEditControllerTest extends WebSecurityConfigurati
 		
 		//Create Payment
 		payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-03-01"), DisplayDate.stringToDate2("2015-09-01"), "pay of 2015");
 		payInscriptionService.save(payInscription);
 		
 		pay = userPayInscriptionService.getUserPayInscriptionListByAccountId(user.getId()).get(0);

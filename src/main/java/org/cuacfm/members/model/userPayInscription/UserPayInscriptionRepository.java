@@ -80,4 +80,11 @@ public interface UserPayInscriptionRepository {
 	public List<UserPayInscription> getUserPayInscriptionListByAccountId(
 			Long accountId);
 
+	/**
+	 * Gets the name users by Pay Inscription with role=ROLE_USER an active=true.
+	 *
+	 * @param trainingId the pay inscription id
+	 * @return the name users by pay inscription
+	 */
+	public List<String> getUsernamesByPayInscription(Long payInscriptionId);
 }

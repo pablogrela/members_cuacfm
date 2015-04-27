@@ -2,8 +2,10 @@ package org.cuacfm.members.web.payInscription;
 
 import javax.validation.Valid;
 
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.payInscription.PayInscription;
 import org.cuacfm.members.model.payInscriptionService.PayInscriptionService;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,7 +64,8 @@ public class PayInscriptionEditController {
 			payInscriptionForm.setYear(payInscription.getYear());
 			payInscriptionForm.setPrice(payInscription.getPrice());
 			payInscriptionForm.setDescription(payInscription.getDescription());
-
+			payInscriptionForm.setDateLimit1(DisplayDate.dateToString(payInscription.getDateLimit1()));
+			payInscriptionForm.setDateLimit2(DisplayDate.dateToString(payInscription.getDateLimit2()));
 			model.addAttribute(payInscription);
 			model.addAttribute(payInscriptionForm);
 			return TRAINING_VIEW_NAME;
@@ -87,16 +90,6 @@ public class PayInscriptionEditController {
 	public String training(@Valid @ModelAttribute PayInscriptionForm payInscriptionForm,
 			Errors errors, RedirectAttributes ra, Model model) {
 
-		// It is verified that there is not exist year of payInscription in other payInscription
-		int year = payInscriptionForm.getYear();
-		PayInscription payInscriptionSearch = payInscriptionService.findByYear(year);
-		if (payInscriptionSearch != null) {	
-			if (payInscriptionSearch.getId() != payInscription.getId()) {
-				errors.rejectValue("year", "payInscription.yearException",
-					new Object[] { year }, "year");
-			}
-		}
-		
 		if (errors.hasErrors()) {
 			return TRAINING_VIEW_NAME;
 		}
@@ -106,11 +99,23 @@ public class PayInscriptionEditController {
 		payInscription.setYear(payInscriptionForm.getYear());
 		payInscription.setPrice(payInscriptionForm.getPrice());
 		payInscription.setDescription(payInscriptionForm.getDescription());
-
+		payInscription.setDateLimit1(DisplayDate.stringToDate2(payInscriptionForm.getDateLimit1()));
+		payInscription.setDateLimit2(DisplayDate.stringToDate2(payInscriptionForm.getDateLimit2()));
+		int year = payInscriptionForm.getYear();
 		
-		payInscriptionService.update(payInscription);
+		try {
+			payInscriptionService.update(payInscription);
+		// It is verified that there is not exist year of payInscription in other payInscription
+		} catch (UniqueException e) {
+			errors.rejectValue("year", "payInscription.yearException",
+					new Object[] { year }, "year");
+		}
+		
+		if (errors.hasErrors()) {
+			return TRAINING_VIEW_NAME;
+		}
+		
 		MessageHelper.addWarningAttribute(ra, "payInscription.successModify", payInscriptionForm.getName());
-		
 		return "redirect:/payInscriptionList";
 	}
 

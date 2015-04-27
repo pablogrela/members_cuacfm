@@ -179,4 +179,30 @@ public class UserPayInscriptionRepositoryImpl implements
 			return null;
 		}
 	}
+	
+	/**
+	 * Gets the name users by Pay Inscription with role=ROLE_USER an active=true.
+	 *
+	 * @param trainingId the pay inscription id
+	 * @return the name users by pay inscription
+	 */
+	@Override
+	public List<String> getUsernamesByPayInscription(Long payInscriptionId) {
+		try {
+			return entityManager
+					.createQuery(
+							"select a.login from Account a "
+							+ "where a.role = 'ROLE_USER' "
+							+ "and a.active = true "
+							+ "and a.id not in "
+							+ "(select c.id from Account c, UserPayInscription p "
+							+ "where p.payInscription.id = :payInscriptionId and p.account.id = c.id) "
+							+ "order by a.login"
+							,String.class)
+							.setParameter("payInscriptionId", payInscriptionId)		
+					.getResultList();
+		} catch (PersistenceException e) {
+			return null;
+		}
+	}
 }

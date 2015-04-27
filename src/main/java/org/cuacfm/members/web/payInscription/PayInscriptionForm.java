@@ -8,9 +8,11 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.payInscription.PayInscription;
 import org.cuacfm.members.model.payInscriptionService.PayInscriptionService;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 
+// TODO: Auto-generated Javadoc
 /** The Class PayInscriptionForm. */
 public class PayInscriptionForm {
 
@@ -30,8 +32,9 @@ public class PayInscriptionForm {
 	private String name;
 
 	/** The year. */
+	@NotNull
 	@Min(2015)
-	private int year;
+	private Integer year;
 
 	/** The price. */
 	@NotNull
@@ -39,6 +42,14 @@ public class PayInscriptionForm {
 	@DecimalMin("0.00")
 	private Double price;
 
+	/** The dateLimit1. */
+	@NotBlank(message = PayInscriptionForm.NOT_BLANK_MESSAGE)
+	private String dateLimit1;
+	
+	/** The dateLimit2. */
+	@NotBlank(message = PayInscriptionForm.NOT_BLANK_MESSAGE)
+	private String dateLimit2;
+	
 	/** The description. */
 	@NotBlank(message = PayInscriptionForm.NOT_BLANK_MESSAGE)
 	@Size(max = 500, message = PayInscriptionForm.MAX_CHARACTERS)
@@ -68,22 +79,22 @@ public class PayInscriptionForm {
 		this.name = name;
 	}
 
+
 	/**
 	 * Gets the year.
 	 *
 	 * @return the year
 	 */
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
 	/**
 	 * Sets the year.
 	 *
-	 * @param year
-	 *            the new year
+	 * @param year the new year
 	 */
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
@@ -104,6 +115,42 @@ public class PayInscriptionForm {
 	 */
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	/**
+	 * Gets the date limit1.
+	 *
+	 * @return the date limit1
+	 */
+	public String getDateLimit1() {
+		return dateLimit1;
+	}
+
+	/**
+	 * Sets the date limit1.
+	 *
+	 * @param dateLimit1 the new date limit1
+	 */
+	public void setDateLimit1(String dateLimit1) {
+		this.dateLimit1 = dateLimit1;
+	}
+
+	/**
+	 * Gets the date limit2.
+	 *
+	 * @return the date limit2
+	 */
+	public String getDateLimit2() {
+		return dateLimit2;
+	}
+
+	/**
+	 * Sets the date limit2.
+	 *
+	 * @param dateLimit2 the new date limit2
+	 */
+	public void setDateLimit2(String dateLimit2) {
+		this.dateLimit2 = dateLimit2;
 	}
 
 	/**
@@ -133,7 +180,7 @@ public class PayInscriptionForm {
 	public PayInscription createPayInscription() {
 
 		return new PayInscription(getName(),
-				getYear(), getPrice(),
+				getYear(), getPrice(), DisplayDate.stringToDate2(dateLimit1), DisplayDate.stringToDate2(dateLimit2),
 				getDescription());
 	}
 

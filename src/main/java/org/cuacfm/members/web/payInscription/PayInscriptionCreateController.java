@@ -2,6 +2,7 @@ package org.cuacfm.members.web.payInscription;
 
 import javax.validation.Valid;
 
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.payInscriptionService.PayInscriptionService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,10 +60,17 @@ public class PayInscriptionCreateController {
 	public String payInscription(
 			@Valid @ModelAttribute PayInscriptionForm payInscriptionForm,
 			Errors errors, RedirectAttributes ra, Model model) {
-	
-		// It is verified that there is not exist year of payInscription in other payInscription
+			
+		if (errors.hasErrors()) {
+			return PAYINSCRIPTION_VIEW_NAME;
+		}
+		
 		int year = payInscriptionForm.getYear();
-		if (payInscriptionService.findByYear(year) != null) {		
+		String name = payInscriptionForm.getName();
+		try {
+			payInscriptionService.save(payInscriptionForm.createPayInscription());
+		// It is verified that there is not exist year of payInscription in other payInscription
+		} catch (UniqueException e) {
 			errors.rejectValue("year", "payInscription.yearException",
 					new Object[] { year }, "year");
 		}
@@ -71,8 +79,6 @@ public class PayInscriptionCreateController {
 			return PAYINSCRIPTION_VIEW_NAME;
 		}
 		
-		String name = payInscriptionForm.getName();
-		payInscriptionService.save(payInscriptionForm.createPayInscription());
 		MessageHelper.addSuccessAttribute(ra, "payInscription.successCreate", name);
 		return "redirect:/payInscriptionList";
 	}

@@ -13,9 +13,11 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.payInscription.PayInscription;
 import org.cuacfm.members.model.payInscriptionService.PayInscriptionService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,10 +47,11 @@ public class PayInscriptionCreateTest extends WebSecurityConfigurationAware {
 	
     /**
      * Initialize default session.
+     * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() {
-		Account admin = new Account("admin", "admin", "admin@udc.es", "admin", "ROLE_ADMIN");
+    public void initializeDefaultSession() throws UniqueException {
+		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", "ROLE_ADMIN");
 		accountService.save(admin);
         defaultSession = getDefaultSession("admin");
     }
@@ -90,6 +93,8 @@ public class PayInscriptionCreateTest extends WebSecurityConfigurationAware {
 				.param("name", "Pay 2015")
 				.param("year", "2015")
 				.param("price", "24")
+				.param("dateLimit1", "2015-04-05")
+				.param("dateLimit2", "2015-07-05")
 				.param("description", "Pay of inscription 2015"))
 		.andExpect(view().name("redirect:/payInscriptionList"));
 	}
@@ -127,7 +132,7 @@ public class PayInscriptionCreateTest extends WebSecurityConfigurationAware {
 						.string(containsString("The value may not be empty!")))
                 		.andExpect(view().name("payinscription/payinscriptioncreate"));
 	}
-	
+
 	/**
 	 * Send dataBlankPayInscriptionCreate.
 	 * @throws Exception the exception
@@ -136,12 +141,14 @@ public class PayInscriptionCreateTest extends WebSecurityConfigurationAware {
 	public void yearAlreadyExistPayInscriptionCreateTest() throws Exception {    
 		//Create Payment
 		payInscription = new PayInscription("pay of 2015", 2015,
-				Double.valueOf(20), "pay of 2015");
+				Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),  "pay of 2015");
 		payInscriptionService.save(payInscription);
 		
 		mockMvc.perform(post("/payInscriptionList/payInscriptionCreate").locale(Locale.ENGLISH).session(defaultSession)
 				.param("name", "pay of 2015")
 				.param("year", "2015")
+				.param("dateLimit1", "2015-04-05")
+				.param("dateLimit2", "2015-07-05")
 				.param("price", "24")
 				.param("description", "pay of 2015"))
 					.andExpect(content()
