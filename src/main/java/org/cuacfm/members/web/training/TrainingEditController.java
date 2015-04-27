@@ -84,8 +84,6 @@ public class TrainingEditController {
 		else {
 			return "redirect:/trainingList";
 		}
-		
-		
 	}
 	
 	/**

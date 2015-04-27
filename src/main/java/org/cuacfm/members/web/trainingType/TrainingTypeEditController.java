@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class TrainingTypeEditController. */
 @Controller
+//@Secured("ROLE_ADMIN")
 public class TrainingTypeEditController {
 
 	/** The Constant TRAINING_VIEW_NAME. */

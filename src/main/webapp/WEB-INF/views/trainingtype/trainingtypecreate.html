@@ -20,8 +20,7 @@
 <div th:replace="fragments/header :: header(active='trainingType')">&nbsp;</div>
 
 
-<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{trainingTypeCreate}" th:object="${trainingTypeForm}">
-    
+<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{trainingTypeCreate}" th:object="${trainingTypeForm}">   
     
     <!--/* Show general error message when form contains errors */-->
     <th:block th:if="${#fields.hasErrors('${trainingTypeForm.*}')}">

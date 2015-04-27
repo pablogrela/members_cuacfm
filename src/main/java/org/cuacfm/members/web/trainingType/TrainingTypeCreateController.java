@@ -77,5 +77,4 @@ public class TrainingTypeCreateController {
 				trainingTypeForm.getName());
 		return "redirect:/trainingTypeList";
 	}
-
 }

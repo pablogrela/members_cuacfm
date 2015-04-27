@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class TrainingViewController. */
-//@Secured("ROLE_ADMIN")
 @Controller
 public class TrainingViewController {
 
@@ -24,7 +23,7 @@ public class TrainingViewController {
 	private TrainingService trainingService;
 
 	/** The Global variable training. */
-	Training training;
+	private Training training;
 
 	/**
 	 * Instantiates a new training Controller.
