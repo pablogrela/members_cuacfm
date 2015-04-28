@@ -20,7 +20,7 @@
 	<div th:replace="fragments/header :: header">&nbsp;</div>
 
 	
-	<form class="form-narrow form-horizontal" method="post" th:action="@{/authenticate}" th:authentication-failure-handler-ref="authenticationFailureHandler">
+	<form class="form-narrow form-horizontal" method="post" th:action="@{/authenticate}">
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${param.error != null}">

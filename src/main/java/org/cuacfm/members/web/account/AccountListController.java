@@ -26,6 +26,9 @@ public class AccountListController {
 	@Autowired
 	private AccountService accountService;
 
+	/** The rol admin. */
+	private roles rolAdmin = roles.ROLE_ADMIN;
+
 	/**
 	 * Instantiates a new account List Controller.
 	 */
@@ -41,6 +44,16 @@ public class AccountListController {
 	@ModelAttribute("accounts")
 	public List<Account> accounts() {
 		return accountService.getAccounts();
+	}
+
+	/**
+	 * Rol admin.
+	 *
+	 * @return the roles
+	 */
+	@ModelAttribute("rolAdmin")
+	public roles rolAdmin() {
+		return rolAdmin;
 	}
 
 	/**
@@ -69,12 +82,13 @@ public class AccountListController {
 
 		Account account = accountService.findById(id);
 		String name = account.getName();
-		if (account.getRole()==roles.ROLE_ADMIN){
-			MessageHelper.addErrorAttribute(ra, "account.errorUnsubscribe", name);
-		}
-		else {	
+		if (account.getRole() == roles.ROLE_ADMIN) {
+			MessageHelper.addErrorAttribute(ra, "account.errorUnsubscribe",
+					name);
+		} else {
 			accountService.Unsubscribe(id);
-			MessageHelper.addInfoAttribute(ra, "account.successUnsubscribe", name);
+			MessageHelper.addInfoAttribute(ra, "account.successUnsubscribe",
+					name);
 		}
 		return "redirect:/accountList";
 	}

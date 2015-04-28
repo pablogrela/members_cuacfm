@@ -11,8 +11,8 @@ public class DisplayDate {
 	/**
 	 * Convert String to date.
 	 *
-	 * @param dateTraining
-	 *            the date training
+	 * @param date
+	 *            the date
 	 * @return the date
 	 */
 	public static Date stringToDate(String date) {
@@ -31,10 +31,10 @@ public class DisplayDate {
 	}
 
 	/**
-	 * Convert String to date.
+	 * Convert String to date2.
 	 *
-	 * @param dateTraining
-	 *            the date training
+	 * @param date
+	 *            the date
 	 * @return the date
 	 */
 	public static Date stringToDate2(String date) {
@@ -46,41 +46,41 @@ public class DisplayDate {
 		} catch (ParseException ex) {
 			ex.printStackTrace();
 		}
-		
+
 		return newDate;
 	}
-	
+
 	/**
-	 * Convert String to date.
+	 * Convert String to date time.
 	 *
-	 * @param dateTraining
-	 *            the date training
+	 * @param dateTime
+	 *            the date time
 	 * @return the date
 	 */
 	public static Date stringToDateTime(String dateTime) {
 		Date newDate = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
-			try {
-				newDate = dateFormat.parse(dateTime);
-			} catch (ParseException ex) {
-				ex.printStackTrace();
+		try {
+			newDate = dateFormat.parse(dateTime);
+		} catch (ParseException ex) {
+			ex.printStackTrace();
 		}
 		return newDate;
 	}
-	
+
 	/**
 	 * Convert String paypal to date.
 	 *
-	 * @param dateTraining
-	 *            the date training
+	 * @param date
+	 *            the date
 	 * @return the date
 	 */
 	public static Date stringPaypalToDate(String date) {
 		Date newDate = new Date();
 		date = date.substring(0, 21);
-		SimpleDateFormat dateFormat = 
-				new SimpleDateFormat("HH:mm:ss MMM dd, yyyy", Locale.US);
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"HH:mm:ss MMM dd, yyyy", Locale.US);
 
 		try {
 			newDate = dateFormat.parse(date);
@@ -91,16 +91,17 @@ public class DisplayDate {
 	}
 
 	/**
-	 * Date time to string.
+	 * Convert Date time to string.
 	 *
-	 * @param dateTimeTraining
-	 *            the date time training
+	 * @param dateTime
+	 *            the date time
 	 * @return the string
 	 */
 	public static String dateTimeToString(Date dateTime) {
 		String stringDateTime = "";
 		if (dateTime != null) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+			SimpleDateFormat dateFormat = new SimpleDateFormat(
+					"HH:mm dd/MM/yyyy");
 			stringDateTime = dateFormat.format(dateTime);
 		}
 		return stringDateTime;
@@ -109,8 +110,8 @@ public class DisplayDate {
 	/**
 	 * Convert Date to string.
 	 *
-	 * @param dateTraining
-	 *            the date training
+	 * @param date
+	 *            the date
 	 * @return the string
 	 */
 	public static String dateToString(Date date) {
@@ -123,10 +124,10 @@ public class DisplayDate {
 	}
 
 	/**
-	 * Convert Time to string.
+	 * Time to string.
 	 *
-	 * @param timeTraining
-	 *            the time training
+	 * @param time
+	 *            the time
 	 * @return the string
 	 */
 	public static String timeToString(Date time) {
@@ -135,4 +136,22 @@ public class DisplayDate {
 		return stringTime;
 	}
 
+	/**
+	 * Convert String to timetable.
+	 *
+	 * @param timetable
+	 *            the timetable
+	 * @return the date
+	 */
+	public static Date stringToTimetable(String timetable) {
+		Date newDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm EEEE");
+
+		try {
+			newDate = dateFormat.parse(timetable);
+		} catch (ParseException ex) {
+			ex.printStackTrace();
+		}
+		return newDate;
+	}
 }

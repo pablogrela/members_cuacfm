@@ -67,7 +67,7 @@
 					<td th:text="${account.role}">role</td>
 
 					<!-- Unsubscribe Account -->
-					<td th:if="${account.active} and !${account.role=='ROLE_ADMIN'}">
+					<td th:if="${account.active} and !${account.role==rolAdmin}">
 						<form th:action="@{'accountList/accountUnsubscribe/'+${account.id}}" method="post">
 							<button class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
 								th:title="#{account.infoUnsubscribe}" style="color: red"></button>
@@ -75,7 +75,7 @@
 					</td>
 					
 					<!-- Fill table entry -->
-					<td th:if="${account.active} and ${account.role=='ROLE_ADMIN'}"></td>
+					<td th:if="${account.active} and ${account.role==rolAdmin}"></td>
 					
 					<!-- Subscribe Account -->
 					<td th:if="!${account.active}">

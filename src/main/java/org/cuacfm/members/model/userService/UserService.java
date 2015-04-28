@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-/** The Class UserService.*/
+/** The Class UserService. */
 public class UserService implements UserDetailsService {
 
 	/** The account service. */
@@ -30,6 +30,16 @@ public class UserService implements UserDetailsService {
 		// Default empty constructor.
 	}
 
+	/**
+	 * Load user in the system by login.
+	 *
+	 * @param login
+	 *            the login
+	 * @param account
+	 *            the account
+	 * @return the UserDetails
+	 * @throws UsernameNotFoundException
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String login)
 			throws UsernameNotFoundException {
@@ -58,7 +68,8 @@ public class UserService implements UserDetailsService {
 	 *            the account
 	 * @return the authentication
 	 */
-	private Authentication authenticate(Account account) throws AuthenticationException {
+	private Authentication authenticate(Account account)
+			throws AuthenticationException {
 		return new UsernamePasswordAuthenticationToken(createUser(account),
 				null, Collections.singleton(createAuthority(account)));
 	}
@@ -71,14 +82,15 @@ public class UserService implements UserDetailsService {
 	 * @return the user
 	 */
 	private User createUser(Account account) {
-        boolean enabled = account.isActive();
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
-        
-        return new User (account.getLogin(), account.getPassword(), enabled, 
-        	accountNonExpired, credentialsNonExpired, accountNonLocked, 
-        	Collections.singleton(createAuthority(account)));
+		//If account.active = false throw exception errorUserDisabled in view signin
+		boolean enabled = account.isActive();
+		boolean accountNonExpired = true;
+		boolean credentialsNonExpired = true;
+		boolean accountNonLocked = true;
+
+		return new User(account.getLogin(), account.getPassword(), enabled,
+				accountNonExpired, credentialsNonExpired, accountNonLocked,
+				Collections.singleton(createAuthority(account)));
 	}
 
 	/**
