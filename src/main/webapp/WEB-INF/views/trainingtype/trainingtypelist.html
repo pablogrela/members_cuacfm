@@ -53,11 +53,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
 	<fieldset>
 
-		<h2 class="text-center" th:text="#{trainingType.trainingTypelist}">List of Training Types</h2>
-
 		<!-- Verify if exits Trainings -->
 		<div class="container" th:unless="${#lists.isEmpty(trainingTypes)}">
-
+		
+			<h2 class="text-center" th:text="#{trainingType.trainingTypelist}">List of Training Types</h2>
 
 			<!-- Table List of Training Types -->
 			<table class="table table-striped table-hover table-responsive" id="customTable">

@@ -88,6 +88,15 @@
 					</th:block>
 
 
+					<!-- Button Program -->
+					<th:block th:if="${active != 'program'}" sec:authorize="isAuthenticated()">
+						<li><a href="#" th:href="@{/programList}" th:text="#{programs}">programList</a></li>
+					</th:block>
+					<th:block th:if="${active == 'program'}" sec:authorize="isAuthenticated()">
+						<li class="active"><a href="#" th:href="@{/programList}" th:text="#{programs}">programList</a></li>
+					</th:block>
+					
+
 					<!-- Button User Payments -->
 					<th:block th:if="${active != 'userPayments'}"
 						sec:authorize="hasAnyRole('ROLE_USER')">

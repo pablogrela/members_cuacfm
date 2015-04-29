@@ -21,13 +21,6 @@ function evaluateModal(form, modal, accept) {
 	});
 }
 
-// View by defect show message
-function evaluateModal5() {
-	if (confirm('¿Estas seguro de enviar este formulario?')) {
-		document.form.submit()
-	}
-}
-
 // lock and unlock field name
 function checkedName(form) {
 	if (form.onName.checked == true) {
