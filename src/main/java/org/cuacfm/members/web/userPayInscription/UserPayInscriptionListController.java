@@ -106,13 +106,11 @@ public class UserPayInscriptionListController {
 	 *
 	 * @param payInscriptionId
 	 *            the pay inscription id
-	 * @param ra
-	 *            the ra
 	 * @return the string
 	 */
 	@RequestMapping(value = "payInscriptionList/userPayInscriptionList/{payInscriptionId}", method = RequestMethod.POST)
 	public String viewUserPayInscriptionsByPayInscriptionId(
-			@PathVariable Long payInscriptionId, RedirectAttributes ra) {
+			@PathVariable Long payInscriptionId) {
 		payInscription = payInscriptionService.findById(payInscriptionId);
 		return "redirect:/payInscriptionList/userPayInscriptionList";
 	}
@@ -132,37 +130,42 @@ public class UserPayInscriptionListController {
 	 */
 	@RequestMapping(value = "payInscriptionList/userPayInscriptionList", method = RequestMethod.POST)
 	public String addUserToUserPayInscriptionList(
-			@Valid @ModelAttribute FindUserForm FindUserForm, Errors errors,
-			RedirectAttributes ra, Model model) {
+			@Valid @ModelAttribute FindUserForm findUserForm, Errors errors,
+			RedirectAttributes ra) {
 
 		if (errors.hasErrors()) {
 			return USERPAYINSCRIPTION_VIEW_NAME;
 		}
 
-		// Find by login
-		String login = FindUserForm.getLogin();
-
+		String name = findUserForm.getLogin();
+		Long id = Long.valueOf(0);
+		if (name.contains(": ")){
+			String[] parts = findUserForm.getLogin().split(": ");
+			id = Long.valueOf(parts[0]);
+			name = parts[1].split(" - ")[0].trim();
+		}		
+		
 		// Check if account exist
-		Account account = accountService.findByLogin(login);
+		Account account = accountService.findById(id);
 		if (account == null) {
 			errors.rejectValue("login", "inscription.noExistLogin",
-					new Object[] { login }, "login");
+					new Object[] { name }, "login");
 			return USERPAYINSCRIPTION_VIEW_NAME;
 		}
 
 		// Check if account already userPayInscription
-		List<UserPayInscription> userPayInscriptions = userPayInscriptionService
+		List<UserPayInscription> userPayInscriptionsSearched = userPayInscriptionService
 				.findByUserPayInscriptionIds(account.getId(),
 						payInscription.getId());
-		if (!userPayInscriptions.isEmpty()) {
+		if (!userPayInscriptionsSearched.isEmpty()) {
 			errors.rejectValue("login", "userPayInscription.alreadyExistLogin",
-					new Object[] { login }, "login");
+					new Object[] {name }, "login");
 			return USERPAYINSCRIPTION_VIEW_NAME;
 		}
 
 		payInscriptionService.saveUserPayInscription(account, payInscription);
 		MessageHelper.addSuccessAttribute(ra, "userPayInscription.successJoin",
-				login);
+				name);
 		return "redirect:/payInscriptionList/userPayInscriptionList";
 	}
 

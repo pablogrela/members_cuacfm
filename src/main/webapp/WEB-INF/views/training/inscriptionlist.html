@@ -163,34 +163,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		</form>
 	</div>
 
-
-
-
-	<!-- Table List of Inscriptions, desactivado
-	<table class="table table-striped table-hover form-narrow ">
-		<thead>
-			<tr>
-				<th th:text="#{name}">Name</th>
-			</tr>
-		</thead>
-		<tbody th:each="inscription : ${inscriptions}">
-			<tr>
-				<td th:text="${inscription.account.name}">name</td>
-				 Remove Join Training 
-				<td class="text-center">
-					<form
-						th:action="@{'inscriptionList/trainingRemoveJoin/'+${inscription.account.id}}"
-						method="post">
-						<button class="btn btn-link glyphicon glyphicon-remove-sign"
-							th:title="#{inscription.infoRemove}" style="color: red"></button>
-					</form>
-				</td>
-
-			</tr>
-		</tbody>
-	</table>
-	-->
-
 	<!-- Modal Info Close Inscriptions	-->
 	<div id="modal" class="modal fade">
 	    <div class="modal-dialog">
@@ -209,7 +181,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	        </div>
 	    </div>
     </div>
-
 
 </body>
 </html>

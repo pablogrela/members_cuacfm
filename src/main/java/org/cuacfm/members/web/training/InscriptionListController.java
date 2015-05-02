@@ -11,7 +11,6 @@ import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
 import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.inscription.Inscription;
-import org.cuacfm.members.model.inscription.InscriptionRepository;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingService.TrainingService;
 import org.cuacfm.members.web.support.DisplayDate;
@@ -41,10 +40,6 @@ public class InscriptionListController {
 	/** The TrainingTypeService. */
 	@Autowired
 	private TrainingService trainingService;
-
-	/** The inscription repository. */
-	@Autowired
-	private InscriptionRepository inscriptionRepository;
 	
 	/** The inscriptions. */
 	public List<Inscription> inscriptions;
@@ -52,11 +47,11 @@ public class InscriptionListController {
 	/** The inscriptions form. */
 	public InscriptionsForm inscriptionsForm;
 
-	/** The nameUsers. */
+	/** The usersNames. */
 	public List<String> usernames;
 
 	/** The users. */
-	//public List<Account> users;
+	public List<Account> users;
 	
 	/** The training. */
 	private Training training;
@@ -120,8 +115,8 @@ public class InscriptionListController {
 					.getId());
 			model.addAttribute("usernames", usernames);
 			
-			//users = accountService.getUsers();
-			//model.addAttribute("users", users);
+			users = accountService.getUsers();
+			model.addAttribute("users", users);
 
 			model.addAttribute(new FindUserForm());
 			return TRAINING_VIEW_NAME;
@@ -195,10 +190,11 @@ public class InscriptionListController {
 					.isUnsubscribe()) {
 				inscriptions.get(index).setUnsubscribe(
 						insUpdate.get(index).isUnsubscribe());
-				if (insUpdate.get(index).isUnsubscribe() == true)
+				if (insUpdate.get(index).isUnsubscribe() == true){
 					count = count - 1;
-				else
+				} else {
 					count = count + 1;
+				}
 				modify = true;
 			}
 			if (modify) {
@@ -237,28 +233,34 @@ public class InscriptionListController {
 	@RequestMapping(value = "trainingList/inscriptionList", method = RequestMethod.POST)
 	public String addUserToInscriptionList(
 			@Valid @ModelAttribute FindUserForm findUserForm, Errors errors,
-			RedirectAttributes ra, Model model) {
+			RedirectAttributes ra) {
 		
 		if (errors.hasErrors()) {
 			return TRAINING_VIEW_NAME;
 		}
 		
+		String name = findUserForm.getLogin();
+		Long id = Long.valueOf(0);
+		if (name.contains(": ")){
+			String[] parts = findUserForm.getLogin().split(": ");
+			id = Long.valueOf(parts[0]);
+			name = parts[1].split(" - ")[0].trim();
+		}		
 		
 		// Check if account exist
-		String login = findUserForm.getLogin();
-		Account account = accountService.findByLogin(findUserForm.getLogin());
+		Account account = accountService.findById(id);
 		if (account == null) {
 			errors.rejectValue("login", "inscription.noExistLogin",
-					new Object[] { login }, "login");
+					new Object[] { name }, "login");
 			return TRAINING_VIEW_NAME;
 		}
 
 
 		try {
 			trainingService
-					.createInscription(account.getId(), training.getId());
+					.createInscription(id, training.getId());
 			MessageHelper.addSuccessAttribute(ra, "inscription.successJoin",
-					login);
+					name);
 			
 		} catch (UserAlreadyJoinedException e) {
 			errors.rejectValue("login", "inscription.alreadyExistLogin",
