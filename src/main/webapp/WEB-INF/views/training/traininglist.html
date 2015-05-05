@@ -34,16 +34,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
 
 				<!-- DropList Box -->
-				<select onchange="this.form.submit()" class="btn btn-success btn-lg" id="trainingTypeId"
-					name="trainingTypeId" th:field="*{trainingTypeId}">
+				<select onchange="this.form.submit()" class="btn btn-success btn-lg" th:field="*{trainingTypeId}">
 
 					<!-- Default option in droplist -->
-					<option th:value="0" th:text="#{training.createNewTraining}" style="display:none;" >Create New Training</option>
+					<option th:value="0" th:text="#{training.createNewTraining}" style="display:none;">Create New Training</option>
 
 					<!-- Selected option in droplist -->
-					<option th:field="*{trainingTypeId}"
-						th:each="trainingType : ${trainingSelectForm.trainingTypes}" th:value="${trainingType.id}"
-						th:text="${trainingType.name}">name</option>
+					<option th:each="trainingType : ${trainingSelectForm.trainingTypes}" 
+							th:value="${trainingType.id}"
+							th:text="${trainingType.name}"> name
+					</option>
 				</select> <br></br>
 			</form>
 		</div>
@@ -153,12 +153,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 
 						<!-- Start Only Users -->
-						<th:block sec:authorize="hasRole('ROLE_USER')">
+						<th:block sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_PREREGISTERED')">
 
 							<th:block th:if="!${#lists.contains(trainingUnsubscribeIds, training.id)}">
 								<!-- Join Training -->
 								<td th:if="!${#lists.contains(trainingAccountIds, training.id)}" class="text-center">
-									<form th:action="@{'trainingList/trainingJoin/'+${training.id}}" method="post">
+									<form th:action="@{'trainingUserList/trainingJoin/'+${training.id}}" method="post">
 										<button class="btnTable btn-link glyphicon glyphicon-ok-sign" th:title="#{training.join}"
 											style="color: green"></button>
 									</form>
@@ -166,7 +166,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 								<!-- Remove Join Training -->		
 								<td th:if="${#lists.contains(trainingAccountIds, training.id)}" class="text-center">						
-									<form th:action="@{'trainingList/trainingRemoveJoin/'+${training.id}}" method="post" id="formEvaluate2">
+									<form th:action="@{'trainingUserList/trainingRemoveJoin/'+${training.id}}" method="post" id="formEvaluate2">
 										<button type="button" class="btnTable btn-link glyphicon glyphicon-remove-sign"
 											th:title="#{training.infoRemoveJoin}" style="color: red" onclick="evaluateModal(this.form, modal2, accept2)"></button>
 									</form>												

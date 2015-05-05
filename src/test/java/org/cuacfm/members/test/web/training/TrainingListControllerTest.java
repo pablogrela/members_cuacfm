@@ -14,12 +14,12 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
-import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.training.Training;
-import org.cuacfm.members.model.trainingService.TrainingService;
-import org.cuacfm.members.model.trainingType.TrainingType;
-import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
+import org.cuacfm.members.model.trainingservice.TrainingService;
+import org.cuacfm.members.model.trainingtype.TrainingType;
+import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
@@ -167,10 +167,32 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
 		
-		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/trainingUserList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 		.andExpect(view().name("redirect:/trainingList"));
 	}
 	
+	  /**
+    * Send trainingJoin.
+    * @throws Exception the exception
+    */
+   @Test
+   public void userAlreadyJoinedExceptionTest() throws Exception {    
+      TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
+      trainingTypeService.save(trainingType);
+      String dateTraining = "10:30,2015-12-05"; 
+      Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
+            "description", "place", 90, 10);    
+      trainingService.save(training);
+      Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+      accountService.save(user);
+      
+      mockMvc.perform(post("/trainingUserList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+      .andExpect(view().name("redirect:/trainingList"));
+      
+      mockMvc.perform(post("/trainingUserList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+      .andExpect(view().name("redirect:/trainingList"));
+   }
+   
 	/**
 	 * Send trainingJoin MaxInscriptions.
 	 * @throws Exception the exception
@@ -187,7 +209,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		accountService.save(user);
 		trainingService.createInscription(user.getId(), training.getId());
 		
-		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/trainingUserList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 		.andExpect(view().name("redirect:/trainingList"));
 	}
 	
@@ -204,10 +226,10 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 				"description", "place", 90, 1);		
 		trainingService.save(training);
 
-		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/trainingUserList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 		.andExpect(view().name("redirect:/trainingList"));
 		
-		mockMvc.perform(post("/trainingList/trainingRemoveJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/trainingUserList/trainingRemoveJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 		.andExpect(view().name("redirect:/trainingList"));
 	}
 	
@@ -224,7 +246,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 				"description", "place", 90, 1);		
 		trainingService.save(training);
 
-		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/trainingUserList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 		.andExpect(view().name("redirect:/trainingList"));
 	}
 	/**
@@ -240,13 +262,13 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 				"description", "place", 90, 1);		
 		trainingService.save(training);
 
-		mockMvc.perform(post("/trainingList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/trainingUserList/trainingJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 		.andExpect(view().name("redirect:/trainingList"));
 		
-		mockMvc.perform(post("/trainingList/trainingRemoveJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/trainingUserList/trainingRemoveJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 		.andExpect(view().name("redirect:/trainingList"));
 		
-		mockMvc.perform(post("/trainingList/trainingRemoveJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/trainingUserList/trainingRemoveJoin/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 		.andExpect(view().name("redirect:/trainingList"));
 	}
 	

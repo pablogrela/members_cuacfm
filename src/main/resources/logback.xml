@@ -12,7 +12,8 @@
 	</appender>
 
 	<jmxConfigurator />
-	<root level="WARN">
+	<!--  Enable put level="WARN" --> 
+	<root level="OFF">
 		<appender-ref ref="STDOUT" />
 	</root>
 

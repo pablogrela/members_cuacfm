@@ -16,11 +16,11 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
-import org.cuacfm.members.model.accountService.AccountService;
-import org.cuacfm.members.model.accountType.AccountType;
-import org.cuacfm.members.model.accountTypeService.AccountTypeService;
-import org.cuacfm.members.model.methodPayment.MethodPayment;
-import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
+import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.accounttype.AccountType;
+import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
+import org.cuacfm.members.model.methodpayment.MethodPayment;
+import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.profile.ProfileForm;
 import org.junit.Before;
@@ -276,7 +276,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	}
 
 	/**
-	 * Send profile form with insuficient characters in password.
+	 * Send profile form with insufficient characters in password.
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -296,7 +296,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	}
 
 	/**
-	 * Send profile form with diferent password.
+	 * Send profile form with different password.
 	 * 
 	 * @throws Exception
 	 *             the exception
@@ -397,6 +397,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(
 				post("/profile").locale(Locale.ENGLISH).session(defaultSession)
 						.param("onName", "true").param("name", "name")
+						.param("onNickName", "true").param("nickName", "nickName")
 						.param("onDni", "true").param("dni", "dni")
 						.param("onAddress", "true").param("address", "address")
 						.param("onLogin", "true").param("login", "login")

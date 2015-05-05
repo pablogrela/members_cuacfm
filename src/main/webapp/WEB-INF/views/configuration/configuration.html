@@ -35,6 +35,74 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		</th:block>
 	</div>
 
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/configuration}"
+		th:object="${configurationForm}">
+
+		<!--/* Show general error message when form contains errors */-->
+		<th:block th:if="${#fields.hasErrors('${configurationForm.*}')}">
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{signup.error})">Alert</div>
+		</th:block>
+
+		<fieldset>
+
+			<!-- Message help-->
+			<legend th:text="#{configuration.info}">Info</legend>
+
+			<!-- Insert Name -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}"
+						maxlength="30" required="required" /> <span class="help-block ws-errorbox"
+						th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			<!-- Insert Email -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
+				<div class="col-lg-10">
+					<input type="email" class="form-control" id="email" th:placeholder="#{email}"
+						th:field="*{email}" maxlength="30" required="required" /> <span class="help-block"
+						th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+			<!-- Insert phone -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
+				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
+				<div class="col-lg-10">
+					<input type="number" class="form-control" id="phone" th:placeholder="#{phone}"
+						th:field="*{phone}" maxlength="30" value=""/> <span class="help-block"
+						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+		
+			<!-- Edit DescriptionRul -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('descriptionRul')}? 'has-error'">
+				<label for="descriptionRul" class="col-lg-2 control-label" th:text="#{descriptionRul}">descriptionRul</label>
+				<div class="col-lg-10">
+					<textarea class="form-control" id="descriptionRul" th:placeholder="#{descriptionRul}"
+						th:field="*{descriptionRul}" rows="5" cols="40" maxlength="500" required="required">
+            	Description</textarea>
+					<span class="help-block" th:if="${#fields.hasErrors('descriptionRul')}" th:errors="*{descriptionRul}">Incorrect
+						descriptionRul</span> 
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Button Edit Configuration -->
+			<div class="form-group">
+				<div class="text-center">
+					<button type="submit" class="btn btn-success btn-lg" th:text="#{configuration.modify}">Modify</button>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
 
 
 	<!-- Button Create New Account Type -->

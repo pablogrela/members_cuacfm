@@ -2,8 +2,6 @@ package org.cuacfm.members.config;
 
 import java.net.UnknownHostException;
 
-import com.mongodb.Mongo;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -14,37 +12,38 @@ import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.convert.MongoTypeMapper;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
+import com.mongodb.Mongo;
 
 @Configuration
 class MongoConfig {
 
-    @SuppressWarnings("deprecation")
-	@Bean
-    public MongoDbFactory mongoDbFactory() throws UnknownHostException {
-        return new SimpleMongoDbFactory(new Mongo(), "nue");
-    }
+   @SuppressWarnings("deprecation")
+   @Bean
+   public MongoDbFactory mongoDbFactory() throws UnknownHostException {
+      return new SimpleMongoDbFactory(new Mongo(), "nue");
+   }
 
-    @Bean
-    public MongoTemplate mongoTemplate() throws UnknownHostException {
-        MongoTemplate template = new MongoTemplate(mongoDbFactory(), mongoConverter());
-        return template;
-    }
+   @Bean
+   public MongoTemplate mongoTemplate() throws UnknownHostException {
+      return new MongoTemplate(mongoDbFactory(), mongoConverter());
+   }
 
-    @Bean
-    public MongoTypeMapper mongoTypeMapper() {
-        return new DefaultMongoTypeMapper(null);
-    }
+   @Bean
+   public MongoTypeMapper mongoTypeMapper() {
+      return new DefaultMongoTypeMapper(null);
+   }
 
-    @Bean
-    public MongoMappingContext mongoMappingContext() {
-        return new MongoMappingContext();
-    }
+   @Bean
+   public MongoMappingContext mongoMappingContext() {
+      return new MongoMappingContext();
+   }
 
-    @Bean
-    public MappingMongoConverter mongoConverter() throws UnknownHostException {
-        @SuppressWarnings("deprecation")
-		MappingMongoConverter converter = new MappingMongoConverter(mongoDbFactory(), mongoMappingContext());
-        converter.setTypeMapper(mongoTypeMapper());
-        return converter;
-    }
+   @Bean
+   public MappingMongoConverter mongoConverter() throws UnknownHostException {
+      @SuppressWarnings("deprecation")
+      MappingMongoConverter converter = new MappingMongoConverter(mongoDbFactory(),
+            mongoMappingContext());
+      converter.setTypeMapper(mongoTypeMapper());
+      return converter;
+   }
 }

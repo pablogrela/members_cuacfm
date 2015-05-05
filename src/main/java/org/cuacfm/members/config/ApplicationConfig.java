@@ -13,26 +13,26 @@ import org.springframework.stereotype.Controller;
  * The Class ApplicationConfig.
  */
 @Configuration
-@ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({
-		Controller.class, Configuration.class }))
+@ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({ Controller.class,
+      Configuration.class }))
 class ApplicationConfig {
-	/**
-	 * Instantiates a new application config.
-	 */
-	public ApplicationConfig() {
-		// Default empty constructor.
-	}
+   /**
+    * Instantiates a new application config.
+    */
+   protected ApplicationConfig() {
+      // Default empty constructor.
+   }
 
-	/**
-	 * Property placeholder configurer.
-	 *
-	 * @return the property placeholder configurer
-	 */
-	@Bean
-	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
-		PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
-		ppc.setLocation(new ClassPathResource("/persistence.properties"));
-		return ppc;
-	}
+   /**
+    * Property placeholder configurer.
+    *
+    * @return the property placeholder configurer
+    */
+   @Bean
+   public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
+      PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
+      ppc.setLocation(new ClassPathResource("/persistence.properties"));
+      return ppc;
+   }
 
 }

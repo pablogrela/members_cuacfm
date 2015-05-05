@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
-import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.test.config.WebAppConfigurationAware;
 import org.junit.Test;
 import org.junit.runner.RunWith;

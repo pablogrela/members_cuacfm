@@ -1,3 +1,6 @@
+DROP TABLE PayProgram;
+DROP TABLE FeeProgram;
+DROP TABLE UserPrograms;
 DROP TABLE UserPayInscription;
 DROP TABLE PayInscription;
 DROP TABLE Inscription;
@@ -6,6 +9,17 @@ DROP TABLE TrainingType;
 DROP TABLE Account;
 DROP TABLE AccountType;
 DROP TABLE MethodPayment;
+DROP TABLE Program;
+
+
+CREATE TABLE Configuration (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(30) NOT NULL,
+    email VARCHAR(30),
+    phone INT NOT NULL,
+    descriptionRul VARCHAR(500),
+    CONSTRAINT ConfigurationId_PK PRIMARY KEY (id)
+);
 
 
 CREATE TABLE MethodPayment (
@@ -30,6 +44,7 @@ CREATE TABLE AccountType (
 CREATE TABLE Account(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
+    nickName VARCHAR(30),
     dni VARCHAR(30) NOT NULL,
     address VARCHAR(30) NOT NULL,
     login VARCHAR(30) NOT NULL,
@@ -38,7 +53,7 @@ CREATE TABLE Account(
     phone INT,
     mobile INT NOT NULL,
     methodPaymentId INT,
-    accountTypeId INT,   
+    accountTypeId INT,
     installments INT NOT NULL,
     student BOOLEAN,
     dateBirth TIMESTAMP NULL,
@@ -53,7 +68,18 @@ CREATE TABLE Account(
     CONSTRAINT LoginUniqueKey UNIQUE (login),
     CONSTRAINT EmailUniqueKey UNIQUE (email)
     );   
-
+    
+CREATE TABLE Program(
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(30) NOT NULL,
+    periodicity FLOAT NOT NULL,
+    duration INT NOT NULL,
+    description VARCHAR(100),
+    active BOOLEAN,
+    CONSTRAINT ProgramId_PK PRIMARY KEY (id),
+    CONSTRAINT NameProgramUniqueKey UNIQUE (name)
+); 
+	
 
 CREATE TABLE TrainingType(
     id INT NOT NULL auto_increment, 
@@ -108,14 +134,42 @@ CREATE TABLE Service(
     CONSTRAINT ServiceId_PK PRIMARY KEY (id)
 	);  
 	
+CREATE TABLE FeeProgram(
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(30) NOT NULL,
+ 	date DATE NOT NULL,
+    price DOUBLE(5,2) NOT NULL,
+    dateLimit TIMESTAMP NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT FeeProgram_PK PRIMARY KEY (id),
+    CONSTRAINT DateUniqueKey UNIQUE (date)
+);    
 
+CREATE TABLE PayProgram(
+    id INT NOT NULL auto_increment, 
+    programId INT NOT NULL,
+    feeProgramId INT NOT NULL,
+    price DOUBLE(5,2) NOT NULL,
+    accountPayer VARCHAR(30),
+    hasPay BOOLEAN,
+   	idPayer VARCHAR(30),
+   	idTxn VARCHAR(30),
+   	emailPayer VARCHAR(30),
+   	statusPay VARCHAR(30),
+    datePay TIMESTAMP NULL,
+    CONSTRAINT PayProgramId_PK PRIMARY KEY (id),
+	CONSTRAINT PayProgram_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
+	CONSTRAINT FeeProgramId_FK FOREIGN KEY (feeProgramId) REFERENCES FeeProgram(id),
+	CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
+);   
+	
 CREATE TABLE PayInscription(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
     year int NOT NULL,
     price DOUBLE(4,2) NOT NULL,
-    dateLimit1 TIMESTAMP NOT NULL,
-    dateLimit2 TIMESTAMP NOT NULL,
+    dateLimit1 DATE NOT NULL,
+    dateLimit2 DATE NOT NULL,
     description VARCHAR(100),
     CONSTRAINT PayInscriptionId_PK PRIMARY KEY (id),
     CONSTRAINT YearUniqueKey UNIQUE (year)
@@ -136,12 +190,27 @@ CREATE TABLE UserPayInscription(
    	statusPay VARCHAR(30),
     datePay TIMESTAMP NULL,
     CONSTRAINT UserPayInscriptionId_PK PRIMARY KEY (id),
-	CONSTRAINT UserPayInscriptionId_Account_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+	CONSTRAINT UserPayInscription_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
 	CONSTRAINT PayInscriptionId_FK FOREIGN KEY (payInscriptionId) REFERENCES PayInscription(id),
 	CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
 	);   	
 
+	
+	
+CREATE TABLE UserPrograms(
+    id INT NOT NULL auto_increment, 
+    accountId INT NOT NULL,
+    programId INT NOT NULL,
+    CONSTRAINT UserProgramsId_PK PRIMARY KEY (id),
+    CONSTRAINT UserPrograms_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT UserPrograms_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id)
+);	
+	
 
+-- Insert Configuration:
+insert into Configuration values (1, 'CuacFM', 'cuacfm@org', 981666666, 'asdas');
+
+	
 -- Insert Account Types:
 insert into AccountType values (1, 'No', 'No tiene que pagar', 100);
 insert into AccountType values (2, 'Adulto', 'Tarifa adulta', 0);
@@ -158,40 +227,53 @@ insert into MethodPayment values (4, 'Paypal', 'Paypal');
 
 -- Insert Account:
 insert into Account values 
-(1, 'user', '12345678A', 'CuacFM', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(1, 'user', null, '12345678A', 'CuacFM', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(2, 'admin', '12345678B', 'CuacFM', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(2, 'admin', null, '12345678B', 'CuacFM', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_ADMIN');
 
 insert into Account values 
-(3, 'trainer', '12345678C', 'CuacFM', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(3, 'trainer', null, '12345678C', 'CuacFM', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_TRAINER');
 
 insert into Account values 
-(4, 'Pablo Grela', '12345678D', 'CuacFM', 'pablo', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(4, 'Pablo Grela', null, '12345678D', 'CuacFM', 'pablo.grela', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 3, 3, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(5, 'Manuel Fernandez', '12345678E', 'CuacFM', 'manu', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(5, 'Manuel Fernandez', null, '12345678E', 'CuacFM', 'manuel.fernandez', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(6, 'Lorena Borrazás', '12345678F', 'CuacFM', 'lore', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(6, 'Lorena Borrazás', null, '12345678F', 'CuacFM', 'lore.borrazas', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
 insert into Account values 
-(7, 'Lorena Fernandez', '12345678Z', 'CuacFM', 'loref', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(7, 'Lorena Fernandez', null, '12345678Z', 'CuacFM', 'lore.fernandez', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 	
 insert into Account values 
-(8, 'Manuel Borrazás', '12345678P', 'CuacFM', 'manub', 'manuf@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(8, 'Manuel Borrazás', null, '12345678P', 'CuacFM', 'manu.borrazas', 'manuf@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
 insert into Account values 
-(9, 'Pablo Martínez Pérez', '12347678P', 'CuacFM', 'pmp', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(9, 'Pablo Martínez Pérez', null, '12347678P', 'CuacFM', 'pablo.martinez.perez', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+
+	
+	
+  -- Insert Program:
+insert into Program values 
+(1, 'Program 1', 1, 1, 'Description of Program 1', true);
+
+insert into Program values 
+(2, 'Program 2', 1, 2, 'Description of Program 2', true);
+
+insert into UserPrograms values (1, 4, 1);
+insert into UserPrograms values (2, 5, 1);
+insert into UserPrograms values (3, 4, 2);
 
 
 -- Insert Trainings Type:

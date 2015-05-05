@@ -13,9 +13,9 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
-import org.cuacfm.members.model.accountService.AccountService;
-import org.cuacfm.members.model.methodPayment.MethodPayment;
-import org.cuacfm.members.model.methodPaymentService.MethodPaymentService;
+import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.methodpayment.MethodPayment;
+import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;

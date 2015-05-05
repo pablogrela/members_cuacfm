@@ -95,7 +95,7 @@
 				<label for="idTxn" class="col-lg-1 control-label" th:text="#{userPayinscription.idTxn}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="idTxn" class="form-control" id="idTxn"
-						th:placeholder="#{userPayinscription.idTxn}" th:field="*{idTxn}" maxlength="30" required="required"/> 
+						th:placeholder="#{userPayinscription.idTxn}" th:field="*{idTxn}" maxlength="30"/> 
 						<span class="help-block" th:if="${#fields.hasErrors('idTxn')}" th:errors="*{idTxn}">Incorrect
 						idTxn</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -109,7 +109,7 @@
 				<label for="idPayer" class="col-lg-1 control-label" th:text="#{userPayinscription.idPayer}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="idPayer" class="form-control" id="idPayer"
-						th:placeholder="#{userPayinscription.idPayer}" th:field="*{idPayer}" maxlength="30" required="required"/>  
+						th:placeholder="#{userPayinscription.idPayer}" th:field="*{idPayer}" maxlength="30"/>  
 						<span class="help-block" th:if="${#fields.hasErrors('idPayer')}" th:errors="*{idPayer}">Incorrect
 						idPayer</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -123,7 +123,7 @@
 				<label for="emailPayer" class="col-lg-1 control-label" th:text="#{userPayinscription.emailPayer}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="emailPayer" class="form-control" id="emailPayer"
-						th:placeholder="#{userPayinscription.emailPayer}" th:field="*{emailPayer}" maxlength="30" required="required"/> 
+						th:placeholder="#{userPayinscription.emailPayer}" th:field="*{emailPayer}" maxlength="30"/> 
 						<span class="help-block" th:if="${#fields.hasErrors('emailPayer')}" th:errors="*{emailPayer}">Incorrect
 						emailPayer</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -137,7 +137,7 @@
 				<label for="statusPay" class="col-lg-1 control-label" th:text="#{userPayinscription.statusPay}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="statusPay" class="form-control" id="statusPay"
-						th:placeholder="#{userPayinscription.statusPay}" th:field="*{statusPay}" maxlength="30" required="required"/> 
+						th:placeholder="#{userPayinscription.statusPay}" th:field="*{statusPay}" maxlength="30"/> 
 						<span class="help-block" th:if="${#fields.hasErrors('statusPay')}" th:errors="*{statusPay}">Incorrect
 						statusPay</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -153,7 +153,7 @@
 				<div class="col-lg-10">
 						<input
 						type="datetime" class="form-control" id="datePay" th:placeholder="#{userPayinscription.datePay}"
-						th:field="*{datePay}" required="required" /> <span class="help-block"
+						th:field="*{datePay}"/> <span class="help-block"
 						th:if="${#fields.hasErrors('datePay')}" th:errors="*{datePay}">Incorrect
 						datePay</span> 
 						<div class="ws-errorbox" hidden=""></div>

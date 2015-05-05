@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 <!-- CSS -->
-<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}"/>
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/core.css}" />
-<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css" />
 <!-- SCRIPT -->
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
 <script th:src="@{/resources/js/bootstrap.min.js}"></script>
@@ -26,48 +26,9 @@
 	<div th:replace="fragments/header :: header(active='payInscription')">&nbsp;</div>
 
 
-	<!-- Form to add user by login -->
-	<div>
-		<form class="form-narrow form-horizontal ws-validate" method="post"
-			th:action="@{userPayInscriptionList}" th:object="${findUserForm}">
+	<h1 class="text-center" th:text="*{payInscription.name}">List of User Pay Inscriptions</h1>
+	<br></br>
 
-			<fieldset>
-				<!-- Title -->
-				<legend th:text="#{userPayinscription.infoAddUser}">Add user to training</legend>
-
-				<!-- Insert Login -->
-				<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
-					<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
-					<div class="col-lg-10 text-danger">
-						<input type="text" class="form-control"  list="userlist" th:placeholder="#{login}" 
-						th:field="*{login}" required="required" autocomplete="off"/> 
-						
-						<!-- Datalist is a search by keyword-->
-						<datalist  id="userlist">
-						  	<option th:each="username : ${usernames}" th:value="${username}"/>
-						</datalist>
-						
-						<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect
-						login</span>
-						<div class="ws-errorbox"  hidden=""></div>
-					</div>
-				</div>
-
-
-				<!-- Button Add User to userPayInscription-->
-				<div class="form-group">
-					<div class="text-center">
-						<button type="submit" class="btn btn-success btn-lg" th:text="#{userPayinscription.addUser}">Add
-							User</button>
-					</div>
-				</div>
-			</fieldset>
-		</form>
-	</div>
-
-
-	<h2 class="text-center" th:text="#{userPayInscription.userPayInscriptionList}">List of User
-		Pay Inscriptions</h2>
 
 	<div class="container text-center">
 		<!-- /* Handle the flash message */-->
@@ -77,6 +38,52 @@
 				th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 		</th:block>
 	</div>
+
+	<br></br>
+
+
+	<!-- Form to add user by login -->
+	<div >
+		<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{userPayInscriptionList}"
+			th:object="${findUserForm}">
+
+			<fieldset>
+				<!-- Title -->
+				<legend th:text="#{userPayinscription.infoAddUser}">Add user to training</legend>
+
+				<!-- Insert Login -->
+				<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+					<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+					<div class="col-lg-10 text-danger">
+						<input type="text" class="form-control" list="userlist" th:placeholder="#{login}" th:field="*{login}"
+							required="required" autocomplete="off" />
+
+						<!-- Datalist is a search by keyword-->
+						<datalist id="userlist">
+							<option th:each="username : ${usernames}" th:value="${username}" />
+						</datalist>
+
+						<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+						<div class="ws-errorbox" hidden=""></div>
+					</div>
+				</div>
+
+
+				<!-- Button Add User to userPayInscription-->
+				<div class="form-group">
+					<div class="text-center">
+						<button type="submit" class="btn btn-success btn-lg" th:text="#{userPayinscription.addUser}">Add User</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+
+
+
+	<br></br>
+	<h2 class="text-center" th:text="#{userPayInscription.userPayInscriptionList}">List of User Pay Inscriptions</h2>
 
 	<!-- Verify if exits payInscriptions -->
 	<div class="container" th:unless="${#lists.isEmpty(userPayInscriptions)}">
@@ -110,33 +117,33 @@
 					<th:block th:if="${userPayInscription.hasPay == true}">
 						<td th:text="#{true}">true</td>
 					</th:block>
-					<td th:text="${userPayInscription.installment} + #{of} + ${userPayInscription.installments}">installment of installments</td>
+					<td th:text="${userPayInscription.installment} + #{of} + ${userPayInscription.installments}">installment of
+						installments</td>
 
 
 					<!-- Modify userPayinscription  -->
 					<td>
 						<form th:action="@{'userPayInscriptionList/userPayInscriptionEdit/'+${userPayInscription.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}"
-								style="color: orange"></button>
-						</form>
-					</td>
-					
-					
-					<!-- Pay userPayinscription -->
-					<td th:if="!${userPayInscription.hasPay}" class="text-center">
-						<form th:action="@{'userPayInscriptionList/pay/'+${userPayInscription.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}"
-								style="color: green"></button>
+							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
 						</form>
 					</td>
 
-						
+
+					<!-- Pay userPayinscription -->
+					<td th:if="!${userPayInscription.hasPay}" class="text-center">
+						<form th:action="@{'userPayInscriptionList/pay/'+${userPayInscription.id}}" method="post">
+							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
+						</form>
+					</td>
+
+
 					<!-- Fill table entry, pay inscription -->
 					<td th:if="${userPayInscription.hasPay}"></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+
 
 </body>
 </html>

@@ -13,10 +13,10 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
-import org.cuacfm.members.model.accountService.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
-import org.cuacfm.members.model.accountType.AccountType;
-import org.cuacfm.members.model.accountTypeService.AccountTypeService;
+import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.accounttype.AccountType;
+import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;

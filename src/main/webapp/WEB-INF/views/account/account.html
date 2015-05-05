@@ -58,6 +58,20 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				</div>
 			</div>
 
+			<!-- Edit NickName, with a checkbox to enable field nickName-->
+			<div class="form-group" th:classappend="${#fields.hasErrors('nickName')}? 'has-error'">
+				<label for="nickName" class="col-lg-2 control-label" th:text="#{nickName}">NickName</label>
+				<div class="col-lg-10">
+					<input type="text" name="nickName" disabled="disabled" class="form-control" id="nickName"
+						th:placeholder="#{nickName}" th:field="*{nickName}" maxlength="30" required="required"/> 
+						<input type="checkbox" id="enableModify16"
+						th:text="#{profile}" name="onNickName" onChange="checkedNickName(this.form)" /> <span
+						class="help-block" th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Incorrect
+						nickName</span>
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
 			<!-- Edit dni, with a checkbox to enable field dni -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
 				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
@@ -173,6 +187,36 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						th:if="${#fields.hasErrors('dateBirth')}" th:errors="*{dateBirth}">Incorrect
 						dateBirth</span> 
 						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Edit Password, with a checkbox to enable field password and rePassword-->
+			<div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
+				<div class="col-lg-10">
+					<input type="password" name="password" disabled="disabled" class="form-control" id="password"
+						th:placeholder="#{password}" th:field="*{password}" minlength="4" maxlength="20" required="required"/> 
+						<input type="checkbox"
+						id="enablePasswords" th:text="#{profile}" name="onPassword"
+						onChange="checkedPassword(this.form)" /> 
+						<span class="help-block"
+						th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Reinsert Password -->
+			<div id="visibleRePasswords" style="display: none;">
+				<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
+					<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
+					<div class="col-lg-10">
+						<input type="password" name="rePassword" disabled="disabled" class="form-control"
+							id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}" minlength="4" data-dependent-validation="password" maxlength="20" required="required"/> <span
+							class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect
+							password</span>
+							<div class="ws-errorbox" hidden=""></div>
+					</div>
 				</div>
 			</div>
 			

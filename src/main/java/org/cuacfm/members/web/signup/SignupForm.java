@@ -9,293 +9,296 @@ import org.cuacfm.members.model.account.Account.roles;
 /** The Class SignupForm. */
 public class SignupForm {
 
-	/** The Constant NOT_BLANK_MESSAGE. */
-	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
-	/** The Constant EMAIL_MESSAGE. */
-	private static final String EMAIL_MESSAGE = "{email.message}";
-	/** The Constant INSUFFICIENT_CHARACTERS. */
-	private static final String INSUFFICIENT_CHARACTERS = "{insuficient.characters}";
-	/** The Constant MAX_CHARACTERS. */
-	private static final String MAX_CHARACTERS = "{max.characters}";
+   /** The Constant NOT_BLANK_MESSAGE. */
+   private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
 
-	/** The name. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-	private String name;
+   /** The Constant EMAIL_MESSAGE. */
+   private static final String EMAIL_MESSAGE = "{email.message}";
 
-	/** The login. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-	private String login;
+   /** The Constant INSUFFICIENT_CHARACTERS. */
+   private static final String INSUFFICIENT_CHARACTERS = "{insuficient.characters}";
 
-	/** The dni. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-	private String dni;
+   /** The Constant MAX_CHARACTERS. */
+   private static final String MAX_CHARACTERS = "{max.characters}";
 
-	/** The address. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-	private String address;
+   /** The name. */
+   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+   private String name;
 
-	/** The email. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Email(message = SignupForm.EMAIL_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-	private String email;
+   /** The login. */
+   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+   private String login;
 
-	/** The phone. */
-	// @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-	private Integer phone;
+   /** The dni. */
+   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+   private String dni;
 
-	/** The mobile. */
-	// @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-	private Integer mobile;
+   /** The address. */
+   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+   private String address;
 
-	/** The rule. */
-	private boolean rule;
+   /** The email. */
+   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+   @Email(message = SignupForm.EMAIL_MESSAGE)
+   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+   private String email;
 
-	/** The program name. */
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-	private String programName;
+   /** The phone. */
+   // @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+   private Integer phone;
 
-	/** The password. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(min = 4, max = 20, message = SignupForm.INSUFFICIENT_CHARACTERS)
-	private String password;
+   /** The mobile. */
+   // @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+   private Integer mobile;
 
-	/** The retry password. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(min = 4, max = 20, message = SignupForm.INSUFFICIENT_CHARACTERS)
-	private String rePassword;
+   /** The rule. */
+   private boolean rule;
 
-	/** Instantiates a new sign up form. */
-	public SignupForm() {
-		// Default empty constructor.
-	}
+   /** The program name. */
+   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+   private String programName;
 
-	/**
-	 * Gets the login.
-	 *
-	 * @return the login
-	 */
-	public String getLogin() {
-		return login;
-	}
+   /** The password. */
+   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+   @Size(min = 4, max = 20, message = SignupForm.INSUFFICIENT_CHARACTERS)
+   private String password;
 
-	/**
-	 * Sets the login.
-	 *
-	 * @param login
-	 *            String, the new login
-	 */
-	public void setLogin(String login) {
-		this.login = login;
-	}
+   /** The retry password. */
+   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+   @Size(min = 4, max = 20, message = SignupForm.INSUFFICIENT_CHARACTERS)
+   private String rePassword;
 
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+   /** Instantiates a new sign up form. */
+   public SignupForm() {
+      // Default empty constructor.
+   }
 
-	/**
-	 * Sets the name.
-	 *
-	 * @param name
-	 *            the new name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+   /**
+    * Gets the login.
+    *
+    * @return the login
+    */
+   public String getLogin() {
+      return login;
+   }
 
-	/**
-	 * Gets the address.
-	 *
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
-	}
+   /**
+    * Sets the login.
+    *
+    * @param login
+    *           String, the new login
+    */
+   public void setLogin(String login) {
+      this.login = login;
+   }
 
-	/**
-	 * Sets the address.
-	 *
-	 * @param address
-	 *            the new address
-	 */
-	public void setAddress(String address) {
-		this.address = address;
-	}
+   /**
+    * Gets the name.
+    *
+    * @return the name
+    */
+   public String getName() {
+      return name;
+   }
 
-	/**
-	 * Gets the email.
-	 *
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
+   /**
+    * Sets the name.
+    *
+    * @param name
+    *           the new name
+    */
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	/**
-	 * Sets the email.
-	 *
-	 * @param email
-	 *            the new email
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
+   /**
+    * Gets the address.
+    *
+    * @return the address
+    */
+   public String getAddress() {
+      return address;
+   }
 
-	/**
-	 * Gets the phone.
-	 *
-	 * @return the phone
-	 */
+   /**
+    * Sets the address.
+    *
+    * @param address
+    *           the new address
+    */
+   public void setAddress(String address) {
+      this.address = address;
+   }
 
-	/**
-	 * Gets the dni.
-	 *
-	 * @return the dni
-	 */
-	public String getDni() {
-		return dni;
-	}
+   /**
+    * Gets the email.
+    *
+    * @return the email
+    */
+   public String getEmail() {
+      return email;
+   }
 
-	/**
-	 * Gets the phone.
-	 *
-	 * @return the phone
-	 */
-	public Integer getPhone() {
-		return phone;
-	}
+   /**
+    * Sets the email.
+    *
+    * @param email
+    *           the new email
+    */
+   public void setEmail(String email) {
+      this.email = email;
+   }
 
-	/**
-	 * Sets the phone.
-	 *
-	 * @param phone
-	 *            the new phone
-	 */
-	public void setPhone(Integer phone) {
-		this.phone = phone;
-	}
+   /**
+    * Gets the phone.
+    *
+    * @return the phone
+    */
 
-	/**
-	 * Gets the mobile.
-	 *
-	 * @return the mobile
-	 */
-	public Integer getMobile() {
-		return mobile;
-	}
+   /**
+    * Gets the dni.
+    *
+    * @return the dni
+    */
+   public String getDni() {
+      return dni;
+   }
 
-	/**
-	 * Sets the mobile.
-	 *
-	 * @param mobile
-	 *            the new mobile
-	 */
-	public void setMobile(Integer mobile) {
-		this.mobile = mobile;
-	}
+   /**
+    * Gets the phone.
+    *
+    * @return the phone
+    */
+   public Integer getPhone() {
+      return phone;
+   }
 
-	/**
-	 * Sets the dni.
-	 *
-	 * @param dni
-	 *            the new dni
-	 */
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
+   /**
+    * Sets the phone.
+    *
+    * @param phone
+    *           the new phone
+    */
+   public void setPhone(Integer phone) {
+      this.phone = phone;
+   }
 
-	/**
-	 * Checks if is rule.
-	 *
-	 * @return true, if is rule
-	 */
-	public boolean getRule() {
-		return rule;
-	}
+   /**
+    * Gets the mobile.
+    *
+    * @return the mobile
+    */
+   public Integer getMobile() {
+      return mobile;
+   }
 
-	/**
-	 * Sets the rule.
-	 *
-	 * @param rule
-	 *            the new rule
-	 */
-	public void setRule(boolean rule) {
-		this.rule = rule;
-	}
+   /**
+    * Sets the mobile.
+    *
+    * @param mobile
+    *           the new mobile
+    */
+   public void setMobile(Integer mobile) {
+      this.mobile = mobile;
+   }
 
-	/**
-	 * Gets the program name.
-	 *
-	 * @return the program name
-	 */
-	public String getProgramName() {
-		return programName;
-	}
+   /**
+    * Sets the dni.
+    *
+    * @param dni
+    *           the new dni
+    */
+   public void setDni(String dni) {
+      this.dni = dni;
+   }
 
-	/**
-	 * Sets the program name.
-	 *
-	 * @param programName
-	 *            the new program name
-	 */
-	public void setProgramName(String programName) {
-		this.programName = programName;
-	}
+   /**
+    * Checks if is rule.
+    *
+    * @return true, if is rule
+    */
+   public boolean getRule() {
+      return rule;
+   }
 
-	/**
-	 * Gets the password.
-	 *
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
+   /**
+    * Sets the rule.
+    *
+    * @param rule
+    *           the new rule
+    */
+   public void setRule(boolean rule) {
+      this.rule = rule;
+   }
 
-	/**
-	 * Sets the password.
-	 *
-	 * @param password
-	 *            the new password
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+   /**
+    * Gets the program name.
+    *
+    * @return the program name
+    */
+   public String getProgramName() {
+      return programName;
+   }
 
-	/**
-	 * Gets the retry password.
-	 *
-	 * @return the retry password
-	 */
-	public String getRePassword() {
-		return rePassword;
-	}
+   /**
+    * Sets the program name.
+    *
+    * @param programName
+    *           the new program name
+    */
+   public void setProgramName(String programName) {
+      this.programName = programName;
+   }
 
-	/**
-	 * Sets the retry password.
-	 *
-	 * @param rePassword
-	 *            the new re password
-	 */
-	public void setRePassword(String rePassword) {
-		this.rePassword = rePassword;
-	}
+   /**
+    * Gets the password.
+    *
+    * @return the password
+    */
+   public String getPassword() {
+      return password;
+   }
 
-	/**
-	 * Creates the account.
-	 *
-	 * @return the account
-	 */
-	public Account createAccount() {
-		return new Account(getName(), getDni(), getAddress(), getLogin(), 
-				getEmail(), getPhone(), getMobile(), getPassword(),roles.ROLE_PRESCRIPTION);
-	}
+   /**
+    * Sets the password.
+    *
+    * @param password
+    *           the new password
+    */
+   public void setPassword(String password) {
+      this.password = password;
+   }
+
+   /**
+    * Gets the retry password.
+    *
+    * @return the retry password
+    */
+   public String getRePassword() {
+      return rePassword;
+   }
+
+   /**
+    * Sets the retry password.
+    *
+    * @param rePassword
+    *           the new re password
+    */
+   public void setRePassword(String rePassword) {
+      this.rePassword = rePassword;
+   }
+
+   /**
+    * Creates the account.
+    *
+    * @return the account
+    */
+   public Account createAccount() {
+      return new Account(getName(), getDni(), getAddress(), getLogin(), getEmail(), getPhone(),
+            getMobile(), getPassword(), roles.ROLE_PREREGISTERED);
+   }
 }

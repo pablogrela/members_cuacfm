@@ -43,6 +43,9 @@
 			dateSigns : "/",
 			timeSigns : ":. ",
 			dFormat : "/",
+			month : {
+				currentText : "Este mes"
+			},
 			patterns : {
 				d : "dd/mm/yy"
 			},

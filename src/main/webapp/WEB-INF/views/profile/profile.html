@@ -21,7 +21,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='Profile')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='profile')">&nbsp;</div>
 
 
 	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/profile}"
@@ -58,7 +58,20 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				</div>
 			</div>
 
-
+			<!-- Edit NickName, with a checkbox to enable field nickName-->
+			<div class="form-group" th:classappend="${#fields.hasErrors('nickName')}? 'has-error'">
+				<label for="nickName" class="col-lg-2 control-label" th:text="#{nickName}">NickName</label>
+				<div class="col-lg-10">
+					<input type="text" name="nickName" disabled="disabled" class="form-control" id="nickName"
+						th:placeholder="#{nickName}" th:field="*{nickName}" maxlength="30" required="required"/> 
+						<input type="checkbox" id="enableModify16"
+						th:text="#{profile}" name="onNickName" onChange="checkedNickName(this.form)" /> <span
+						class="help-block" th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Incorrect
+						nickName</span>
+						<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
 			<!-- Edit dni, with a checkbox to enable field dni -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
 				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
@@ -127,8 +140,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-			
-			
+				
 			<!-- Edit mobile, with a checkbox to enable field mobile -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="mobile" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
@@ -184,7 +196,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			</div>
 			
 			<!-- Edit Password, with a checkbox to enable field password and rePassword-->
-			<div sec:authorize="hasAnyRole('ROLE_USER')" class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+			<div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
 				<div class="col-lg-10">
 					<input type="password" name="password" disabled="disabled" class="form-control" id="password"
@@ -200,7 +212,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 
 			<!-- Reinsert Password -->
-			<div sec:authorize="hasAnyRole('ROLE_USER')" id="visibleRePasswords" style="display: none;">
+			<div id="visibleRePasswords" style="display: none;">
 				<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
 					<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
 					<div class="col-lg-10">
@@ -213,6 +225,53 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				</div>
 			</div>
 			
+			<!-- Account Type, Selected option in droplist, with a checkbox to enable field account Type -->
+			<div class="form-group">
+				<label for="accountType" class="col-lg-1 control-label" th:text="#{accountType}">accountType</label>
+				<div class="col-lg-4">
+					<select  disabled="disabled" class="form-control" id="accountType" name="accountTypeId" th:field="*{accountTypeId}">
+						<option th:field="*{accountTypeId}"
+								th:each="accountType : ${profileForm.accountTypes}" 
+								th:value="${accountType.id}"
+								th:text="${accountType.name}">accountType</option>
+					</select>
+					<input type="checkbox" id="enableModify10" th:text="#{profile}" name="onAccountType" onChange="checkedAccountType(this.form)" />	
+				</div>
+			</div>
+			
+			
+			<!-- Method Payment, Selected option in droplist, with a checkbox to enable field method payment -->
+			<div class="form-group">
+				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">methodPayment</label>
+				<div class="col-lg-4">
+					<select  disabled="disabled" class="form-control" id="methodPayment" name="roleId" th:field="*{methodPaymentId}">
+						<option th:field="*{methodPaymentId}"
+								th:each="methodPayment : ${profileForm.methodPayments}" 
+								th:value="${methodPayment.id}"
+								th:text="${methodPayment.name}">methodPayment</option>
+					</select>
+					<input type="checkbox" id="enableModify11"
+						th:text="#{profile}" name="onMethodPayment" onChange="checkedMethodPayment(this.form)" />	
+				</div>
+			</div>
+			
+
+			<!-- Edit Installments, with a checkbox to enable field installments -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('installments')}? 'has-error'">
+				<label for="installments" class="col-lg-1 control-label" th:text="#{installmentsInscription}">installments</label>
+				<div class="col-lg-10">
+					<div class="col-lg-3-edit">
+						<input type="number" name="installments" disabled="disabled" class="form-control" id="installments"
+						th:placeholder="#{installments}" th:field="*{installments}" min="1" max="12" required="required"/> 
+					</div>
+					<br></br>
+					<br></br>
+					<input type="checkbox" id="enableModify12"
+						th:text="#{profile}" name="onInstallments" onChange="checkedInstallments(this.form)" /> 
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('installments')}" th:errors="*{installments}">Incorrect installments</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
 			
 			<!-- Button Modify, visible if a checkbox enable is pressed -->
 			<div id="visibleModify" style="display: none;">

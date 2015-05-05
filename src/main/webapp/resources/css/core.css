@@ -42,7 +42,7 @@ body {
 	padding-right: 380px;
   	width: 80%;
  }
-	.col-lg-1-edit, .col-lg-2-edit, .col-lg-2-large, .col-lg-2-check, .col-lg-3-edit, .col-lg-10-edit {
+	.col-lg-1-edit, .col-lg-2-edit, .col-lg-2-large, .col-lg-2-check, .col-lg-3-edit, .col-lg-4-edit, .col-lg-10-edit {
 		float: left;
 	}
 	
@@ -76,6 +76,13 @@ body {
 		min-height: 1px;
 		padding-right: 15px;
 		width: 25%;
+	}
+	
+	.col-lg-4-edit {
+		position: relative;
+		min-height: 1px;
+		padding-right: 15px;
+		width: 35%;
 	}
 	
 	.col-lg-10-edit {

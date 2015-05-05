@@ -1,13 +1,13 @@
 package org.cuacfm.members.model.exceptions;
 
-/** The Class ExistTrainingsException.*/
+/** The Class ExistTrainingsException. */
 @SuppressWarnings("serial")
-public class ExistTrainingsException extends Exception{
+public class ExistTrainingsException extends Exception {
 
-	/**
-	 * Instantiates a new exist trainings exception.
-	 */
-	public ExistTrainingsException() {
-			super("Exist Traininings in this Training Type.");
-	}
+   /**
+    * Instantiates a new exist trainings exception.
+    */
+   public ExistTrainingsException() {
+      super("Exist Traininings in this Training Type.");
+   }
 }

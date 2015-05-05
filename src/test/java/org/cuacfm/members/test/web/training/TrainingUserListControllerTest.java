@@ -12,12 +12,12 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
-import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.training.Training;
-import org.cuacfm.members.model.trainingService.TrainingService;
-import org.cuacfm.members.model.trainingType.TrainingType;
-import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
+import org.cuacfm.members.model.trainingservice.TrainingService;
+import org.cuacfm.members.model.trainingtype.TrainingType;
+import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
@@ -56,9 +56,9 @@ public class TrainingUserListControllerTest extends WebSecurityConfigurationAwar
      */
     @Before
     public void initializeDefaultSession() throws UniqueException {
-		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", 666666666, 666666666, "trainer", roles.ROLE_TRAINER);
-		accountService.save(trainer);
-        defaultSession = getDefaultSession("trainer");
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666, "user", roles.ROLE_USER);
+		accountService.save(user);
+        defaultSession = getDefaultSession("user");
     }
 
 	
@@ -87,7 +87,7 @@ public class TrainingUserListControllerTest extends WebSecurityConfigurationAwar
 				"description", "place", 90, 10);		
 		trainingService.save(training);
 
-		mockMvc.perform(get("/trainingList/trainingUserList").locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(get("/trainingUserList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("training/traininguserlist"))
 				.andExpect(content().string(containsString("<title>Training´s User</title>")));
 	}	

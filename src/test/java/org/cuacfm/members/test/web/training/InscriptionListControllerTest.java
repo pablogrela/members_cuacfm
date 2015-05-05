@@ -13,12 +13,12 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
-import org.cuacfm.members.model.accountService.AccountService;
+import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.training.Training;
-import org.cuacfm.members.model.trainingService.TrainingService;
-import org.cuacfm.members.model.trainingType.TrainingType;
-import org.cuacfm.members.model.trainingTypeService.TrainingTypeService;
+import org.cuacfm.members.model.trainingservice.TrainingService;
+import org.cuacfm.members.model.trainingtype.TrainingType;
+import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
@@ -264,7 +264,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		.andExpect(content().string(containsString("<title>Inscriptions</title>")));
 		
 		mockMvc.perform(post("/trainingList/inscriptionList").locale(Locale.ENGLISH).session(defaultSession)
-				.param("login", user.getLogin()))
+				.param("login", user.getId() + ": " + user.getLogin()))
 				.andExpect(content()
                 .string(containsString("User user already have inscription")))
                 .andExpect(view().name("training/inscriptionlist"));
@@ -292,7 +292,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		.andExpect(view().name("redirect:/trainingList/inscriptionList"));
 		
 		mockMvc.perform(post("/trainingList/inscriptionList").locale(Locale.ENGLISH).session(defaultSession)
-				.param("login", user2.getLogin()))
+				.param("login", user2.getId() + ": " + user.getLogin()))
 	            .andExpect(view().name("redirect:/trainingList/inscriptionList"));
 	}
 	
@@ -315,7 +315,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		.andExpect(view().name("redirect:/trainingList/inscriptionList"));
 		
 		mockMvc.perform(post("/trainingList/inscriptionList").locale(Locale.ENGLISH).session(defaultSession)
-				.param("login", user.getLogin()))
+				.param("login", user.getId() + ": " + user.getLogin()))
 	            .andExpect(view().name("redirect:/trainingList/inscriptionList"));
 	}
 	
@@ -338,7 +338,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		.andExpect(view().name("redirect:/trainingList/inscriptionList"));
 		
 		mockMvc.perform(post("/trainingList/inscriptionList").locale(Locale.ENGLISH).session(defaultSession)
-				.param("login", user.getLogin()))
+				.param("login", user.getId() + ": " + user.getLogin()))
                 .andExpect(view().name("redirect:/trainingList/inscriptionList"));
 	}
 }
