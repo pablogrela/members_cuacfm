@@ -1,3 +1,4 @@
+DROP TABLE Configuration;
 DROP TABLE PayProgram;
 DROP TABLE FeeProgram;
 DROP TABLE UserPrograms;
@@ -17,6 +18,8 @@ CREATE TABLE Configuration (
     name VARCHAR(30) NOT NULL,
     email VARCHAR(30),
     phone INT NOT NULL,
+    feeMember DOUBLE(5,2) NOT NULL,
+    feeProgram DOUBLE(5,2) NOT NULL,
     descriptionRul VARCHAR(500),
     CONSTRAINT ConfigurationId_PK PRIMARY KEY (id)
 );
@@ -67,7 +70,8 @@ CREATE TABLE Account(
 	CONSTRAINT DniUniqueKey UNIQUE (dni),
     CONSTRAINT LoginUniqueKey UNIQUE (login),
     CONSTRAINT EmailUniqueKey UNIQUE (email)
-    );   
+    );  
+    
     
 CREATE TABLE Program(
     id INT NOT NULL auto_increment, 
@@ -123,17 +127,8 @@ CREATE TABLE Inscription(
 	CONSTRAINT AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
 	CONSTRAINT TrainingId_FK FOREIGN KEY (trainingId) REFERENCES Training(id)
     );
-
-    
-CREATE TABLE Service(
-    id INT NOT NULL auto_increment, 
-    typeFeed VARCHAR(30) NOT NULL,
-    periodicity int NOT NULL,
-    price DECIMAL(4,2) NOT NULL,
-    description VARCHAR(100),
-    CONSTRAINT ServiceId_PK PRIMARY KEY (id)
-	);  
 	
+    
 CREATE TABLE FeeProgram(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
@@ -143,7 +138,8 @@ CREATE TABLE FeeProgram(
     description VARCHAR(100),
     CONSTRAINT FeeProgram_PK PRIMARY KEY (id),
     CONSTRAINT DateUniqueKey UNIQUE (date)
-);    
+);   
+
 
 CREATE TABLE PayProgram(
     id INT NOT NULL auto_increment, 
@@ -163,6 +159,7 @@ CREATE TABLE PayProgram(
 	CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
 );   
 	
+
 CREATE TABLE PayInscription(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
@@ -203,12 +200,15 @@ CREATE TABLE UserPrograms(
     programId INT NOT NULL,
     CONSTRAINT UserProgramsId_PK PRIMARY KEY (id),
     CONSTRAINT UserPrograms_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
-    CONSTRAINT UserPrograms_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id)
+    CONSTRAINT UserPrograms_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
+    CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId,programId)
 );	
 	
 
 -- Insert Configuration:
-insert into Configuration values (1, 'CuacFM', 'cuacfm@org', 981666666, 'asdas');
+insert into Configuration values (1, 'CuacFM', 'cuacfm@org', 981666666, 24, 25, 'Comprométome a coñecer e cumprir a normativa interna da asociación, así coma a asumir a responsabilidade das informacións e opinións que difunda en antena e a facer un bo uso das instalacións e material da asociación.
+
+Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na asociación cultural  Colectivo de Universitarios ACtivos, cousa que NON ACONTECE, se marquei as opcións "simpatizante" ou "patrocinador web"            ');
 
 	
 -- Insert Account Types:
@@ -264,16 +264,25 @@ insert into Account values
 
 	
 	
-  -- Insert Program:
+-- Insert Program:
 insert into Program values 
 (1, 'Program 1', 1, 1, 'Description of Program 1', true);
-
 insert into Program values 
 (2, 'Program 2', 1, 2, 'Description of Program 2', true);
+insert into Program values 
+(3, 'Program 3', 1, 2, 'Description of Program 3', true);
+insert into Program values 
+(4, 'Program 4', 1, 2, 'Description of Program 4', true);
 
+
+-- Relacionated Program with User:
 insert into UserPrograms values (1, 4, 1);
 insert into UserPrograms values (2, 5, 1);
 insert into UserPrograms values (3, 4, 2);
+insert into UserPrograms values (4, 9, 3);
+insert into UserPrograms values (5, 8, 3);
+insert into UserPrograms values (6, 9, 4);
+insert into UserPrograms values (7, 7, 4);
 
 
 -- Insert Trainings Type:

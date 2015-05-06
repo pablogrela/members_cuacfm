@@ -100,14 +100,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/trainingList", "/trainingList/trainingView/**")
             .hasAnyRole("ADMIN", "TRAINER", "USER", "PREREGISTERED")
 
-            .antMatchers("/trainingList/**")
+            .antMatchers("/trainingTypeList/**","/trainingList/**")
             .hasAnyRole("ADMIN", "TRAINER")
 
-            .antMatchers("/trainingTypeList/**")
-            .hasAnyRole("TRAINER", "ADMIN")
-
-            .antMatchers("/payInscriptionList/**", "/accountList/**", "/configuration/**")
+            .antMatchers("/programList/programDown/**","/programList/programUp/**",
+                  "/payInscriptionList/**", "/accountList/**", "/configuration/**")
             .hasRole("ADMIN")
+            
             // .antMatchers("/**").hasRole("ADMIN")
             .anyRequest().authenticated().and().formLogin().loginPage("/signin").permitAll()
             .failureUrl("/signin?error=1").loginProcessingUrl("/authenticate").and().logout()
