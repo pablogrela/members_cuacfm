@@ -14,7 +14,7 @@
 			dependentValidation:"aqui",
 			tooLong : "Por favor ingresa como máximo {%maxlength} caracteres, tú has ingresado solo {%valueLen}.",
 			tooShort : "El mínimo de caracteres es {%minlength}, tú solo ingresaste {%valueLen}.",
-			patternMismatch : "Por favor, ajustese al formato solicitado: {%title}.",
+			patternMismatch : "{%title}",
 			valueMissing : {
 				defaultMessage : "Por favor, rellene este campo.",
 				checkbox : "Por favor, marque esta casilla si desea continuar.",

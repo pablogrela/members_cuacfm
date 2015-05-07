@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{program.titleCreate}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<!-- SCRIPT -->
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
+<script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/chargeWebshim.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='program')">&nbsp;</div>
+
+	<div class="form-narrow">
+
+		<form class="form-horizontal ws-validate" method="post" th:action="@{programCreate}"
+			th:object="${programForm}">
+
+			<!--/* Show general error message when form contains errors */-->
+			<th:block th:if="${#fields.hasErrors('${programForm.*}')}">
+				<div th:replace="fragments/alert :: alert (type='danger', message=#{training.error})">Alert</div>
+			</th:block>
+
+			<fieldset>
+
+				<!-- Message help-->
+				<legend th:text="#{program.infoCreate}">Create Training Type</legend>
+
+
+				<!-- Insert Name -->
+				<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+					<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}"
+							maxlength="30" required="required" />
+						<span class="help-block with-errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect
+							name</span>
+						<div class="ws-errorbox" hidden=""></div>
+					</div>
+				</div>
+
+				<!-- Insert Description -->
+				<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+					<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
+					<div class="col-lg-10">
+						<textarea class="form-control" id="description" th:placeholder="#{program.description}"
+							th:field="*{description}" rows="5" cols="40" maxlength="500" required="required">
+            	Description</textarea>
+						<span class="help-block" th:if="${#fields.hasErrors('description')}"
+							th:errors="*{description}">Incorrect description</span>
+						<div class="ws-errorbox" hidden=""></div>
+					</div>
+				</div>
+				
+				<!-- Insert Periodicity -->
+				<div class="form-group" th:classappend="${#fields.hasErrors('periodicity')}? 'has-error'">
+					<label for="periodicity" class="col-lg-2 control-label" th:text="#{periodicity}">place</label>
+					<div class="col-lg-10">
+						<div class="col-lg-4-edit">
+							<input type="number" class="form-control" id="periodicity" th:placeholder="#{periodicity}"
+								th:field="*{periodicity}" step="0.25" min="0.25" max="7" required="required" />
+						</div>
+						<span class="col-lg-2-right control-label" th:text="#{program.times}">times</span>
+						<br></br>
+						<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('periodicity')}"
+							th:errors="*{periodicity}"> Incorrect periodicity</span>
+						<div class="ws-errorbox" hidden=""></div>
+					</div>
+				</div>
+
+				<!-- Insert Duration -->
+				<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
+					<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
+					<div class="col-lg-10">
+						<div class="col-lg-3-edit">
+							<input type="number" class="form-control" id="duration" th:placeholder="#{duration}"
+								th:field="*{duration}" min="1" required="required" />
+						</div>
+						<span class="col-lg-2-right control-label" th:text="#{hours}">hours</span>
+						<br></br>
+						<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}"
+							th:errors="*{duration}"> Incorrect duration</span>
+						<div class="ws-errorbox" hidden=""></div>
+					</div>
+				</div>
+
+
+				<!-- Insert Login -->
+				<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+				    <!-- Form add user by admin -->
+					<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+						<div class="col-lg-9 text-danger">
+							<input type="text" class="form-control" list="userlist" th:placeholder="#{login}"
+								th:field="*{login}" autocomplete="off" />
+
+							<!-- Datalist is a search by keyword-->
+							<datalist id="userlist">
+								<option th:each="username : ${usernames}" th:value="${username}" />
+							</datalist>
+
+							<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect
+								login</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</th:block>
+
+					<!-- Form add user by no admin -->
+					<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+						<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
+						<div class="col-lg-9 text-danger">
+							<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{login}"
+								th:title="#{program.infoAddUserByDni}" autocomplete="off" />
+							<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect
+								login</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</th:block>
+					<!-- Button Add User to Program-->
+					<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign"
+						th:title="#{inscription.addUser}" style="color: green"></button>
+				</div>
+
+
+				<table class="table table-striped table-hover table-responsive">
+					<thead class="table-bordered">
+						<tr>
+							<th th:text="#{nameAdd}">Name</th>
+							<th class="no-sort"></th>
+						</tr>
+					</thead>
+					<tbody class="table-bordered">
+						<tr th:each="account : ${programForm.accounts}">
+							<td th:text="${account.name}"></td>
+							<!-- Delete User to Program -->
+							<td>
+								<button type="submit" th:value="${account.id}" th:name="removeUser"
+									class="btnTable btn-link glyphicon glyphicon-remove-sign" th:title="#{account.infoRemove}"
+									style="color: red"></button>
+
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- Insert Name, sin caja alrededor 
+			<div class="form-group">
+				<label for="name" class="control-label col-sm-2" th:text="#{name}">Name</label>
+				<div class="col-sm-10">
+					<p th:text="${training.name}" class="form-control-static"></p>
+				</div>
+			</div>
+			-->
+
+				<!-- Button Create Training -->
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="submit" th:name="create" th:value="create" class="btn btn-success btn-lg"
+							th:text="#{program.create}">Create</button>
+					</div>
+				</div>
+
+			</fieldset>
+
+		</form>
+
+
+	</div>
+</body>
+</html>

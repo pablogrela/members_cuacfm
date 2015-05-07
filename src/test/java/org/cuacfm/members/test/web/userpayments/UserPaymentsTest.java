@@ -126,6 +126,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             "pay of 2016");
       payInscriptionService.save(payInscription);
 
+
       // Create Program and Payments
       List<Account> accounts = new ArrayList<Account>();
       List<Program> programs = new ArrayList<Program>();
@@ -136,10 +137,11 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       programService.up(program.getId());
 
       feeProgram = new FeeProgram("Fee March 2015", Double.valueOf(25),
-            DisplayDate.stringToMonthOfYear("2016-04"), DisplayDate.stringToMonthOfYear("2016-04"),
+            DisplayDate.stringToMonthOfYear("2016-03"), DisplayDate.stringToMonthOfYear("2016-03"),
             "Fee for program");
       feeProgramService.save(feeProgram);
 
+      
       user.setPrograms(programs);
       accountService.update(user, false);
 
@@ -178,7 +180,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 
       // Charge csrf in pay program
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
-            feeProgram.getId()).get(0);
+            feeProgram.getId());
       mockMvc.perform(
             post("/userPayments/payProgram/" + payProgram.getId()).locale(Locale.ENGLISH)
                   .session(defaultSession).sessionAttr("_csrf", "csrf")
@@ -254,10 +256,20 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
     *            the exception
     */
    @Test
-   public void payExistTransactionIdExceptionTest() throws Exception {
+   public void payMemberExistTransactionIdExceptionTest() throws Exception {
 
       UserPayInscription userPayInscription = userPayInscriptionService
             .findByUserPayInscriptionIds(user.getId(), payInscription.getId()).get(0);
+      
+      
+      PayInscription payInscription2 = new PayInscription("pay of 2017", 2017, Double.valueOf(20),
+            DisplayDate.stringToDate2("2017-04-05"), DisplayDate.stringToDate2("2017-07-05"),
+            "pay of 2017");
+      payInscriptionService.save(payInscription2);
+      
+      UserPayInscription userPayInscription2 = userPayInscriptionService
+            .findByUserPayInscriptionIds(user.getId(), payInscription2.getId()).get(0);
+      
       // Assert no pay
       assertEquals(userPayInscription.isHasPay(), false);
 
@@ -276,6 +288,14 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
                   .param("payment_date", "10:10:10 Jun 10, 2015")
                   .param("payment_status", "Completed").param("txn_id", "txn")).andExpect(
             view().name("redirect:/userPayments"));
+      
+      mockMvc.perform(
+            post("/userPayments/payMember/" + userPayInscription2.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession).sessionAttr("_csrf", "csrf")
+                  .param("payer_email", "email").param("payer_id", "id")
+                  .param("payment_date", "10:10:10 Jun 10, 2015")
+                  .param("payment_status", "Completed").param("txn_id", "txn"))
+                  .andExpect(view().name("redirect:/userPayments"));
 
       // Assert Pay
       assertEquals(userPayInscription.isHasPay(), true);
@@ -328,7 +348,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    public void payProgramPayProgramTest() throws Exception {
 
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
-            feeProgram.getId()).get(0);
+            feeProgram.getId());
       // Assert no pay
       assertEquals(payProgram.isHasPay(), false);
 
@@ -354,7 +374,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    public void payProgramProgressUserPayProgramTest() throws Exception {
 
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
-            feeProgram.getId()).get(0);
+            feeProgram.getId());
       // Assert no pay
       assertEquals(payProgram.isHasPay(), false);
 
@@ -381,7 +401,15 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    public void payProgramExistTransactionIdExceptionTest() throws Exception {
 
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
-            feeProgram.getId()).get(0);
+            feeProgram.getId());
+
+      FeeProgram feeProgram2 = new FeeProgram("Fee April 2015", Double.valueOf(25),
+            DisplayDate.stringToMonthOfYear("2016-04"), DisplayDate.stringToMonthOfYear("2016-04"),
+            "Fee for program");
+      feeProgramService.save(feeProgram2);
+      PayProgram payProgram2 = payProgramService.findByPayProgramIds(program.getId(),
+            feeProgram2.getId());
+      
       // Assert no pay
       assertEquals(payProgram.isHasPay(), false);
 
@@ -392,7 +420,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
                   .param("payment_date", "10:10:10 Jun 10, 2015")
                   .param("payment_status", "Completed").param("txn_id", "txn")).andExpect(
             view().name("redirect:/userPayments"));
-
+      
       mockMvc.perform(
             post("/userPayments/payProgram/" + payProgram.getId()).locale(Locale.ENGLISH)
                   .session(defaultSession).sessionAttr("_csrf", "csrf")
@@ -400,6 +428,14 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
                   .param("payment_date", "10:10:10 Jun 10, 2015")
                   .param("payment_status", "Completed").param("txn_id", "txn")).andExpect(
             view().name("redirect:/userPayments"));
+
+      mockMvc.perform(
+            post("/userPayments/payProgram/" + payProgram2.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession).sessionAttr("_csrf", "csrf")
+                  .param("payer_email", "email").param("payer_id", "id")
+                  .param("payment_date", "10:10:10 Jun 10, 2015")
+                  .param("payment_status", "Completed").param("txn_id", "txn"))
+                        .andExpect(view().name("redirect:/userPayments"));
 
       // Assert Pay
       assertEquals(payProgram.isHasPay(), true);
@@ -415,7 +451,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    public void payProgramOtherAccountPayProgramTest() throws Exception {
 
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
-            feeProgram.getId()).get(0);
+            feeProgram.getId());
       // Assert no pay
       assertEquals(payProgram.isHasPay(), false);
 
@@ -441,7 +477,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 
       // payInscriptionService.saveUserPayInscription(user2, payInscription);
       PayProgram payProgramProbe = payProgramService.findByPayProgramIds(program2.getId(),
-            feeProgram2.getId()).get(0);
+            feeProgram2.getId());
 
       mockMvc.perform(
             post("/userPayments/payProgram/" + payProgramProbe.getId()).locale(Locale.ENGLISH)
