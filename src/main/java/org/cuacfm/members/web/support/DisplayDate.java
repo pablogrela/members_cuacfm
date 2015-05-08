@@ -23,7 +23,7 @@ public class DisplayDate {
          try {
             newDate = dateFormat.parse(date);
          } catch (ParseException ex) {
-            ex.printStackTrace();
+            ex.getMessage();
 
          }
       }
@@ -44,7 +44,7 @@ public class DisplayDate {
       try {
          newDate = dateFormat.parse(date);
       } catch (ParseException ex) {
-         ex.printStackTrace();
+         ex.getMessage();
       }
 
       return newDate;
@@ -64,7 +64,7 @@ public class DisplayDate {
       try {
          newDate = dateFormat.parse(date);
       } catch (ParseException ex) {
-         ex.printStackTrace();
+         ex.getMessage();
       }
 
       return newDate;
@@ -84,7 +84,7 @@ public class DisplayDate {
       try {
          newDate = dateFormat.parse(dateTime);
       } catch (ParseException ex) {
-         ex.printStackTrace();
+         ex.getMessage();
       }
       return newDate;
    }
@@ -104,7 +104,7 @@ public class DisplayDate {
       try {
          newDate = dateFormat.parse(date);
       } catch (ParseException ex) {
-         ex.printStackTrace();
+         ex.getMessage();
       }
       return newDate;
    }
@@ -182,33 +182,14 @@ public class DisplayDate {
    }
 
    /**
-    * Convert String to timetable.
+    * Month Of Year to string.
     *
-    * @param timetable
-    *           the timetable
-    * @return the date
-    */
-   public static Date stringToTimetable(String timetable) {
-      Date newDate = new Date();
-      SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm EEEE");
-
-      try {
-         newDate = dateFormat.parse(timetable);
-      } catch (ParseException ex) {
-         ex.printStackTrace();
-      }
-      return newDate;
-   }
-
-   /**
-    * Time to string.
-    *
-    * @param time
-    *           the time
+    * @param monthOfYear
+    *           the monthOfYear
     * @return the string
     */
-   public static String timeTableToString(Date time) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm EEEE");
-      return dateFormat.format(time);
+   public static String monthOfYearToDisplay(Date monthOfYear) {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
+      return dateFormat.format(monthOfYear);
    }
 }

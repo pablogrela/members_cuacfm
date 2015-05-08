@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html 
-xmlns:th="http://www.thymeleaf.org" 
-xmlns:tiles="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{configuration.title}"></title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 <!-- CSS -->
-<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}"/>
-<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}"/>
-<link rel="stylesheet" th:href="@{/resources/css/core.css}"/>
-<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css" />
 <!-- SCRIPT -->
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
 <script th:src="@{/resources/js/bootstrap.min.js}"></script>
 <script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
+<script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/chargeWebshim.js}"></script>
 <script th:src="@{/resources/js/chargeTable.js}"></script>
 <script th:src="@{/resources/js/profile.js}"></script>
 </head>
@@ -48,59 +49,90 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			<!-- Message help-->
 			<legend th:text="#{configuration.info}">Info</legend>
 
-			<!-- Insert Name -->
+			<!-- Edit Name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}"
-						maxlength="30" required="required" /> <span class="help-block ws-errorbox"
-						th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="30"
+						required="required" />
+					<span class="help-block ws-errorbox" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-			<!-- Insert Email -->
+			<!-- Edit Email -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
-					<input type="email" class="form-control" id="email" th:placeholder="#{email}"
-						th:field="*{email}" maxlength="30" required="required" /> <span class="help-block"
-						th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
+					<input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="30"
+						required="required" />
+					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-			<!-- Insert phone -->
+			<!-- Edit phone -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
-					<input type="number" class="form-control" id="phone" th:placeholder="#{phone}"
-						th:field="*{phone}" maxlength="30" value=""/> <span class="help-block"
-						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
+					<input type="number" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" maxlength="30"
+						value="" />
+					<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-		
+
+			<!-- Edit Fee Member -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('feeMember')}? 'has-error'">
+				<label for="feeMember" class="col-lg-1 control-label" th:text="#{feeMemberDefault}">place</label>
+				<div class="col-lg-10">
+					<div class="col-lg-3-edit">
+						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}" step="0.01"
+							min="0.01" required="required" />
+					</div>
+					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
+					<br></br>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeMember')}" th:errors="*{feeMember}">
+						Incorrect feeMember</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+			
+			<!-- Edit Fee Program -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('feeProgram')}? 'has-error'">
+				<label for="feeProgram" class="col-lg-1 control-label" th:text="#{feeProgramDefault}">place</label>
+				<div class="col-lg-10">
+					<div class="col-lg-3-edit">
+						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}" step="0.01"
+							min="0.01" required="required" />
+					</div>
+					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
+					<br></br>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeProgram')}" th:errors="*{feeProgram}">
+						Incorrect feeProgram</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
 			<!-- Edit DescriptionRul -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('descriptionRul')}? 'has-error'">
 				<label for="descriptionRul" class="col-lg-2 control-label" th:text="#{descriptionRul}">descriptionRul</label>
 				<div class="col-lg-10">
-					<textarea class="form-control" id="descriptionRul" th:placeholder="#{descriptionRul}"
-						th:field="*{descriptionRul}" rows="5" cols="40" maxlength="500" required="required">
+					<textarea class="form-control" id="descriptionRul" th:placeholder="#{descriptionRul}" th:field="*{descriptionRul}"
+						rows="5" cols="40" maxlength="500" required="required">
             	Description</textarea>
 					<span class="help-block" th:if="${#fields.hasErrors('descriptionRul')}" th:errors="*{descriptionRul}">Incorrect
-						descriptionRul</span> 
-						<div class="ws-errorbox" hidden=""></div>
+						descriptionRul</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-			
+
 			<!-- Button Edit Configuration -->
 			<div class="form-group">
 				<div class="text-center">
 					<button type="submit" class="btn btn-success btn-lg" th:text="#{configuration.modify}">Modify</button>
 				</div>
 			</div>
-
 		</fieldset>
 	</form>
 
@@ -142,17 +174,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 					<!-- Modify AccountType -->
 					<td>
 						<form th:action="@{'configuration/accountTypeEdit/'+${accountType.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}"
-								style="color: orange"></button>
+							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
 						</form>
 					</td>
 					<!-- Delete AccountType -->
 					<td>
 						<form th:action="@{'configuration/accountTypeDelete/'+${accountType.id}}" method="post">
-							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove"
-								th:title="#{accountType.infoRemove}" style="color: red" onclick="evaluateModal(this.form, modal, accept)">
-							</button>
-						</form>	
+							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{accountType.infoRemove}"
+								style="color: red" onclick="evaluateModal(this.form, modal, accept)"></button>
+						</form>
 					</td>
 				</tr>
 			</tbody>
@@ -173,7 +203,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<th:block th:if="${#lists.isEmpty(methodPayments)}">
 		<h2 class="text-center" th:text="#{methodPayment.methodPaymentsEmpty}">List of Account Types Empty</h2>
 	</th:block>
-	
+
 	<!-- Verify if exits methodPayments -->
 	<div class="container" th:unless="${#lists.isEmpty(methodPayments)}">
 
@@ -197,15 +227,14 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 					<!-- Modify MethodPayment -->
 					<td>
 						<form th:action="@{'configuration/methodPaymentEdit/'+${methodPayment.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}"
-								style="color: orange"></button>
+							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
 						</form>
 					</td>
 					<!-- Delete MethodPayment -->
 					<td>
 						<form th:action="@{'configuration/methodPaymentDelete/'+${methodPayment.id}}" method="post">
-							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove"
-								th:title="#{accountType.infoRemove}" style="color: red" onclick="evaluateModal(this.form, modal2, accept2)"></button>
+							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{accountType.infoRemove}"
+								style="color: red" onclick="evaluateModal(this.form, modal2, accept2)"></button>
 						</form>
 					</td>
 				</tr>
@@ -216,42 +245,42 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 	<!-- Modal accountType.infoModalDelete	-->
 	<div id="modal" class="modal fade">
-	    <div class="modal-dialog">
-	        <div class="modal-content  panel-danger">
-	            <div class="modal-header  modal-header-danger">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                <h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
-	            </div>
-	            <div class="modal-body">
-	                <p th:text="#{accountType.infoModalDelete}">Message</p>
-	            </div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
-	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
-	            </div>
-	        </div>
-	    </div>
-    </div>
+		<div class="modal-dialog">
+			<div class="modal-content  panel-danger">
+				<div class="modal-header  modal-header-danger">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+				</div>
+				<div class="modal-body">
+					<p th:text="#{accountType.infoModalDelete}">Message</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
+					<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- Modal methodPayment.infoModalDelete	-->
 	<div id="modal2" class="modal fade">
-	    <div class="modal-dialog">
-	        <div class="modal-content  panel-danger">
-	            <div class="modal-header  modal-header-danger">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                <h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
-	            </div>
-	            <div class="modal-body">
-	                <p th:text="#{methodPayment.infoModalDelete}">Message</p>
-	            </div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-danger" th:text="#{accept}" id="accept2" name="accept2">Accept</button>
-	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
-	            </div>
-	        </div>
-	    </div>
-    </div>
-    
+		<div class="modal-dialog">
+			<div class="modal-content  panel-danger">
+				<div class="modal-header  modal-header-danger">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+				</div>
+				<div class="modal-body">
+					<p th:text="#{methodPayment.infoModalDelete}">Message</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept2" name="accept2">Accept</button>
+					<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 </html>

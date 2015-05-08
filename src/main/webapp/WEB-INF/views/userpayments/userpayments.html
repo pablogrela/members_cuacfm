@@ -84,9 +84,9 @@
 						</form>--> <!-- Form for pay in paypal -->
 						<form name='formTpv' method='post' action='https://www.sandbox.paypal.com/cgi-bin/webscr'>
 							<input type='hidden' name='cmd' value='_xclick' />
-							<input type='hidden' name='business' value='cuacfm@hotmail.com' />
+							<input type='hidden' name='business' th:value="${email}" />
 							<input type='hidden' name='item_name' th:value="${userPayInscription.payInscription.name}" />
-							<input type='hidden' name='item_number' value='VENTA-X2561' />
+							<input type='hidden' name='item_number' th:value="${userPayInscription.payInscription.year}" />
 							<input type='hidden' name='amount' th:value="${userPayInscription.price}" />
 							<input type='hidden' name='page_style' value='primary' />
 							<input type='hidden' name='no_shipping' value='1' />
@@ -145,7 +145,7 @@
 				<tr th:each="payProgram : ${payPrograms}">
 					<td th:text="${payProgram.program.name}">name</td>
 					<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
-					<td th:text="${{payProgram.feeProgram.date}}">2015</td>
+					<td th:text="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}"> May of 2015</td>
 					<td th:text="${payProgram.price}">price</td>
 					<th:block th:if="${payProgram.hasPay == false}">
 						<td th:text="#{false}">false</td>
@@ -160,9 +160,9 @@
 						<!-- Form for pay in paypal -->
 						<form name='formTpv' method='post' action='https://www.sandbox.paypal.com/cgi-bin/webscr'>
 							<input type='hidden' name='cmd' value='_xclick' />
-							<input type='hidden' name='business' value='cuacfm@hotmail.com' />
+							<input type='hidden' name='business' th:value="${email}" />
 							<input type='hidden' name='item_name' th:value="${payProgram.feeProgram.name}" />
-							<input type='hidden' name='item_number' th:value="${payProgram.feeProgram.date}" />
+							<input type='hidden' name='item_number' th:value="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}" />
 							<input type='hidden' name='amount' th:value="${payProgram.price}" />
 							<input type='hidden' name='page_style' value='primary' />
 							<input type='hidden' name='no_shipping' value='1' />

@@ -37,7 +37,11 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
 
    /** The default session. */
    private MockHttpSession defaultSession;
-
+ 
+   /** The configuration service. */
+   @Inject
+   private ConfigurationService configurationService;
+   
    /** The account service. */
    @Inject
    private AccountService accountService;
@@ -49,10 +53,6 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
    /** The account Type service. */
    @Inject
    private MethodPaymentService methodPaymentService;
-
-   /** The account Type service. */
-   @Inject
-   private ConfigurationService configurationService;
 
    /** The account type. */
    private AccountType accountType;
@@ -79,7 +79,8 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
       methodPayment = new MethodPayment("Paypal", "Pay by Paypal");
       methodPaymentService.save(methodPayment);
 
-      Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666, "Rul");
+      Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666,
+            Double.valueOf(24), Double.valueOf(25), "Rul");
       configurationService.save(configuration);
    }
 
@@ -170,7 +171,8 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
       mockMvc.perform(
             post("/configuration").locale(Locale.ENGLISH).session(defaultSession)
                   .param("name", "New Name").param("email", "email@udc.es")
-                  .param("phone", "111111").param("descriptionRul", "New Description")).andExpect(
+                  .param("phone", "111111").param("feeMember", "30").param("feeProgram", "32")
+                  .param("descriptionRul", "New Description")).andExpect(
             view().name("redirect:/configuration"));
    }
 

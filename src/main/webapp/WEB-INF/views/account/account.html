@@ -130,8 +130,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
-					<input type="number" name="phone" disabled="disabled" class="form-control" id="phone" th:placeholder="#{phone}"
-						th:field="*{phone}" maxlength="30" value=""/> <input type="checkbox" id="enableModify6"
+					<input type="tel" name="phone" disabled="disabled" class="form-control" id="phone" th:placeholder="#{phone}"
+						th:field="*{phone}" minlength="6" maxlength="30" pattern="[0-9]{6,20}" th:title="#{telPattern}" value=""/> <input type="checkbox" id="enableModify6"
 						th:text="#{profile}" name="onPhone" onChange="checkedPhone(this.form)" /><span class="help-block"
 						th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
 					<div class="ws-errorbox" hidden=""></div>
@@ -142,8 +142,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="mobile" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
-					<input type="number" name="mobile" disabled="disabled" class="form-control" id="mobile" th:placeholder="#{mobile}"
-						th:field="*{mobile}" maxlength="30" required="required" /> <input type="checkbox" id="enableModify7"
+					<input type="tel" name="mobile" disabled="disabled" class="form-control" id="mobile" th:placeholder="#{mobile}"
+						th:field="*{mobile}" minlength="6" maxlength="30" pattern="[0-9]{6,20}" th:title="#{telPattern}" value=""/> <input type="checkbox" id="enableModify7"
 						th:text="#{profile}" name="onMobile" onChange="checkedMobile(this.form)" /><span class="help-block"
 						th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
 					<div class="ws-errorbox" hidden=""></div>

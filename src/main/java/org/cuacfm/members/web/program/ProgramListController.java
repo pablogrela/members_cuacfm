@@ -24,8 +24,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class ProgramListController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
-   private static final String TRAINING_VIEW_NAME = "program/programlist";
+   /** The Constant PROGRAM_VIEW_NAME. */
+   private static final String PROGRAM_VIEW_NAME = "program/programlist";
+
+   /** The Constant REDIRECT_PROGRAM. */
+   private static final String REDIRECT_PROGRAM = "redirect:/programList";
 
    /** The ProgramService. */
    @Autowired
@@ -67,7 +70,7 @@ public class ProgramListController {
          programs = account.getPrograms();
       }
       model.addAttribute("programs", programs);
-      return TRAINING_VIEW_NAME;
+      return PROGRAM_VIEW_NAME;
    }
 
    /**
@@ -87,6 +90,8 @@ public class ProgramListController {
     *           the id
     * @param ra
     *           the redirect atributes
+    * @param principal
+    *           the principal
     * @return the string destinity page
     */
    @RequestMapping(value = "programList/programDelete/{id}", method = RequestMethod.POST)
@@ -104,7 +109,7 @@ public class ProgramListController {
             MessageHelper.addErrorAttribute(ra, "program.existPayments", program.getName());
          }
       }
-      return "redirect:/programList";
+      return REDIRECT_PROGRAM;
    }
 
    /**
@@ -122,7 +127,7 @@ public class ProgramListController {
       String name = programService.findById(id).getName();
       programService.down(id);
       MessageHelper.addInfoAttribute(ra, "program.successDown", name);
-      return "redirect:/programList";
+      return REDIRECT_PROGRAM;
    }
 
    /**
@@ -140,6 +145,6 @@ public class ProgramListController {
       String name = programService.findById(id).getName();
       programService.up(id);
       MessageHelper.addInfoAttribute(ra, "program.successUp", name);
-      return "redirect:/programList";
+      return REDIRECT_PROGRAM;
    }
 }

@@ -173,10 +173,25 @@ public class PayInscriptionForm {
     * @return PayInscription
     */
    public PayInscription createPayInscription() {
-
       return new PayInscription(getName(), getYear(), getPrice(),
-            DisplayDate.stringToDate2(dateLimit1), DisplayDate.stringToDate2(dateLimit2),
-            getDescription());
+            DisplayDate.stringToMonthOfYear(dateLimit1),
+            DisplayDate.stringToMonthOfYear(dateLimit2), getDescription());
    }
 
+   /**
+    * Creates the pay inscription.
+    *
+    * @param payInscription
+    *           the pay inscription
+    * @return the pay inscription
+    */
+   public PayInscription updatePayInscription(PayInscription payInscription) {
+      payInscription.setName(getName());
+      payInscription.setYear(getYear());
+      payInscription.setPrice(getPrice());
+      payInscription.setDescription(getDescription());
+      payInscription.setDateLimit1(DisplayDate.stringToMonthOfYear(getDateLimit1()));
+      payInscription.setDateLimit2(DisplayDate.stringToMonthOfYear(getDateLimit2()));
+      return payInscription;
+   }
 }

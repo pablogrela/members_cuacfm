@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
@@ -21,12 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+// TODO: Auto-generated Javadoc
 /** The Class UserPaymentsController. */
 @Controller
 public class UserPaymentsController {
 
    /** The Constant USERPAYINSCRIPTION_VIEW_NAME. */
    private static final String USERPAYINSCRIPTION_VIEW_NAME = "userpayments/userpayments";
+
+   /** The ConfigurationService. */
+   @Autowired
+   private ConfigurationService configurationService;
 
    /** The account service. */
    @Autowired
@@ -46,11 +52,24 @@ public class UserPaymentsController {
    /** The payInscriptions. */
    private List<PayProgram> payPrograms;
 
+   /** The email. */
+   private String email;
+
    /**
     * Instantiates a new user payments controller.
     */
    public UserPaymentsController() {
       // Default empty constructor.
+   }
+
+   /**
+    * Email.
+    *
+    * @return the string
+    */
+   @ModelAttribute("email")
+   public String email() {
+      return email;
    }
 
    /**
@@ -84,6 +103,8 @@ public class UserPaymentsController {
     */
    @RequestMapping(value = "userPayments")
    public String userPayments(Model model, Principal principal) {
+      email = configurationService.getConfiguration().getEmail();
+      model.addAttribute(email);
       Account account = accountService.findByLogin(principal.getName());
       userPayInscriptions = userPayInscriptionService.getUserPayInscriptionListByAccountId(account
             .getId());
@@ -147,8 +168,8 @@ public class UserPaymentsController {
    /**
     * View user pay inscriptions by pay inscription id.
     *
-    * @param userPayInscriptionId
-    *           the user pay inscription id
+    * @param payProgramId
+    *           the pay program id
     * @param emailPayer
     *           the email payer
     * @param idPayer

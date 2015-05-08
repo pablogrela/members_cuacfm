@@ -28,6 +28,9 @@ public class ConfigurationController {
    /** The Constant CONFIGURATION_VIEW_NAME. */
    private static final String CONFIGURATION_VIEW_NAME = "configuration/configuration";
 
+   /** The Constant REDIRECT_CONFIGURATION. */
+   private static final String REDIRECT_CONFIGURATION = "redirect:/configuration";
+
    /** The ConfigurationService. */
    @Autowired
    private ConfigurationService configurationService;
@@ -87,6 +90,8 @@ public class ConfigurationController {
       configurationForm.setName(configuration.getName());
       configurationForm.setEmail(configuration.getEmail());
       configurationForm.setPhone(configuration.getPhone());
+      configurationForm.setFeeMember(configuration.getFeeMember());
+      configurationForm.setFeeProgram(configuration.getFeeProgram());
       configurationForm.setDescriptionRul(configuration.getDescriptionRul());
       model.addAttribute(configurationForm);
       return CONFIGURATION_VIEW_NAME;
@@ -114,7 +119,7 @@ public class ConfigurationController {
       configurationService.update(configurationForm.updateConfiguration(configuration));
       MessageHelper.addWarningAttribute(ra, "configuration.successModify",
             configurationForm.getName());
-      return "redirect:/configuration";
+      return REDIRECT_CONFIGURATION;
 
    }
 
@@ -132,7 +137,7 @@ public class ConfigurationController {
       String name = accountTypeService.findById(id).getName();
       accountTypeService.delete(id);
       MessageHelper.addInfoAttribute(ra, "accountType.successDelete", name);
-      return "redirect:/configuration";
+      return REDIRECT_CONFIGURATION;
    }
 
    /**
@@ -149,6 +154,6 @@ public class ConfigurationController {
       String name = methodPaymentService.findById(id).getName();
       methodPaymentService.delete(id);
       MessageHelper.addInfoAttribute(ra, "methodPayment.successDelete", name);
-      return "redirect:/configuration";
+      return REDIRECT_CONFIGURATION;
    }
 }

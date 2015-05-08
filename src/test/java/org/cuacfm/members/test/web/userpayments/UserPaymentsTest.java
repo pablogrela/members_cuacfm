@@ -19,6 +19,8 @@ import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
+import org.cuacfm.members.model.configuration.Configuration;
+import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
@@ -49,6 +51,10 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    /** The default session. */
    private MockHttpSession defaultSession;
 
+   /** The configuration service. */
+   @Inject
+   private ConfigurationService configurationService;
+   
    /** The account service. */
    @Inject
    private AccountService accountService;
@@ -106,6 +112,10 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
     */
    @Before
    public void initializeDefaultSession() throws UniqueException {
+      Configuration configuration = new Configuration("CuacFM", "cuacfm@hotmail.com", 6666666,
+            Double.valueOf(24), Double.valueOf(25), "Rul");
+      configurationService.save(configuration);
+      
       // Create User
       user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
             666666666, "demo", roles.ROLE_USER);
