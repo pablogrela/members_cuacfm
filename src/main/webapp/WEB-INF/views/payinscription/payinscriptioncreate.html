@@ -79,7 +79,7 @@
 			th:classappend="${#fields.hasErrors('dateLimit1')}? 'has-error'">
 			<label for="dateLimit1" class="col-lg-1 control-label" th:text="#{payInscription.dateLimit1}">dateLimit1</label>
 			<div class="col-lg-10">
-					<input type="date" name="dateLimit1" class="form-control" id="dateLimit1" th:placeholder="#{payInscription.dateLimit1}"
+					<input type="month" name="dateLimit1" class="form-control" id="dateLimit1" th:placeholder="#{payInscription.dateLimit1}"
 					th:field="*{dateLimit1}"/> 
 					<span class="help-block" th:if="${#fields.hasErrors('dateLimit1')}" th:errors="*{dateLimit1}">Incorrect dateLimit1</span> 
 					<div class="ws-errorbox" hidden=""></div>
@@ -91,7 +91,7 @@
 			th:classappend="${#fields.hasErrors('dateLimit2')}? 'has-error'">
 			<label for="dateLimit2" class="col-lg-1 control-label" th:text="#{payInscription.dateLimit2}">dateLimit2</label>
 			<div class="col-lg-10">
-					<input type="date" name="dateLimit2" class="form-control" id="dateLimit2" th:placeholder="#{payInscription.dateLimit2}"
+					<input type="month" name="dateLimit2" class="form-control" id="dateLimit2" th:placeholder="#{payInscription.dateLimit2}"
 					th:field="*{dateLimit2}"/>
 					<span class="help-block" th:if="${#fields.hasErrors('dateLimit2')}" th:errors="*{dateLimit2}">Incorrect dateLimit2</span> 
 					<div class="ws-errorbox" hidden=""></div>

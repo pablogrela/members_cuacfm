@@ -4,7 +4,7 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>0.1.6-SNAPSHOT- accounts, trainings, payments, programs, con</version>
+	<version>0.1.7-SNAPSHOT- accounts, trainings, programs, payments pdf</version>
 	<name>members</name>
 
 	<properties>

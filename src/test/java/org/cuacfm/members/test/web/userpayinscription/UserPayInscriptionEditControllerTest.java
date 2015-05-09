@@ -33,14 +33,13 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /** The Class UserPayInscriptionEditControllerTest.*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class UserPayInscriptionEditControllerTest extends WebSecurityConfigurationAware {
 
-    /** The default session. */
-    private MockHttpSession defaultSession;
+   /** The default session. */
+   private MockHttpSession defaultSession;
 
     /** The account service. */
 	@Inject
@@ -53,12 +52,13 @@ public class UserPayInscriptionEditControllerTest extends WebSecurityConfigurati
 	/** The method payment service. */
 	@Inject
 	private MethodPaymentService methodPaymentService;
-	
-	/** The training service. */
+
+	/** The pay inscription service. */
 	@Inject
 	private PayInscriptionService payInscriptionService;
 
-	/** The training service. */
+
+	/** The user pay inscription service. */
 	@Inject
 	private UserPayInscriptionService userPayInscriptionService;
 	
@@ -80,7 +80,8 @@ public class UserPayInscriptionEditControllerTest extends WebSecurityConfigurati
 	
     /**
      * Initialize default session.
-     * @throws UniqueException 
+     *
+     * @throws UniqueException the unique exception
      */
     @Before
     public void initializeDefaultSession() throws UniqueException {
@@ -185,6 +186,33 @@ public class UserPayInscriptionEditControllerTest extends WebSecurityConfigurati
 		.andExpect(view().name("redirect:/payInscriptionList/userPayInscriptionList"));
 	}
 	
+	  /**
+    * Send displaysUserPayInscriptionList.
+    * @throws Exception the exception
+    */
+   @Test
+   public void postBlankUserPayInscriptionEditTest() throws Exception {    
+      
+      mockMvc.perform(post("/payInscriptionList/userPayInscriptionList/userPayInscriptionEdit/"+pay.getId()).locale(Locale.ENGLISH).session(defaultSession))
+      .andExpect(view().name("redirect:/payInscriptionList/userPayInscriptionList/userPayInscriptionEdit"));
+      
+      mockMvc.perform(get("/payInscriptionList/userPayInscriptionList/userPayInscriptionEdit").locale(Locale.ENGLISH).session(defaultSession))
+      .andExpect(view().name("userpayinscription/userpayinscriptionedit"))
+      .andExpect(model().attributeExists("userPayInscriptionForm"))
+      .andExpect(content().string(containsString("<title>Edit User Payment</title>")));
+      
+      mockMvc.perform(post("/payInscriptionList/userPayInscriptionList/userPayInscriptionEdit").locale(Locale.ENGLISH).session(defaultSession)
+            .param("price", "24")
+            .param("hasPay", "true")
+            .param("installment", "1")
+            .param("installments", "1")
+            .param("idPayer", "")
+            .param("idTxn", "")
+            .param("emailPayer", "")           
+            .param("statusPay", "")
+            .param("datePay", ""))
+      .andExpect(view().name("redirect:/payInscriptionList/userPayInscriptionList"));
+   }
 
 	/**
 	 * Max characters in user pay inscription edit test.

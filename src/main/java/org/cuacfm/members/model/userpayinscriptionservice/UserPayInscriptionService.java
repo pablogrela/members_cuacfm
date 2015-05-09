@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.userpayinscription.UserPayInscription;
+import org.springframework.context.MessageSource;
 
 /** The Interface UserPayInscriptionService. */
 public interface UserPayInscriptionService {
@@ -112,9 +113,26 @@ public interface UserPayInscriptionService {
    /**
     * Gets the name users by Pay Inscription with role=ROLE_USER an active=true.
     *
-    * @param trainingId
+    * @param payInscriptionId
     *           the pay inscription id
     * @return the name users by pay inscription
     */
    public List<String> getUsernamesByPayInscription(Long payInscriptionId);
+
+   /**
+    * Creates the pdf pay inscription.
+    *
+    * @param messageSource
+    *           the message source
+    * @param payInscriptionId
+    *           the pay inscription id
+    * @param path
+    *           the path
+    * @param title
+    *           the title
+    * @param submit
+    *           the submit
+    */
+   public void createPdfPayInscription(MessageSource messageSource, Long payInscriptionId,
+         String path, String title, String submit);
 }

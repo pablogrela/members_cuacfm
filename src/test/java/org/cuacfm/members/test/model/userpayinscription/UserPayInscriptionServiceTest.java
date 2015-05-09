@@ -375,4 +375,38 @@ public class UserPayInscriptionServiceTest extends
 		// Assert
 		assertEquals(payInscriptionList.size(), 2);
 	}
+	
+	
+	  /**
+    * Gets the user pay inscription list by pay inscription test.
+    *
+    * @return the user pay inscription list by pay inscription test
+    * @throws UniqueException 
+    */
+   @Test
+   public void getUsernamesByPayInscription() throws UniqueException {
+
+      // Save
+      PayInscription payInscription = new PayInscription("pay of 2015", 2015,
+            Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),  "pay of 2015");
+      payInscriptionService.save(payInscription);
+      
+      AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+      accountTypeService.save(accountType);
+      MethodPayment methodPayment = new MethodPayment("cash", "cash");
+      methodPaymentService.save(methodPayment);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+      accountService.save(user);
+      Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+      accountService.save(account);
+      Account account3 = new Account("user3", "55555555F", "London", "user3", "user3@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+      accountService.save(account3);
+      account3.setNickName("terminataror");
+      accountService.update(account3, false);
+
+      // Assert
+      List<String> userPayInscriptions = userPayInscriptionService.getUsernamesByPayInscription(payInscription
+                  .getId());
+      assertEquals(userPayInscriptions.size(), 3);
+   }
 }

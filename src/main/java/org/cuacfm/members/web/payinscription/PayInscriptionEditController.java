@@ -64,8 +64,10 @@ public class PayInscriptionEditController {
          payInscriptionForm.setYear(payInscription.getYear());
          payInscriptionForm.setPrice(payInscription.getPrice());
          payInscriptionForm.setDescription(payInscription.getDescription());
-         payInscriptionForm.setDateLimit1(DisplayDate.dateToString(payInscription.getDateLimit1()));
-         payInscriptionForm.setDateLimit2(DisplayDate.dateToString(payInscription.getDateLimit2()));
+         payInscriptionForm.setDateLimit1(DisplayDate.monthOfYearToString(payInscription
+               .getDateLimit1()));
+         payInscriptionForm.setDateLimit2(DisplayDate.monthOfYearToString(payInscription
+               .getDateLimit2()));
          model.addAttribute(payInscription);
          model.addAttribute(payInscriptionForm);
          return PAYINSCRIPTION_VIEW_NAME;
@@ -97,24 +99,13 @@ public class PayInscriptionEditController {
          return PAYINSCRIPTION_VIEW_NAME;
       }
 
-      // Modify Training
-      payInscription.setName(payInscriptionForm.getName());
-      payInscription.setYear(payInscriptionForm.getYear());
-      payInscription.setPrice(payInscriptionForm.getPrice());
-      payInscription.setDescription(payInscriptionForm.getDescription());
-      payInscription.setDateLimit1(DisplayDate.stringToDate2(payInscriptionForm.getDateLimit1()));
-      payInscription.setDateLimit2(DisplayDate.stringToDate2(payInscriptionForm.getDateLimit2()));
-      int year = payInscriptionForm.getYear();
-
       try {
-         payInscriptionService.update(payInscription);
+         payInscriptionService.update(payInscriptionForm.updatePayInscription(payInscription));
          // It is verified that there is not exist year of payInscription in
          // other payInscription
       } catch (UniqueException e) {
-         errors.rejectValue("year", "payInscription.yearException", new Object[] { year }, "year");
-      }
-
-      if (errors.hasErrors()) {
+         errors.rejectValue("year", "payInscription.yearException",
+               new Object[] { payInscriptionForm.getYear() }, "year");
          return PAYINSCRIPTION_VIEW_NAME;
       }
 

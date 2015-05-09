@@ -7,8 +7,12 @@ import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.userpayinscription.UserPayInscription;
 import org.cuacfm.members.model.userpayinscription.UserPayInscriptionRepository;
 import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.web.support.CreatePdf;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+
+import com.itextpdf.text.pdf.PdfPTable;
 
 /** The Class UserPayInscriptionServiceImpl. */
 @Service("userPayInscriptionService")
@@ -84,7 +88,9 @@ public class UserPayInscriptionServiceImpl implements UserPayInscriptionService 
 
       UserPayInscription paymentExist = userPayInscriptionRepository.findByIdTxn(idTxn);
       if (paymentExist != null) {
-         throw new ExistTransactionIdException(idTxn);
+         if (paymentExist.getId() != userPayInscription.getId()) {
+            throw new ExistTransactionIdException(idTxn);
+         }
       }
 
       userPayInscription.setIdTxn(idTxn);
@@ -175,12 +181,35 @@ public class UserPayInscriptionServiceImpl implements UserPayInscriptionService 
    /**
     * Gets the name users by Pay Inscription with role=ROLE_USER an active=true.
     *
-    * @param trainingId
+    * @param payInscriptionId
     *           the pay inscription id
     * @return the name users by pay inscription
     */
    @Override
    public List<String> getUsernamesByPayInscription(Long payInscriptionId) {
       return userPayInscriptionRepository.getUsernamesByPayInscription(payInscriptionId);
+   }
+
+   /**
+    * Creates the pdf pay inscription.
+    *
+    * @param messageSource
+    *           the message source
+    * @param payInscriptionId
+    *           the pay inscription id
+    * @param path
+    *           the path
+    * @param title
+    *           the title
+    */
+   @Override
+   public void createPdfPayInscription(MessageSource messageSource, Long payInscriptionId,
+         String path, String title, String submit) {
+      List<UserPayInscription> userPayInscriptions = userPayInscriptionRepository
+            .getUserPayInscriptionListByPayInscriptionId(payInscriptionId);
+      CreatePdf pdf = new CreatePdf();
+      PdfPTable table = pdf.createTableUserPayInscriptions(messageSource, submit,
+            userPayInscriptions);
+      pdf.createBody(path, title, table);
    }
 }

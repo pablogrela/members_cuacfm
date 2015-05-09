@@ -1,11 +1,18 @@
 package org.cuacfm.members.web.payinscription;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.validation.Valid;
 
+import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.payinscriptionservice.PayInscriptionService;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,6 +28,14 @@ public class PayInscriptionCreateController {
    /** The Constant PAYINSCRIPTION_VIEW_NAME. */
    private static final String PAYINSCRIPTION_VIEW_NAME = "payinscription/payinscriptioncreate";
 
+   /** The message source. */
+   @Autowired
+   private MessageSource messageSource;
+   
+   /** The ConfigurationService. */
+   @Autowired
+   private ConfigurationService configurationService;
+   
    /** The pay Inscription service. */
    @Autowired
    private PayInscriptionService payInscriptionService;
@@ -39,9 +54,26 @@ public class PayInscriptionCreateController {
     *           the model
     * @return the string
     */
+   @SuppressWarnings("deprecation")
    @RequestMapping(value = "payInscriptionList/payInscriptionCreate")
    public String payInscription(Model model) {
-      model.addAttribute(new PayInscriptionForm());
+      
+      PayInscriptionForm payInscriptionForm = new PayInscriptionForm();
+      
+      String feeProgramFile = messageSource.getMessage("feeMemberFile", null, Locale.getDefault());
+      payInscriptionForm.setName(feeProgramFile + " " + LocalDate.now().getYear());
+      payInscriptionForm.setPrice(configurationService.getConfiguration().getFeeMember());
+      payInscriptionForm.setDescription(feeProgramFile + " " + LocalDate.now().getYear());
+      payInscriptionForm.setYear(LocalDate.now().getYear());
+      Date dateLimit = new Date();
+      dateLimit.setMonth(2);
+      String monthLimit = DisplayDate.monthOfYearToString(dateLimit);
+      payInscriptionForm.setDateLimit1(monthLimit);
+      dateLimit.setMonth(8);
+      monthLimit = DisplayDate.monthOfYearToString(dateLimit);
+      payInscriptionForm.setDateLimit2(monthLimit);
+      model.addAttribute(payInscriptionForm);
+      
       return PAYINSCRIPTION_VIEW_NAME;
    }
 

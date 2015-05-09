@@ -1,6 +1,8 @@
 package org.cuacfm.members.web.userpayinscription;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
@@ -10,9 +12,11 @@ import org.cuacfm.members.model.payinscription.PayInscription;
 import org.cuacfm.members.model.payinscriptionservice.PayInscriptionService;
 import org.cuacfm.members.model.userpayinscription.UserPayInscription;
 import org.cuacfm.members.model.userpayinscriptionservice.UserPayInscriptionService;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.cuacfm.members.web.training.FindUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class UserPayInscriptionListController. */
@@ -28,6 +33,19 @@ public class UserPayInscriptionListController {
 
    /** The Constant USERPAYINSCRIPTION_VIEW_NAME. */
    private static final String USERPAYINSCRIPTION_VIEW_NAME = "userpayinscription/userpayinscriptionlist";
+
+   /** The Constant REDIRECT_USERPAYINSCRIPTION. */
+   private static final String REDIRECT_USERPAYINSCRIPTION = "redirect:/payInscriptionList/userPayInscriptionList";
+   
+   /** The Constant NOPAY. */
+   private static final String NOPAY = "NOPAY";
+   
+   /** The Constant PAY. */
+   private static final String PAY = "PAY";
+   
+   /** The message source. */
+   @Autowired
+   private MessageSource messageSource;
 
    /** The account service. */
    @Autowired
@@ -40,6 +58,12 @@ public class UserPayInscriptionListController {
    /** The UserPayInscriptionService. */
    @Autowired
    private UserPayInscriptionService userPayInscriptionService;
+
+   /** The pathform. */
+   private PathForm pathform;
+
+   /** The find userform. */
+   private FindUserForm findUserform;
 
    /** The payInscription. */
    private PayInscription payInscription;
@@ -78,13 +102,29 @@ public class UserPayInscriptionListController {
    }
 
    /**
-    * Usernames.
+    * Gets the path information.
     *
-    * @return the list
+    * @param model
+    *           the model
+    * @return the path information
     */
-   @ModelAttribute("usernames")
-   public List<String> usernames() {
-      return usernames;
+   private String getPathInformation(Model model) {
+      model.addAttribute(pathform);
+      model.addAttribute("usernames", usernames);
+      return USERPAYINSCRIPTION_VIEW_NAME;
+   }
+
+   /**
+    * Gets the find user information.
+    *
+    * @param model
+    *           the model
+    * @return the find user information
+    */
+   private String getFindUserInformation(Model model) {
+      model.addAttribute(findUserform);
+      model.addAttribute("usernames", usernames);
+      return USERPAYINSCRIPTION_VIEW_NAME;
    }
 
    /**
@@ -97,12 +137,24 @@ public class UserPayInscriptionListController {
    @RequestMapping(value = "payInscriptionList/userPayInscriptionList")
    public String getUserPayInscriptions(Model model) {
       if (payInscription != null) {
-         model.addAttribute(new FindUserForm());
+
+         pathform = new PathForm();
+         String pathDefault = messageSource.getMessage("pathDefault", null, Locale.getDefault());
+         pathform.setPath(pathDefault);
+         Date date = new Date();
+         String feeMemberFile = messageSource
+               .getMessage("feeMemberFile", null, Locale.getDefault());
+         pathform.setFile(feeMemberFile + " " + DisplayDate.dateTimeToStringSp(date));
+         model.addAttribute(pathform);
+
+         findUserform = new FindUserForm();
+         model.addAttribute(findUserform);
          userPayInscriptions = userPayInscriptionService
                .getUserPayInscriptionListByPayInscriptionId(payInscription.getId());
          model.addAttribute("userPayInscriptions", userPayInscriptions);
          usernames = userPayInscriptionService.getUsernamesByPayInscription(payInscription.getId());
          model.addAttribute("usernames", usernames);
+
          return USERPAYINSCRIPTION_VIEW_NAME;
       } else {
          return "redirect:/payInscriptionList";
@@ -131,14 +183,16 @@ public class UserPayInscriptionListController {
     *           the errors
     * @param ra
     *           the redirect atributes
+    * @param model
+    *           the model
     * @return the string destinity page to page trainingList
     */
    @RequestMapping(value = "payInscriptionList/userPayInscriptionList", method = RequestMethod.POST)
    public String addUserToUserPayInscriptionList(@Valid @ModelAttribute FindUserForm findUserForm,
-         Errors errors, RedirectAttributes ra) {
+         Errors errors, RedirectAttributes ra, Model model) {
 
       if (errors.hasErrors()) {
-         return USERPAYINSCRIPTION_VIEW_NAME;
+         return getPathInformation(model);
       }
 
       String name = findUserForm.getLogin();
@@ -153,7 +207,7 @@ public class UserPayInscriptionListController {
       Account account = accountService.findById(id);
       if (account == null) {
          errors.rejectValue("login", "inscription.noExistLogin", new Object[] { name }, "login");
-         return USERPAYINSCRIPTION_VIEW_NAME;
+         return getPathInformation(model);
       }
 
       // Check if account already userPayInscription
@@ -162,12 +216,12 @@ public class UserPayInscriptionListController {
       if (!userPayInscriptionsSearched.isEmpty()) {
          errors.rejectValue("login", "userPayInscription.alreadyExistLogin", new Object[] { name },
                "login");
-         return USERPAYINSCRIPTION_VIEW_NAME;
+         return getPathInformation(model);
       }
 
       payInscriptionService.saveUserPayInscription(account, payInscription);
       MessageHelper.addSuccessAttribute(ra, "userPayInscription.successJoin", name);
-      return "redirect:/payInscriptionList/userPayInscriptionList";
+      return REDIRECT_USERPAYINSCRIPTION;
    }
 
    /**
@@ -187,6 +241,58 @@ public class UserPayInscriptionListController {
 
       MessageHelper.addSuccessAttribute(ra, "userPayInscription.successPay", userPayInscription
             .getAccount().getName());
-      return "redirect:/payInscriptionList/userPayInscriptionList";
+      return REDIRECT_USERPAYINSCRIPTION;
    }
+
+   /**
+    * GeneratePdf.
+    *
+    * @param pathForm
+    *           the path form
+    * @param errors
+    *           the errors
+    * @param createPdf
+    *           the create pdf
+    * @param ra
+    *           the ra
+    * @param model
+    *           the model
+    * @return the string
+    */
+   @RequestMapping(value = "payInscriptionList/userPayInscriptionList", method = RequestMethod.POST, params = { "createPdf" })
+   public String createPdf(@Valid @ModelAttribute PathForm pathForm, Errors errors,
+         @RequestParam("createPdf") String createPdf, RedirectAttributes ra, Model model) {
+
+      if (errors.hasErrors()) {
+         getFindUserInformation(model);
+         return USERPAYINSCRIPTION_VIEW_NAME;
+      }
+
+      String title;
+      String path = pathForm.getPath() + "/" + pathForm.getFile() + ".pdf";
+
+      if (createPdf.equals(PAY)) {
+         title = payInscription.getName() + " - "
+               + messageSource.getMessage("payinscription.printPayList", null, Locale.getDefault());
+         MessageHelper.addSuccessAttribute(ra, "payInscription.successPrintPayList",
+               payInscription.getName());
+      } else if (createPdf.equals(NOPAY)) {
+         title = payInscription.getName()
+               + " - "
+               + messageSource.getMessage("payinscription.printNoPayList", null,
+                     Locale.getDefault());
+         MessageHelper.addSuccessAttribute(ra, "payInscription.successPrintNoPayList",
+               payInscription.getName());
+      } else {
+         title = payInscription.getName() + " - "
+               + messageSource.getMessage("payinscription.printAllList", null, Locale.getDefault());
+         MessageHelper.addSuccessAttribute(ra, "payInscription.successPrintAllList",
+               payInscription.getName());
+      }
+
+      userPayInscriptionService.createPdfPayInscription(messageSource, payInscription.getId(),
+            path, title, createPdf);
+      return REDIRECT_USERPAYINSCRIPTION;
+   }
+
 }

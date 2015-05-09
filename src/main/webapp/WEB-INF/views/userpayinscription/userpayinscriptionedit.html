@@ -92,10 +92,10 @@
 
 			<!-- Edit IdTxn -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('idTxn')}? 'has-error'">
-				<label for="idTxn" class="col-lg-1 control-label" th:text="#{userPayinscription.idTxn}">Login</label>
+				<label for="idTxn" class="col-lg-1 control-label" th:text="#{userPayInscription.idTxn}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="idTxn" class="form-control" id="idTxn"
-						th:placeholder="#{userPayinscription.idTxn}" th:field="*{idTxn}" maxlength="30"/> 
+						th:placeholder="#{userPayInscription.idTxn}" th:field="*{idTxn}" maxlength="30"/> 
 						<span class="help-block" th:if="${#fields.hasErrors('idTxn')}" th:errors="*{idTxn}">Incorrect
 						idTxn</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -106,10 +106,10 @@
 
 			<!-- Edit IdPayer -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('idPayer')}? 'has-error'">
-				<label for="idPayer" class="col-lg-1 control-label" th:text="#{userPayinscription.idPayer}">Login</label>
+				<label for="idPayer" class="col-lg-1 control-label" th:text="#{userPayInscription.idPayer}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="idPayer" class="form-control" id="idPayer"
-						th:placeholder="#{userPayinscription.idPayer}" th:field="*{idPayer}" maxlength="30"/>  
+						th:placeholder="#{userPayInscription.idPayer}" th:field="*{idPayer}" maxlength="30"/>  
 						<span class="help-block" th:if="${#fields.hasErrors('idPayer')}" th:errors="*{idPayer}">Incorrect
 						idPayer</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -120,10 +120,10 @@
 			
 			<!-- Edit EmailPayer -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('emailPayer')}? 'has-error'">
-				<label for="emailPayer" class="col-lg-1 control-label" th:text="#{userPayinscription.emailPayer}">Login</label>
+				<label for="emailPayer" class="col-lg-1 control-label" th:text="#{userPayInscription.emailPayer}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="emailPayer" class="form-control" id="emailPayer"
-						th:placeholder="#{userPayinscription.emailPayer}" th:field="*{emailPayer}" maxlength="30"/> 
+						th:placeholder="#{userPayInscription.emailPayer}" th:field="*{emailPayer}" maxlength="30"/> 
 						<span class="help-block" th:if="${#fields.hasErrors('emailPayer')}" th:errors="*{emailPayer}">Incorrect
 						emailPayer</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -134,10 +134,10 @@
 
 			<!-- Edit statusPay -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('statusPay')}? 'has-error'">
-				<label for="statusPay" class="col-lg-1 control-label" th:text="#{userPayinscription.statusPay}">Login</label>
+				<label for="statusPay" class="col-lg-1 control-label" th:text="#{userPayInscription.statusPay}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="statusPay" class="form-control" id="statusPay"
-						th:placeholder="#{userPayinscription.statusPay}" th:field="*{statusPay}" maxlength="30"/> 
+						th:placeholder="#{userPayInscription.statusPay}" th:field="*{statusPay}" maxlength="30"/> 
 						<span class="help-block" th:if="${#fields.hasErrors('statusPay')}" th:errors="*{statusPay}">Incorrect
 						statusPay</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -149,10 +149,10 @@
 			<!-- Edit DatePay -->
 			<div class="form-inline form-group"
 				th:classappend="${#fields.hasErrors('datePay')}? 'has-error'">
-				<label for="datePay" class="col-lg-1 control-label" th:text="#{userPayinscription.datePay}">Date UserPayInscription</label>
+				<label for="datePay" class="col-lg-1 control-label" th:text="#{userPayInscription.datePay}">Date UserPayInscription</label>
 				<div class="col-lg-10">
 						<input
-						type="datetime" class="form-control" id="datePay" th:placeholder="#{userPayinscription.datePay}"
+						type="datetime" class="form-control" id="datePay" th:placeholder="#{userPayInscription.datePay}"
 						th:field="*{datePay}"/> <span class="help-block"
 						th:if="${#fields.hasErrors('datePay')}" th:errors="*{datePay}">Incorrect
 						datePay</span> 
@@ -164,7 +164,7 @@
 			<!-- Button Edit  -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-success btn-lg" th:text="#{userPayinscription.modify}">Create</button>
+					<button type="submit" class="btn btn-success btn-lg" th:text="#{userPayInscription.modify}">Create</button>
 				</div>
 			</div>
 

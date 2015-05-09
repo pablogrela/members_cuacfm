@@ -93,7 +93,6 @@ public class UserPayInscriptionEditController {
     * @return the string
     * @throws DateLimitException
     */
-
    @RequestMapping(value = "payInscriptionList/userPayInscriptionList/userPayInscriptionEdit", method = RequestMethod.POST)
    public String userPayInscription(
          @Valid @ModelAttribute UserPayInscriptionForm userPayInscriptionForm, Errors errors,
@@ -103,23 +102,10 @@ public class UserPayInscriptionEditController {
          return USERPAYINSCRIPTION_VIEW_NAME;
       }
 
-      // Modify UserPayInscription
-      userPayInscription.setPrice(userPayInscriptionForm.getPrice());
-      userPayInscription.setInstallment(userPayInscriptionForm.getInstallment());
-      userPayInscription.setInstallments(userPayInscriptionForm.getInstallments());
-      userPayInscription.setHasPay(userPayInscriptionForm.getHasPay());
-      userPayInscription.setIdTxn(userPayInscriptionForm.getIdTxn());
-      userPayInscription.setIdPayer(userPayInscriptionForm.getIdPayer());
-      userPayInscription.setEmailPayer(userPayInscriptionForm.getEmailPayer());
-      userPayInscription.setStatusPay(userPayInscriptionForm.getStatusPay());
-      userPayInscription.setIdPayer(userPayInscriptionForm.getIdPayer());
-      userPayInscription.setDatePay(DisplayDate.stringToDateTime(userPayInscriptionForm
-            .getDatePay()));
-
-      userPayInscriptionService.update(userPayInscription);
+      userPayInscriptionService.update(userPayInscriptionForm
+            .updateUserPayInscription(userPayInscription));
       MessageHelper.addSuccessAttribute(ra, "userPayInscription.successModify",
             userPayInscriptionForm.getInstallment());
-
       return "redirect:/payInscriptionList/userPayInscriptionList";
    }
 

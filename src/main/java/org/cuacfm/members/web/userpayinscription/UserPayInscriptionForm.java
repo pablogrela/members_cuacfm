@@ -6,6 +6,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+import org.cuacfm.members.model.userpayinscription.UserPayInscription;
+import org.cuacfm.members.web.support.DisplayDate;
+
 /** The Class UserPayInscriptionForm. */
 public class UserPayInscriptionForm {
 
@@ -224,6 +227,40 @@ public class UserPayInscriptionForm {
     */
    public void setDatePay(String datePay) {
       this.datePay = datePay;
+   }
+
+   /**
+    * Update user pay inscription.
+    *
+    * @param userPayInscription
+    *           the user pay inscription
+    * @return the user pay inscription
+    */
+   public UserPayInscription updateUserPayInscription(UserPayInscription userPayInscription) {
+
+      userPayInscription.setPrice(getPrice());
+      userPayInscription.setHasPay(getHasPay());
+      userPayInscription.setInstallment(getInstallment());
+      userPayInscription.setInstallments(getInstallments());
+      if (getIdTxn() != "") {
+         userPayInscription.setIdTxn(getIdTxn());
+      }
+      if (getIdPayer() != "") {
+         userPayInscription.setIdPayer(getIdPayer());
+      }
+      if (getEmailPayer() != "") {
+         userPayInscription.setEmailPayer(getEmailPayer());
+      }
+      if (getStatusPay() != "") {
+         userPayInscription.setStatusPay(getStatusPay());
+      }
+      if (getIdPayer() != "") {
+         userPayInscription.setIdPayer(getIdPayer());
+      }
+      if (getDatePay() != "") {
+         userPayInscription.setDatePay(DisplayDate.stringToDateTime(getDatePay()));
+      }
+      return userPayInscription;
    }
 
 }
