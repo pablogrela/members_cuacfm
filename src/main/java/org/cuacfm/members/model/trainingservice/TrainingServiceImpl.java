@@ -204,6 +204,7 @@ public class TrainingServiceImpl implements TrainingService {
       // Check if account exist
 
       if (account == null) {
+         return;
          // throw new UsernameNotFoundException(accountId);
       }
 

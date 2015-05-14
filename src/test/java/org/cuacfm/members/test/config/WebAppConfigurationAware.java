@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
+/** The Class WebAppConfigurationAware.*/
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
@@ -26,10 +27,16 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 })
 public abstract class WebAppConfigurationAware {
 
+    /** The wac. */
     @Inject
     protected WebApplicationContext wac;
+    
+    /** The mock mvc. */
     protected MockMvc mockMvc;
 
+    /**
+     * Before.
+     */
     @Before
     public void before() {
         this.mockMvc = webAppContextSetup(this.wac).build();

@@ -28,7 +28,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 	<!-- Button Create New Training Type -->
 	<div class="text-center">
-		<a href="#" class="btn btn-success btn-lg" th:href="@{/trainingTypeList/trainingTypeCreate}"
+		<a href="#" class="btn btn-success btn-lg" id="createNewTrainingType" th:href="@{/trainingTypeList/trainingTypeCreate}"
 			th:text="#{trainingType.createNewTrainingType}">Create New Training Type </a>
 	</div>
 	
@@ -73,8 +73,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				<tbody class="table-bordered">
 
 					<!-- Table entry -->
-					<tr th:each="trainingType : ${trainingTypes}">
-						<td th:text="${trainingType.name}">name</td>
+					<tr th:each="trainingType : ${trainingTypes}" id="trainingTypes">
+						<td id="trainingTypeName" th:text="${trainingType.name}">name</td>
 						<td><input type="checkbox" th:checked="${trainingType.required}"
 							onClick="return false" th:title="#{trainingType.infoShowRequired}" /></td>
 						<td th:text="${trainingType.place}">place</td>

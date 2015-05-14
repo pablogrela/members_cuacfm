@@ -2,8 +2,8 @@ DROP TABLE Configuration;
 DROP TABLE PayProgram;
 DROP TABLE FeeProgram;
 DROP TABLE UserPrograms;
-DROP TABLE UserPayInscription;
-DROP TABLE PayInscription;
+DROP TABLE PayMember;
+DROP TABLE FeeMember;
 DROP TABLE Inscription;
 DROP TABLE Training;
 DROP TABLE TrainingType;
@@ -160,7 +160,7 @@ CREATE TABLE PayProgram(
 );   
 	
 
-CREATE TABLE PayInscription(
+CREATE TABLE FeeMember(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
     year int NOT NULL,
@@ -168,15 +168,15 @@ CREATE TABLE PayInscription(
     dateLimit1 DATE NOT NULL,
     dateLimit2 DATE NOT NULL,
     description VARCHAR(100),
-    CONSTRAINT PayInscriptionId_PK PRIMARY KEY (id),
+    CONSTRAINT FeeMemberId_PK PRIMARY KEY (id),
     CONSTRAINT YearUniqueKey UNIQUE (year)
 	);    
 
 
-CREATE TABLE UserPayInscription(
+CREATE TABLE PayMember(
     id INT NOT NULL auto_increment, 
     accountId INT NOT NULL,
-    payInscriptionId INT NOT NULL,
+    feeMemberId INT NOT NULL,
     price DOUBLE(4,2) NOT NULL,
     installment INT,
     installments INT,
@@ -186,13 +186,21 @@ CREATE TABLE UserPayInscription(
    	emailPayer VARCHAR(30),
    	statusPay VARCHAR(30),
     datePay TIMESTAMP NULL,
-    CONSTRAINT UserPayInscriptionId_PK PRIMARY KEY (id),
-	CONSTRAINT UserPayInscription_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
-	CONSTRAINT PayInscriptionId_FK FOREIGN KEY (payInscriptionId) REFERENCES PayInscription(id),
+    CONSTRAINT PayMemberId_PK PRIMARY KEY (id),
+	CONSTRAINT PayMember_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+	CONSTRAINT FeeMemberId_FK FOREIGN KEY (feeMemberId) REFERENCES FeeMember(id),
 	CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
 	);   	
 
-	
+CREATE TABLE PayRoll(
+    id INT NOT NULL auto_increment, 
+    accountId INT NOT NULL,
+    iban VARCHAR(24) NOT NULL,
+    mandate VARCHAR(24) NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT PayRollId_PK PRIMARY KEY (id),
+    CONSTRAINT PayRoll_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
+);  
 	
 CREATE TABLE UserPrograms(
     id INT NOT NULL auto_increment, 
@@ -206,7 +214,7 @@ CREATE TABLE UserPrograms(
 	
 
 -- Insert Configuration:
-insert into Configuration values (1, 'CuacFM', 'cuacfm@org', 981666666, 24, 25, 'Comprométome a coñecer e cumprir a normativa interna da asociación, así coma a asumir a responsabilidade das informacións e opinións que difunda en antena e a facer un bo uso das instalacións e material da asociación.
+insert into Configuration values (1, 'CuacFM', 'cuacfm@hotmail.com', 981666666, 24, 25, 'Comprométome a coñecer e cumprir a normativa interna da asociación, así coma a asumir a responsabilidade das informacións e opinións que difunda en antena e a facer un bo uso das instalacións e material da asociación.
 
 Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na asociación cultural  Colectivo de Universitarios ACtivos, cousa que NON ACONTECE, se marquei as opcións "simpatizante" ou "patrocinador web"            ');
 

@@ -782,8 +782,6 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 				"Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
 
-		
-
 		Training trainingClose = new Training(trainingType, "trainingClose",
 				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
 				"description", "place", 90, 10);
@@ -811,4 +809,42 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(trainingService.getTrainingListOpen().get(0).getName(),
 				trainingOpen.getName());
 	}
+	
+	
+   /**
+   * Gets the user pay inscription list by pay inscription test.
+   *
+   * @return the user pay inscription list by pay inscription test
+   * @throws UniqueException 
+    * @throws DateLimitException 
+   */
+  @Test
+  public void getUsernamesByInscription() throws UniqueException, DateLimitException {
+
+     // Save
+     TrainingType trainingType = new TrainingType("Locution", true,
+           "Very interesting", "livingRoom", 90);
+     trainingTypeService.save(trainingType);
+     TrainingType trainingType2 = new TrainingType("Filming", true,
+           "Very interesting", "livingRoom", 90);
+     trainingTypeService.save(trainingType2);
+     
+     Training training = new Training(trainingType, "training1",
+           DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+           "description", "place", 90, 1);
+     trainingService.save(training);
+     
+     Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+     accountService.save(user);
+     Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+     accountService.save(account);
+     Account account3 = new Account("user3", "55555555F", "London", "user3", "user3@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+     accountService.save(account3);
+     account3.setNickName("terminataror");
+     accountService.update(account3, false);
+
+     // Assert
+     List<String> payMembers = trainingService.getUsernamesByInscription(training.getId());
+     assertEquals(payMembers.size(), 3);
+  }
 }

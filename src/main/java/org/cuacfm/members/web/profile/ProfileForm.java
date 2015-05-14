@@ -50,7 +50,7 @@ public class ProfileForm {
 
    /** The phone. */
    // @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private int phone;
+   private Integer phone;
 
    /** The mobile. */
    // @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
@@ -278,7 +278,7 @@ public class ProfileForm {
     *
     * @return the phone
     */
-   public int getPhone() {
+   public Integer getPhone() {
       return phone;
    }
 
@@ -288,7 +288,7 @@ public class ProfileForm {
     * @param phone
     *           the new phone
     */
-   public void setPhone(int phone) {
+   public void setPhone(Integer phone) {
       this.phone = phone;
    }
 

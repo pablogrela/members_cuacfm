@@ -7,10 +7,10 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
+import org.cuacfm.members.model.paymember.PayMember;
+import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
-import org.cuacfm.members.model.userpayinscription.UserPayInscription;
-import org.cuacfm.members.model.userpayinscriptionservice.UserPayInscriptionService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,13 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-// TODO: Auto-generated Javadoc
 /** The Class UserPaymentsController. */
 @Controller
 public class UserPaymentsController {
 
-   /** The Constant USERPAYINSCRIPTION_VIEW_NAME. */
-   private static final String USERPAYINSCRIPTION_VIEW_NAME = "userpayments/userpayments";
+   /** The Constant USERPAYMENTS_VIEW_NAME. */
+   private static final String USERPAYMENTS_VIEW_NAME = "userpayments/userpayments";
 
    /** The ConfigurationService. */
    @Autowired
@@ -38,16 +37,16 @@ public class UserPaymentsController {
    @Autowired
    private AccountService accountService;
 
-   /** The UserPayInscriptionService. */
+   /** The PayMemberService. */
    @Autowired
-   private UserPayInscriptionService userPayInscriptionService;
+   private PayMemberService payMemberService;
 
    /** The PayProgramService. */
    @Autowired
    private PayProgramService payProgramService;
 
    /** The payInscriptions. */
-   private List<UserPayInscription> userPayInscriptions;
+   private List<PayMember> payMembers;
 
    /** The payInscriptions. */
    private List<PayProgram> payPrograms;
@@ -83,13 +82,13 @@ public class UserPaymentsController {
    }
 
    /**
-    * List of UserPayInscription.
+    * List of PayMember.
     *
-    * @return List<UserPayInscription>
+    * @return List<PayMember>
     */
-   @ModelAttribute("userPayInscriptions")
-   public List<UserPayInscription> userPayInscriptions() {
-      return userPayInscriptions;
+   @ModelAttribute("payMembers")
+   public List<PayMember> payMembers() {
+      return payMembers;
    }
 
    /**
@@ -106,19 +105,19 @@ public class UserPaymentsController {
       email = configurationService.getConfiguration().getEmail();
       model.addAttribute(email);
       Account account = accountService.findByLogin(principal.getName());
-      userPayInscriptions = userPayInscriptionService.getUserPayInscriptionListByAccountId(account
+      payMembers = payMemberService.getPayMemberListByAccountId(account
             .getId());
-      model.addAttribute("userPayInscriptions", userPayInscriptions);
+      model.addAttribute("payMembers", payMembers);
       payPrograms = payProgramService.getPayProgramListByAccountId(account.getId());
       model.addAttribute("payPrograms", payPrograms);
-      return USERPAYINSCRIPTION_VIEW_NAME;
+      return USERPAYMENTS_VIEW_NAME;
    }
 
    /**
-    * View user pay inscriptions by pay inscription id.
+    * View user fee members by fee member id.
     *
-    * @param userPayInscriptionId
-    *           the user pay inscription id
+    * @param payMemberId
+    *           the user fee member id
     * @param emailPayer
     *           the email payer
     * @param idPayer
@@ -135,8 +134,8 @@ public class UserPaymentsController {
     *           the ra
     * @return the string
     */
-   @RequestMapping(value = "userPayments/payMember/{userPayInscriptionId}", method = RequestMethod.POST)
-   public String payMemberByPayPal(@PathVariable Long userPayInscriptionId,
+   @RequestMapping(value = "userPayments/payMember/{payMemberId}", method = RequestMethod.POST)
+   public String payMemberByPayPal(@PathVariable Long payMemberId,
          @RequestParam("payer_email") String emailPayer, @RequestParam("payer_id") String idPayer,
          @RequestParam("payment_date") String datePay,
          @RequestParam("payment_status") String statusPay, @RequestParam("txn_id") String idTxn,
@@ -146,19 +145,19 @@ public class UserPaymentsController {
       // que viene en el post....
 
       Account account = accountService.findByLogin(principal.getName());
-      UserPayInscription userPayInscription = userPayInscriptionService
-            .findById(userPayInscriptionId);
+      PayMember payMember = payMemberService
+            .findById(payMemberId);
 
       // Verified if account is equals to account of userPayAccount
-      if (userPayInscription.getAccount().getId() == account.getId()) {
+      if (payMember.getAccount().getId() == account.getId()) {
          try {
-            userPayInscriptionService.payPayPal(userPayInscription, idTxn, idPayer, emailPayer,
+            payMemberService.payPayPal(payMember, idTxn, idPayer, emailPayer,
                   statusPay, datePay);
             MessageHelper.addSuccessAttribute(ra, "userPayments.successPayPayPal",
-                  userPayInscription.getPayInscription().getName());
+                  payMember.getFeeMember().getName());
          } catch (ExistTransactionIdException e) {
-            MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", userPayInscription
-                  .getPayInscription().getName());
+            MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", payMember
+                  .getFeeMember().getName());
          }
       }
 
@@ -166,7 +165,7 @@ public class UserPaymentsController {
    }
 
    /**
-    * View user pay inscriptions by pay inscription id.
+    * View user fee members by fee member id.
     *
     * @param payProgramId
     *           the pay program id

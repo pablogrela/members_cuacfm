@@ -99,11 +99,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			<table class="display" id="customTable">
 				<thead>
 					<tr>
-						<th th:text="#{name}">Name</th>
-						<th th:text="#{inscription.attend}">Attend</th>
-						<th th:text="#{inscription.note}">Note</th>
-						<th th:text="#{inscription.pass}">Pass</th>
-						<th th:text="#{inscription.unsubscribe}">Baja</th>
+						<th id="name" th:text="#{name}">Name</th>
+						<th id="attend" th:text="#{inscription.attend}">Attend</th>
+						<th id="note" th:text="#{inscription.note}">Note</th>
+						<th th:id="pass" text="#{inscription.pass}">Pass</th>
+						<th id="unsubscribe" th:text="#{inscription.unsubscribe}">Baja</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -144,7 +144,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 					th:name="submit" 		
 					th:value="update"			
 					th:text="#{inscription.update}"
-					th:title="#{inscription.infoUpdate}">Confirm</button>
+					th:title="#{inscription.infoUpdate}"
+					id="update">Confirm</button>
 			</div>
 			<br></br>
  
@@ -156,7 +157,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 					th:value="save" 
 					th:text="#{inscription.confirm}"
 					th:title="#{inscription.infoConfirm}"
-					onclick="evaluateModal(this.form, modal, accept)">Confirm</button>
+					onclick="evaluateModal(this.form, modal, accept)"
+					id="save">Confirm</button>
 			</div>
 
 

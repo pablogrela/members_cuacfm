@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-/** The Class rainingTypeServiceTest. */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class ProgramServiceTest extends WebSecurityConfigurationAware {
@@ -38,7 +38,8 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
    @Inject
    private AccountService accountService;
 
-   /** The training Type service. */
+   
+   /** The program service. */
    @Inject
    private ProgramService programService;
 
@@ -65,7 +66,6 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 
       // Save
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-
       programService.save(program);
 
       // findById
@@ -261,13 +261,12 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
       accountService.save(account);
       accounts.add(account);
 
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-
       // Save
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
       programService.up(program.getId());
-
+      
+      Date date = DisplayDate.stringToMonthOfYear("2015-12");
       FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
       feeProgramService.save(feeProgram);
 
@@ -313,6 +312,12 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
    }
    
    
+   /**
+    * Pay pal program test.
+    *
+    * @throws UniqueException the unique exception
+    * @throws ExistTransactionIdException the exist transaction id exception
+    */
    @Test 
    public void payPalProgramTest() throws UniqueException, ExistTransactionIdException {
 
@@ -345,6 +350,12 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
       assertTrue(payProgram.isHasPay());
    }
    
+   /**
+    * Exist transaction id exception test.
+    *
+    * @throws UniqueException the unique exception
+    * @throws ExistTransactionIdException the exist transaction id exception
+    */
    @Test (expected = ExistTransactionIdException.class)
    public void existTransactionIdExceptionTest() throws UniqueException, ExistTransactionIdException {
 

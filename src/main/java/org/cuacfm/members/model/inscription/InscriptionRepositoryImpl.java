@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 
 import org.cuacfm.members.model.account.Account;
 import org.springframework.stereotype.Repository;
@@ -80,13 +80,10 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
     */
    @Override
    public List<Inscription> getByAccountId(Long accountId) {
-      try {
-         return entityManager
-               .createQuery("select i from Inscription i where i.account.id = :accountId",
-                     Inscription.class).setParameter("accountId", accountId).getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+      return entityManager
+            .createQuery("select i from Inscription i where i.account.id = :accountId",
+                  Inscription.class).setParameter("accountId", accountId).getResultList();
+
    }
 
    /**
@@ -98,14 +95,11 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
     */
    @Override
    public List<Long> getIdsByAccountId(Long accountId) {
-      try {
-         return entityManager
-               .createQuery(
-                     "select training.id from Inscription i where i.account.id = :accountId",
-                     Long.class).setParameter("accountId", accountId).getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+
+      return entityManager
+            .createQuery("select training.id from Inscription i where i.account.id = :accountId",
+                  Long.class).setParameter("accountId", accountId).getResultList();
+
    }
 
    /**
@@ -117,13 +111,9 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
     */
    @Override
    public List<Inscription> getByTrainingId(Long trainingId) {
-      try {
-         return entityManager
-               .createQuery("select i from Inscription i where i.training.id = :trainingId",
-                     Inscription.class).setParameter("trainingId", trainingId).getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+      return entityManager
+            .createQuery("select i from Inscription i where i.training.id = :trainingId",
+                  Inscription.class).setParameter("trainingId", trainingId).getResultList();
    }
 
    /**
@@ -143,7 +133,7 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
                      "select i from Inscription i where i.account.id = :accountId and i.training.id = :trainingId",
                      Inscription.class).setParameter("accountId", accountId)
                .setParameter("trainingId", trainingId).getSingleResult();
-      } catch (PersistenceException e) {
+      } catch (NoResultException e) {
          return null;
       }
    }
@@ -155,13 +145,9 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
     */
    @Override
    public List<Inscription> getInscriptionListByTrainingId(Long trainingId) {
-      try {
-         return entityManager
-               .createQuery("select i from Inscription i where i.training.id = :trainingId",
-                     Inscription.class).setParameter("trainingId", trainingId).getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+      return entityManager
+            .createQuery("select i from Inscription i where i.training.id = :trainingId",
+                  Inscription.class).setParameter("trainingId", trainingId).getResultList();
    }
 
    /**
@@ -173,14 +159,10 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
     */
    @Override
    public List<Inscription> getUnsubscribeByAccountId(Long accountId) {
-      try {
-         return entityManager
-               .createQuery(
-                     "select i from Inscription i where i.account.id = :accountId and i.unsubscribe = true",
-                     Inscription.class).setParameter("accountId", accountId).getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+      return entityManager
+            .createQuery(
+                  "select i from Inscription i where i.account.id = :accountId and i.unsubscribe = true",
+                  Inscription.class).setParameter("accountId", accountId).getResultList();
    }
 
    /**
@@ -192,14 +174,12 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
     */
    @Override
    public List<Long> getUnsubscribeIdsByAccountId(Long accountId) {
-      try {
-         return entityManager
-               .createQuery(
-                     "select training.id from Inscription i where i.account.id = :accountId and i.unsubscribe = true",
-                     Long.class).setParameter("accountId", accountId).getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+
+      return entityManager
+            .createQuery(
+                  "select training.id from Inscription i where i.account.id = :accountId and i.unsubscribe = true",
+                  Long.class).setParameter("accountId", accountId).getResultList();
+
    }
 
    /**
@@ -211,29 +191,26 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
     */
    @Override
    public List<String> getUsernamesByInscription(Long trainingId) {
-      try {
-         // No running Concat(a.name, ' - ', a.nickname)
-         List<Account> accounts = entityManager
-               .createQuery(
-                     "select a from Account a " + "where a.role <> 'ROLE_ADMIN' "
-                           + "and a.active = true " + "and a.id not in "
-                           + "(select c.id from Account c, Inscription i "
-                           + "where i.training.id = :trainingId and i.account.id = c.id) "
-                           + "order by a.login", Account.class)
-               .setParameter("trainingId", trainingId).getResultList();
 
-         List<String> usernames = new ArrayList<String>();
-         for (Account account : accounts) {
-            if (account.getNickName() != null) {
-               usernames.add(account.getId() + ": " + account.getName() + " - "
-                     + account.getNickName());
-            } else {
-               usernames.add(account.getId() + ": " + account.getName());
-            }
+      // No running Concat(a.name, ' - ', a.nickname)
+      List<Account> accounts = entityManager
+            .createQuery(
+                  "select a from Account a " + "where a.role <> 'ROLE_ADMIN' "
+                        + "and a.active = true " + "and a.id not in "
+                        + "(select c.id from Account c, Inscription i "
+                        + "where i.training.id = :trainingId and i.account.id = c.id) "
+                        + "order by a.login", Account.class).setParameter("trainingId", trainingId)
+            .getResultList();
+
+      List<String> usernames = new ArrayList<String>();
+      for (Account account : accounts) {
+         if (account.getNickName() != null) {
+            usernames.add(account.getId() + ": " + account.getName() + " - "
+                  + account.getNickName());
+         } else {
+            usernames.add(account.getId() + ": " + account.getName());
          }
-         return usernames;
-      } catch (PersistenceException e) {
-         return null;
       }
+      return usernames;
    }
 }

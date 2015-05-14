@@ -3,8 +3,8 @@ package org.cuacfm.members.model.training;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +76,7 @@ public class TrainingRepositoryImpl implements TrainingRepository {
          return entityManager
                .createQuery("select t from Training t where t.id = :id", Training.class)
                .setParameter("id", id).getSingleResult();
-      } catch (PersistenceException e) {
+      } catch (NoResultException e) {
          return null;
       }
    }
@@ -94,7 +94,7 @@ public class TrainingRepositoryImpl implements TrainingRepository {
          return entityManager
                .createQuery("select t from Training t where t.name = :name", Training.class)
                .setParameter("name", name).getSingleResult();
-      } catch (PersistenceException e) {
+      } catch (NoResultException e) {
          return null;
       }
    }
@@ -106,12 +106,8 @@ public class TrainingRepositoryImpl implements TrainingRepository {
     */
    @Override
    public List<Training> getTrainingList() {
-      try {
-         return entityManager.createQuery("select t from Training t order by t.name",
-               Training.class).getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+      return entityManager.createQuery("select t from Training t order by t.name", Training.class)
+            .getResultList();
    }
 
    /**
@@ -121,13 +117,9 @@ public class TrainingRepositoryImpl implements TrainingRepository {
     */
    @Override
    public List<Training> getTrainingListOpen() {
-      try {
-         return entityManager.createQuery(
-               "select t from Training t where t.close = false order by t.name", Training.class)
-               .getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+      return entityManager.createQuery(
+            "select t from Training t where t.close = false order by t.name", Training.class)
+            .getResultList();
    }
 
    /**
@@ -137,13 +129,9 @@ public class TrainingRepositoryImpl implements TrainingRepository {
     */
    @Override
    public List<Training> getTrainingListClose() {
-      try {
-         return entityManager.createQuery(
-               "select t from Training t where t.close = true order by t.name", Training.class)
-               .getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+      return entityManager.createQuery(
+            "select t from Training t where t.close = true order by t.name", Training.class)
+            .getResultList();
    }
 
    /**
@@ -153,12 +141,9 @@ public class TrainingRepositoryImpl implements TrainingRepository {
     */
    @Override
    public List<Training> getTrainingListByTrainingTypeId(Long trainingTypeId) {
-      try {
-         return entityManager
-               .createQuery("select t from Training t where t.trainingType.id = :trainingTypeId",
-                     Training.class).setParameter("trainingTypeId", trainingTypeId).getResultList();
-      } catch (PersistenceException e) {
-         return null;
-      }
+      return entityManager
+            .createQuery("select t from Training t where t.trainingType.id = :trainingTypeId",
+                  Training.class).setParameter("trainingTypeId", trainingTypeId).getResultList();
+
    }
 }

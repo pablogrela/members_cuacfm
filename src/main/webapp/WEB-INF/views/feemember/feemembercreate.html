@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="#{feeMemberCreate.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}"/>
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<!-- SCRIPT -->
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
+<script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/chargeWebshim.js}"></script>
+</head>
+<body>
+
+<!-- Generic Header -->
+<div th:replace="fragments/header :: header(active='feeMember')">&nbsp;</div>
+
+
+<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{feeMemberCreate}" th:object="${feeMemberForm}">
+    
+    
+    <!--/* Show general error message when form contains errors */-->
+    <th:block th:if="${#fields.hasErrors('${feeMemberForm.*}')}">
+        <div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
+    </th:block>
+			   
+    <fieldset>
+    
+        <!-- Message help-->
+        <legend th:text="#{feeMember.infoCreate}">Create Pay Inscription</legend>
+        
+        
+        <!-- Insert Name -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+            <label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="30" required="required"/>
+                <span class="help-block with-errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+                <div class="ws-errorbox" hidden=""></div>
+            </div>
+        </div>
+        
+        
+		<!-- Insert Year -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('year')}? 'has-error'">
+			<label for="year" class="col-lg-2 control-label" th:text="#{year}">Year</label>
+			<div class="col-lg-10">
+				<div class="col-lg-3-edit">
+					<input type="number" class="form-control" id="year" th:placeholder="#{year}" th:field="*{year}" min="2015" required="required" /> 		
+				</div>
+				<br></br>
+				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('year')}" th:errors="*{year}" >Incorrect year</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+        
+        
+        <!-- Insert Price -->
+	    <div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
+	          <label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
+	           <div class="col-lg-10">
+	           		<div class="col-lg-3-edit">
+	                	<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0.01" required="required"/>
+	            	</div>
+	            	<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
+	            	<br></br>
+	            	<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
+	            		Incorrect price</span>
+	            	<div class="ws-errorbox" hidden=""></div>
+	         </div>
+	    </div>
+        
+        <!-- Insert dateLimit1 -->
+		<div class="form-inline form-group"
+			th:classappend="${#fields.hasErrors('dateLimit1')}? 'has-error'">
+			<label for="dateLimit1" class="col-lg-1 control-label" th:text="#{feeMember.dateLimit1}">dateLimit1</label>
+			<div class="col-lg-10">
+					<input type="month" name="dateLimit1" class="form-control" id="dateLimit1" th:placeholder="#{feeMember.dateLimit1}"
+					th:field="*{dateLimit1}"/> 
+					<span class="help-block" th:if="${#fields.hasErrors('dateLimit1')}" th:errors="*{dateLimit1}">Incorrect dateLimit1</span> 
+					<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+		
+        <!-- Insert dateLimit2 -->
+		<div class="form-inline form-group"
+			th:classappend="${#fields.hasErrors('dateLimit2')}? 'has-error'">
+			<label for="dateLimit2" class="col-lg-1 control-label" th:text="#{feeMember.dateLimit2}">dateLimit2</label>
+			<div class="col-lg-10">
+					<input type="month" name="dateLimit2" class="form-control" id="dateLimit2" th:placeholder="#{feeMember.dateLimit2}"
+					th:field="*{dateLimit2}"/>
+					<span class="help-block" th:if="${#fields.hasErrors('dateLimit2')}" th:errors="*{dateLimit2}">Incorrect dateLimit2</span> 
+					<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+        
+        <!-- Insert Description -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+            <label for="password" class="col-lg-2 control-label" th:text="#{description}" >Description</label>
+            <div class="col-lg-10">
+            	<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" rows="5" cols="40" maxlength="500" required="required">
+            	Description</textarea>
+                <span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
+                <div class="ws-errorbox" hidden=""></div>
+            </div>
+        </div>
+        
+      
+        
+        <!-- Button Create FeeMember -->
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button type="submit" class="btn btn-success btn-lg" id="create" th:text="#{feeMember.create}">Create</button>
+            </div>
+        </div>
+        
+    </fieldset>
+</form>
+</body>
+</html>

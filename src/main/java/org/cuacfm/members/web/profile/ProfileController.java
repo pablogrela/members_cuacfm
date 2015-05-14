@@ -6,7 +6,9 @@ import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.userservice.UserService;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
@@ -29,6 +31,14 @@ public class ProfileController {
    /** The account service. */
    @Autowired
    private AccountService accountService;
+
+   /** The account Type service. */
+   @Autowired
+   private AccountTypeService accountTypeService;
+
+   /** The account Method Payment service. */
+   @Autowired
+   private MethodPaymentService methodPaymentService;
 
    /** The user service. */
    @Autowired
@@ -71,6 +81,15 @@ public class ProfileController {
       profileForm.setProgramName(account.getProgramName());
       profileForm.setStudent(account.isStudent());
       profileForm.setDateBirth(DisplayDate.dateToString(account.getDateBirth()));
+      if (account.getAccountType() != null) {
+         profileForm.setAccountTypeId(account.getAccountType().getId());
+      }
+      profileForm.setAccountTypes(accountTypeService.getAccountTypes());
+      if (account.getMethodPayment() != null) {
+         profileForm.setMethodPaymentId(account.getMethodPayment().getId());
+      }
+      profileForm.setMethodPayments(methodPaymentService.getMethodPayments());
+      profileForm.setInstallments(account.getInstallments());
       model.addAttribute(profileForm);
 
       return PROFILE_VIEW_NAME;

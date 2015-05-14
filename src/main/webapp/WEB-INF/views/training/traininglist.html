@@ -103,9 +103,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				</thead>
 				<tbody>
 
-					<tr th:each="training : ${trainings}">
+					<tr th:each="training : ${trainings}" id="trainings">
 
-						<td th:text="${training.name}">name</td>
+						<td id="trainingName" th:text="${training.name}">name</td>
 						<td th:text="${{training.dateLimit}}">13/01/2015</td>
 						<td th:text="${{training.dateTraining}}">15/01/2015</td>
 						<td th:text="${training.countPlaces}">countPlaces</td>
@@ -145,7 +145,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 							<td class="text-center">
 								<form th:action="@{'trainingList/inscriptionList/'+${training.id}}" method="post">
 									<button class="btnTable btn-link glyphicon glyphicon-user"
-										th:title="#{training.infoInscriptions}" style="color: green"></button>
+										th:title="#{training.infoInscriptions}" id="viewInscriptions" style="color: green"></button>
 								</form>
 							</td>
 						</th:block>
@@ -159,7 +159,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 								<!-- Join Training -->
 								<td th:if="!${#lists.contains(trainingAccountIds, training.id)}" class="text-center">
 									<form th:action="@{'trainingUserList/trainingJoin/'+${training.id}}" method="post">
-										<button class="btnTable btn-link glyphicon glyphicon-ok-sign" th:title="#{training.join}"
+										<button class="btnTable btn-link glyphicon glyphicon-ok-sign" id="joinTraining" th:title="#{training.join}"
 											style="color: green"></button>
 									</form>
 								</td>

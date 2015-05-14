@@ -64,7 +64,7 @@
 				</thead>
 				<tbody class="table-bordered">
 
-					<tr th:each="inscription : ${inscriptions}">
+					<tr th:each="inscription : ${inscriptions}" id="inscriptions">
 
 						<td th:text="${inscription.training.name}">name</td>
 						<td th:text="${{inscription.training.dateLimit}}">13/01/2015</td>

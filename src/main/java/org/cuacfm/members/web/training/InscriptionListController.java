@@ -32,6 +32,9 @@ public class InscriptionListController {
 
    /** The Constant TRAINING_VIEW_NAME. */
    private static final String TRAINING_VIEW_NAME = "training/inscriptionlist";
+   
+   /** The Constant REDIRECT_TRAINING. */
+   private static final String REDIRECT_TRAINING = "redirect:/trainingList/inscriptionList";
 
    /** The account service. */
    @Autowired
@@ -136,7 +139,7 @@ public class InscriptionListController {
    @RequestMapping(value = "trainingList/inscriptionList/{trainingId}", method = RequestMethod.POST)
    public String postTraining(@PathVariable Long trainingId) {
       training = trainingService.findById(trainingId);
-      return "redirect:/trainingList/inscriptionList";
+      return REDIRECT_TRAINING;
    }
 
    /**
@@ -202,7 +205,7 @@ public class InscriptionListController {
       if (submit.contains("update")) {
          trainingService.update(training);
          MessageHelper.addSuccessAttribute(ra, "training.successModify", training.getName());
-         return "redirect:/trainingList/inscriptionList";
+         return REDIRECT_TRAINING;
       }
       // If save
       else {
@@ -267,7 +270,7 @@ public class InscriptionListController {
                training.getName(), DisplayDate.dateTimeToString(training.getDateLimit()));
       }
 
-      return "redirect:/trainingList/inscriptionList";
+      return REDIRECT_TRAINING;
    }
 
 }

@@ -2,17 +2,20 @@ package org.cuacfm.members.web.signup;
 
 import javax.validation.Valid;
 
+import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.configurationservice.ConfigurationService;
+import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.userservice.UserService;
+import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.cuacfm.members.model.account.*;
-import org.cuacfm.members.model.accountservice.AccountService;
-import org.cuacfm.members.model.exceptions.UniqueException;
-import org.cuacfm.members.model.userservice.UserService;
-import org.cuacfm.members.web.support.*;
 
 /** The Class SignupController.*/
 @Controller
@@ -21,6 +24,13 @@ public class SignupController {
    /** The Constant SIGNUP_VIEW_NAME. */
    private static final String SIGNUP_VIEW_NAME = "signup/signup";
 
+   /** The ConfigurationService. */
+   @Autowired
+   private ConfigurationService configurationService;
+   
+   /** The description rul. */
+   private String descriptionRul;
+   
    /** The account service. */
    @Autowired
    private AccountService accountService;
@@ -37,6 +47,16 @@ public class SignupController {
    }
 
    /**
+    * Description rul.
+    *
+    * @return the string
+    */
+   @ModelAttribute("descriptionRul")
+   public String descriptionRul() {
+      return descriptionRul;
+   }
+   
+   /**
     * Signup.
     *
     * @param model
@@ -45,6 +65,8 @@ public class SignupController {
     */
    @RequestMapping(value = "signup")
    public String signup(Model model) {
+      descriptionRul = configurationService.getConfiguration().getDescriptionRul();
+      model.addAttribute("descriptionRul", descriptionRul);
       model.addAttribute(new SignupForm());
       return SIGNUP_VIEW_NAME;
    }

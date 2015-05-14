@@ -2,9 +2,6 @@ package org.cuacfm.members.model.trainingtype;
 
 import java.util.List;
 
-import org.cuacfm.members.model.exceptions.ExistTrainingsException;
-import org.cuacfm.members.model.trainingtype.TrainingType;
-
 public interface TrainingTypeRepository {
    /**
     * Save.
@@ -30,7 +27,7 @@ public interface TrainingTypeRepository {
     * @param trainingType
     *           the trainingType
     */
-   public void delete(Long id) throws ExistTrainingsException;
+   public void delete(Long id);
 
    /**
     * Find by id.

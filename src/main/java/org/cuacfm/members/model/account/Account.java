@@ -277,7 +277,7 @@ public class Account implements java.io.Serializable {
     *
     * @return the phone
     */
-   public int getPhone() {
+   public Integer getPhone() {
       return phone;
    }
 

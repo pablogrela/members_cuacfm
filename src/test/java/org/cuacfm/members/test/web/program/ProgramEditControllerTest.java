@@ -288,7 +288,7 @@ public class ProgramEditControllerTest extends WebSecurityConfigurationAware {
             post("/programList/programEdit").locale(Locale.ENGLISH).session(defaultSession)
                   .param("removeUser", String.valueOf(account.getId()))).andExpect(
             view().name("program/programedit"));
-      
+
       mockMvc.perform(
             post("/programList/programEdit").locale(Locale.ENGLISH).session(defaultSession)
                   .param("removeUser", String.valueOf(account.getId()))).andExpect(

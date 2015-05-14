@@ -19,24 +19,41 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 import org.cuacfm.members.Application;
 
+/** The Class JpaConfigTest.*/
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackageClasses = Application.class)
 class JpaConfigTest implements TransactionManagementConfigurer {
 
+    /** The driver. */
     @Value("${dataSource.driverClassName}")
     private String driver;
+    
+    /** The url. */
     @Value("${dataSource.url}")
     private String url;
+    
+    /** The username. */
     @Value("${dataSource.username}")
     private String username;
+    
+    /** The password. */
     @Value("${dataSource.password}")
     private String password;
+    
+    /** The dialect. */
     @Value("${hibernate.dialect}")
     private String dialect;
+    
+    /** The hbm2ddl auto. */
     @Value("${hibernate.hbm2ddl.auto}")
     private String hbm2ddlAuto;
 
+    /**
+     * Configure data source.
+     *
+     * @return the data source
+     */
     @Bean
     public DataSource configureDataSource() {
         HikariConfig config = new HikariConfig();
@@ -48,10 +65,14 @@ class JpaConfigTest implements TransactionManagementConfigurer {
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
         config.addDataSourceProperty("useServerPrepStmts", "true");
-
         return new HikariDataSource(config);
     }
 
+    /**
+     * Configure entity manager factory.
+     *
+     * @return the local container entity manager factory bean
+     */
     @Bean
     public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();

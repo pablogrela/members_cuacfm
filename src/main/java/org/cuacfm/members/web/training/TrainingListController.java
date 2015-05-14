@@ -31,6 +31,9 @@ public class TrainingListController {
    /** The Constant TRAINING_VIEW_NAME. */
    private static final String TRAINING_VIEW_NAME = "training/traininglist";
 
+   /** The Constant REDIRECT_TRAINING. */
+   private static final String REDIRECT_TRAINING = "redirect:/trainingList";
+   
    /** The training service. */
    @Autowired
    private AccountService accountService;
@@ -143,7 +146,7 @@ public class TrainingListController {
       } catch (ExistInscriptionsException e) {
          MessageHelper.addErrorAttribute(ra, "training.existDependenciesTrainingsException", name);
       }
-      return "redirect:/trainingList";
+      return REDIRECT_TRAINING;
    }
 
    /**
@@ -174,7 +177,7 @@ public class TrainingListController {
                training.getName());
       }
 
-      return "redirect:/trainingList";
+      return REDIRECT_TRAINING;
    }
 
    /**
@@ -203,6 +206,6 @@ public class TrainingListController {
                training.getName());
       }
 
-      return "redirect:/trainingList";
+      return REDIRECT_TRAINING;
    }
 }

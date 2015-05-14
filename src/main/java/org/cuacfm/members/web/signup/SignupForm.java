@@ -64,12 +64,12 @@ public class SignupForm {
 
    /** The password. */
    @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(min = 4, max = 20, message = SignupForm.INSUFFICIENT_CHARACTERS)
+   @Size(min = 4, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
    private String password;
 
    /** The retry password. */
    @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(min = 4, max = 20, message = SignupForm.INSUFFICIENT_CHARACTERS)
+   @Size(min = 4, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
    private String rePassword;
 
    /** Instantiates a new sign up form. */

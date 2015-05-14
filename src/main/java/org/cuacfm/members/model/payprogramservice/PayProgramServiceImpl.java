@@ -10,7 +10,7 @@ import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogram.PayProgramRepository;
 import org.cuacfm.members.web.support.DisplayDate;
-import org.cuacfm.members.web.support.PdfFooterNumPag;
+import org.cuacfm.members.web.support.CreatePdf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -208,8 +208,8 @@ public class PayProgramServiceImpl implements PayProgramService {
    public void createPdfFeeProgram(MessageSource messageSource, Long feeProgramId, String path,
          String title, String submit) {
       List<PayProgram> payPrograms = payProgramRepository.getPayProgramListByFeeProgramId(feeProgramId);
-      PdfFooterNumPag pdf = new PdfFooterNumPag();
+      CreatePdf pdf = new CreatePdf();
       PdfPTable table = pdf.createTablePayPrograms(messageSource, submit, payPrograms);
-      pdf.createPdfPayInscription(path, title, table);
+      pdf.createBody(path, title, table);
    }
 }

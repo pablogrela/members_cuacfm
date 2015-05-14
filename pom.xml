@@ -133,7 +133,7 @@
 		<!-- JSON -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 		<!-- Utilities -->
 		<dependency>
@@ -183,10 +183,44 @@
 			<artifactId>sonar-plugin-api</artifactId>
 			<version>5.1</version>
 		</dependency>
+		<!-- IText -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
 			<version>5.5.5</version>
+		</dependency>
+		<!-- Selenium -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>2.45.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-chrome-driver</artifactId>
+			<version>2.45.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>2.45.0</version>
+		</dependency>
+		<!-- Neccesary for selenium -->
+		<dependency>
+    		<groupId>xml-apis</groupId>
+    		<artifactId>xml-apis</artifactId>
+   			<version>1.4.01</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.11</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>		
+			</exclusions>
 		</dependency>
 	</dependencies>
 	<!-- Build -->

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{payMember.title}"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/bootstrap.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/core.css}" />
+<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css" />
+<!-- SCRIPT -->
+<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+<script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
+<script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/chargeWebshim.js}"></script>
+<script src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<script th:src="@{/resources/js/chargeTable.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='feeMember')">&nbsp;</div>
+
+
+	<h1 class="text-center" th:text="*{feeMember.name}">List of User Pay Inscriptions</h1>
+	<br></br>
+
+
+	<div class="container text-center">
+		<!-- /* Handle the flash message */-->
+		<th:block th:if="${message != null}">
+			<!-- /* The message code is returned from the @Controller */ -->
+			<div
+				th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</th:block>
+	</div>
+
+	<br></br>
+	<!-- Div of buttons -->
+	<div class="container text-center containerColums">
+
+		<!-- Form to add user by login -->
+		<div class="columLeft">
+			<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payMemberList}"
+				th:object="${findUserForm}">
+
+				<fieldset>
+					<!-- Title -->
+					<legend th:text="#{payMember.infoAddUser}">Add user to training</legend>
+
+					<!-- Insert Login -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+						<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+						<div class="col-lg-10 text-danger">
+							<input type="text" class="form-control" list="userlist" th:placeholder="#{login}" th:field="*{login}"
+								autocomplete="off" required="required"/>
+
+							<!-- Datalist is a search by keyword-->
+							<datalist id="userlist">
+								<option th:each="username : ${usernames}" th:value="${username}" />
+							</datalist>
+
+							<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Button Add User to payMember-->
+					<div class="form-group">
+						<div class="text-center">
+							<button type="submit" class="btn btn-success btn-lg" th:text="#{payMember.addUser}">Add User</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+
+
+		<!-- Form to print -->
+		<div class="columRight">
+			<form class="form-narrow form-horizontal ws-validate" th:action="@{payMemberList}" method="post"
+				th:object="${pathForm}">
+
+				<fieldset>
+					<!-- Title -->
+					<legend th:text="#{feeMember.infoPrint}">Print </legend>
+
+					<!-- Insert path -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('path')}? 'has-error'">
+						<label for="path" class="col-lg-2 control-label" th:text="#{path}">path</label>
+						<div class="col-lg-10 text-danger">
+							<input type="text" class="form-control" th:placeholder="#{path}" th:field="*{path}" required="required"
+								autocomplete="off" th:title="#{infoPath}" />
+							<span class="help-block" th:if="${#fields.hasErrors('path')}" th:errors="*{path}">Incorrect path</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+					
+					<!-- Insert file -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('file')}? 'has-error'">
+						<label for="file" class="col-lg-2 control-label" th:text="#{file}">file</label>
+						<div class="col-lg-10 text-danger">
+							<input type="text" class="form-control" th:placeholder="#{file}" th:field="*{file}" autocomplete="off"
+								th:title="#{infoFile}" required="required"/>
+							<span class="help-block" th:if="${#fields.hasErrors('file')}" th:errors="*{file}">Incorrect file</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+					<!-- Div of buttons -->
+					<div>
+						<button class="btn btn-info btn-lg" th:name="createPdf" th:value="ALL" th:title="#{feeMember.infoAllList}"
+							th:text="#{feeMember.printAllList}"></button>
+
+						<button class="btn btn-info btn-lg" th:name="createPdf" th:value="NOPAY"
+							th:title="#{feeMember.infoNoPayList}" th:text="#{feeMember.printNoPayList}"></button>
+
+						<button class="btn btn-info btn-lg" th:name="createPdf" th:value="PAY" th:title="#{feeMember.infoPayList}"
+							th:text="#{feeMember.printPayList}"></button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+
+
+	<br></br>
+	<h2 class="text-center" th:text="#{payMember.payMemberList}">List of User Pay Inscriptions</h2>
+
+	<!-- Verify if exits feeMembers -->
+	<div class="container" th:unless="${#lists.isEmpty(payMembers)}">
+
+
+		<!-- Table List of Training Types -->
+		<table class="table table-striped table-hover table-responsive" id="customTable">
+			<thead class="table-bordered">
+				<tr>
+					<th th:text="#{user}">Name</th>
+					<th th:text="#{mobile}">Mobile</th>
+					<th th:text="#{price}">Price</th>
+					<th th:text="#{hasPay}">Has Pay</th>
+					<th th:text="#{payMember.installment}">Installment</th>
+					<th class="no-sort"></th>
+					<th class="no-sort"></th>
+				</tr>
+			</thead>
+			<tbody class="table-bordered">
+
+				<!-- Table entry -->
+				<tr th:each="payMember : ${payMembers}" id="payMembers">
+					<td id="payMemberName" th:text="${payMember.account.name}">name</td>
+					<td th:text="${payMember.account.mobile}">mobile</td>
+					<td id="payMemberPrice" th:text="${payMember.price}">price</td>
+					<th:block th:if="${payMember.hasPay == false}">
+						<td th:text="#{false}">false</td>
+					</th:block>
+					<th:block th:if="${payMember.hasPay == true}">
+						<td th:text="#{true}">true</td>
+					</th:block>
+					<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of
+						installments</td>
+
+
+					<!-- Modify payMember  -->
+					<td>
+						<form th:action="@{'payMemberList/payMemberEdit/'+${payMember.id}}" method="post">
+							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+						</form>
+					</td>
+
+
+					<!-- Pay payMember -->
+					<td th:if="!${payMember.hasPay}" class="text-center">
+						<form th:action="@{'payMemberList/pay/'+${payMember.id}}" method="post">
+							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
+						</form>
+					</td>
+
+
+					<!-- Fill table entry, pay inscription -->
+					<td th:if="${payMember.hasPay}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+	--------------------------------
+	<input type="file" id="files" directory="directory" webkitdirectory="webkitdirectory" name="files[]"
+		multiple="multiple" />
+	<output id="list2"></output>
+
+	<script>
+	  function handleFileSelect(evt) {
+		    var files = evt.target.files; // FileList object
+
+
+		    
+
+		    
+		    console.log(this.files[0].mozFullPath);
+		    // files is a FileList of File objects. List some properties.
+		    var output = [];
+		    output.push(console.log(this.files[0].mozFullPath););
+		    /*
+		    for (var i = 0, f; f = files[i]; i++) {
+		      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+		                  f.size, ' bytes, last modified: ',
+		                  f.lastModifiedDate.toLocaleDateString(), '</li>');
+		    }*/
+		    	document.getElementById('list2').innerHTML = '<ul>' + output.join('') + '</ul>';
+		  	}
+
+  	 document.getElementById('files').addEventListener('change', handleFileSelect, false);
+	</script>
+	------------------------------------------------------
+
+
+<input type="file" id="fileUpload"/>
+
+<script type="text/javascript">
+
+$('input[type=file]').change(function () {
+    console.log(this.files[0].mozFullPath);
+});
+
+    $(function()
+    {
+        $('#fileUpload').on('change',function ()
+        {
+            var filePath = $(this).val();
+            console.log(filePath);
+        });
+    });
+
+</script>
+
+
+
+------------------------------------
+
+
+<input type="file" id="i_file" value=""/> 
+<input type="button" id="i_submit" value="Submit"/>
+<img src="" width="200" style="display:none;" />
+<div id="disp_tmp_path"></div>
+
+
+<script type="text/javascript">
+$('#i_file').change( function(event) {
+var tmppath = URL.createObjectURL(event.target.files[0]);
+    $("img").fadeIn("fast").attr('src',URL.createObjectURL(event.target.files[0]));
+
+    $("#disp_tmp_path").html("Temporary Path(Copy it and try pasting it in browser address bar) --> <strong>["+tmppath+"]</strong>");
+});
+</script>
+
+
+
+</body>
+</html>

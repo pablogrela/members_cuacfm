@@ -11,10 +11,17 @@ import org.springframework.stereotype.Controller;
 
 import org.cuacfm.members.Application;
 
+
+/** The Class ApplicationConfigTest.*/
 @Configuration
 @ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({Controller.class, Configuration.class}))
 class ApplicationConfigTest {
 	
+	/**
+	 * Property placeholder configurer.
+	 *
+	 * @return the property placeholder configurer
+	 */
 	@Bean
 	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
 		PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();

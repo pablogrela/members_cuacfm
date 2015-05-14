@@ -22,18 +22,18 @@ import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.feemember.FeeMember;
+import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
-import org.cuacfm.members.model.payinscription.PayInscription;
-import org.cuacfm.members.model.payinscriptionservice.PayInscriptionService;
+import org.cuacfm.members.model.paymember.PayMember;
+import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
-import org.cuacfm.members.model.userpayinscription.UserPayInscription;
-import org.cuacfm.members.model.userpayinscriptionservice.UserPayInscriptionService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
@@ -43,7 +43,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-/** The Class UserPayInscriptionListControllerTest. */
+/** The Class PayMemberListControllerTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class UserPaymentsTest extends WebSecurityConfigurationAware {
@@ -69,11 +69,11 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 
    /** The training service. */
    @Inject
-   private PayInscriptionService payInscriptionService;
+   private FeeMemberService feeMemberService;
 
    /** The training service. */
    @Inject
-   private UserPayInscriptionService userPayInscriptionService;
+   private PayMemberService userFeeMemberService;
 
    /** The program service. */
    @Inject
@@ -103,7 +103,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    private MethodPayment methodPayment;
 
    /** The pay inscription. */
-   private PayInscription payInscription;
+   private FeeMember feeMember;
 
    /**
     * Initialize default session.
@@ -131,10 +131,10 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       defaultSession = getDefaultSession("user");
 
       // Create Payment
-      payInscription = new PayInscription("pay of 2016", 2016, Double.valueOf(20),
+      feeMember = new FeeMember("pay of 2016", 2016, Double.valueOf(20),
             DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"),
             "pay of 2016");
-      payInscriptionService.save(payInscription);
+      feeMemberService.save(feeMember);
 
 
       // Create Program and Payments
@@ -178,10 +178,10 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    public void displayUserPaymentsTest() throws Exception {
 
       // Charge csrf in pay member
-      UserPayInscription userPayInscription = userPayInscriptionService
-            .findByUserPayInscriptionIds(user.getId(), payInscription.getId()).get(0);
+      PayMember userFeeMember = userFeeMemberService
+            .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
       mockMvc.perform(
-            post("/userPayments/payMember/" + userPayInscription.getId()).locale(Locale.ENGLISH)
+            post("/userPayments/payMember/" + userFeeMember.getId()).locale(Locale.ENGLISH)
                   .session(defaultSession).sessionAttr("_csrf", "csrf")
                   .param("payer_email", "email").param("payer_id", "id")
                   .param("payment_date", "10:10:10 Jun 10, 2015")
@@ -213,15 +213,15 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
     *            the exception
     */
    @Test
-   public void payUserPayInscriptionTest() throws Exception {
+   public void payPayMemberTest() throws Exception {
 
-      UserPayInscription userPayInscription = userPayInscriptionService
-            .findByUserPayInscriptionIds(user.getId(), payInscription.getId()).get(0);
+      PayMember userFeeMember = userFeeMemberService
+            .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
       // Assert no pay
-      assertEquals(userPayInscription.isHasPay(), false);
+      assertEquals(userFeeMember.isHasPay(), false);
 
       mockMvc.perform(
-            post("/userPayments/payMember/" + userPayInscription.getId()).locale(Locale.ENGLISH)
+            post("/userPayments/payMember/" + userFeeMember.getId()).locale(Locale.ENGLISH)
                   .session(defaultSession).sessionAttr("_csrf", "csrf")
                   .param("payer_email", "email").param("payer_id", "id")
                   .param("payment_date", "10:10:10 Jun 10, 2015")
@@ -229,7 +229,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(userPayInscription.isHasPay(), true);
+      assertEquals(userFeeMember.isHasPay(), true);
    }
 
    /**
@@ -239,15 +239,15 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
     *            the exception
     */
    @Test
-   public void payProgressUserPayInscriptionTest() throws Exception {
+   public void payProgressPayMemberTest() throws Exception {
 
-      UserPayInscription userPayInscription = userPayInscriptionService
-            .findByUserPayInscriptionIds(user.getId(), payInscription.getId()).get(0);
+      PayMember userFeeMember = userFeeMemberService
+            .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
       // Assert no pay
-      assertEquals(userPayInscription.isHasPay(), false);
+      assertEquals(userFeeMember.isHasPay(), false);
 
       mockMvc.perform(
-            post("/userPayments/payMember/" + userPayInscription.getId()).locale(Locale.ENGLISH)
+            post("/userPayments/payMember/" + userFeeMember.getId()).locale(Locale.ENGLISH)
                   .session(defaultSession).sessionAttr("_csrf", "csrf")
                   .param("payer_email", "email").param("payer_id", "id")
                   .param("payment_date", "10:10:10 Jun 10, 2015")
@@ -255,8 +255,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(userPayInscription.isHasPay(), false);
-      assertEquals(userPayInscription, userPayInscriptionService.findByIdTxn("txn"));
+      assertEquals(userFeeMember.isHasPay(), false);
+      assertEquals(userFeeMember, userFeeMemberService.findByIdTxn("txn"));
    }
 
    /**
@@ -268,23 +268,23 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    @Test
    public void payMemberExistTransactionIdExceptionTest() throws Exception {
 
-      UserPayInscription userPayInscription = userPayInscriptionService
-            .findByUserPayInscriptionIds(user.getId(), payInscription.getId()).get(0);
+      PayMember userFeeMember = userFeeMemberService
+            .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
       
       
-      PayInscription payInscription2 = new PayInscription("pay of 2017", 2017, Double.valueOf(20),
+      FeeMember feeMember2 = new FeeMember("pay of 2017", 2017, Double.valueOf(20),
             DisplayDate.stringToDate2("2017-04-05"), DisplayDate.stringToDate2("2017-07-05"),
             "pay of 2017");
-      payInscriptionService.save(payInscription2);
+      feeMemberService.save(feeMember2);
       
-      UserPayInscription userPayInscription2 = userPayInscriptionService
-            .findByUserPayInscriptionIds(user.getId(), payInscription2.getId()).get(0);
+      PayMember userFeeMember2 = userFeeMemberService
+            .findByPayMemberIds(user.getId(), feeMember2.getId()).get(0);
       
       // Assert no pay
-      assertEquals(userPayInscription.isHasPay(), false);
+      assertEquals(userFeeMember.isHasPay(), false);
 
       mockMvc.perform(
-            post("/userPayments/payMember/" + userPayInscription.getId()).locale(Locale.ENGLISH)
+            post("/userPayments/payMember/" + userFeeMember.getId()).locale(Locale.ENGLISH)
                   .session(defaultSession).sessionAttr("_csrf", "csrf")
                   .param("payer_email", "email").param("payer_id", "id")
                   .param("payment_date", "10:10:10 Jun 10, 2015")
@@ -292,7 +292,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       mockMvc.perform(
-            post("/userPayments/payMember/" + userPayInscription.getId()).locale(Locale.ENGLISH)
+            post("/userPayments/payMember/" + userFeeMember.getId()).locale(Locale.ENGLISH)
                   .session(defaultSession).sessionAttr("_csrf", "csrf")
                   .param("payer_email", "email").param("payer_id", "id")
                   .param("payment_date", "10:10:10 Jun 10, 2015")
@@ -300,7 +300,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
       
       mockMvc.perform(
-            post("/userPayments/payMember/" + userPayInscription2.getId()).locale(Locale.ENGLISH)
+            post("/userPayments/payMember/" + userFeeMember2.getId()).locale(Locale.ENGLISH)
                   .session(defaultSession).sessionAttr("_csrf", "csrf")
                   .param("payer_email", "email").param("payer_id", "id")
                   .param("payment_date", "10:10:10 Jun 10, 2015")
@@ -308,22 +308,22 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
                   .andExpect(view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(userPayInscription.isHasPay(), true);
+      assertEquals(userFeeMember.isHasPay(), true);
    }
 
    /**
-    * Pay Other Account UserPayInscription Test
+    * Pay Other Account PayMember Test
     *
     * @throws Exception
     *            the exception
     */
    @Test
-   public void payOtherAccountUserPayInscriptionTest() throws Exception {
+   public void payOtherAccountPayMemberTest() throws Exception {
 
-      UserPayInscription userPayInscription = userPayInscriptionService
-            .findByUserPayInscriptionIds(user.getId(), payInscription.getId()).get(0);
+      PayMember userFeeMember = userFeeMemberService
+            .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
       // Assert no pay
-      assertEquals(userPayInscription.isHasPay(), false);
+      assertEquals(userFeeMember.isHasPay(), false);
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
             666666666, 666666666, "demo", roles.ROLE_USER);
       accountService.save(user2);
@@ -332,12 +332,12 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       user2.setInstallments(1);
       accountService.update(user2, false);
 
-      payInscriptionService.saveUserPayInscription(user2, payInscription);
-      UserPayInscription userPayInscriptionProbe = userPayInscriptionService
-            .getUserPayInscriptionListByAccountId(user2.getId()).get(0);
+      feeMemberService.savePayMember(user2, feeMember);
+      PayMember userFeeMemberProbe = userFeeMemberService
+            .getPayMemberListByAccountId(user2.getId()).get(0);
 
       mockMvc.perform(
-            post("/userPayments/payMember/" + userPayInscriptionProbe.getId())
+            post("/userPayments/payMember/" + userFeeMemberProbe.getId())
                   .locale(Locale.ENGLISH).session(defaultSession).sessionAttr("_csrf", "csrf")
                   .param("payer_email", "email").param("payer_id", "id")
                   .param("payment_date", "10:10:10 Jun 10, 2015")
@@ -345,7 +345,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(userPayInscriptionProbe.isHasPay(), false);
+      assertEquals(userFeeMemberProbe.isHasPay(), false);
    }
 
    /**
@@ -452,7 +452,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
    }
 
    /**
-    * Pay Other Account UserPayInscription Test
+    * Pay Other Account PayMember Test
     *
     * @throws Exception
     *            the exception
@@ -485,7 +485,6 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             "Fee for program");
       feeProgramService.save(feeProgram2);
 
-      // payInscriptionService.saveUserPayInscription(user2, payInscription);
       PayProgram payProgramProbe = payProgramService.findByPayProgramIds(program2.getId(),
             feeProgram2.getId());
 
