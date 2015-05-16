@@ -3,7 +3,7 @@ package org.cuacfm.members.model.feemember;
 import java.util.List;
 
 /** The Interface FeeMemberRepository. */
-public interface FeeMemberRepositoy {
+public interface FeeMemberRepository {
 
    /**
     * Save.

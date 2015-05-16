@@ -21,6 +21,9 @@ public class AccountTypeForm {
    @Size(max = 30, message = AccountTypeForm.MAX_CHARACTERS)
    private String name;
 
+   /** The organization. */
+   private boolean organization;
+
    /** The description. */
    @NotBlank(message = AccountTypeForm.NOT_BLANK_MESSAGE)
    @Size(max = 500, message = AccountTypeForm.MAX_CHARACTERS)
@@ -53,6 +56,25 @@ public class AccountTypeForm {
     */
    public void setName(String name) {
       this.name = name;
+   }
+
+   /**
+    * Checks if is organization.
+    *
+    * @return true, if is organization
+    */
+   public boolean isOrganization() {
+      return organization;
+   }
+
+   /**
+    * Sets the organization.
+    *
+    * @param organization
+    *           the new organization
+    */
+   public void setOrganization(boolean organization) {
+      this.organization = organization;
    }
 
    /**
@@ -99,7 +121,7 @@ public class AccountTypeForm {
     * @return the account type
     */
    public AccountType createAccountType() {
-      return new AccountType(getName(), getDescription(), getDiscount());
+      return new AccountType(getName(), isOrganization(), getDescription(), getDiscount());
    }
 
    /**
@@ -111,6 +133,7 @@ public class AccountTypeForm {
     */
    public AccountType updateAccountType(AccountType accountType) {
       accountType.setName(getName());
+      accountType.setOrganization(isOrganization());
       accountType.setDescription(getDescription());
       accountType.setDiscount(getDiscount());
       return accountType;

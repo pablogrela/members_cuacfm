@@ -19,6 +19,9 @@ public class MethodPaymentForm {
    @Size(max = 30, message = MethodPaymentForm.MAX_CHARACTERS)
    private String name;
 
+   /** The direct debit. */
+   private boolean directDebit;
+
    /** The description. */
    @NotBlank(message = MethodPaymentForm.NOT_BLANK_MESSAGE)
    @Size(max = 500, message = MethodPaymentForm.MAX_CHARACTERS)
@@ -49,6 +52,25 @@ public class MethodPaymentForm {
    }
 
    /**
+    * Checks if is direct debit.
+    *
+    * @return true, if is direct debit
+    */
+   public boolean isDirectDebit() {
+      return directDebit;
+   }
+
+   /**
+    * Sets the direct debit.
+    *
+    * @param directDebit
+    *           the new direct debit
+    */
+   public void setDirectDebit(boolean directDebit) {
+      this.directDebit = directDebit;
+   }
+
+   /**
     * Get the description..
     *
     * @return the description
@@ -73,7 +95,7 @@ public class MethodPaymentForm {
     * @return the account type
     */
    public MethodPayment createMethodPayment() {
-      return new MethodPayment(getName(), getDescription());
+      return new MethodPayment(getName(), isDirectDebit(), getDescription());
    }
 
    /**
@@ -85,6 +107,7 @@ public class MethodPaymentForm {
     */
    public MethodPayment updateMethodPayment(MethodPayment methodPayment) {
       methodPayment.setName(getName());
+      methodPayment.setDirectDebit(isDirectDebit());
       methodPayment.setDescription(getDescription());
       return methodPayment;
    }
