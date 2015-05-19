@@ -1,5 +1,6 @@
 package org.cuacfm.members.model.training;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,7 +16,7 @@ import org.cuacfm.members.model.trainingtype.TrainingType;
 /** The Class Training. */
 @SuppressWarnings("serial")
 @Entity
-public class Training implements java.io.Serializable {
+public class Training implements Serializable {
 
    /** The id. */
    @Id

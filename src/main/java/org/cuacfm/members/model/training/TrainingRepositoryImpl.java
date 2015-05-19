@@ -123,15 +123,17 @@ public class TrainingRepositoryImpl implements TrainingRepository {
    }
 
    /**
-    * Get all trainings with close = true.
+    * Gets the training list close with close = true.
     *
-    * @return List<Training>
+    * @param year
+    *           the year
+    * @return the training list close
     */
    @Override
-   public List<Training> getTrainingListClose() {
+   public List<Training> getTrainingListClose(int year) {
       return entityManager.createQuery(
-            "select t from Training t where t.close = true order by t.name", Training.class)
-            .getResultList();
+            "select t from Training t where t.close = true and year(t.dateTraining) = :year order by t.name ", Training.class)
+            .setParameter("year", year).getResultList();
    }
 
    /**

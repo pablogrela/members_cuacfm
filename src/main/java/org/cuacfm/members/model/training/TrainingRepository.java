@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.cuacfm.members.model.training.Training;
 
-/** TrainingRepository Class */
+/** TrainingRepository Class.*/
 public interface TrainingRepository {
 
    /**
@@ -29,8 +29,8 @@ public interface TrainingRepository {
    /**
     * Delete training.
     *
-    * @param training
-    *           the training
+    * @param id
+    *           the id
     * @return the training
     */
 
@@ -69,15 +69,19 @@ public interface TrainingRepository {
    public List<Training> getTrainingListOpen();
 
    /**
-    * Get all trainings with close = true.
+    * Gets the training list close with close = true.
     *
-    * @return List<Training>
+    * @param year
+    *           the year
+    * @return the training list close
     */
-   public List<Training> getTrainingListClose();
+   public List<Training> getTrainingListClose(int year);
 
    /**
     * Get all trainings by trainingTypeId.
     *
+    * @param trainingTypeId
+    *           the training type id
     * @return List<Training> pertain at trainingType
     */
    public List<Training> getTrainingListByTrainingTypeId(Long trainingTypeId);

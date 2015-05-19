@@ -1,11 +1,10 @@
 package org.cuacfm.members.test.model.trainingservice;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
@@ -26,6 +25,7 @@ import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,15 +35,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class TrainingServiceTest extends WebSecurityConfigurationAware {
 
 	/** The account service. */
-	@Inject
+	@Autowired
 	private AccountService accountService;
 
 	/** The training service. */
-	@Inject
+	@Autowired
 	private TrainingService trainingService;
 
 	/** The training Type service. */
-	@Inject
+	@Autowired
 	private TrainingTypeService trainingTypeService;
 
 	/**
@@ -77,10 +77,16 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		// findById
 		trainingSearch = trainingService.findById(training.getId());
 		assertEquals(training, trainingSearch);
+		
+	    // findById null
+      assertNull(trainingService.findById(Long.valueOf(0)));
 
 		// findByName
 		trainingService.findByName(training.getName());
 		assertEquals(training, trainingSearch);
+		
+	    // Null
+      assertNull(trainingService.findByName("No exist"));
 	}
 
 	/**
@@ -214,6 +220,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join and Update
+		trainingService.createInscription(Long.valueOf(0), training.getId());
 		trainingService.createInscription(account.getId(), training.getId());
 		Inscription inscriptionSearch = trainingService.findByInscriptionIds(
 				account.getId(), training.getId());
@@ -279,6 +286,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		// Delete, no trainings
 		trainingService.delete(training.getId());
 		assertEquals(trainingService.getTrainingList().size(), 0);
+		
+	   trainingService.deleteInscription(Long.valueOf(0), Long.valueOf(0));
 	}
 
 
@@ -459,6 +468,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.createInscription(account.getId(), training.getId());
 		Inscription inscriptionSearch = trainingService.findByInscriptionIds(
 				account.getId(), training.getId());
+		inscriptionSearch.getId();
 		assertTrue(!inscriptionSearch.isUnsubscribe());
 
 		// Unsubscribe
@@ -800,7 +810,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		// it have 1 training into database with close = true
 		size = trainingService.getTrainingListOpen().size();
 		assertEquals(size, 1);
-		assertEquals(trainingService.getTrainingListClose().get(0).getName(),
+		assertEquals(trainingService.getTrainingListClose(2015).get(0).getName(),
 				trainingClose.getName());
 
 		// it have 1 training into database with close = false

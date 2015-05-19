@@ -83,11 +83,13 @@ public interface TrainingService {
    public List<Training> getTrainingListOpen();
 
    /**
-    * Get all trainings with close = true.
+    * Gets the training list close with close = true.
     *
-    * @return List<Training>
+    * @param year
+    *           the year
+    * @return the training list close
     */
-   public List<Training> getTrainingListClose();
+   public List<Training> getTrainingListClose(int year);
 
    /**
     * Create the new inscription

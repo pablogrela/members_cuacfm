@@ -71,7 +71,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<!-- Show message, if training list is empty -->
 	<div th:if="${#lists.isEmpty(trainings)}">
 		<h2 class="text-center"
-			th:text="#{training.traininglistEmpty}">
+			th:text="#{training.trainingListEmpty}">
 			List of Training Types</h2>
 	</div>
 	
@@ -81,7 +81,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		<div class="container" th:unless="${#lists.isEmpty(trainings)}">
 
 			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{training.traininglist}">List of Trainings</h2>
+			<h2 class="text-center" th:text="#{training.trainingList}">List of Trainings</h2>
 
 			<!-- Table List of Trainings -->
 			<table class="display" id="customTable">

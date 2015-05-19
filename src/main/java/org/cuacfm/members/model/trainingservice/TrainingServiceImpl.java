@@ -161,13 +161,15 @@ public class TrainingServiceImpl implements TrainingService {
    }
 
    /**
-    * Get all trainings with close = true.
+    * Gets the training list close with close = true.
     *
-    * @return List<Training>
+    * @param year
+    *           the year
+    * @return the training list close
     */
    @Override
-   public List<Training> getTrainingListClose() {
-      return trainingRepository.getTrainingListClose();
+   public List<Training> getTrainingListClose(int year) {
+      return trainingRepository.getTrainingListClose(year);
    }
 
    /**
