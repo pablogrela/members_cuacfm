@@ -79,9 +79,9 @@ public class FeeMemberListTest extends WebSecurityConfigurationAware {
         // Create User
 		user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);
-		accountType = new AccountType("Adult", "Fee for adults", 0);
+		accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
-		methodPayment = new MethodPayment("cash", "cash");
+		methodPayment = new MethodPayment("cash", false, "cash");
 		methodPaymentService.save(methodPayment);
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);

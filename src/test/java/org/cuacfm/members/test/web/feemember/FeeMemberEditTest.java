@@ -9,8 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -22,6 +20,7 @@ import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,11 +35,11 @@ public class FeeMemberEditTest extends WebSecurityConfigurationAware {
     private MockHttpSession defaultSession;
 
     /** The account service. */
-	@Inject
+	@Autowired
 	private AccountService accountService;
 
 	/** The pay Inscription service. */
-	@Inject
+	@Autowired
 	private FeeMemberService feeMemberService;
 	
 	/** The pay inscription. */

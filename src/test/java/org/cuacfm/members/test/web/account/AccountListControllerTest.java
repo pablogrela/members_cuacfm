@@ -12,8 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -26,6 +24,7 @@ import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,15 +38,15 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	private MockHttpSession defaultSession;
 
 	/** The account service. */
-	@Inject
+	@Autowired
 	private AccountService accountService;
 
 	/** The account type service. */
-	@Inject
+	@Autowired
 	private AccountTypeService accountTypeService;
 
 	/** The method payment service. */
-	@Inject
+	@Autowired
 	private MethodPaymentService methodPaymentService;
 
 	/** The admin. */
@@ -69,9 +68,9 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException {
-		accountType = new AccountType("Adult", "Fee for adults", 0);
+		accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
-		methodPayment = new MethodPayment("cash", "cash");
+		methodPayment = new MethodPayment("cash", false, "cash");
 		methodPaymentService.save(methodPayment);
 		
 		

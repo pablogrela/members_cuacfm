@@ -54,7 +54,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		<h2 class="text-center" th:text="#{feeProgram.feeProgramList}">List of Pay
 			Inscriptions</h2>
 
-		<!-- Table List of Training Types -->
+		<!-- Table List of Fee Programs -->
 		<table class="table table-striped table-hover table-responsive" id="customTable">
 			<thead class="table-bordered">
 				<tr>
@@ -62,6 +62,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 					<th th:text="#{date}">Year</th>
 					<th th:text="#{price}">Price</th>
 					<th th:text="#{description}">Description</th>
+					<th class="no-sort"></th>
 					<th class="no-sort"></th>
 					<th class="no-sort"></th>
 				</tr>
@@ -91,6 +92,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 							method="post">
 							<button class="btnTable btn-link glyphicon glyphicon-headphones"
 								th:title="#{feeProgram.infoPayProgramList}" style="color: green"></button>
+						</form>
+					</td>
+					
+					<!-- Print All List of feeProgram-->
+					<td>
+						<form th:action="@{'feeProgramList/payProgramList/createPdf/'+${feeProgram.id}}"
+							method="post">
+							<button class="btnTable btn-link glyphicon glyphicon-download-alt" th:name="createPdf" th:value="ALL" 
+								th:title="#{feeMember.infoAllList}"></button>
 						</form>
 					</td>
 				</tr>

@@ -111,6 +111,22 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
    }
 
    /**
+    * Get all payPrograms.
+    *
+    * @return List<FeeProgram>
+    */
+   @Override
+   public List<PayProgram> getPayProgramNoPayListByDirectDebit() {
+      return entityManager
+            .createQuery(
+                  "select p from PayProgram p where p.hasPay = false "
+                        //+ "and p.program.accounts in (select a Account from a and a.methodPayment.directDebit = true "
+                        //+ "and a.iban <> '' " + "and a.bic <> '')  " 
+                        + "order by p.program.name",
+                  PayProgram.class).getResultList();
+   }
+
+   /**
     * Gets the pay program list by fee program id.
     *
     * @param feeProgramId

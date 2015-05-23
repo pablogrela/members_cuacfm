@@ -208,6 +208,10 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(trainingType.getPlace(), trainingTypeSearch.getPlace());
 		assertEquals(trainingType.getDuration(),
 				trainingTypeSearch.getDuration());
+		
+	    TrainingType trainingType2 = new TrainingType("Locution2", true,
+	            "Very interesting", "livingRoom", 90);
+	      trainingTypeService.update(trainingType2);
 	}
 
 	/**

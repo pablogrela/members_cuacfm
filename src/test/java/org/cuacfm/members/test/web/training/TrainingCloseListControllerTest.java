@@ -2,13 +2,12 @@ package org.cuacfm.members.test.web.training;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
@@ -23,11 +22,10 @@ import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-
 
 /** The class TrainingCloseListControllerTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,20 +36,21 @@ public class TrainingCloseListControllerTest extends WebSecurityConfigurationAwa
     private MockHttpSession defaultSession;
 
     /** The account service. */
-	@Inject
+	@Autowired
 	private AccountService accountService;
 	
 	/** The training Type service. */
-	@Inject
+	@Autowired
 	private TrainingTypeService trainingTypeService;
 	
 	/** The training service. */
-	@Inject
+	@Autowired
 	private TrainingService trainingService;
 	
     /**
      * Initialize default session.
-     * @throws UniqueException 
+     *
+     * @throws UniqueException the unique exception
      */
     @Before
     public void initializeDefaultSession() throws UniqueException {
@@ -84,7 +83,18 @@ public class TrainingCloseListControllerTest extends WebSecurityConfigurationAwa
 				.andExpect(view().name("training/trainingcloselist"))
 				.andExpect(content().string(containsString("<title>Close Trainings</title>")));
 	}
-
+	
+   /**
+    * Displays training close list by year test.
+    *
+    * @throws Exception the exception
+    */
+   @Test
+   public void displaysTrainingCloseListByYearTest() throws Exception {    
+      mockMvc.perform(post("/trainingList/trainingCloseList").locale(Locale.ENGLISH).session(defaultSession)
+            .param("year", "2015"))
+            .andExpect(view().name("redirect:/trainingList/trainingCloseList"));
+   }
 
 	/**
 	 * Send displaysTrainingCloseList.

@@ -49,6 +49,7 @@ public class AccountTypeEditController {
       if (accountType != null) {
          AccountTypeForm accountTypeForm = new AccountTypeForm();
          accountTypeForm.setName(accountType.getName());
+         accountTypeForm.setOrganization(accountType.isOrganization());
          accountTypeForm.setDescription(accountType.getDescription());
          accountTypeForm.setDiscount(accountType.getDiscount());
          model.addAttribute(accountTypeForm);

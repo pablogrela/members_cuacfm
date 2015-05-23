@@ -87,8 +87,8 @@
 				<label for="feeMember" class="col-lg-1 control-label" th:text="#{feeMemberDefault}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}" step="0.01"
-							min="0.01" required="required" />
+						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}"
+							step="0.01" min="0.01" required="required" />
 					</div>
 					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
 					<br></br>
@@ -97,14 +97,14 @@
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-			
+
 			<!-- Edit Fee Program -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('feeProgram')}? 'has-error'">
 				<label for="feeProgram" class="col-lg-1 control-label" th:text="#{feeProgramDefault}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}" step="0.01"
-							min="0.01" required="required" />
+						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}"
+							step="0.01" min="0.01" required="required" />
 					</div>
 					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
 					<br></br>
@@ -159,6 +159,7 @@
 			<thead class="">
 				<tr>
 					<th th:text="#{name}">Name</th>
+					<th th:text="#{accountType.organization}">Organization</th>
 					<th th:text="#{description}">Description</th>
 					<th th:text="#{discount}">Discount</th>
 					<th class="no-sort"></th>
@@ -169,6 +170,8 @@
 				<!-- Table entry -->
 				<tr th:each="accountType : ${accountTypes}">
 					<td th:text="${accountType.name}">name</td>
+					<td><input type="checkbox" th:checked="${accountType.organization}"
+							th:title="#{accountType.infoOrganization}" onClick="return false"/></td>
 					<td th:text="${accountType.description}">Description</td>
 					<td th:text="${accountType.discount}">20%</td>
 					<!-- Modify AccountType -->
@@ -214,6 +217,7 @@
 			<thead class="">
 				<tr>
 					<th th:text="#{name}">Name</th>
+					<th th:text="#{methodPayment.directDebit}">directDebit</th>
 					<th th:text="#{description}">Description</th>
 					<th class="no-sort"></th>
 					<th class="no-sort"></th>
@@ -223,6 +227,8 @@
 				<!-- Table entry -->
 				<tr th:each="methodPayment : ${methodPayments}">
 					<td th:text="${methodPayment.name}">name</td>
+					<td><input type="checkbox" th:checked="${methodPayment.directDebit}"
+							th:title="#{methodPayment.infoDirectDebit}" onClick="return false"/></td>
 					<td th:text="${methodPayment.description}">Description</td>
 					<!-- Modify MethodPayment -->
 					<td>

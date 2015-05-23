@@ -263,11 +263,11 @@ public class InscriptionListController {
 
       } catch (MaximumCapacityException e) {
          MessageHelper.addErrorAttribute(ra, "training.maxInscriptionsException",
-               training.getName());
+               training.getName(), e.getMaxPlaces());
 
       } catch (DateLimitExpirationException e) {
          MessageHelper.addErrorAttribute(ra, "training.dateLimitExpirationException",
-               training.getName(), DisplayDate.dateTimeToString(training.getDateLimit()));
+               e.getTrainingName(), DisplayDate.dateTimeToString(e.getDateLimit()));
       }
 
       return REDIRECT_TRAINING;

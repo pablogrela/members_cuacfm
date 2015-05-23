@@ -133,7 +133,6 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 		accountService.save(account2);
 
 		Account account3 = new Account("user", "55555555C", "London", "user2", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
-		account3.setId(account.getId());
 		accountService.update(account3, false);
 	}
 
@@ -150,7 +149,6 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 		accountService.save(account2);
 
 		Account account3 = new Account("user", "55555555C", "London", "user", "email2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
-		account3.setId(account.getId());
 		accountService.update(account3, false);
 	}
 
@@ -226,13 +224,15 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 		savedAccount.setRole(roles.ROLE_ADMIN);
 		savedAccount.setLogin("user2");
 		savedAccount.setPassword("rawPassword2");
-
+		savedAccount.setObservations("observations");
+		
 		/* updating */
 		Account updatedAccount = accountService.update(savedAccount, true);
 
 		assertEquals(updatedAccount.getEmail(), savedAccount.getEmail());
 		assertEquals(updatedAccount.getLogin(), savedAccount.getLogin());
 		assertEquals(updatedAccount.getRole(), savedAccount.getRole());
+		assertEquals(updatedAccount.getObservations(), savedAccount.getObservations());
 
 		/* checking that the password has changed */
 		assertTrue(accountService.matchPassword(updatedAccount, "rawPassword2"));
@@ -329,9 +329,9 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void UpdateTest() throws UniqueException{
 		// Save
-		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
-		MethodPayment methodPayment = new MethodPayment("cash", "cash");
+		MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
 		methodPaymentService.save(methodPayment);
 		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
 		accountService.save(user);

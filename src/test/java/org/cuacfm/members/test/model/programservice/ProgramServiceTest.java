@@ -167,6 +167,9 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
       assertEquals(program.getDescription(), programSearch.getDescription());
       assertEquals(program.getDuration(), programSearch.getDuration());
       assertEquals(program.getPeriodicity(), programSearch.getPeriodicity());
+      
+      Program program2 = new Program("program 22", Float.valueOf(1), "Very interesting", 9, accounts);
+      programService.update(program2);
    }
 
    /**
@@ -191,7 +194,6 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 
       // Update
       Program program3 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
-      program3.setId(program.getId());
       programService.update(program3);
    }
 
@@ -244,6 +246,9 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
       // Delete and assert
       programService.delete(program.getId());
       assertEquals(programService.findById(program.getId()), null);
+
+      // Delete null
+      programService.delete(Long.valueOf(0));
    }
 
    /**

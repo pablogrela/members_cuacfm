@@ -173,6 +173,36 @@ function checkedInstallments(form) {
 	}
 }
 
+//lock and unlock field Bank
+function checkedBank(form) {
+	if (form.onBank.checked == true) {
+		form.bank.disabled = false;
+	}
+	if (form.onBank.checked == false) {
+		form.bank.disabled = true;
+	}
+}
+
+//lock and unlock field Bic
+function checkedBic(form) {
+	if (form.onBic.checked == true) {
+		form.bic.disabled = false;
+	}
+	if (form.onBic.checked == false) {
+		form.bic.disabled = true;
+	}
+}
+
+//lock and unlock field Iban
+function checkedIban(form) {
+	if (form.onIban.checked == true) {
+		form.iban.disabled = false;
+	}
+	if (form.onIban.checked == false) {
+		form.iban.disabled = true;
+	}
+}
+
 // lock and unlock field Observations
 function checkedObservations(form) {
 	if (form.onObservations.checked == true) {
@@ -192,6 +222,9 @@ function checkedRole(form) {
 		form.role.disabled = true;
 	}
 }
+
+
+
 
 // ////////// SHOW BUTTON MODIFY
 // ////////////////////////////////////////////////////
@@ -214,8 +247,11 @@ $(document).ready(
 								|| $("#enableModify12").prop("checked")
 								|| $("#enableModify13").prop("checked")
 								|| $("#enableModify14").prop("checked")
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
 								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
@@ -230,22 +266,25 @@ $(document).ready(
 			$("#enableModify2").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -259,22 +298,25 @@ $(document).ready(
 			$("#enableModify3").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -288,22 +330,25 @@ $(document).ready(
 			$("#enableModify4").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -317,22 +362,25 @@ $(document).ready(
 			$("#enableModify5").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -346,22 +394,25 @@ $(document).ready(
 			$("#enableModify6").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -375,22 +426,25 @@ $(document).ready(
 			$("#enableModify7").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -404,22 +458,25 @@ $(document).ready(
 			$("#enableModify8").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -433,22 +490,25 @@ $(document).ready(
 			$("#enableModify9").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -462,22 +522,25 @@ $(document).ready(
 			$("#enableModify10").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -491,22 +554,25 @@ $(document).ready(
 			$("#enableModify11").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -520,22 +586,25 @@ $(document).ready(
 			$("#enableModify12").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -549,22 +618,25 @@ $(document).ready(
 			$("#enableModify13").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -578,22 +650,25 @@ $(document).ready(
 			$("#enableModify14").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -607,22 +682,25 @@ $(document).ready(
 			$("#enableModify15").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -636,22 +714,25 @@ $(document).ready(
 			$("#enableModify16").click(
 					function(evento) {
 						if ($("#enableModify").prop("checked")
-								|| ($("#enableModify2").prop("checked"))
-								|| ($("#enableModify3").prop("checked"))
-								|| ($("#enableModify4").prop("checked"))
-								|| ($("#enableModify5").prop("checked"))
-								|| ($("#enableModify6").prop("checked"))
-								|| ($("#enableModify7").prop("checked"))
-								|| ($("#enableModify8").prop("checked"))
-								|| ($("#enableModify9").prop("checked"))
-								|| ($("#enableModify10").prop("checked"))
-								|| ($("#enableModify11").prop("checked"))
-								|| ($("#enableModify12").prop("checked"))
-								|| ($("#enableModify13").prop("checked"))
-								|| ($("#enableModify14").prop("checked"))
-								|| ($("#enableModify15").prop("checked"))
-								|| ($("#enableModify16").prop("checked"))
-								|| ($("#enablePasswords").prop("checked"))) {
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
 							$("#visibleModify").css("display", "block");
 						} else {
 							$("#visibleModify").css("display", "none");
@@ -659,6 +740,102 @@ $(document).ready(
 					});
 		});
 
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify17").click(
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify18").click(
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
+
+
+//hide and show button modify
+$(document).ready(
+		function() {
+			$("#enableModify19").click(
+					function(evento) {
+						if ($("#enableModify").prop("checked")
+								|| $("#enableModify2").prop("checked")
+								|| $("#enableModify3").prop("checked")
+								|| $("#enableModify4").prop("checked")
+								|| $("#enableModify5").prop("checked")
+								|| $("#enableModify6").prop("checked")
+								|| $("#enableModify7").prop("checked")
+								|| $("#enableModify8").prop("checked")
+								|| $("#enableModify9").prop("checked")
+								|| $("#enableModify10").prop("checked")
+								|| $("#enableModify11").prop("checked")
+								|| $("#enableModify12").prop("checked")
+								|| $("#enableModify13").prop("checked")
+								|| $("#enableModify14").prop("checked")
+								|| $("#enableModify15").prop("checked")
+								|| $("#enableModify16").prop("checked")
+								|| $("#enableModify17").prop("checked")
+								|| $("#enableModify18").prop("checked")
+								|| $("#enableModify19").prop("checked")
+								|| $("#enablePasswords").prop("checked")) {
+							$("#visibleModify").css("display", "block");
+						} else {
+							$("#visibleModify").css("display", "none");
+						}
+					});
+		});
 // hide and show button modify
 // hide and show field rePassword
 $(document).ready(

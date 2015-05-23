@@ -1,5 +1,6 @@
 package org.cuacfm.members.model.payprogram;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,7 +17,7 @@ import org.cuacfm.members.model.program.Program;
 /** The Class PayProgram. */
 @SuppressWarnings("serial")
 @Entity
-public class PayProgram implements java.io.Serializable {
+public class PayProgram implements Serializable {
 
    /** The id. */
    @Id

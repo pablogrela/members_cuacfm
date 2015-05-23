@@ -38,7 +38,6 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-// TODO: Auto-generated Javadoc
 /** The Class PayProgramEditControllerTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -77,10 +76,10 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
    /** The method payment. */
    private MethodPayment methodPayment;
 
-   /** The pay inscription. */
+   /** The fee program. */
    private FeeProgram feeProgram;
 
-   /** The training service. */
+   /** The pay. */
    private PayProgram pay;
 
    /**
@@ -91,9 +90,9 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
     */
    @Before
    public void initializeDefaultSession() throws UniqueException {
-      accountType = new AccountType("Adult", "Fee for adults", 0);
+      accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);
-      methodPayment = new MethodPayment("cash", "cash");
+      methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
 
       Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es",
@@ -127,9 +126,6 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
       feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
       feeProgramService.save(feeProgram);
-      PayProgram payProgram2 = payProgramService.findByPayProgramIds(program2.getId(),
-            feeProgram.getId());
-      payProgramService.pay(payProgram2);
 
       pay = payProgramService.findByPayProgramIds(program.getId(), feeProgram.getId());
    }
@@ -267,6 +263,28 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
                         .param("datePay", "10:10 10/10/2015"))
             .andExpect(content().string(containsString("Maximum 30 characters")))
             .andExpect(view().name("payprogram/payprogramedit"));
+
+   }
+
+   /**
+    * Exist transaction id test.
+    *
+    * @throws Exception
+    *            the exception
+    */
+   @Test
+   public void existTransactionIdTest() throws Exception {
+
+      pay.setIdTxn("1G3210");
+      payProgramService.update(pay);
+
+      mockMvc.perform(
+            post("/feeProgramList/payProgramList/payProgramEdit").locale(Locale.ENGLISH)
+                  .session(defaultSession).param("price", "24").param("hasPay", "true")
+                  .param("AccountPayer", "pepe").param("idPayer", "1G3210")
+                  .param("idTxn", "1G3210").param("emailPayer", "user@hotmail.com")
+                  .param("statusPay", "Completed").param("datePay", "10:10 10/10/2015")).andExpect(
+            view().name("payprogram/payprogramedit"));
 
    }
 }

@@ -34,7 +34,7 @@ public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void saveAndFindAccountTypeTest() throws UniqueException {
 		// Save
-		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
 
 		// Assert
@@ -51,10 +51,10 @@ public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 	@Test (expected = UniqueException.class)
 	public void saveAccountTypeExceptionTest() throws UniqueException {
 		// Save
-		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
 
-		AccountType accountType2 = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType2 = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType2);
 	}
 	
@@ -66,12 +66,13 @@ public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void updateAccountTypeTest() throws UniqueException {
 		// Save
-		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
 
 		// Update
 		accountType.setName("Young");
 		accountType.setDiscount(10);
+		accountType.setOrganization(true);
 		accountType.setDescription("Adult with discount");
 		AccountType accountTypeUpdate = accountTypeService.update(accountType);
 
@@ -79,12 +80,16 @@ public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(accountType, accountTypeUpdate);
 		assertEquals(accountType.getName(), accountTypeUpdate.getName());
 		assertEquals(accountType.getDiscount(), accountTypeUpdate.getDiscount());
+	   assertEquals(accountType.isOrganization(), accountTypeUpdate.isOrganization());
 		assertEquals(accountType.getDescription(),
 				accountTypeUpdate.getDescription());
 		
 		accountType.setDiscount(20);
 		accountType.setDescription("etc");
 		accountTypeUpdate = accountTypeService.update(accountType);
+		
+	    AccountType accountType2 = new AccountType("Adult2", false, "Fee for adults", 0);
+	    accountTypeService.update(accountType2);
 	}
 
 	/**
@@ -94,13 +99,13 @@ public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 	@Test(expected = UniqueException.class)
 	public void updateAccountTypeExceptionTest() throws UniqueException {
 		// Save
-		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
-		AccountType accountType2 = new AccountType("Young", "Fee for youth", 20);
+		AccountType accountType2 = new AccountType("Young", false, "Fee for youth", 20);
 		accountTypeService.save(accountType2);
 
 		// Update
-		AccountType accountType3 = new AccountType("Young", "Fee for youth", 20);
+		AccountType accountType3 = new AccountType("Young", false, "Fee for youth", 20);
 		accountTypeService.update(accountType3);
 	}
 	
@@ -111,7 +116,7 @@ public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void deleteAccountTypeTest() throws UniqueException {
 		// Save
-		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
 
 		// Assert
@@ -143,7 +148,7 @@ public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void saveAndFindByNameAccountTypeTest() throws UniqueException {
 		// Save
-		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
 
 		// Assert
@@ -159,9 +164,9 @@ public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(accountTypes.size(), 0);
 		
 		// Save
-		AccountType accountType = new AccountType("Adult", "Fee for adults", 0);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
-		AccountType accountType2 = new AccountType("Young", "Fee for youth", 20);
+		AccountType accountType2 = new AccountType("Young", false, "Fee for youth", 20);
 		accountTypeService.save(accountType2);
 		
 		// Assert

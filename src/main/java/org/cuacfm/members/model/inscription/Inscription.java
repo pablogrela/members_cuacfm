@@ -1,5 +1,7 @@
 package org.cuacfm.members.model.inscription;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,7 @@ import org.cuacfm.members.model.training.Training;
 /** The Class Inscription. */
 @SuppressWarnings("serial")
 @Entity
-public class Inscription implements java.io.Serializable {
+public class Inscription implements Serializable {
 
    /** The id. */
    @Id

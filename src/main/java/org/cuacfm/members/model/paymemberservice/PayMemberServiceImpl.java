@@ -2,14 +2,18 @@ package org.cuacfm.members.model.paymemberservice;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
+import org.cuacfm.members.model.feemember.FeeMember;
+import org.cuacfm.members.model.feemember.FeeMemberRepository;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymember.PayMemberRepository;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.CreatePdf;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.pdf.PdfPTable;
@@ -18,9 +22,19 @@ import com.itextpdf.text.pdf.PdfPTable;
 @Service("payMemberService")
 public class PayMemberServiceImpl implements PayMemberService {
 
+   /** The Constant NOPAY. */
+   private static final String NOPAY = "NOPAY";
+
+   /** The Constant PAY. */
+   private static final String PAY = "PAY";
+
    /** The feeMember repository. */
    @Autowired
    private PayMemberRepository payMemberRepository;
+
+   /** The fee member repository. */
+   @Autowired
+   private FeeMemberRepository feeMemberRepository;
 
    /** Instantiates a new feeMember service. */
    public PayMemberServiceImpl() {
@@ -45,9 +59,17 @@ public class PayMemberServiceImpl implements PayMemberService {
     * @param payMember
     *           the pay member
     * @return PayMember
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
     */
    @Override
-   public PayMember update(PayMember payMember) {
+   public PayMember update(PayMember payMember) throws ExistTransactionIdException {
+      PayMember paymentExist = payMemberRepository.findByIdTxn(payMember.getIdTxn());
+      if (paymentExist != null) {
+         if (paymentExist.getId() != payMember.getId()) {
+            throw new ExistTransactionIdException(payMember.getIdTxn());
+         }
+      }
       return payMemberRepository.update(payMember);
    }
 
@@ -83,8 +105,8 @@ public class PayMemberServiceImpl implements PayMemberService {
     *            the exist transaction id exception
     */
    @Override
-   public void payPayPal(PayMember payMember, String idTxn, String idPayer,
-         String emailPayer, String statusPay, String datePay) throws ExistTransactionIdException {
+   public void payPayPal(PayMember payMember, String idTxn, String idPayer, String emailPayer,
+         String statusPay, String datePay) throws ExistTransactionIdException {
 
       PayMember paymentExist = payMemberRepository.findByIdTxn(idTxn);
       if (paymentExist != null) {
@@ -154,6 +176,16 @@ public class PayMemberServiceImpl implements PayMemberService {
    }
 
    /**
+    * Gets the pay member no pay list by direct Debit.
+    *
+    * @return the pay member no pay list by direct Debit
+    */
+   @Override
+   public List<PayMember> getPayMemberNoPayListByDirectDebit() {
+      return payMemberRepository.getPayMemberNoPayListByDirectDebit();
+   }
+
+   /**
     * Gets the pay member list by fee member id.
     *
     * @param feeMemberId
@@ -162,8 +194,7 @@ public class PayMemberServiceImpl implements PayMemberService {
     */
    @Override
    public List<PayMember> getPayMemberListByFeeMemberId(Long feeMemberId) {
-      return payMemberRepository
-            .getPayMemberListByFeeMemberId(feeMemberId);
+      return payMemberRepository.getPayMemberListByFeeMemberId(feeMemberId);
    }
 
    /**
@@ -197,19 +228,37 @@ public class PayMemberServiceImpl implements PayMemberService {
     *           the message source
     * @param feeMemberId
     *           the fee member id
-    * @param path
-    *           the path
-    * @param title
-    *           the title
+    * @param option
+    *           the option
+    * @return the response entity
     */
-   @Override
-   public void createPdfFeeMember(MessageSource messageSource, Long feeMemberId,
-         String path, String title, String submit) {
-      List<PayMember> payMembers = payMemberRepository
-            .getPayMemberListByFeeMemberId(feeMemberId);
+   public ResponseEntity<byte[]> createPdfFeeMember(MessageSource messageSource, Long feeMemberId,
+         String option) {
+
+      FeeMember feeMember = feeMemberRepository.findById(feeMemberId);
+      List<PayMember> payMembers = payMemberRepository.getPayMemberListByFeeMemberId(feeMemberId);
+
+      Date date = new Date();
+      String fileNameFeeMember = messageSource.getMessage("fileNameFeeMember", null,
+            Locale.getDefault())
+            + DisplayDate.dateTimeToStringSp(date) + ".pdf";
+      String path = System.getProperty("user.dir") + "/" + fileNameFeeMember;
+
+      String title;
+      if (option.equals(PAY)) {
+         title = feeMember.getName() + " - "
+               + messageSource.getMessage("feeMember.printPayList", null, Locale.getDefault());
+      } else if (option.equals(NOPAY)) {
+         title = feeMember.getName() + " - "
+               + messageSource.getMessage("feeMember.printNoPayList", null, Locale.getDefault());
+      } else {
+         title = feeMember.getName() + " - "
+               + messageSource.getMessage("feeMember.printAllList", null, Locale.getDefault());
+
+      }
       CreatePdf pdf = new CreatePdf();
-      PdfPTable table = pdf.createTablePayMembers(messageSource, submit,
-            payMembers);
+      PdfPTable table = pdf.createTablePayMembers(messageSource, option, payMembers);
       pdf.createBody(path, title, table);
+      return CreatePdf.viewPdf(path, fileNameFeeMember);
    }
 }

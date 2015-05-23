@@ -217,6 +217,16 @@ public class AccountServiceImpl implements AccountService {
    }
 
    /**
+    * Gets the users direct debit.
+    *
+    * @return the users direct debit
+    */
+   @Override
+   public List<Account> getUsersDirectDebit() {
+      return accountRepository.getUsersDirectDebit();
+   }
+
+   /**
     * Gets the accounts.
     *
     * @return the accounts

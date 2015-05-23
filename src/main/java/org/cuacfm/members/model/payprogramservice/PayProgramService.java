@@ -5,7 +5,7 @@ import java.util.List;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.springframework.context.MessageSource;
-
+import org.springframework.http.ResponseEntity;
 
 /** The Interface PayProgramService. */
 public interface PayProgramService {
@@ -20,13 +20,15 @@ public interface PayProgramService {
    public PayProgram save(PayProgram payProgram);
 
    /**
-    * Update TraininfType.
+    * Update PayProgram.
     *
     * @param payProgram
     *           the pay program
     * @return PayProgram
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
     */
-   public PayProgram update(PayProgram payProgram);
+   public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException;
 
    /**
     * Pay the PayProgram.
@@ -82,8 +84,8 @@ public interface PayProgramService {
     *
     * @param programId
     *           the program id
-    * @param feeProgram
-    *           the fee program
+    * @param feeProgramId
+    *           the fee program id
     * @return the pay program
     */
    public PayProgram findByPayProgramIds(Long programId, Long feeProgramId);
@@ -94,6 +96,13 @@ public interface PayProgramService {
     * @return List<PayProgram>
     */
    public List<PayProgram> getPayProgramList();
+
+   /**
+    * Gets the pay program no pay list by direct debit.
+    *
+    * @return the pay program no pay list by direct debit
+    */
+   public List<PayProgram> getPayProgramNoPayListByDirectDebit();
 
    /**
     * Gets the pay program list by fee program id.
@@ -129,13 +138,10 @@ public interface PayProgramService {
     *           the message source
     * @param feeProgramId
     *           the fee program id
-    * @param path
-    *           the path
-    * @param title
-    *           the title
-    * @param submit
-    *           the submit
+    * @param option
+    *           the option
+    * @return the response entity
     */
-   public void createPdfFeeProgram(MessageSource messageSource, Long feeProgramId, String path,
-         String title, String submit);
+   public ResponseEntity<byte[]> createPdfFeeProgram(MessageSource messageSource,
+         Long feeProgramId, String option);
 }

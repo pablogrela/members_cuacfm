@@ -100,7 +100,7 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
 	 */
 	@Test
 	public void nameAlreadyExistTest() throws Exception {    
-		AccountType accountType = new AccountType("Adult", "Tax for Adult", 0);
+		AccountType accountType = new AccountType("Adult", false, "Tax for Adult", 0);
 		accountTypeService.save(accountType);
 		
 		mockMvc.perform(post("/configuration/accountTypeCreate").locale(Locale.ENGLISH).session(defaultSession)

@@ -135,7 +135,7 @@ public class DisplayDate {
    public static String dateTimeToStringSp(Date dateTime) {
       String stringDateTime = "";
       if (dateTime != null) {
-         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         SimpleDateFormat dateFormat = new SimpleDateFormat("_yyyy-MM-dd_HH:mm:ss");
          stringDateTime = dateFormat.format(dateTime);
       }
       return stringDateTime;
@@ -155,6 +155,30 @@ public class DisplayDate {
          stringDate = dateFormat.format(date);
       }
       return stringDate;
+   }
+
+   /**
+    * Date to direct debit.
+    *
+    * @param date
+    *           the date
+    * @return the string
+    */
+   public static String dateToDirectDebit(Date date) {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+      return dateFormat.format(date);
+   }
+
+   /**
+    * Time to direct debit.
+    *
+    * @param date
+    *           the date
+    * @return the string
+    */
+   public static String timeToDirectDebit(Date date) {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("HHmmssSSSSS");
+      return dateFormat.format(date);
    }
 
    /**

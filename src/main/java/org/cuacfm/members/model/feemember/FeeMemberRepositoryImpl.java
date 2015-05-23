@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 /** The Class FeeMemberRepositoryImpl. */
 @Repository
 @Transactional(readOnly = true)
-public class FeeMemberRepositoryImpl implements FeeMemberRepositoy {
+public class FeeMemberRepositoryImpl implements FeeMemberRepository {
 
    /** The entity manager. */
    @PersistenceContext

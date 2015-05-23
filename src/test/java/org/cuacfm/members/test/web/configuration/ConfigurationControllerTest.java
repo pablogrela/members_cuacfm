@@ -37,11 +37,11 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
 
    /** The default session. */
    private MockHttpSession defaultSession;
- 
+
    /** The configuration service. */
    @Inject
    private ConfigurationService configurationService;
-   
+
    /** The account service. */
    @Inject
    private AccountService accountService;
@@ -73,15 +73,16 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
       accountService.save(admin);
       defaultSession = getDefaultSession("admin");
 
-      accountType = new AccountType("Adult", "Tax for Adult", 0);
+      accountType = new AccountType("Adult", false, "Tax for Adult", 0);
       accountTypeService.save(accountType);
 
-      methodPayment = new MethodPayment("Paypal", "Pay by Paypal");
+      methodPayment = new MethodPayment("Paypal", false, "Pay by Paypal");
       methodPaymentService.save(methodPayment);
 
       Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666,
             Double.valueOf(24), Double.valueOf(25), "Rul");
       configurationService.save(configuration);
+      configuration.getId();
    }
 
    /**

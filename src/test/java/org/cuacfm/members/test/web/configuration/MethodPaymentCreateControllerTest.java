@@ -99,7 +99,7 @@ public class MethodPaymentCreateControllerTest extends WebSecurityConfigurationA
 	 */
 	@Test
 	public void nameAlreadyExistTest() throws Exception {    
-		MethodPayment methodPayment = new MethodPayment("Paypal", "Tax for Paypal");
+		MethodPayment methodPayment = new MethodPayment("Paypal", false, "Tax for Paypal");
 		methodPaymentService.save(methodPayment);
 		
 		mockMvc.perform(post("/configuration/methodPaymentCreate").locale(Locale.ENGLISH).session(defaultSession)

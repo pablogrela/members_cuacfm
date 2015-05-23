@@ -91,6 +91,18 @@ public class ProfileForm {
    @Max(12)
    private int installments;
 
+   /** The bank. */
+   @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+   private String bank;
+
+   /** The bic. */
+   @Size(max = 11, message = ProfileForm.MAX_CHARACTERS)
+   private String bic;
+
+   /** The iban. */
+   @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+   private String iban;
+
    /** The observations. */
    @Size(max = 500, message = ProfileForm.MAX_CHARACTERS)
    private String observations;
@@ -145,6 +157,15 @@ public class ProfileForm {
 
    /** The on installment. */
    private boolean onInstallments;
+
+   /** The on bank. */
+   private boolean onBank;
+
+   /** The on binc. */
+   private boolean onBic;
+
+   /** The on iban. */
+   private boolean onIban;
 
    /** The on observations. */
    private boolean onObservations;
@@ -502,6 +523,63 @@ public class ProfileForm {
    }
 
    /**
+    * Gets the bank.
+    *
+    * @return the bank
+    */
+   public String getBank() {
+      return bank;
+   }
+
+   /**
+    * Sets the bank.
+    *
+    * @param bank
+    *           the new bank
+    */
+   public void setBank(String bank) {
+      this.bank = bank;
+   }
+
+   /**
+    * Gets the bic.
+    *
+    * @return the bic
+    */
+   public String getBic() {
+      return bic;
+   }
+
+   /**
+    * Sets the bic.
+    *
+    * @param bic
+    *           the new bic
+    */
+   public void setBic(String bic) {
+      this.bic = bic;
+   }
+
+   /**
+    * Gets the iban.
+    *
+    * @return the iban
+    */
+   public String getIban() {
+      return iban;
+   }
+
+   /**
+    * Sets the iban.
+    *
+    * @param iban
+    *           the new iban
+    */
+   public void setIban(String iban) {
+      this.iban = iban;
+   }
+
+   /**
     * Gets the observations.
     *
     * @return the observations
@@ -841,6 +919,63 @@ public class ProfileForm {
     */
    public void setOnInstallments(boolean onInstallments) {
       this.onInstallments = onInstallments;
+   }
+
+   /**
+    * Checks if is on bank.
+    *
+    * @return true, if is on bank
+    */
+   public boolean isOnBank() {
+      return onBank;
+   }
+
+   /**
+    * Sets the on bank.
+    *
+    * @param onBank
+    *           the new on bank
+    */
+   public void setOnBank(boolean onBank) {
+      this.onBank = onBank;
+   }
+
+   /**
+    * Checks if is on bic.
+    *
+    * @return true, if is on bic
+    */
+   public boolean isOnBic() {
+      return onBic;
+   }
+
+   /**
+    * Sets the on bic.
+    *
+    * @param onBinc
+    *           the new on bic
+    */
+   public void setOnBic(boolean onBic) {
+      this.onBic = onBic;
+   }
+
+   /**
+    * Checks if is on iban.
+    *
+    * @return true, if is on iban
+    */
+   public boolean isOnIban() {
+      return onIban;
+   }
+
+   /**
+    * Sets the on iban.
+    *
+    * @param onIban
+    *           the new on iban
+    */
+   public void setOnIban(boolean onIban) {
+      this.onIban = onIban;
    }
 
    /**

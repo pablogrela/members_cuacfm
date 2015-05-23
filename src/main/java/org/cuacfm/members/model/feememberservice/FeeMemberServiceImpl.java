@@ -1,37 +1,37 @@
 package org.cuacfm.members.model.feememberservice;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feemember.FeeMember;
-import org.cuacfm.members.model.feemember.FeeMemberRepositoy;
+import org.cuacfm.members.model.feemember.FeeMemberRepository;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /** The Class FeeMemberServiceImpl. */
-@Service("payInscriptionService")
+@Service("feeMemberService")
 public class FeeMemberServiceImpl implements FeeMemberService {
 
    /** The FeeMember repository. */
    @Autowired
-   private FeeMemberRepositoy payInscriptionRepository;
+   private FeeMemberRepository feeMemberRepository;
 
    /** The PayMemberService. */
-   @Inject
-   private PayMemberService userFeeMemberService;
+   @Autowired
+   private PayMemberService payMemberService;
 
    /** The account service. */
-   @Inject
+   @Autowired
    private AccountService accountService;
 
-   /** Instantiates a new payInscription service. */
+   /** Instantiates a new feeMember service. */
    public FeeMemberServiceImpl() {
       // Default empty constructor.
    }
@@ -39,20 +39,20 @@ public class FeeMemberServiceImpl implements FeeMemberService {
    /**
     * Save.
     *
-    * @param payInscription
+    * @param feeMember
     *           the pay inscription
     * @return the pay inscription
     * @throws UniqueException
     */
    @Override
-   public FeeMember save(FeeMember payInscription) throws UniqueException {
-      // It is verified that there is not exist year of payInscription in other
-      // payInscription
-      if (payInscriptionRepository.findByYear(payInscription.getYear()) != null) {
-         throw new UniqueException("Year", String.valueOf(payInscription.getYear()));
+   public FeeMember save(FeeMember feeMember) throws UniqueException {
+      // It is verified that there is not exist year of feeMember in other
+      // feeMember
+      if (feeMemberRepository.findByYear(feeMember.getYear()) != null) {
+         throw new UniqueException("Year", String.valueOf(feeMember.getYear()));
       }
 
-      payInscriptionRepository.save(payInscription);
+      feeMemberRepository.save(feeMember);
       int percent;
 
       // Create payments of users
@@ -63,19 +63,31 @@ public class FeeMemberServiceImpl implements FeeMemberService {
             percent = 0;
          }
 
-         Double discount = (payInscription.getPrice() * percent) / 100;
-         Double price = payInscription.getPrice() - discount;
+         Double discount = (feeMember.getPrice() * percent) / 100;
+         Double price = feeMember.getPrice() - discount;
          price = (price / user.getInstallments());
 
          // Create installments
          for (int installment = 1; installment <= user.getInstallments(); installment++) {
-            PayMember userFeeMember = new PayMember(user, payInscription,
-                  price, installment, user.getInstallments());
-            userFeeMemberService.save(userFeeMember);
+
+            int value = (installment-1) * 12 / user.getInstallments();
+            if (installment == 1) {
+               value = 1;
+            }
+            LocalDate dateFormat = LocalDate.now();
+            dateFormat = dateFormat.withDayOfMonth(1);
+            dateFormat = dateFormat.withMonth(value);
+            dateFormat = dateFormat.withYear(feeMember.getYear());
+            Date dateCharge = Date
+                  .from(dateFormat.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            PayMember payMember = new PayMember(user, feeMember, price, installment,
+                  user.getInstallments(), dateCharge);
+            payMemberService.save(payMember);
          }
       }
 
-      return payInscription;
+      return feeMember;
    }
 
    /**
@@ -83,11 +95,11 @@ public class FeeMemberServiceImpl implements FeeMemberService {
     *
     * @param account
     *           the account
-    * @param payInscription
+    * @param feeMember
     *           the pay inscription
     */
    @Override
-   public void savePayMember(Account account, FeeMember payInscription) {
+   public void savePayMember(Account account, FeeMember feeMember) {
 
       int month = 0;
       int percent = 0;
@@ -96,13 +108,13 @@ public class FeeMemberServiceImpl implements FeeMemberService {
       }
 
       // If the same year applied the discount
-      if (payInscription.getYear() == LocalDate.now().getYear()) {
+      if (feeMember.getYear() == LocalDate.now().getYear()) {
          month = LocalDate.now().getMonthValue();
       }
 
-      Double fee = payInscription.getPrice() / 12 * month;
-      Double discount = (payInscription.getPrice() * percent) / 100;
-      Double price = payInscription.getPrice() - discount;
+      Double fee = feeMember.getPrice() / 12 * month;
+      Double discount = (feeMember.getPrice() * percent) / 100;
+      Double price = feeMember.getPrice() - discount;
       price = (price / account.getInstallments());
       Double amount = Double.valueOf(0);
 
@@ -116,9 +128,21 @@ public class FeeMemberServiceImpl implements FeeMemberService {
             amount = price;
          }
          if (amount > 0) {
-            PayMember userFeeMember = new PayMember(account, payInscription,
-                  amount, installment, account.getInstallments());
-            userFeeMemberService.save(userFeeMember);
+            
+            int value = (installment-1) * 12 / account.getInstallments();
+            if (installment == 1) {
+               value = 1;
+            }
+            LocalDate dateFormat = LocalDate.now();
+            dateFormat = dateFormat.withDayOfMonth(1);
+            dateFormat = dateFormat.withMonth(value);
+            dateFormat = dateFormat.withYear(feeMember.getYear());
+            Date dateCharge = Date
+                  .from(dateFormat.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            PayMember payMember = new PayMember(account, feeMember, amount, installment,
+                  account.getInstallments(), dateCharge);
+            payMemberService.save(payMember);
          }
       }
    }
@@ -126,27 +150,26 @@ public class FeeMemberServiceImpl implements FeeMemberService {
    /**
     * Update.
     *
-    * @param payInscription
+    * @param feeMember
     *           the pay inscription
     * @return the pay inscription
     * @throws UniqueException
     */
    @Override
-   public FeeMember update(FeeMember payInscription) throws UniqueException {
-      // It is verified that there is not exist name of payInscription in other
-      // payInscription
-      FeeMember payInscriptionSearch = payInscriptionRepository.findByYear(payInscription
-            .getYear());
-      if (payInscriptionSearch != null) {
-         if (payInscriptionSearch.getId() != payInscription.getId()) {
-            throw new UniqueException("Year", String.valueOf(payInscription.getYear()));
+   public FeeMember update(FeeMember feeMember) throws UniqueException {
+      // It is verified that there is not exist name of feeMember in other
+      // feeMember
+      FeeMember feeMemberSearch = feeMemberRepository.findByYear(feeMember.getYear());
+      if (feeMemberSearch != null) {
+         if (feeMemberSearch.getId() != feeMember.getId()) {
+            throw new UniqueException("Year", String.valueOf(feeMember.getYear()));
          }
       }
-      return payInscriptionRepository.update(payInscription);
+      return feeMemberRepository.update(feeMember);
    }
 
    /**
-    * Find by Name the payInscription.
+    * Find by Name the feeMember.
     *
     * @param name
     *           the name
@@ -154,19 +177,19 @@ public class FeeMemberServiceImpl implements FeeMemberService {
     */
    @Override
    public FeeMember findByName(String name) {
-      return payInscriptionRepository.findByName(name);
+      return feeMemberRepository.findByName(name);
    }
 
    /**
-    * Find by id returns payInscription which has this identifier.
+    * Find by id returns feeMember which has this identifier.
     *
     * @param id
     *           the id
-    * @return payInscription
+    * @return feeMember
     */
    @Override
    public FeeMember findById(Long id) {
-      return payInscriptionRepository.findById(id);
+      return feeMemberRepository.findById(id);
    }
 
    /**
@@ -178,16 +201,16 @@ public class FeeMemberServiceImpl implements FeeMemberService {
     */
    @Override
    public FeeMember findByYear(int year) {
-      return payInscriptionRepository.findByYear(year);
+      return feeMemberRepository.findByYear(year);
    }
 
    /**
-    * Get all payInscriptions.
+    * Get all feeMembers.
     *
     * @return List<FeeMember>
     */
    @Override
    public List<FeeMember> getFeeMemberList() {
-      return payInscriptionRepository.getFeeMemberList();
+      return feeMemberRepository.getFeeMemberList();
    }
 }

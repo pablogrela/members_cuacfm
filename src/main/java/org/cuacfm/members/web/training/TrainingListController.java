@@ -174,7 +174,7 @@ public class TrainingListController {
                training.getName());
       } catch (DateLimitExpirationException e) {
          MessageHelper.addErrorAttribute(ra, "training.dateLimitExpirationException",
-               training.getName());
+               e.getTrainingName(), e.getDateLimit());
       }
 
       return REDIRECT_TRAINING;
@@ -203,7 +203,7 @@ public class TrainingListController {
          MessageHelper.addErrorAttribute(ra, "training.removeJoin", training.getName());
       } catch (UnsubscribeException e) {
          MessageHelper.addErrorAttribute(ra, "training.unsubscribeInscriptionException",
-               training.getName());
+               e.getNameTraining());
       }
 
       return REDIRECT_TRAINING;

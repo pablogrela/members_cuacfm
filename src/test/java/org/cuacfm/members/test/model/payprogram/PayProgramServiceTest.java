@@ -51,9 +51,10 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
     * Save and update user pay inscription test.
     * 
     * @throws UniqueException
+    * @throws ExistTransactionIdException 
     */
    @Test
-   public void SaveAndUpdatePayProgramTest() throws UniqueException {
+   public void SaveAndUpdatePayProgramTest() throws UniqueException, ExistTransactionIdException {
 
       // Save
       List<Account> accounts = new ArrayList<Account>();
@@ -164,36 +165,37 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       // Save
       List<Account> accounts = new ArrayList<Account>();
       List<Program> programs = new ArrayList<Program>();
-      
+
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
             666666666, 666666666, "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
-      
+
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
       programService.up(program.getId());
-      
+
       Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es",
             666666666, 666666666, "demo", roles.ROLE_USER);
       accountService.save(account2);
       accounts.add(account2);
-      
+
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
-      programService.up(program2.getId()); 
-      
+      programService.up(program2.getId());
+
       programs.add(program2);
       account2.setPrograms(programs);
       accountService.update(account2, false);
-      
+
       programs.add(program);
       account.setPrograms(programs);
       accountService.update(account, false);
-      
-      Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9, new ArrayList<Account>());
+
+      Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9,
+            new ArrayList<Account>());
       programService.save(program3);
-      programService.up(program3.getId()); 
+      programService.up(program3.getId());
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -201,7 +203,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       feeProgramService.save(feeProgram);
 
       // Assert
-      List<PayProgram> payPrograms = payProgramService.getPayProgramListByAccountId(account.getId());
+      List<PayProgram> payPrograms = payProgramService
+            .getPayProgramListByAccountId(account.getId());
       assertEquals(payPrograms.size(), 2);
 
       payPrograms = payProgramService.getPayProgramListByAccountId(account2.getId());
@@ -231,7 +234,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
       programService.up(program.getId());
-      
+
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
       programService.up(program2.getId());
@@ -248,8 +251,6 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
          assertEquals(payProgram.getFeeProgram(), feeProgram);
       }
    }
-
-
 
    /**
     * Pay user pay inscription test.
@@ -273,7 +274,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
       programService.up(program.getId());
-      
+
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
       programService.up(program2.getId());
@@ -308,7 +309,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
       programService.up(program.getId());
-      
+
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
       programService.up(program2.getId());
@@ -320,14 +321,53 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       List<PayProgram> payPrograms = payProgramService.getPayProgramListByFeeProgramId(feeProgram
             .getId());
-      
-      payProgramService.payPayPal(payPrograms.get(0), "accountPayer", "idTxn", "idPayer", "emailPayer", "statusPay", "12:12:12 Jun 12, 2015");
+
+      payProgramService.payPayPal(payPrograms.get(0), "accountPayer", "idTxn", "idPayer",
+            "emailPayer", "statusPay", "12:12:12 Jun 12, 2015");
       assertFalse(payPrograms.get(0).isHasPay());
-      
-      payProgramService.payPayPal(payPrograms.get(0), "accountPayer", "idTxn", "idPayer", "emailPayer", "Completed", "12:12:12 Jun 12, 2015");
+
+      payProgramService.payPayPal(payPrograms.get(0), "accountPayer", "idTxn", "idPayer",
+            "emailPayer", "Completed", "12:12:12 Jun 12, 2015");
       assertTrue(payPrograms.get(0).isHasPay());
    }
+
    
+   @Test (expected = ExistTransactionIdException.class)
+   public void existTransactionIdTest() throws UniqueException, ExistTransactionIdException {
+
+      // Save
+      List<Account> accounts = new ArrayList<Account>();
+      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account);
+      accounts.add(account);
+      Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account2);
+      accounts.add(account2);
+
+      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+      programService.save(program);
+      programService.up(program.getId());
+
+      Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
+      programService.save(program2);
+      programService.up(program2.getId());
+
+      // Save
+      Date date = DisplayDate.stringToMonthOfYear("2015-12");
+      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+      feeProgramService.save(feeProgram);
+
+      PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(), feeProgram.getId());
+      payProgram.setIdTxn("a");
+      payProgramService.update(payProgram);
+      payProgramService.update(payProgram);
+
+      PayProgram payProgram2 = new PayProgram(program2, feeProgram, Double.valueOf(25));
+      payProgram2.setIdTxn("a");
+      payProgramService.update(payProgram2);
+   }
    /**
     * Gets the pay inscription list test.
     *
@@ -355,7 +395,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
       programService.up(program.getId());
-      
+
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
       programService.up(program2.getId());

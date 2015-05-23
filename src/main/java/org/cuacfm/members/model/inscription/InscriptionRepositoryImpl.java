@@ -30,13 +30,7 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
    @Override
    @Transactional
    public void save(Inscription inscription) {
-      Inscription inscriptionSearched = findByInscriptionIds(inscription.getAccount().getId(),
-            inscription.getTraining().getId());
-
-      // Check if exist Inscription
-      if (inscriptionSearched == null) {
          entityManager.persist(inscription);
-      }
    }
 
    /**
@@ -48,11 +42,7 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
    @Override
    @Transactional
    public void update(Inscription inscription) {
-      Inscription inscriptionSearched = findByInscriptionIds(inscription.getAccount().getId(),
-            inscription.getTraining().getId());
-      if (inscriptionSearched != null) {
          entityManager.merge(inscription);
-      }
    }
 
    /**
@@ -148,21 +138,6 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
       return entityManager
             .createQuery("select i from Inscription i where i.training.id = :trainingId",
                   Inscription.class).setParameter("trainingId", trainingId).getResultList();
-   }
-
-   /**
-    * Get inscriptions by accountId with unsubscribe = true.
-    *
-    * @param accountId
-    *           the id of account
-    * @return List<Inscription> pertain to account
-    */
-   @Override
-   public List<Inscription> getUnsubscribeByAccountId(Long accountId) {
-      return entityManager
-            .createQuery(
-                  "select i from Inscription i where i.account.id = :accountId and i.unsubscribe = true",
-                  Inscription.class).setParameter("accountId", accountId).getResultList();
    }
 
    /**

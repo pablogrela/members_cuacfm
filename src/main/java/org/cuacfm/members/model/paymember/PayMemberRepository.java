@@ -60,6 +60,13 @@ public interface PayMemberRepository {
    public List<PayMember> getPayMemberList();
 
    /**
+    * Gets the pay member no pay list by direct Debit.
+    *
+    * @return the pay member no pay list by direct Debit
+    */
+   public List<PayMember> getPayMemberNoPayListByDirectDebit();
+
+   /**
     * Gets the pay member list by fee member id.
     *
     * @param feeMemberId

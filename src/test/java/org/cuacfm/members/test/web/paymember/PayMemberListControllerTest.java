@@ -91,9 +91,9 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
       user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
             666666666, "demo", roles.ROLE_USER);
       accountService.save(user);
-      accountType = new AccountType("Adult", "Fee for adults", 0);
+      accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);
-      methodPayment = new MethodPayment("cash", "cash");
+      methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
@@ -129,14 +129,14 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    public void displaysInscriptionsTest() throws Exception {
 
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
       mockMvc
             .perform(
-                  get("/feeMemberList/payMemberList").locale(Locale.ENGLISH).session(
-                        defaultSession))
+                  get("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
+                        .session(defaultSession))
             .andExpect(view().name("paymember/paymemberlist"))
             .andExpect(
                   content().string(containsString("<title>Payments of user´s inscription</title>")));
@@ -152,13 +152,12 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    public void redirectTrainingListBecauseTrainingIsNullTest() throws Exception {
 
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + Long.valueOf(0)).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
-            view().name("redirect:/feeMemberList/payMemberList"));
+            post("/feeMemberList/payMemberList/" + Long.valueOf(0)).locale(Locale.ENGLISH).session(
+                  defaultSession)).andExpect(view().name("redirect:/feeMemberList/payMemberList"));
 
       mockMvc.perform(
-            get("/feeMemberList/payMemberList").locale(Locale.ENGLISH).session(
-                  defaultSession)).andExpect(view().name("redirect:/feeMemberList"));
+            get("/feeMemberList/payMemberList").locale(Locale.ENGLISH).session(defaultSession))
+            .andExpect(view().name("redirect:/feeMemberList"));
    }
 
    /**
@@ -170,26 +169,24 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Test
    public void payPayMemberTest() throws Exception {
 
-      PayMember payMember = payMemberService
-            .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
+      PayMember payMember = payMemberService.findByPayMemberIds(user.getId(), feeMember.getId())
+            .get(0);
       // Assert no pay
       assertEquals(payMember.isHasPay(), false);
 
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/pay/" + payMember.getId())
-                  .locale(Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/pay/" + payMember.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
       // Assert Pay
-      assertEquals(
-            payMemberService
-                  .findByPayMemberIds(user.getId(), feeMember.getId()).get(0)
-                  .isHasPay(), true);
+      assertEquals(payMemberService.findByPayMemberIds(user.getId(), feeMember.getId()).get(0)
+            .isHasPay(), true);
    }
 
    /**
@@ -201,18 +198,18 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Test
    public void blankMessageLoginTest() throws Exception {
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
       mockMvc
             .perform(
-                  get("/feeMemberList/payMemberList").locale(Locale.ENGLISH).session(
-                        defaultSession))
+                  get("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
+                        .session(defaultSession))
             .andExpect(view().name("paymember/paymemberlist"))
             .andExpect(
                   content().string(containsString("<title>Payments of user´s inscription</title>")));
-      
+
       mockMvc
             .perform(
                   post("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
@@ -246,8 +243,8 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Test
    public void loginAlreadyExistTest() throws Exception {
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
       mockMvc
@@ -268,8 +265,8 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Test
    public void addUserToFeeMemberTest() throws Exception {
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
@@ -281,9 +278,9 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
       accountService.update(user2, false);
 
       mockMvc.perform(
-            post("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
-                  .session(defaultSession).param("login", user2.getId() + ": " + user.getLogin()))
-            .andExpect(view().name("redirect:/feeMemberList/payMemberList"));
+            post("/feeMemberList/payMemberList").locale(Locale.ENGLISH).session(defaultSession)
+                  .param("login", user2.getId() + ": " + user.getLogin())).andExpect(
+            view().name("redirect:/feeMemberList/payMemberList"));
    }
 
    /**
@@ -308,20 +305,17 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
             "pay of 2015");
       feeMemberService.save(feeMember2);
-      List<PayMember> payMembers = payMemberService
-            .findByPayMemberIds(user2.getId(), feeMember2.getId());
+      List<PayMember> payMembers = payMemberService.findByPayMemberIds(user2.getId(),
+            feeMember2.getId());
       payMemberService.pay(payMembers.get(0));
 
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember2.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/" + feeMember2.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
-      mockMvc.perform(
-            post("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
-                  .session(defaultSession).param("createPdf", "ALL").param("path", System.getProperty("user.dir"))
-                  .param("file", "fileTest")).andExpect(
-            view().name("redirect:/feeMemberList/payMemberList"));
+      mockMvc.perform(post("/feeMemberList/payMemberList/createPdf/" + feeMember.getId())
+            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "ALL"));
    }
 
    /**
@@ -346,20 +340,17 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
             "pay of 2015");
       feeMemberService.save(feeMember2);
-      List<PayMember> payMembers = payMemberService
-            .findByPayMemberIds(user2.getId(), feeMember2.getId());
+      List<PayMember> payMembers = payMemberService.findByPayMemberIds(user2.getId(),
+            feeMember2.getId());
       payMemberService.pay(payMembers.get(0));
 
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember2.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/" + feeMember2.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
-      mockMvc.perform(
-            post("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
-                  .session(defaultSession).param("createPdf", "PAY").param("path", System.getProperty("user.dir"))
-                  .param("file", "fileTest")).andExpect(
-            view().name("redirect:/feeMemberList/payMemberList"));
+      mockMvc.perform(post("/feeMemberList/payMemberList/createPdf/" + feeMember.getId())
+            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "PAY"));
    }
 
    /**
@@ -384,70 +375,17 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
             "pay of 2015");
       feeMemberService.save(feeMember2);
-      List<PayMember> payMembers = payMemberService
-            .findByPayMemberIds(user2.getId(), feeMember2.getId());
+      List<PayMember> payMembers = payMemberService.findByPayMemberIds(user2.getId(),
+            feeMember2.getId());
       payMemberService.pay(payMembers.get(0));
 
       mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember2.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
+            post("/feeMemberList/payMemberList/" + feeMember2.getId()).locale(Locale.ENGLISH)
+                  .session(defaultSession)).andExpect(
             view().name("redirect:/feeMemberList/payMemberList"));
 
-      mockMvc.perform(
-            post("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
-                  .session(defaultSession).param("createPdf", "NOPAY").param("path", System.getProperty("user.dir"))
-                  .param("file", "fileTest")).andExpect(
-            view().name("redirect:/feeMemberList/payMemberList"));
+      mockMvc.perform(post("/feeMemberList/payMemberList/createPdf/" + feeMember.getId())
+            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "NOPAY"));
    }
 
-   /**
-    * Blank message create pdf test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void blankMessageCreatePdfTest() throws Exception {
-      mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
-            view().name("redirect:/feeMemberList/payMemberList"));
-
-      mockMvc
-            .perform(
-                  get("/feeMemberList/payMemberList").locale(Locale.ENGLISH).session(
-                        defaultSession))
-            .andExpect(view().name("paymember/paymemberlist"))
-            .andExpect(
-                  content().string(containsString("<title>Payments of user´s inscription</title>")));
-      mockMvc
-            .perform(
-                  post("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
-                        .session(defaultSession).param("createPdf", "ALL").param("path", " ")
-                        .param("file", " "))
-            .andExpect(content().string(containsString("The value may not be empty!")))
-            .andExpect(view().name("paymember/paymemberlist"));
-   }
-   
-   /**
-    * Blank messag create pdf test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void pathNotFound() throws Exception {
-      mockMvc.perform(
-            post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
-            view().name("redirect:/feeMemberList/payMemberList"));
-      
-      mockMvc
-            .perform(
-                  post("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
-                        .session(defaultSession).param("createPdf", "ALL").param("path", "/path/")
-                        .param("file", "file"))
-            .andExpect(
-                  view().name("redirect:/feeMemberList/payMemberList"));
-   }
 }

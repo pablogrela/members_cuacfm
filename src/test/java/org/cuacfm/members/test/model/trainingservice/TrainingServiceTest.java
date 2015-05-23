@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
@@ -110,6 +111,32 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 				"description", "place", 90, 10);
 		trainingService.save(training);
 	}
+	
+	  /**
+    * Save and DateLimitException test.
+    * 
+    * @throws ExistInscriptionsException
+    * @throws UniqueException 
+    */
+   @Test
+   public void asaveDateLimitExceptionTest() throws ExistInscriptionsException, UniqueException {
+
+      TrainingType trainingType = new TrainingType("Locution", true,
+            "Very interesting", "livingRoom", 90);
+      trainingTypeService.save(trainingType);
+
+      // Save
+      Training training = new Training(trainingType, "training1",
+            DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-13-05"),
+            "description", "place", 90, 10);
+      Date value = new Date();
+      try {
+         trainingService.save(training);
+      } catch (DateLimitException e) {
+         value = e.getDateLimit();
+      }
+      assertEquals(training.getDateLimit(), value);
+   }
 
 	/**
 	 * updateTraining test.
@@ -163,6 +190,11 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(trainingUpdate.getDateTraining(),
 				training.getDateTraining());
 		assertEquals(trainingUpdate.getDuration(), training.getDuration());
+		
+	    Training training2 = new Training(trainingType, "training2",
+	            DisplayDate.stringToDate("10:30,2015-12-06"), DisplayDate.stringToDate("10:30,2015-12-06"),
+	            "description", "place", 90, 10);
+	      trainingService.update(training2);
 	}
 
 	/**

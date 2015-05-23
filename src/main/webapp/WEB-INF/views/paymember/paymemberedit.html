@@ -25,7 +25,7 @@
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${payMemberForm.*}')}">
-			<div th:replace="fragments/alert :: alert (type='danger', message=#{payMember.error})">Alert</div>
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
 		</th:block>
 
 		<fieldset>
@@ -82,7 +82,7 @@
 			<div class="form-group">
 				<label for="hasPay" class="col-lg-2-edit control-label" th:text="#{payMember.hasPay}">Has Pay</label>
 				<div class="col-lg-2">
-					<input type="checkbox" class="form-control-edit" th:checked="${payMember.hasPay}" id="hasPay"
+					<input type="checkbox" class="form-control-edit" th:checked="*{hasPay}" id="hasPay"
 						name="hasPay" th:title="#{payMember.infoClose}" />
 						<div class="ws-errorbox" hidden=""></div>
 				</div>

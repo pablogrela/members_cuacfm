@@ -49,15 +49,6 @@ public interface InscriptionRepository {
    public List<Inscription> getByTrainingId(Long trainingId);
 
    /**
-    * Find by accountId, inscriptions unsubscribe.
-    *
-    * @param accountId
-    *           the id of account
-    * @return the List<Inscription> pertain to traing
-    */
-   public List<Inscription> getUnsubscribeByAccountId(Long accountId);
-
-   /**
     * Find by accountId and trainingId.
     *
     * @param accountId

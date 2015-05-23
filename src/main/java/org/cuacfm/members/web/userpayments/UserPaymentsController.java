@@ -157,7 +157,7 @@ public class UserPaymentsController {
                   payMember.getFeeMember().getName());
          } catch (ExistTransactionIdException e) {
             MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", payMember
-                  .getFeeMember().getName());
+                  .getFeeMember().getName(), e.getIdTxn());
          }
       }
 

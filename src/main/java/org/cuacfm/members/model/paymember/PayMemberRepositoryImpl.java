@@ -63,8 +63,8 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
    public PayMember findById(Long id) {
       try {
          return entityManager
-               .createQuery("select a from PayMember a where a.id = :id",
-                     PayMember.class).setParameter("id", id).getSingleResult();
+               .createQuery("select a from PayMember a where a.id = :id", PayMember.class)
+               .setParameter("id", id).getSingleResult();
       } catch (PersistenceException e) {
          return null;
       }
@@ -81,8 +81,8 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
    public PayMember findByIdTxn(String idTxn) {
       try {
          return entityManager
-               .createQuery("select a from PayMember a where a.idTxn = :idTxn",
-                     PayMember.class).setParameter("idTxn", idTxn).getSingleResult();
+               .createQuery("select a from PayMember a where a.idTxn = :idTxn", PayMember.class)
+               .setParameter("idTxn", idTxn).getSingleResult();
       } catch (NoResultException e) {
          return null;
       }
@@ -113,9 +113,25 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
     */
    @Override
    public List<PayMember> getPayMemberList() {
-      return entityManager
-            .createQuery("select a from PayMember a order by a.account.login",
-                  PayMember.class).getResultList();
+      return entityManager.createQuery("select a from PayMember a order by a.account.login",
+            PayMember.class).getResultList();
+   }
+
+   /**
+    * Gets the pay member no pay list by direct debit.
+    *
+    * @return the pay member no pay list by direct debit
+    */
+   @Override
+   public List<PayMember> getPayMemberNoPayListByDirectDebit() {
+      return entityManager.createQuery(
+            "select p from PayMember p where p.hasPay = false "
+                  + "and p.account.methodPayment.directDebit = true "
+                  + "and p.account.iban <> '' "
+                  + "and p.account.bic <> ''  "
+                  + "and p.dateCharge <= CURRENT_DATE()  "
+                  + "order by p.account.name",
+            PayMember.class).getResultList();
    }
 
    /**
@@ -128,10 +144,8 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
    @Override
    public List<PayMember> getPayMemberListByFeeMemberId(Long feeMemberId) {
       return entityManager
-            .createQuery(
-                  "select a from PayMember a where a.feeMember.id = :feeMemberId",
-                  PayMember.class).setParameter("feeMemberId", feeMemberId)
-            .getResultList();
+            .createQuery("select a from PayMember a where a.feeMember.id = :feeMemberId",
+                  PayMember.class).setParameter("feeMemberId", feeMemberId).getResultList();
    }
 
    /**

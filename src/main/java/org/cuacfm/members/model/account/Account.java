@@ -109,6 +109,15 @@ public class Account implements java.io.Serializable {
    /** The programName. */
    private String programName;
 
+   /** The bank. */
+   private String bank;
+
+   /** The bic. */
+   private String bic;
+
+   /** The iban. */
+   private String iban;
+
    /** The role. */
    @Enumerated(EnumType.STRING)
    private roles role;
@@ -163,18 +172,6 @@ public class Account implements java.io.Serializable {
     */
    public Long getId() {
       return id;
-   }
-
-   /**
-    * Sets the id.
-    *
-    * @param id
-    *           the new id
-    */
-   // If necessary to probe test in Junit, because is necessary one object in
-   // detach
-   public void setId(Long id) {
-      this.id = id;
    }
 
    /**
@@ -536,6 +533,63 @@ public class Account implements java.io.Serializable {
     */
    public void setPrograms(List<Program> programs) {
       this.programs = programs;
+   }
+
+   /**
+    * Gets the bank.
+    *
+    * @return the bank
+    */
+   public String getBank() {
+      return bank;
+   }
+
+   /**
+    * Sets the bank.
+    *
+    * @param bank
+    *           the new bank
+    */
+   public void setBank(String bank) {
+      this.bank = bank;
+   }
+
+   /**
+    * Gets the bic.
+    *
+    * @return the bic
+    */
+   public String getBic() {
+      return bic;
+   }
+
+   /**
+    * Sets the bic.
+    *
+    * @param bic
+    *           the new bic
+    */
+   public void setBic(String bic) {
+      this.bic = bic;
+   }
+
+   /**
+    * Gets the iban.
+    *
+    * @return the iban
+    */
+   public String getIban() {
+      return iban;
+   }
+
+   /**
+    * Sets the iban.
+    *
+    * @param iban
+    *           the new iban
+    */
+   public void setIban(String iban) {
+      this.iban = iban;
    }
 
 }

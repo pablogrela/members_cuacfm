@@ -49,6 +49,7 @@ public class MethodPaymentEditController {
       if (methodPayment != null) {
          MethodPaymentForm methodPaymentForm = new MethodPaymentForm();
          methodPaymentForm.setName(methodPayment.getName());
+         methodPaymentForm.setDirectDebit(methodPayment.isDirectDebit());
          methodPaymentForm.setDescription(methodPayment.getDescription());
          model.addAttribute(methodPaymentForm);
          return METHODPAYMENT_VIEW_NAME;

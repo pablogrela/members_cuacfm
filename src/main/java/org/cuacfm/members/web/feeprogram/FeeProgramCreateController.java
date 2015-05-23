@@ -65,7 +65,7 @@ public class FeeProgramCreateController {
       String month = DisplayDate.monthOfYearToString(date);
       String monthDisplay = DisplayDate.monthOfYearToDisplay(date);
       String monthLimit = DisplayDate.monthOfYearToString(dateLimit);
-      String feeProgramFile = messageSource.getMessage("feeProgramFile", null, Locale.getDefault());
+      String feeProgramFile = messageSource.getMessage("feeProgramName", null, Locale.getDefault());
       
       feeProgramForm.setName(feeProgramFile + " " + monthDisplay);
       feeProgramForm.setPrice(configurationService.getConfiguration().getFeeProgram());

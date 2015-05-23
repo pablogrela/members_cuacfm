@@ -60,6 +60,13 @@ public interface PayProgramRepository {
    public List<PayProgram> getPayProgramList();
 
    /**
+    * Gets the pay program no pay list by direct debit.
+    *
+    * @return the pay program no pay list by direct debit
+    */
+   public List<PayProgram> getPayProgramNoPayListByDirectDebit();
+
+   /**
     * Gets the pay program list by fee program id.
     *
     * @param feeProgramId

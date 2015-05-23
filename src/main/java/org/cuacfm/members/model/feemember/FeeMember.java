@@ -1,5 +1,6 @@
 package org.cuacfm.members.model.feemember;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,7 +10,7 @@ import javax.persistence.Id;
 /** The Class FeeMember. */
 @SuppressWarnings("serial")
 @Entity
-public class FeeMember implements java.io.Serializable {
+public class FeeMember implements Serializable {
 
    /** The id. */
    @Id
@@ -75,18 +76,6 @@ public class FeeMember implements java.io.Serializable {
     */
    public Long getId() {
       return id;
-   }
-
-   /**
-    * Sets the id.
-    *
-    * @param id
-    *           the new id
-    */
-   // If necessary to probe test in Junit, because is necessary one object in
-   // detach
-   public void setId(Long id) {
-      this.id = id;
    }
 
    /**

@@ -19,6 +19,9 @@ public class AccountType implements java.io.Serializable {
    @Column(unique = true)
    private String name;
 
+   /** The organization. */
+   private boolean organization;
+
    /** The description. */
    private String description;
 
@@ -35,14 +38,17 @@ public class AccountType implements java.io.Serializable {
     *
     * @param name
     *           the name
+    * @param organization
+    *           the organization
     * @param description
     *           the description
     * @param discount
     *           the discount
     */
-   public AccountType(String name, String description, int discount) {
+   public AccountType(String name, boolean organization, String description, int discount) {
       super();
       this.name = name;
+      this.organization = organization;
       this.description = description;
       this.discount = discount;
    }
@@ -54,18 +60,6 @@ public class AccountType implements java.io.Serializable {
     */
    public Long getId() {
       return id;
-   }
-
-   // If necessary for probe test in Junit, because is necessary one object in
-   // detach
-   /**
-    * Sets the id.
-    *
-    * @param id
-    *           the new id
-    */
-   public void setId(Long id) {
-      this.id = id;
    }
 
    /**
@@ -85,6 +79,25 @@ public class AccountType implements java.io.Serializable {
     */
    public void setName(String name) {
       this.name = name;
+   }
+
+   /**
+    * Checks if is organization.
+    *
+    * @return true, if is organization
+    */
+   public boolean isOrganization() {
+      return organization;
+   }
+
+   /**
+    * Sets the organization.
+    *
+    * @param organization
+    *           the new organization
+    */
+   public void setOrganization(boolean organization) {
+      this.organization = organization;
    }
 
    /**
@@ -124,4 +137,5 @@ public class AccountType implements java.io.Serializable {
    public void setDiscount(int discount) {
       this.discount = discount;
    }
+
 }

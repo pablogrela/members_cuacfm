@@ -1,23 +1,17 @@
 package org.cuacfm.members.web.payprogram;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import javax.validation.Valid;
 
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
-import org.cuacfm.members.web.support.PathForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,12 +28,6 @@ public class PayProgramListController {
 
    /** The Constant REDIRECT_PAYPROGRAM. */
    private static final String REDIRECT_PAYPROGRAM = "redirect:/feeProgramList/payProgramList";
-   
-   /** The Constant NOPAY. */
-   private static final String NOPAY = "NOPAY";
-   
-   /** The Constant PAY. */
-   private static final String PAY = "PAY";
 
    /** The message source. */
    @Autowired
@@ -96,16 +84,6 @@ public class PayProgramListController {
    @RequestMapping(value = "feeProgramList/payProgramList")
    public String payPrograms(Model model) {
       if (feeProgram != null) {
-
-         PathForm pathform = new PathForm();
-         String pathDefault = messageSource.getMessage("pathDefault", null, Locale.getDefault());
-         pathform.setPath(pathDefault);
-         Date date = new Date();
-         String feeProgramFile = messageSource.getMessage("feeProgramFile", null,
-               Locale.getDefault());
-         pathform.setFile(feeProgramFile + " " + DisplayDate.dateTimeToStringSp(date));
-         model.addAttribute(pathform);
-
          payPrograms = payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId());
          model.addAttribute("payPrograms", payPrograms);
          return PAYPROGRAM_VIEW_NAME;
@@ -149,48 +127,15 @@ public class PayProgramListController {
    /**
     * Creates the pdf.
     *
-    * @param pathForm
-    *           the path form
-    * @param errors
-    *           the errors
+    * @param feeProgramId
+    *           the fee program id
     * @param createPdf
     *           the create pdf
-    * @param ra
-    *           the ra
-    * @param model
-    *           the model
-    * @return the string
+    * @return the response entity
     */
-   @RequestMapping(value = "feeProgramList/payProgramList", method = RequestMethod.POST, params = { "createPdf" })
-   public String createPdf(@Valid @ModelAttribute PathForm pathForm, Errors errors,
-         @RequestParam("createPdf") String createPdf, RedirectAttributes ra) {
-
-      if (errors.hasErrors()) {
-         return PAYPROGRAM_VIEW_NAME;
-      }
-
-      String title;
-      String path = pathForm.getPath() + "/" + pathForm.getFile() + ".pdf";
-      
-      if (createPdf.equals(PAY)) {
-         title = feeProgram.getName() + " - "
-               + messageSource.getMessage("feeProgram.printPayList", null, Locale.getDefault());
-         MessageHelper.addSuccessAttribute(ra, "feeProgram.successPrintPayList",
-               feeProgram.getName());
-      } else if (createPdf.equals(NOPAY)) {
-         title = feeProgram.getName() + " - "
-               + messageSource.getMessage("feeProgram.printNoPayList", null, Locale.getDefault());
-         MessageHelper.addSuccessAttribute(ra, "feeProgram.successPrintNoPayList",
-               feeProgram.getName());
-      } else {
-         title = feeProgram.getName() + " - "
-               + messageSource.getMessage("feeProgram.printAllList", null, Locale.getDefault());
-         MessageHelper.addSuccessAttribute(ra, "feeProgram.successPrintAllList",
-               feeProgram.getName());
-      }
-
-      payProgramService.createPdfFeeProgram(messageSource, feeProgram.getId(), path, title,
-            createPdf);
-      return REDIRECT_PAYPROGRAM;
+   @RequestMapping(value = "feeProgramList/payProgramList/createPdf/{payProgramId}", method = RequestMethod.POST, params = { "createPdf" })
+   public ResponseEntity<byte[]> createPdf(@PathVariable Long payProgramId,
+         @RequestParam("createPdf") String createPdf) {
+      return payProgramService.createPdfFeeProgram(messageSource, payProgramId, createPdf);
    }
 }

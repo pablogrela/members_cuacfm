@@ -34,6 +34,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+// TODO: Auto-generated Javadoc
 /** The class ProgramListControlTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -56,8 +57,9 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 
    /**
     * Initialize default session.
-    * 
+    *
     * @throws UniqueException
+    *            the unique exception
     */
    @Before
    public void initializeDefaultSession() throws UniqueException {
@@ -155,7 +157,12 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
       assertEquals(programService.findById(program.getId()), null);
    }
 
-   
+   /**
+    * Delete program by user list.
+    *
+    * @throws Exception
+    *            the exception
+    */
    @Test
    public void deleteProgramByUserList() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
@@ -165,7 +172,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      
+
       defaultSession = getDefaultSession("user");
       mockMvc.perform(
             post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(
@@ -174,7 +181,35 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
       // Assert, it remove program
       assertEquals(programService.findById(program.getId()), null);
    }
-   
+
+   /**
+    * Delete program by diferent user list.
+    *
+    * @throws Exception
+    *            the exception
+    */
+   @Test
+   public void deleteProgramByDiferentUserList() throws Exception {
+      List<Account> accounts = new ArrayList<Account>();
+      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account);
+      accounts.add(account);
+      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+      programService.save(program);
+
+      Account account2 = new Account("user2", "555555552C", "London", "user2", "user2@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account2);
+      defaultSession = getDefaultSession("user2");
+      mockMvc.perform(
+            post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(
+                  defaultSession)).andExpect(view().name("redirect:/programList"));
+
+      // Assert, it remove program
+      assertEquals(programService.findById(program.getId()), program);
+   }
+
    /**
     * Send displaysProgramList.
     * 

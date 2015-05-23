@@ -1,5 +1,6 @@
 package org.cuacfm.members.model.paymember;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,7 +17,7 @@ import org.cuacfm.members.model.feemember.FeeMember;
 /** The Class PayMember. */
 @SuppressWarnings("serial")
 @Entity
-public class PayMember implements java.io.Serializable {
+public class PayMember implements Serializable {
 
    /** The id. */
    @Id
@@ -61,6 +62,9 @@ public class PayMember implements java.io.Serializable {
    /** The date pay. */
    private Date datePay;
 
+   /** The date charge. */
+   private Date dateCharge;
+
    /**
     * Instantiates a new fee member.
     */
@@ -82,14 +86,15 @@ public class PayMember implements java.io.Serializable {
     * @param installments
     *           the installments
     */
-   public PayMember(Account account, FeeMember feeMember, Double price,
-         int installment, int installments) {
+   public PayMember(Account account, FeeMember feeMember, Double price, int installment,
+         int installments, Date dateCharge) {
       super();
       this.account = account;
       this.feeMember = feeMember;
       this.price = price;
       this.installment = installment;
       this.installments = installments;
+      this.dateCharge  = dateCharge;
    }
 
    /**
@@ -289,4 +294,24 @@ public class PayMember implements java.io.Serializable {
    public void setDatePay(Date datePay) {
       this.datePay = datePay;
    }
+
+   /**
+    * Gets the date charge.
+    *
+    * @return the date charge
+    */
+   public Date getDateCharge() {
+      return dateCharge;
+   }
+
+   /**
+    * Sets the date charge.
+    *
+    * @param dateCharge
+    *           the new date charge
+    */
+   public void setDateCharge(Date dateCharge) {
+      this.dateCharge = dateCharge;
+   }
+
 }

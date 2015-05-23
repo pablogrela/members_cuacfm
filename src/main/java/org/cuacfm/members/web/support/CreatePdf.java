@@ -3,6 +3,10 @@ package org.cuacfm.members.web.support;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -11,6 +15,11 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -40,6 +49,40 @@ public class CreatePdf {
    /** The Constant PAY. */
    private static final String PAY = "PAY";
 
+   /**
+    * View pdf.
+    *
+    * @param path
+    *           the path
+    * @param file
+    *           the file
+    * @return the response entity
+    */
+   public static ResponseEntity<byte[]> viewPdf(String path, String file) {
+      Path path2 = Paths.get(path);
+      byte[] contents = null;
+      try {
+         contents = Files.readAllBytes(path2);
+      } catch (IOException e) {
+         e.getMessage();
+      }
+
+      // UriComponents uriComponents =
+      // b.path("/customers/{id}").buildAndExpand(id);
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.parseMediaType("application/pdf"));
+      headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+      headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}")
+            .buildAndExpand(file).toUri());
+      // System.out.println(headers.getLocation());
+      // Download PDF
+      // headers.setContentDispositionFormData(pathForm.getFile(),
+      // pathForm.getFile());
+      // View PDF
+      headers.add("content-disposition", "attachment; filename=" + file + ";");
+      return new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+   }
+
    /** The Class HeaderFooter. */
    class HeaderFooter extends PdfPageEventHelper {
 
@@ -47,7 +90,7 @@ public class CreatePdf {
       public void onEndPage(PdfWriter writer, Document document) {
 
          Phrase[] headers = new Phrase[3];
-         
+
          PdfContentByte cb = writer.getDirectContent();
 
          headers[0] = new Phrase("CuacFM");
@@ -83,7 +126,7 @@ public class CreatePdf {
           * Declaramos document como un objeto DocumentAsignamos el tamaño de
           * hoja y los margenes
           */
-         Document document = new Document(PageSize.A4, 20, 20, 20, 20);
+         Document document = new Document(PageSize.A4, 20, 20, 20, 30);
          // Obtenemos la instancia del archivo a utilizar
          PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(path)));
 
@@ -93,7 +136,9 @@ public class CreatePdf {
          writer.setPageEvent(event);
 
          // Agregamos un titulo al archivo
-         document.addTitle("Archivo pdf generado desde Java");
+         String[] names = path.split("/");
+         int namesLength = names.length;
+         document.addTitle(names[namesLength - 1]);
 
          // Agregamos el autor del archivo
          document.addAuthor("cuacfm");

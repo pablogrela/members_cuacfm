@@ -5,6 +5,7 @@ import java.util.List;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 
 /** The Interface PayMemberService. */
 public interface PayMemberService {
@@ -19,13 +20,15 @@ public interface PayMemberService {
    public PayMember save(PayMember paymember);
 
    /**
-    * Update pay member.
+    * Update PayMember.
     *
-    * @param paymember
+    * @param payMember
     *           the pay member
     * @return PayMember
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
     */
-   public PayMember update(PayMember paymember);
+   public PayMember update(PayMember payMember) throws ExistTransactionIdException;
 
    /**
     * Pay the PayMember.
@@ -53,8 +56,8 @@ public interface PayMemberService {
     * @throws ExistTransactionIdException
     *            the exist transaction id exception
     */
-   public void payPayPal(PayMember paymember, String idTxn, String idPayer,
-         String emailPayer, String statusPay, String datePay) throws ExistTransactionIdException;
+   public void payPayPal(PayMember paymember, String idTxn, String idPayer, String emailPayer,
+         String statusPay, String datePay) throws ExistTransactionIdException;
 
    /**
     * Find by id returns paymember which has this identifier.
@@ -93,6 +96,13 @@ public interface PayMemberService {
    public List<PayMember> getPayMemberList();
 
    /**
+    * Gets the pay member no pay list by direct Debit.
+    *
+    * @return the pay member no pay list by direct Debit
+    */
+   public List<PayMember> getPayMemberNoPayListByDirectDebit();
+
+   /**
     * Gets the pay member list by fee member id.
     *
     * @param feeMemberId
@@ -126,13 +136,10 @@ public interface PayMemberService {
     *           the message source
     * @param feeMemberId
     *           the fee member id
-    * @param path
-    *           the path
-    * @param title
-    *           the title
-    * @param submit
-    *           the submit
+    * @param option
+    *           the option
+    * @return the response entity
     */
-   public void createPdfFeeMember(MessageSource messageSource, Long feeMemberId,
-         String path, String title, String submit);
+   public ResponseEntity<byte[]> createPdfFeeMember(MessageSource messageSource, Long feeMemberId,
+         String option);
 }

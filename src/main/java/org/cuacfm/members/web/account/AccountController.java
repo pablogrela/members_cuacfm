@@ -84,6 +84,9 @@ public class AccountController {
          }
          profileForm.setMethodPayments(methodPaymentService.getMethodPayments());
          profileForm.setInstallments(account.getInstallments());
+         profileForm.setBank(account.getBank());
+         profileForm.setBic(account.getBic());
+         profileForm.setIban(account.getIban());
          profileForm.setObservations(account.getObservations());
          profileForm.setRole(String.valueOf(account.getRole()));
          profileForm.setRoles(java.util.Arrays.asList(roles.values()));
@@ -245,6 +248,21 @@ public class AccountController {
          modify = true;
       }
 
+      if (profileForm.isOnBank()) {
+         account.setBank(profileForm.getBank());
+         modify = true;
+      }
+      
+      if (profileForm.isOnBic()) {
+         account.setBic(profileForm.getBic());
+         modify = true;
+      }
+      
+      if (profileForm.isOnIban()) {
+         account.setIban(profileForm.getIban());
+         modify = true;
+      }
+      
       // Observations
       if (profileForm.isOnObservations()) {
          account.setObservations(profileForm.getObservations());

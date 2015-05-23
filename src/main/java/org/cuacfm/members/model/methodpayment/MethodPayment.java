@@ -1,5 +1,7 @@
 package org.cuacfm.members.model.methodpayment;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +10,7 @@ import javax.persistence.Id;
 /** The Class MethodPayment. */
 @SuppressWarnings("serial")
 @Entity
-public class MethodPayment implements java.io.Serializable {
+public class MethodPayment implements Serializable {
 
    /** The id. */
    @Id
@@ -19,25 +21,33 @@ public class MethodPayment implements java.io.Serializable {
    @Column(unique = true)
    private String name;
 
+   /** The direct debit. */
+   private boolean directDebit;
+
    /** The description. */
    private String description;
 
-   /** Instantiates a new account type. */
+   /**
+    * Instantiates a new method payment.
+    */
    protected MethodPayment() {
       // Default empty constructor.
    }
 
    /**
-    * Instantiates a new account type.
+    * Instantiates a new method payment.
     *
     * @param name
     *           the name
+    * @param directDebit
+    *           the direct debit
     * @param description
     *           the description
     */
-   public MethodPayment(String name, String description) {
+   public MethodPayment(String name, boolean directDebit, String description) {
       super();
       this.name = name;
+      this.directDebit = directDebit;
       this.description = description;
    }
 
@@ -48,18 +58,6 @@ public class MethodPayment implements java.io.Serializable {
     */
    public Long getId() {
       return id;
-   }
-
-   /**
-    * Sets the id.
-    *
-    * @param id
-    *           the new id
-    */
-   // If necessary to probe test in Junit, because is necessary one object in
-   // detach
-   public void setId(Long id) {
-      this.id = id;
    }
 
    /**
@@ -98,6 +96,25 @@ public class MethodPayment implements java.io.Serializable {
     */
    public void setDescription(String description) {
       this.description = description;
+   }
+
+   /**
+    * Checks if is direct debit.
+    *
+    * @return true, if is direct debit
+    */
+   public boolean isDirectDebit() {
+      return directDebit;
+   }
+
+   /**
+    * Sets the direct debit.
+    *
+    * @param directDebit
+    *           the new direct debit
+    */
+   public void setDirectDebit(boolean directDebit) {
+      this.directDebit = directDebit;
    }
 
 }

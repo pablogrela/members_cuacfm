@@ -3,6 +3,7 @@ package org.cuacfm.members.web.paymember;
 import javax.validation.Valid;
 
 import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.web.support.DisplayDate;
@@ -102,8 +103,14 @@ public class PayMemberEditController {
          return PAYMEMBER_VIEW_NAME;
       }
 
-      payMemberService.update(payMemberForm
-            .updatePayMember(payMember));
+      try {
+         payMemberService.update(payMemberForm
+               .updatePayMember(payMember));
+      } catch (ExistTransactionIdException e) {
+         errors.rejectValue("idTxn", "existIdTxn.message", new Object[] {e.getIdTxn() }, "idTxn");
+         return PAYMEMBER_VIEW_NAME;
+      }
+
       MessageHelper.addSuccessAttribute(ra, "payMember.successModify",
             payMemberForm.getInstallment());
       return "redirect:/feeMemberList/payMemberList";

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.web.support.DisplayDate;
@@ -121,7 +122,12 @@ public class PayProgramEditController {
          return PAYPROGRAM_VIEW_NAME;
       }
 
-      payProgramService.update(payProgramForm.updatePayProgram(payProgram));
+      try {
+         payProgramService.update(payProgramForm.updatePayProgram(payProgram));
+      } catch (ExistTransactionIdException e) {
+         errors.rejectValue("idTxn", "existIdTxn.message", new Object[] {e.getIdTxn() }, "idTxn");
+         return PAYPROGRAM_VIEW_NAME;
+      }
       MessageHelper.addSuccessAttribute(ra, "payProgram.successModify", payProgram.getProgram().getName());
       return "redirect:/feeProgramList/payProgramList";
    }

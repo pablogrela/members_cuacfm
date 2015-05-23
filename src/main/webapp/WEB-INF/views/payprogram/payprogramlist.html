@@ -39,45 +39,22 @@
 	</div>
 	
 	<!-- Form to print -->
-	<form class="form-narrow form-horizontal ws-validate" th:action="@{payProgramList}" method="post"
-		th:object="${pathForm}">
+	<form class="form-narrow form-horizontal" th:action="@{'payProgramList/createPdf/'+${feeProgram.id}}" method="post">
 
 		<fieldset>
 			<!-- Title -->
 			<legend th:text="#{feeProgram.infoPrint}">Print </legend>
 
-			<!-- Insert path -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('path')}? 'has-error'">
-				<label for="path" class="col-lg-2 control-label" th:text="#{path}">path</label>
-				<div class="col-lg-10 text-danger">
-					<input type="text" class="form-control" th:placeholder="#{path}" th:field="*{path}" required="required"
-						autocomplete="off" th:title="#{infoPath}" />
-					<span class="help-block" th:if="${#fields.hasErrors('path')}" th:errors="*{path}">Incorrect path</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Insert file -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('file')}? 'has-error'">
-				<label for="file" class="col-lg-2 control-label" th:text="#{file}">file</label>
-				<div class="col-lg-10 text-danger">
-					<input type="text" class="form-control" th:placeholder="#{file}" th:field="*{file}" required="required"
-						autocomplete="off" th:title="#{infoFile}" />
-					<span class="help-block" th:if="${#fields.hasErrors('file')}" th:errors="*{file}">Incorrect file</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
 			<!-- Div of buttons -->
 			<div>
 				<button class="btn btn-info btn-lg" th:name="createPdf" th:value="ALL" th:title="#{feeProgram.infoAllList}"
-					th:text="#{payinscription.printAllList}"></button>
+					th:text="#{feeMember.printAllList}"></button>
 
 				<button class="btn btn-info btn-lg" th:name="createPdf" th:value="NOPAY" th:title="#{feeProgram.infoNoPayList}"
-					th:text="#{payinscription.printNoPayList}"></button>
+					th:text="#{feeMember.printNoPayList}"></button>
 
 				<button class="btn btn-info btn-lg" th:name="createPdf" th:value="PAY" th:title="#{feeProgram.infoPayList}"
-					th:text="#{payinscription.printPayList}"></button>
+					th:text="#{feeMember.printPayList}"></button>
 			</div>
 		</fieldset>
 	</form>
@@ -86,7 +63,7 @@
 	<h2 class="text-center" th:text="#{payProgram.payProgramList}">List of Pay Program</h2>
 
 
-	<!-- Verify if exits payInscriptions -->
+	<!-- Verify if exits payPrograms -->
 	<div class="container" th:unless="${#lists.isEmpty(payPrograms)}">
 
 		<!-- Table List of pay program -->
@@ -134,7 +111,7 @@
 					</td>
 
 
-					<!-- Fill table entry, pay inscription -->
+					<!-- Fill table entry, pay program -->
 					<td th:if="${payProgram.hasPay}"></td>
 				</tr>
 			</tbody>

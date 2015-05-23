@@ -2,8 +2,6 @@ package org.cuacfm.members.model.account;
 
 import java.util.List;
 
-import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
-
 /** The Interface AccountRepository. */
 public interface AccountRepository {
 
@@ -31,8 +29,6 @@ public interface AccountRepository {
     *
     * @param id
     *           the id
-    * @throws ExistInscriptionsException
-    *            the exist inscriptions exception
     */
    public void delete(Long id);
 
@@ -89,6 +85,13 @@ public interface AccountRepository {
     * @return the users
     */
    public List<Account> getUsers();
+
+   /**
+    * Gets the users direct debit.
+    *
+    * @return the users direct debit
+    */
+   public List<Account> getUsersDirectDebit();
 
    /**
     * Gets the accounts.

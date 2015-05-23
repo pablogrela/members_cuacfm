@@ -1,8 +1,6 @@
 package org.cuacfm.members.web.paymember;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.validation.Valid;
 
@@ -12,12 +10,11 @@ import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
-import org.cuacfm.members.web.support.PathForm;
 import org.cuacfm.members.web.training.FindUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -37,13 +34,7 @@ public class PayMemberListController {
 
    /** The Constant REDIRECT_PAYMEMBER. */
    private static final String REDIRECT_PAYMEMBER = "redirect:/feeMemberList/payMemberList";
-   
-   /** The Constant NOPAY. */
-   private static final String NOPAY = "NOPAY";
-   
-   /** The Constant PAY. */
-   private static final String PAY = "PAY";
-   
+
    /** The message source. */
    @Autowired
    private MessageSource messageSource;
@@ -59,9 +50,6 @@ public class PayMemberListController {
    /** The PayMemberService. */
    @Autowired
    private PayMemberService payMemberService;
-
-   /** The pathform. */
-   private PathForm pathform;
 
    /** The find userform. */
    private FindUserForm findUserform;
@@ -103,32 +91,6 @@ public class PayMemberListController {
    }
 
    /**
-    * Gets the path information.
-    *
-    * @param model
-    *           the model
-    * @return the path information
-    */
-   private String getPathInformation(Model model) {
-      model.addAttribute(pathform);
-      model.addAttribute("usernames", usernames);
-      return PAYMEMBER_VIEW_NAME;
-   }
-
-   /**
-    * Gets the find user information.
-    *
-    * @param model
-    *           the model
-    * @return the find user information
-    */
-   private String getFindUserInformation(Model model) {
-      model.addAttribute(findUserform);
-      model.addAttribute("usernames", usernames);
-      return PAYMEMBER_VIEW_NAME;
-   }
-
-   /**
     * User fee members.
     *
     * @param model
@@ -138,20 +100,9 @@ public class PayMemberListController {
    @RequestMapping(value = "feeMemberList/payMemberList")
    public String getPayMembers(Model model) {
       if (feeMember != null) {
-
-         pathform = new PathForm();
-         String pathDefault = messageSource.getMessage("pathDefault", null, Locale.getDefault());
-         pathform.setPath(pathDefault);
-         Date date = new Date();
-         String feeMemberFile = messageSource
-               .getMessage("feeMemberFile", null, Locale.getDefault());
-         pathform.setFile(feeMemberFile + " " + DisplayDate.dateTimeToStringSp(date));
-         model.addAttribute(pathform);
-
          findUserform = new FindUserForm();
          model.addAttribute(findUserform);
-         payMembers = payMemberService
-               .getPayMemberListByFeeMemberId(feeMember.getId());
+         payMembers = payMemberService.getPayMemberListByFeeMemberId(feeMember.getId());
          model.addAttribute("payMembers", payMembers);
          usernames = payMemberService.getUsernamesByFeeMember(feeMember.getId());
          model.addAttribute("usernames", usernames);
@@ -172,7 +123,7 @@ public class PayMemberListController {
    @RequestMapping(value = "feeMemberList/payMemberList/{feeMemberId}", method = RequestMethod.POST)
    public String viewPayMembersByFeeMemberId(@PathVariable Long feeMemberId) {
       feeMember = feeMemberService.findById(feeMemberId);
-      return "redirect:/feeMemberList/payMemberList";
+      return REDIRECT_PAYMEMBER;
    }
 
    /**
@@ -193,7 +144,8 @@ public class PayMemberListController {
          Errors errors, RedirectAttributes ra, Model model) {
 
       if (errors.hasErrors()) {
-         return getPathInformation(model);
+         model.addAttribute("usernames", usernames);
+         return PAYMEMBER_VIEW_NAME;
       }
 
       String name = findUserForm.getLogin();
@@ -208,16 +160,17 @@ public class PayMemberListController {
       Account account = accountService.findById(id);
       if (account == null) {
          errors.rejectValue("login", "inscription.noExistLogin", new Object[] { name }, "login");
-         return getPathInformation(model);
+         model.addAttribute("usernames", usernames);
+         return PAYMEMBER_VIEW_NAME;
       }
 
       // Check if account already payMember
-      List<PayMember> payMembersSearched = payMemberService
-            .findByPayMemberIds(account.getId(), feeMember.getId());
+      List<PayMember> payMembersSearched = payMemberService.findByPayMemberIds(account.getId(),
+            feeMember.getId());
       if (!payMembersSearched.isEmpty()) {
-         errors.rejectValue("login", "payMember.alreadyExistLogin", new Object[] { name },
-               "login");
-         return getPathInformation(model);
+         errors.rejectValue("login", "payMember.alreadyExistLogin", new Object[] { name }, "login");
+         model.addAttribute("usernames", usernames);
+         return PAYMEMBER_VIEW_NAME;
       }
 
       feeMemberService.savePayMember(account, feeMember);
@@ -236,64 +189,27 @@ public class PayMemberListController {
     */
    @RequestMapping(value = "feeMemberList/payMemberList/pay/{payMemberId}", method = RequestMethod.POST)
    public String pay(@PathVariable Long payMemberId, RedirectAttributes ra) {
-      PayMember payMember = payMemberService
-            .findById(payMemberId);
+      PayMember payMember = payMemberService.findById(payMemberId);
       payMemberService.pay(payMember);
 
-      MessageHelper.addSuccessAttribute(ra, "payMember.successPay", payMember
-            .getAccount().getName());
+      MessageHelper.addSuccessAttribute(ra, "payMember.successPay", payMember.getAccount()
+            .getName());
       return REDIRECT_PAYMEMBER;
    }
 
    /**
-    * GeneratePdf.
+    * Creates the pdf.
     *
-    * @param pathForm
-    *           the path form
-    * @param errors
-    *           the errors
+    * @param feeMemberId
+    *           the fee member id
     * @param createPdf
     *           the create pdf
-    * @param ra
-    *           the ra
-    * @param model
-    *           the model
-    * @return the string
+    * @return the response entity
     */
-   @RequestMapping(value = "feeMemberList/payMemberList", method = RequestMethod.POST, params = { "createPdf" })
-   public String createPdf(@Valid @ModelAttribute PathForm pathForm, Errors errors,
-         @RequestParam("createPdf") String createPdf, RedirectAttributes ra, Model model) {
-
-      if (errors.hasErrors()) {
-         getFindUserInformation(model);
-         return PAYMEMBER_VIEW_NAME;
-      }
-
-      String title;
-      String path = pathForm.getPath() + "/" + pathForm.getFile() + ".pdf";
-
-      if (createPdf.equals(PAY)) {
-         title = feeMember.getName() + " - "
-               + messageSource.getMessage("feeMember.printPayList", null, Locale.getDefault());
-         MessageHelper.addSuccessAttribute(ra, "feeMember.successPrintPayList",
-               feeMember.getName());
-      } else if (createPdf.equals(NOPAY)) {
-         title = feeMember.getName()
-               + " - "
-               + messageSource.getMessage("feeMember.printNoPayList", null,
-                     Locale.getDefault());
-         MessageHelper.addSuccessAttribute(ra, "feeMember.successPrintNoPayList",
-               feeMember.getName());
-      } else {
-         title = feeMember.getName() + " - "
-               + messageSource.getMessage("feeMember.printAllList", null, Locale.getDefault());
-         MessageHelper.addSuccessAttribute(ra, "feeMember.successPrintAllList",
-               feeMember.getName());
-      }
-
-      payMemberService.createPdfFeeMember(messageSource, feeMember.getId(),
-            path, title, createPdf);
-      return REDIRECT_PAYMEMBER;
+   @RequestMapping(value = "feeMemberList/payMemberList/createPdf/{feeMemberId}", method = RequestMethod.POST, params = { "createPdf" })
+   public ResponseEntity<byte[]> createPdf(@PathVariable Long feeMemberId,
+         @RequestParam("createPdf") String createPdf) {
+      return payMemberService.createPdfFeeMember(messageSource, feeMemberId, createPdf);
    }
 
 }

@@ -167,8 +167,21 @@ public class AccountRepositoryImpl implements AccountRepository {
     */
    @Override
    public List<Account> getUsers() {
+      return entityManager.createQuery(
+            "select a from Account a where a.role <> 'ROLE_ADMIN' and a.active = true",
+            Account.class).getResultList();
+   }
+
+   /**
+    * Gets the users direct debit.
+    *
+    * @return the users direct debit
+    */
+   @Override
+   public List<Account> getUsersDirectDebit() {
       return entityManager
-            .createQuery("select a from Account a where a.role = 'ROLE_USER' and a.active = true",
+            .createQuery(
+                  "select a from Account a where a.role <> 'ROLE_ADMIN' and a.active = true and a.iban <> '' and a.methodPayment.directDebit = true",
                   Account.class).getResultList();
    }
 

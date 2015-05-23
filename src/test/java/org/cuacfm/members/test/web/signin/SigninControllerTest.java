@@ -55,9 +55,9 @@ public class SigninControllerTest extends WebSecurityConfigurationAware {
      */
     @Before
     public void initializeDefaultSession() throws UniqueException {
-		accountType = new AccountType("Adult", "Fee for adults", 0);
+		accountType = new AccountType("Adult", true, "Fee for adults", 0);
 		accountTypeService.save(accountType);
-		methodPayment = new MethodPayment("cash", "cash");
+		methodPayment = new MethodPayment("cash", false, "cash");
 		methodPaymentService.save(methodPayment);
 		
         

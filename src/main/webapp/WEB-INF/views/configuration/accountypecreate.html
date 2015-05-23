@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="#{accountTypeCreate.title}"></title>
+<title th:text="#{accountType.titleCreate}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 <!-- CSS -->
@@ -44,6 +44,14 @@
 				</div>
 			</div>
 
+	        <!-- Insert Organization -->
+	        <div class="form-group">
+	            <label for="organization" class="col-lg-2-edit control-label" th:text="#{accountType.organization}">Organization</label>
+	            <div class="col-lg-2">
+	                <input type="checkbox" class="form-control-edit" id="organization" name="organization" th:title="#{accountType.infoOrganization}"/>            
+	            </div>
+	        </div>
+        
 			<!-- Insert Description -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>

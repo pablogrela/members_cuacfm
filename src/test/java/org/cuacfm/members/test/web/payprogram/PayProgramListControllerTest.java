@@ -26,13 +26,10 @@ import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.CreatePayRoll;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -200,15 +197,8 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
    public void createPdfALL() throws Exception {
 
       mockMvc.perform(
-            post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
-
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("createPdf", "ALL").param("path", System.getProperty("user.dir"))
-                  .param("file", "fileTest")).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
+            post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
+                  .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "ALL"));
    }
 
    /**
@@ -219,17 +209,9 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
     */
    @Test
    public void createPdfPAy() throws Exception {
-
       mockMvc.perform(
-            post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
-
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("createPdf", "PAY").param("path", System.getProperty("user.dir"))
-                  .param("file", "fileTest")).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
+            post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
+                  .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "PAY"));
    }
 
    /**
@@ -240,63 +222,8 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
     */
    @Test
    public void createPdfNoPAy() throws Exception {
-
       mockMvc.perform(
-            post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
-
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("createPdf", "NOPAY").param("path", System.getProperty("user.dir"))
-                  .param("file", "fileTest")).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
+            post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
+                  .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "NOPAY"));
    }
-
-   /**
-    * Blank message create pdf test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void blankMessageCreatePdfTest() throws Exception {
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
-
-      mockMvc
-            .perform(
-                  get("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(
-                        defaultSession)).andExpect(view().name("payprogram/payprogramlist"))
-            .andExpect(content().string(containsString("<title>Fee program of users</title>")));
-      mockMvc
-            .perform(
-                  post("/feeProgramList/payProgramList").locale(Locale.ENGLISH)
-                        .session(defaultSession).param("createPdf", "ALL").param("path", " ")
-                        .param("file", " "))
-            .andExpect(content().string(containsString("The value may not be empty!")))
-            .andExpect(view().name("payprogram/payprogramlist"));
-   }
-
-   /**
-    * Blank messag create pdf test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void pathNotFound() throws Exception {
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
-
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("createPdf", "ALL").param("path", "/path/").param("file", "file"))
-            .andExpect(view().name("redirect:/feeProgramList/payProgramList"));
-   }
-
 }

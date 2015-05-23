@@ -60,7 +60,7 @@ public class FeeMemberCreateController {
 
       FeeMemberForm feeMemberForm = new FeeMemberForm();
 
-      String feeProgramFile = messageSource.getMessage("feeMemberFile", null, Locale.getDefault());
+      String feeProgramFile = messageSource.getMessage("feeMemberName", null, Locale.getDefault());
       feeMemberForm.setName(feeProgramFile + " " + LocalDate.now().getYear());
       feeMemberForm.setPrice(configurationService.getConfiguration().getFeeMember());
       feeMemberForm.setDescription(feeProgramFile + " " + LocalDate.now().getYear());

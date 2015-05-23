@@ -110,6 +110,13 @@ public interface AccountService {
    public List<Account> getUsers();
 
    /**
+    * Gets the users direct debit.
+    *
+    * @return the users direct debit
+    */
+   public List<Account> getUsersDirectDebit();
+   
+   /**
     * Gets the accounts.
     *
     * @return the accounts

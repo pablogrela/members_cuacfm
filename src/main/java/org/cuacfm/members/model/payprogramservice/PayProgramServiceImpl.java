@@ -3,16 +3,20 @@ package org.cuacfm.members.model.payprogramservice;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
+import org.cuacfm.members.model.feeprogram.FeeProgram;
+import org.cuacfm.members.model.feeprogram.FeeProgramRepository;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogram.PayProgramRepository;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.CreatePdf;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.pdf.PdfPTable;
@@ -21,9 +25,19 @@ import com.itextpdf.text.pdf.PdfPTable;
 @Service("payProgramService")
 public class PayProgramServiceImpl implements PayProgramService {
 
-   /** The payInscription repository. */
+   /** The Constant NOPAY. */
+   private static final String NOPAY = "NOPAY";
+
+   /** The Constant PAY. */
+   private static final String PAY = "PAY";
+
+   /** The PayProgram repository. */
    @Autowired
    private PayProgramRepository payProgramRepository;
+
+   /** The fee program repository. */
+   @Autowired
+   private FeeProgramRepository feeProgramRepository;
 
    /** The account service. */
    @Autowired
@@ -52,9 +66,17 @@ public class PayProgramServiceImpl implements PayProgramService {
     * @param payProgram
     *           the pay program
     * @return PayProgram
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
     */
    @Override
-   public PayProgram update(PayProgram payProgram) {
+   public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException {
+      PayProgram paymentExist = payProgramRepository.findByIdTxn(payProgram.getIdTxn());
+      if (paymentExist != null) {
+         if (paymentExist.getId() != payProgram.getId()) {
+            throw new ExistTransactionIdException(payProgram.getIdTxn());
+         }
+      }
       return payProgramRepository.update(payProgram);
    }
 
@@ -71,6 +93,15 @@ public class PayProgramServiceImpl implements PayProgramService {
       payProgramRepository.update(payProgram);
    }
 
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * org.cuacfm.members.model.payprogramservice.PayProgramService#payPayPal
+    * (org.cuacfm.members.model.payprogram.PayProgram, java.lang.String,
+    * java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+    * java.lang.String)
+    */
    @Override
    public void payPayPal(PayProgram payProgram, String accountPayer, String idTxn, String idPayer,
          String emailPayer, String statusPay, String datePay) throws ExistTransactionIdException {
@@ -124,8 +155,8 @@ public class PayProgramServiceImpl implements PayProgramService {
     *
     * @param programId
     *           the program id
-    * @param feeProgram
-    *           the fee program
+    * @param feeProgramId
+    *           the fee program id
     * @return the pay program
     */
    @Override
@@ -141,6 +172,15 @@ public class PayProgramServiceImpl implements PayProgramService {
    @Override
    public List<PayProgram> getPayProgramList() {
       return payProgramRepository.getPayProgramList();
+   }
+
+   /**
+    * Gets the pay program no pay list by direct debit.
+    *
+    * @return the pay program no pay list by direct debit
+    */
+   public List<PayProgram> getPayProgramNoPayListByDirectDebit() {
+      return payProgramRepository.getPayProgramNoPayListByDirectDebit();
    }
 
    /**
@@ -182,7 +222,7 @@ public class PayProgramServiceImpl implements PayProgramService {
       if (account.getPrograms() == null) {
          return payProgramsResult;
       }
-      
+
       List<PayProgram> payPrograms = payProgramRepository.getPayProgramListByAccountId(accountId);
       for (PayProgram payProgram : payPrograms) {
          if (account.getPrograms().contains(payProgram.getProgram())) {
@@ -199,17 +239,39 @@ public class PayProgramServiceImpl implements PayProgramService {
     *           the message source
     * @param feeProgramId
     *           the fee program id
-    * @param path
-    *           the path
-    * @param title
-    *           the title
+    * @param option
+    *           the option
+    * @return the response entity
     */
    @Override
-   public void createPdfFeeProgram(MessageSource messageSource, Long feeProgramId, String path,
-         String title, String submit) {
-      List<PayProgram> payPrograms = payProgramRepository.getPayProgramListByFeeProgramId(feeProgramId);
+   public ResponseEntity<byte[]> createPdfFeeProgram(MessageSource messageSource,
+         Long feeProgramId, String option) {
+
+      FeeProgram feeProgram = feeProgramRepository.findById(feeProgramId);
+      List<PayProgram> payPrograms = payProgramRepository
+            .getPayProgramListByFeeProgramId(feeProgramId);
+
+      Date date = new Date();
+      String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null,
+            Locale.getDefault())
+            + DisplayDate.dateTimeToStringSp(date) + ".pdf";
+      String path = System.getProperty("user.dir") + "/" + fileNameFeeProgram;
+
+      String title;
+      if (option.equals(PAY)) {
+         title = feeProgram.getName() + " - "
+               + messageSource.getMessage("feeProgram.printPayList", null, Locale.getDefault());
+      } else if (option.equals(NOPAY)) {
+         title = feeProgram.getName() + " - "
+               + messageSource.getMessage("feeProgram.printNoPayList", null, Locale.getDefault());
+      } else {
+         title = feeProgram.getName() + " - "
+               + messageSource.getMessage("feeProgram.printAllList", null, Locale.getDefault());
+
+      }
       CreatePdf pdf = new CreatePdf();
-      PdfPTable table = pdf.createTablePayPrograms(messageSource, submit, payPrograms);
+      PdfPTable table = pdf.createTablePayPrograms(messageSource, option, payPrograms);
       pdf.createBody(path, title, table);
+      return CreatePdf.viewPdf(path, fileNameFeeProgram);
    }
 }

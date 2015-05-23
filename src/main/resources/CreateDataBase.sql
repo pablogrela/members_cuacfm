@@ -1,9 +1,12 @@
 DROP TABLE Configuration;
+DROP TABLE DirectDebit;
 DROP TABLE PayProgram;
 DROP TABLE FeeProgram;
 DROP TABLE UserPrograms;
 DROP TABLE PayMember;
 DROP TABLE FeeMember;
+DROP TABLE DirectDebit;
+DROP TABLE BankRemittance;
 DROP TABLE Inscription;
 DROP TABLE Training;
 DROP TABLE TrainingType;
@@ -28,6 +31,7 @@ CREATE TABLE Configuration (
 CREATE TABLE MethodPayment (
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
+    directDebit BOOLEAN,
     description VARCHAR(100),
     CONSTRAINT MethodPaymentId_PK PRIMARY KEY (id),
     CONSTRAINT NameMethodPaymentUniqueKey UNIQUE (name)
@@ -37,6 +41,7 @@ CREATE TABLE MethodPayment (
 CREATE TABLE AccountType (
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
+    organization BOOLEAN,
     description VARCHAR(100),
     discount INT NOT NULL,
     CONSTRAINT AccountTypeId_PK PRIMARY KEY (id),
@@ -63,6 +68,9 @@ CREATE TABLE Account(
     active BOOLEAN,
     observations VARCHAR(500),
     programName VARCHAR(30),
+    bank VARCHAR(30),
+    bic VARCHAR(30),
+    iban VARCHAR(34),
     role VARCHAR(20) NOT NULL,
     CONSTRAINT AccountId_PK PRIMARY KEY (id),
     CONSTRAINT AccountTypeId_FK FOREIGN KEY (accountTypeId) REFERENCES AccountType(id) ON DELETE Set NULL,
@@ -164,20 +172,20 @@ CREATE TABLE FeeMember(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
     year int NOT NULL,
-    price DOUBLE(4,2) NOT NULL,
+    price DOUBLE(5,2) NOT NULL,
     dateLimit1 DATE NOT NULL,
     dateLimit2 DATE NOT NULL,
     description VARCHAR(100),
     CONSTRAINT FeeMemberId_PK PRIMARY KEY (id),
     CONSTRAINT YearUniqueKey UNIQUE (year)
-	);    
+);    
 
 
 CREATE TABLE PayMember(
     id INT NOT NULL auto_increment, 
     accountId INT NOT NULL,
     feeMemberId INT NOT NULL,
-    price DOUBLE(4,2) NOT NULL,
+    price DOUBLE(5,2) NOT NULL,
     installment INT,
     installments INT,
     hasPay BOOLEAN,
@@ -186,22 +194,42 @@ CREATE TABLE PayMember(
    	emailPayer VARCHAR(30),
    	statusPay VARCHAR(30),
     datePay TIMESTAMP NULL,
+    dateCharge DATE,
     CONSTRAINT PayMemberId_PK PRIMARY KEY (id),
 	CONSTRAINT PayMember_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
 	CONSTRAINT FeeMemberId_FK FOREIGN KEY (feeMemberId) REFERENCES FeeMember(id),
 	CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
-	);   	
+);   	
 
-CREATE TABLE PayRoll(
+
+CREATE TABLE BankRemittance(
+    id INT NOT NULL auto_increment, 
+    dateDebit TIMESTAMP,
+    dateCharge TIMESTAMP,
+    hasPay BOOLEAN,
+    CONSTRAINT BankRemittanceId_PK PRIMARY KEY (id)
+);  
+
+CREATE TABLE DirectDebit(
+   -- id referencia adeudo
     id INT NOT NULL auto_increment, 
     accountId INT NOT NULL,
-    iban VARCHAR(24) NOT NULL,
+    bankRemittanceId INT NOT NULL,
+    concept VARCHAR(140) NOT NULL,
+    price DOUBLE(5,2) NOT NULL,
     mandate VARCHAR(24) NOT NULL,
-    description VARCHAR(100),
-    CONSTRAINT PayRollId_PK PRIMARY KEY (id),
-    CONSTRAINT PayRoll_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
+    -- secuencia adeudose
+    secuence VARCHAR(4) NOT NULL,
+     -- al crearla, remesa bancaria
+    hasPay BOOLEAN,
+    returnBill BOOLEAN,
+    CONSTRAINT DirectDebitId_PK PRIMARY KEY (id),
+    CONSTRAINT DirectDebit_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT DirectDebit_BankRemittance_FK FOREIGN KEY (bankRemittanceId) REFERENCES BankRemittance(id)
 );  
+
 	
+
 CREATE TABLE UserPrograms(
     id INT NOT NULL auto_increment, 
     accountId INT NOT NULL,
@@ -220,55 +248,56 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 	
 -- Insert Account Types:
-insert into AccountType values (1, 'No', 'No tiene que pagar', 100);
-insert into AccountType values (2, 'Adulto', 'Tarifa adulta', 0);
-insert into AccountType values (3, 'Juvenil', 'Tarifa juvenil', 50);
-insert into AccountType values (4, 'Jubilado', 'Tarifa adulta', 50);
+insert into AccountType values (1, 'No', false, 'No tiene que pagar', 100);
+insert into AccountType values (2, 'Adulto', false, 'Tarifa adulta', 0);
+insert into AccountType values (3, 'Juvenil', false, 'Tarifa juvenil', 50);
+insert into AccountType values (4, 'Jubilado', false, 'Tarifa adulta', 50);
+insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0);
 
 
 -- Insert Method Payment:
-insert into MethodPayment values (1, 'No', 'No tiene que pagar');
-insert into MethodPayment values (2, 'Efectivo', 'Pago en efectivo');
-insert into MethodPayment values (3, 'Domiciliado', 'Domiciliado');
-insert into MethodPayment values (4, 'Paypal', 'Paypal');	
+insert into MethodPayment values (1, 'No', false, 'No tiene que pagar');
+insert into MethodPayment values (2, 'Efectivo', false, 'Pago en efectivo');
+insert into MethodPayment values (3, 'Domiciliado', true, 'Domiciliado');
+insert into MethodPayment values (4, 'Paypal', false, 'Paypal');	
 	
 
 -- Insert Account:
 insert into Account values 
 (1, 'user', null, '12345678A', 'CuacFM', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
+	981666666, 666666, 3, 2, 1, false, null, true, '', '', 'Santander', 'BSCHESMMXXX', 'ES7620770024003102575766', 'ROLE_USER');
 
 insert into Account values 
 (2, 'admin', null, '12345678B', 'CuacFM', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_ADMIN');
+	981666666, 666666, 1, 1, 1, false, null, true, '', '', '', '', '', 'ROLE_ADMIN');
 
 insert into Account values 
 (3, 'trainer', null, '12345678C', 'CuacFM', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_TRAINER');
+	981666666, 666666, 1, 1, 1, false, null, true, '', '', '', '', '', 'ROLE_TRAINER');
 
 insert into Account values 
 (4, 'Pablo Grela', null, '12345678D', 'CuacFM', 'pablo.grela', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 3, 3, 1, false, null, true, '', '', 'ROLE_USER');
+	981666666, 666666, 3, 3, 1, false, null, true, '', '', 'Santander', 'BSCHESMMXXX', 'ES7620770024003102575766', '', 'ROLE_USER');
 
 insert into Account values 
 (5, 'Manuel Fernandez', null, '12345678E', 'CuacFM', 'manuel.fernandez', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
+	981666666, 666666, 2, 2, 1, false, null, true, '', '', '', '', '', 'ROLE_USER');
 
 insert into Account values 
 (6, 'Lorena Borrazás', null, '12345678F', 'CuacFM', 'lore.borrazas', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+	981666666, 666666, 2, 2 , 1, false, null, true, null, '', '', '', '', 'ROLE_USER');
 
 insert into Account values 
 (7, 'Lorena Fernandez', null, '12345678Z', 'CuacFM', 'lore.fernandez', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+	981666666, 666666, 2, 2 , 1, false, null, true, null, '', '', '', '', 'ROLE_USER');
 	
 insert into Account values 
 (8, 'Manuel Borrazás', null, '12345678P', 'CuacFM', 'manu.borrazas', 'manuf@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+	981666666, 666666, 2, 1 , 1, false, null, true, null, '', 'Santander', 'BSCHESMMXXX', 'ES7620770024003102575766', 'ROLE_USER');
 
 insert into Account values 
 (9, 'Pablo Martínez Pérez', null, '12347678P', 'CuacFM', 'pablo.martinez.perez', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+	981666666, 666666, 3, 2 , 1, false, null, true, null, '', 'Santander', 'BSCHESMMXXX', 'ES7620770024003102575766', 'ROLE_USER');
 
 	
 	
