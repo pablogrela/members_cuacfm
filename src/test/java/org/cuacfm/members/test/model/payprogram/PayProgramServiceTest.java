@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -25,6 +23,7 @@ import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,24 +33,28 @@ import org.springframework.transaction.annotation.Transactional;
 public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
    /** The program service. */
-   @Inject
+   @Autowired
    private ProgramService programService;
 
-   @Inject
+   /** The fee program service. */
+   @Autowired
    private FeeProgramService feeProgramService;
 
-   @Inject
+   /** The pay program service. */
+   @Autowired
    private PayProgramService payProgramService;
 
    /** The account service. */
-   @Inject
+   @Autowired
    private AccountService accountService;
 
    /**
     * Save and update user pay inscription test.
-    * 
+    *
     * @throws UniqueException
-    * @throws ExistTransactionIdException 
+    *            the unique exception
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
     */
    @Test
    public void SaveAndUpdatePayProgramTest() throws UniqueException, ExistTransactionIdException {
@@ -108,6 +111,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
     *
     * @return the user pay inscription list by pay inscription test
     * @throws UniqueException
+    *            the unique exception
     */
    @Test
    public void getPayProgramListByFeeProgramTest() throws UniqueException {
@@ -158,6 +162,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
     *
     * @return the user pay inscription list by account id test
     * @throws UniqueException
+    *            the unique exception
     */
    @Test
    public void getPayProgramListByAccountIdTest() throws UniqueException {
@@ -216,6 +221,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
     *
     * @return the user pay inscription list test
     * @throws UniqueException
+    *            the unique exception
     */
    @Test
    public void getPayProgramListTest() throws UniqueException {
@@ -254,8 +260,9 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
    /**
     * Pay user pay inscription test.
-    * 
+    *
     * @throws UniqueException
+    *            the unique exception
     */
    @Test
    public void payPayProgramTest() throws UniqueException {
@@ -292,6 +299,14 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       assertEquals(payPrograms.get(0).isHasPay(), true);
    }
 
+   /**
+    * Pay pay pal program test.
+    *
+    * @throws UniqueException
+    *            the unique exception
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
+    */
    @Test
    public void payPayPalProgramTest() throws UniqueException, ExistTransactionIdException {
 
@@ -331,8 +346,15 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       assertTrue(payPrograms.get(0).isHasPay());
    }
 
-   
-   @Test (expected = ExistTransactionIdException.class)
+   /**
+    * Exist transaction id test.
+    *
+    * @throws UniqueException
+    *            the unique exception
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
+    */
+   @Test(expected = ExistTransactionIdException.class)
    public void existTransactionIdTest() throws UniqueException, ExistTransactionIdException {
 
       // Save
@@ -359,7 +381,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
       feeProgramService.save(feeProgram);
 
-      PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(), feeProgram.getId());
+      PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
+            feeProgram.getId());
       payProgram.setIdTxn("a");
       payProgramService.update(payProgram);
       payProgramService.update(payProgram);
@@ -368,11 +391,13 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       payProgram2.setIdTxn("a");
       payProgramService.update(payProgram2);
    }
+
    /**
     * Gets the pay inscription list test.
     *
     * @return the pay inscription list test
     * @throws UniqueException
+    *            the unique exception
     */
    @Test
    public void getFeeProgramListTest() throws UniqueException {

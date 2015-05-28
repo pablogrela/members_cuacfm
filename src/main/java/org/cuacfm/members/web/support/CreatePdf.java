@@ -67,18 +67,11 @@ public class CreatePdf {
          e.getMessage();
       }
 
-      // UriComponents uriComponents =
-      // b.path("/customers/{id}").buildAndExpand(id);
       HttpHeaders headers = new HttpHeaders();
       headers.setContentType(MediaType.parseMediaType("application/pdf"));
       headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
       headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}")
             .buildAndExpand(file).toUri());
-      // System.out.println(headers.getLocation());
-      // Download PDF
-      // headers.setContentDispositionFormData(pathForm.getFile(),
-      // pathForm.getFile());
-      // View PDF
       headers.add("content-disposition", "attachment; filename=" + file + ";");
       return new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
    }

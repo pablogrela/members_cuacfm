@@ -195,10 +195,8 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
     */
    @Test
    public void createPdfALL() throws Exception {
-
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
-                  .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "ALL"));
+      mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
+            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "ALL"));
    }
 
    /**
@@ -209,9 +207,8 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
     */
    @Test
    public void createPdfPAy() throws Exception {
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
-                  .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "PAY"));
+      mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
+            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "PAY"));
    }
 
    /**
@@ -222,8 +219,7 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
     */
    @Test
    public void createPdfNoPAy() throws Exception {
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
-                  .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "NOPAY"));
+      mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
+            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "NOPAY"));
    }
 }

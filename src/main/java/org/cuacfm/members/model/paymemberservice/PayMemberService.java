@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 public interface PayMemberService {
 
    /**
-    * Save an Fee Member into database.
+    * Save an pay Member into database.
     *
     * @param paymember
     *           the pay member
@@ -20,7 +20,7 @@ public interface PayMemberService {
    public PayMember save(PayMember paymember);
 
    /**
-    * Update PayMember.
+    * Update Pay Member.
     *
     * @param payMember
     *           the pay member
@@ -60,7 +60,7 @@ public interface PayMemberService {
          String statusPay, String datePay) throws ExistTransactionIdException;
 
    /**
-    * Find by id returns paymember which has this identifier.
+    * Find by id returns pay member which has this identifier.
     *
     * @param id
     *           the id
@@ -89,7 +89,7 @@ public interface PayMemberService {
    public List<PayMember> findByPayMemberIds(Long accountId, Long feeMemberId);
 
    /**
-    * Get all paymembers.
+    * Get all pay members.
     *
     * @return List<PayMember>
     */

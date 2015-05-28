@@ -36,13 +36,13 @@ public class PayMemberServiceImpl implements PayMemberService {
    @Autowired
    private FeeMemberRepository feeMemberRepository;
 
-   /** Instantiates a new feeMember service. */
+   /** Instantiates a new pay member service. */
    public PayMemberServiceImpl() {
       // Default empty constructor.
    }
 
    /**
-    * Save an payMember into database.
+    * Save an pay Member into database.
     *
     * @param payMember
     *           the pay member
@@ -54,7 +54,7 @@ public class PayMemberServiceImpl implements PayMemberService {
    }
 
    /**
-    * Update PayMember.
+    * Update Pay Member.
     *
     * @param payMember
     *           the pay member

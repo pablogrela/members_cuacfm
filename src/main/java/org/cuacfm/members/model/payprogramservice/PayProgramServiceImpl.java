@@ -31,7 +31,7 @@ public class PayProgramServiceImpl implements PayProgramService {
    /** The Constant PAY. */
    private static final String PAY = "PAY";
 
-   /** The PayProgram repository. */
+   /** The pay program repository. */
    @Autowired
    private PayProgramRepository payProgramRepository;
 
@@ -49,7 +49,7 @@ public class PayProgramServiceImpl implements PayProgramService {
    }
 
    /**
-    * Save an payProgram into database.
+    * Save a payProgram into database.
     *
     * @param payProgram
     *           the pay program
@@ -93,14 +93,25 @@ public class PayProgramServiceImpl implements PayProgramService {
       payProgramRepository.update(payProgram);
    }
 
-   /*
-    * (non-Javadoc)
-    * 
-    * @see
-    * org.cuacfm.members.model.payprogramservice.PayProgramService#payPayPal
-    * (org.cuacfm.members.model.payprogram.PayProgram, java.lang.String,
-    * java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-    * java.lang.String)
+   /**
+    * Pay pay pal.
+    *
+    * @param payProgram
+    *           the pay program
+    * @param accountPayer
+    *           the account payer
+    * @param idTxn
+    *           the id txn
+    * @param idPayer
+    *           the id payer
+    * @param emailPayer
+    *           the email payer
+    * @param statusPay
+    *           the status pay
+    * @param datePay
+    *           the date pay
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
     */
    @Override
    public void payPayPal(PayProgram payProgram, String accountPayer, String idTxn, String idPayer,
@@ -127,7 +138,7 @@ public class PayProgramServiceImpl implements PayProgramService {
    }
 
    /**
-    * Find by id returns payInscription which has this identifier.
+    * Find by id returns payProgram which has this identifier.
     *
     * @param id
     *           the id

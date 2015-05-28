@@ -82,7 +82,7 @@
 							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{pay}"
 								style="color: green"></button>
 						</form>--> <!-- Form for pay in paypal -->
-						<form name='formTpv' method='post' action='https://www.sandbox.paypal.com/cgi-bin/webscr'>
+						<form name='formTpv' method='post' th:action="#{paypalUrl}">
 							<input type='hidden' name='cmd' value='_xclick' />
 							<input type='hidden' name='business' th:value="${email}" />
 							<input type='hidden' name='item_name' th:value="${payMember.feeMember.name}" />
@@ -158,7 +158,7 @@
 					<!-- Pay Program -->
 					<td th:if="!${payProgram.hasPay}" class="text-center">
 						<!-- Form for pay in paypal -->
-						<form name='formTpv' method='post' action='https://www.sandbox.paypal.com/cgi-bin/webscr'>
+						<form name='formTpv' method='post' th:action="#{paypalUrl}">
 							<input type='hidden' name='cmd' value='_xclick' />
 							<input type='hidden' name='business' th:value="${email}" />
 							<input type='hidden' name='item_name' th:value="${payProgram.feeProgram.name}" />

@@ -54,11 +54,11 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Inject
    private MethodPaymentService methodPaymentService;
 
-   /** The training service. */
+   /** The fee member service. */
    @Inject
    private FeeMemberService feeMemberService;
 
-   /** The training service. */
+   /** The pay member service. */
    @Inject
    private PayMemberService payMemberService;
 
@@ -71,7 +71,7 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    /** The method payment. */
    private MethodPayment methodPayment;
 
-   /** The pay inscription. */
+   /** The fee member. */
    private FeeMember feeMember;
 
    /**

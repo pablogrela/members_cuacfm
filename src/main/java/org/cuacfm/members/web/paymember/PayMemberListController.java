@@ -43,21 +43,21 @@ public class PayMemberListController {
    @Autowired
    private AccountService accountService;
 
-   /** The FeeMemberService. */
+   /** The fee member service. */
    @Autowired
    private FeeMemberService feeMemberService;
 
-   /** The PayMemberService. */
+   /** The Pay Member Service. */
    @Autowired
    private PayMemberService payMemberService;
 
-   /** The find userform. */
+   /** The find user form. */
    private FindUserForm findUserform;
 
-   /** The feeMember. */
+   /** The fee Member. */
    private FeeMember feeMember;
 
-   /** The feeMembers. */
+   /** The pay Members. */
    private static List<PayMember> payMembers;
 
    /** The nameUsers. */

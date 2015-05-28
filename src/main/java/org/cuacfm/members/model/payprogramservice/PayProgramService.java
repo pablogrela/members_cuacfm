@@ -62,7 +62,7 @@ public interface PayProgramService {
          String emailPayer, String statusPay, String datePay) throws ExistTransactionIdException;
 
    /**
-    * Find by id returns payProgram which has this identifier.
+    * Find by id returns pay program which has this identifier.
     *
     * @param id
     *           the id

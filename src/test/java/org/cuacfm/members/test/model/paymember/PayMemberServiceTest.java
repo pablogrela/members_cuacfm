@@ -27,17 +27,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-// TODO: Auto-generated Javadoc
 /** The Class PayMemberServiceTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 
-   /** The training service. */
+   /** The fee member service. */
    @Autowired
    private FeeMemberService feeMemberService;
 
-   /** The training service. */
+   /** The pay member service. */
    @Autowired
    private PayMemberService payMemberService;
 

@@ -127,8 +127,8 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
       return entityManager.createQuery(
             "select p from PayMember p where p.hasPay = false "
                   + "and p.account.methodPayment.directDebit = true "
-                  + "and p.account.iban <> '' "
-                  + "and p.account.bic <> ''  "
+                  //+ "and p.account.iban <> '' "
+                  //+ "and p.account.bic <> ''  "
                   + "and p.dateCharge <= CURRENT_DATE()  "
                   + "order by p.account.name",
             PayMember.class).getResultList();

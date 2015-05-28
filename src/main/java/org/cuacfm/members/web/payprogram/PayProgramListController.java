@@ -33,23 +33,21 @@ public class PayProgramListController {
    @Autowired
    private MessageSource messageSource;
 
-   /** The FeeProgramService. */
+   /** The fee program service. */
    @Autowired
    private FeeProgramService feeProgramService;
 
-   /** The PayProgramService. */
+   /** The pay program service. */
    @Autowired
    private PayProgramService payProgramService;
 
-   /** The feeProgram. */
+   /** The fee program. */
    private FeeProgram feeProgram;
 
-   /** The feePrograms. */
+   /** The pay programs. */
    private List<PayProgram> payPrograms;
 
-   /**
-    * Instantiates a new training Controller.
-    */
+   /** Instantiates a new training Controller. */
    public PayProgramListController() {
       // Default empty constructor.
    }
@@ -127,8 +125,8 @@ public class PayProgramListController {
    /**
     * Creates the pdf.
     *
-    * @param feeProgramId
-    *           the fee program id
+    * @param payProgramId
+    *           the pay program id
     * @param createPdf
     *           the create pdf
     * @return the response entity
