@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class MethodPaymentEditController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
+   /** The Constant METHODPAYMENT_VIEW_NAME. */
    private static final String METHODPAYMENT_VIEW_NAME = "configuration/methodpaymentedit";
 
    /** The methodPaymentService. */
@@ -30,9 +30,7 @@ public class MethodPaymentEditController {
    /** The Global variable methodPayment Type. */
    private MethodPayment methodPayment;
 
-   /**
-    * Instantiates a new methodPayment Controller.
-    */
+   /** Instantiates a new methodPayment Controller. */
    public MethodPaymentEditController() {
       // Default empty constructor.
    }
@@ -94,7 +92,7 @@ public class MethodPaymentEditController {
    }
 
    /**
-    * Charge account type.
+    * Charge method payment.
     *
     * @param id
     *           the id

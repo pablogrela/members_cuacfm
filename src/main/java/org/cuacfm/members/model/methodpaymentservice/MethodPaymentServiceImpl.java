@@ -94,9 +94,9 @@ public class MethodPaymentServiceImpl implements MethodPaymentService {
    }
 
    /**
-    * Gets the account type.
+    * Gets the method payments.
     *
-    * @return the account type
+    * @return the method payments
     */
    @Override
    public List<MethodPayment> getMethodPayments() {

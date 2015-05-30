@@ -27,9 +27,7 @@ public class MethodPayment implements Serializable {
    /** The description. */
    private String description;
 
-   /**
-    * Instantiates a new method payment.
-    */
+   /** Instantiates a new method payment.*/
    protected MethodPayment() {
       // Default empty constructor.
    }

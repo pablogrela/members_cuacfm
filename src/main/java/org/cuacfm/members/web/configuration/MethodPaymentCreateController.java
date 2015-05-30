@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class MethodPaymentCreateController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
+   /** The Constant METHODPAYMENT_VIEW_NAME. */
    private static final String METHODPAYMENT_VIEW_NAME = "configuration/methodpaymentcreate";
 
    /** The methodPaymentService. */

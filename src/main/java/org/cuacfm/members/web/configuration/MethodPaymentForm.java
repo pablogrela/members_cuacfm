@@ -27,7 +27,8 @@ public class MethodPaymentForm {
    @Size(max = 500, message = MethodPaymentForm.MAX_CHARACTERS)
    private String description;
 
-   /** Instantiates a new training form. */
+
+   /** Instantiates a new method payment form.*/
    public MethodPaymentForm() {
       // Default empty constructor.
    }
