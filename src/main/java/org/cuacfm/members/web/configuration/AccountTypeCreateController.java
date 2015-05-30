@@ -18,16 +18,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AccountTypeCreateController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
+   /** The Constant ACCOUNTYPE_VIEW_NAME. */
    private static final String ACCOUNTYPE_VIEW_NAME = "configuration/accountypecreate";
 
    /** The accountTypeService. */
    @Autowired
    private AccountTypeService accountTypeService;
 
-   /**
-    * Instantiates a new accountType Controller.
-    */
+   /** Instantiates a new accountType Controller.*/
    public AccountTypeCreateController() {
       super();
       // Default empty constructor.

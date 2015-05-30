@@ -20,19 +20,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AccountTypeEditController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
+   /** The Constant ACCOUNTYPE_VIEW_NAME. */
    private static final String ACCOUNTYPE_VIEW_NAME = "configuration/accountypedit";
 
    /** The accountTypeService. */
    @Autowired
    private AccountTypeService accountTypeService;
 
-   /** The Global variable accountType Type. */
+   /** The Global variable account Type. */
    private AccountType accountType;
 
-   /**
-    * Instantiates a new accountType Controller.
-    */
+   /** Instantiates a new accountType Controller.*/
    public AccountTypeEditController() {
       // Default empty constructor.
    }

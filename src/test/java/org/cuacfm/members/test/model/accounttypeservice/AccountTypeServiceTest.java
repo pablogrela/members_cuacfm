@@ -23,156 +23,169 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AccountTypeServiceTest extends WebSecurityConfigurationAware {
 
-	/** The account type service. */
-	@Inject
-	private AccountTypeService accountTypeService;
+   /** The account type service. */
+   @Inject
+   private AccountTypeService accountTypeService;
 
-	/**
-	 * Save and find account type test.
-	 * @throws UniqueException 
-	 */
-	@Test
-	public void saveAndFindAccountTypeTest() throws UniqueException {
-		// Save
-		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-		accountTypeService.save(accountType);
+   /**
+    * Save and find account type test.
+    *
+    * @throws UniqueException
+    *            the unique exception
+    */
+   @Test
+   public void saveAndFindAccountTypeTest() throws UniqueException {
+      // Save
+      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+      accountTypeService.save(accountType);
 
-		// Assert
-		AccountType accountTypeSearched = accountTypeService
-				.findById(accountType.getId());
-		assertEquals(accountType, accountTypeSearched);
-	}
+      // Assert
+      AccountType accountTypeSearched = accountTypeService.findById(accountType.getId());
+      assertEquals(accountType, accountTypeSearched);
+   }
 
-	
-	/**
-	 * Save and find account type test.
-	 * @throws UniqueException 
-	 */
-	@Test (expected = UniqueException.class)
-	public void saveAccountTypeExceptionTest() throws UniqueException {
-		// Save
-		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-		accountTypeService.save(accountType);
+   /**
+    * Save and find account type test.
+    *
+    * @throws UniqueException
+    *            the unique exception
+    */
+   @Test(expected = UniqueException.class)
+   public void saveAccountTypeExceptionTest() throws UniqueException {
+      // Save
+      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+      accountTypeService.save(accountType);
 
-		AccountType accountType2 = new AccountType("Adult", false, "Fee for adults", 0);
-		accountTypeService.save(accountType2);
-	}
-	
-	
-	/**
-	 * Update account type test.
-	 * @throws UniqueException 
-	 */
-	@Test
-	public void updateAccountTypeTest() throws UniqueException {
-		// Save
-		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-		accountTypeService.save(accountType);
+      AccountType accountType2 = new AccountType("Adult", false, "Fee for adults", 0);
+      accountTypeService.save(accountType2);
+   }
 
-		// Update
-		accountType.setName("Young");
-		accountType.setDiscount(10);
-		accountType.setOrganization(true);
-		accountType.setDescription("Adult with discount");
-		AccountType accountTypeUpdate = accountTypeService.update(accountType);
+   /**
+    * Update account type test.
+    *
+    * @throws UniqueException
+    *            the unique exception
+    */
+   @Test
+   public void updateAccountTypeTest() throws UniqueException {
+      // Save
+      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+      accountTypeService.save(accountType);
 
-		// Assert
-		assertEquals(accountType, accountTypeUpdate);
-		assertEquals(accountType.getName(), accountTypeUpdate.getName());
-		assertEquals(accountType.getDiscount(), accountTypeUpdate.getDiscount());
-	   assertEquals(accountType.isOrganization(), accountTypeUpdate.isOrganization());
-		assertEquals(accountType.getDescription(),
-				accountTypeUpdate.getDescription());
-		
-		accountType.setDiscount(20);
-		accountType.setDescription("etc");
-		accountTypeUpdate = accountTypeService.update(accountType);
-		
-	    AccountType accountType2 = new AccountType("Adult2", false, "Fee for adults", 0);
-	    accountTypeService.update(accountType2);
-	}
+      // Update
+      accountType.setName("Young");
+      accountType.setDiscount(10);
+      accountType.setOrganization(true);
+      accountType.setDescription("Adult with discount");
+      AccountType accountTypeUpdate = accountTypeService.update(accountType);
 
-	/**
-	 * Update account type test.
-	 * @throws UniqueException 
-	 */
-	@Test(expected = UniqueException.class)
-	public void updateAccountTypeExceptionTest() throws UniqueException {
-		// Save
-		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-		accountTypeService.save(accountType);
-		AccountType accountType2 = new AccountType("Young", false, "Fee for youth", 20);
-		accountTypeService.save(accountType2);
+      // Assert
+      assertEquals(accountType, accountTypeUpdate);
+      assertEquals(accountType.getName(), accountTypeUpdate.getName());
+      assertEquals(accountType.getDiscount(), accountTypeUpdate.getDiscount());
+      assertEquals(accountType.isOrganization(), accountTypeUpdate.isOrganization());
+      assertEquals(accountType.getDescription(), accountTypeUpdate.getDescription());
 
-		// Update
-		AccountType accountType3 = new AccountType("Young", false, "Fee for youth", 20);
-		accountTypeService.update(accountType3);
-	}
-	
-	/**
-	 * Delete account type test.
-	 * @throws UniqueException 
-	 */
-	@Test
-	public void deleteAccountTypeTest() throws UniqueException {
-		// Save
-		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-		accountTypeService.save(accountType);
+      accountType.setDiscount(20);
+      accountType.setDescription("etc");
+      accountTypeUpdate = accountTypeService.update(accountType);
 
-		// Assert
-		AccountType accountTypeSearched = accountTypeService
-				.findById(accountType.getId());
-		assertNotNull(accountTypeSearched);
+      AccountType accountType2 = new AccountType("Adult2", false, "Fee for adults", 0);
+      accountTypeService.update(accountType2);
+   }
 
-		// Delete
-		accountTypeService.delete(accountType.getId());
+   /**
+    * Update account type test.
+    *
+    * @throws UniqueException
+    *            the unique exception
+    */
+   @Test(expected = UniqueException.class)
+   public void updateAccountTypeExceptionTest() throws UniqueException {
+      // Save
+      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+      accountTypeService.save(accountType);
+      AccountType accountType2 = new AccountType("Young", false, "Fee for youth", 20);
+      accountTypeService.save(accountType2);
 
-		// Assert, no exist AccountType
-		accountTypeSearched = accountTypeService.findById(accountType.getId());
-		assertNull(accountTypeSearched);
-	}
-	
-	/**
-	 * Delete account type test.
-	 */
-	@Test
-	public void deleteNullAccountTypeTest() {
-		// Delete
-		accountTypeService.delete(Long.valueOf(0));
-	}
-	
-	/**
-	 * Save and find account type test.
-	 * @throws UniqueException 
-	 */
-	@Test
-	public void saveAndFindByNameAccountTypeTest() throws UniqueException {
-		// Save
-		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-		accountTypeService.save(accountType);
+      // Update
+      AccountType accountType3 = new AccountType("Young", false, "Fee for youth", 20);
+      accountTypeService.update(accountType3);
+   }
 
-		// Assert
-		AccountType accountTypeSearched = accountTypeService
-				.findByName(accountType.getName());
-		assertEquals(accountType, accountTypeSearched);
-	}
+   /**
+    * Delete account type test.
+    *
+    * @throws UniqueException
+    *            the unique exception
+    */
+   @Test
+   public void deleteAccountTypeTest() throws UniqueException {
+      // Save
+      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+      accountTypeService.save(accountType);
 
-	@Test
-	public void getAccountTypesTest() throws UniqueException {
-		// Assert
-		List<AccountType> accountTypes = accountTypeService.getAccountTypes();
-		assertEquals(accountTypes.size(), 0);
-		
-		// Save
-		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-		accountTypeService.save(accountType);
-		AccountType accountType2 = new AccountType("Young", false, "Fee for youth", 20);
-		accountTypeService.save(accountType2);
-		
-		// Assert
-		accountTypes = accountTypeService.getAccountTypes();
-		assertEquals(accountTypes.size(), 2);
-		assertTrue(accountTypes.contains(accountType));
-		assertTrue(accountTypes.contains(accountType2));
-	}
+      // Assert
+      AccountType accountTypeSearched = accountTypeService.findById(accountType.getId());
+      assertNotNull(accountTypeSearched);
+
+      // Delete
+      accountTypeService.delete(accountType.getId());
+
+      // Assert, no exist AccountType
+      accountTypeSearched = accountTypeService.findById(accountType.getId());
+      assertNull(accountTypeSearched);
+   }
+
+   /**
+    * Delete account type test.
+    */
+   @Test
+   public void deleteNullAccountTypeTest() {
+      // Delete
+      accountTypeService.delete(Long.valueOf(0));
+   }
+
+   /**
+    * Save and find account type test.
+    *
+    * @throws UniqueException
+    *            the unique exception
+    */
+   @Test
+   public void saveAndFindByNameAccountTypeTest() throws UniqueException {
+      // Save
+      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+      accountTypeService.save(accountType);
+
+      // Assert
+      AccountType accountTypeSearched = accountTypeService.findByName(accountType.getName());
+      assertEquals(accountType, accountTypeSearched);
+   }
+
+   /**
+    * Gets the account types test.
+    *
+    * @return the account types test
+    * @throws UniqueException
+    *            the unique exception
+    */
+   @Test
+   public void getAccountTypesTest() throws UniqueException {
+      // Assert
+      List<AccountType> accountTypes = accountTypeService.getAccountTypes();
+      assertEquals(accountTypes.size(), 0);
+
+      // Save
+      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+      accountTypeService.save(accountType);
+      AccountType accountType2 = new AccountType("Young", false, "Fee for youth", 20);
+      accountTypeService.save(accountType2);
+
+      // Assert
+      accountTypes = accountTypeService.getAccountTypes();
+      assertEquals(accountTypes.size(), 2);
+      assertTrue(accountTypes.contains(accountType));
+      assertTrue(accountTypes.contains(accountType2));
+   }
 }

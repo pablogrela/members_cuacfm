@@ -137,5 +137,4 @@ public class AccountType implements java.io.Serializable {
    public void setDiscount(int discount) {
       this.discount = discount;
    }
-
 }

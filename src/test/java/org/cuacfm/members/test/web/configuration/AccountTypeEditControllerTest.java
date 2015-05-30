@@ -157,7 +157,7 @@ public class AccountTypeEditControllerTest extends WebSecurityConfigurationAware
    }
 
    /**
-    * Send displaysAccountTypeList.
+    * Send update Account Type List.
     * 
     * @throws Exception
     *            the exception
