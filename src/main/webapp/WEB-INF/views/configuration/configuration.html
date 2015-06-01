@@ -84,7 +84,7 @@
 
 			<!-- Edit Fee Member -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('feeMember')}? 'has-error'">
-				<label for="feeMember" class="col-lg-1 control-label" th:text="#{feeMemberDefault}">place</label>
+				<label for="feeMember" class="col-lg-1 control-label" th:text="#{feeMember}">feeMember</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
 						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}"
@@ -100,7 +100,7 @@
 
 			<!-- Edit Fee Program -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('feeProgram')}? 'has-error'">
-				<label for="feeProgram" class="col-lg-1 control-label" th:text="#{feeProgramDefault}">place</label>
+				<label for="feeProgram" class="col-lg-1 control-label" th:text="#{feeProgram}">feeProgram</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
 						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}"

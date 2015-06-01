@@ -260,7 +260,6 @@ public class PayMemberForm {
       if (getDatePay() != "") {
          payMember.setDatePay(DisplayDate.stringToDateTime(getDatePay()));
       }
-      System.out.println("final update");
       return payMember;
    }
 

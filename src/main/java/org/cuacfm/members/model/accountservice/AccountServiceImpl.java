@@ -6,6 +6,8 @@ import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.AccountRepository;
+import org.cuacfm.members.model.bankaccount.BankAccount;
+import org.cuacfm.members.model.bankaccount.BankAccountRepository;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class AccountServiceImpl implements AccountService {
    /** The account repository. */
    @Autowired
    private AccountRepository accountRepository;
+
+   @Autowired
+   private BankAccountRepository bankAccountRepository;
 
    /** The password encoder. */
    @Inject
@@ -237,16 +242,6 @@ public class AccountServiceImpl implements AccountService {
    }
 
    /**
-    * Gets the roles.
-    *
-    * @return the roles
-    */
-   @Override
-   public List<String> getRoles() {
-      return accountRepository.getRoles();
-   }
-
-   /**
     * Gets the name users with role=ROLE_USER an active=true.
     *
     * @return the name users
@@ -255,5 +250,36 @@ public class AccountServiceImpl implements AccountService {
    public List<String> getUsernames() {
       return accountRepository.getUsernames();
 
+   }
+
+   /**
+    * Save bank account.
+    *
+    * @param bankAccount
+    *           the bank account
+    * @return the bank account
+    */
+   @Override
+   public BankAccount saveBankAccount(BankAccount bankAccount) {
+      int id = 0;
+      if (bankAccount.getAccount().getBankAccounts() != null){
+         id = bankAccount.getAccount().getBankAccounts().size()+1;
+      }
+      
+      String mandate = bankAccount.getAccount().getId() + "_" + bankAccount.getAccount().getDni() + "_" + id;
+      bankAccount.setMandate(mandate);
+      return bankAccountRepository.save(bankAccount);
+   }
+   
+   /**
+    * Active bank account by account id.
+    *
+    * @param accountId
+    *           the account id
+    * @return the bank account
+    */
+   @Override
+   public BankAccount activeBankAccountByAccountId(Long accountId){
+      return bankAccountRepository.activeBankAccountByAccountId(accountId);
    }
 }

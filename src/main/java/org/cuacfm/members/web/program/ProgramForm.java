@@ -46,7 +46,15 @@ public class ProgramForm {
    /** The login. */
    private String login;
 
-   /** Instantiates a new training form. */
+   /** The account payer. */
+   private Account accountPayer;
+
+   /** The account payer name. */
+   private String accountPayerName;
+
+   /**
+    * Instantiates a new program form.
+    */
    public ProgramForm() {
       // Default empty constructor.
    }
@@ -121,8 +129,8 @@ public class ProgramForm {
    /**
     * Removes the account.
     *
-    * @param account
-    *           the account
+    * @param id
+    *           the id
     */
    public void removeAccount(Long id) {
       Account accountToDelete = null;
@@ -193,21 +201,61 @@ public class ProgramForm {
    }
 
    /**
-    * Creates the training Type.
+    * Gets the account payer.
     *
-    * @return Program
+    * @return the account payer
     */
-   public Program createProgram() {
-      return new Program(getName(), getPeriodicity(), getDescription(), getDuration(),
-            getAccounts());
+   public Account getAccountPayer() {
+      return accountPayer;
    }
 
    /**
-    * Update training type.
+    * Sets the account payer.
+    *
+    * @param accountPayer
+    *           the new account payer
+    */
+   public void setAccountPayer(Account accountPayer) {
+      this.accountPayer = accountPayer;
+   }
+
+   /**
+    * Gets the account payer name.
+    *
+    * @return the account payer name
+    */
+   public String getAccountPayerName() {
+      return accountPayerName;
+   }
+
+   /**
+    * Sets the account payer name.
+    *
+    * @param accountPayerName
+    *           the new account payer name
+    */
+   public void setAccountPayerName(String accountPayerName) {
+      this.accountPayerName = accountPayerName;
+   }
+
+   /**
+    * Creates the program.
+    *
+    * @return the program
+    */
+   public Program createProgram() {
+      Program program = new Program(getName(), getPeriodicity(), getDescription(), getDuration(),
+            getAccounts());
+      program.setAccountPayer(accountPayer);
+      return program;
+   }
+
+   /**
+    * Update program.
     *
     * @param program
-    *           the training type
-    * @return the training type
+    *           the program
+    * @return the program
     */
    public Program updateProgram(Program program) {
       program.setName(getName());
@@ -215,6 +263,7 @@ public class ProgramForm {
       program.setDescription(getDescription());
       program.setDuration(getDuration());
       program.setAccounts(getAccounts());
+      program.setAccountPayer(accountPayer);
       return program;
    }
 }

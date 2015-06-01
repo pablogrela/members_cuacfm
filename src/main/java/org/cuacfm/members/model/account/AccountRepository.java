@@ -101,13 +101,6 @@ public interface AccountRepository {
    public List<Account> getAccounts();
 
    /**
-    * Gets the roles.
-    *
-    * @return the roles
-    */
-   public List<String> getRoles();
-
-   /**
     * Gets the name users with role=ROLE_USER an active=true.
     *
     * @return the name users

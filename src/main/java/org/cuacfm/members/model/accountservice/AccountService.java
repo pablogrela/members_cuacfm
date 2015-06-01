@@ -3,6 +3,7 @@ package org.cuacfm.members.model.accountservice;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.exceptions.UniqueException;
 
 /** The Class AccountService. */
@@ -15,6 +16,7 @@ public interface AccountService {
     *           the account
     * @return the account
     * @throws UniqueException
+    *            the unique exception
     */
    public Account save(Account account) throws UniqueException;
 
@@ -24,10 +26,11 @@ public interface AccountService {
     *
     * @param account
     *           the account
-    * @param passwordUpdate
-    *           the passwordUpdate
+    * @param newPassword
+    *           the new password
     * @return the account
     * @throws UniqueException
+    *            the unique exception
     */
    public Account update(Account account, boolean newPassword) throws UniqueException;
 
@@ -76,8 +79,8 @@ public interface AccountService {
    /**
     * Find by id returns user which has this identifier.
     *
-    * @param id
-    *           the id
+    * @param login
+    *           the login
     * @return the account
     */
    public Account findByLogin(String login);
@@ -115,7 +118,7 @@ public interface AccountService {
     * @return the users direct debit
     */
    public List<Account> getUsersDirectDebit();
-   
+
    /**
     * Gets the accounts.
     *
@@ -124,17 +127,28 @@ public interface AccountService {
    public List<Account> getAccounts();
 
    /**
-    * Gets the roles.
-    *
-    * @return the roles
-    */
-   public List<String> getRoles();
-
-   /**
     * Gets the name users with role=ROLE_USER an active=true.
     *
     * @return the name users
     */
    public List<String> getUsernames();
 
+   /**
+    * Save bank account.
+    *
+    * @param bankAccount
+    *           the bank account
+    * @return the bank account
+    */
+   public BankAccount saveBankAccount(BankAccount bankAccount);
+   
+   
+   /**
+    * Active bank account by account id.
+    *
+    * @param accountId
+    *           the account id
+    * @return the bank account
+    */
+   public BankAccount activeBankAccountByAccountId(Long accountId);
 }

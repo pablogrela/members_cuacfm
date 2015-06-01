@@ -1,12 +1,14 @@
 package org.cuacfm.members.web.profile;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
+import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.userservice.UserService;
@@ -47,6 +49,9 @@ public class ProfileController {
    /** The Global variable account. */
    private Account account = null;
 
+   /** The bank accounts. */
+   private List<BankAccount> bankAccounts;
+   
    /**
     * Instantiates a new Profile controller.
     */
@@ -55,25 +60,32 @@ public class ProfileController {
    }
 
    /**
-    * Profile.
-    * 
+    * Bank accounts.
+    *
+    * @return the list
+    */
+   @ModelAttribute("bankAccounts")
+   public List<BankAccount> bankAccounts() {
+      return bankAccounts;
+   }
+   
+   /**
+    * Creates the profile form.
+    *
     * @param model
     *           the model
-    * @param principal
-    *           the actual user
+    * @param profileForm
+    *           the profile form
     * @return the string
     */
-   @RequestMapping(value = "profile")
-   public String profile(Model model, Principal principal) {
-
-      account = accountService.findByLogin(principal.getName());
-
-      // Show info about user
-      ProfileForm profileForm = new ProfileForm();
+   public String createProfileForm(Model model, ProfileForm profileForm) {
       profileForm.setName(account.getName());
       profileForm.setNickName(account.getNickName());
       profileForm.setDni(account.getDni());
       profileForm.setAddress(account.getAddress());
+      profileForm.setCp(account.getCp());
+      profileForm.setProvince(account.getProvince());
+      profileForm.setCodeCountry(account.getCodeCountry());
       profileForm.setLogin(account.getLogin());
       profileForm.setEmail(account.getEmail());
       profileForm.setPhone(account.getPhone());
@@ -91,8 +103,25 @@ public class ProfileController {
       profileForm.setMethodPayments(methodPaymentService.getMethodPayments());
       profileForm.setInstallments(account.getInstallments());
       model.addAttribute(profileForm);
-
       return PROFILE_VIEW_NAME;
+   }
+
+   /**
+    * Profile.
+    * 
+    * @param model
+    *           the model
+    * @param principal
+    *           the actual user
+    * @return the string
+    */
+   @RequestMapping(value = "profile")
+   public String profile(Model model, Principal principal) {
+
+      account = accountService.findByLogin(principal.getName());
+      bankAccounts = account.getBankAccounts();
+      model.addAttribute("bankAccounts", bankAccounts);
+      return createProfileForm(model, new ProfileForm());
    }
 
    /**
@@ -108,40 +137,10 @@ public class ProfileController {
     */
    @RequestMapping(value = "profile", method = RequestMethod.POST)
    public String profile(@Valid @ModelAttribute ProfileForm profileForm, Errors errors,
-         RedirectAttributes ra) {
+         RedirectAttributes ra, Model model) {
 
       if (errors.hasErrors()) {
-         return PROFILE_VIEW_NAME;
-      }
-
-      boolean modify = false;
-
-      // Name
-      String name = profileForm.getName();
-      if (profileForm.isOnName() && name != "") {
-         account.setName(name);
-         modify = true;
-      }
-
-      // NickName
-      String nickName = profileForm.getNickName();
-      if (profileForm.isOnNickName()) {
-         account.setNickName(nickName);
-         modify = true;
-      }
-
-      // Dni
-      String dni = profileForm.getDni();
-      if (profileForm.isOnDni() && dni != "") {
-         account.setDni(dni);
-         modify = true;
-      }
-
-      // Adrress
-      String address = profileForm.getAddress();
-      if (profileForm.isOnAddress() && address != "") {
-         account.setAddress(address);
-         modify = true;
+         return createProfileForm(model, profileForm);
       }
 
       // Password
@@ -153,88 +152,66 @@ public class ProfileController {
          if (!password.equals(rePassword)) {
             errors.rejectValue("password", "profile.passwordsDontMatch");
             errors.rejectValue("rePassword", "profile.passwordsDontMatch");
-            return PROFILE_VIEW_NAME;
+            return createProfileForm(model, profileForm);
          } else {
             account.setPassword(password);
-            modify = true;
             modifyPassword = true;
          }
       }
 
-      // Login, Queries to database
+      // Login
       boolean modifyLogin = false;
       String login = profileForm.getLogin();
       if (profileForm.isOnLogin() && login != "") {
-         // check that doesn't exist other login
          account.setLogin(login);
-         modify = true;
          modifyLogin = true;
       }
 
       // Email
       String email = profileForm.getEmail();
       if (profileForm.isOnEmail() && email != "") {
-         // check that doesn't exist other email
          account.setEmail(profileForm.getEmail());
-         modify = true;
       }
 
-      // Phone
-      if (profileForm.isOnPhone()) {
-         account.setPhone(profileForm.getPhone());
-         modify = true;
-      }
-
-      // Mobile
-      if (profileForm.isOnMobile()) {
-         account.setMobile(profileForm.getMobile());
-         modify = true;
-      }
-
-      // ProgramName
-      String programName = profileForm.getProgramName();
-      if (profileForm.isOnProgramName() && programName != "") {
-         account.setProgramName(programName);
-         modify = true;
-      }
-
-      // Student
-      if (profileForm.isOnStudent()) {
-         account.setStudent(profileForm.isStudent());
-         modify = true;
-      }
-
-      // DateBirth
-      if (profileForm.isOnDateBirth()) {
-         account.setDateBirth(DisplayDate.stringToDate2(profileForm.getDateBirth()));
-         modify = true;
-      }
+      account.setName(profileForm.getName());
+      account.setNickName(profileForm.getNickName());
+      account.setDni(profileForm.getDni());
+      account.setAddress(profileForm.getAddress());
+      account.setCp(profileForm.getCp());
+      account.setProvince(profileForm.getProvince());
+      account.setCodeCountry(profileForm.getCodeCountry());
+      account.setPhone(profileForm.getPhone());
+      account.setMobile(profileForm.getMobile());
+      account.setProgramName(profileForm.getProgramName());
+      account.setStudent(profileForm.isStudent());
+      account.setDateBirth(DisplayDate.stringToDate2(profileForm.getDateBirth()));
 
       // If correct
-      if (modify) {
-         try {
-            accountService.update(account, modifyPassword);
-         } catch (UniqueException e) {
-            if (e.getAttribute() == "Dni") {
-               errors.rejectValue("dni", "signup.existentDni", new Object[] { dni }, "dni");
-            }
-            if (e.getAttribute() == "Login") {
-               errors.rejectValue("login", "profile.existentLogin", new Object[] { login }, "login");
-            }
-            if (e.getAttribute() == "Email") {
-               errors.rejectValue("email", "profile.existentEmail", new Object[] { email }, "email");
-            }
+      try {
+         accountService.update(account, modifyPassword);
+      } catch (UniqueException e) {
+         if (e.getAttribute() == "Dni") {
+            errors.rejectValue("dni", "signup.existentDni", new Object[] { e.getAttribute() },
+                  "dni");
          }
-
-         if (errors.hasErrors()) {
-            return PROFILE_VIEW_NAME;
+         if (e.getAttribute() == "Login") {
+            errors.rejectValue("login", "profile.existentLogin", new Object[] { e.getAttribute() },
+                  "login");
          }
-
-         if (modifyLogin) {
-            userService.signin(account);
+         if (e.getAttribute() == "Email") {
+            errors.rejectValue("email", "profile.existentEmail", new Object[] { e.getAttribute() },
+                  "email");
          }
-         MessageHelper.addSuccessAttribute(ra, "profile.success");
       }
+
+      if (errors.hasErrors()) {
+         return createProfileForm(model, profileForm);
+      }
+
+      if (modifyLogin) {
+         userService.signin(account);
+      }
+      MessageHelper.addSuccessAttribute(ra, "profile.success");
 
       return "redirect:/profile";
    }

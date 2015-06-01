@@ -66,15 +66,15 @@ public class AccountController {
       return bankAccounts;
    }
 
+
    /**
     * Creates the profile form.
     *
-    * @param model
-    *           the model
+    * @param model the model
+    * @param profileForm the profile form
     * @return the string
     */
-   public String createProfileForm(Model model) {
-      ProfileForm profileForm = new ProfileForm();
+   public String createProfileForm(Model model, ProfileForm profileForm) {
       profileForm.setName(account.getName());
       profileForm.setNickName(account.getNickName());
       profileForm.setDni(account.getDni());
@@ -105,7 +105,7 @@ public class AccountController {
       model.addAttribute(new BankAccountForm());
       return PROFILE_VIEW_NAME;
    }
-
+   
    /**
     * Profile.
     *
@@ -120,7 +120,7 @@ public class AccountController {
          bankAccounts = account.getBankAccounts();
          model.addAttribute("bankAccounts", bankAccounts);
          model.addAttribute(new BankAccountForm());
-         return createProfileForm(model);
+         return createProfileForm(model, new ProfileForm());
       }
       // If not have account, redirect to accounts
       else {
@@ -144,12 +144,10 @@ public class AccountController {
    /**
     * Account.
     *
-    * @param profileForm
-    *           the profile form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the RedirectAttributes
+    * @param profileForm           the profile form
+    * @param errors           the errors
+    * @param ra           the RedirectAttributes
+    * @param model the model
     * @return the string
     */
    @RequestMapping(value = "account", method = RequestMethod.POST)
@@ -158,9 +156,26 @@ public class AccountController {
 
       if (errors.hasErrors()) {
          model.addAttribute(new BankAccountForm());
-         return PROFILE_VIEW_NAME;
+         return createProfileForm(model, profileForm);
       }
 
+      // Password
+      boolean modifyPassword = false;
+      if (profileForm.isOnPassword()) {
+         // check that the password and rePassword are the same
+         String password = profileForm.getPassword();
+         String rePassword = profileForm.getRePassword();
+         if (!password.equals(rePassword)) {
+            errors.rejectValue("password", "profile.passwordsDontMatch");
+            errors.rejectValue("rePassword", "profile.passwordsDontMatch");
+            model.addAttribute(new BankAccountForm());
+            return createProfileForm(model, profileForm);
+         } else {
+            account.setPassword(password);
+            modifyPassword = true;
+         }
+      }
+      
       account.setName(profileForm.getName());
       account.setNickName(profileForm.getNickName());
       account.setDni(profileForm.getDni());
@@ -190,22 +205,6 @@ public class AccountController {
          account.setEmail(email);
       }
 
-      // Password
-      boolean modifyPassword = false;
-      if (profileForm.isOnPassword()) {
-         // check that the password and rePassword are the same
-         String password = profileForm.getPassword();
-         String rePassword = profileForm.getRePassword();
-         if (!password.equals(rePassword)) {
-            errors.rejectValue("password", "profile.passwordsDontMatch");
-            errors.rejectValue("rePassword", "profile.passwordsDontMatch");
-            return PROFILE_VIEW_NAME;
-         } else {
-            account.setPassword(password);
-            modifyPassword = true;
-         }
-      }
-
       // Role
       if (profileForm.isOnRole()) {
          account.setRole(roles.valueOf(profileForm.getRole()));
@@ -229,7 +228,8 @@ public class AccountController {
          }
 
          if (errors.hasErrors()) {
-            return PROFILE_VIEW_NAME;
+            model.addAttribute(new BankAccountForm());
+            return createProfileForm(model, profileForm);
          }
       }
 
@@ -255,11 +255,11 @@ public class AccountController {
          RedirectAttributes ra, Model model) {
 
       if (errors.hasErrors()) {
-         return createProfileForm(model);
+         return createProfileForm(model, new ProfileForm());
       }
 
       accountService.saveBankAccount(bankAccountForm.createBankAccount(account));
-      MessageHelper.addWarningAttribute(ra, "account.successCreateBankAccoun",
+      MessageHelper.addWarningAttribute(ra, "account.successCreateBankAccount",
             bankAccountForm.getBank());
       return "redirect:/account";
    }

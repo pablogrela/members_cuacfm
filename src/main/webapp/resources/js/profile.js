@@ -12,6 +12,13 @@
  }*/
 
 // Show and evaluate function
+function showModal(modal) {
+	$(document).ready(function() {
+		$(modal).modal('show');
+	});
+}
+
+// Show and evaluate function
 function evaluateModal(form, modal, accept) {
 	$(document).ready(function() {
 		$(modal).modal('show');

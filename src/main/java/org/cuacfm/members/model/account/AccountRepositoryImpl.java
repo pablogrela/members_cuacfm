@@ -7,9 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 
-import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +31,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     * @param account
     *           the account
     * @return the account
-    * @throws PersistenceException
-    *            the persistence exception
     */
    @Override
    @Transactional
@@ -49,8 +45,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     * @param account
     *           the account
     * @return the account
-    * @throws PersistenceException
-    *            the persistence exception
     */
    @Override
    @Transactional
@@ -63,8 +57,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     *
     * @param id
     *           the id
-    * @throws ExistInscriptionsException
-    *            the exist inscriptions exception
     */
    @Override
    public void delete(Long id) {
@@ -181,7 +173,7 @@ public class AccountRepositoryImpl implements AccountRepository {
    public List<Account> getUsersDirectDebit() {
       return entityManager
             .createQuery(
-                  "select a from Account a where a.role <> 'ROLE_ADMIN' and a.active = true and a.iban <> '' and a.methodPayment.directDebit = true",
+                  "select a from Account a where a.role <> 'ROLE_ADMIN' and a.active = true and a.methodPayment.directDebit = true",
                   Account.class).getResultList();
    }
 
@@ -193,17 +185,6 @@ public class AccountRepositoryImpl implements AccountRepository {
    @Override
    public List<Account> getAccounts() {
       return entityManager.createQuery("select a from Account a", Account.class).getResultList();
-   }
-
-   /**
-    * Gets the roles.
-    *
-    * @return the roles
-    */
-   @Override
-   public List<String> getRoles() {
-      return entityManager.createQuery("select distinct(role) from Account", String.class)
-            .getResultList();
    }
 
    /**

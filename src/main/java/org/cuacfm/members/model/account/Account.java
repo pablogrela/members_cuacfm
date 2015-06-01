@@ -13,10 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.cuacfm.members.model.accounttype.AccountType;
+import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.program.Program;
+import org.hibernate.annotations.OrderBy;
 
 /** The Class Account. */
 @SuppressWarnings("serial")
@@ -52,6 +55,15 @@ public class Account implements java.io.Serializable {
 
    /** The address. */
    private String address;
+
+   /** The cp. */
+   private String cp;
+
+   /** The province. */
+   private String province;
+
+   /** The code country. */
+   private String codeCountry;
 
    /** The login. */
    @Column(unique = true)
@@ -91,10 +103,15 @@ public class Account implements java.io.Serializable {
    // inverseJoinColumns={@JoinColumn(name="programId")})
    private List<Program> programs;
 
+   /** The bank accounts. */
+   @OrderBy(clause = "dateCreated DESC")
+   @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+   private List<BankAccount> bankAccounts;
+
    /** The installments, number of installments for pay inscription fee. */
    private int installments;
 
-   /** The active is a check if account if active*. */
+   /** The active is a check if account if active. */
    private boolean active;
 
    /** The student. */
@@ -108,15 +125,6 @@ public class Account implements java.io.Serializable {
 
    /** The programName. */
    private String programName;
-
-   /** The bank. */
-   private String bank;
-
-   /** The bic. */
-   private String bic;
-
-   /** The iban. */
-   private String iban;
 
    /** The role. */
    @Enumerated(EnumType.STRING)
@@ -213,6 +221,25 @@ public class Account implements java.io.Serializable {
    }
 
    /**
+    * Gets the dni.
+    *
+    * @return the dni
+    */
+   public String getDni() {
+      return dni;
+   }
+
+   /**
+    * Sets the dni.
+    *
+    * @param dni
+    *           the new dni
+    */
+   public void setDni(String dni) {
+      this.dni = dni;
+   }
+
+   /**
     * Gets the address.
     *
     * @return the address
@@ -229,6 +256,63 @@ public class Account implements java.io.Serializable {
     */
    public void setAddress(String address) {
       this.address = address;
+   }
+
+   /**
+    * Gets the cp.
+    *
+    * @return the cp
+    */
+   public String getCp() {
+      return cp;
+   }
+
+   /**
+    * Sets the cp.
+    *
+    * @param cp
+    *           the new cp
+    */
+   public void setCp(String cp) {
+      this.cp = cp;
+   }
+
+   /**
+    * Gets the province.
+    *
+    * @return the province
+    */
+   public String getProvince() {
+      return province;
+   }
+
+   /**
+    * Sets the province.
+    *
+    * @param province
+    *           the new province
+    */
+   public void setProvince(String province) {
+      this.province = province;
+   }
+
+   /**
+    * Gets the code country.
+    *
+    * @return the code country
+    */
+   public String getCodeCountry() {
+      return codeCountry;
+   }
+
+   /**
+    * Sets the code country.
+    *
+    * @param codeCountry
+    *           the new code country
+    */
+   public void setCodeCountry(String codeCountry) {
+      this.codeCountry = codeCountry;
    }
 
    /**
@@ -308,25 +392,6 @@ public class Account implements java.io.Serializable {
    }
 
    /**
-    * Gets the dni.
-    *
-    * @return the dni
-    */
-   public String getDni() {
-      return dni;
-   }
-
-   /**
-    * Sets the dni.
-    *
-    * @param dni
-    *           the new dni
-    */
-   public void setDni(String dni) {
-      this.dni = dni;
-   }
-
-   /**
     * Gets the password.
     *
     * @return the password
@@ -381,6 +446,56 @@ public class Account implements java.io.Serializable {
     */
    public void setAccountType(AccountType accountType) {
       this.accountType = accountType;
+   }
+
+   /**
+    * Gets the programs.
+    *
+    * @return the programs
+    */
+   public List<Program> getPrograms() {
+      return programs;
+   }
+
+   /**
+    * Gets the bank accounts.
+    *
+    * @return the bank accounts
+    */
+   public List<BankAccount> getBankAccounts() {
+      return bankAccounts;
+   }
+
+   /**
+    * Active bank account.
+    *
+    * @return the bank account
+    */
+   public BankAccount activeBankAccount() {
+      if (bankAccounts.isEmpty()) {
+         return null;
+      }
+      return bankAccounts.get(0);
+   }
+
+   /**
+    * Sets the bank accounts.
+    *
+    * @param bankAccounts
+    *           the new bank accounts
+    */
+   public void setBankAccounts(List<BankAccount> bankAccounts) {
+      this.bankAccounts = bankAccounts;
+   }
+
+   /**
+    * Sets the programs.
+    *
+    * @param programs
+    *           the new programs
+    */
+   public void setPrograms(List<Program> programs) {
+      this.programs = programs;
    }
 
    /**
@@ -515,81 +630,4 @@ public class Account implements java.io.Serializable {
    public void setRole(roles role) {
       this.role = role;
    }
-
-   /**
-    * Gets the programs.
-    *
-    * @return the programs
-    */
-   public List<Program> getPrograms() {
-      return programs;
-   }
-
-   /**
-    * Sets the programs.
-    *
-    * @param programs
-    *           the new programs
-    */
-   public void setPrograms(List<Program> programs) {
-      this.programs = programs;
-   }
-
-   /**
-    * Gets the bank.
-    *
-    * @return the bank
-    */
-   public String getBank() {
-      return bank;
-   }
-
-   /**
-    * Sets the bank.
-    *
-    * @param bank
-    *           the new bank
-    */
-   public void setBank(String bank) {
-      this.bank = bank;
-   }
-
-   /**
-    * Gets the bic.
-    *
-    * @return the bic
-    */
-   public String getBic() {
-      return bic;
-   }
-
-   /**
-    * Sets the bic.
-    *
-    * @param bic
-    *           the new bic
-    */
-   public void setBic(String bic) {
-      this.bic = bic;
-   }
-
-   /**
-    * Gets the iban.
-    *
-    * @return the iban
-    */
-   public String getIban() {
-      return iban;
-   }
-
-   /**
-    * Sets the iban.
-    *
-    * @param iban
-    *           the new iban
-    */
-   public void setIban(String iban) {
-      this.iban = iban;
-   }
-
 }

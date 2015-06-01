@@ -10,6 +10,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class ProfileForm. */
 public class ProfileForm {
@@ -23,7 +24,11 @@ public class ProfileForm {
    /** The Constant MAX_CHARACTERS. */
    private static final String MAX_CHARACTERS = "{max.characters}";
 
+   /** The Constant NOT_BLANK_MESSAGE. */
+   private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
+   
    /** The name. */
+   @NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
    @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
    private String name;
 
@@ -32,12 +37,29 @@ public class ProfileForm {
    private String nickName;
 
    /** The dni. */
+   @NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
    @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
    private String dni;
 
    /** The address. */
+   @NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
    @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
    private String address;
+
+   /** The cp. */
+   @NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
+   @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+   private String cp;
+
+   /** The province. */
+   @NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
+   @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+   private String province;
+
+   /** The code country. */
+   @NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
+   @Size(max = 2, message = ProfileForm.MAX_CHARACTERS)
+   private String codeCountry;
 
    /** The login. */
    @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
@@ -49,11 +71,9 @@ public class ProfileForm {
    private String email;
 
    /** The phone. */
-   // @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
    private Integer phone;
 
    /** The mobile. */
-   // @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
    private int mobile;
 
    /** The program name. */
@@ -91,18 +111,6 @@ public class ProfileForm {
    @Max(12)
    private int installments;
 
-   /** The bank. */
-   @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
-   private String bank;
-
-   /** The bic. */
-   @Size(max = 11, message = ProfileForm.MAX_CHARACTERS)
-   private String bic;
-
-   /** The iban. */
-   @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
-   private String iban;
-
    /** The observations. */
    @Size(max = 500, message = ProfileForm.MAX_CHARACTERS)
    private String observations;
@@ -113,62 +121,14 @@ public class ProfileForm {
    /** The role. */
    private String role;
 
-   /** The on name. */
-   private boolean onName;
-
-   /** The on nickName. */
-   private boolean onNickName;
-
-   /** The on dni. */
-   private boolean onDni;
-
-   /** The on address. */
-   private boolean onAddress;
-
    /** The on login. */
    private boolean onLogin;
 
    /** The on email. */
    private boolean onEmail;
 
-   /** The on phone. */
-   private boolean onPhone;
-
-   /** The on mobile. */
-   private boolean onMobile;
-
-   /** The on student. */
-   private boolean onStudent;
-
-   /** The on ProgramName. */
-   private boolean onProgramName;
-
-   /** The on date birth. */
-   private boolean onDateBirth;
-
    /** The on password. */
    private boolean onPassword;
-
-   /** The on account type. */
-   private boolean onAccountType;
-
-   /** The on method payment. */
-   private boolean onMethodPayment;
-
-   /** The on installment. */
-   private boolean onInstallments;
-
-   /** The on bank. */
-   private boolean onBank;
-
-   /** The on binc. */
-   private boolean onBic;
-
-   /** The on iban. */
-   private boolean onIban;
-
-   /** The on observations. */
-   private boolean onObservations;
 
    /** The on role. */
    private boolean onRole;
@@ -254,6 +214,63 @@ public class ProfileForm {
     */
    public void setAddress(String address) {
       this.address = address;
+   }
+
+   /**
+    * Gets the cp.
+    *
+    * @return the cp
+    */
+   public String getCp() {
+      return cp;
+   }
+
+   /**
+    * Sets the cp.
+    *
+    * @param cp
+    *           the new cp
+    */
+   public void setCp(String cp) {
+      this.cp = cp;
+   }
+
+   /**
+    * Gets the province.
+    *
+    * @return the province
+    */
+   public String getProvince() {
+      return province;
+   }
+
+   /**
+    * Sets the province.
+    *
+    * @param province
+    *           the new province
+    */
+   public void setProvince(String province) {
+      this.province = province;
+   }
+
+   /**
+    * Gets the code country.
+    *
+    * @return the code country
+    */
+   public String getCodeCountry() {
+      return codeCountry;
+   }
+
+   /**
+    * Sets the code country.
+    *
+    * @param codeCountry
+    *           the new code country
+    */
+   public void setCodeCountry(String codeCountry) {
+      this.codeCountry = codeCountry;
    }
 
    /**
@@ -523,63 +540,6 @@ public class ProfileForm {
    }
 
    /**
-    * Gets the bank.
-    *
-    * @return the bank
-    */
-   public String getBank() {
-      return bank;
-   }
-
-   /**
-    * Sets the bank.
-    *
-    * @param bank
-    *           the new bank
-    */
-   public void setBank(String bank) {
-      this.bank = bank;
-   }
-
-   /**
-    * Gets the bic.
-    *
-    * @return the bic
-    */
-   public String getBic() {
-      return bic;
-   }
-
-   /**
-    * Sets the bic.
-    *
-    * @param bic
-    *           the new bic
-    */
-   public void setBic(String bic) {
-      this.bic = bic;
-   }
-
-   /**
-    * Gets the iban.
-    *
-    * @return the iban
-    */
-   public String getIban() {
-      return iban;
-   }
-
-   /**
-    * Sets the iban.
-    *
-    * @param iban
-    *           the new iban
-    */
-   public void setIban(String iban) {
-      this.iban = iban;
-   }
-
-   /**
     * Gets the observations.
     *
     * @return the observations
@@ -637,82 +597,6 @@ public class ProfileForm {
    }
 
    /**
-    * Checks if is on name.
-    *
-    * @return true, if is on name
-    */
-   public boolean isOnName() {
-      return onName;
-   }
-
-   /**
-    * Sets the on name.
-    *
-    * @param onName
-    *           the new on name
-    */
-   public void setOnName(boolean onName) {
-      this.onName = onName;
-   }
-
-   /**
-    * Checks if is on nick name.
-    *
-    * @return true, if is on nick name
-    */
-   public boolean isOnNickName() {
-      return onNickName;
-   }
-
-   /**
-    * Sets the on nick name.
-    *
-    * @param onNickName
-    *           the new on nick name
-    */
-   public void setOnNickName(boolean onNickName) {
-      this.onNickName = onNickName;
-   }
-
-   /**
-    * Checks if is on dni.
-    *
-    * @return true, if is on dni
-    */
-   public boolean isOnDni() {
-      return onDni;
-   }
-
-   /**
-    * Sets the on dni.
-    *
-    * @param onDni
-    *           the new on dni
-    */
-   public void setOnDni(boolean onDni) {
-      this.onDni = onDni;
-   }
-
-   /**
-    * Checks if is on address.
-    *
-    * @return true, if is on address
-    */
-   public boolean isOnAddress() {
-      return onAddress;
-   }
-
-   /**
-    * Sets the on address.
-    *
-    * @param onAddress
-    *           the new on address
-    */
-   public void setOnAddress(boolean onAddress) {
-      this.onAddress = onAddress;
-   }
-
-   /**
     * Checks if is on login.
     *
     * @return true, if is on login
@@ -751,101 +635,6 @@ public class ProfileForm {
    }
 
    /**
-    * Checks if is on phone.
-    *
-    * @return true, if is on phone
-    */
-   public boolean isOnPhone() {
-      return onPhone;
-   }
-
-   /**
-    * Sets the on phone.
-    *
-    * @param onPhone
-    *           the new on phone
-    */
-   public void setOnPhone(boolean onPhone) {
-      this.onPhone = onPhone;
-   }
-
-   /**
-    * Checks if is on mobile.
-    *
-    * @return true, if is on mobile
-    */
-   public boolean isOnMobile() {
-      return onMobile;
-   }
-
-   /**
-    * Sets the on mobile.
-    *
-    * @param onMobile
-    *           the new on mobile
-    */
-   public void setOnMobile(boolean onMobile) {
-      this.onMobile = onMobile;
-   }
-
-   /**
-    * Checks if is onprogram name.
-    *
-    * @return true, if is onprogram name
-    */
-   public boolean isOnProgramName() {
-      return onProgramName;
-   }
-
-   /**
-    * Sets the onprogram name.
-    *
-    * @param onProgramName
-    *           the new on program name
-    */
-   public void setOnProgramName(boolean onProgramName) {
-      this.onProgramName = onProgramName;
-   }
-
-   /**
-    * Checks if is on student.
-    *
-    * @return true, if is on student
-    */
-   public boolean isOnStudent() {
-      return onStudent;
-   }
-
-   /**
-    * Sets the on student.
-    *
-    * @param onStudent
-    *           the new on student
-    */
-   public void setOnStudent(boolean onStudent) {
-      this.onStudent = onStudent;
-   }
-
-   /**
-    * Checks if is on date birth.
-    *
-    * @return true, if is on date birth
-    */
-   public boolean isOnDateBirth() {
-      return onDateBirth;
-   }
-
-   /**
-    * Sets the on date birth.
-    *
-    * @param onDateBirth
-    *           the new on date birth
-    */
-   public void setOnDateBirth(boolean onDateBirth) {
-      this.onDateBirth = onDateBirth;
-   }
-
-   /**
     * Checks if is on password.
     *
     * @return true, if is on password
@@ -862,139 +651,6 @@ public class ProfileForm {
     */
    public void setOnPassword(boolean onPassword) {
       this.onPassword = onPassword;
-   }
-
-   /**
-    * Checks if is on account type.
-    *
-    * @return true, if is on account type
-    */
-   public boolean isOnAccountType() {
-      return onAccountType;
-   }
-
-   /**
-    * Sets the on account type.
-    *
-    * @param onAccountType
-    *           the new on account type
-    */
-   public void setOnAccountType(boolean onAccountType) {
-      this.onAccountType = onAccountType;
-   }
-
-   /**
-    * Checks if is on method payment.
-    *
-    * @return true, if is on method payment
-    */
-   public boolean isOnMethodPayment() {
-      return onMethodPayment;
-   }
-
-   /**
-    * Sets the on method payment.
-    *
-    * @param onMethodPayment
-    *           the new on method payment
-    */
-   public void setOnMethodPayment(boolean onMethodPayment) {
-      this.onMethodPayment = onMethodPayment;
-   }
-
-   /**
-    * Checks if is on installments.
-    *
-    * @return true, if is on installments
-    */
-   public boolean isOnInstallments() {
-      return onInstallments;
-   }
-
-   /**
-    * Sets the on installments.
-    *
-    * @param onInstallments
-    *           the new on installments
-    */
-   public void setOnInstallments(boolean onInstallments) {
-      this.onInstallments = onInstallments;
-   }
-
-   /**
-    * Checks if is on bank.
-    *
-    * @return true, if is on bank
-    */
-   public boolean isOnBank() {
-      return onBank;
-   }
-
-   /**
-    * Sets the on bank.
-    *
-    * @param onBank
-    *           the new on bank
-    */
-   public void setOnBank(boolean onBank) {
-      this.onBank = onBank;
-   }
-
-   /**
-    * Checks if is on bic.
-    *
-    * @return true, if is on bic
-    */
-   public boolean isOnBic() {
-      return onBic;
-   }
-
-   /**
-    * Sets the on bic.
-    *
-    * @param onBinc
-    *           the new on bic
-    */
-   public void setOnBic(boolean onBic) {
-      this.onBic = onBic;
-   }
-
-   /**
-    * Checks if is on iban.
-    *
-    * @return true, if is on iban
-    */
-   public boolean isOnIban() {
-      return onIban;
-   }
-
-   /**
-    * Sets the on iban.
-    *
-    * @param onIban
-    *           the new on iban
-    */
-   public void setOnIban(boolean onIban) {
-      this.onIban = onIban;
-   }
-
-   /**
-    * Checks if is on observations.
-    *
-    * @return true, if is on observations
-    */
-   public boolean isOnObservations() {
-      return onObservations;
-   }
-
-   /**
-    * Sets the on observations.
-    *
-    * @param onObservations
-    *           the new on observations
-    */
-   public void setOnObservations(boolean onObservations) {
-      this.onObservations = onObservations;
    }
 
    /**
