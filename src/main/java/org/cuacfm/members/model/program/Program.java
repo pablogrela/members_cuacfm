@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import org.cuacfm.members.model.account.Account;
 
@@ -46,6 +47,11 @@ public class Program implements Serializable {
    @ManyToMany(fetch = FetchType.EAGER)
    @JoinTable(name = "UserPrograms", joinColumns = { @JoinColumn(name = "programId") }, inverseJoinColumns = { @JoinColumn(name = "accountId") })
    private List<Account> accounts;
+
+   /** The account payer. */
+   @OneToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "accountPayer")
+   private Account accountPayer;
 
    /** The active is a check if program if active*. */
    private boolean active;
@@ -201,6 +207,25 @@ public class Program implements Serializable {
     */
    public void setActive(boolean active) {
       this.active = active;
+   }
+
+   /**
+    * Gets the account payer.
+    *
+    * @return the account payer
+    */
+   public Account getAccountPayer() {
+      return accountPayer;
+   }
+
+   /**
+    * Sets the account payer.
+    *
+    * @param accountPayer
+    *           the new account payer
+    */
+   public void setAccountPayer(Account accountPayer) {
+      this.accountPayer = accountPayer;
    }
 
 }

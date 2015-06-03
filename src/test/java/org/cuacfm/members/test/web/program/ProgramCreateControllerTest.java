@@ -112,7 +112,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
     *            the exception
     */
    @Test
-   public void postProgramCreateTest() throws Exception {
+   public void programCreateTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
             666666666, 666666666, "demo", roles.ROLE_USER);
@@ -299,7 +299,106 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
       
       mockMvc.perform(
             post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("removeUser", String.valueOf(account.getId()))).andExpect(
-            view().name("program/programcreate"));
+                  .param("removeUser", String.valueOf(account.getId())));
+                  //.andExpect(
+            //view().name("program/programcreate"));
    }
+   
+
+   /**
+    * Adds the user byn ni test.
+    *
+    * @throws Exception
+    *            the exception
+    */
+   @Test
+   public void accountPayerDniTest() throws Exception {
+
+      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account);
+
+      mockMvc.perform(
+            post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession)
+                  .param("addAccountPayer", "accountPayer")
+                  .param("accountPayerName", account.getDni()))
+                  .andExpect(view().name("program/programcreate"));
+   }
+   
+   
+   /**
+    * Account payer dni no found test.
+    *
+    * @throws Exception the exception
+    */
+   @Test
+   public void accountPayerDniNoFoundTest() throws Exception {
+
+      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account);
+
+      mockMvc.perform(
+            post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession)
+                  .param("addAccountPayer", "accountPayer")
+                  .param("accountPayerName", "not found"))
+                  .andExpect(view().name("program/programcreate"));
+   }
+   
+   /**
+    * Account payer id dni test.
+    *
+    * @throws Exception the exception
+    */
+   @Test
+   public void accountPayerIdDniTest() throws Exception {
+
+      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account);
+
+      mockMvc.perform(
+            post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession)
+                  .param("addAccountPayer", "accountPayer")
+                  .param("accountPayerName", account.getId() + ": " + account.getName()))
+                  .andExpect(view().name("program/programcreate"));
+   }
+   
+   @Test
+   public void removeAccountPayerIdDniTest() throws Exception {
+
+      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account);
+
+      mockMvc.perform(
+            post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession)
+                  .param("addAccountPayer", "accountPayer")
+                  .param("accountPayerName", account.getId() + ": " + account.getName()))
+                  .andExpect(view().name("program/programcreate"));
+      mockMvc.perform(
+            post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession)
+                  .param("removeAccountPayer", "accountPayer"))
+                  .andExpect(view().name("program/programcreate"));
+   }
+   
+   /**
+    * Account payer id null dni test.
+    *
+    * @throws Exception the exception
+    */
+   @Test
+   public void accountPayerIdNullDniTest() throws Exception {
+
+      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
+            666666666, 666666666, "demo", roles.ROLE_USER);
+      accountService.save(account);
+
+      mockMvc.perform(
+            post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession)
+                  .param("addAccountPayer", "accountPayer")
+                  .param("accountPayerName", Long.valueOf(0) + ": " + account.getName()))
+                  .andExpect(view().name("program/programcreate"));
+   }
+   
 }

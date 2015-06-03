@@ -61,16 +61,6 @@ public class ProgramCreateController {
    }
 
    /**
-    * Usernames.
-    *
-    * @return the list
-    */
-   @ModelAttribute("usernames")
-   public List<String> usernames() {
-      return usernames;
-   }
-
-   /**
     * Program.
     *
     * @param model
@@ -106,9 +96,10 @@ public class ProgramCreateController {
     */
    @RequestMapping(value = "programList/programCreate", method = RequestMethod.POST, params = { "create" })
    public String program(@Valid @ModelAttribute ProgramForm programForm, Errors errors,
-         RedirectAttributes ra) {
+         RedirectAttributes ra, Model model) {
 
       if (errors.hasErrors()) {
+         model.addAttribute("usernames", usernames);
          return PROGRAM_VIEW_NAME;
       }
 
@@ -116,6 +107,7 @@ public class ProgramCreateController {
          programService.save(programForm.createProgram());
       } catch (UniqueException e) {
          errors.rejectValue("name", "program.existentName", new Object[] { e.getValue() }, "name");
+         model.addAttribute("usernames", usernames);
          return PROGRAM_VIEW_NAME;
       }
 
@@ -137,7 +129,7 @@ public class ProgramCreateController {
     * @return the string destinity page to page trainingList
     */
    @RequestMapping(value = "programList/programCreate", method = RequestMethod.POST, params = { "addUser" })
-   public String addUser(@Valid @ModelAttribute ProgramForm programForm, Errors errors) {
+   public String addUser(@Valid @ModelAttribute ProgramForm programForm, Errors errors, Model model) {
 
       Account account;
       String name = programForm.getLogin();
@@ -153,6 +145,7 @@ public class ProgramCreateController {
 
       if (account == null) {
          errors.rejectValue("login", "program.noExistUser", new Object[] { name }, "login");
+         model.addAttribute("usernames", usernames);
          return PROGRAM_VIEW_NAME;
       }
 
@@ -166,6 +159,7 @@ public class ProgramCreateController {
 
       if (repeated) {
          errors.rejectValue("login", "program.alreadyExistUser", new Object[] { name }, "login");
+         model.addAttribute("usernames", usernames);
          return PROGRAM_VIEW_NAME;
       }
 
@@ -194,6 +188,58 @@ public class ProgramCreateController {
          @Valid @ModelAttribute ProgramForm programForm) {
 
       programForm.removeAccount(id);
+      return PROGRAM_VIEW_NAME;
+   }
+   
+   /**
+    * Account payer.
+    *
+    * @param accountPayer
+    *           the account payer
+    * @param programForm
+    *           the program form
+    * @param errors
+    *           the errors
+    * @return the string
+    */
+   @RequestMapping(value = "programList/programCreate", method = RequestMethod.POST, params = { "addAccountPayer" })
+   public String addAccountPayer(@Valid @ModelAttribute ProgramForm programForm, Errors errors, Model model) {
+
+      Account account;
+      String name = programForm.getAccountPayerName();
+      Long id = Long.valueOf(0);
+      if (name.contains(": ")) {
+         String[] parts = programForm.getAccountPayerName().split(": ");
+         id = Long.valueOf(parts[0]);
+         name = parts[1].split(" - ")[0].trim();
+         account = accountService.findById(id);
+      } else {
+         account = accountService.findByDni(name);
+      }
+
+      if (account == null) {
+         errors.rejectValue("accountPayerName", "program.noExistUser", new Object[] { name },
+               "accountPayerName");
+         model.addAttribute("usernames", usernames);
+         return PROGRAM_VIEW_NAME;
+      }
+      programForm.setAccountPayerName(account.getName());
+      programForm.setAccountPayer(account);
+      return PROGRAM_VIEW_NAME;
+   }
+   
+   /**
+    * Removes the account payer.
+    *
+    * @param programForm
+    *           the program form
+    * @return the string
+    */
+   @RequestMapping(value = "programList/programCreate", method = RequestMethod.POST, params = { "removeAccountPayer" })
+   public String removeAccountPayer(@Valid @ModelAttribute ProgramForm programForm) {
+
+      programForm.setAccountPayer(null);
+      programForm.setAccountPayerName("");
       return PROGRAM_VIEW_NAME;
    }
 }
