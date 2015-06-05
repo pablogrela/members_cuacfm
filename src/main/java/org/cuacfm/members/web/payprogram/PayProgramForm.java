@@ -1,10 +1,15 @@
 package org.cuacfm.members.web.payprogram;
 
+import java.util.List;
+
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.payprogram.PayProgram;
+import org.cuacfm.members.model.util.States;
+import org.cuacfm.members.model.util.States.methods;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.web.support.DisplayDate;
 
 /** The Class PayProgramForm. */
@@ -18,8 +23,17 @@ public class PayProgramForm {
    @DecimalMin("0.00")
    private Double price;
 
-   /** The has pay. */
-   private boolean hasPay;
+   /** The state. */
+   private String state;
+
+   /** The state list. */
+   private List<states> stateList;
+
+   /** The method. */
+   private String method;
+
+   /** The method list. */
+   private List<methods> methodList;
 
    /** The account Payer. */
    @Size(max = 30, message = PayProgramForm.MAX_CHARACTERS)
@@ -70,22 +84,79 @@ public class PayProgramForm {
    }
 
    /**
-    * Checks if is checks for pay.
+    * Gets the state.
     *
-    * @return true, if is checks for pay
+    * @return the state
     */
-   public boolean getHasPay() {
-      return hasPay;
+   public String getState() {
+      return state;
    }
 
    /**
-    * Sets the checks for pay.
+    * Sets the state.
     *
-    * @param hasPay
-    *           the new checks for pay
+    * @param state
+    *           the new state
     */
-   public void setHasPay(boolean hasPay) {
-      this.hasPay = hasPay;
+   public void setState(String state) {
+      this.state = state;
+   }
+
+   /**
+    * Gets the state list.
+    *
+    * @return the state list
+    */
+   public List<States.states> getStateList() {
+      return stateList;
+   }
+
+   /**
+    * Sets the state list.
+    *
+    * @param stateList
+    *           the new state list
+    */
+   public void setStateList(List<States.states> stateList) {
+      this.stateList = stateList;
+   }
+
+   /**
+    * Gets the method.
+    *
+    * @return the method
+    */
+   public String getMethod() {
+      return method;
+   }
+
+   /**
+    * Sets the method.
+    *
+    * @param method
+    *           the new method
+    */
+   public void setMethod(String method) {
+      this.method = method;
+   }
+
+   /**
+    * Gets the method list.
+    *
+    * @return the method list
+    */
+   public List<States.methods> getMethodList() {
+      return methodList;
+   }
+
+   /**
+    * Sets the method list.
+    *
+    * @param methodList
+    *           the new method list
+    */
+   public void setMethodList(List<States.methods> methodList) {
+      this.methodList = methodList;
    }
 
    /**
@@ -212,7 +283,8 @@ public class PayProgramForm {
    public PayProgram updatePayProgram(PayProgram payProgram) {
 
       payProgram.setPrice(getPrice());
-      payProgram.setHasPay(getHasPay());
+      payProgram.setState(states.valueOf(getState()));
+      payProgram.setMethod(methods.valueOf(getMethod()));
       if (getAccountPayer() != "") {
          payProgram.setAccountPayer(getAccountPayer());
       }
@@ -224,9 +296,6 @@ public class PayProgramForm {
       }
       if (getEmailPayer() != "") {
          payProgram.setEmailPayer(getEmailPayer());
-      }
-      if (getStatusPay() != "") {
-         payProgram.setStatusPay(getStatusPay());
       }
       if (getIdPayer() != "") {
          payProgram.setIdPayer(getIdPayer());

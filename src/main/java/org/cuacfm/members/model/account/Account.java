@@ -1,5 +1,6 @@
 package org.cuacfm.members.model.account;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import org.hibernate.annotations.OrderBy;
 /** The Class Account. */
 @SuppressWarnings("serial")
 @Entity
-public class Account implements java.io.Serializable {
+public class Account implements Serializable {
 
    /** The Enum roles. */
    public static enum roles {
@@ -84,28 +85,22 @@ public class Account implements java.io.Serializable {
    private String password;
 
    /** The methodPayment. */
-   @ManyToOne(optional = true, fetch = FetchType.EAGER)
+   @ManyToOne(optional = true, fetch = FetchType.LAZY)
    @JoinColumn(name = "methodPaymentId")
    private MethodPayment methodPayment;
 
    /** The accountType. */
-   @ManyToOne(optional = true, fetch = FetchType.EAGER)
+   @ManyToOne(optional = true, fetch = FetchType.LAZY)
    @JoinColumn(name = "accountTypeId")
    private AccountType accountType;
 
    /** The programs. */
    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "accounts")
-   // @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-   // @ManyToMany(cascade = CascadeType.ALL)
-   // @ManyToMany
-   // @JoinTable(name="UserPrograms",
-   // joinColumns={@JoinColumn(name="accountId")},
-   // inverseJoinColumns={@JoinColumn(name="programId")})
    private List<Program> programs;
 
    /** The bank accounts. */
    @OrderBy(clause = "dateCreated DESC")
-   @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
    private List<BankAccount> bankAccounts;
 
    /** The installments, number of installments for pay inscription fee. */

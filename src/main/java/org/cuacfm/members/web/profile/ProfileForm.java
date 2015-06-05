@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.hibernate.validator.constraints.Email;
@@ -116,7 +117,7 @@ public class ProfileForm {
    private String observations;
 
    /** The roles. */
-   private List<Account.roles> roles;
+   private List<roles> roles;
 
    /** The role. */
    private String role;

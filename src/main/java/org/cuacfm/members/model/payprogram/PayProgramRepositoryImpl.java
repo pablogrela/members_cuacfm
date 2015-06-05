@@ -1,11 +1,17 @@
 package org.cuacfm.members.model.payprogram;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
+import org.cuacfm.members.model.account.Account;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -111,19 +117,42 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
    }
 
    /**
-    * Get all payPrograms.
+    * Gets the pay program no pay list by direct debit.
     *
-    * @return List<FeeProgram>
+    * @param monthCharge
+    *           the month charge
+    * @return the pay program no pay list by direct debit
     */
    @Override
-   public List<PayProgram> getPayProgramNoPayListByDirectDebit() {
-      return entityManager
+   public Map<Account, List<PayProgram>> getPayProgramNoPayListByDirectDebit(Date monthCharge) {
+      
+      TypedQuery<Object[]> q =  entityManager
             .createQuery(
-                  "select p from PayProgram p where p.hasPay = false "
-                        //+ "and p.program.accounts in (select a Account from a and a.methodPayment.directDebit = true "
-                        //+ "and a.iban <> '' " + "and a.bic <> '')  " 
-                        + "order by p.program.name",
-                  PayProgram.class).getResultList();
+                  "select p.program.accountPayer, p from PayProgram p where p.state <> 'PAY' "
+                        + "and month(p.feeProgram.date) = month(:month) "
+                        + "order by p.program.accountPayer.name, p.program.name", Object[].class)
+                        .setParameter("month", monthCharge);
+      
+      List<Object[]> resultList = q.getResultList();
+      Map<Account, List<PayProgram>> userPayPrograms = new HashMap<Account, List<PayProgram>>();
+
+      for (Object[] result : resultList){
+         Account account = (Account)result[0];
+         
+        // If exist Account in userPayPrograms
+         if (userPayPrograms.containsKey(account)){
+            List<PayProgram> payProgramsAux = userPayPrograms.get(account);
+            payProgramsAux.add((PayProgram)result[1]);
+            userPayPrograms.putIfAbsent(account, payProgramsAux);
+         }
+         // If no exist Account in userPayPrograms
+         else {
+            List<PayProgram> payPrograms = new ArrayList<PayProgram>();
+            payPrograms.add((PayProgram)result[1]);
+            userPayPrograms.put(account, payPrograms);
+         }
+      }
+      return userPayPrograms;
    }
 
    /**

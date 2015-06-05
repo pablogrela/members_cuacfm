@@ -1,6 +1,10 @@
 package org.cuacfm.members.model.paymember;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import org.cuacfm.members.model.account.Account;
 
 /** The Interface PayMemberRepository. */
 public interface PayMemberRepository {
@@ -60,11 +64,13 @@ public interface PayMemberRepository {
    public List<PayMember> getPayMemberList();
 
    /**
-    * Gets the pay member no pay list by direct Debit.
+    * Gets the pay member no pay list by direct debit.
     *
-    * @return the pay member no pay list by direct Debit
+    * @param monthCharge
+    *           the month charge
+    * @return the pay member no pay list by direct debit
     */
-   public List<PayMember> getPayMemberNoPayListByDirectDebit();
+   public Map<Account, List<PayMember>> getPayMemberNoPayListByDirectDebit(Date monthCharge);
 
    /**
     * Gets the pay member list by fee member id.

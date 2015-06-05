@@ -51,7 +51,8 @@
 					<th th:text="#{accountType}">Account Type</th>
 					<th th:text="#{year}">Year</th>
 					<th th:text="#{price}">Price</th>
-					<th th:text="#{payMember.hasPay}">Has Pay</th>
+					<th th:text="#{state}" th:title="#{infoState}">State</th>
+					<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
 					<th th:text="#{payMember.installment}">Installment</th>
 					<th class="no-sort"></th>
 				</tr>
@@ -67,17 +68,14 @@
 						Type</td>
 					<td th:text="${payMember.feeMember.year}">2015</td>
 					<td th:text="${payMember.price}">price</td>
-					<th:block th:if="${payMember.hasPay == false}">
-						<td th:text="#{false}">false</td>
-					</th:block>
-					<th:block th:if="${payMember.hasPay == true}">
-						<td th:text="#{true}">true</td>
-					</th:block>
+					<td th:text="#{${'states.' + payMember.state}}">State</td>
+					<td th:text="#{${'methods.' + payMember.method}}">Method</td>
 					<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">
 						installment of installments</td>
 
 					<!-- Pay inscription -->
-					<td th:if="!${payMember.hasPay}" class="text-center">
+					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.States.states).NO_PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.States.states).RETURN_BILL}" class="text-center">
 						<!--<form th:action="@{'userPayments/pay/'+${payMember.id}}" method="post">
 							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{pay}"
 								style="color: green"></button>
@@ -114,7 +112,8 @@
 					</td>
 
 					<!-- Fill table entry, pay inscription -->
-					<td th:if="${payMember.hasPay}"></td>
+					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.States.states).PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -134,7 +133,8 @@
 					<th th:text="#{members}">Accounts</th>
 					<th th:text="#{fee}">Date</th>
 					<th th:text="#{price}">Price</th>
-					<th th:text="#{payProgram.hasPay}">Has Pay</th>
+					<th th:text="#{state}" th:title="#{infoState}">State</th>
+					<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
 					<th th:text="#{payerAccount}">Mobile</th>
 					<th class="no-sort"></th>
 				</tr>
@@ -147,16 +147,13 @@
 					<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
 					<td th:text="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}"> May of 2015</td>
 					<td th:text="${payProgram.price}">price</td>
-					<th:block th:if="${payProgram.hasPay == false}">
-						<td th:text="#{false}">false</td>
-					</th:block>
-					<th:block th:if="${payProgram.hasPay == true}">
-						<td th:text="#{true}">true</td>
-					</th:block>
+					<td th:text="#{${'states.' + payProgram.state}}">State</td>
+					<td th:text="#{${'methods.' + payProgram.method}}">Method</td>
 					<td th:text="${payProgram.accountPayer}">mobile</td>
 
 					<!-- Pay Program -->
-					<td th:if="!${payProgram.hasPay}" class="text-center">
+					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.States.states).NO_PAY} or
+						${payProgram.state == T(org.cuacfm.members.model.util.States.states).RETURN_BILL}" class="text-center">
 						<!-- Form for pay in paypal -->
 						<form name='formTpv' method='post' th:action="#{paypalUrl}">
 							<input type='hidden' name='cmd' value='_xclick' />
@@ -190,7 +187,8 @@
 					</td>
 					
 					<!-- Fill table entry, pay inscription -->
-					<td th:if="${payProgram.hasPay}"></td>
+					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.States.states).PAY} or
+						${payProgram.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}"></td>
 				</tr>
 			</tbody>
 		</table>

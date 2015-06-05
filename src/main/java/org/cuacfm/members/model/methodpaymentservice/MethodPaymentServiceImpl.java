@@ -50,10 +50,8 @@ public class MethodPaymentServiceImpl implements MethodPaymentService {
       // methodPayment
       MethodPayment methodPaymentSearch = methodPaymentRepository.findByName(methodPayment
             .getName());
-      if (methodPaymentSearch != null) {
-         if (methodPaymentSearch.getId() != methodPayment.getId()) {
-            throw new UniqueException("Name", methodPayment.getName());
-         }
+      if ((methodPaymentSearch != null) && (methodPaymentSearch.getId() != methodPayment.getId())) {
+         throw new UniqueException("Name", methodPayment.getName());
       }
       return methodPaymentRepository.update(methodPayment);
    }

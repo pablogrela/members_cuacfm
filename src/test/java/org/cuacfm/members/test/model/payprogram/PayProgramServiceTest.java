@@ -1,7 +1,6 @@
 package org.cuacfm.members.test.model.payprogram;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
@@ -84,12 +84,11 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       // Update
       payProgram.setDatePay(new Date());
-      payProgram.setHasPay(true);
+      payProgram.setState(states.PAY);
       payProgram.setAccountPayer("Pepe");
       payProgram.setEmailPayer("user2@udc.es");
       payProgram.setIdPayer("idPayer");
       payProgram.setIdTxn("IDTXT");
-      payProgram.setStatusPay("Waiting");
       payProgram.setPrice(Double.valueOf(30));
       payProgramService.update(payProgram);
 
@@ -98,10 +97,9 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       assertEquals(payProgram, payProgramSearch);
       assertEquals(payProgram.getAccountPayer(), payProgramSearch.getAccountPayer());
       assertEquals(payProgram.getDatePay(), payProgramSearch.getDatePay());
-      assertEquals(payProgram.isHasPay(), payProgramSearch.isHasPay());
+      assertEquals(payProgram.getState(), payProgramSearch.getState());
       assertEquals(payProgram.getIdPayer(), payProgramSearch.getIdPayer());
       assertEquals(payProgram.getIdTxn(), payProgramSearch.getIdTxn());
-      assertEquals(payProgram.getStatusPay(), payProgramSearch.getStatusPay());
       assertEquals(payProgram.getEmailPayer(), payProgramSearch.getEmailPayer());
       assertEquals(payProgram.getPrice(), payProgramSearch.getPrice());
    }
@@ -296,7 +294,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
       payProgramService.pay(payPrograms.get(0));
 
       // Assert
-      assertEquals(payPrograms.get(0).isHasPay(), true);
+      assertTrue(payPrograms.get(0).getState().equals(states.PAY));
    }
 
    /**
@@ -339,11 +337,11 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       payProgramService.payPayPal(payPrograms.get(0), "accountPayer", "idTxn", "idPayer",
             "emailPayer", "statusPay", "12:12:12 Jun 12, 2015");
-      assertFalse(payPrograms.get(0).isHasPay());
+      assertTrue(payPrograms.get(0).getState().equals(states.MANAGEMENT));
 
       payProgramService.payPayPal(payPrograms.get(0), "accountPayer", "idTxn", "idPayer",
             "emailPayer", "Completed", "12:12:12 Jun 12, 2015");
-      assertTrue(payPrograms.get(0).isHasPay());
+      assertTrue(payPrograms.get(0).getState().equals(states.PAY));
    }
 
    /**

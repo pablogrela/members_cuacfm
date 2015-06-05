@@ -1,5 +1,6 @@
 package org.cuacfm.members.model.bankaccount;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import org.cuacfm.members.model.account.Account;
 /** The Class Account. */
 @SuppressWarnings("serial")
 @Entity
-public class BankAccount implements java.io.Serializable {
+public class BankAccount implements Serializable {
 
    /** The id. */
    @Id

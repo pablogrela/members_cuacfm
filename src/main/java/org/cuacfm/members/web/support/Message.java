@@ -24,7 +24,7 @@ public class Message implements java.io.Serializable {
    private final Type type;
 
    /** The args. */
-   private final Object[] args;
+   private final transient Object[] args;
 
    /**
     * Instantiates a new message.

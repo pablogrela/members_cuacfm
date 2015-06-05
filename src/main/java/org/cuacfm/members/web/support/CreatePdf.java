@@ -14,6 +14,7 @@ import java.util.Locale;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.payprogram.PayProgram;
+import org.cuacfm.members.model.util.States.states;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -215,12 +216,12 @@ public class CreatePdf {
          table.getDefaultCell().setBackgroundColor(null);
          if (u.getInstallments() > 1) {
             table.getDefaultCell().setBackgroundColor(BaseColor.YELLOW);
-         } else if ((type.equals(ALL)) && (!u.isHasPay())) {
+         } else if ((type.equals(ALL)) && (!u.getState().equals(states.PAY))) {
             table.getDefaultCell().setBackgroundColor(BaseColor.RED);
          }
 
-         if ((type.equals(ALL)) || (type.equals(NOPAY) && !u.isHasPay())
-               || (type.equals(PAY) && u.isHasPay())) {
+         if ((type.equals(ALL)) || (type.equals(NOPAY) && !u.getState().equals(states.PAY))
+               || (type.equals(PAY) && u.getState().equals(states.PAY))) {
             table.addCell(u.getAccount().getName());
             table.addCell(String.valueOf(u.getAccount().getMobile()));
             table.addCell(u.getAccount().getEmail());
@@ -232,11 +233,11 @@ public class CreatePdf {
             table.addCell(String.valueOf(u.getPrice()));
 
             // Pay or no Pay
-            if ((type.equals(ALL)) && (u.isHasPay())) {
+            if ((type.equals(ALL)) && (u.getState().equals(states.PAY))) {
                collectPrice = collectPrice + u.getPrice();
                table.addCell(String.valueOf(u.getPrice()));
                // table.addCell(messageSource.getMessage("hasPay", null,
-            } else if ((type.equals(ALL)) && (!u.isHasPay())) {
+            } else if ((type.equals(ALL)) && (!u.getState().equals(states.PAY))) {
                table.addCell(String.valueOf(0));
                // table.addCell(messageSource.getMessage("hasNoPay", null,
             }
@@ -312,12 +313,12 @@ public class CreatePdf {
 
          table.getDefaultCell().setBackgroundColor(null);
 
-         if ((type.equals(ALL)) && (!p.isHasPay())) {
+         if ((type.equals(ALL)) && (!p.getState().equals(states.PAY))) {
             table.getDefaultCell().setBackgroundColor(BaseColor.RED);
          }
 
-         if ((type.equals(ALL)) || (type.equals(NOPAY) && !p.isHasPay())
-               || (type.equals(PAY) && p.isHasPay())) {
+         if ((type.equals(ALL)) || (type.equals(NOPAY) && !p.getState().equals(states.PAY))
+               || (type.equals(PAY) && p.getState().equals(states.PAY))) {
             table.addCell(p.getProgram().getName());
             table.addCell(" ");
             table.addCell(" ");
@@ -326,11 +327,11 @@ public class CreatePdf {
             table.addCell(String.valueOf(p.getPrice()));
 
             // Pay or no Pay
-            if ((type.equals(ALL)) && (p.isHasPay())) {
+            if ((type.equals(ALL)) && (p.getState().equals(states.PAY))) {
                collectPrice = collectPrice + p.getPrice();
                table.addCell(String.valueOf(p.getPrice()));
                // table.addCell(messageSource.getMessage("hasPay", null,
-            } else if ((type.equals(ALL)) && (!p.isHasPay())) {
+            } else if ((type.equals(ALL)) && (!p.getState().equals(states.PAY))) {
                table.addCell(String.valueOf(0));
                // table.addCell(messageSource.getMessage("hasNoPay", null,
             }

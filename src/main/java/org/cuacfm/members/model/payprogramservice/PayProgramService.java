@@ -1,7 +1,10 @@
 package org.cuacfm.members.model.payprogramservice;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.springframework.context.MessageSource;
@@ -100,9 +103,11 @@ public interface PayProgramService {
    /**
     * Gets the pay program no pay list by direct debit.
     *
+    * @param monthCharge
+    *           the month charge
     * @return the pay program no pay list by direct debit
     */
-   public List<PayProgram> getPayProgramNoPayListByDirectDebit();
+   public Map<Account, List<PayProgram>> getPayProgramNoPayListByDirectDebit(Date monthCharge);
 
    /**
     * Gets the pay program list by fee program id.

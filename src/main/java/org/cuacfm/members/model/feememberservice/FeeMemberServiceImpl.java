@@ -70,7 +70,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
          // Create installments
          for (int installment = 1; installment <= user.getInstallments(); installment++) {
 
-            int value = (installment-1) * 12 / user.getInstallments();
+            int value = (installment - 1) * 12 / user.getInstallments();
             if (installment == 1) {
                value = 1;
             }
@@ -128,8 +128,8 @@ public class FeeMemberServiceImpl implements FeeMemberService {
             amount = price;
          }
          if (amount > 0) {
-            
-            int value = (installment-1) * 12 / account.getInstallments();
+
+            int value = (installment - 1) * 12 / account.getInstallments();
             if (installment == 1) {
                value = 1;
             }
@@ -160,10 +160,8 @@ public class FeeMemberServiceImpl implements FeeMemberService {
       // It is verified that there is not exist name of feeMember in other
       // feeMember
       FeeMember feeMemberSearch = feeMemberRepository.findByYear(feeMember.getYear());
-      if (feeMemberSearch != null) {
-         if (feeMemberSearch.getId() != feeMember.getId()) {
-            throw new UniqueException("Year", String.valueOf(feeMember.getYear()));
-         }
+      if ((feeMemberSearch != null) && (feeMemberSearch.getId() != feeMember.getId())) {
+         throw new UniqueException("Year", String.valueOf(feeMember.getYear()));
       }
       return feeMemberRepository.update(feeMember);
    }

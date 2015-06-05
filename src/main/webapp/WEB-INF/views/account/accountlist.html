@@ -64,7 +64,7 @@
 					<td th:if="${account.accountType != null}" th:text="${account.accountType.name}"></td>
 					<td th:if="${account.accountType == null}" th:text="${account.accountType}"></td>
 					<td th:text="${account.installments}">installments</td>
-					<td th:text="${account.role}">role</td>
+					<td th:text="#{${'roles.' + account.role}}">role</td>
 
 					<!-- Unsubscribe Account -->
 					<td th:if="${account.active} and !${account.role==rolAdmin}">

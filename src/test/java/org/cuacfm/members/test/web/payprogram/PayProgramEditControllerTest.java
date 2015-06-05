@@ -200,10 +200,10 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 
       mockMvc.perform(
             post("/feeProgramList/payProgramList/payProgramEdit").locale(Locale.ENGLISH)
-                  .session(defaultSession).param("price", "24").param("hasPay", "true")
+                  .session(defaultSession).param("price", "24").param("state", "PAY").param("method", "CASH")
                   .param("AccountPayer", "pepe").param("idPayer", "1G3210")
                   .param("idTxn", "1G3210").param("emailPayer", "user@hotmail.com")
-                  .param("statusPay", "Completed").param("datePay", "10:10 10/10/2015")).andExpect(
+                  .param("datePay", "10:10 10/10/2015")).andExpect(
             view().name("redirect:/feeProgramList/payProgramList"));
    }
 
@@ -231,9 +231,9 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 
       mockMvc.perform(
             post("/feeProgramList/payProgramList/payProgramEdit").locale(Locale.ENGLISH)
-                  .session(defaultSession).param("price", "24").param("hasPay", "true")
+                  .session(defaultSession).param("price", "24").param("state", "PAY").param("method", "CASH")
                   .param("AccountPayer", "").param("idPayer", "").param("idTxn", "")
-                  .param("emailPayer", "").param("statusPay", "").param("datePay", "")).andExpect(
+                  .param("emailPayer", "").param("datePay", "")).andExpect(
             view().name("redirect:/feeProgramList/payProgramList"));
    }
 
@@ -280,10 +280,10 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 
       mockMvc.perform(
             post("/feeProgramList/payProgramList/payProgramEdit").locale(Locale.ENGLISH)
-                  .session(defaultSession).param("price", "24").param("hasPay", "true")
+                  .session(defaultSession).param("price", "24").param("state", "PAY").param("method", "CASH")
                   .param("AccountPayer", "pepe").param("idPayer", "1G3210")
                   .param("idTxn", "1G3210").param("emailPayer", "user@hotmail.com")
-                  .param("statusPay", "Completed").param("datePay", "10:10 10/10/2015")).andExpect(
+                  .param("datePay", "10:10 10/10/2015")).andExpect(
             view().name("payprogram/payprogramedit"));
 
    }

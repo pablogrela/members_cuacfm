@@ -22,6 +22,8 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.States.methods;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
@@ -308,12 +310,12 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(), feeProgram.getId());
       
       // Assert
-      assertFalse(payProgram.isHasPay());
+      assertFalse(payProgram.getState().equals(states.PAY));
       
       payProgramService.pay(payProgram);
       
       // Assert
-      assertTrue(payProgram.isHasPay());
+      assertTrue(payProgram.getState().equals(states.PAY));
    }
    
    
@@ -346,13 +348,14 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(), feeProgram.getId());
       
       // Assert
-      assertFalse(payProgram.isHasPay());
+      assertFalse(payProgram.getState().equals(states.PAY));
       payProgramService.payPayPal(payProgram, "accountPayer", "idTxn", "idPayer", "emailPayer", "statusPay", "12:12:12 Jun 12, 2015");
-      assertFalse(payProgram.isHasPay());
+      assertFalse(payProgram.getState().equals(states.PAY));
       
       // Assert
       payProgramService.payPayPal(payProgram, "accountPayer", "idTxn", "idPayer", "emailPayer", "Completed", "12:12:12 Jun 12, 2015");
-      assertTrue(payProgram.isHasPay());
+      assertTrue(payProgram.getState().equals(states.PAY));
+      assertTrue(payProgram.getMethod().equals(methods.PAYPAL));
    }
    
    /**
@@ -390,7 +393,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
       PayProgram payProgram2 = payProgramService.findByPayProgramIds(program2.getId(), feeProgram.getId());
       
       // Assert
-      assertFalse(payProgram.isHasPay());
+      assertFalse(payProgram.getState().equals(states.PAY));
       
       payProgramService.payPayPal(payProgram, "accountPayer", "idTxn", "idPayer", "emailPayer", "statusPay", "12:12:12 Jun 12, 2015");
       payProgramService.payPayPal(payProgram2, "accountPayer", "idTxn", "idPayer", "emailPayer", "statusPay", "12:12:12 Jun 12, 2015");

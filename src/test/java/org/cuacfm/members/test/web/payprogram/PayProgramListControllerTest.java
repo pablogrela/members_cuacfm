@@ -1,7 +1,7 @@
 package org.cuacfm.members.test.web.payprogram;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -25,6 +25,7 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
@@ -169,7 +170,7 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
    public void payPayProgramTest() throws Exception {
 
       // Assert no pay
-      assertEquals(payProgram.isHasPay(), false);
+      assertTrue(payProgram.getState().equals(states.NO_PAY));
 
       mockMvc.perform(
             post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH)
@@ -182,9 +183,7 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
             view().name("redirect:/feeProgramList/payProgramList"));
 
       // Assert Pay
-      assertEquals(
-
-      payProgram.isHasPay(), true);
+      assertTrue(payProgram.getState().equals(states.PAY));
    }
 
    /**

@@ -73,7 +73,8 @@
 					<th th:text="#{program}">Program</th>
 					<th th:text="#{members}">Accounts</th>
 					<th th:text="#{price}">Price</th>
-					<th th:text="#{payProgram.hasPay}">Has Pay</th>
+					<th th:text="#{state}" th:title="#{infoState}">State</th>
+					<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
 					<th th:text="#{payerAccount}">Mobile</th>
 					<th class="no-sort"></th>
 					<th class="no-sort"></th>
@@ -86,12 +87,8 @@
 					<td th:text="${payProgram.program.name}">name</td>
 					<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
 					<td th:text="${payProgram.price}">price</td>
-					<th:block th:if="${payProgram.hasPay == false}">
-						<td th:text="#{false}">false</td>
-					</th:block>
-					<th:block th:if="${payProgram.hasPay == true}">
-						<td th:text="#{true}">true</td>
-					</th:block>
+					<td th:text="#{${'states.' + payProgram.state}}">State</td>
+					<td th:text="#{${'methods.' + payProgram.method}}">Method</td>
 					<td th:text="${payProgram.accountPayer}">mobile</td>
 
 
@@ -104,7 +101,8 @@
 
 
 					<!-- Pay payProgram -->
-					<td th:if="!${payProgram.hasPay}" class="text-center">
+					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.States.states).NO_PAY} or
+						${payProgram.state == T(org.cuacfm.members.model.util.States.states).RETURN_BILL}" class="text-center">
 						<form th:action="@{'payProgramList/pay/'+${payProgram.id}}" method="post">
 							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 						</form>
@@ -112,7 +110,8 @@
 
 
 					<!-- Fill table entry, pay program -->
-					<td th:if="${payProgram.hasPay}"></td>
+					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.States.states).PAY} or
+						${payProgram.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}"></td>
 				</tr>
 			</tbody>
 		</table>

@@ -284,7 +284,7 @@
 				<label for="role" class="col-lg-2 control-label" th:text="#{role}">role</label>
 				<div class="col-lg-6">
 					<select class="form-control" id="role" disabled="disabled" name="role" th:field="*{role}">
-						<option th:field="*{role}" th:each="role : ${profileForm.roles}" th:value="${role}" th:text="${role}">role</option>
+						<option th:field="*{role}" th:each="role : ${profileForm.roles}" th:value="${role}" th:text="#{${'roles.' + role}}">role</option>
 					</select>
 					<input type="checkbox" id="enableModify19" th:text="#{profile}" name="onRole" onChange="checkedRole(this.form)" />
 				</div>
@@ -352,7 +352,7 @@
 				<label for="iban" class="col-lg-2 control-label" th:text="#{iban}">iban</label>
 				<div class="col-lg-10">
 					<input type="text" name="iban" class="form-control" id="iban" th:placeholder="#{iban}" th:field="*{iban}"
-						maxlength="34" required="required" />
+						minlength="34" maxlength="34" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('iban')}" th:errors="*{iban}">Incorrect iban</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -397,6 +397,5 @@
 			</div>
 		</fieldset>
 	</form>
-
 </body>
 </html>

@@ -80,26 +80,20 @@ public class AccountServiceImpl implements AccountService {
 
       // It is verified that there is not exist dni
       Account accountSearch = accountRepository.findByDni(account.getDni());
-      if (accountSearch != null) {
-         if (accountSearch.getId() != account.getId()) {
-            throw new UniqueException("Dni", account.getDni());
-         }
+      if ((accountSearch != null) && (accountSearch.getId() != account.getId())) {
+         throw new UniqueException("Dni", account.getDni());
       }
 
       // It is verified that there is not exist login
       accountSearch = accountRepository.findByLogin(account.getLogin());
-      if (accountSearch != null) {
-         if (accountSearch.getId() != account.getId()) {
-            throw new UniqueException("Login", account.getLogin());
-         }
+      if ((accountSearch != null) && (accountSearch.getId() != account.getId())) {
+         throw new UniqueException("Login", account.getLogin());
       }
 
       // It is verified that there is not exist email
       accountSearch = accountRepository.findByEmail(account.getEmail());
-      if (accountSearch != null) {
-         if (accountSearch.getId() != account.getId()) {
-            throw new UniqueException("Email", account.getEmail());
-         }
+      if ((accountSearch != null) && (accountSearch.getId() != account.getId())) {
+         throw new UniqueException("Email", account.getEmail());
       }
 
       if (newPassword) {
@@ -262,15 +256,16 @@ public class AccountServiceImpl implements AccountService {
    @Override
    public BankAccount saveBankAccount(BankAccount bankAccount) {
       int id = 0;
-      if (bankAccount.getAccount().getBankAccounts() != null){
-         id = bankAccount.getAccount().getBankAccounts().size()+1;
+      if (bankAccount.getAccount().getBankAccounts() != null) {
+         id = bankAccount.getAccount().getBankAccounts().size() + 1;
       }
-      
-      String mandate = bankAccount.getAccount().getId() + "_" + bankAccount.getAccount().getDni() + "_" + id;
+
+      String mandate = bankAccount.getAccount().getId() + "_" + bankAccount.getAccount().getDni()
+            + "_" + id;
       bankAccount.setMandate(mandate);
       return bankAccountRepository.save(bankAccount);
    }
-   
+
    /**
     * Active bank account by account id.
     *
@@ -279,7 +274,7 @@ public class AccountServiceImpl implements AccountService {
     * @return the bank account
     */
    @Override
-   public BankAccount activeBankAccountByAccountId(Long accountId){
+   public BankAccount activeBankAccountByAccountId(Long accountId) {
       return bankAccountRepository.activeBankAccountByAccountId(accountId);
    }
 }

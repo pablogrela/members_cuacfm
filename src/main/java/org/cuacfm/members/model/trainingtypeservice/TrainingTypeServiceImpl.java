@@ -59,13 +59,10 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
       // It is verified that there is not exist name of trainingType in other
       // trainingType
       TrainingType trainingTypeSearch = trainingTypeRepository.findByName(trainingType.getName());
-      if (trainingTypeSearch != null) {
-         if (trainingTypeSearch.getId() != trainingType.getId()) {
-            throw new UniqueException("Name", trainingType.getName());
-         }
+      if ((trainingTypeSearch != null) && (trainingTypeSearch.getId() != trainingType.getId())) {
+         throw new UniqueException("Name", trainingType.getName());
       }
       return trainingTypeRepository.update(trainingType);
-
    }
 
    /**

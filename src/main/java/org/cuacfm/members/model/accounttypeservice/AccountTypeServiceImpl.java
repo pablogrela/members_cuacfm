@@ -47,10 +47,8 @@ public class AccountTypeServiceImpl implements AccountTypeService {
       // It is verified that there is not exist name of trainingType in other
       // trainingType
       AccountType accountTypeSearch = accountTypeRepository.findByName(accountType.getName());
-      if (accountTypeSearch != null) {
-         if (accountTypeSearch.getId() != accountType.getId()) {
-            throw new UniqueException("Name", accountType.getName());
-         }
+      if ((accountTypeSearch != null) && (accountTypeSearch.getId() != accountType.getId())) {
+         throw new UniqueException("Name", accountType.getName());
       }
       return accountTypeRepository.update(accountType);
    }

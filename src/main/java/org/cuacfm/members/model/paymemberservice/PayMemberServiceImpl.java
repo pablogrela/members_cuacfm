@@ -3,12 +3,16 @@ package org.cuacfm.members.model.paymemberservice;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feemember.FeeMemberRepository;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymember.PayMemberRepository;
+import org.cuacfm.members.model.util.States.methods;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.web.support.CreatePdf;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,10 +69,8 @@ public class PayMemberServiceImpl implements PayMemberService {
    @Override
    public PayMember update(PayMember payMember) throws ExistTransactionIdException {
       PayMember paymentExist = payMemberRepository.findByIdTxn(payMember.getIdTxn());
-      if (paymentExist != null) {
-         if (paymentExist.getId() != payMember.getId()) {
-            throw new ExistTransactionIdException(payMember.getIdTxn());
-         }
+      if ((paymentExist != null) && (paymentExist.getId() != payMember.getId())) {
+         throw new ExistTransactionIdException(payMember.getIdTxn());
       }
       return payMemberRepository.update(payMember);
    }
@@ -81,7 +83,8 @@ public class PayMemberServiceImpl implements PayMemberService {
     */
    @Override
    public void pay(PayMember payMember) {
-      payMember.setHasPay(true);
+      payMember.setState(states.PAY);
+      payMember.setMethod(methods.CASH);
       payMember.setDatePay(new Date());
       payMemberRepository.update(payMember);
    }
@@ -109,20 +112,19 @@ public class PayMemberServiceImpl implements PayMemberService {
          String statusPay, String datePay) throws ExistTransactionIdException {
 
       PayMember paymentExist = payMemberRepository.findByIdTxn(idTxn);
-      if (paymentExist != null) {
-         if (paymentExist.getId() != payMember.getId()) {
-            throw new ExistTransactionIdException(idTxn);
-         }
+      if ((paymentExist != null) && (paymentExist.getId() != payMember.getId())) {
+         throw new ExistTransactionIdException(idTxn);
       }
 
       payMember.setIdTxn(idTxn);
       payMember.setEmailPayer(emailPayer);
       payMember.setIdPayer(idPayer);
-      payMember.setStatusPay(statusPay);
       payMember.setDatePay(DisplayDate.stringPaypalToDate(datePay));
-
+      payMember.setMethod(methods.NO_PAY);
+      payMember.setState(states.MANAGEMENT);
       if (statusPay.contains("Completed")) {
-         payMember.setHasPay(true);
+         payMember.setState(states.PAY);
+         payMember.setMethod(methods.PAYPAL);
       }
       payMemberRepository.update(payMember);
    }
@@ -176,13 +178,15 @@ public class PayMemberServiceImpl implements PayMemberService {
    }
 
    /**
-    * Gets the pay member no pay list by direct Debit.
+    * Gets the pay member no pay list by direct debit.
     *
-    * @return the pay member no pay list by direct Debit
+    * @param monthCharge
+    *           the month charge
+    * @return the pay member no pay list by direct debit
     */
    @Override
-   public List<PayMember> getPayMemberNoPayListByDirectDebit() {
-      return payMemberRepository.getPayMemberNoPayListByDirectDebit();
+   public Map<Account, List<PayMember>> getPayMemberNoPayListByDirectDebit(Date monthCharge) {
+      return payMemberRepository.getPayMemberNoPayListByDirectDebit(monthCharge);
    }
 
    /**
@@ -232,6 +236,7 @@ public class PayMemberServiceImpl implements PayMemberService {
     *           the option
     * @return the response entity
     */
+   @Override
    public ResponseEntity<byte[]> createPdfFeeMember(MessageSource messageSource, Long feeMemberId,
          String option) {
 

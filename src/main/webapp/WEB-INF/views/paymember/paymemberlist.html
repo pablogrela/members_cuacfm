@@ -120,7 +120,8 @@
 					<th th:text="#{user}">Name</th>
 					<th th:text="#{mobile}">Mobile</th>
 					<th th:text="#{price}">Price</th>
-					<th th:text="#{hasPay}">Has Pay</th>
+					<th th:text="#{state}" th:title="#{infoState}">State</th>
+					<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
 					<th th:text="#{payMember.installment}">Installment</th>
 					<th th:text="#{dateCharge}">Date charge</th>
 					<th class="no-sort"></th>
@@ -134,12 +135,8 @@
 					<td id="payMemberName" th:text="${payMember.account.name}">name</td>
 					<td th:text="${payMember.account.mobile}">mobile</td>
 					<td id="payMemberPrice" th:text="${payMember.price}">price</td>
-					<th:block th:if="${payMember.hasPay == false}">
-						<td th:text="#{false}">false</td>
-					</th:block>
-					<th:block th:if="${payMember.hasPay == true}">
-						<td th:text="#{true}">true</td>
-					</th:block>
+					<td th:text="#{${'states.' + payMember.state}}">State</td>
+					<td th:text="#{${'methods.' + payMember.method}}">Method</td>
 					<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of
 						installments</td>
 					<td th:text="${#dates.format(payMember.dateCharge, #messages.msg('dateFormatMonthOfYear'))}"> May of 2015</td>
@@ -154,7 +151,8 @@
 
 
 					<!-- Pay payMember -->
-					<td th:if="!${payMember.hasPay}" class="text-center">
+					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.States.states).NO_PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.States.states).RETURN_BILL}" class="text-center">
 						<form th:action="@{'payMemberList/pay/'+${payMember.id}}" method="post">
 							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 						</form>
@@ -162,7 +160,8 @@
 
 
 					<!-- Fill table entry, pay member -->
-					<td th:if="${payMember.hasPay}"></td>
+					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.States.states).PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}"></td>
 				</tr>
 			</tbody>
 		</table>

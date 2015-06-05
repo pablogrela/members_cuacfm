@@ -1,7 +1,7 @@
 package org.cuacfm.members.test.web.paymember;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -25,6 +25,7 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
@@ -172,7 +173,7 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
       PayMember payMember = payMemberService.findByPayMemberIds(user.getId(), feeMember.getId())
             .get(0);
       // Assert no pay
-      assertEquals(payMember.isHasPay(), false);
+      assertTrue(payMember.getState().equals(states.NO_PAY));
 
       mockMvc.perform(
             post("/feeMemberList/payMemberList/" + feeMember.getId()).locale(Locale.ENGLISH)
@@ -185,8 +186,8 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
             view().name("redirect:/feeMemberList/payMemberList"));
 
       // Assert Pay
-      assertEquals(payMemberService.findByPayMemberIds(user.getId(), feeMember.getId()).get(0)
-            .isHasPay(), true);
+      assertTrue(payMemberService.findByPayMemberIds(user.getId(), feeMember.getId()).get(0)
+            .getState().equals(states.PAY));
    }
 
    /**

@@ -8,6 +8,11 @@ import java.util.Locale;
 /** The Class DisplayDate. */
 public class DisplayDate {
 
+   /** Instantiates a new display date.*/
+   protected DisplayDate() {
+      // Default empty constructor.
+   }
+
    /**
     * Convert String to date.
     *
@@ -98,11 +103,11 @@ public class DisplayDate {
     */
    public static Date stringPaypalToDate(String date) {
       Date newDate = new Date();
-      date = date.substring(0, 21);
+      String dateAux = date.substring(0, 21);
       SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MMM dd, yyyy", Locale.US);
 
       try {
-         newDate = dateFormat.parse(date);
+         newDate = dateFormat.parse(dateAux);
       } catch (ParseException ex) {
          ex.getMessage();
       }

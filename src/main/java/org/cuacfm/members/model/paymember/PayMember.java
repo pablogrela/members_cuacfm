@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.feemember.FeeMember;
+import org.cuacfm.members.model.util.States.methods;
+import org.cuacfm.members.model.util.States.states;
 
 /** The Class PayMember. */
 @SuppressWarnings("serial")
@@ -34,11 +36,18 @@ public class PayMember implements Serializable {
    @JoinColumn(name = "feeMemberId")
    private FeeMember feeMember;
 
+   // @ManyToOne(optional = false, fetch = FetchType.LAZY)
+   // @JoinColumn(name = "directDebitId")
+   // private DirectDebit directDebit
+
    /** The price. */
    private Double price;
 
-   /** The has pay. */
-   private boolean hasPay;
+   /** The State. */
+   private states state;
+
+   /** The method. */
+   private methods method;
 
    /** The installment. */
    private int installment;
@@ -56,9 +65,6 @@ public class PayMember implements Serializable {
    /** The email payer. */
    private String emailPayer;
 
-   /** The status pay. */
-   private String statusPay;
-
    /** The date pay. */
    private Date datePay;
 
@@ -66,7 +72,7 @@ public class PayMember implements Serializable {
    private Date dateCharge;
 
    /**
-    * Instantiates a new fee member.
+    * Instantiates a pay fee member.
     */
    public PayMember() {
       // Default empty constructor.
@@ -85,6 +91,8 @@ public class PayMember implements Serializable {
     *           the installment
     * @param installments
     *           the installments
+    * @param dateCharge
+    *           the date charge
     */
    public PayMember(Account account, FeeMember feeMember, Double price, int installment,
          int installments, Date dateCharge) {
@@ -94,7 +102,9 @@ public class PayMember implements Serializable {
       this.price = price;
       this.installment = installment;
       this.installments = installments;
-      this.dateCharge  = dateCharge;
+      this.dateCharge = dateCharge;
+      this.state = states.NO_PAY;
+      this.method = methods.NO_PAY;
    }
 
    /**
@@ -144,22 +154,22 @@ public class PayMember implements Serializable {
    }
 
    /**
-    * Checks if is checks for pay.
+    * Gets the state.
     *
-    * @return true, if is checks for pay
+    * @return the state
     */
-   public boolean isHasPay() {
-      return hasPay;
+   public states getState() {
+      return state;
    }
 
    /**
-    * Sets the checks for pay.
+    * Sets the state.
     *
-    * @param hasPay
-    *           the new checks for pay
+    * @param state
+    *           the new state
     */
-   public void setHasPay(boolean hasPay) {
-      this.hasPay = hasPay;
+   public void setState(states state) {
+      this.state = state;
    }
 
    /**
@@ -258,22 +268,22 @@ public class PayMember implements Serializable {
    }
 
    /**
-    * Gets the status pay.
+    * Gets the method.
     *
-    * @return the status pay
+    * @return the method
     */
-   public String getStatusPay() {
-      return statusPay;
+   public methods getMethod() {
+      return method;
    }
 
    /**
-    * Sets the status pay.
+    * Sets the method.
     *
-    * @param statusPay
-    *           the new status pay
+    * @param method
+    *           the new method
     */
-   public void setStatusPay(String statusPay) {
-      this.statusPay = statusPay;
+   public void setMethod(methods method) {
+      this.method = method;
    }
 
    /**

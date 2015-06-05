@@ -216,7 +216,6 @@ public class WebTests extends WebSecurityConfigurationAware {
 
       found = false;
       for (WebElement row : rows) {
-         System.out.println(row.findElement(By.id("payMemberName")).getText());
          found = (row.findElement(By.id("payMemberName")).getText().equals("user"));
       }
       assertTrue(found);

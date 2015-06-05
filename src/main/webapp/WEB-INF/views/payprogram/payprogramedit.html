@@ -48,14 +48,26 @@
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-
-			<!-- Edit HasPay -->
+			
+			<!-- State, Selected option in droplist, with a checkbox to enable field state -->
 			<div class="form-group">
-				<label for="hasPay" class="col-lg-2-edit control-label" th:text="#{payProgram.hasPay}">Has Pay</label>
-				<div class="col-lg-2">
-					<input type="checkbox" class="form-control-edit" th:checked="*{hasPay}" id="hasPay" name="hasPay"
-						th:title="#{payProgram.infoClose}" />
-					<div class="ws-errorbox" hidden=""></div>
+				<label for="state" class="col-lg-2 control-label" th:text="#{state}">state</label>
+				<div class="col-lg-6">
+					<select class="form-control" th:field="*{state}" th:title="#{infoState}">
+						<option th:field="*{state}" th:each="state : ${payProgramForm.stateList}" th:value="${state}" 
+							th:text="#{${'states.' + state}}">state</option>
+					</select>
+				</div>
+			</div>
+			
+			<!-- Method, Selected option in droplist, with a checkbox to enable field method -->
+			<div class="form-group">
+				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">method</label>
+				<div class="col-lg-6">
+					<select class="form-control" th:field="*{method}" th:title="#{infoMethodPayment}">
+						<option th:field="*{method}" th:each="method : ${payProgramForm.methodList}" th:value="${method}" 
+							th:text="#{${'methods.' + method}}">method</option>
+					</select>
 				</div>
 			</div>
 

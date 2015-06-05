@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 public class ProgramServiceImpl implements ProgramService {
 
    /** The program repository. */
-   
+
    @Autowired
    private PayProgramService payProgramService;
-   
+
    @Autowired
    private ProgramRepository programRepository;
 
@@ -60,10 +60,8 @@ public class ProgramServiceImpl implements ProgramService {
       // It is verified that there is not exist name of program in other
       // program
       Program programSearch = programRepository.findByName(program.getName());
-      if (programSearch != null) {
-         if (programSearch.getId() != program.getId()) {
-            throw new UniqueException("Name", program.getName());
-         }
+      if ((programSearch != null) && (programSearch.getId() != program.getId())) {
+         throw new UniqueException("Name", program.getName());
       }
       return programRepository.update(program);
 
@@ -80,8 +78,8 @@ public class ProgramServiceImpl implements ProgramService {
    @Override
    public void delete(Long id) throws ExistPaymentsException {
       // If Exist payments
-       if (! payProgramService.getPayProgramListByProgramId(id).isEmpty()){
-          throw new ExistPaymentsException();
+      if (!payProgramService.getPayProgramListByProgramId(id).isEmpty()) {
+         throw new ExistPaymentsException();
       }
       programRepository.delete(id);
    }

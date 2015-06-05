@@ -24,7 +24,6 @@ public class Program implements Serializable {
    @Id
    @GeneratedValue
    private Long id;
-
    /** The name. */
    @Column(unique = true)
    private String name;
@@ -39,11 +38,6 @@ public class Program implements Serializable {
    private int duration;
 
    /** The accounts. */
-   // @ManyToMany(fetch = FetchType.EAGER)
-   // @JoinColumn(name = "accountId")
-   // @ManyToMany(fetch = FetchType.EAGER, mappedBy = "programs", cascade =
-   // {CascadeType.PERSIST, CascadeType.MERGE})
-   // @ManyToMany(fetch = FetchType.EAGER, mappedBy = "programs")
    @ManyToMany(fetch = FetchType.EAGER)
    @JoinTable(name = "UserPrograms", joinColumns = { @JoinColumn(name = "programId") }, inverseJoinColumns = { @JoinColumn(name = "accountId") })
    private List<Account> accounts;

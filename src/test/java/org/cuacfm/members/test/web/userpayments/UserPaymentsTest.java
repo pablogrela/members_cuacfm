@@ -2,6 +2,7 @@ package org.cuacfm.members.test.web.userpayments;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -34,6 +35,8 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.States.methods;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
@@ -218,7 +221,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       PayMember userFeeMember = userFeeMemberService
             .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
       // Assert no pay
-      assertEquals(userFeeMember.isHasPay(), false);
+      assertTrue(userFeeMember.getState().equals(states.NO_PAY));
 
       mockMvc.perform(
             post("/userPayments/payMember/" + userFeeMember.getId()).locale(Locale.ENGLISH)
@@ -229,7 +232,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(userFeeMember.isHasPay(), true);
+      assertTrue(userFeeMember.getState().equals(states.PAY));
    }
 
    /**
@@ -244,7 +247,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       PayMember userFeeMember = userFeeMemberService
             .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
       // Assert no pay
-      assertEquals(userFeeMember.isHasPay(), false);
+      assertTrue(userFeeMember.getState().equals(states.NO_PAY));
 
       mockMvc.perform(
             post("/userPayments/payMember/" + userFeeMember.getId()).locale(Locale.ENGLISH)
@@ -255,7 +258,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(userFeeMember.isHasPay(), false);
+      assertTrue(userFeeMember.getState().equals(states.MANAGEMENT));
       assertEquals(userFeeMember, userFeeMemberService.findByIdTxn("txn"));
    }
 
@@ -281,7 +284,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             .findByPayMemberIds(user.getId(), feeMember2.getId()).get(0);
       
       // Assert no pay
-      assertEquals(userFeeMember.isHasPay(), false);
+      assertTrue(userFeeMember.getState().equals(states.NO_PAY));
 
       mockMvc.perform(
             post("/userPayments/payMember/" + userFeeMember.getId()).locale(Locale.ENGLISH)
@@ -308,7 +311,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
                   .andExpect(view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(userFeeMember.isHasPay(), true);
+      assertTrue(userFeeMember.getState().equals(states.PAY));
    }
 
    /**
@@ -323,7 +326,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       PayMember userFeeMember = userFeeMemberService
             .findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
       // Assert no pay
-      assertEquals(userFeeMember.isHasPay(), false);
+      assertTrue(userFeeMember.getState().equals(states.NO_PAY));
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
             666666666, 666666666, "demo", roles.ROLE_USER);
       accountService.save(user2);
@@ -345,7 +348,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(userFeeMemberProbe.isHasPay(), false);
+      assertTrue(userFeeMember.getState().equals(states.NO_PAY));
+      assertTrue(userFeeMember.getMethod().equals(methods.NO_PAY));
    }
 
    /**
@@ -360,7 +364,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
             feeProgram.getId());
       // Assert no pay
-      assertEquals(payProgram.isHasPay(), false);
+      assertTrue(payProgram.getState().equals(states.NO_PAY));
 
       mockMvc.perform(
             post("/userPayments/payProgram/" + payProgram.getId()).locale(Locale.ENGLISH)
@@ -371,7 +375,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(payProgram.isHasPay(), true);
+      assertTrue(payProgram.getState().equals(states.PAY));
    }
 
    /**
@@ -386,7 +390,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
             feeProgram.getId());
       // Assert no pay
-      assertEquals(payProgram.isHasPay(), false);
+      assertTrue(payProgram.getState().equals(states.NO_PAY));
 
       mockMvc.perform(
             post("/userPayments/payProgram/" + payProgram.getId()).locale(Locale.ENGLISH)
@@ -397,7 +401,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(payProgram.isHasPay(), false);
+      assertTrue(payProgram.getState().equals(states.MANAGEMENT));
       assertEquals(payProgram, payProgramService.findByIdTxn("txn"));
    }
 
@@ -421,7 +425,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             feeProgram2.getId());
       
       // Assert no pay
-      assertEquals(payProgram.isHasPay(), false);
+      assertTrue(payProgram.getState().equals(states.NO_PAY));
 
       mockMvc.perform(
             post("/userPayments/payProgram/" + payProgram.getId()).locale(Locale.ENGLISH)
@@ -448,7 +452,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
                         .andExpect(view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(payProgram.isHasPay(), true);
+      assertTrue(payProgram.getState().equals(states.PAY));
    }
 
    /**
@@ -463,7 +467,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(),
             feeProgram.getId());
       // Assert no pay
-      assertEquals(payProgram.isHasPay(), false);
+      assertTrue(payProgram.getState().equals(states.NO_PAY));
 
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
             666666666, 666666666, "demo", roles.ROLE_USER);
@@ -497,6 +501,6 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
             view().name("redirect:/userPayments"));
 
       // Assert Pay
-      assertEquals(payProgramProbe.isHasPay(), false);
+      assertTrue(payProgram.getState().equals(states.NO_PAY));
    }
 }

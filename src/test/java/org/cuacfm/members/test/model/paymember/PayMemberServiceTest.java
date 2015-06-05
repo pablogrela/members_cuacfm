@@ -19,6 +19,7 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
@@ -88,7 +89,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 
       // Update
       payMember.setDatePay(new Date());
-      payMember.setHasPay(true);
+      payMember.setState(states.PAY);
       payMember.setInstallment(3);
       payMember.setInstallments(3);
       payMember.setPrice(Double.valueOf(30));
@@ -101,7 +102,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       assertEquals(payMember, payMemberSearch);
       assertEquals(payMember.getAccount(), payMemberSearch.getAccount());
       assertEquals(payMember.getDatePay(), payMemberSearch.getDatePay());
-      assertEquals(payMember.isHasPay(), payMemberSearch.isHasPay());
+      assertEquals(payMember.getState(), payMemberSearch.getState());
       assertEquals(payMember.getInstallment(), payMemberSearch.getInstallment());
       assertEquals(payMember.getInstallments(), payMemberSearch.getInstallments());
       assertEquals(payMember.getPrice(), payMemberSearch.getPrice());
@@ -351,7 +352,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       payMemberService.pay(payMembers.get(0));
 
       // Assert
-      assertEquals(payMembers.get(0).isHasPay(), true);
+      assertTrue(payMembers.get(0).getState().equals(states.PAY));
    }
 
    /**

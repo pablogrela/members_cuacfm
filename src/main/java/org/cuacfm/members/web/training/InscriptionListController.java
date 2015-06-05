@@ -160,14 +160,6 @@ public class InscriptionListController {
          @RequestParam("submit") String submit, RedirectAttributes ra) throws DateLimitException {
 
       List<Inscription> insUpdate = inscriptionsForm.getInscriptions();
-      // System.out.println("inscriptionsForm: " + inscriptionsForm);
-      // System.out.println("inscriptionsForm inscriptions: " +
-      // inscriptionsForm.getInscriptions());
-      // System.out.println("inscriptions: " + inscriptions);
-      // System.out.println("training: " + training);
-      // System.out.println("insUpdate: " + insUpdate);
-      // System.out.println("submit: " + submit);
-
       boolean modify = false;
       int count = training.getCountPlaces();
 

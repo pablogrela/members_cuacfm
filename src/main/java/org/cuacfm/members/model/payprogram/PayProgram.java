@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.program.Program;
+import org.cuacfm.members.model.util.States.methods;
+import org.cuacfm.members.model.util.States.states;
 
 /** The Class PayProgram. */
 @SuppressWarnings("serial")
@@ -34,11 +36,18 @@ public class PayProgram implements Serializable {
    @JoinColumn(name = "feeProgramId")
    private FeeProgram feeProgram;
 
+   // @ManyToOne(optional = false, fetch = FetchType.LAZY)
+   // @JoinColumn(name = "directDebitId")
+   // private DirectDebit directDebit
+
    /** The price. */
    private Double price;
 
-   /** The has pay. */
-   private boolean hasPay;
+   /** The State. */
+   private states state;
+   
+   /** The method. */
+   private methods method;
 
    /** The account payer. */
    private String accountPayer;
@@ -53,14 +62,11 @@ public class PayProgram implements Serializable {
    /** The email payer. */
    private String emailPayer;
 
-   /** The status pay. */
-   private String statusPay;
-
    /** The date pay. */
    private Date datePay;
 
    /**
-    * Instantiates a new pay inscription.
+    * Instantiates a new pay program.
     */
    public PayProgram() {
       // Default empty constructor.
@@ -81,6 +87,8 @@ public class PayProgram implements Serializable {
       this.program = program;
       this.feeProgram = feeProgram;
       this.price = price;
+      this.state = states.NO_PAY;
+      this.method = methods.NO_PAY;
    }
 
    /**
@@ -130,24 +138,44 @@ public class PayProgram implements Serializable {
    }
 
    /**
-    * Checks if is checks for pay.
+    * Gets the state.
     *
-    * @return true, if is checks for pay
+    * @return the state
     */
-   public boolean isHasPay() {
-      return hasPay;
+   public states getState() {
+      return state;
    }
 
    /**
-    * Sets the checks for pay.
+    * Sets the state.
     *
-    * @param hasPay
-    *           the new checks for pay
+    * @param state
+    *           the new state
     */
-   public void setHasPay(boolean hasPay) {
-      this.hasPay = hasPay;
+   public void setState(states state) {
+      this.state = state;
    }
 
+   /**
+    * Gets the method.
+    *
+    * @return the method
+    */
+   public methods getMethod() {
+      return method;
+   }
+
+   /**
+    * Sets the method.
+    *
+    * @param method
+    *           the new method
+    */
+   public void setMethod(methods method) {
+      this.method = method;
+   }
+
+   
    /**
     * Gets the account payer.
     *
@@ -222,25 +250,6 @@ public class PayProgram implements Serializable {
     */
    public void setEmailPayer(String emailPayer) {
       this.emailPayer = emailPayer;
-   }
-
-   /**
-    * Gets the status pay.
-    *
-    * @return the status pay
-    */
-   public String getStatusPay() {
-      return statusPay;
-   }
-
-   /**
-    * Sets the status pay.
-    *
-    * @param statusPay
-    *           the new status pay
-    */
-   public void setStatusPay(String statusPay) {
-      this.statusPay = statusPay;
    }
 
    /**

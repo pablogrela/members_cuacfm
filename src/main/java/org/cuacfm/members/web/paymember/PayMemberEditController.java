@@ -6,6 +6,8 @@ import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.States.methods;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,11 +66,13 @@ public class PayMemberEditController {
          payMemberForm.setPrice(payMember.getPrice());
          payMemberForm.setInstallment(payMember.getInstallment());
          payMemberForm.setInstallments(payMember.getInstallments());
-         payMemberForm.setHasPay(payMember.isHasPay());
+         payMemberForm.setState(String.valueOf(payMember.getState()));
+         payMemberForm.setStateList(java.util.Arrays.asList(states.values()));
+         payMemberForm.setMethod(String.valueOf(payMember.getMethod()));
+         payMemberForm.setMethodList(java.util.Arrays.asList(methods.values()));
          payMemberForm.setIdTxn(payMember.getIdTxn());
          payMemberForm.setIdPayer(payMember.getIdPayer());
          payMemberForm.setEmailPayer(payMember.getEmailPayer());
-         payMemberForm.setStatusPay(payMember.getStatusPay());
          payMemberForm.setIdPayer(payMember.getIdPayer());
          payMemberForm.setDatePay(DisplayDate.dateTimeToString(payMember
                .getDatePay()));

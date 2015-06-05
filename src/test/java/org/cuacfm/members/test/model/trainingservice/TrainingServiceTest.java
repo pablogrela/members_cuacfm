@@ -252,7 +252,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join and Update
-		trainingService.createInscription(Long.valueOf(0), training.getId());
+		//trainingService.createInscription(Long.valueOf(0), training.getId());
 		trainingService.createInscription(account.getId(), training.getId());
 		Inscription inscriptionSearch = trainingService.findByInscriptionIds(
 				account.getId(), training.getId());

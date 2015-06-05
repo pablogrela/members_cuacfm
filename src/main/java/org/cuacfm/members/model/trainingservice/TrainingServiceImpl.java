@@ -203,12 +203,6 @@ public class TrainingServiceImpl implements TrainingService {
       }
 
       Account account = accountRepository.findById(accountId);
-      // Check if account exist
-
-      if (account == null) {
-         return;
-         // throw new UsernameNotFoundException(accountId);
-      }
 
       // Check if account already inscription
       Inscription inscriptionSearched = inscriptionRepository.findByInscriptionIds(accountId,

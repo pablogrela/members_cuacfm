@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -12,6 +13,8 @@ import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogram.FeeProgramRepository;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogram.PayProgramRepository;
+import org.cuacfm.members.model.util.States.methods;
+import org.cuacfm.members.model.util.States.states;
 import org.cuacfm.members.web.support.CreatePdf;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,10 +75,8 @@ public class PayProgramServiceImpl implements PayProgramService {
    @Override
    public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException {
       PayProgram paymentExist = payProgramRepository.findByIdTxn(payProgram.getIdTxn());
-      if (paymentExist != null) {
-         if (paymentExist.getId() != payProgram.getId()) {
-            throw new ExistTransactionIdException(payProgram.getIdTxn());
-         }
+      if ((paymentExist != null) && (paymentExist.getId() != payProgram.getId())) {
+         throw new ExistTransactionIdException(payProgram.getIdTxn());
       }
       return payProgramRepository.update(payProgram);
    }
@@ -88,8 +89,9 @@ public class PayProgramServiceImpl implements PayProgramService {
     */
    @Override
    public void pay(PayProgram payProgram) {
-      payProgram.setHasPay(true);
+      payProgram.setState(states.PAY);
       payProgram.setDatePay(new Date());
+      payProgram.setMethod(methods.CASH);
       payProgramRepository.update(payProgram);
    }
 
@@ -118,21 +120,20 @@ public class PayProgramServiceImpl implements PayProgramService {
          String emailPayer, String statusPay, String datePay) throws ExistTransactionIdException {
 
       PayProgram paymentExist = payProgramRepository.findByIdTxn(idTxn);
-      if (paymentExist != null) {
-         if (paymentExist.getId() != payProgram.getId()) {
-            throw new ExistTransactionIdException(idTxn);
-         }
+      if ((paymentExist != null) && (paymentExist.getId() != payProgram.getId())) {
+         throw new ExistTransactionIdException(idTxn);
       }
 
       payProgram.setAccountPayer(accountPayer);
       payProgram.setIdTxn(idTxn);
       payProgram.setEmailPayer(emailPayer);
       payProgram.setIdPayer(idPayer);
-      payProgram.setStatusPay(statusPay);
       payProgram.setDatePay(DisplayDate.stringPaypalToDate(datePay));
-
+      payProgram.setState(states.MANAGEMENT);
+      payProgram.setMethod(methods.NO_PAY);
       if (statusPay.contains("Completed")) {
-         payProgram.setHasPay(true);
+         payProgram.setState(states.PAY);
+         payProgram.setMethod(methods.PAYPAL);
       }
       payProgramRepository.update(payProgram);
    }
@@ -188,10 +189,13 @@ public class PayProgramServiceImpl implements PayProgramService {
    /**
     * Gets the pay program no pay list by direct debit.
     *
+    * @param monthCharge
+    *           the month charge
     * @return the pay program no pay list by direct debit
     */
-   public List<PayProgram> getPayProgramNoPayListByDirectDebit() {
-      return payProgramRepository.getPayProgramNoPayListByDirectDebit();
+   @Override
+   public Map<Account, List<PayProgram>> getPayProgramNoPayListByDirectDebit(Date monthCharge) {
+      return payProgramRepository.getPayProgramNoPayListByDirectDebit(monthCharge);
    }
 
    /**

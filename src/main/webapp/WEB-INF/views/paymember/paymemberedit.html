@@ -39,7 +39,7 @@
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
 						<input type="number" class="form-control" id="price" th:placeholder="#{price}"
-							th:field="*{price}" step="0.01" min="0.01" required="required" />
+							th:field="*{price}" step="0.01" min="0" required="required" />
 					</div>
 					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
 					<br></br> <span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}"
@@ -78,18 +78,27 @@
 				</div>
 			</div>
 
-			<!-- Edit HasPay -->
+			<!-- State, Selected option in droplist, with a checkbox to enable field state -->
 			<div class="form-group">
-				<label for="hasPay" class="col-lg-2-edit control-label" th:text="#{payMember.hasPay}">Has Pay</label>
-				<div class="col-lg-2">
-					<input type="checkbox" class="form-control-edit" th:checked="*{hasPay}" id="hasPay"
-						name="hasPay" th:title="#{payMember.infoClose}" />
-						<div class="ws-errorbox" hidden=""></div>
+				<label for="state" class="col-lg-2 control-label" th:text="#{state}">state</label>
+				<div class="col-lg-6">
+					<select class="form-control" th:field="*{state}" th:title="#{infoState}">
+						<option th:field="*{state}" th:each="state : ${payMemberForm.stateList}" th:value="${state}" th:text="#{${'states.' + state}}">state</option>
+					</select>
 				</div>
 			</div>
 
-
-
+			<!-- Method, Selected option in droplist, with a checkbox to enable field method -->
+			<div class="form-group">
+				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">method</label>
+				<div class="col-lg-6">
+					<select class="form-control" th:field="*{method}" th:title="#{infoMethodPayment}">
+						<option th:field="*{method}" th:each="method : ${payMemberForm.methodList}" th:value="${method}" 
+							th:text="#{${'methods.' + method}}">method</option>
+					</select>
+				</div>
+			</div>
+			
 			<!-- Edit IdTxn -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('idTxn')}? 'has-error'">
 				<label for="idTxn" class="col-lg-1 control-label" th:text="#{payMember.idTxn}">Login</label>

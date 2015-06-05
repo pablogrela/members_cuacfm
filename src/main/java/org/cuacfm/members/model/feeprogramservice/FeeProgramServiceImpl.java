@@ -74,10 +74,8 @@ public class FeeProgramServiceImpl implements FeeProgramService {
       // It is verified that there is not exist name of feeProgram in other
       // feeProgram
       FeeProgram feeProgramSearch = feeProgramRepository.findByDate(feeProgram.getDate());
-      if (feeProgramSearch != null) {
-         if (feeProgramSearch.getId() != feeProgram.getId()) {
+      if ((feeProgramSearch != null) && (feeProgramSearch.getId() != feeProgram.getId())) {
             throw new UniqueException("Date", String.valueOf(feeProgram.getDate()));
-         }
       }
       return feeProgramRepository.update(feeProgram);
    }

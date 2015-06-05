@@ -94,15 +94,13 @@ public class FeeProgramRepositoryImpl implements FeeProgramRepository {
     *           the date
     * @return the fee program
     */
-   @SuppressWarnings("deprecation")
    @Override
    public FeeProgram findByDate(Date date) {
       try {
          return entityManager
                .createQuery(
-                     "select a from FeeProgram a where month(a.date) = :month and year(a.date) = :year",
-                     FeeProgram.class).setParameter("month", date.getMonth() + 1)
-               .setParameter("year", date.getYear() + 1900).getSingleResult();
+                     "select a from FeeProgram a where month(a.date) = month(:date) and year(a.date) = year(:date)",
+                     FeeProgram.class).setParameter("date", date).getSingleResult();
       } catch (NoResultException e) {
          return null;
       }
