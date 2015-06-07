@@ -96,7 +96,7 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
       methodPaymentService.save(methodPayment);
 
       Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "admin", roles.ROLE_ADMIN);
+            "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);
       admin.setAccountType(accountType);
       admin.setMethodPayment(methodPayment);
@@ -106,11 +106,11 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "22222222C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Account account2 = new Account("user2", "33333333C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
       accounts.add(account2);
 

@@ -48,12 +48,13 @@ public class SignupForm {
    private String email;
 
    /** The phone. */
-   // @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private Integer phone;
+   @Size(max = 20, message = SignupForm.MAX_CHARACTERS)
+   private String phone;
 
    /** The mobile. */
-   // @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private Integer mobile;
+   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+   @Size(max = 20, message = SignupForm.MAX_CHARACTERS)
+   private String mobile;
 
    /** The rule. */
    private boolean rule;
@@ -173,7 +174,7 @@ public class SignupForm {
     *
     * @return the phone
     */
-   public Integer getPhone() {
+   public String getPhone() {
       return phone;
    }
 
@@ -183,7 +184,7 @@ public class SignupForm {
     * @param phone
     *           the new phone
     */
-   public void setPhone(Integer phone) {
+   public void setPhone(String phone) {
       this.phone = phone;
    }
 
@@ -192,7 +193,7 @@ public class SignupForm {
     *
     * @return the mobile
     */
-   public Integer getMobile() {
+   public String getMobile() {
       return mobile;
    }
 
@@ -202,7 +203,7 @@ public class SignupForm {
     * @param mobile
     *           the new mobile
     */
-   public void setMobile(Integer mobile) {
+   public void setMobile(String mobile) {
       this.mobile = mobile;
    }
 

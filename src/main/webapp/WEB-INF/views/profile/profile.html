@@ -159,7 +159,7 @@
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
 					<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}"
-						minlength="6" maxlength="30" pattern="[0-9]{6,20}" th:title="#{telPattern}" value="" />
+						minlength="6" maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" value="" />
 					<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -169,8 +169,8 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="tel" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
-					<input type="number" name="mobile" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}"
-						minlength="6" maxlength="30" pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
+					<input type="tel" name="mobile" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}"
+						minlength="6" maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>

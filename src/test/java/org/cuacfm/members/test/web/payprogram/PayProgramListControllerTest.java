@@ -74,18 +74,18 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
    @Before
    public void initializeDefaultSession() throws UniqueException {
       Account admin = new Account("admin", "11111111D", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_ADMIN);
+            "666666666", "666666666", "demo", roles.ROLE_ADMIN);
       accountService.save(admin);
       defaultSession = getDefaultSession("admin");
 
       // Create User
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "22222222C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Account account2 = new Account("user2", "33333333C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
       accounts.add(account2);
 

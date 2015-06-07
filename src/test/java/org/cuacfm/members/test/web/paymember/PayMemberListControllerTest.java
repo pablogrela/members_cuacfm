@@ -84,13 +84,13 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Before
    public void initializeDefaultSession() throws UniqueException {
       Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_ADMIN);
+            "666666666", "666666666", "demo", roles.ROLE_ADMIN);
       accountService.save(admin);
       defaultSession = getDefaultSession("admin");
 
       // Create User
-      user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);
@@ -271,7 +271,7 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
             view().name("redirect:/feeMemberList/payMemberList"));
 
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       user2.setAccountType(accountType);
       user2.setMethodPayment(methodPayment);
@@ -293,14 +293,14 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Test
    public void createPdfALL() throws Exception {
       Account user2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       Account user3 = new Account("user3", "35555555C", "London", "user3", "user3@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       user3.setInstallments(2);
       accountService.save(user3);
       Account user4 = new Account("user4", "45555555C", "London", "user4", "user4@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user4);
       FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -328,14 +328,14 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Test
    public void createPdfPAy() throws Exception {
       Account user2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       Account user3 = new Account("user3", "35555555C", "London", "user3", "user3@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       user3.setInstallments(2);
       accountService.save(user3);
       Account user4 = new Account("user4", "45555555C", "London", "user4", "user4@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user4);
       FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -363,14 +363,14 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
    @Test
    public void createPdfNoPAy() throws Exception {
       Account user2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       Account user3 = new Account("user3", "35555555C", "London", "user3", "user3@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       user3.setInstallments(2);
       accountService.save(user3);
       Account user4 = new Account("user4", "45555555C", "London", "user4", "user4@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user4);
       FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),

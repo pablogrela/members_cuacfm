@@ -69,12 +69,12 @@ public class WebTests extends WebSecurityConfigurationAware {
    public void getDriver() throws UniqueException {
       // Create Admin
       Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "1234", roles.ROLE_ADMIN);
+            "666666666", "666666666", "1234", roles.ROLE_ADMIN);
       accountService.save(admin);
 
       // Create User
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       driver = new FirefoxDriver();

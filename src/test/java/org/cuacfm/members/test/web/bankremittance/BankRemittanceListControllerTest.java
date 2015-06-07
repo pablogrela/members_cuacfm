@@ -90,7 +90,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
    @Before
    public void initializeDefaultSession() throws UniqueException {
       Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "admin", roles.ROLE_ADMIN);
+            "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);
       defaultSession = getDefaultSession("admin");
 
@@ -100,7 +100,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
       // Create User
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user1", "11111111C", "London", "user11", "user1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       account.setMethodPayment(methodPayment);
       List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
@@ -114,7 +114,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
       accounts.add(account);
 
       Account account2 = new Account("user2", "12222222C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
       account2.setMethodPayment(methodPayment);
       List<BankAccount> bankAccounts2 = new ArrayList<BankAccount>();
@@ -126,7 +126,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
       accounts.add(account2);
 
       Account account3 = new Account("user3", "33333333C", "London", "user3", "user3@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account3);
       account3.setMethodPayment(methodPayment);
       List<BankAccount> bankAccounts3 = new ArrayList<BankAccount>();

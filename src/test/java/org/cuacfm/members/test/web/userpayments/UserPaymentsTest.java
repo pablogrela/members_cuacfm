@@ -120,8 +120,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       configurationService.save(configuration);
       
       // Create User
-      user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);
@@ -328,7 +328,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       // Assert no pay
       assertTrue(userFeeMember.getState().equals(states.NO_PAY));
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       user2.setAccountType(accountType);
       user2.setMethodPayment(methodPayment);
@@ -470,7 +470,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
       assertTrue(payProgram.getState().equals(states.NO_PAY));
 
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       user2.setAccountType(accountType);
       user2.setMethodPayment(methodPayment);

@@ -77,7 +77,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
    public void saveFeeProgramWithUsersTest() throws UniqueException {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
 
@@ -125,7 +125,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
       // Save
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
 

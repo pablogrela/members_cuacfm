@@ -57,7 +57,7 @@ public class InscriptionCloseListControllerTest extends WebSecurityConfiguration
      */
     @Before
     public void initializeDefaultSession() throws UniqueException {
-		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", 666666666, 666666666, "trainer", roles.ROLE_TRAINER);
+		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
         defaultSession = getDefaultSession("trainer");
     }
@@ -87,7 +87,7 @@ public class InscriptionCloseListControllerTest extends WebSecurityConfiguration
 		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
 				"description", "place", 90, 10);		
 		trainingService.save(training);
-		Account user = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		Account user = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user.getId(), training.getId());
 		

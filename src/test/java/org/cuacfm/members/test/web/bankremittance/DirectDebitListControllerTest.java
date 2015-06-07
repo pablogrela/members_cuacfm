@@ -91,7 +91,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
    @Before
    public void initializeDefaultSession() throws UniqueException {
       Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "admin", roles.ROLE_ADMIN);
+            "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);
       defaultSession = getDefaultSession("admin");
 
@@ -101,7 +101,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
       // Create User
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user1", "11111111C", "London", "user11", "user1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
       BankAccount bankAccount = new BankAccount(account, "Banco", "BSCHESMMXXX", "ES7620770024003102575766");
@@ -114,7 +114,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 
 
       Account account2 = new Account("user2", "12222222C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
       account2.setMethodPayment(methodPayment);
       List<BankAccount> bankAccounts2 = new ArrayList<BankAccount>();
@@ -126,7 +126,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
       accounts.add(account2);
 
       Account account3 = new Account("user3", "33333333C", "London", "user3", "user3@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account3);
 
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),

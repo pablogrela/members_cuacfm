@@ -67,8 +67,8 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
     */
    @Before
    public void initializeDefaultSession() throws UniqueException {
-      user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -118,7 +118,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
    public void displaysAccount2FormTest() throws Exception {
 
       Account user2 = new Account("user2", "11111111D", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
 
       mockMvc.perform(
@@ -185,7 +185,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
    public void dniAlreadyExistsTest() throws Exception {
 
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       user2.setAccountType(accountType);
       user2.setMethodPayment(methodPayment);
@@ -196,6 +196,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
             .perform(
                   post("/account").locale(Locale.ENGLISH).session(defaultSession)
                   .param("name", "name")
+                  .param("mobile", "12356789")
                   .param("dni", "55555555B")
                   .param("address", "address")
                   .param("cp", "cp")
@@ -218,7 +219,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
    public void loginAlreadyExistsTest() throws Exception {
 
       Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       user2.setAccountType(accountType);
       user2.setMethodPayment(methodPayment);
@@ -230,6 +231,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
                   post("/account").locale(Locale.ENGLISH).session(defaultSession)
                         .param("name", "name")
                         .param("dni", "dni")
+                        .param("mobile", "12356789")
                         .param("address", "address")
                         .param("cp", "cp")
                         .param("province", "province")
@@ -255,7 +257,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
    public void emailAlreadyExists() throws Exception {
 
       Account user2 = new Account("user2", "55555555B", "London", "user2", "email2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       user2.setAccountType(accountType);
       user2.setMethodPayment(methodPayment);
@@ -266,6 +268,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
             .perform(
                   post("/account").locale(Locale.ENGLISH).session(defaultSession)
                         .param("name", "name")
+                        .param("mobile", "12356789")
                         .param("dni", "dni")
                         .param("address", "address")
                         .param("cp", "cp")
@@ -296,6 +299,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
             .perform(
                   post("/account").locale(Locale.ENGLISH).session(defaultSession)
                         .param("name", "name").param("login", "login").param("email", "email")
+                        .param("mobile", "12356789")
                         .param("password", "1234").param("rePassword", "1234")
                         .param("onInstallments", "true").param("installments", "1"))
             .andExpect(content().string(containsString("The value must be a valid email!")))
@@ -318,6 +322,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
             .perform(
                   post("/account").locale(Locale.ENGLISH).session(defaultSession)
                         .param("name", "1234567890123456789012345678901")
+                        .param("mobile", "12356789111111111111111111")
                         .param("login", "1234567890123456789012345678901")
                         .param("email", "1234567890123456789012345678901@example.es")
                         .param("password", "1234567890123456789012345678901")
@@ -342,6 +347,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
       mockMvc.perform(
             post("/account").locale(Locale.ENGLISH).session(defaultSession).param("onName", "true")
                   .param("name", " ").param("onLogin", "true").param("login", " ")
+                  .param("mobile", "12356789")
                   .param("onEmail", "true").param("email", " ").param("onPassword", "true")
                   .param("password", " ").param("rePassword", " ").param("onInstallments", "true")
                   .param("installments", "1")).andExpect(view().name("account/account"));
@@ -362,8 +368,9 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 
       mockMvc.perform(
             post("/account").locale(Locale.ENGLISH).session(defaultSession)
-                   .param("name", "name")
+                  .param("name", "name")
                   .param("dni", "dni")
+                  .param("mobile", "12356789")
                   .param("address", "address")
                   .param("cp", "cp")
                   .param("province", "province")
@@ -393,7 +400,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 
       mockMvc.perform(
             post("/account").locale(Locale.ENGLISH).session(defaultSession).param("onName", "true")
-                  .param("name", "name").param("onEmail", "true").param("email", "email2@udc.es")
+                  .param("name", "name").param("onEmail", "true").param("email", "email2@udc.es").param("mobile", "12356789")
                   .param("onPassword", "true").param("password", "1234")
                   .param("rePassword", "1234").param("onInstallments", "true")
                   .param("installments", "1")).andExpect(view().name("account/account"));
@@ -417,6 +424,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
                   .param("dni", "dni")
                   .param("address", "address")
                   .param("cp", "cp")
+                  .param("mobile", "12356789")
                   .param("province", "province")
                   .param("codeCountry", "EN")
                   .param("dateBirth", "1990-05-02")
@@ -432,9 +440,6 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
                   .param("installments", "1").param("onAccountType", "true")
                   .param("accountTypeId", "1").param("onMethodPayment", "true")
                   .param("methodPaymentId", "1").param("onInstallments", "true")
-                  .param("bank", "Santander").param("onBank", "true")
-                  .param("bic", "BSCHESMMXXX").param("onBic", "true")
-                  .param("iban", "ES7620770024003102575766").param("onIban", "true")
                   .param("Observations", "Good partner").param("onObservations", "true")
                   .param("Role", "ROLE_TRAINER").param("onRole", "true")).andExpect(view().name("redirect:/accountList"));
 
@@ -499,6 +504,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
                   .param("address", "address")
                   .param("cp", "cp")
                   .param("province", "province")
+                  .param("mobile", "111111111")
                   .param("codeCountry", "EN")
                   .param("dateBirth", "1990-05-02")
                   .param("onPassword", "true").param("password", "1234")
@@ -521,7 +527,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 
       mockMvc.perform(
             post("/account").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("onName", "false").param("name", " ").param("onLogin", "false")
+                  .param("onName", "false").param("name", " ").param("onLogin", "false").param("mobile", "12356789")
                   .param("login", " ").param("onEmail", "false").param("email", " ")
                   .param("onPassword", "false").param("password", " ")
                   .param("onInstallments", "false").param("installments", "1")).andExpect(
@@ -542,7 +548,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 
       mockMvc.perform(
             post("/account").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("onName", "false").param("name", "name").param("onLogin", "false")
+                  .param("onName", "false").param("name", "name").param("onLogin", "false").param("mobile", "12356789")
                   .param("login", "login").param("onEmail", "false")
                   .param("email", "email@example.es").param("onPassword", "false")
                   .param("password", "1234").param("rePassword", "1233")
@@ -569,6 +575,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
                   .param("address", "address")
                   .param("cp", "cp")
                   .param("province", "province")
+                  .param("mobile", "111111111")
                   .param("codeCountry", "EN")
                   .param("dateBirth", "1990-05-02")).andExpect(
             view().name("redirect:/accountList"));

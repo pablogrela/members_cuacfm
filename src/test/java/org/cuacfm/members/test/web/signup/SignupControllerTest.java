@@ -91,7 +91,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
    @Test
    public void dniAlreadyExists() throws Exception {
       Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountServiceMock.save(demoUser);
 
       mockMvc
@@ -117,7 +117,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
    @Test
    public void emailAlreadyExists() throws Exception {
       Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountServiceMock.save(demoUser);
 
       mockMvc
@@ -177,7 +177,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
    @Test
    public void loginAlreadyExist() throws Exception {
       Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
 
       accountServiceMock.save(demoUser);
       mockMvc

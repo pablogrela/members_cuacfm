@@ -64,7 +64,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    @Before
    public void initializeDefaultSession() throws UniqueException {
       Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "admin", roles.ROLE_ADMIN);
+            "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);
       defaultSession = getDefaultSession("admin");
    }
@@ -103,7 +103,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void displaysUserProgramList() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       defaultSession = getDefaultSession("user");
 
@@ -122,7 +122,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void displaysProgramListWithDatabase() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
@@ -143,7 +143,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void deleteProgramList() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
@@ -167,7 +167,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void deleteProgramByUserList() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
@@ -192,14 +192,14 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void deleteProgramByDiferentUserList() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
 
       Account account2 = new Account("user2", "555555552C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
       defaultSession = getDefaultSession("user2");
       mockMvc.perform(
@@ -220,7 +220,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void deleteExistPaymentsInProgramList() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
@@ -248,7 +248,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void programEdit() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
@@ -282,7 +282,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void programDown() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
@@ -304,7 +304,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
    public void programUp() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);

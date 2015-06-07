@@ -75,13 +75,12 @@ public class Account implements Serializable {
    private String email;
 
    /** The phone. */
-   private Integer phone;
+   private String phone;
 
    /** The mobile. */
-   private int mobile;
+   private String mobile;
 
    /** The password. */
-   // @JsonIgnore
    private String password;
 
    /** The methodPayment. */
@@ -153,7 +152,7 @@ public class Account implements Serializable {
     *           the role
     */
    public Account(String name, String dni, String address, String login, String email,
-         Integer phone, int mobile, String password, roles role) {
+         String phone, String mobile, String password, roles role) {
       super();
       this.name = name;
       this.dni = dni;
@@ -353,7 +352,7 @@ public class Account implements Serializable {
     *
     * @return the phone
     */
-   public Integer getPhone() {
+   public String getPhone() {
       return phone;
    }
 
@@ -363,7 +362,7 @@ public class Account implements Serializable {
     * @param phone
     *           the new phone
     */
-   public void setPhone(Integer phone) {
+   public void setPhone(String phone) {
       this.phone = phone;
    }
 
@@ -372,7 +371,7 @@ public class Account implements Serializable {
     *
     * @return the mobile
     */
-   public int getMobile() {
+   public String getMobile() {
       return mobile;
    }
 
@@ -382,7 +381,7 @@ public class Account implements Serializable {
     * @param mobile
     *           the new mobile
     */
-   public void setMobile(int mobile) {
+   public void setMobile(String mobile) {
       this.mobile = mobile;
    }
 

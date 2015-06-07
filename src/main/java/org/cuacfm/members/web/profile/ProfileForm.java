@@ -72,10 +72,13 @@ public class ProfileForm {
    private String email;
 
    /** The phone. */
-   private Integer phone;
+   @Size(max = 20, message = ProfileForm.MAX_CHARACTERS)
+   private String phone;
 
    /** The mobile. */
-   private int mobile;
+   @NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
+   @Size(max = 20, message = ProfileForm.MAX_CHARACTERS)
+   private String mobile;
 
    /** The program name. */
    @Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
@@ -317,7 +320,7 @@ public class ProfileForm {
     *
     * @return the phone
     */
-   public Integer getPhone() {
+   public String getPhone() {
       return phone;
    }
 
@@ -327,7 +330,7 @@ public class ProfileForm {
     * @param phone
     *           the new phone
     */
-   public void setPhone(Integer phone) {
+   public void setPhone(String phone) {
       this.phone = phone;
    }
 
@@ -336,7 +339,7 @@ public class ProfileForm {
     *
     * @return the mobile
     */
-   public int getMobile() {
+   public String getMobile() {
       return mobile;
    }
 
@@ -346,7 +349,7 @@ public class ProfileForm {
     * @param mobile
     *           the new mobile
     */
-   public void setMobile(int mobile) {
+   public void setMobile(String mobile) {
       this.mobile = mobile;
    }
 

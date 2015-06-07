@@ -69,8 +69,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       // Update Account
@@ -124,11 +124,11 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       // Update Account
@@ -189,11 +189,11 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       Account account = new Account("user2", "55555555D", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       // Update Account
@@ -235,11 +235,11 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       // Update Account
@@ -286,11 +286,11 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       // Update Account
@@ -332,8 +332,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       // Update Account
@@ -371,8 +371,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       // Update Account
@@ -393,7 +393,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       payMemberService.update(payMember);
 
       Account user2 = new Account("user2", "255555555C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       PayMember payMember2 = new PayMember(user2, feeMember, Double.valueOf(24), 1, 1, new Date());
       payMember2.setIdTxn("a");
@@ -451,14 +451,14 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       Account account = new Account("user2", "55555555B", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       Account account3 = new Account("user3", "55555555F", "London", "user3", "user3@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account3);
       account3.setNickName("terminataror");
       accountService.update(account3, false);

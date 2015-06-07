@@ -65,7 +65,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void saveAndFindByEmailAccountTest() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       Account accountSaved = accountService.save(account);
 
       assertEqualAccounts(accountSaved, account);
@@ -84,7 +84,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void findById() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       Account accountSaved = accountService.save(account);
       Account accountSearch = accountService.findById(accountSaved.getId());
 
@@ -109,11 +109,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test(expected = UniqueException.class)
    public void insertUserTheSameLoginException() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       Account account2 = new Account("user", "55555555B", "London", "user", "email2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
    }
 
@@ -126,11 +126,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test(expected = UniqueException.class)
    public void insertUserTheSameEmailException() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       Account account2 = new Account("user", "55555555B", "London", "user2", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
    }
 
@@ -143,15 +143,15 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test(expected = UniqueException.class)
    public void updateUserTheSameLoginException() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       Account account2 = new Account("user2", "55555555B", "London", "user2", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
 
       Account account3 = new Account("user", "55555555C", "London", "user2", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.update(account3, false);
    }
 
@@ -164,15 +164,15 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test(expected = UniqueException.class)
    public void updateUserTheSameEmailException() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       Account account2 = new Account("user2", "55555555B", "London", "user2", "email2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
 
       Account account3 = new Account("user", "55555555C", "London", "user", "email2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.update(account3, false);
    }
 
@@ -185,7 +185,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void saveAndFindByLoginAccountTest() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       Account account2 = accountService.findByLogin("user");
       assertEqualAccounts(account, account2);
@@ -218,7 +218,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void updateUserDataWithoutPassword() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       Account savedAccount = accountService.save(account);
       assertEqualAccounts(account, savedAccount);
       /* changing properties */
@@ -248,7 +248,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void updateUserDataWithPassword() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       Account savedAccount = accountService.save(account);
       assertEqualAccounts(account, savedAccount);
 
@@ -289,7 +289,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void matchPasswordTest() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
 
       Account savedAccount = accountService.save(account);
 
@@ -307,11 +307,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void getUsersTest() throws UniqueException {
       // Save
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_ADMIN);
+            "666666666", "666666666", "demo", roles.ROLE_ADMIN);
       accountService.save(admin);
 
       List<Account> users = accountService.getUsers();
@@ -331,11 +331,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void getAccountsTest() throws UniqueException {
       // Save
-      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
       Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_ADMIN);
+            "666666666", "666666666", "demo", roles.ROLE_ADMIN);
       accountService.save(admin);
 
       List<Account> accounts = accountService.getAccounts();
@@ -354,8 +354,8 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void SaveTest() throws UniqueException {
       // Save
-      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       // Assert
@@ -374,8 +374,8 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    @Test
    public void UnsubscribeAndSubscribeTest() throws UniqueException {
       // Save
-      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       // Assert, Unsubscribe
@@ -400,8 +400,8 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       // Update
@@ -430,8 +430,8 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", true, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666,
-            666666666, "demo", roles.ROLE_USER);
+      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
+            "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
       BankAccount bankAccount = new BankAccount(user, "Santander", "BSCHESMMXXX",

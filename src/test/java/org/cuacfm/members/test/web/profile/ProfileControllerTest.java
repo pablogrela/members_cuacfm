@@ -66,7 +66,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Before
 	public void initializeDefaultSession() throws Exception {
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
 		accountService.save(user);
 
 		accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -161,7 +161,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void postloginAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -172,6 +172,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 				post("/profile").locale(Locale.ENGLISH).session(defaultSession)
 						.param("name", "name")
 						.param("dni", "55555555K")
+						.param("mobile", "12356789")
 						.param("onLogin", "true").param("login", "user2")
                   .param("name", "name")
                   .param("dni", "55555555B")
@@ -197,7 +198,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void postDniAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -209,6 +210,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
                   .param("name", "name")
                   .param("dni", "55555555B")
                   .param("address", "address")
+                  .param("mobile", "12356789")
                   .param("cp", "cp")
                   .param("province", "province")
                   .param("codeCountry", "EN")
@@ -228,7 +230,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void postemailAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -242,6 +244,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
                   .param("dni", "dni")
                   .param("address", "address")
                   .param("cp", "cp")
+                  .param("mobile", "12356789")
                   .param("province", "province")
                   .param("codeCountry", "EN")
                   .param("dateBirth", "1990-05-02")
@@ -266,6 +269,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 						.param("name", "name")
 						.param("login", "login")
 						.param("email", "email")
+						.param("mobile", "12356789")
 						.param("password", "1234")
 						.param("rePassword", "1234")
 						.param("onInstallments", "true")
@@ -288,6 +292,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 				post("/profile").locale(Locale.ENGLISH).session(defaultSession)
 						.param("onPassword", "true").param("password", "12")
 						.param("rePassword", "12")
+						.param("mobile", "12356789")
 						.param("onInstallments", "true")
 						.param("installments", "1"))
 				.andExpect(
@@ -311,9 +316,11 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
                   .param("name", "name")
                   .param("dni", "dni")
                   .param("address", "address")
+                  .param("mobile", "12356789")
                   .param("cp", "cp")
                   .param("province", "province")
                   .param("codeCountry", "EN")
+                  .param("mobile", "11111111")
                   .param("dateBirth", "1990-05-02")
 						.param("onPassword", "true").param("password", "1234")
 						.param("rePassword", "1233"))
@@ -338,6 +345,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 						.locale(Locale.ENGLISH)
 						.session(defaultSession)
 						.param("name", "1234567890123456789012345678901")
+						.param("mobile", "12356789")
 						.param("login", "1234567890123456789012345678901")
 						.param("email",
 								"1234567890123456789012345678901@example.es")
@@ -363,6 +371,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 						.param("onName", "true").param("name", " ")
 						.param("onLogin", "true").param("login", " ")
 						.param("onEmail", "true").param("email", " ")
+						.param("mobile", "12356789")
 						.param("onPassword", "true").param("password", " ")
 						.param("rePassword", " ")
 						.param("onInstallments", "true")
@@ -384,10 +393,12 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 				post("/profile").locale(Locale.ENGLISH).session(defaultSession)
                   .param("name", "name")
                   .param("dni", "dni")
+                  .param("mobile", "12356789")
                   .param("address", "address")
                   .param("cp", "cp")
                   .param("province", "province")
                   .param("codeCountry", "EN")
+                  .param("mobile", "111111111")
                   .param("dateBirth", "1990-05-02"))
 						.andExpect(view().name("redirect:/profile"));
 	}
@@ -468,6 +479,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
                   .param("cp", "cp")
                   .param("province", "province")
                   .param("codeCountry", "EN")
+                  .param("mobile", "111111111")
                   .param("dateBirth", "1990-05-02")
 						.param("onName", "false").param("name", "name")
 						.param("onLogin", "false").param("login", "login")
@@ -493,7 +505,9 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
                   .param("name", "name")
                   .param("dni", "dni")
                   .param("address", "address")
+                  .param("mobile", "12356789")
                   .param("cp", "cp")
+                  .param("mobile", "111111111")
                   .param("province", "province")
                   .param("codeCountry", "EN")
                   .param("dateBirth", "1990-05-02"))

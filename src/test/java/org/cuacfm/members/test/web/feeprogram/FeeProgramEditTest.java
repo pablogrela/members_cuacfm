@@ -53,7 +53,7 @@ public class FeeProgramEditTest extends WebSecurityConfigurationAware {
    @Before
    public void initializeDefaultSession() throws UniqueException {
       Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_ADMIN);
+            "666666666", "666666666", "demo", roles.ROLE_ADMIN);
       accountService.save(admin);
       defaultSession = getDefaultSession("admin");
 

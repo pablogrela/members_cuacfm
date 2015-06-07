@@ -39,8 +39,8 @@ public class UserServiceTest {
 	@Test
 	public void shouldInitializeWithTwoDemoUsers() throws UniqueException {
 		// act
-		accountRepositoryMock.save(new Account("user", "55555555C", "London", "user", "user@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER));
-		accountRepositoryMock.save(new Account("admin", "55555555B", "London", "admin", "admin@udc.es", 666666666, 666666666,"demo", roles.ROLE_ADMIN));
+		accountRepositoryMock.save(new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666","demo", roles.ROLE_USER));
+		accountRepositoryMock.save(new Account("admin", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666","demo", roles.ROLE_ADMIN));
 		//userService.initialize();
 		// assert
 		verify(accountRepositoryMock, times(2)).save(any(Account.class));
@@ -60,7 +60,7 @@ public class UserServiceTest {
 	@Test
 	public void shouldReturnUserDetails() {
 		// arrange
-		Account demoUser = new Account("user", "55555555C", "London", "user", "email1@udc.es", 666666666, 666666666,"demo", roles.ROLE_USER);
+		Account demoUser = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
 		when(accountRepositoryMock.findByLogin("usuario.nuevo")).thenReturn(demoUser);
 
 		// act

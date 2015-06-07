@@ -52,7 +52,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    @Before
    public void initializeDefaultSession() throws UniqueException {
       Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es",
-            666666666, 666666666, "admin", roles.ROLE_ADMIN);
+            "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);
       defaultSession = getDefaultSession("admin");
    }
@@ -94,7 +94,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void displaysUserProgramCreateTest() throws Exception {
       
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       defaultSession = getDefaultSession("user");
       
@@ -115,7 +115,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void programCreateTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       mockMvc.perform(
@@ -141,7 +141,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void nameAlreadExistTest() throws Exception {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
       Program program = new Program("Program", Float.valueOf(1), "Very interesting", 9, accounts);
@@ -214,7 +214,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void addUserBynNiTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       mockMvc.perform(
@@ -233,7 +233,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void removeUserTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       mockMvc.perform(
@@ -273,10 +273,10 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void addUserRepeatedTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       Account account2 = new Account("user2", "255555555C", "London", "user2", "user2@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account2);
 
       mockMvc.perform(
@@ -315,7 +315,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void accountPayerDniTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       mockMvc.perform(
@@ -335,7 +335,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void accountPayerDniNoFoundTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       mockMvc.perform(
@@ -354,7 +354,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void accountPayerIdDniTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       mockMvc.perform(
@@ -368,7 +368,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void removeAccountPayerIdDniTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       mockMvc.perform(
@@ -391,7 +391,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
    public void accountPayerIdNullDniTest() throws Exception {
 
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            666666666, 666666666, "demo", roles.ROLE_USER);
+            "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
 
       mockMvc.perform(
