@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="#{account.title}"></title>
+<title th:text="#{account.titleAccountUser}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 <!-- CSS -->
@@ -40,7 +40,7 @@
 		<fieldset>
 
 			<!-- Message help-->
-			<legend th:text="#{profile.please}">Would you like to change any of the information?</legend>
+			<legend th:text="#{account.info}">Would you like to change any of the information?</legend>
 
 			<!-- Edit Name, with a checkbox to enable field name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
@@ -234,6 +234,7 @@
 				<label for="accountType" class="col-lg-1 control-label" th:text="#{accountType}">accountType</label>
 				<div class="col-lg-4">
 					<select class="form-control" id="accountType" name="accountTypeId" th:field="*{accountTypeId}">
+					    <option th:if="${accountTypeId == null}" th:value="''"></option>
 						<option th:field="*{accountTypeId}" th:each="accountType : ${profileForm.accountTypes}"
 							th:value="${accountType.id}" th:text="${accountType.name}">accountType</option>
 					</select>
@@ -245,6 +246,7 @@
 				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">methodPayment</label>
 				<div class="col-lg-4">
 					<select class="form-control" id="methodPayment" name="roleId" th:field="*{methodPaymentId}">
+					    <option th:if="${methodPaymentId == null}" th:value="''"></option>
 						<option th:field="*{methodPaymentId}" th:each="methodPayment : ${profileForm.methodPayments}"
 							th:value="${methodPayment.id}" th:text="${methodPayment.name}">methodPayment</option>
 					</select>
@@ -340,7 +342,7 @@
 				<label for="bic" class="col-lg-2 control-label" th:text="#{bic}">bic</label>
 				<div class="col-lg-10">
 					<input type="text" name="bic" class="form-control" id="bic" th:placeholder="#{bic}" th:field="*{bic}" minlength="8"
-						maxlength="11" required="required" />
+						maxlength="11" pattern="^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$"  required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('bic')}" th:errors="*{bic}">Incorrect bic</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -352,7 +354,8 @@
 				<label for="iban" class="col-lg-2 control-label" th:text="#{iban}">iban</label>
 				<div class="col-lg-10">
 					<input type="text" name="iban" class="form-control" id="iban" th:placeholder="#{iban}" th:field="*{iban}"
-						minlength="34" maxlength="34" required="required" />
+						minlength="24" maxlength="34" pattern="^([A-Z]){2}([0-9]{22,32})?$" 
+						th:title="#{ibanPattern}" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('iban')}" th:errors="*{iban}">Incorrect iban</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>

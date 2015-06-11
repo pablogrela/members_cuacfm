@@ -15,12 +15,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.program.Program;
-import org.hibernate.annotations.OrderBy;
+
 
 /** The Class Account. */
 @SuppressWarnings("serial")
@@ -98,7 +99,7 @@ public class Account implements Serializable {
    private List<Program> programs;
 
    /** The bank accounts. */
-   @OrderBy(clause = "dateCreated DESC")
+   @OrderBy("dateCreated DESC")
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
    private List<BankAccount> bankAccounts;
 

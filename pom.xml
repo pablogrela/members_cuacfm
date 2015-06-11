@@ -183,6 +183,12 @@
 			<artifactId>sonar-plugin-api</artifactId>
 			<version>5.1</version>
 		</dependency>
+		<!-- Iban Validator -->
+		<dependency>
+		  <groupId>commons-validator</groupId>
+		  <artifactId>commons-validator</artifactId>
+		  <version>1.4.1</version>
+		</dependency>
 		<!-- IText -->
 		<dependency>
 			<groupId>com.lowagie</groupId>

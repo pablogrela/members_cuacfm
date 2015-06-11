@@ -21,7 +21,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 /** The Class AccountServiceTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -66,13 +65,19 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    public void saveAndFindByEmailAccountTest() throws UniqueException {
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
-      Account accountSaved = accountService.save(account);
+      accountService.save(account);
 
-      assertEqualAccounts(accountSaved, account);
-      Assert.notNull(account.getEmail());
-
-      Account account2 = accountService.findByEmail("user@udc.es");
-      assertEqualAccounts(account, account2);
+      Account accountSearched = accountService.findByEmail("user@udc.es");
+      assertEquals(account, accountSearched);
+      assertEquals(account.getName(), accountSearched.getName());
+      assertEquals(account.getDni(), accountSearched.getDni());
+      assertEquals(account.getAddress(), accountSearched.getAddress());
+      assertEquals(account.getLogin(), accountSearched.getLogin());
+      assertEquals(account.getEmail(), accountSearched.getEmail());
+      assertEquals(account.getMobile(), accountSearched.getMobile());
+      assertEquals(account.getPhone(), accountSearched.getPhone());
+      assertEquals(account.getPassword(), accountSearched.getPassword());
+      assertEquals(account.getRole(), accountSearched.getRole());
    }
 
    /**
@@ -394,13 +399,15 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void UpdateTest() throws UniqueException {
+   public void AddAcountTypeAndMethodPaymentToAccountTest() throws UniqueException {
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);
-      MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
+      
+      MethodPayment methodPayment = new MethodPayment("Cash", false, "cash");
       methodPaymentService.save(methodPayment);
-      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
+      
+      Account user = new Account("Pablo", "55555555C", "London", "pablo", "pablo@udc.es", "666666666",
             "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 

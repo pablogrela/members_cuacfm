@@ -594,9 +594,9 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 
       mockMvc.perform(
             post("/bankAccount").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("bank", "11111111")
-                  .param("bic", "11111111")
-                  .param("iban", "111111111111111111111111111111111111")).andExpect(
+                  .param("bank", "Santander")
+                  .param("bic", "BSCHESMMXXX")
+                  .param("iban", "12345678912345678901234")).andExpect(
             view().name("account/account"));
    }
    
@@ -614,8 +614,28 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
       mockMvc.perform(
             post("/bankAccount").locale(Locale.ENGLISH).session(defaultSession)
                   .param("bank", "11111111")
-                  .param("bic", "12345678901")
-                  .param("iban", "123456789012345678901234567890")).andExpect(
+                  .param("bic", "")
+                  .param("iban", "ES7620770024003102575766")).andExpect(
+            view().name("account/account"));
+   }
+   
+   
+   /**
+    * Creates the bank account test.
+    *
+    * @throws Exception the exception
+    */
+   @Test
+   public void createBankAccountSuccessfullTest() throws Exception {
+      mockMvc.perform(
+            post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession))
+            .andExpect(view().name("redirect:/account"));
+
+      mockMvc.perform(
+            post("/bankAccount").locale(Locale.ENGLISH).session(defaultSession)
+                  .param("bank", "Santander")
+                  .param("bic", "BSCHESMMXXX")
+                  .param("iban", "ES7620770024003102575766")).andExpect(
             view().name("redirect:/account"));
    }
 }

@@ -113,6 +113,30 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 										containsString("<legend>Would you like to change any of the information?</legend>"))));
 	}
 
+   /**
+    * Send account form.
+    * 
+    * @throws Exception
+    *            the exception
+    */
+   @Test
+   public void displaysAccount2FormTest() throws Exception {
+
+      Account user2 = new Account("user2", "11111111D", "London", "user2", "user2@udc.es",
+            "666666666", "666666666", "demo", roles.ROLE_USER);
+      accountService.save(user2);
+
+      mockMvc
+            .perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession))
+            .andExpect(model().attributeExists("profileForm"))
+            .andExpect(view().name("profile/profile"))
+            .andExpect(
+                  content()
+                        .string(allOf(
+                              containsString("<title>Profile</title>"),
+                              containsString("<legend>Would you like to change any of the information?</legend>"))));
+   }
+   
 	/**
 	 * update Profile The Same Params Test.
 	 * 

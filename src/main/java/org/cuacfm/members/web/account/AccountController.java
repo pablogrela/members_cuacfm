@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.validator.routines.checkdigit.IBANCheckDigit;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -102,7 +103,6 @@ public class AccountController {
       profileForm.setRole(String.valueOf(account.getRole()));
       profileForm.setRoles(java.util.Arrays.asList(roles.values()));
       model.addAttribute(profileForm);
-      model.addAttribute(new BankAccountForm());
       return PROFILE_VIEW_NAME;
    }
    
@@ -255,6 +255,13 @@ public class AccountController {
          RedirectAttributes ra, Model model) {
 
       if (errors.hasErrors()) {
+         return createProfileForm(model, new ProfileForm());
+      }
+      
+      IBANCheckDigit  IbanCheckDigit = new  IBANCheckDigit();
+      if (!IbanCheckDigit.isValid(bankAccountForm.getIban())){
+         errors.rejectValue("iban", "account.errorIban", new Object[] { bankAccountForm.getIban() },
+               "iban");
          return createProfileForm(model, new ProfileForm());
       }
 

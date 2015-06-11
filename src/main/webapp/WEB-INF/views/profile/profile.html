@@ -46,7 +46,7 @@
 		<fieldset>
 
 			<!-- Message help-->
-			<legend th:text="#{profile.please}">Would you like to change any of the information?</legend>
+			<legend th:text="#{profile.info}">Would you like to change any of the information?</legend>
 
 			<!-- Edit Name, with a checkbox to enable field name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
@@ -244,6 +244,7 @@
 				<label for="accountType" class="col-lg-1 control-label" th:text="#{accountType}">accountType</label>
 				<div class="col-lg-4">
 					<select disabled="disabled" class="form-control" id="accountType" name="accountTypeId" th:field="*{accountTypeId}">
+						<option th:if="${accountTypeId == null}" th:value="''"></option>
 						<option th:field="*{accountTypeId}" th:each="accountType : ${profileForm.accountTypes}"
 							th:value="${accountType.id}" th:text="${accountType.name}">accountType</option>
 					</select>
@@ -256,6 +257,7 @@
 				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">methodPayment</label>
 				<div class="col-lg-4">
 					<select disabled="disabled" class="form-control" id="methodPayment" name="roleId" th:field="*{methodPaymentId}">
+					    <option th:if="${methodPaymentId == null}" th:value="''"></option>
 						<option th:field="*{methodPaymentId}" th:each="methodPayment : ${profileForm.methodPayments}"
 							th:value="${methodPayment.id}" th:text="${methodPayment.name}">methodPayment</option>
 					</select>
