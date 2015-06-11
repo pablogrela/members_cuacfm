@@ -69,7 +69,7 @@ CREATE TABLE Account(
     accountTypeId INT,
     installments INT NOT NULL,
     student BOOLEAN,
-    dateBirth TIMESTAMP NULL,
+    dateBirth DATE NULL,
     active BOOLEAN,
     observations VARCHAR(500),
     programName VARCHAR(30),
@@ -107,7 +107,7 @@ CREATE TABLE Program(
     name VARCHAR(30) NOT NULL,
     periodicity FLOAT NOT NULL,
     duration INT NOT NULL,
-    description VARCHAR(100),
+    description VARCHAR(500),
     active BOOLEAN,
     accountPayer INT,
     CONSTRAINT ProgramId_PK PRIMARY KEY (id),
@@ -285,59 +285,64 @@ insert into Configuration values (1, 'CuacFM', 'cuacfm@hotmail.com', 981666666, 
 Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na asociación cultural  Colectivo de Universitarios ACtivos, cousa que NON ACONTECE, se marquei as opcións "simpatizante" ou "patrocinador web"            ');
 
 	
+
+-- Insert Method Payment:
+insert into MethodPayment values (1, 'Exento', false, 'No tiene que pagar');
+insert into MethodPayment values (2, 'Efectivo', false, 'Pago en efectivo');
+insert into MethodPayment values (3, 'Domiciliado', true, 'Domiciliado');
+insert into MethodPayment values (4, 'Paypal', false, 'Paypal');	
+
+
 -- Insert Account Types:
-insert into AccountType values (1, 'No', false, 'No tiene que pagar', 100);
+insert into AccountType values (1, 'Exento', false, 'No tiene que pagar', 100);
 insert into AccountType values (2, 'Adulto', false, 'Tarifa adulta', 0);
 insert into AccountType values (3, 'Juvenil', false, 'Tarifa juvenil', 50);
 insert into AccountType values (4, 'Jubilado', false, 'Tarifa adulta', 50);
 insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0);
 
-
--- Insert Method Payment:
-insert into MethodPayment values (1, 'No', false, 'No tiene que pagar');
-insert into MethodPayment values (2, 'Efectivo', false, 'Pago en efectivo');
-insert into MethodPayment values (3, 'Domiciliado', true, 'Domiciliado');
-insert into MethodPayment values (4, 'Paypal', false, 'Paypal');	
 	
 
 -- Insert Account:
 insert into Account values 
 (1, 'user', null, '12345678A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
+	981666666, 666666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
 (2, 'admin', null, '12345678B', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_ADMIN');
+	981666666, 666666666, 1, 1, 1, false, null, true, '', '', 'ROLE_ADMIN');
 
 insert into Account values 
 (3, 'trainer', null, '12345678C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 1, 1, 1, false, null, true, '', '', 'ROLE_TRAINER');
+	981666666, 666666666, 1, 1, 1, false, null, true, '', '', 'ROLE_TRAINER');
 
 insert into Account values 
 (4, 'Pablo Grela', null, '12345678D', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.grela', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 3, 3, 1, false, null, true, '', '', 'ROLE_USER');
+	981666666, 666666666, 3, 3, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
 (5, 'Manuel Fernandez', null, '12345678E', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manuel.fernandez', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
+	981666666, 666666666, 2, 4, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
 (6, 'Lorena Borrazás', null, '12345678F', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.borrazas', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+	981666666, 666666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
 insert into Account values 
 (7, 'Lorena Fernandez', null, '12345678Z', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.fernandez', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+	981666666, 666666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 	
 insert into Account values 
 (8, 'Manuel Borrazás', null, '12345678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manu.borrazas', 'manuf@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 3, 1 , 1, false, null, true, null, '', 'ROLE_USER');
+	981666666, 666666666, 3, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
 insert into Account values 
 (9, 'Pablo Martínez Pérez', null, '12347678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.martinez.perez', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666, 3, 2 , 1, false, null, true, null, '', 'ROLE_USER');
+	981666666, 666666666, 3, 2 , 2, false, null, true, null, '', 'ROLE_USER');
 
-
+insert into Account values 
+(10, 'Conservera Martínez', null, 'A58818501', 'Puerto A Coruña', 'A coruña', 'A coruña', 'ES', 'conservera.martinez', 'conservera.martinez@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666666, 3, 5 , 1, false, null, true, null, '', 'ROLE_USER');
+	
 	
 insert into BankAccount values 	
 (1, 4, 'Santander', 'BSCHESMMXXX', 'ES7620770024003102575766', '4_12345678D_1', "2015-04-10 11:00", true);		

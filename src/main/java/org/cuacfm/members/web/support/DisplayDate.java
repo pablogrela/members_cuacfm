@@ -49,7 +49,7 @@ public class DisplayDate {
       try {
          newDate = dateFormat.parse(date);
       } catch (ParseException ex) {
-         ex.getMessage();
+         return null;
       }
 
       return newDate;

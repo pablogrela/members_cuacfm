@@ -42,12 +42,12 @@ public class BankRemittanceListController {
    private List<BankRemittance> bankRemittances;
 
    /**
-    * Instantiates a new training Controller.
+    * Instantiates a new bank remittance list controller.
     */
    public BankRemittanceListController() {
       // Default empty constructor.
    }
-   
+
    /**
     * List of BankRemittance.
     *
@@ -73,15 +73,28 @@ public class BankRemittanceListController {
       return BANKREMITTANCE_VIEW_NAME;
    }
 
+   /**
+    * Management bank remittance.
+    *
+    * @param bankRemittanceId
+    *           the bank remittance id
+    * @param ra
+    *           the ra
+    * @return the string
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
+    */
    @RequestMapping(value = "bankRemittanceList/management/{bankRemittanceId}", method = RequestMethod.POST)
-   public String managementBankRemittance(@PathVariable Long bankRemittanceId, RedirectAttributes ra) throws ExistTransactionIdException {
+   public String managementBankRemittance(@PathVariable Long bankRemittanceId, RedirectAttributes ra)
+         throws ExistTransactionIdException {
       BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
       bankRemittanceService.managementBankRemittance(bankRemittance.getId());
 
-      MessageHelper.addSuccessAttribute(ra, "bankRemittance.successManagement", DisplayDate.dateToString(bankRemittance.getDateCharge()));
+      MessageHelper.addSuccessAttribute(ra, "bankRemittance.successManagement",
+            DisplayDate.dateToString(bankRemittance.getDateCharge()));
       return REDIRECT_BANKREMITTANCE;
    }
-   
+
    /**
     * Pay.
     *
@@ -90,14 +103,17 @@ public class BankRemittanceListController {
     * @param ra
     *           the ra
     * @return the string
-    * @throws ExistTransactionIdException 
+    * @throws ExistTransactionIdException
+    *            the exist transaction id exception
     */
    @RequestMapping(value = "bankRemittanceList/pay/{bankRemittanceId}", method = RequestMethod.POST)
-   public String payBankRemittance(@PathVariable Long bankRemittanceId, RedirectAttributes ra) throws ExistTransactionIdException {
+   public String payBankRemittance(@PathVariable Long bankRemittanceId, RedirectAttributes ra)
+         throws ExistTransactionIdException {
       BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
       bankRemittanceService.payBankRemittance(bankRemittance.getId());
 
-      MessageHelper.addSuccessAttribute(ra, "bankRemittance.successPay", DisplayDate.dateToString(bankRemittance.getDateCharge()));
+      MessageHelper.addSuccessAttribute(ra, "bankRemittance.successPay",
+            DisplayDate.dateToString(bankRemittance.getDateCharge()));
       return REDIRECT_BANKREMITTANCE;
    }
 
@@ -126,10 +142,10 @@ public class BankRemittanceListController {
    public String createBankRemittance(@Valid @ModelAttribute BankRemittanceForm bankRemittanceForm,
          RedirectAttributes ra) {
 
-      bankRemittanceService.createBankRemittance(DisplayDate.stringToDate2(bankRemittanceForm
-            .getDateCharge()), DisplayDate.stringToMonthOfYear(bankRemittanceForm
-                  .getMonthCharge()));
-      MessageHelper.addInfoAttribute(ra, "bankRemittance.successCreate", "success");
+      bankRemittanceService.createBankRemittance(
+            DisplayDate.stringToDate2(bankRemittanceForm.getDateCharge()),
+            DisplayDate.stringToMonthOfYear(bankRemittanceForm.getMonthCharge()));
+      MessageHelper.addSuccessAttribute(ra, "bankRemittance.successCreate", bankRemittanceForm.getDateCharge());
       return REDIRECT_BANKREMITTANCE;
    }
 }

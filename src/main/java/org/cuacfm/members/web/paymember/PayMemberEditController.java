@@ -27,7 +27,7 @@ public class PayMemberEditController {
    /** The Constant PAYMEMBER_VIEW_NAME. */
    private static final String PAYMEMBER_VIEW_NAME = "paymember/paymemberedit";
 
-   /** The payMember service. */
+   /** The pay member service. */
    @Autowired
    private PayMemberService payMemberService;
 

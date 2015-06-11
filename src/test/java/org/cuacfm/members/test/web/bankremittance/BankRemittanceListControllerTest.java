@@ -17,6 +17,8 @@ import java.util.Locale;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.accounttype.AccountType;
+import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.bankremittanceservice.BankRemittanceService;
@@ -64,7 +66,11 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
    /** The account service. */
    @Autowired
    private AccountService accountService;
-
+   
+   /** The account type service. */
+   @Autowired
+   private AccountTypeService accountTypeService;
+   
    /** The method payment service. */
    @Autowired
    private MethodPaymentService methodPaymentService;
@@ -129,11 +135,17 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account3);
       account3.setMethodPayment(methodPayment);
+      
+      AccountType accountType = new AccountType("Organization", true, "Organization", 0);
+      accountTypeService.save(accountType);
+      account3.setAccountType(accountType);
+      
       List<BankAccount> bankAccounts3 = new ArrayList<BankAccount>();
       BankAccount bankAccount3 = new BankAccount(account3, "Banco", "BSCHESMMXXX", "ES7620770024003102575766");
       accountService.saveBankAccount(bankAccount3);
       bankAccounts3.add(bankAccount3);
       account3.setBankAccounts(bankAccounts3);
+      
       accountService.update(account3, false);
 
       FeeMember feeMember = new FeeMember("pay of 2016", 2016, Double.valueOf(20),
@@ -161,7 +173,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
       programService.update(program3);
 
       // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
+      Date date = DisplayDate.stringToMonthOfYear("2015-01");
       FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
       feeProgramService.save(feeProgram);
    }
