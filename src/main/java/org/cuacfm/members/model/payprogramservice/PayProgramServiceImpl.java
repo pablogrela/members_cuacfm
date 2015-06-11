@@ -22,7 +22,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.itextpdf.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfPTable;
 
 /** The Class PayProgramServiceImpl. */
 @Service("payProgramService")

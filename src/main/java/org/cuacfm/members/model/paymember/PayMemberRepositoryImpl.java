@@ -135,6 +135,7 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
             "select p.account, p from PayMember p where p.state <> 'PAY' "
                   + "and p.account.methodPayment.directDebit = true "
                   + "and month(p.dateCharge) = month(:month) "
+                  + "and year(p.dateCharge) = year(:month) "
                   + "order by p.account.name", Object[].class)
                   .setParameter("month", monthCharge);
 

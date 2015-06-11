@@ -19,6 +19,7 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='payInscription')">&nbsp;</div>
 
+	<h1 class="text-center" th:text="*{payProgram.program.name}">Account Name</h1>
 
 	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payProgramEdit}"
 		th:object="${payProgramForm}">
@@ -124,21 +125,7 @@
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-
-
-
-			<!-- Edit statusPay -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('statusPay')}? 'has-error'">
-				<label for="statusPay" class="col-lg-1 control-label" th:text="#{payProgram.statusPay}">statusPay</label>
-				<div class="col-lg-10">
-					<input type="text" name="statusPay" class="form-control" id="statusPay"
-						th:placeholder="#{payProgram.statusPay}" th:field="*{statusPay}" maxlength="30" />
-					<span class="help-block" th:if="${#fields.hasErrors('statusPay')}" th:errors="*{statusPay}">Incorrect
-						statusPay</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
+			
 
 
 			<!-- Edit DatePay -->

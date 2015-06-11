@@ -4,7 +4,7 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>0.1.8-SNAPSHOT- members, payments and bankremittance</version>
+	<version>0.1.9-SNAPSHOT- members, payments and bankremittance txt</version>
 	<name>members</name>
 
 	<properties>
@@ -185,9 +185,8 @@
 		</dependency>
 		<!-- IText -->
 		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.5.5</version>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
 		</dependency>
 		<!-- Selenium -->
 		<dependency>

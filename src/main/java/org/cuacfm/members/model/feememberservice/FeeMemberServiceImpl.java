@@ -57,33 +57,34 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 
       // Create payments of users
       for (Account user : accountService.getUsers()) {
+         percent = 0;
          if (user.getAccountType() != null) {
             percent = user.getAccountType().getDiscount();
-         } else {
-            percent = 0;
          }
 
-         Double discount = (feeMember.getPrice() * percent) / 100;
-         Double price = feeMember.getPrice() - discount;
-         price = (price / user.getInstallments());
+         if (percent != 100) {
+            Double discount = (feeMember.getPrice() * percent) / 100;
+            Double price = feeMember.getPrice() - discount;
+            price = (price / user.getInstallments());
 
-         // Create installments
-         for (int installment = 1; installment <= user.getInstallments(); installment++) {
+            // Create installments
+            for (int installment = 1; installment <= user.getInstallments(); installment++) {
 
-            int value = (installment - 1) * 12 / user.getInstallments();
-            if (installment == 1) {
-               value = 1;
+               int value = (installment - 1) * 12 / user.getInstallments();
+               if (installment == 1) {
+                  value = 1;
+               }
+               LocalDate dateFormat = LocalDate.now();
+               dateFormat = dateFormat.withDayOfMonth(1);
+               dateFormat = dateFormat.withMonth(value);
+               dateFormat = dateFormat.withYear(feeMember.getYear());
+               Date dateCharge = Date.from(dateFormat.atStartOfDay(ZoneId.systemDefault())
+                     .toInstant());
+
+               PayMember payMember = new PayMember(user, feeMember, price, installment,
+                     user.getInstallments(), dateCharge);
+               payMemberService.save(payMember);
             }
-            LocalDate dateFormat = LocalDate.now();
-            dateFormat = dateFormat.withDayOfMonth(1);
-            dateFormat = dateFormat.withMonth(value);
-            dateFormat = dateFormat.withYear(feeMember.getYear());
-            Date dateCharge = Date
-                  .from(dateFormat.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-            PayMember payMember = new PayMember(user, feeMember, price, installment,
-                  user.getInstallments(), dateCharge);
-            payMemberService.save(payMember);
          }
       }
 

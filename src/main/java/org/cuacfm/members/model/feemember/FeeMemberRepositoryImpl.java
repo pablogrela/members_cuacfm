@@ -52,7 +52,7 @@ public class FeeMemberRepositoryImpl implements FeeMemberRepository {
     * Find by id.
     *
     * @param id
-    *           the id of payMember
+    *           the id of fee member
     * @return payMember
     */
    @Override
@@ -70,7 +70,7 @@ public class FeeMemberRepositoryImpl implements FeeMemberRepository {
     * Find by name.
     *
     * @param name
-    *           the name of payMember
+    *           the name of fee member
     * @return FeeMember
     */
    @Override
@@ -103,7 +103,7 @@ public class FeeMemberRepositoryImpl implements FeeMemberRepository {
    }
 
    /**
-    * Get all payMembers.
+    * Get all fee members.
     *
     * @return List<FeeMember>
     */

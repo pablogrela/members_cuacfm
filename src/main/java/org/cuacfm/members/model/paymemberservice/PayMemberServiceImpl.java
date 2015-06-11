@@ -20,7 +20,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.itextpdf.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfPTable;
 
 /** The Class PayMemberServiceImpl. */
 @Service("payMemberService")
@@ -32,7 +32,7 @@ public class PayMemberServiceImpl implements PayMemberService {
    /** The Constant PAY. */
    private static final String PAY = "PAY";
 
-   /** The feeMember repository. */
+   /** The pay member repository. */
    @Autowired
    private PayMemberRepository payMemberRepository;
 

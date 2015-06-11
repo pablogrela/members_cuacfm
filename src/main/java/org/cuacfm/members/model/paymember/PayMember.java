@@ -27,7 +27,7 @@ public class PayMember implements Serializable {
    private Long id;
 
    /** The account. */
-   @ManyToOne(optional = false, fetch = FetchType.LAZY)
+   @ManyToOne(optional = false, fetch = FetchType.EAGER)
    @JoinColumn(name = "accountId")
    private Account account;
 

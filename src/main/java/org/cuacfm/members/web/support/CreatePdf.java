@@ -1,5 +1,6 @@
 package org.cuacfm.members.web.support;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,21 +23,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.ColumnText;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfPageEventHelper;
+import com.lowagie.text.pdf.PdfWriter;
 
 /** The Class PdfFooterNumPag. */
 public class CreatePdf {
@@ -176,7 +176,7 @@ public class CreatePdf {
       PdfPTable table = new PdfPTable(7);
       Double totalPrice = Double.valueOf(0);
       Double collectPrice = Double.valueOf(0);
-      float[] values = new float[] { 180, 80, 180, 120, 70, 70, 70 };
+      float[] values = new float[] { 170, 95, 180, 120, 65, 70, 70 };
 
       if (!type.equals(ALL)) {
          table = new PdfPTable(6);
@@ -192,7 +192,7 @@ public class CreatePdf {
       table.setSpacingAfter(0f);
       table.getDefaultCell().setUseAscender(true);
       table.getDefaultCell().setUseDescender(true);
-      table.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
+      table.getDefaultCell().setBackgroundColor(Color.LIGHT_GRAY);
 
       // Header and Footer
       for (int i = 0; i < 2; i++) {
@@ -215,9 +215,9 @@ public class CreatePdf {
 
          table.getDefaultCell().setBackgroundColor(null);
          if (u.getInstallments() > 1) {
-            table.getDefaultCell().setBackgroundColor(BaseColor.YELLOW);
+            table.getDefaultCell().setBackgroundColor(Color.YELLOW);
          } else if ((type.equals(ALL)) && (!u.getState().equals(states.PAY))) {
-            table.getDefaultCell().setBackgroundColor(BaseColor.RED);
+            table.getDefaultCell().setBackgroundColor(Color.RED);
          }
 
          if ((type.equals(ALL)) || (type.equals(NOPAY) && !u.getState().equals(states.PAY))
@@ -245,7 +245,7 @@ public class CreatePdf {
       }
 
       // Final Sum
-      table.getDefaultCell().setBackgroundColor(BaseColor.GRAY);
+      table.getDefaultCell().setBackgroundColor(Color.GRAY);
       table.addCell(" ");
       table.addCell(" ");
       table.addCell(" ");
@@ -275,7 +275,7 @@ public class CreatePdf {
       PdfPTable table = new PdfPTable(6);
       Double totalPrice = Double.valueOf(0);
       Double collectPrice = Double.valueOf(0);
-      float[] values = new float[] { 120, 180, 80, 180, 70, 70 };
+      float[] values = new float[] { 120, 170, 95, 180, 70, 70 };
 
       if (!type.equals(ALL)) {
          table = new PdfPTable(5);
@@ -291,12 +291,12 @@ public class CreatePdf {
       table.setSpacingAfter(0f);
       table.getDefaultCell().setUseAscender(true);
       table.getDefaultCell().setUseDescender(true);
-      table.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
+      table.getDefaultCell().setBackgroundColor(Color.LIGHT_GRAY);
 
       // Header and Footer
       for (int i = 0; i < 2; i++) {
          table.addCell(messageSource.getMessage("programName", null, Locale.getDefault()));
-         table.addCell(messageSource.getMessage("name", null, Locale.getDefault()));
+         table.addCell(messageSource.getMessage("members", null, Locale.getDefault()));
          table.addCell(messageSource.getMessage("phone", null, Locale.getDefault()));
          table.addCell(messageSource.getMessage("email", null, Locale.getDefault()));
          table.addCell(messageSource.getMessage("price", null, Locale.getDefault()));
@@ -314,7 +314,7 @@ public class CreatePdf {
          table.getDefaultCell().setBackgroundColor(null);
 
          if ((type.equals(ALL)) && (!p.getState().equals(states.PAY))) {
-            table.getDefaultCell().setBackgroundColor(BaseColor.RED);
+            table.getDefaultCell().setBackgroundColor(Color.RED);
          }
 
          if ((type.equals(ALL)) || (type.equals(NOPAY) && !p.getState().equals(states.PAY))
@@ -349,7 +349,7 @@ public class CreatePdf {
       }
 
       // Final Sum
-      table.getDefaultCell().setBackgroundColor(BaseColor.GRAY);
+      table.getDefaultCell().setBackgroundColor(Color.GRAY);
       table.addCell(" ");
       table.addCell(" ");
       table.addCell(" ");

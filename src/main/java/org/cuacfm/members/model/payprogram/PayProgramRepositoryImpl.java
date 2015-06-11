@@ -130,6 +130,7 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
             .createQuery(
                   "select p.program.accountPayer, p from PayProgram p where p.state <> 'PAY' "
                         + "and month(p.feeProgram.date) = month(:month) "
+                        + "and year(p.feeProgram.date) = year(:month) "
                         + "order by p.program.accountPayer.name, p.program.name", Object[].class)
                         .setParameter("month", monthCharge);
       
