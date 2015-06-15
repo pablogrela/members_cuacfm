@@ -266,7 +266,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		mockMvc.perform(post("/trainingList/inscriptionList").locale(Locale.ENGLISH).session(defaultSession)
 				.param("login", user.getId() + ": " + user.getLogin()))
 				.andExpect(content()
-                .string(containsString("User user already have inscription")))
+                .string(containsString("User user already has an inscription.")))
                 .andExpect(view().name("training/inscriptionlist"));
 	}
 	

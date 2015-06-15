@@ -45,10 +45,10 @@ public class ConfigurationForm {
    @DecimalMin("0.00")
    private Double feeProgram;
    
-   /** The descriptionRul. */
+   /** The descriptionRule. */
    @NotBlank(message = ConfigurationForm.NOT_BLANK_MESSAGE)
    @Size(max = 500, message = ConfigurationForm.MAX_CHARACTERS)
-   private String descriptionRul;
+   private String descriptionRule;
 
    /** Instantiates a new training form. */
    public ConfigurationForm() {
@@ -106,13 +106,13 @@ public class ConfigurationForm {
    }
 
 
-   public String getDescriptionRul() {
-      return descriptionRul;
+   public String getDescriptionRule() {
+      return descriptionRule;
    }
 
 
-   public void setDescriptionRul(String descriptionRul) {
-      this.descriptionRul = descriptionRul;
+   public void setDescriptionRule(String descriptionRule) {
+      this.descriptionRule = descriptionRule;
    }
 
 
@@ -129,7 +129,7 @@ public class ConfigurationForm {
       configuration.setPhone(getPhone());
       configuration.setFeeMember(getFeeMember());
       configuration.setFeeProgram(getFeeProgram());
-      configuration.setDescriptionRul(getDescriptionRul());
+      configuration.setDescriptionRule(getDescriptionRule());
       return configuration;
    }
 }

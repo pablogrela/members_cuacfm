@@ -116,6 +116,6 @@ public class FeeMemberListTest extends WebSecurityConfigurationAware {
 		
 		mockMvc.perform(get("/feeMemberList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("feemember/feememberlist"))
-				.andExpect(content().string(containsString("<title>Payments Inscription</title>")));
+				.andExpect(content().string(containsString("<title>Fee members</title>")));
 	}	
 }

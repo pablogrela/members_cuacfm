@@ -30,7 +30,7 @@ public class Configuration implements java.io.Serializable {
    private Double feeProgram;
 
    /** The description. */
-   private String descriptionRul;
+   private String descriptionRule;
 
    /** Instantiates a new account type. */
    protected Configuration() {
@@ -50,18 +50,18 @@ public class Configuration implements java.io.Serializable {
     *           the fee member
     * @param feeProgram
     *           the fee program
-    * @param descriptionRul
+    * @param descriptionRule
     *           the description rul
     */
    public Configuration(String name, String email, int phone, Double feeMember, Double feeProgram,
-         String descriptionRul) {
+         String descriptionRule) {
       super();
       this.name = name;
       this.email = email;
       this.phone = phone;
       this.feeMember = feeMember;
       this.feeProgram = feeProgram;
-      this.descriptionRul = descriptionRul;
+      this.descriptionRule = descriptionRule;
    }
 
    /**
@@ -169,22 +169,22 @@ public class Configuration implements java.io.Serializable {
    }
 
    /**
-    * Gets the description rul.
+    * Gets the description rule.
     *
-    * @return the description rul
+    * @return the description rule
     */
-   public String getDescriptionRul() {
-      return descriptionRul;
+   public String getDescriptionRule() {
+      return descriptionRule;
    }
 
    /**
-    * Sets the description rul.
+    * Sets the description rule.
     *
-    * @param descriptionRul
-    *           the new description rul
+    * @param descriptionRule
+    *           the new description rule
     */
-   public void setDescriptionRul(String descriptionRul) {
-      this.descriptionRul = descriptionRul;
+   public void setDescriptionRule(String descriptionRule) {
+      this.descriptionRule = descriptionRule;
    }
 
 }

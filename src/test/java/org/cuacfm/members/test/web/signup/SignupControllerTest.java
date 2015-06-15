@@ -104,7 +104,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
                         .param("rePassword", "1234").param("rule", "true"))
             .andExpect(
                   content().string(
-                        containsString("Already existent dni 55555555C, please chose other")))
+                        containsString("Already existent dni 55555555C, please choose another")))
             .andExpect(view().name("signup/signup"));
    }
 
@@ -130,7 +130,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
                         .param("rePassword", "1234").param("rule", "true"))
             .andExpect(
                   content().string(
-                        containsString("Already existent email user@udc.es, please chose other")))
+                        containsString("Already existent email user@udc.es, please choose another")))
             .andExpect(view().name("signup/signup"));
    }
 
@@ -190,7 +190,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
                         .param("rePassword", "1234").param("rule", "true"))
             .andExpect(
                   content().string(
-                        containsString("Already existent login user, please chose other")))
+                        containsString("Already existent login user, please choose another")))
             .andExpect(view().name("signup/signup"));
    }
 
@@ -279,6 +279,6 @@ public class SignupControllerTest extends WebAppConfigurationAware {
    @Test
    public void displaysErrorPage() throws Exception {
       mockMvc.perform(post("/signup").locale(Locale.ENGLISH)).andExpect(
-            content().string(containsString("<title>Error Page</title>")));
+            content().string(containsString("<title>Error page</title>")));
    }
 }

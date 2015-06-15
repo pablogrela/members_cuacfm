@@ -192,7 +192,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
             
       mockMvc.perform(get("/bankRemittanceList/directDebitList").locale(Locale.ENGLISH).session(defaultSession))
             .andExpect(view().name("bankremittance/directdebitlist"))
-            .andExpect(content().string(containsString("<title>Domiciled Payments</title>")));
+            .andExpect(content().string(containsString("<title>Domiciled payments</title>")));
    }
 
    /**

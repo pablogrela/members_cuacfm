@@ -84,7 +84,7 @@ public class TrainingTypeListControllerTest extends WebSecurityConfigurationAwar
 	public void displaysTrainingTypeList() throws Exception {    
 		mockMvc.perform(get("/trainingTypeList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("trainingtype/trainingtypelist"))
-				.andExpect(content().string(containsString("<title>Types trainings</title>")));
+				.andExpect(content().string(containsString("<title>Training types</title>")));
 	}
 
 
@@ -99,7 +99,7 @@ public class TrainingTypeListControllerTest extends WebSecurityConfigurationAwar
 		
 		mockMvc.perform(get("/trainingTypeList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("trainingtype/trainingtypelist"))
-				.andExpect(content().string(containsString("<title>Types trainings</title>")));
+				.andExpect(content().string(containsString("<title>Training types</title>")));
 	}
 	
 	/**

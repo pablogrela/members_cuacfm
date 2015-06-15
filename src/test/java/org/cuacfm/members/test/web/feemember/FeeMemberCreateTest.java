@@ -94,7 +94,7 @@ public class FeeMemberCreateTest extends WebSecurityConfigurationAware {
                   get("/feeMemberList/feeMemberCreate").locale(Locale.ENGLISH).session(
                         defaultSession))
             .andExpect(view().name("feemember/feemembercreate"))
-            .andExpect(content().string(containsString("<title>Create Pay Inscription</title>")));
+            .andExpect(content().string(containsString("<title>Create fee member</title>")));
    }
 
    /**
@@ -173,7 +173,7 @@ public class FeeMemberCreateTest extends WebSecurityConfigurationAware {
                         .session(defaultSession).param("name", "pay of 2015").param("year", "2015")
                         .param("dateLimit1", "2015-04-05").param("dateLimit2", "2015-07-05")
                         .param("price", "24").param("description", "pay of 2015"))
-            .andExpect(content().string(containsString("Year repeated")))
+            .andExpect(content().string(containsString("Repeated year")))
             .andExpect(view().name("feemember/feemembercreate"));
    }
 }

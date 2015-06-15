@@ -98,7 +98,7 @@ public class TrainingCreateControllerTest extends WebSecurityConfigurationAware 
 		
 		mockMvc.perform(get("/trainingList/trainingCreate").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("training/trainingcreate"))
-				.andExpect(content().string(containsString("<title>Create Training</title>")));
+				.andExpect(content().string(containsString("<title>Create session</title>")));
 	}
 
 	

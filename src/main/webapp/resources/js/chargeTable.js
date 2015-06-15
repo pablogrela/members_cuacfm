@@ -20,6 +20,21 @@ if(ln == 'es'){
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
 	} );
+} else if(ln == 'gl'){
+		$(document).ready(function() {
+			   $('#customTable').dataTable( {
+			       "language": {
+			           "url": "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/Galician.json"
+			       },
+			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+			   } );
+			   $('#customTable2').dataTable( {
+			       "language": {
+			           "url": "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/Galician.json"
+			       },
+			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+			   } );
+		} );
 // By defect English	
 } else {
 	$(document).ready(function() {

@@ -173,7 +173,7 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
             post("/configuration").locale(Locale.ENGLISH).session(defaultSession)
                   .param("name", "New Name").param("email", "email@udc.es")
                   .param("phone", "111111").param("feeMember", "30").param("feeProgram", "32")
-                  .param("descriptionRul", "New Description")).andExpect(
+                  .param("descriptionRule", "New Description")).andExpect(
             view().name("redirect:/configuration"));
    }
 
@@ -193,7 +193,7 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
       mockMvc.perform(
             post("/configuration").locale(Locale.ENGLISH).session(defaultSession)
                   .param("name", " ").param("email", " ").param("phone", " ")
-                  .param("descriptionRul", " ")).andExpect(
+                  .param("descriptionRule", " ")).andExpect(
             view().name("configuration/configuration"));
    }
 
@@ -215,7 +215,7 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
                   .param("name", "111111111111111111111111111111111111")
                   .param("email", "11111111111111111111111111111111111")
                   .param("phone", "11111111111111111111111111111111111")
-                  .param("descriptionRul", "1111111111111111111111111111")).andExpect(
+                  .param("descriptionRule", "1111111111111111111111111111")).andExpect(
             view().name("configuration/configuration"));
    }
 }

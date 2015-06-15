@@ -169,7 +169,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
                   get("/feeMemberList/payMemberList/payMemberEdit").locale(Locale.ENGLISH).session(
                         defaultSession)).andExpect(view().name("paymember/paymemberedit"))
             .andExpect(model().attributeExists("payMemberForm"))
-            .andExpect(content().string(containsString("<title>Edit User Payment</title>")));
+            .andExpect(content().string(containsString("<title>Edit pay member</title>")));
    }
 
    /**
@@ -214,7 +214,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
                   get("/feeMemberList/payMemberList/payMemberEdit").locale(Locale.ENGLISH).session(
                         defaultSession)).andExpect(view().name("paymember/paymemberedit"))
             .andExpect(model().attributeExists("payMemberForm"))
-            .andExpect(content().string(containsString("<title>Edit User Payment</title>")));
+            .andExpect(content().string(containsString("<title>Edit pay member</title>")));
 
       mockMvc.perform(
             post("/feeMemberList/payMemberList/payMemberEdit").locale(Locale.ENGLISH)

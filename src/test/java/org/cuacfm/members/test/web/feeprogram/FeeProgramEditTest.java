@@ -107,7 +107,7 @@ public class FeeProgramEditTest extends WebSecurityConfigurationAware {
             .perform(
                   get("/feeProgramList/feeProgramEdit").locale(Locale.ENGLISH).session(
                         defaultSession)).andExpect(view().name("feeprogram/feeprogramedit"))
-            .andExpect(content().string(containsString("<title>Edit fee programs</title>")));
+            .andExpect(content().string(containsString("<title>Edit fee program</title>")));
    }
 
    /**
@@ -213,7 +213,7 @@ public class FeeProgramEditTest extends WebSecurityConfigurationAware {
                         .session(defaultSession).param("name", "pay of april 2016")
                         .param("price", "24").param("date", "2015-12")
                         .param("dateLimit", "2015-12").param("description", "pay of april 2016"))
-            .andExpect(content().string(containsString("Date repeated")))
+            .andExpect(content().string(containsString("Repeated date")))
             .andExpect(view().name("feeprogram/feeprogramedit"));
    }
 }

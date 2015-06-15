@@ -3,7 +3,7 @@
 	xmlns:tiles="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="#{trainingCloseList.title}"></title>
+<title th:text="#{training.titleCloseList}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 <!-- CSS -->
@@ -68,7 +68,6 @@
 						<th th:text="#{training.dateTraining}">Date Training</th>
 						<th th:text="#{training.countPlaces}">Place</th>
 						<th th:text="#{training.maxPlaces}">Place</th>
-						<th th:text="#{close}">Close</th>
 						<th class="no-sort"></th>
 						<th class="no-sort"></th>
 					</tr>
@@ -81,8 +80,6 @@
 						<td th:text="${{training.dateTraining}}">15/01/2015</td>
 						<td th:text="${training.countPlaces}">countPlaces</td>
 						<td th:text="${training.maxPlaces}">maxPlaces</td>
-						<td><input type="checkbox" th:checked="${training.close}" 
-							onClick="return false" th:title="#{training.infoShowClose}"/></td>
 
 						<!-- View info of training -->
 						<td>

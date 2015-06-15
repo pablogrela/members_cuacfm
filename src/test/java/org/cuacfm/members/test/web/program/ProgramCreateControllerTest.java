@@ -161,8 +161,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
                         .param("duration", "1"))
             .andExpect(
                   content().string(
-                        containsString("Already exist program with name " + program.getName()
-                              + ", please chose other")))
+                        containsString("The program with the name " + program.getName() + " already exists, please choose another.")))
             .andExpect(view().name("program/programcreate"));
 
    }

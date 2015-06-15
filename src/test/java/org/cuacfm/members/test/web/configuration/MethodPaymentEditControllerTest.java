@@ -151,7 +151,7 @@ public class MethodPaymentEditControllerTest extends WebSecurityConfigurationAwa
             .andExpect(
                   content().string(
                         containsString("Already exist method payment with name "
-                              + methodPayment.getName() + ", please chose other")))
+                              + methodPayment.getName() + ", please choose another")))
             .andExpect(view().name("configuration/methodpaymentedit"));
 
    }

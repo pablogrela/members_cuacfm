@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title th:text="#{trainingEdit.title}"></title>
+<title th:text="#{training.titleEdit}"></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 <!-- CSS -->
@@ -12,6 +12,7 @@
 <script th:src="@{/resources/js/bootstrap.min.js}"></script>
 <script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
 <script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/formcfg-gl.js}"></script>
 <script th:src="@{/resources/js/chargeWebshim.js}"></script>
 </head>
 <body>
@@ -25,13 +26,13 @@
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${trainingForm.*}')}">
-			<div th:replace="fragments/alert :: alert (type='danger', message=#{training.error})">Alert</div>
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
 		</th:block>
 
 		<fieldset>
 
 			<!-- Message help-->
-			<legend th:text="#{trainingEdit.infoEdit}">Edit Training</legend>
+			<legend th:text="#{training.infoEdit}">Edit Training</legend>
 
 
 			<!-- Edit Name -->

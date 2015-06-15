@@ -201,7 +201,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
       mockMvc.perform(get("/bankRemittanceList").locale(Locale.ENGLISH).session(defaultSession))
             .andExpect(view().name("bankremittance/bankremittancelist"))
             .andExpect(model().attributeExists("bankRemittanceForm"))
-            .andExpect(content().string(containsString("<title>Bank Remittances</title>")));
+            .andExpect(content().string(containsString("<title>Bank remittances</title>")));
    }
 
    /**

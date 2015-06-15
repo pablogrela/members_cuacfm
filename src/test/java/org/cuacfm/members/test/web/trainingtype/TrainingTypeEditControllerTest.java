@@ -97,7 +97,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 		
 		mockMvc.perform(get("/trainingTypeList/trainingTypeEdit").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("trainingtype/trainingtypedit"))
-				.andExpect(content().string(containsString("<title>Modify type of training</title>")));
+				.andExpect(content().string(containsString("<title>Edit training type</title>")));
 	}
 
 
@@ -138,7 +138,7 @@ public class TrainingTypeEditControllerTest extends WebSecurityConfigurationAwar
 				.param("place", "livingRoom2")
 				.param("duration", "2"))
 				.andExpect(content()
-                        		.string(containsString("Already exist type of formation with name "+ trainingType.getName() + ", please chose other")))
+                        		.string(containsString("Already exist type of formation with name "+ trainingType.getName() + ", please choose another.")))
                         		.andExpect(view().name("trainingtype/trainingtypedit"));
 
 	}

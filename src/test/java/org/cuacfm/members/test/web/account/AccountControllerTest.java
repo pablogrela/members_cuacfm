@@ -132,7 +132,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
             .andExpect(
                   content()
                         .string(
-                              allOf(containsString("<title>Accounts</title>"),
+                              allOf(containsString("<title>Account user</title>"),
                                     containsString("<legend>Would you like to change any of the information?</legend>"))));
    }
 
@@ -155,7 +155,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
             .andExpect(
                   content()
                         .string(
-                              allOf(containsString("<title>Accounts</title>"),
+                              allOf(containsString("<title>Account user</title>"),
                                     containsString("<legend>Would you like to change any of the information?</legend>"))));
    }
 

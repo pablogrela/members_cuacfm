@@ -91,7 +91,7 @@ public class FeeProgramCreateTest extends WebSecurityConfigurationAware {
             .perform(
                   get("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH).session(
                         defaultSession)).andExpect(view().name("feeprogram/feeprogramcreate"))
-            .andExpect(content().string(containsString("<title>Create fee programs</title>")));
+            .andExpect(content().string(containsString("<title>Create fee program</title>")));
    }
 
    /**
@@ -167,7 +167,7 @@ public class FeeProgramCreateTest extends WebSecurityConfigurationAware {
                         .session(defaultSession).param("name", "pay of 2015")
                         .param("date", "2015-12").param("dateLimit", "2015-12")
                         .param("price", "24").param("description", "pay of april 2015"))
-            .andExpect(content().string(containsString("Date repeated")))
+            .andExpect(content().string(containsString("Repeated date")))
             .andExpect(view().name("feeprogram/feeprogramcreate"));
    }
 }

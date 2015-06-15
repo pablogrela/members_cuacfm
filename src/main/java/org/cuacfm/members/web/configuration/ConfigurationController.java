@@ -92,7 +92,7 @@ public class ConfigurationController {
       configurationForm.setPhone(configuration.getPhone());
       configurationForm.setFeeMember(configuration.getFeeMember());
       configurationForm.setFeeProgram(configuration.getFeeProgram());
-      configurationForm.setDescriptionRul(configuration.getDescriptionRul());
+      configurationForm.setDescriptionRule(configuration.getDescriptionRule());
       model.addAttribute(configurationForm);
       return CONFIGURATION_VIEW_NAME;
    }

@@ -78,7 +78,7 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
             .perform(
                   get("/configuration/accountTypeCreate").locale(Locale.ENGLISH).session(
                         defaultSession)).andExpect(view().name("configuration/accountypecreate"))
-            .andExpect(content().string(containsString("<title>Create Account Type</title>")));
+            .andExpect(content().string(containsString("<title>Create account type</title>")));
    }
 
    /**
@@ -114,7 +114,7 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
             .andExpect(
                   content().string(
                         containsString("Already exist account type with name "
-                              + accountType.getName() + ", please chose other")))
+                              + accountType.getName() + ", please choose another")))
             .andExpect(view().name("configuration/accountypecreate"));
 
    }

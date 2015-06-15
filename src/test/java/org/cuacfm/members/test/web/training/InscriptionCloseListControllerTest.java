@@ -96,7 +96,7 @@ public class InscriptionCloseListControllerTest extends WebSecurityConfiguration
 		
 		mockMvc.perform(get("/trainingList/inscriptionCloseList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("training/inscriptioncloselist"))
-				.andExpect(content().string(containsString("<title>Close Inscriptions</title>")));
+				.andExpect(content().string(containsString("<title>Inscriptions close</title>")));
 	}	
 	
 	/**

@@ -138,7 +138,7 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
             .perform(
                   get("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(
                         defaultSession)).andExpect(view().name("payprogram/payprogramlist"))
-            .andExpect(content().string(containsString("<title>Fee program of users</title>")));
+            .andExpect(content().string(containsString("<title>Payments pay program</title>")));
    }
 
    /**

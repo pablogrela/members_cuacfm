@@ -4,14 +4,14 @@
 				url : "Por favor, introduzca una URL."
 			},
 			badInput : {
-				number : "Por favor ingresa una número",
+				number : "Por favor ingresa un número",
 				date : "Por favor ingresa una fecha",
 				time : "Por favor ingresa una hora",
 				range : "Valor no válido",
 				"datetime-local" : "Por favor ingresa una fecha con una hora"
 			},
-			validatevalue:"aqui",
-			dependentValidation:"aqui",
+			validatevalue : "aqui",
+			dependentValidation : "aqui",
 			tooLong : "Por favor ingresa como máximo {%maxlength} caracteres, tú has ingresado solo {%valueLen}.",
 			tooShort : "El mínimo de caracteres es {%minlength}, tú solo ingresaste {%valueLen}.",
 			patternMismatch : "{%title}",
@@ -25,7 +25,7 @@
 				defaultMessage : "El valor debe ser superior o igual a {%min}.",
 				date : "El valor debe ser superior o igual a {%min}.",
 				time : "El valor debe ser superior o igual a {%min}.",
-				"datetime-local" : "El valor debe superior o igual a {%min}."
+				"datetime-local" : "El valor debe ser superior o igual a {%min}."
 			},
 			rangeOverflow : {
 				defaultMessage : "El valor debe ser inferior o igual a {%max}.",

@@ -84,7 +84,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	public void displaysTrainingListTest() throws Exception {    
 		mockMvc.perform(get("/trainingList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("training/traininglist"))
-				.andExpect(content().string(containsString("<title>Trainings</title>")));
+				.andExpect(content().string(containsString("<title>Sessions</title>")));
 	}
 
 
@@ -105,7 +105,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 				.andExpect(view().name("training/traininglist"))
 				.andExpect(
 						content()
-								.string(containsString("<title>Trainings</title>")));
+								.string(containsString("<title>Sessions</title>")));
 	}
 	
 	/**

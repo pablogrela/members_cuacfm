@@ -12,6 +12,7 @@
 <script th:src="@{/resources/js/bootstrap.min.js}"></script>
 <script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
 <script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/formcfg-gl.js}"></script>
 <script th:src="@{/resources/js/chargeWebshim.js}"></script>
 <script src="//raw.githubusercontent.com/kvz/phpjs/master/functions/strings/sha1.js"></script>
 </head>
@@ -25,13 +26,13 @@
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${signupForm.*}')}">
-			<div th:replace="fragments/alert :: alert (type='danger', message=#{signup.error})">Alert</div>
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
 		</th:block>
 
 		<fieldset>
 
 			<!-- Message help-->
-			<legend th:text="#{signup.please}">Please Sign Up</legend>
+			<legend th:text="#{signup.info}">Please Sign Up</legend>
 
 			<!-- Insert Name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
@@ -147,9 +148,9 @@
 
 			<!-- View Description Rule -->
 			<div class="form-group">
-				<label for="descriptionRul" class="col-lg-2 control-label" th:text="#{descriptionRul}">descriptionRul</label>
+				<label for="descriptionRule" class="col-lg-2 control-label" th:text="#{descriptionRule}">descriptionRule</label>
 				<div class="col-lg-10">
-					<textarea readonly="readonly" class="form-control" id="descriptionRul" th:text="${descriptionRul}" rows="5"
+					<textarea readonly="readonly" class="form-control" id="descriptionRule" th:text="${descriptionRule}" rows="5"
 						cols="40">
             	Description</textarea>
 				</div>

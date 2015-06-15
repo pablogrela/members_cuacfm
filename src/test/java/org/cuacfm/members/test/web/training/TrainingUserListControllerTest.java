@@ -89,6 +89,6 @@ public class TrainingUserListControllerTest extends WebSecurityConfigurationAwar
 
 		mockMvc.perform(get("/trainingUserList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("training/traininguserlist"))
-				.andExpect(content().string(containsString("<title>Training´s User</title>")));
+				.andExpect(content().string(containsString("<title>My formations</title>")));
 	}	
 }

@@ -102,10 +102,11 @@ public class CreatePayRoll {
       totalRegisters = totalRegisters + 2;
       result = result + createTotalRegisterGeneral(totalDebtors, totalRegisters, totalPriceString);
 
-      
+      // Replace Forbidden Characters
       result = result.replace("ñ", "n");
       result = result.replace("Ñ", "N");
-
+      result = result.replace("[", "(");
+      result = result.replace("[", ")");
       
       bw.write(result);
       bw.close();

@@ -96,7 +96,7 @@ public class FeeMemberEditTest extends WebSecurityConfigurationAware {
 		
 		mockMvc.perform(get("/feeMemberList/feeMemberEdit").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("feemember/feememberedit"))
-				.andExpect(content().string(containsString("<title>Edit Pay Inscription</title>")));
+				.andExpect(content().string(containsString("<title>Edit fee member</title>")));
 	}	
 	
 	/**
@@ -189,7 +189,7 @@ public class FeeMemberEditTest extends WebSecurityConfigurationAware {
 				.param("dateLimit2", "2015-07-05")
 				.param("description", "pay of 2015"))
 					.andExpect(content()
-						.string(containsString("Year repeated")))
+						.string(containsString("Repeated year")))
                 		.andExpect(view().name("feemember/feememberedit"));
 	}
 }

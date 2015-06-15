@@ -81,7 +81,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 		
 		mockMvc.perform(get("/trainingTypeList/trainingTypeCreate").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("trainingtype/trainingtypecreate"))
-				.andExpect(content().string(containsString("<title>Create new Training Type</title>")));
+				.andExpect(content().string(containsString("<title>Create training type</title>")));
 	}
 
 
@@ -119,7 +119,7 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 				.param("place", "livingRoom2")
 				.param("duration", "90"))
 				.andExpect(content()
-                        		.string(containsString("Already exist type of formation with name "+ trainingType.getName() + ", please chose other")))
+                        		.string(containsString("Already exist type of formation with name "+ trainingType.getName() + ", please choose another.")))
                         		.andExpect(view().name("trainingtype/trainingtypecreate"));
 
 	}

@@ -14,6 +14,7 @@
 <script th:src="@{/resources/js/profile.js}"></script>
 <script src="//cdn.jsdelivr.net/webshim/1.15.7/polyfiller.js"></script>
 <script th:src="@{/resources/js/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/formcfg-gl.js}"></script>
 <script th:src="@{/resources/js/chargeWebshim.js}"></script>
 </head>
 <body>
@@ -32,7 +33,7 @@
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${profileForm.*}')}">
-			<div th:replace="fragments/alert :: alert (type='danger', message=#{profile.error})">Alert</div>
+			<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
 		</th:block>
 
 
@@ -145,7 +146,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
-					<input type="text" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}"
+					<input type="email" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}"
 						th:field="*{email}" maxlength="30" required="required" />
 					<input type="checkbox" id="enableModify5" th:text="#{profile}" name="onEmail" onChange="checkedEmail(this.form)" />
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>

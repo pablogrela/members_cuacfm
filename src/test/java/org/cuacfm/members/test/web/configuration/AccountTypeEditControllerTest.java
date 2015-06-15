@@ -111,7 +111,7 @@ public class AccountTypeEditControllerTest extends WebSecurityConfigurationAware
             .perform(
                   get("/configuration/accountTypeEdit").locale(Locale.ENGLISH).session(
                         defaultSession)).andExpect(view().name("configuration/accountypedit"))
-            .andExpect(content().string(containsString("<title>Modify Account Type</title>")));
+            .andExpect(content().string(containsString("<title>Edit account type</title>")));
    }
 
    /**
@@ -151,7 +151,7 @@ public class AccountTypeEditControllerTest extends WebSecurityConfigurationAware
             .andExpect(
                   content().string(
                         containsString("Already exist account type with name "
-                              + accountType.getName() + ", please chose other")))
+                              + accountType.getName() + ", please choose another")))
             .andExpect(view().name("configuration/accountypedit"));
 
    }

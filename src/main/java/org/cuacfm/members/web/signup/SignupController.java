@@ -28,8 +28,8 @@ public class SignupController {
    @Autowired
    private ConfigurationService configurationService;
    
-   /** The description rul. */
-   private String descriptionRul;
+   /** The description rule. */
+   private String descriptionRule;
    
    /** The account service. */
    @Autowired
@@ -51,9 +51,9 @@ public class SignupController {
     *
     * @return the string
     */
-   @ModelAttribute("descriptionRul")
-   public String descriptionRul() {
-      return descriptionRul;
+   @ModelAttribute("descriptionRule")
+   public String descriptionRule() {
+      return descriptionRule;
    }
    
    /**
@@ -65,8 +65,8 @@ public class SignupController {
     */
    @RequestMapping(value = "signup")
    public String signup(Model model) {
-      descriptionRul = configurationService.getConfiguration().getDescriptionRul();
-      model.addAttribute("descriptionRul", descriptionRul);
+      descriptionRule = configurationService.getConfiguration().getDescriptionRule();
+      model.addAttribute("descriptionRule", descriptionRule);
       model.addAttribute(new SignupForm());
       return SIGNUP_VIEW_NAME;
    }

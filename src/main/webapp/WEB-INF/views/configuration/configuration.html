@@ -114,15 +114,15 @@
 				</div>
 			</div>
 
-			<!-- Edit DescriptionRul -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('descriptionRul')}? 'has-error'">
-				<label for="descriptionRul" class="col-lg-2 control-label" th:text="#{descriptionRul}">descriptionRul</label>
+			<!-- Edit descriptionRule -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('descriptionRule')}? 'has-error'">
+				<label for="descriptionRule" class="col-lg-2 control-label" th:text="#{descriptionRule}">descriptionRule</label>
 				<div class="col-lg-10">
-					<textarea class="form-control" id="descriptionRul" th:placeholder="#{descriptionRul}" th:field="*{descriptionRul}"
+					<textarea class="form-control" id="descriptionRule" th:placeholder="#{descriptionRule}" th:field="*{descriptionRule}"
 						rows="5" cols="40" maxlength="500" required="required">
             	Description</textarea>
-					<span class="help-block" th:if="${#fields.hasErrors('descriptionRul')}" th:errors="*{descriptionRul}">Incorrect
-						descriptionRul</span>
+					<span class="help-block" th:if="${#fields.hasErrors('descriptionRule')}" th:errors="*{descriptionRule}">Incorrect
+						descriptionRule</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>

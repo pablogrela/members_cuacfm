@@ -140,7 +140,7 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
                         .session(defaultSession))
             .andExpect(view().name("paymember/paymemberlist"))
             .andExpect(
-                  content().string(containsString("<title>Payments of user´s inscription</title>")));
+                  content().string(containsString("<title>Payments fee member</title>")));
    }
 
    /**
@@ -209,7 +209,7 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
                         .session(defaultSession))
             .andExpect(view().name("paymember/paymemberlist"))
             .andExpect(
-                  content().string(containsString("<title>Payments of user´s inscription</title>")));
+                  content().string(containsString("<title>Payments fee member</title>")));
 
       mockMvc
             .perform(
@@ -253,7 +253,7 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
                   post("/feeMemberList/payMemberList").locale(Locale.ENGLISH)
                         .session(defaultSession)
                         .param("login", user.getId() + ": " + user.getLogin()))
-            .andExpect(content().string(containsString("It has already created to user")))
+            .andExpect(content().string(containsString("It has Already created to pay him the")))
             .andExpect(view().name("paymember/paymemberlist"));
    }
 

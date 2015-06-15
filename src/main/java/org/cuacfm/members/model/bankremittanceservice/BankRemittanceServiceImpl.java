@@ -321,7 +321,7 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
       BankRemittance bankRemittance = bankRemittanceRepository.findById(bankRemittanceId);
       Date date = new Date();
       String file = messageSource.getMessage("fileBankRemittance", null, Locale.getDefault())
-            + DisplayDate.dateTimeToStringSp(date);
+            + DisplayDate.dateTimeToStringSp(date) + ".txt";
       String path = System.getProperty("user.dir") + "/" + file;
 
       try {

@@ -106,7 +106,7 @@ public class MethodPaymentCreateControllerTest extends WebSecurityConfigurationA
 				.param("name", "Paypal")
 				.param("description", "Pay by Paypal"))
 				.andExpect(content()
-                        		.string(containsString("Already exist method payment with name "+ methodPayment.getName() + ", please chose other")))
+                        		.string(containsString("Already exist method payment with name "+ methodPayment.getName() + ", please choose another")))
                         		.andExpect(view().name("configuration/methodpaymentcreate"));
 
 	}
