@@ -18,8 +18,6 @@ package org.cuacfm.members.model.feeprogramservice;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogram.FeeProgramRepository;
@@ -38,10 +36,10 @@ public class FeeProgramServiceImpl implements FeeProgramService {
    @Autowired
    private FeeProgramRepository feeProgramRepository;
 
-   @Inject
+   @Autowired
    private ProgramService programService;
 
-   @Inject
+   @Autowired
    private PayProgramService payProgramService;
 
    /** Instantiates a new feeProgram service. */
