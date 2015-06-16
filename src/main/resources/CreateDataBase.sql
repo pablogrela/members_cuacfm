@@ -1,9 +1,3 @@
--- Insert Configuration:
-insert into Configuration values (1, 'CuacFM', 'cuacfm@hotmail.com', 981666666, 24, 25, 'Comprométome a coñecer e cumprir a normativa interna da asociación, así coma a asumir a responsabilidade das informacións e opinións que difunda en antena e a facer un bo uso das instalacións e material da asociación.
-
-Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na asociación cultural  Colectivo de Universitarios ACtivos, cousa que NON ACONTECE, se marquei as opcións "simpatizante" ou "patrocinador web"            ');
-
-	
 
 -- Insert Method Payment:
 insert into MethodPayment values (1, 'Exento', false, 'No tiene que pagar');
@@ -23,12 +17,8 @@ insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0)
 
 -- Insert Account:
 insert into Account values 
-(1, 'user', null, '12345678A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(2, 'user', null, '12345678A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
-
-insert into Account values 
-(2, 'admin', null, '12345678B', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 1, 1, 1, false, null, true, '', '', 'ROLE_ADMIN');
 
 insert into Account values 
 (3, 'trainer', null, '12345678C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
@@ -71,6 +61,8 @@ insert into BankAccount values
 (3, 9, 'Santander', 'BSCHESMMXXX', 'ES7620770024003102575766', '9_12347678D_1', "2015-04-10 11:00", false);
 insert into BankAccount values 	
 (4, 9, 'A Banca', 'BancaMMXXX', 'ES7620770024003102575766', '9_12347678D_2', "2015-04-10 11:00", true);	
+
+
 	
 
 -- Insert Program:
