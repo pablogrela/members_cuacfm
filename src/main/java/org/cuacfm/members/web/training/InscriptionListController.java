@@ -180,6 +180,7 @@ public class InscriptionListController {
 
       for (int index = 0; index < insUpdate.size(); index++) {
 
+         modify = true;
          if (insUpdate.get(index).getNote() != inscriptions.get(index).getNote()) {
             inscriptions.get(index).setNote(insUpdate.get(index).getNote());
             modify = true;

@@ -298,16 +298,16 @@
 			            <exclude>**/README</exclude>
 			            <exclude>src/test/resources/**</exclude>
 			            <exclude>src/main/resources/**</exclude>
-			            <exclude>/src/main/webapp/resources/js/formcfg-es.js</exclude>
-			            <exclude>/src/main/webapp/resources/js/formcfg-gl.js</exclude>
-			            <exclude>/src/main/webapp/resources/js/bootstrap.min.js</exclude>
-			            <exclude>/src/main/webapp/resources/css/bootstrap.css</exclude>
-			            <exclude>/src/main/webapp/resources/css/bootstrap.min.css</exclude>
-			            <exclude>/src/main/webapp/resources/css/bootstrap-theme.css</exclude>
-			            <exclude>/src/main/webapp/resources/css/bootstrap-theme.min.css</exclude>
-			            <exclude>/src/main/webapp/resources/css/bootstrap-theme.css.map</exclude>
-			            <exclude>/src/main/webapp/resources/css/dataTables.css</exclude>
-			            <exclude>/src/main/webapp/WEB-INF/i18n/**</exclude>
+			            <exclude>src/main/webapp/resources/js/formcfg-es.js</exclude>
+			            <exclude>src/main/webapp/resources/js/formcfg-gl.js</exclude>
+			            <exclude>src/main/webapp/resources/js/bootstrap.min.js</exclude>
+			            <exclude>src/main/webapp/resources/css/bootstrap.css</exclude>
+			            <exclude>src/main/webapp/resources/css/bootstrap.min.css</exclude>
+			            <exclude>src/main/webapp/resources/css/bootstrap-theme.css</exclude>
+			            <exclude>src/main/webapp/resources/css/bootstrap-theme.min.css</exclude>
+			            <exclude>src/main/webapp/resources/css/bootstrap-theme.css.map</exclude>
+			            <exclude>src/main/webapp/resources/css/dataTables.css</exclude>
+			            <exclude>src/main/webapp/WEB-INF/i18n/**</exclude>
 			        </excludes>
 			    </configuration>
 			    <executions>
