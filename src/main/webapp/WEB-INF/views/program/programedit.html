@@ -85,7 +85,7 @@
 							<input type="number" class="form-control" id="periodicity" th:placeholder="#{periodicity}"
 								th:field="*{periodicity}" step="0.25" min="0.25" max="7" required="required" />
 						</div>
-						<span class="col-lg-2-right control-label" th:text="#{program.times}">times</span>
+						<span class="col-lg-2-right" th:text="#{program.times}">times</span>
 						<br></br>
 						<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('periodicity')}" th:errors="*{periodicity}">
 							Incorrect periodicity</span>
@@ -97,11 +97,11 @@
 				<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
 					<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
 					<div class="col-lg-10">
-						<div class="col-lg-3-edit">
+						<div class="col-lg-4-edit">
 							<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}"
 								min="1" required="required" />
 						</div>
-						<span class="col-lg-2-right control-label" th:text="#{hours}">hours</span>
+						<span class="col-lg-2-right" th:text="#{hours}">hours</span>
 						<br></br>
 						<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">
 							Incorrect duration</span>
@@ -115,8 +115,11 @@
 
 					<!-- Form add user by admin -->
 					<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-						<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+						<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>						
+						
+
 						<div class="col-lg-9 text-danger">
+						
 							<input type="text" class="form-control" list="userlist" th:placeholder="#{login}" th:field="*{login}"
 								autocomplete="off" />
 
@@ -125,6 +128,7 @@
 								<option th:each="username : ${usernames}" th:value="${username}" />
 							</datalist>
 
+							
 							<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
 							<div class="ws-errorbox" hidden=""></div>
 						</div>
@@ -132,7 +136,7 @@
 
 					<!-- Form add user by no admin -->
 					<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
-						<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
+						<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>					
 						<div class="col-lg-9 text-danger">
 							<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{login}"
 								th:title="#{program.infoAddUserByDni}" autocomplete="off" />

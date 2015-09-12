@@ -70,7 +70,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
    public OpenEntityManagerInViewFilter openEntityManagerInViewFilter() {
       return new OpenEntityManagerInViewFilter();
    }
-
+   
    // Formateo de las fechas
    @Override
    public void addFormatters(FormatterRegistry registry) {
