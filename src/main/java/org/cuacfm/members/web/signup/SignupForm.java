@@ -88,6 +88,9 @@ public class SignupForm {
    @Size(min = 4, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
    private String rePassword;
 
+   /** The captcha. */
+   private String captcha;
+   
    /** Instantiates a new sign up form. */
    public SignupForm() {
       // Default empty constructor.
@@ -306,6 +309,14 @@ public class SignupForm {
     */
    public void setRePassword(String rePassword) {
       this.rePassword = rePassword;
+   }
+
+   public String getCaptcha() {
+      return captcha;
+   }
+
+   public void setCaptcha(String captcha) {
+      this.captcha = captcha;
    }
 
    /**

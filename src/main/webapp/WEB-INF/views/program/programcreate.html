@@ -99,7 +99,7 @@
 				<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
 					<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
 					<div class="col-lg-10">
-						<div class="col-lg-3-edit">
+						<div class="col-lg-4-edit">
 							<input type="number" class="form-control" id="duration" th:placeholder="#{duration}"
 								th:field="*{duration}" min="1" required="required" />
 						</div>
@@ -116,7 +116,8 @@
 				<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 				    <!-- Form add user by admin -->
 					<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-						<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+					<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+					
 						<div class="col-lg-9 text-danger">
 							<input type="text" class="form-control" list="userlist" th:placeholder="#{login}"
 								th:field="*{login}" autocomplete="off" />
@@ -135,6 +136,7 @@
 					<!-- Form add user by no admin -->
 					<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
 						<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
+
 						<div class="col-lg-9 text-danger">
 							<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{login}"
 								th:title="#{program.infoAddUserByDni}" autocomplete="off" />
@@ -143,9 +145,11 @@
 							<div class="ws-errorbox" hidden=""></div>
 						</div>
 					</th:block>
+
 					<!-- Button Add User to Program-->
 					<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign"
 						th:title="#{inscription.addUser}" style="color: green"></button>
+						
 				</div>
 
 

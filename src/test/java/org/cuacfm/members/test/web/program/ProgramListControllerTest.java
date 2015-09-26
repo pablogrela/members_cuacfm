@@ -49,286 +49,284 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-// TODO: Auto-generated Javadoc
 /** The class ProgramListControlTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 
-   /** The default session. */
-   private MockHttpSession defaultSession;
+	/** The default session. */
+	private MockHttpSession defaultSession;
 
-   /** The account service. */
-   @Inject
-   private AccountService accountService;
+	/** The account service. */
+	@Inject
+	private AccountService accountService;
 
-   /** The training Type service. */
-   @Inject
-   private ProgramService programService;
+	/** The training Type service. */
+	@Inject
+	private ProgramService programService;
 
-   /** The fee program service. */
-   @Inject
-   private FeeProgramService feeProgramService;
+	/** The fee program service. */
+	@Inject
+	private FeeProgramService feeProgramService;
 
-   /**
-    * Initialize default session.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Before
-   public void initializeDefaultSession() throws UniqueException {
-      Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es",
-            "666666666", "666666666", "admin", roles.ROLE_ADMIN);
-      accountService.save(admin);
-      defaultSession = getDefaultSession("admin");
-   }
+	/**
+	 * Initialize default session.
+	 *
+	 * @throws UniqueException
+	 *             the unique exception
+	 */
+	@Before
+	public void initializeDefaultSession() throws UniqueException {
+		Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es", "666666666", "666666666",
+				"admin", roles.ROLE_ADMIN);
+		accountService.save(admin);
+		defaultSession = getDefaultSession("admin");
+	}
 
-   /**
-    * Display ProgramList page without signin in test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displayProgramListPageWithoutSiginInTest() throws Exception {
-      mockMvc.perform(get("/programList")).andExpect(redirectedUrl("http://localhost/signin"));
-   }
+	/**
+	 * Display ProgramList page without signin in test.
+	 *
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void displayProgramListPageWithoutSiginInTest() throws Exception {
+		mockMvc.perform(get("/programList")).andExpect(redirectedUrl("http://localhost/signin"));
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displaysProgramList() throws Exception {
-      mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("program/programlist"))
-            .andExpect(content().string(containsString("<title>Programs</title>")));
-   }
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void displaysProgramList() throws Exception {
+		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("program/programlist"))
+				.andExpect(content().string(containsString("<title>Programs</title>")));
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displaysUserProgramList() throws Exception {
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void displaysUserProgramList() throws Exception {
 
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      defaultSession = getDefaultSession("user");
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		defaultSession = getDefaultSession("user");
 
-      mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("program/programlist"))
-            .andExpect(content().string(containsString("<title>Programs</title>")));
-   }
+		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("program/programlist"))
+				.andExpect(content().string(containsString("<title>Programs</title>")));
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displaysProgramListWithDatabase() throws Exception {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void displaysProgramListWithDatabase() throws Exception {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
 
-      mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("program/programlist"))
-            .andExpect(content().string(containsString("<title>Programs</title>")));
-   }
+		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("program/programlist"))
+				.andExpect(content().string(containsString("<title>Programs</title>")));
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void deleteProgramList() throws Exception {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void deleteProgramList() throws Exception {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
 
-      mockMvc.perform(
-            post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(
-                  defaultSession)).andExpect(view().name("redirect:/programList"));
+		mockMvc.perform(
+				post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/programList"));
 
-      // Assert, it remove program
-      assertEquals(programService.findById(program.getId()), null);
-   }
+		// Assert, it remove program
+		assertEquals(programService.findById(program.getId()), null);
+	}
 
-   /**
-    * Delete program by user list.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void deleteProgramByUserList() throws Exception {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
+	/**
+	 * Delete program by user list.
+	 *
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void deleteProgramByUserList() throws Exception {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
 
-      defaultSession = getDefaultSession("user");
-      mockMvc.perform(
-            post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(
-                  defaultSession)).andExpect(view().name("redirect:/programList"));
+		defaultSession = getDefaultSession("user");
+		mockMvc.perform(
+				post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/programList"));
 
-      // Assert, it remove program
-      assertEquals(programService.findById(program.getId()), null);
-   }
+		// Assert, it remove program
+		assertEquals(programService.findById(program.getId()), null);
+	}
 
-   /**
-    * Delete program by diferent user list.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void deleteProgramByDiferentUserList() throws Exception {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
+	/**
+	 * Delete program by diferent user list.
+	 *
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void deleteProgramByDiferentUserList() throws Exception {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
 
-      Account account2 = new Account("user2", "555555552C", "London", "user2", "user2@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account2);
-      defaultSession = getDefaultSession("user2");
-      mockMvc.perform(
-            post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(
-                  defaultSession)).andExpect(view().name("redirect:/programList"));
+		Account account2 = new Account("user2", "555555552C", "London", "user2", "user2@udc.es", "666666666",
+				"666666666", "demo", roles.ROLE_USER);
+		accountService.save(account2);
+		defaultSession = getDefaultSession("user2");
+		mockMvc.perform(
+				post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/programList"));
 
-      // Assert, it remove program
-      assertEquals(programService.findById(program.getId()), program);
-   }
+		// Assert, it remove program
+		assertEquals(programService.findById(program.getId()), program);
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void deleteExistPaymentsInProgramList() throws Exception {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
-      programService.up(program.getId());
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void deleteExistPaymentsInProgramList() throws Exception {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
+		programService.up(program.getId());
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
 
-      mockMvc.perform(
-            post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(
-                  defaultSession)).andExpect(view().name("redirect:/programList"));
+		mockMvc.perform(
+				post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/programList"));
 
-      // Assert, it don´t remove program
-      assertEquals(programService.findById(program.getId()), program);
-   }
+		// Assert, it don´t remove program
+		assertEquals(programService.findById(program.getId()), program);
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void programEdit() throws Exception {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void programEdit() throws Exception {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
 
-      mockMvc.perform(
-            post("/programList/programEdit/" + program.getId()).locale(Locale.ENGLISH).session(
-                  defaultSession)).andExpect(view().name("redirect:/programList/programEdit"));
-   }
+		mockMvc.perform(
+				post("/programList/programEdit/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/programList/programEdit"));
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void programCreate() throws Exception {
-      mockMvc.perform(
-            post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("program/programcreate"));
-   }
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void programCreate() throws Exception {
+		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("program/programcreate"));
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void programDown() throws Exception {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void programDown() throws Exception {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
 
-      mockMvc.perform(
-            post("/programList/programDown/" + program.getId()).locale(Locale.ENGLISH).session(
-                  defaultSession)).andExpect(view().name("redirect:/programList"));
-      assertFalse(program.isActive());
-   }
+		mockMvc.perform(
+				post("/programList/programDown/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/programList"));
+		assertFalse(program.isActive());
+	}
 
-   /**
-    * Send displaysProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void programUp() throws Exception {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
+	/**
+	 * Send displaysProgramList.
+	 * 
+	 * @throws Exception
+	 *             the exception
+	 */
+	@Test
+	public void programUp() throws Exception {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
+				"demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
 
-      mockMvc.perform(
-            post("/programList/programUp/" + program.getId()).locale(Locale.ENGLISH).session(
-                  defaultSession)).andExpect(view().name("redirect:/programList"));
-      assertTrue(program.isActive());
+		mockMvc.perform(
+				post("/programList/programUp/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/programList"));
+		assertTrue(program.isActive());
 
-   }
+	}
 }

@@ -53,7 +53,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,14 +64,6 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 
    /** The default session. */
    private MockHttpSession defaultSession;
-
-   /** The message source. */
-   @Autowired
-   private MessageSource messageSource;
-
-   /** The direct debit service. */
-   @Autowired
-   private BankRemittanceService directDebitService;
 
    /** The fee member service. */
    @Autowired

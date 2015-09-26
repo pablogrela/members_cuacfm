@@ -15,6 +15,6 @@
  */
 package org.cuacfm.members;
 
-/** The Interface Application.*/
+/** The Interface Application. */
 public interface Application {
 }
