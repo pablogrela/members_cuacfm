@@ -1,4 +1,4 @@
-// Acceso root, password: root
+// Acceso root, password: root o toor, o la que se tenga por defecto
 mysql -u root -p
 
 
@@ -6,23 +6,33 @@ mysql -u root -p
 CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
 
 
+
 // Crear database:
-create database websystique;
+create database members;
+
+// Crear database de test:
+create database membersTest;
 
 
 // Dar acceso al usuario a la base de datos:
-GRANT ALL PRIVILEGES ON websystique.* to 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
-
+GRANT ALL PRIVILEGES ON members.* to 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
 
 // Dar acceso al usuario a la base de datos del test:
-GRANT ALL PRIVILEGES ON websystiqueTest.* to 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
+GRANT ALL PRIVILEGES ON membersTest.* to 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
 
 
-// Acceso a base de datos del
-mysql -u myuser --password=mypassword websystiqueTest
+//Salir
+exit
+
+
+// Probar el acceso a las bases de datos
+// Acceso a base de datos de la aplicacion
+mysql -u myuser --password=mypassword members
+//Crear la tablas 
 
 
 // Acceso a base de datos del test, en la base de datos del test no se guarda nada
-mysql -u myuser --password=mypassword websystiqueTest
+mysql -u myuser --password=mypassword membersTest
+// Crear las tablas
 
 

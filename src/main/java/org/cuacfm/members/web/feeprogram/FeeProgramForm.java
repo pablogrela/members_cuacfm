@@ -35,7 +35,7 @@ public class FeeProgramForm {
 
    /** The name. */
    @NotBlank(message = FeeProgramForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = FeeProgramForm.MAX_CHARACTERS)
+   @Size(max = 40, message = FeeProgramForm.MAX_CHARACTERS)
    private String name;
 
    /** The price. */

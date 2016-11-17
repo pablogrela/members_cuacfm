@@ -36,7 +36,7 @@ public class FeeMemberForm {
 
    /** The name. */
    @NotBlank(message = FeeMemberForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = FeeMemberForm.MAX_CHARACTERS)
+   @Size(max = 40, message = FeeMemberForm.MAX_CHARACTERS)
    private String name;
 
    /** The year. */

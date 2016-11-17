@@ -19,10 +19,7 @@
 <html xmlns:th="www.thymeleaf.org">
 <head>
 <title th:text="#{error.title}">Error page</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
-<link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+<object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
 <body>
 <div class="container">

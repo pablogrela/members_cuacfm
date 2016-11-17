@@ -34,77 +34,77 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 import org.cuacfm.members.Application;
 
-/** The Class JpaConfigTest.*/
+/** The Class JpaConfigTest. */
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackageClasses = Application.class)
 class JpaConfigTest implements TransactionManagementConfigurer {
 
-    /** The driver. */
-    @Value("${dataSource.driverClassName}")
-    private String driver;
-    
-    /** The url. */
-    @Value("${dataSource.url}")
-    private String url;
-    
-    /** The username. */
-    @Value("${dataSource.username}")
-    private String username;
-    
-    /** The password. */
-    @Value("${dataSource.password}")
-    private String password;
-    
-    /** The dialect. */
-    @Value("${hibernate.dialect}")
-    private String dialect;
-    
-    /** The hbm2ddl auto. */
-    @Value("${hibernate.hbm2ddl.auto}")
-    private String hbm2ddlAuto;
+	/** The driver. */
+	@Value("${dataSource.driverClassName}")
+	private String driver;
 
-    /**
-     * Configure data source.
-     *
-     * @return the data source
-     */
-    @Bean
-    public DataSource configureDataSource() {
-        HikariConfig config = new HikariConfig();
-        config.setDriverClassName(driver);
-        config.setJdbcUrl(url);
-        config.setUsername(username);
-        config.setPassword(password);
-        config.addDataSourceProperty("cachePrepStmts", "true");
-        config.addDataSourceProperty("prepStmtCacheSize", "250");
-        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        config.addDataSourceProperty("useServerPrepStmts", "true");
-        return new HikariDataSource(config);
-    }
+	/** The url. */
+	@Value("${dataSource.url}")
+	private String url;
 
-    /**
-     * Configure entity manager factory.
-     *
-     * @return the local container entity manager factory bean
-     */
-    @Bean
-    public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(configureDataSource());
-        entityManagerFactoryBean.setPackagesToScan("org.cuacfm.members");
-        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+	/** The username. */
+	@Value("${dataSource.username}")
+	private String username;
 
-        Properties jpaProperties = new Properties();
-        jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
-        //jpaProperties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, hbm2ddlAuto);
-        entityManagerFactoryBean.setJpaProperties(jpaProperties);
+	/** The password. */
+	@Value("${dataSource.password}")
+	private String password;
 
-        return entityManagerFactoryBean;
-    }
+	/** The ssl. */
+	@Value("${dataSource.useSSL}")
+	private String useSSL;
 
-    @Bean
-    public PlatformTransactionManager annotationDrivenTransactionManager() {
-        return new JpaTransactionManager();
-    }
+	/** The dialect. */
+	@Value("${hibernate.dialect}")
+	private String dialect;
+
+	/**
+	 * Configure data source.
+	 *
+	 * @return the data source
+	 */
+	@Bean
+	public DataSource configureDataSource() {
+		HikariConfig config = new HikariConfig();
+		config.setDriverClassName(driver);
+		config.setJdbcUrl(url);
+		config.setUsername(username);
+		config.setPassword(password);
+		config.addDataSourceProperty("useSSL", useSSL);
+		config.addDataSourceProperty("cachePrepStmts", "true");
+		config.addDataSourceProperty("prepStmtCacheSize", "250");
+		config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+		config.addDataSourceProperty("useServerPrepStmts", "true");
+		return new HikariDataSource(config);
+	}
+
+	/**
+	 * Configure entity manager factory.
+	 *
+	 * @return the local container entity manager factory bean
+	 */
+	@Bean
+	public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+		entityManagerFactoryBean.setDataSource(configureDataSource());
+		entityManagerFactoryBean.setPackagesToScan("org.cuacfm.members");
+		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+		Properties jpaProperties = new Properties();
+		jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
+		entityManagerFactoryBean.setJpaProperties(jpaProperties);
+
+		return entityManagerFactoryBean;
+	}
+
+	@Bean
+	public PlatformTransactionManager annotationDrivenTransactionManager() {
+		return new JpaTransactionManager();
+	}
 }

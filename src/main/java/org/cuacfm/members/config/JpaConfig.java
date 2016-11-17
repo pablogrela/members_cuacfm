@@ -58,6 +58,10 @@ class JpaConfig implements TransactionManagementConfigurer {
    @Value("${dataSource.password}")
    private String password;
 
+   /** The ssl. */
+   @Value("${dataSource.useSSL}")
+   private String useSSL;
+   
    /** The dialect. */
    @Value("${hibernate.dialect}")
    private String dialect;
@@ -78,6 +82,7 @@ class JpaConfig implements TransactionManagementConfigurer {
       config.setJdbcUrl(url);
       config.setUsername(username);
       config.setPassword(password);
+      config.addDataSourceProperty("useSSL", useSSL);
       config.addDataSourceProperty("cachePrepStmts", "true");
       config.addDataSourceProperty("prepStmtCacheSize", "250");
       config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

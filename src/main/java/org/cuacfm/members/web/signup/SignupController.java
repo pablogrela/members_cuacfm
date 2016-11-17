@@ -25,7 +25,6 @@ import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.userservice.UserService;
 import org.cuacfm.members.web.support.MessageHelper;
-import org.cuacfm.members.web.support.VerifyRecaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +32,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class SignupController. */
@@ -103,8 +101,9 @@ public class SignupController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
-	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra,
-			@RequestParam("g-recaptcha-response") String response) throws IOException {
+	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra
+			//, @RequestParam("g-recaptcha-response") String response
+			) throws IOException {
 
 		// check that the password and rePassword are the same
 		String password = signupForm.getPassword();
@@ -119,10 +118,11 @@ public class SignupController {
 			errors.rejectValue("rule", "signup.existentRule", new Object[] { "rule" }, "rule");
 		}
 
+		// Deshabilitado temporalmente
 		// Los test tiene un error, ya que no pueden verificar los captcha, mejor probarlos sin internet
-		if (!VerifyRecaptcha.verify(response)) {
-			errors.rejectValue("captcha", "signup.captcha", new Object[] { "captcha" }, "captcha");
-		}
+		//		if (!VerifyRecaptcha.verify(response)) {
+		//			errors.rejectValue("captcha", "signup.captcha", new Object[] { "captcha" }, "captcha");
+		//		}
 
 		if (errors.hasErrors()) {
 			return SIGNUP_VIEW_NAME;

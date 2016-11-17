@@ -1,21 +1,21 @@
-DROP TABLE Configuration;
-DROP TABLE DirectDebitPayPrograms;
-DROP TABLE DirectDebitPayMembers;
-DROP TABLE DirectDebit;
-DROP TABLE BankRemittance;
-DROP TABLE PayProgram;
-DROP TABLE FeeProgram;
-DROP TABLE UserPrograms;
-DROP TABLE PayMember;
-DROP TABLE FeeMember;
-DROP TABLE Inscription;
-DROP TABLE Training;
-DROP TABLE TrainingType;
-DROP TABLE Program;
-DROP TABLE BankAccount;
-DROP TABLE Account;
-DROP TABLE AccountType;
-DROP TABLE MethodPayment;
+DROP TABLE IF EXISTS Configuration;
+DROP TABLE IF EXISTS DirectDebitPayPrograms;
+DROP TABLE IF EXISTS DirectDebitPayMembers;
+DROP TABLE IF EXISTS DirectDebit;
+DROP TABLE IF EXISTS BankRemittance;
+DROP TABLE IF EXISTS PayProgram;
+DROP TABLE IF EXISTS FeeProgram;
+DROP TABLE IF EXISTS UserPrograms;
+DROP TABLE IF EXISTS PayMember;
+DROP TABLE IF EXISTS FeeMember;
+DROP TABLE IF EXISTS Inscription;
+DROP TABLE IF EXISTS Training;
+DROP TABLE IF EXISTS TrainingType;
+DROP TABLE IF EXISTS Program;
+DROP TABLE IF EXISTS BankAccount;
+DROP TABLE IF EXISTS Account;
+DROP TABLE IF EXISTS AccountType;
+DROP TABLE IF EXISTS MethodPayment;
 
 
 CREATE TABLE Configuration (
@@ -126,6 +126,7 @@ CREATE TABLE UserPrograms(
     CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId,programId)
 );	
 
+
 CREATE TABLE TrainingType(
     id INT NOT NULL auto_increment, 
     name VARCHAR(30) NOT NULL,
@@ -136,15 +137,15 @@ CREATE TABLE TrainingType(
     hasTrainings BOOLEAN,
     CONSTRAINT TrainingId_PK PRIMARY KEY (id),
     CONSTRAINT NameTrainingTypeUniqueKey UNIQUE (name)
-	);
+);
     
 
 CREATE TABLE Training(	
     id INT NOT NULL auto_increment, 
     trainingTypeId INT NOT NULL,
     name VARCHAR(30) NOT NULL,
-    dateTraining TIMESTAMP NOT NULL,
-    dateLimit TIMESTAMP NOT NULL,
+    dateTraining TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    dateLimit TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description VARCHAR(500),
     place VARCHAR(30) NOT NULL,
     duration INT NOT NULL,
@@ -153,7 +154,7 @@ CREATE TABLE Training(
     close BOOLEAN,
     CONSTRAINT TrainingId_PK PRIMARY KEY (id),
     CONSTRAINT TrainingTypeId_FK FOREIGN KEY (trainingTypeId) REFERENCES TrainingType(id)
-	);
+);
 
 
 CREATE TABLE Inscription(
@@ -167,15 +168,15 @@ CREATE TABLE Inscription(
     CONSTRAINT InscriptionId_PK PRIMARY KEY (id),
 	CONSTRAINT AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
 	CONSTRAINT TrainingId_FK FOREIGN KEY (trainingId) REFERENCES Training(id)
-    );
+);
 	
     
 CREATE TABLE FeeProgram(
     id INT NOT NULL auto_increment, 
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(40) NOT NULL,
  	date DATE NOT NULL,
-    price DOUBLE(5,2) NOT NULL,
-    dateLimit TIMESTAMP NOT NULL,
+    price DOUBLE(5,2) NOT NULL ,
+    dateLimit TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description VARCHAR(100),
     CONSTRAINT FeeProgram_PK PRIMARY KEY (id),
     CONSTRAINT DateUniqueKey UNIQUE (date)
@@ -193,7 +194,7 @@ CREATE TABLE PayProgram(
    	idPayer VARCHAR(30),
    	idTxn VARCHAR(30),
    	emailPayer VARCHAR(30),
-    datePay TIMESTAMP NULL,
+    datePay TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT PayProgramId_PK PRIMARY KEY (id),
 	CONSTRAINT PayProgram_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
 	CONSTRAINT FeeProgramId_FK FOREIGN KEY (feeProgramId) REFERENCES FeeProgram(id),
@@ -203,7 +204,7 @@ CREATE TABLE PayProgram(
 
 CREATE TABLE FeeMember(
     id INT NOT NULL auto_increment, 
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(40) NOT NULL,
     year int NOT NULL,
     price DOUBLE(5,2) NOT NULL,
     dateLimit1 DATE NOT NULL,
@@ -226,7 +227,7 @@ CREATE TABLE PayMember(
    	idPayer VARCHAR(30),
    	idTxn VARCHAR(30),
    	emailPayer VARCHAR(30),
-    datePay TIMESTAMP NULL,
+    datePay TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateCharge DATE,
     CONSTRAINT PayMemberId_PK PRIMARY KEY (id),
 	CONSTRAINT PayMember_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
@@ -237,12 +238,13 @@ CREATE TABLE PayMember(
 
 CREATE TABLE BankRemittance(
     id INT NOT NULL auto_increment, 
-    dateDebit TIMESTAMP,
-    dateCharge TIMESTAMP,
+    dateDebit TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    dateCharge TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     monthCharge DATE,
     state VARCHAR(20) NOT NULL,
     CONSTRAINT BankRemittanceId_PK PRIMARY KEY (id)
 );  
+
 
 CREATE TABLE DirectDebit(
    -- id referencia adeudo
@@ -260,6 +262,7 @@ CREATE TABLE DirectDebit(
     CONSTRAINT DirectDebit_BankRemittance_FK FOREIGN KEY (bankRemittanceId) REFERENCES BankRemittance(id)
 );  
 
+
 CREATE TABLE DirectDebitPayPrograms(
     id INT NOT NULL auto_increment, 
     directDebitId INT NOT NULL,
@@ -268,6 +271,7 @@ CREATE TABLE DirectDebitPayPrograms(
     CONSTRAINT DirectDebitPayPrograms_DirectDebitId_FK FOREIGN KEY (directDebitId) REFERENCES DirectDebit(id),
     CONSTRAINT DirectDebitPayPrograms_PayProgramId_FK FOREIGN KEY (payProgramId) REFERENCES PayProgram(id)
 );		
+
 
 CREATE TABLE DirectDebitPayMembers(
     id INT NOT NULL auto_increment,
