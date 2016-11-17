@@ -17,8 +17,7 @@ You need MySQL and tomcat
 
 
 ## Some screenshots
-![Alt tag](https://drive.google.com/open?id=0BwaeooySL9sYOUh6Z01GNkFWYWM "home")
-![Alt tag](https://www.dropbox.com/s/sn8agt5e4biw8el/cuacm_home.PNG?dl=0 "home")
+https://cloud.githubusercontent.com/assets/11063006/20407485/e42b0ad0-ad11-11e6-87e5-15b10e93c558.PNG
 
 
 ## Contributors
