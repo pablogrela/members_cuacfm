@@ -17,7 +17,7 @@ You need MySQL and tomcat
 
 
 ## Some screenshots
-![Alt text](https://cloud.githubusercontent.com/assets/11063006/20407485/e42b0ad0-ad11-11e6-87e5-15b10e93c558.PNG "Streaming, podcasting")
+![Alt text](https://cloud.githubusercontent.com/assets/11063006/20407485/e42b0ad0-ad11-11e6-87e5-15b10e93c558.PNG "CUACFM home")
 
 
 ## Contributors
