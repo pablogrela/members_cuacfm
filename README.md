@@ -13,7 +13,7 @@ You need MySQL and tomcat
 ### Configuration items
 
 #### Main files to modify:
-1. messages.xml--> configurable variables
+1. messages.properties--> configurable variables
 
 
 ## Some screenshots
