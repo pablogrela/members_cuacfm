@@ -17,7 +17,7 @@ You need MySQL and tomcat
 
 
 ## Some screenshots
-![Alt text](https://drive.google.com/open?id=0BwaeooySL9sYWlVXZk94QUdvSE0, "home")
+![Alt text](https://drive.google.com/open?id=0BwaeooySL9sYOUh6Z01GNkFWYWM "home")
 
 
 ## Contributors
