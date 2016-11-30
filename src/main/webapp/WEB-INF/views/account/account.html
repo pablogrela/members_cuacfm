@@ -48,7 +48,7 @@
 			<!-- Message help-->
 			<legend th:text="#{account.info}">Would you like to change any of the information?</legend>
 
-			<!-- Edit Name, with a checkbox to enable field name -->
+			<!-- Edit Name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
@@ -59,7 +59,7 @@
 				</div>
 			</div>
 
-			<!-- Edit NickName, with a checkbox to enable field nickName-->
+			<!-- Edit NickName -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('nickName')}? 'has-error'">
 				<label for="nickName" class="col-lg-2 control-label" th:text="#{nickName}">NickName</label>
 				<div class="col-lg-10">
@@ -70,7 +70,7 @@
 				</div>
 			</div>
 
-			<!-- Edit dni, with a checkbox to enable field dni -->
+			<!-- Edit dni -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
 				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
 				<div class="col-lg-10">
@@ -81,7 +81,7 @@
 				</div>
 			</div>
 
-			<!-- Edit address, with a checkbox to enable field address -->
+			<!-- Edit address -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-error'">
 				<label for="address" class="col-lg-2 control-label" th:text="#{address}">address</label>
 				<div class="col-lg-10">
@@ -92,7 +92,7 @@
 				</div>
 			</div>
 
-			<!-- Edit cp, with a checkbox to enable field cp -->
+			<!-- Edit cp -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('cp')}? 'has-error'">
 				<label for="cp" class="col-lg-2 control-label" th:text="#{cp}">cp</label>
 				<div class="col-lg-10">
@@ -104,7 +104,7 @@
 			</div>
 
 
-			<!-- Edit province, with a checkbox to enable field province -->
+			<!-- Edit province -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('province')}? 'has-error'">
 				<label for="province" class="col-lg-2 control-label" th:text="#{province}">province</label>
 				<div class="col-lg-10">
@@ -115,7 +115,7 @@
 				</div>
 			</div>
 
-			<!-- Edit codeCountry, with a checkbox to enable field codeCountry -->
+			<!-- Edit codeCountry-->
 			<div class="form-group" th:classappend="${#fields.hasErrors('codeCountry')}? 'has-error'">
 				<label for="codeCountry" class="col-lg-2 control-label" th:text="#{codeCountry}">codeCountry</label>
 				<div class="col-lg-10">
@@ -133,7 +133,7 @@
 				<div class="col-lg-10">
 					<input type="text" name="login" disabled="disabled" class="form-control" id="login" th:placeholder="#{login}"
 						th:field="*{login}" maxlength="30" required="required" />
-					<input type="checkbox" id="enableModify5" th:text="#{profile}" name="onLogin" onChange="checkedLogin(this.form)" />
+					<input type="checkbox" id="onLogin" th:text="#{profile}" name="onLogin" onChange="unlockText('onLogin', 'login')" />
 					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -145,13 +145,13 @@
 				<div class="col-lg-10">
 					<input type="email" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}"
 						th:field="*{email}" maxlength="30" required="required" />
-					<input type="checkbox" id="enableModify6" th:text="#{profile}" name="onEmail" onChange="checkedEmail(this.form)" />
+					<input type="checkbox" id="onEmail" th:text="#{profile}" name="onEmail" onChange="unlockText('onEmail', 'email')" />
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-			<!-- Edit phone, with a checkbox to enable field phone -->
+			<!-- Edit phone  -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
@@ -162,7 +162,7 @@
 				</div>
 			</div>
 
-			<!-- Edit mobile, with a checkbox to enable field mobile -->
+			<!-- Edit mobile -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="mobile" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
@@ -185,7 +185,7 @@
 				</div>
 			</div>
 
-			<!-- Edit student, with a checkbox to enable field student -->
+			<!-- Edit student -->
 			<div class="form-group">
 				<label for="student" class="col-lg-2 control-label" th:text="#{student}">student</label>
 				<div class="col-lg-2">
@@ -193,7 +193,7 @@
 				</div>
 			</div>
 
-			<!-- Edit dateBirth, with a checkbox to enable field dateBirth -->
+			<!-- Edit dateBirth -->
 			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateBirth')}? 'has-error'">
 				<label for="dateBirth" class="col-lg-1 control-label" th:text="#{dateBirth}">dateBirth</label>
 				<div class="col-lg-10">
@@ -212,8 +212,8 @@
 				<div class="col-lg-10">
 					<input type="password" name="password" disabled="disabled" class="form-control" id="password"
 						th:placeholder="#{password}" th:field="*{password}" minlength="4" maxlength="20" required="required" />
-					<input type="checkbox" id="enablePasswords" th:text="#{profile}" name="onPassword"
-						onChange="checkedPassword(this.form)" />
+					<input type="checkbox" id="onPassword" th:text="#{profile}" name="onPassword"
+						onChange="unlockText2('onPassword', 'visibleRePasswords', 'password', 'rePassword')" />
 					<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -247,7 +247,7 @@
 				</div>
 			</div>
 
-			<!-- Method Payment, Selected option in droplist, with a checkbox to enable field method payment -->
+			<!-- Method Payment, Selected option in droplist -->
 			<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group">
 				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">methodPayment</label>
 				<div class="col-lg-4">
@@ -259,7 +259,7 @@
 				</div>
 			</div>
 
-			<!-- Edit Installments, with a checkbox to enable field installments -->
+			<!-- Edit Installments -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('installments')}? 'has-error'">
 				<label for="installments" class="col-lg-1 control-label" th:text="#{installmentsInscription}">installments</label>
 				<div class="col-lg-10">
@@ -294,7 +294,7 @@
 					<select class="form-control" id="role" disabled="disabled" name="role" th:field="*{role}">
 						<option th:field="*{role}" th:each="role : ${profileForm.roles}" th:value="${role}" th:text="#{${'roles.' + role}}">role</option>
 					</select>
-					<input type="checkbox" id="enableModify19" th:text="#{profile}" name="onRole" onChange="checkedRole(this.form)" />
+					<input type="checkbox" id="onRole" th:text="#{profile}" name="onRole" onChange="unlockText('onRole', 'role')" />
 				</div>
 			</div>
 

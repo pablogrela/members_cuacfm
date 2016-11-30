@@ -1,3 +1,25 @@
+ -- Creacion de las tablas para usar la aplicación 
+
+ -- Para importar la tablas a la base de datos, esta debe existir
+ -- Se puede hacer por linea de comandos o con el workbench
+ 
+ -- Por Workbench 
+ -- 	Se accede a Data Import / Import From Disk / Import from Sel-container File
+ --     Seleccionar el fichero CreateTables.sql
+ --     Seleccionar el target schema members
+ --     Seleccionar la modalidad de carga Dump Structure, Dump Data o ambas.
+ --         Para members selecionar la modalidad Dump Structure and Data
+ --         Para membersTest seleccionar la modalidad Dump Structure only
+ 
+ -- Por terminal
+ -- 	Import MYSQL:
+ -- 	mysql -u root -p members < CreateTables.sql
+ 
+ --		Export MYSQL:
+ -- 	mysqldump -u root -p members > CreateTables.sql
+
+
+
 DROP TABLE IF EXISTS Configuration;
 DROP TABLE IF EXISTS DirectDebitPayPrograms;
 DROP TABLE IF EXISTS DirectDebitPayMembers;
@@ -283,6 +305,8 @@ CREATE TABLE DirectDebitPayMembers(
 );		
 
 
+
+-- Solo para la base de datos principal, para el test no se debe cargar
 -- Insert Configuration:
 insert into Configuration values (1, 'CuacFM', 'cuacfm@hotmail.com', 981666666, 24, 25, 'Comprométome a coñecer e cumprir a normativa interna da asociación, así coma a asumir a responsabilidade das informacións e opinións que difunda en antena e a facer un bo uso das instalacións e material da asociación.
 

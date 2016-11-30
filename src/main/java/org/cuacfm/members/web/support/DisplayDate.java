@@ -23,217 +23,224 @@ import java.util.Locale;
 /** The Class DisplayDate. */
 public class DisplayDate {
 
-   /** Instantiates a new display date.*/
-   protected DisplayDate() {
-      // Default empty constructor.
-   }
+	/** Instantiates a new display date. */
+	protected DisplayDate() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Convert String to date.
-    *
-    * @param date
-    *           the date
-    * @return the date
-    */
-   public static Date stringToDate(String date) {
-      Date newDate = new Date();
-      SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm,yyyy-MM-dd");
+	/**
+	 * Convert String to date.
+	 *
+	 * @param date the date
+	 * @return the date
+	 */
+	public static Date stringLocalDateToDate(String date) {
+		Date newDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		if (!"".equals(date)) {
+			try {
+				newDate = dateFormat.parse(date);
+			} catch (ParseException ex) {
+				ex.getMessage();
 
-      if (!date.equals(",")) {
-         try {
-            newDate = dateFormat.parse(date);
-         } catch (ParseException ex) {
-            ex.getMessage();
+			}
+		}
+		return newDate;
+	}
 
-         }
-      }
-      return newDate;
-   }
+	/**
+	 * Convert String to date.
+	 *
+	 * @param date the date
+	 * @return the date
+	 */
+	public static Date stringToDate(String date) {
+		Date newDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm,yyyy-MM-dd");
 
-   /**
-    * Convert String to date2.
-    *
-    * @param date
-    *           the date
-    * @return the date
-    */
-   public static Date stringToDate2(String date) {
-      Date newDate = new Date();
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		if (!",".equals(date)) {
+			try {
+				newDate = dateFormat.parse(date);
+			} catch (ParseException ex) {
+				ex.getMessage();
 
-      try {
-         newDate = dateFormat.parse(date);
-      } catch (ParseException ex) {
-         return null;
-      }
+			}
+		}
+		return newDate;
+	}
 
-      return newDate;
-   }
+	/**
+	 * Convert String to date2.
+	 *
+	 * @param date the date
+	 * @return the date
+	 */
+	public static Date stringToDate2(String date) {
+		Date newDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-   /**
-    * Convert String to month of year.
-    *
-    * @param date
-    *           the date
-    * @return the date
-    */
-   public static Date stringToMonthOfYear(String date) {
-      Date newDate = new Date();
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+		try {
+			newDate = dateFormat.parse(date);
+		} catch (ParseException ex) {
+			return null;
+		}
 
-      try {
-         newDate = dateFormat.parse(date);
-      } catch (ParseException ex) {
-         ex.getMessage();
-      }
+		return newDate;
+	}
 
-      return newDate;
-   }
+	/**
+	 * Convert String to month of year.
+	 *
+	 * @param date the date
+	 * @return the date
+	 */
+	public static Date stringToMonthOfYear(String date) {
+		Date newDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
 
-   /**
-    * Convert String to date time.
-    *
-    * @param dateTime
-    *           the date time
-    * @return the date
-    */
-   public static Date stringToDateTime(String dateTime) {
-      Date newDate = new Date();
-      SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+		try {
+			newDate = dateFormat.parse(date);
+		} catch (ParseException ex) {
+			ex.getMessage();
+		}
 
-      try {
-         newDate = dateFormat.parse(dateTime);
-      } catch (ParseException ex) {
-         ex.getMessage();
-      }
-      return newDate;
-   }
+		return newDate;
+	}
 
-   /**
-    * Convert String paypal to date.
-    *
-    * @param date
-    *           the date
-    * @return the date
-    */
-   public static Date stringPaypalToDate(String date) {
-      Date newDate = new Date();
-      String dateAux = date.substring(0, 21);
-      SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MMM dd, yyyy", Locale.US);
+	/**
+	 * Convert String to date time.
+	 *
+	 * @param dateTime the date time
+	 * @return the date
+	 */
+	public static Date stringToDateTime(String dateTime) {
+		Date newDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
-      try {
-         newDate = dateFormat.parse(dateAux);
-      } catch (ParseException ex) {
-         ex.getMessage();
-      }
-      return newDate;
-   }
+		try {
+			newDate = dateFormat.parse(dateTime);
+		} catch (ParseException ex) {
+			ex.getMessage();
+		}
+		return newDate;
+	}
 
-   /**
-    * Convert Date time to string.
-    *
-    * @param dateTime
-    *           the date time
-    * @return the string
-    */
-   public static String dateTimeToString(Date dateTime) {
-      String stringDateTime = "";
-      if (dateTime != null) {
-         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-         stringDateTime = dateFormat.format(dateTime);
-      }
-      return stringDateTime;
-   }
+	/**
+	 * Convert String paypal to date.
+	 *
+	 * @param date the date
+	 * @return the date
+	 */
+	public static Date stringPaypalToDate(String date) {
+		Date newDate = new Date();
+		String dateAux = date.substring(0, 21);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss MMM dd, yyyy", Locale.US);
 
-   /**
-    * Convert Date time to string.
-    *
-    * @param dateTime
-    *           the date time
-    * @return the string
-    */
-   public static String dateTimeToStringSp(Date dateTime) {
-      String stringDateTime = "";
-      if (dateTime != null) {
-         SimpleDateFormat dateFormat = new SimpleDateFormat("_yyyy-MM-dd_HH:mm:ss");
-         stringDateTime = dateFormat.format(dateTime);
-      }
-      return stringDateTime;
-   }
+		try {
+			newDate = dateFormat.parse(dateAux);
+		} catch (ParseException ex) {
+			ex.getMessage();
+		}
+		return newDate;
+	}
 
-   /**
-    * Convert Date to string.
-    *
-    * @param date
-    *           the date
-    * @return the string
-    */
-   public static String dateToString(Date date) {
-      String stringDate = "";
-      if (date != null) {
-         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-         stringDate = dateFormat.format(date);
-      }
-      return stringDate;
-   }
+	/**
+	 * Convert Date time to string.
+	 *
+	 * @param dateTime the date time
+	 * @return the string
+	 */
+	public static String dateTimeToString(Date dateTime) {
+		String stringDateTime = "";
+		if (dateTime != null) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+			stringDateTime = dateFormat.format(dateTime);
+		}
+		return stringDateTime;
+	}
 
-   /**
-    * Date to direct debit.
-    *
-    * @param date
-    *           the date
-    * @return the string
-    */
-   public static String dateToDirectDebit(Date date) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-      return dateFormat.format(date);
-   }
+	/**
+	 * Convert Date time to string.
+	 *
+	 * @param dateTime the date time
+	 * @return the string
+	 */
+	public static String dateTimeToStringSp(Date dateTime) {
+		String stringDateTime = "";
+		if (dateTime != null) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("_yyyy_MM_dd__HH_mm_ss");
+			stringDateTime = dateFormat.format(dateTime);
+		}
+		return stringDateTime;
+	}
 
-   /**
-    * Time to direct debit.
-    *
-    * @param date
-    *           the date
-    * @return the string
-    */
-   public static String timeToDirectDebit(Date date) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("HHmmssSSSSS");
-      return dateFormat.format(date);
-   }
+	/**
+	 * Convert Date to string.
+	 *
+	 * @param date the date
+	 * @return the string
+	 */
+	public static String dateToString(Date date) {
+		String stringDate = "";
+		if (date != null) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			stringDate = dateFormat.format(date);
+		}
+		return stringDate;
+	}
 
-   /**
-    * Time to string.
-    *
-    * @param time
-    *           the time
-    * @return the string
-    */
-   public static String timeToString(Date time) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-      return dateFormat.format(time);
-   }
+	/**
+	 * Date to direct debit.
+	 *
+	 * @param date the date
+	 * @return the string
+	 */
+	public static String dateToDirectDebit(Date date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		return dateFormat.format(date);
+	}
 
-   /**
-    * Month Of Year to string.
-    *
-    * @param monthOfYear
-    *           the monthOfYear
-    * @return the string
-    */
-   public static String monthOfYearToString(Date monthOfYear) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
-      return dateFormat.format(monthOfYear);
-   }
+	/**
+	 * Time to direct debit.
+	 *
+	 * @param date the date
+	 * @return the string
+	 */
+	public static String timeToDirectDebit(Date date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HHmmssSSSSS");
+		return dateFormat.format(date);
+	}
 
-   /**
-    * Month Of Year to string.
-    *
-    * @param monthOfYear
-    *           the monthOfYear
-    * @return the string
-    */
-   public static String monthOfYearToDisplay(Date monthOfYear) {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
-      return dateFormat.format(monthOfYear);
-   }
+	/**
+	 * Time to string.
+	 *
+	 * @param time the time
+	 * @return the string
+	 */
+	public static String timeToString(Date time) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		return dateFormat.format(time);
+	}
+
+	/**
+	 * Month Of Year to string.
+	 *
+	 * @param monthOfYear the monthOfYear
+	 * @return the string
+	 */
+	public static String monthOfYearToString(Date monthOfYear) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+		return dateFormat.format(monthOfYear);
+	}
+
+	/**
+	 * Month Of Year to string.
+	 *
+	 * @param monthOfYear the monthOfYear
+	 * @return the string
+	 */
+	public static String monthOfYearToDisplay(Date monthOfYear) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
+		return dateFormat.format(monthOfYear);
+	}
 }

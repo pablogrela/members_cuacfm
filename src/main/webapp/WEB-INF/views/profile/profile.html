@@ -138,9 +138,9 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
 				<div class="col-lg-10">
-					<input type="text" name="login" disabled="disabled" class="form-control" id="login" th:placeholder="#{login}"
+					<input type="text" id="login" name="login" disabled="disabled" class="form-control" th:placeholder="#{login}"
 						th:field="*{login}" maxlength="30" required="required" />
-					<input type="checkbox" id="enableModify4" th:text="#{profile}" name="onLogin" onChange="checkedLogin(this.form)" />
+					<input type="checkbox" id="onLogin"  name="onLogin" th:text="#{profile}" onChange="unlockText('onLogin', 'login')" />
 					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -151,16 +151,16 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
-					<input type="email" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}"
+					<input type="email" id="email" name="name" disabled="disabled" class="form-control" th:placeholder="#{email}"
 						th:field="*{email}" maxlength="30" required="required" />
-					<input type="checkbox" id="enableModify5" th:text="#{profile}" name="onEmail" onChange="checkedEmail(this.form)" />
+					<input type="checkbox" id="onEmail" name="onEmail" th:text="#{profile}" onChange="unlockText('onEmail', 'email')" />
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
 
-			<!-- Edit phone, with a checkbox to enable field phone -->
+			<!-- Edit phone -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
@@ -171,7 +171,7 @@
 				</div>
 			</div>
 
-			<!-- Edit mobile, with a checkbox to enable field mobile -->
+			<!-- Edit mobile -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="tel" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
@@ -194,7 +194,7 @@
 				</div>
 			</div>
 
-			<!-- Edit student, with a checkbox to enable field student -->
+			<!-- Edit student -->
 			<div class="form-group">
 				<label for="student" class="col-lg-2 control-label" th:text="#{student}">student</label>
 				<div class="col-lg-15">
@@ -222,8 +222,8 @@
 				<div class="col-lg-10">
 					<input type="password" name="password" disabled="disabled" class="form-control" id="password"
 						th:placeholder="#{password}" th:field="*{password}" minlength="4" maxlength="20" required="required" />
-					<input type="checkbox" id="enablePasswords" th:text="#{profile}" name="onPassword"
-						onChange="checkedPassword(this.form)" />
+					<input type="checkbox" id="onPassword" th:text="#{profile}" name="onPassword"
+						onChange="unlockText2('onPassword', 'visibleRePasswords', 'password', 'rePassword')" />
 					<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -271,7 +271,7 @@
 			</div>
 
 
-			<!-- Edit Installments, with a checkbox to enable field installments -->
+			<!-- Edit Installments -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('installments')}? 'has-error'">
 				<label for="installments" class="col-lg-1 control-label" th:text="#{installmentsInscription}">installments</label>
 				<div class="col-lg-10">

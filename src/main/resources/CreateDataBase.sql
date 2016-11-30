@@ -1,3 +1,4 @@
+-- Datos de ejemplo para usar la aplicación
 
 -- Insert Method Payment:
 insert into MethodPayment values (1, 'Exento', false, 'No tiene que pagar');
@@ -102,17 +103,17 @@ insert into TrainingType values
 
 -- Insert Trainings:
 insert into Training values 
-(1, 1, 'Camara', "2015-06-10 11:00", null, 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, true);
+(1, 1, 'Camara', "2016-12-10 11:00", null, 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, true);
 insert into Training values 
-(2, 2, 'Locución', "2015-06-17 11:00", "2015-06-15 11:00", 'Se enseñara a hablar', 'Estudio Cuac', 2.00, 10, 0, 1, true);
+(2, 2, 'Locución', "2016-12-17 11:00", "2015-12-15 11:00", 'Se enseñara a hablar', 'Estudio Cuac', 2.00, 10, 0, 1, true);
 insert into Training values 
-(3, 3, 'Redacción', "2015-07-24 11:00",  "2015-07-22 11:00", 'Se enseñara a redactar el programa', 'Estudio Cuac', 1, 10, 0, false);
+(3, 3, 'Redacción', "2016-12-24 11:00",  "2015-12-22 11:00", 'Se enseñara a redactar el programa', 'Estudio Cuac', 1, 10, 0, false);
 insert into Training values 
-(4, 4, 'Audacity', "2015-07-31 11:00", "2015-07-29 11:00", 'Se enseñara a posicionarse en el estudio', 'Estudio Cuac', 2.10, 10, 0, false);
+(4, 4, 'Audacity', "2016-12-31 11:00", "2015-12-29 11:00", 'Se enseñara a posicionarse en el estudio', 'Estudio Cuac', 2.10, 10, 0, false);
 insert into Training values 
-(5, 1, 'Camara', "2015-07-10 11:00", "2015-07-08 11:00", 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, false);
+(5, 1, 'Camara', "2016-12-10 11:00", "2015-12-08 11:00", 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, false);
 insert into Training values 
-(6, 2, 'Locución', "2015-06-17 11:00", "2015-06-15 11:00", 'Se enseñara a hablar', 'Estudio Cuac', 2.00, 10, 0, false);
+(6, 2, 'Locución', "2016-12-17 11:00", "2015-12-15 11:00", 'Se enseñara a hablar', 'Estudio Cuac', 2.00, 10, 0, false);
 
 
 
