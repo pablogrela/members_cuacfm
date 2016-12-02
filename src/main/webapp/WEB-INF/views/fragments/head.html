@@ -16,26 +16,32 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:ng="http://angularjs.org" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head layout:fragment="head">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+
 <!-- CSS -->
-<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}"/>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/resources/css/dataTables.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/libraries/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/core.css}" />
-<link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css"/>
+<link rel="stylesheet" th:href="@{/resources/css/libraries/bootstrap.datatables.css}" />
+
 <!-- SCRIPT -->
-<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/plug-ins/1.10.12/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-<script src="//cdn.jsdelivr.net/webshim/1.16/polyfiller.js"></script>
-<script th:src="@{/resources/js/formcfg-es.js}"></script>
-<script th:src="@{/resources/js/formcfg-gl.js}"></script>
-<script th:src="@{/resources/js/chargeWebshim.js}"></script>
-<script th:src="@{/resources/js/chargeTable.js}"></script>
-<script th:src="@{/resources/js/funcions.js}"></script>
+<script th:src="@{/resources/js/libraries/jquery.min.js}"></script>
+<script th:src="@{/resources/js/libraries/angular.min.js}"></script>
+<script th:src="@{/resources/js/libraries/bootstrap.min.js}"></script>
+<script th:src="@{/resources/js/libraries/angular-datatables.min.js}"></script>
+<script th:src="@{/resources/js/libraries/jquery-datatables.min.js}"></script>
+<script th:src="@{/resources/js/libraries/bootstrap-datatables.min.js}"></script>
+<script th:src="@{/resources/js/libraries/polyfiller.min.js}"></script>
+
+<script th:src="@{/resources/js/various/formcfg-es.js}"></script>
+<script th:src="@{/resources/js/various/formcfg-gl.js}"></script>
+<script th:src="@{/resources/js/various/chargeWebshim.js}"></script>
+<script th:src="@{/resources/js/various/chargeTable.js}"></script>
+<script th:src="@{/resources/js/various/funcions.js}"></script>
+
 <!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
 </head>
 <body>

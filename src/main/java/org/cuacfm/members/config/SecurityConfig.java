@@ -15,6 +15,7 @@
  */
 package org.cuacfm.members.config;
 
+
 import org.cuacfm.members.model.userservice.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -100,7 +101,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    // Por defecto el csrf esta enable para bloquear posibles ataques.
    @Override
    protected void configure(HttpSecurity http) throws Exception {
-      http.authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup")
+	   // Se añadio csrf().disable() al http para permitir ajax
+       http.csrf().disable().authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup")
             .permitAll()
 
             .antMatchers("/userPayments/**")
@@ -119,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .hasAnyRole("ADMIN", "TRAINER")
 
             .antMatchers("/programList/programDown/**","/programList/programUp/**",
-                  "/payInscriptionList/**", "/feeProgramList/**", "/accountList/**", "/configuration/**", "/bankRemittance/**")
+                  "/payInscriptionList/**", "/feeProgramList/**", "/accountList/**", "/configuration/**", "/bankRemittance/**", "/user/**")
             .hasRole("ADMIN")
             
             // .antMatchers("/**").hasRole("ADMIN")
@@ -127,5 +129,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .failureUrl("/signin?error=1").loginProcessingUrl("/authenticate").and().logout()
             .logoutUrl("/logout").permitAll().logoutSuccessUrl("/signin?logout").and().rememberMe()
             .rememberMeServices(rememberMeServices()).key("remember-me-key");
-   }
+}
 }

@@ -33,86 +33,78 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AccountListController {
 
-   /** The Constant ACCOUNT_VIEW_NAME. */
-   private static final String ACCOUNT_VIEW_NAME = "account/accountlist";
+	private static final String ACCOUNT_VIEW_NAME = "account/accountlist";
 
-   /** The TrainingTypeService. */
-   @Autowired
-   private AccountService accountService;
+	@Autowired
+	private AccountService accountService;
 
-   /** The rol admin. */
-   private roles rolAdmin = roles.ROLE_ADMIN;
+	private roles rolAdmin = roles.ROLE_ADMIN;
 
-   /**
-    * Accounts.
-    *
-    * @return the list
-    */
-   @ModelAttribute("accounts")
-   public List<Account> accounts() {
-      return accountService.getAccounts();
-   }
+	/**
+	 * Accounts.
+	 *
+	 * @return the list
+	 */
+	@ModelAttribute("accounts")
+	public List<Account> accounts() {
+		return accountService.getAccountsOrderByActive();
+	}
 
-   /**
-    * Rol admin.
-    *
-    * @return the roles
-    */
-   @ModelAttribute("rolAdmin")
-   public roles rolAdmin() {
-      return rolAdmin;
-   }
+	/**
+	 * Rol admin.
+	 *
+	 * @return the roles
+	 */
+	@ModelAttribute("rolAdmin")
+	public roles rolAdmin() {
+		return rolAdmin;
+	}
 
-   /**
-    * Gets the accounts.
-    *
-    * @param model
-    *           the model
-    * @return the accounts
-    */
-   @RequestMapping(value = "accountList")
-   public String getAccounts() {
-      return ACCOUNT_VIEW_NAME;
-   }
+	/**
+	 * Gets the accounts.
+	 *
+	 * @param model the model
+	 * @return the accounts
+	 */
+	@RequestMapping(value = "accountList")
+	public String getAccounts() {
+		return ACCOUNT_VIEW_NAME;
+	}
 
-   /**
-    * Unsubscribe the account.
-    *
-    * @param id
-    *           the id
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "accountList/accountUnsubscribe/{id}", method = RequestMethod.POST)
-   public String unsubscribe(@PathVariable Long id, RedirectAttributes ra) {
+	/**
+	 * Unsubscribe the account.
+	 *
+	 * @param id the id
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "accountList/accountUnsubscribe/{id}", method = RequestMethod.POST)
+	public String unsubscribe(@PathVariable Long id, RedirectAttributes ra) {
 
-      Account account = accountService.findById(id);
-      String name = account.getName();
-      if (account.getRole() == roles.ROLE_ADMIN) {
-         MessageHelper.addErrorAttribute(ra, "account.errorUnsubscribe", name);
-      } else {
-         accountService.unsubscribe(id);
-         MessageHelper.addInfoAttribute(ra, "account.successUnsubscribe", name);
-      }
-      return "redirect:/accountList";
-   }
+		Account account = accountService.findById(id);
+		String name = account.getName();
+		if (account.getRole() == roles.ROLE_ADMIN) {
+			MessageHelper.addErrorAttribute(ra, "account.errorUnsubscribe", name);
+		} else {
+			accountService.unsubscribe(id);
+			MessageHelper.addInfoAttribute(ra, "account.successUnsubscribe", name);
+		}
+		return "redirect:/accountList";
+	}
 
-   /**
-    * Subscribe the account.
-    *
-    * @param id
-    *           the id
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "accountList/accountSubscribe/{id}", method = RequestMethod.POST)
-   public String subscribe(@PathVariable Long id, RedirectAttributes ra) {
+	/**
+	 * Subscribe the account.
+	 *
+	 * @param id the id
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "accountList/accountSubscribe/{id}", method = RequestMethod.POST)
+	public String subscribe(@PathVariable Long id, RedirectAttributes ra) {
 
-      String name = accountService.findById(id).getName();
-      accountService.subscribe(id);
-      MessageHelper.addInfoAttribute(ra, "account.successSubscribe", name);
-      return "redirect:/accountList";
-   }
+		String name = accountService.findById(id).getName();
+		accountService.subscribe(id);
+		MessageHelper.addInfoAttribute(ra, "account.successSubscribe", name);
+		return "redirect:/accountList";
+	}
 }

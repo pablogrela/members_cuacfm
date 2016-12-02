@@ -25,31 +25,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 
-   /**
-    * Version preliminar
-    * 
-    * @RequestMapping(value = "/", method = RequestMethod.GET) public String
-    *                       index(Principal principal) { return principal !=
-    *                       null ? "home/homeSignedIn" : "home/homeNotSignedIn";
-    *                       }
-    **/
+	/**
+	 * Index.
+	 *
+	 * @param principal the principal
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String index(Principal principal) {
 
-   /**
-    * Index.
-    *
-    * @param principal
-    *           the principal
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "/", method = RequestMethod.GET)
-   public String index(Principal principal) {
-
-      if (principal != null) {
-         return "home/homeSignedIn";
-      } else {
-         return "home/homeNotSignedIn";
-      }
-   }
+		if (principal != null) {
+			return "home/homeSignedIn";
+		} else {
+			return "home/homeNotSignedIn";
+		}
+	}
 }

@@ -19,18 +19,18 @@
 
  * ======================================================================== */
 
-var ln = x=window.navigator.language||navigator.browserLanguage;
+var ln = window.navigator.language||navigator.browserLanguage;
 if(ln == 'es'){
 	$(document).ready(function() {
 		   $('#customTable').dataTable( {
 		       "language": {
-		           "url": "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/Spanish.json"
+		           "sUrl": "resources/json/datatables/Spanish.json"
 		       },
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
 		   $('#customTable2').dataTable( {
 		       "language": {
-		           "url": "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/Spanish.json"
+		    	   "sUrl": "resources/json/datatables/Spanish.json"
 		       },
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
@@ -39,13 +39,13 @@ if(ln == 'es'){
 		$(document).ready(function() {
 			   $('#customTable').dataTable( {
 			       "language": {
-			           "url": "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/Galician.json"
+			    	   "sUrl": "resources/json/datatables/Galician.json"
 			       },
 			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 			   } );
 			   $('#customTable2').dataTable( {
 			       "language": {
-			           "url": "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/Galician.json"
+			    	   "sUrl": "resources/json/datatables/Galician.json"
 			       },
 			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 			   } );

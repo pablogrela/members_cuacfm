@@ -1,0 +1,85 @@
+23:26:09,942  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+23:26:09,946 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:26:09,950  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+23:26:09,951  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:28:24,083  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+23:28:24,085 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:28:24,090  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+23:28:24,091  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:29:52,278  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+23:29:52,281 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:29:52,296  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+23:29:52,297  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:32:01,879  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+23:32:01,883 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:32:01,910  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+23:32:01,910  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:34:56,835  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+23:34:56,839 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:34:56,842  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+23:34:56,842  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:39:35,662  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+23:39:35,665 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:39:35,668  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+23:39:35,669  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:51:45,176  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+23:51:45,178 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:51:45,180  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+23:51:45,180  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:57:24,282  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+23:57:24,285 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+23:57:24,286  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+23:57:24,286  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+08:57:22,081  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+08:57:22,093 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+08:57:22,097  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+08:57:22,098  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+08:57:22,179 ERROR AssertionFailure:50 - HHH000099: an assertion failure occured (this may indicate a bug in Hibernate, but is more likely due to unsafe use of the session): org.hibernate.AssertionFailure: null id in org.cuacfm.members.model.inscription.Inscription entry (don't flush the Session after an exception occurs)
+09:02:02,431  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+09:02:02,437 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:02:02,440  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+09:02:02,440  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:02:02,454 ERROR AssertionFailure:50 - HHH000099: an assertion failure occured (this may indicate a bug in Hibernate, but is more likely due to unsafe use of the session): org.hibernate.AssertionFailure: null id in org.cuacfm.members.model.inscription.Inscription entry (don't flush the Session after an exception occurs)
+09:11:52,702  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+09:11:52,705 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:11:52,706  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+09:11:52,706  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:11:52,718 ERROR AssertionFailure:50 - HHH000099: an assertion failure occured (this may indicate a bug in Hibernate, but is more likely due to unsafe use of the session): org.hibernate.AssertionFailure: null id in org.cuacfm.members.model.inscription.Inscription entry (don't flush the Session after an exception occurs)
+09:12:55,121  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+09:12:55,124 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:12:55,127  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+09:12:55,128  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:36:36,298  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:36,302 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:36:36,765  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:36,765 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:36:36,811  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:36,812 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:36:36,875  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:36,875 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:36:36,920  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:36,921 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:36:36,987  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:36,987 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:36:37,031  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:37,032 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:36:37,107  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:37,107 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:36:37,139  WARN SqlExceptionHelper:144 - SQL Error: 1146, SQLState: 42S02
+09:36:37,139 ERROR SqlExceptionHelper:146 - Table 'memberstest.inscription' doesn't exist
+09:44:00,555  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+09:44:00,559 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`) ON DELETE CASCADE)
+09:44:00,561  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+09:44:00,561  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`) ON DELETE CASCADE)
+09:45:02,976  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+09:45:02,980 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`) ON DELETE CASCADE)
+09:45:02,982  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+09:45:02,983  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`) ON DELETE CASCADE)
+09:46:55,056  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+09:46:55,060 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:46:55,062  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+09:46:55,063  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:48:00,576  WARN SqlExceptionHelper:144 - SQL Error: 1452, SQLState: 23000
+09:48:00,580 ERROR SqlExceptionHelper:146 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
+09:48:00,583  WARN SqlExceptionHelper:232 - SQL Warning Code: 1452, SQLState: 23000
+09:48:00,584  WARN SqlExceptionHelper:233 - Cannot add or update a child row: a foreign key constraint fails (`memberstest`.`inscription`, CONSTRAINT `AccountId_FK` FOREIGN KEY (`accountId`) REFERENCES `account` (`id`))
