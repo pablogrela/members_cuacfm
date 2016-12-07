@@ -116,7 +116,7 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
       admin.setAccountType(accountType);
       admin.setMethodPayment(methodPayment);
       admin.setInstallments(1);
-      accountService.update(admin, false);
+      accountService.update(admin, false, true);
       defaultSession = getDefaultSession("admin");
 
       List<Account> accounts = new ArrayList<Account>();
@@ -131,11 +131,11 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
-      programService.up(program2.getId());
+      programService.up(program2);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");

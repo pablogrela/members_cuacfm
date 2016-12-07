@@ -92,7 +92,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
 		user.setInstallments(1);
-		accountService.update(user, false);
+		accountService.update(user, false, true);
 
 		defaultSession = getDefaultSession("user");
 	}
@@ -205,7 +205,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
 		user2.setInstallments(1);
-		accountService.update(user2, false);
+		accountService.update(user2, false, true);
 
 		mockMvc.perform(
 				post("/profile").locale(Locale.ENGLISH).session(defaultSession)
@@ -242,7 +242,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
 		user2.setInstallments(1);
-		accountService.update(user2, false);
+		accountService.update(user2, false, true);
 
 		mockMvc.perform(
 				post("/profile").locale(Locale.ENGLISH).session(defaultSession)
@@ -274,7 +274,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
 		user2.setInstallments(1);
-		accountService.update(user2, false);
+		accountService.update(user2, false, true);
 
 		mockMvc.perform(
 				post("/profile").locale(Locale.ENGLISH).session(defaultSession)

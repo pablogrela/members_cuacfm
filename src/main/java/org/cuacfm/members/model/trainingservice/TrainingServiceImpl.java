@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.AccountRepository;
+import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
@@ -40,38 +41,32 @@ import org.springframework.stereotype.Service;
 @Service("trainingService")
 public class TrainingServiceImpl implements TrainingService {
 
-	/** The account repository. */
 	@Autowired
 	private AccountRepository accountRepository;
 
-	/** The training repository. */
 	@Autowired
 	private TrainingRepository trainingRepository;
 
-	/** The training Type Service. */
 	@Autowired
 	private TrainingTypeService trainingTypeService;
 
-	/** The inscription repository. */
 	@Autowired
 	private InscriptionRepository inscriptionRepository;
+
+	@Autowired
+	private EventService eventService;
 
 	/** Instantiates a new training service. */
 	public TrainingServiceImpl() {
 		// Default empty constructor.
 	}
 
-	/**
-	 * Save, saves an training into database.
-	 *
-	 * @param training the training
-	 * @return the training
-	 * @throws DateLimitException
-	 * @throws UniqueException
-	 */
 	@Override
 	public Training save(Training training) throws DateLimitException, UniqueException {
+		Object[] arguments = { training.getName() };
+
 		if (training.getDateTraining().before(training.getDateLimit())) {
+			eventService.save("training.dateLimit.message", null, 2, arguments);
 			throw new DateLimitException(training.getDateLimit(), training.getDateTraining());
 		}
 		// Update dependecy
@@ -79,44 +74,37 @@ public class TrainingServiceImpl implements TrainingService {
 		trainingType.setHasTrainings(true);
 		trainingTypeService.update(trainingType);
 
+		eventService.save("training.successCreate", null, 2, arguments);
 		return trainingRepository.save(training);
 	}
 
-	/**
-	 * Update.
-	 *
-	 * @param training the training
-	 * @param passwordUpdate the passwordUpdate
-	 * @return the training
-	 */
 	@Override
 	public Training update(Training training) throws DateLimitException {
+		Object[] arguments = { training.getName() };
+
 		if (training.getDateTraining().before(training.getDateLimit())) {
+			eventService.save("training.dateLimit.message", null, 2, arguments);
 			throw new DateLimitException(training.getDateLimit(), training.getDateTraining());
 		}
+
+		eventService.save("training.successModify", null, 2, arguments);
 		return trainingRepository.update(training);
 	}
 
-	/**
-	 * Delete.
-	 *
-	 * @param training the training
-	 * @return the training
-	 * @throws ExistInscriptionsException
-	 * @throws UniqueException
-	 */
 	@Override
-	public void delete(Long id) throws ExistInscriptionsException, UniqueException {
+	public void delete(Training training) throws ExistInscriptionsException, UniqueException {
+		Object[] arguments = { training.getName() };
+
 		// If Exist Dependencies Inscriptions
-		if (!inscriptionRepository.getInscriptionListByTrainingId(id).isEmpty()) {
+		if (!inscriptionRepository.getInscriptionListByTrainingId(training.getId()).isEmpty()) {
+			eventService.save("training.existDependenciesTrainingsException", null, 2, arguments);
 			throw new ExistInscriptionsException();
 		}
 
-		Training training = trainingRepository.findById(id);
 		TrainingType trainingType = training.getTrainingType();
 
 		// Delete training
-		trainingRepository.delete(id);
+		trainingRepository.delete(training);
 
 		// Update dependencies
 		List<Training> trainings = trainingRepository.getTrainingListByTrainingTypeId(trainingType.getId());
@@ -124,35 +112,20 @@ public class TrainingServiceImpl implements TrainingService {
 			trainingType.setHasTrainings(false);
 			trainingTypeService.update(trainingType);
 		}
+
+		eventService.save("training.successDelete", null, 2, arguments);
 	}
 
-	/**
-	 * Find by id returns user which has this identifier.
-	 *
-	 * @param id the id
-	 * @return the training
-	 */
 	@Override
 	public Training findByName(String login) {
 		return trainingRepository.findByName(login);
 	}
 
-	/**
-	 * Find by id returns user which has this identifier.
-	 *
-	 * @param id the id
-	 * @return the training
-	 */
 	@Override
 	public Training findById(Long id) {
 		return trainingRepository.findById(id);
 	}
 
-	/**
-	 * Get all trainings.
-	 *
-	 * @return List<Training>
-	 */
 	@Override
 	public List<Training> getTrainingList() {
 		return trainingRepository.getTrainingList();

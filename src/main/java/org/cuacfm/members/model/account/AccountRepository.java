@@ -40,9 +40,9 @@ public interface AccountRepository {
 	/**
 	 * Delete.
 	 *
-	 * @param id the id
+	 * @param account the account
 	 */
-	public void delete(Long id);
+	public void delete(Account account);
 
 	/**
 	 * Match password.

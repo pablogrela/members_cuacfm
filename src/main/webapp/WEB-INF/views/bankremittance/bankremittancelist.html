@@ -120,22 +120,22 @@
 						</td>
 
 						<!-- Management bank Remittance -->
-						<td th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.States.states).NO_PAY}" class="text-center">
+						<td th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY}" class="text-center">
 							<form th:action="@{'bankRemittanceList/management/'+${bankRemittance.id}}" method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-repeat" th:title="#{managementCheck}" style="color: green"></button>
 							</form>
 						</td>
 						<!-- Fill table entry, bankRemittance -->
-						<td th:if="${bankRemittance.state != T(org.cuacfm.members.model.util.States.states).NO_PAY}"></td>
+						<td th:if="${bankRemittance.state != T(org.cuacfm.members.model.util.Constants.states).NO_PAY}"></td>
 						
 						<!-- Pay bank Remittance -->
-						<td th:if="${bankRemittance.state != T(org.cuacfm.members.model.util.States.states).PAY}" class="text-center">
+						<td th:if="${bankRemittance.state != T(org.cuacfm.members.model.util.Constants.states).PAY}" class="text-center">
 							<form th:action="@{'bankRemittanceList/pay/'+${bankRemittance.id}}" method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 							</form>
 						</td>
 						<!-- Fill table entry, bankRemittance -->
-						<td th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.States.states).PAY}"></td>
+						<td th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).PAY}"></td>
 
 						<!-- Print All List of feeMember-->
 						<td>

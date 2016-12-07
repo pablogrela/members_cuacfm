@@ -94,7 +94,7 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 		admin.setAccountType(accountType);
 		admin.setMethodPayment(methodPayment);
 		admin.setInstallments(1);
-		accountService.update(admin, false);
+		accountService.update(admin, false, true);
 		defaultSession = getDefaultSession("admin");
 
 		
@@ -103,7 +103,7 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
 		user.setInstallments(1);
-		accountService.update(user, false);
+		accountService.update(user, false, true);
 
 		
 	}

@@ -40,246 +40,217 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class ProgramEditController {
 
-   /** The Constant PROGRAM_VIEW_NAME. */
-   private static final String PROGRAM_VIEW_NAME = "program/programedit";
+	private static final String PROGRAM_VIEW_NAME = "program/programedit";
 
-   /** The training service. */
-   @Autowired
-   private ProgramService programService;
+	@Autowired
+	private ProgramService programService;
 
-   /** The training service. */
-   @Autowired
-   private AccountService accountService;
+	@Autowired
+	private AccountService accountService;
 
-   /** The program. */
-   private Program program;
+	private Program program;
+	private List<String> usernames;
+	private ProgramForm programForm;
 
-   /** The usernames. */
-   private List<String> usernames;
+	/**
+	 * Instantiates a new program edit controller.
+	 */
+	public ProgramEditController() {
+		// Default empty constructor.
+	}
 
-   /** The program form. */
-   private ProgramForm programForm;
+	/**
+	 * Program form.
+	 *
+	 * @return the program form
+	 */
+	@ModelAttribute("programForm")
+	public ProgramForm programForm() {
+		return programForm;
+	}
 
-   /**
-    * Instantiates a new program edit controller.
-    */
-   public ProgramEditController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Program.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programEdit")
+	public String program(Model model) {
 
-   /**
-    * Program form.
-    *
-    * @return the program form
-    */
-   @ModelAttribute("programForm")
-   public ProgramForm programForm() {
-      return programForm;
-   }
+		if (program != null) {
+			usernames = accountService.getUsernames();
+			model.addAttribute("usernames", usernames);
 
-   /**
-    * Program.
-    *
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programEdit")
-   public String program(Model model) {
+			programForm = new ProgramForm();
+			programForm.setName(program.getName());
+			programForm.setDescription(program.getDescription());
+			programForm.setDuration(program.getDuration());
+			programForm.setPeriodicity(program.getPeriodicity());
+			programForm.setAccounts(program.getAccounts());
+			if (program.getAccountPayer() != null) {
+				programForm.setAccountPayer(program.getAccountPayer());
+				programForm.setAccountPayerName(program.getAccountPayer().getName());
+			}
+			model.addAttribute(programForm);
+			return PROGRAM_VIEW_NAME;
+		}
+		// If not have program, redirect to programList
+		else {
+			return "redirect:/programList";
+		}
+	}
 
-      if (program != null) {
-         usernames = accountService.getUsernames();
-         model.addAttribute("usernames", usernames);
+	/**
+	 * Program.
+	 *
+	 * @param programForm the program form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "edit" })
+	public String program(@Valid @ModelAttribute ProgramForm programForm, Errors errors, RedirectAttributes ra, Model model) {
 
-         programForm = new ProgramForm();
-         programForm.setName(program.getName());
-         programForm.setDescription(program.getDescription());
-         programForm.setDuration(program.getDuration());
-         programForm.setPeriodicity(program.getPeriodicity());
-         programForm.setAccounts(program.getAccounts());
-         if (program.getAccountPayer() != null) {
-            programForm.setAccountPayer(program.getAccountPayer());
-            programForm.setAccountPayerName(program.getAccountPayer().getName());
-         }
-         model.addAttribute(programForm);
-         return PROGRAM_VIEW_NAME;
-      }
-      // If not have program, redirect to programList
-      else {
-         return "redirect:/programList";
-      }
-   }
+		if (errors.hasErrors()) {
+			model.addAttribute("usernames", usernames);
+			return PROGRAM_VIEW_NAME;
+		}
 
-   /**
-    * Program.
-    *
-    * @param programForm
-    *           the program form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "edit" })
-   public String program(@Valid @ModelAttribute ProgramForm programForm, Errors errors,
-         RedirectAttributes ra, Model model) {
+		try {
+			programService.update(programForm.updateProgram(program));
+		} catch (UniqueException e) {
+			errors.rejectValue("name", "program.existentName", new Object[] { e.getValue() }, "name");
+			return PROGRAM_VIEW_NAME;
+		}
 
-      if (errors.hasErrors()) {
-         model.addAttribute("usernames", usernames);
-         return PROGRAM_VIEW_NAME;
-      }
+		MessageHelper.addSuccessAttribute(ra, "program.successModify", programForm.getName());
+		return "redirect:/programList";
+	}
 
-      try {
-         programService.update(programForm.updateProgram(program));
-      } catch (UniqueException e) {
-         errors.rejectValue("name", "program.existentName", new Object[] { e.getValue() }, "name");
-         return PROGRAM_VIEW_NAME;
-      }
+	/**
+	 * Adds the user.
+	 *
+	 * @param programForm the program form
+	 * @param errors the errors
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "addUser" })
+	public String addUser(@Valid @ModelAttribute ProgramForm programForm, Errors errors, Model model) {
 
-      MessageHelper.addSuccessAttribute(ra, "program.successEdit", programForm.getName());
-      return "redirect:/programList";
-   }
+		model.addAttribute("usernames", usernames);
+		Account account;
+		String name = programForm.getLogin();
+		Long id = Long.valueOf(0);
+		if (name.contains(": ")) {
+			String[] parts = programForm.getLogin().split(": ");
+			id = Long.valueOf(parts[0]);
+			name = parts[1].split(" - ")[0].trim();
+			account = accountService.findById(id);
+		} else {
+			account = accountService.findByDni(name);
+		}
 
-   /**
-    * Adds the user.
-    *
-    * @param programForm
-    *           the program form
-    * @param errors
-    *           the errors
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "addUser" })
-   public String addUser(@Valid @ModelAttribute ProgramForm programForm, Errors errors, Model model) {
+		if (account == null) {
+			errors.rejectValue("login", "program.noExistUser", new Object[] { name }, "login");
+			return PROGRAM_VIEW_NAME;
+		}
 
-      model.addAttribute("usernames", usernames);
-      Account account;
-      String name = programForm.getLogin();
-      Long id = Long.valueOf(0);
-      if (name.contains(": ")) {
-         String[] parts = programForm.getLogin().split(": ");
-         id = Long.valueOf(parts[0]);
-         name = parts[1].split(" - ")[0].trim();
-         account = accountService.findById(id);
-      } else {
-         account = accountService.findByDni(name);
-      }
+		// Check if account already insert
+		boolean repeated = false;
+		for (Account acc : programForm.getAccounts()) {
+			if (acc.getId() == account.getId()) {
+				repeated = true;
+			}
+		}
 
-      if (account == null) {
-         errors.rejectValue("login", "program.noExistUser", new Object[] { name }, "login");
-         return PROGRAM_VIEW_NAME;
-      }
+		if (repeated) {
+			errors.rejectValue("login", "program.alreadyExistUser", new Object[] { name }, "login");
+			return PROGRAM_VIEW_NAME;
+		}
 
-      // Check if account already insert
-      boolean repeated = false;
-      for (Account acc : programForm.getAccounts()) {
-         if (acc.getId() == account.getId()) {
-            repeated = true;
-         }
-      }
+		usernames.remove(name);
+		programForm.setLogin("");
+		programForm.addAccount(account);
+		return PROGRAM_VIEW_NAME;
+	}
 
-      if (repeated) {
-         errors.rejectValue("login", "program.alreadyExistUser", new Object[] { name }, "login");
-         return PROGRAM_VIEW_NAME;
-      }
+	/**
+	 * Removes the user.
+	 *
+	 * @param id the id
+	 * @param programForm the program form
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "removeUser" })
+	public String removeUser(@RequestParam("removeUser") Long id, @Valid @ModelAttribute ProgramForm programForm, Model model) {
+		model.addAttribute("usernames", usernames);
+		programForm.removeAccount(id);
+		return PROGRAM_VIEW_NAME;
+	}
 
-      usernames.remove(name);
-      programForm.setLogin("");
-      programForm.addAccount(account);
-      return PROGRAM_VIEW_NAME;
-   }
+	/**
+	 * Adds the account payer.
+	 *
+	 * @param programForm the program form
+	 * @param errors the errors
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "addAccountPayer" })
+	public String addAccountPayer(@Valid @ModelAttribute ProgramForm programForm, Errors errors, Model model) {
 
-   /**
-    * Removes the user.
-    *
-    * @param id
-    *           the id
-    * @param programForm
-    *           the program form
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "removeUser" })
-   public String removeUser(@RequestParam("removeUser") Long id,
-         @Valid @ModelAttribute ProgramForm programForm, Model model) {
-      model.addAttribute("usernames", usernames);
-      programForm.removeAccount(id);
-      return PROGRAM_VIEW_NAME;
-   }
+		model.addAttribute("usernames", usernames);
+		Account account;
+		String name = programForm.getAccountPayerName();
+		Long id = Long.valueOf(0);
+		if (name.contains(": ")) {
+			String[] parts = programForm.getAccountPayerName().split(": ");
+			id = Long.valueOf(parts[0]);
+			name = parts[1].split(" - ")[0].trim();
+			account = accountService.findById(id);
+		} else {
+			account = accountService.findByDni(name);
+		}
 
-   /**
-    * Adds the account payer.
-    *
-    * @param programForm
-    *           the program form
-    * @param errors
-    *           the errors
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "addAccountPayer" })
-   public String addAccountPayer(@Valid @ModelAttribute ProgramForm programForm, Errors errors,
-         Model model) {
+		if (account == null) {
+			errors.rejectValue("accountPayerName", "program.noExistUser", new Object[] { name }, "accountPayerName");
 
-      model.addAttribute("usernames", usernames);
-      Account account;
-      String name = programForm.getAccountPayerName();
-      Long id = Long.valueOf(0);
-      if (name.contains(": ")) {
-         String[] parts = programForm.getAccountPayerName().split(": ");
-         id = Long.valueOf(parts[0]);
-         name = parts[1].split(" - ")[0].trim();
-         account = accountService.findById(id);
-      } else {
-         account = accountService.findByDni(name);
-      }
+			return PROGRAM_VIEW_NAME;
+		}
+		programForm.setAccountPayerName(account.getName());
+		programForm.setAccountPayer(account);
+		return PROGRAM_VIEW_NAME;
+	}
 
-      if (account == null) {
-         errors.rejectValue("accountPayerName", "program.noExistUser", new Object[] { name },
-               "accountPayerName");
+	/**
+	 * Removes the account payer.
+	 *
+	 * @param programForm the program form
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "removeAccountPayer" })
+	public String removeAccountPayer(@Valid @ModelAttribute ProgramForm programForm, Model model) {
+		model.addAttribute("usernames", usernames);
+		programForm.setAccountPayer(null);
+		programForm.setAccountPayerName("");
+		return PROGRAM_VIEW_NAME;
+	}
 
-         return PROGRAM_VIEW_NAME;
-      }
-      programForm.setAccountPayerName(account.getName());
-      programForm.setAccountPayer(account);
-      return PROGRAM_VIEW_NAME;
-   }
+	/**
+	 * Modify program.
+	 *
+	 * @param id the id
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programEdit/{id}", method = RequestMethod.POST)
+	public String modifyProgram(@PathVariable Long id) {
 
-   /**
-    * Removes the account payer.
-    *
-    * @param programForm
-    *           the program form
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "removeAccountPayer" })
-   public String removeAccountPayer(@Valid @ModelAttribute ProgramForm programForm, Model model) {
-      model.addAttribute("usernames", usernames);
-      programForm.setAccountPayer(null);
-      programForm.setAccountPayerName("");
-      return PROGRAM_VIEW_NAME;
-   }
-
-   /**
-    * Modify program.
-    *
-    * @param id
-    *           the id
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programEdit/{id}", method = RequestMethod.POST)
-   public String modifyProgram(@PathVariable Long id) {
-
-      program = programService.findById(id);
-      return "redirect:/programList/programEdit";
-   }
+		program = programService.findById(id);
+		return "redirect:/programList/programEdit";
+	}
 }

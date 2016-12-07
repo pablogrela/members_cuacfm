@@ -15,48 +15,51 @@
  */
 package org.cuacfm.members.model.util;
 
-/** The Class States. */
-public class States {
+/** The Class Constants. */
+public class Constants {
 
-   /** Instantiates a new states.*/
-   protected States() {
-      // Default empty constructor.
-   }
+	public static final String NOPAY = "NOPAY";
+	public static final String PAY = "PAY";
 
-   /**
-    * The Enum states.
-    */
-   public static enum states {
+	/** Instantiates a new Constants. */
+	protected Constants() {
+		// Default empty constructor.
+	}
 
-      /** The no pay. */
-      NO_PAY,
+	/**
+	 * The Enum states.
+	 */
+	public static enum states {
 
-      /** The pay. */
-      PAY,
+		/** The no pay. */
+		NO_PAY,
 
-      /** The management. */
-      MANAGEMENT,
+		/** The pay. */
+		PAY,
 
-      /** The return bill. */
-      RETURN_BILL
-   }
+		/** The management. */
+		MANAGEMENT,
 
-   /**
-    * The Enum method.
-    */
-   public static enum methods {
+		/** The return bill. */
+		RETURN_BILL
+	}
 
-      /** The no pay. */
-      NO_PAY,
+	/**
+	 * The Enum method.
+	 */
+	public static enum methods {
 
-      /** The paypal. */
-      PAYPAL,
+		/** The no pay. */
+		NO_PAY,
 
-      /** The directdebit. */
-      DIRECTDEBIT,
+		/** The paypal. */
+		PAYPAL,
 
-      /** The cash. */
-      CASH,
+		/** The directdebit. */
+		DIRECTDEBIT,
 
-   }
+		/** The cash. */
+		CASH,
+
+	}
 }

@@ -36,107 +36,96 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TrainingCreateController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
-   private static final String TRAINING_VIEW_NAME = "training/trainingcreate";
+	private static final String TRAINING_VIEW_NAME = "training/trainingcreate";
 
-   /** The trainingService. */
-   @Autowired
-   private TrainingService trainingService;
+	@Autowired
+	private TrainingService trainingService;
 
-   /** The trainingService. */
-   @Autowired
-   private TrainingTypeService trainingTypeService;
+	@Autowired
+	private TrainingTypeService trainingTypeService;
 
-   /** The Global variable training Type. */
-   private TrainingType trainingType;
+	private TrainingType trainingType;
 
-   /**
-    * Instantiates a new training Controller.
-    */
-   public TrainingCreateController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Instantiates a new training Controller.
+	 */
+	public TrainingCreateController() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Training.
-    *
-    * @return Training
-    */
-   @ModelAttribute("trainingType")
-   public TrainingType trainingType() {
-      return trainingType;
-   }
+	/**
+	 * Training.
+	 *
+	 * @return Training
+	 */
+	@ModelAttribute("trainingType")
+	public TrainingType trainingType() {
+		return trainingType;
+	}
 
-   /**
-    * Get page trainingCreate.
-    *
-    * @param model
-    *           the model
-    * @return String to view to trainingCreate
-    */
-   @RequestMapping(value = "trainingList/trainingCreate")
-   public String training(Model model) {
+	/**
+	 * Get page trainingCreate.
+	 *
+	 * @param model the model
+	 * @return String to view to trainingCreate
+	 */
+	@RequestMapping(value = "trainingList/trainingCreate")
+	public String training(Model model) {
 
-      if (trainingType != null) {
-         TrainingForm trainingForm = new TrainingForm();
-         trainingForm.setName(trainingType.getName());
-         trainingForm.setDescription(trainingType.getDescription());
-         trainingForm.setPlace(trainingType.getPlace());
-         trainingForm.setDuration(trainingType.getDuration());
-         model.addAttribute(trainingForm);
-         return TRAINING_VIEW_NAME;
-      }
-      // If not have trainingType, redirect to trainingList
-      else {
-         return "redirect:/trainingList";
-      }
-   }
+		if (trainingType != null) {
+			TrainingForm trainingForm = new TrainingForm();
+			trainingForm.setName(trainingType.getName());
+			trainingForm.setDescription(trainingType.getDescription());
+			trainingForm.setPlace(trainingType.getPlace());
+			trainingForm.setDuration(trainingType.getDuration());
+			model.addAttribute(trainingForm);
+			return TRAINING_VIEW_NAME;
+		}
+		// If not have trainingType, redirect to trainingList
+		else {
+			return "redirect:/trainingList";
+		}
+	}
 
-   /**
-    * Add trainingType at form
-    *
-    * @param trainingSelectForm
-    *           the training select form
-    * @return String to redirect to trainingCreate
-    */
-   @RequestMapping(value = "trainingList/trainingLoad", method = RequestMethod.POST)
-   public String addTrainingType(@ModelAttribute TrainingSelectForm trainingSelectForm) {
+	/**
+	 * Add trainingType at form
+	 *
+	 * @param trainingSelectForm the training select form
+	 * @return String to redirect to trainingCreate
+	 */
+	@RequestMapping(value = "trainingList/trainingLoad", method = RequestMethod.POST)
+	public String addTrainingType(@ModelAttribute TrainingSelectForm trainingSelectForm) {
 
-      trainingType = trainingTypeService.findById(trainingSelectForm.getTrainingTypeId());
-      return "redirect:/trainingList/trainingCreate";
-   }
+		trainingType = trainingTypeService.findById(trainingSelectForm.getTrainingTypeId());
+		return "redirect:/trainingList/trainingCreate";
+	}
 
-   /**
-    * Post to create a new training.
-    *
-    * @param trainingForm
-    *           the training form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @return String to redirect to trainingList or if fault trainingCreate
-    * @throws UniqueException
-    * 
-    * @throws DateLimitException
-    */
-   @RequestMapping(value = "trainingList/trainingCreate", method = RequestMethod.POST)
-   public String trainingCreate(@Valid @ModelAttribute TrainingForm trainingForm, Errors errors,
-         RedirectAttributes ra) throws UniqueException {
+	/**
+	 * Post to create a new training.
+	 *
+	 * @param trainingForm the training form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @return String to redirect to trainingList or if fault trainingCreate
+	 * @throws UniqueException
+	 * 
+	 * @throws DateLimitException
+	 */
+	@RequestMapping(value = "trainingList/trainingCreate", method = RequestMethod.POST)
+	public String trainingCreate(@Valid @ModelAttribute TrainingForm trainingForm, Errors errors, RedirectAttributes ra) throws UniqueException {
 
-      if (errors.hasErrors()) {
-         return TRAINING_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return TRAINING_VIEW_NAME;
+		}
 
-      try {
-         trainingService.save(trainingForm.createTraining(trainingType));
-      } catch (DateLimitException e) {
-         errors.rejectValue("dateLimit", "dateLimit.message", new Object[] { e.getDateTraining() },
-               "dateTraining");
-         return TRAINING_VIEW_NAME;
-      }
+		try {
+			trainingService.save(trainingForm.createTraining(trainingType));
+		} catch (DateLimitException e) {
+			errors.rejectValue("dateLimit", "dateLimit.message", new Object[] { e.getDateTraining() }, "dateTraining");
+			return TRAINING_VIEW_NAME;
+		}
 
-      MessageHelper.addSuccessAttribute(ra, "training.successCreate", trainingForm.getName());
-      return "redirect:/trainingList";
-   }
+		MessageHelper.addSuccessAttribute(ra, "training.successCreate", trainingForm.getName());
+		return "redirect:/trainingList";
+	}
 }

@@ -25,8 +25,8 @@ import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
-import org.cuacfm.members.model.util.States.methods;
-import org.cuacfm.members.model.util.States.states;
+import org.cuacfm.members.model.util.Constants.methods;
+import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +43,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class PayProgramEditController {
 
-   /** The Constant PAYPROGRAM_VIEW_NAME. */
    private static final String PAYPROGRAM_VIEW_NAME = "payprogram/payprogramedit";
 
-   /** The payProgram service. */
    @Autowired
    private PayProgramService payProgramService;
 
-   /** The Global variable payProgram. */
    private PayProgram payProgram;
-
-   /** The nameUsers. */
    private List<String> usernames;
 
    /** Instantiates a new payProgram Controller. */

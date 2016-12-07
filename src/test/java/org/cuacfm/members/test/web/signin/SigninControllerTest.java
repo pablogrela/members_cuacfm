@@ -82,7 +82,7 @@ public class SigninControllerTest extends WebSecurityConfigurationAware {
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
 		user.setInstallments(1);
-		accountService.update(user, false);
+		accountService.update(user, false, true);
     }
     
     /**
@@ -103,7 +103,7 @@ public class SigninControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void downUserTest() throws Exception {    
 		user.setActive(false);
-		accountService.update(user, false);
+		accountService.update(user, false, true);
 		
 		mockMvc.perform(post("/signin").locale(Locale.ENGLISH)
 				.param("username", "user")

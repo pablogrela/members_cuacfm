@@ -239,7 +239,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
 		programService.save(program);
-		programService.up(program.getId());
+		programService.up(program);
 		Date date = DisplayDate.stringToMonthOfYear("2015-12");
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);

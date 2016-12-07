@@ -28,156 +28,158 @@ import javax.persistence.ManyToOne;
 import org.cuacfm.members.model.account.Account;
 
 /** The Class Account. */
-@SuppressWarnings("serial")
 @Entity
 public class BankAccount implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	private static final long serialVersionUID = 1L;
 
-   /** The account. */
-   @ManyToOne(optional = true, fetch = FetchType.LAZY)
-   @JoinColumn(name = "accountId")
-   private Account account;
+	/** The id. */
+	@Id
+	@GeneratedValue
+	private Long id;
 
-   /** The bank. */
-   private String bank;
+	/** The account. */
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "accountId")
+	private Account account;
 
-   /** The bic. */
-   private String bic;
+	/** The bank. */
+	private String bank;
 
-   /** The iban. */
-   private String iban;
+	/** The bic. */
+	private String bic;
 
-   /** The mandate. */
-   private String mandate;
+	/** The iban. */
+	private String iban;
 
-   /** The date created. */
-   private Date dateCreated;
-   
-   /** The active. */
-   private boolean active;
+	/** The mandate. */
+	private String mandate;
 
-   /**
-    * Instantiates a new bank account.
-    */
-   protected BankAccount() {
-      // Default empty constructor.
-   }
+	/** The date created. */
+	private Date dateCreated;
 
-   /**
-    * Instantiates a new bank account.
-    *
-    * @param account
-    *           the account
-    * @param bank
-    *           the bank
-    * @param bic
-    *           the bic
-    * @param iban
-    *           the iban
-    */
-   public BankAccount(Account account, String bank, String bic, String iban) {
-      super();
-      this.account = account;
-      this.bank = bank;
-      this.bic = bic;
-      this.iban = iban;
-      this.dateCreated = new Date();
-      this.active = true;
-   }
+	/** The active. */
+	private boolean active;
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	/**
+	 * Instantiates a new bank account.
+	 */
+	protected BankAccount() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Gets the account.
-    *
-    * @return the account
-    */
-   public Account getAccount() {
-      return account;
-   }
+	/**
+	 * Instantiates a new bank account.
+	 *
+	 * @param account the account
+	 * @param bank the bank
+	 * @param bic the bic
+	 * @param iban the iban
+	 */
+	public BankAccount(Account account, String bank, String bic, String iban) {
+		super();
+		this.account = account;
+		this.bank = bank;
+		this.bic = bic;
+		this.iban = iban;
+		this.dateCreated = new Date();
+		this.active = true;
+	}
 
-   /**
-    * Gets the bank.
-    *
-    * @return the bank
-    */
-   public String getBank() {
-      return bank;
-   }
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-   /**
-    * Gets the bic.
-    *
-    * @return the bic
-    */
-   public String getBic() {
-      return bic;
-   }
+	/**
+	 * Gets the account.
+	 *
+	 * @return the account
+	 */
+	public Account getAccount() {
+		return account;
+	}
 
-   /**
-    * Gets the iban.
-    *
-    * @return the iban
-    */
-   public String getIban() {
-      return iban;
-   }
+	/**
+	 * Gets the bank.
+	 *
+	 * @return the bank
+	 */
+	public String getBank() {
+		return bank;
+	}
 
-   /**
-    * Gets the mandate.
-    *
-    * @return the mandate
-    */
-   public String getMandate() {
-      return mandate;
-   }
+	/**
+	 * Gets the bic.
+	 *
+	 * @return the bic
+	 */
+	public String getBic() {
+		return bic;
+	}
 
-   /**
-    * Sets the mandate.
-    *
-    * @param mandate
-    *           the new mandate
-    */
-   public void setMandate(String mandate) {
-      this.mandate = mandate;
-   }
+	/**
+	 * Gets the iban.
+	 *
+	 * @return the iban
+	 */
+	public String getIban() {
+		return iban;
+	}
 
-   /**
-    * Gets the date created.
-    *
-    * @return the date created
-    */
-   public Date getDateCreated() {
-      return dateCreated;
-   }
-   
-   /**
-    * Checks if is active.
-    *
-    * @return true, if is active
-    */
-   public boolean isActive() {
-      return active;
-   }
+	/**
+	 * Gets the mandate.
+	 *
+	 * @return the mandate
+	 */
+	public String getMandate() {
+		return mandate;
+	}
 
-   /**
-    * Sets the active.
-    *
-    * @param active the new active
-    */
-   public void setActive(boolean active) {
-      this.active = active;
-   }
+	/**
+	 * Sets the mandate.
+	 *
+	 * @param mandate the new mandate
+	 */
+	public void setMandate(String mandate) {
+		this.mandate = mandate;
+	}
+
+	/**
+	 * Gets the date created.
+	 *
+	 * @return the date created
+	 */
+	public Date getDateCreated() {
+		return dateCreated;
+	}
+
+	/**
+	 * Checks if is active.
+	 *
+	 * @return true, if is active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * Sets the active.
+	 *
+	 * @param active the new active
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	@Override
+	public String toString() {
+		return "BankAccount [id=" + id + ", account=" + account + ", bank=" + bank + ", bic=" + bic + ", iban=" + iban + ", mandate=" + mandate
+				+ ", dateCreated=" + dateCreated + ", active=" + active + "]";
+	}
 
 }

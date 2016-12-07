@@ -26,9 +26,24 @@ public class AccountListAjaxController {
 
 	private static final String ACCOUNT_VIEW_NAME = "account/accountlistajax";
 
+	/**
+	 * Gets the accounts.
+	 *
+	 * @return the accounts
+	 */
 	@RequestMapping(value = "accountListAjax")
 	public String getAccounts() {
 		return ACCOUNT_VIEW_NAME;
+	}
+
+	/**
+	 * Gets the accounts ajax pagination.
+	 *
+	 * @return the accounts ajax pagination
+	 */
+	@RequestMapping(value = "accountListAjaxPagination")
+	public String getAccountsAjaxPagination() {
+		return "account/accountlistajaxpagination";
 	}
 
 	/**
@@ -42,9 +57,9 @@ public class AccountListAjaxController {
 		List<AccountDTO> accountsDTO = accountService.getAccountsDTO();
 
 		if (accountsDTO.isEmpty()) {
-			return new ResponseEntity<List<AccountDTO>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<AccountDTO>>(accountsDTO, HttpStatus.OK);
+		return new ResponseEntity<>(accountsDTO, HttpStatus.OK);
 	}
 
 	/**
@@ -58,14 +73,13 @@ public class AccountListAjaxController {
 
 		Account account = accountService.findById(id);
 		if (account == null) {
-			System.out.println("Unable to delete. User with id " + id + " not found");
-			return new ResponseEntity<AccountDTO>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		accountService.unsubscribe(id);
+		accountService.unsubscribe(account);
 		AccountDTO accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getName(),
 				account.getNickName(), account.getAddress(), account.isActive(), account.getRole(), account.getInstallments());
-		return new ResponseEntity<AccountDTO>(accountDTO, HttpStatus.OK);
+		return new ResponseEntity<>(accountDTO, HttpStatus.OK);
 	}
 
 	/**
@@ -79,13 +93,12 @@ public class AccountListAjaxController {
 
 		Account account = accountService.findById(id);
 		if (account == null) {
-			System.out.println("Unable to delete. User with id " + id + " not found");
-			return new ResponseEntity<AccountDTO>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
-		accountService.subscribe(id);
+		accountService.subscribe(account);
 		AccountDTO accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getName(),
 				account.getNickName(), account.getAddress(), account.isActive(), account.getRole(), account.getInstallments());
-		return new ResponseEntity<AccountDTO>(accountDTO, HttpStatus.OK);
+		return new ResponseEntity<>(accountDTO, HttpStatus.OK);
 	}
 }

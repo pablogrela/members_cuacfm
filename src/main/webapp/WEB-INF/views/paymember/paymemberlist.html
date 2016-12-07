@@ -116,7 +116,7 @@
 
 
 		<!-- Table List of Training Types -->
-		<table class="table table-striped table-hover table-responsive" id="customTable">
+		<table class="display" id="customTable">
 			<thead class="table-bordered">
 				<tr>
 					<th th:text="#{user}">Name</th>
@@ -153,8 +153,8 @@
 
 
 					<!-- Pay payMember -->
-					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.States.states).NO_PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.States.states).RETURN_BILL}" class="text-center">
+					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}" class="text-center">
 						<form th:action="@{'payMemberList/pay/'+${payMember.id}}" method="post">
 							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 						</form>
@@ -162,8 +162,8 @@
 
 
 					<!-- Fill table entry, pay member -->
-					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.States.states).PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}"></td>
+					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></td>
 				</tr>
 			</tbody>
 		</table>

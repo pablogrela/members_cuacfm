@@ -31,7 +31,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.payprogram.PayProgram;
-import org.cuacfm.members.model.util.States.states;
+import org.cuacfm.members.model.util.Constants.states;
 
 /** The Class DirectDebit. */
 @SuppressWarnings("serial")

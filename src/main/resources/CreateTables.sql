@@ -38,7 +38,7 @@ DROP TABLE IF EXISTS BankAccount;
 DROP TABLE IF EXISTS Account;
 DROP TABLE IF EXISTS AccountType;
 DROP TABLE IF EXISTS MethodPayment;
-
+DROP TABLE IF EXISTS Event;
 
 CREATE TABLE Configuration (
     id INT NOT NULL auto_increment, 
@@ -304,6 +304,16 @@ CREATE TABLE DirectDebitPayMembers(
     CONSTRAINT DirectDebitPayMembers_PayMemberId_FK FOREIGN KEY (payMemberId) REFERENCES PayMember(id)
 );		
 
+
+CREATE TABLE Event(
+    id INT NOT NULL auto_increment,
+    accountId INT NOT NULL,
+    dateEvent TIMESTAMP NOT NULL,
+    priority INT NOT NULL,
+    description VARCHAR(500) NOT NULL,
+    CONSTRAINT EventId_PK PRIMARY KEY (id),
+    CONSTRAINT Event_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
+); 
 
 
 -- Solo para la base de datos principal, para el test no se debe cargar

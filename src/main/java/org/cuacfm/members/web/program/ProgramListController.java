@@ -39,127 +39,111 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class ProgramListController {
 
-   /** The Constant PROGRAM_VIEW_NAME. */
-   private static final String PROGRAM_VIEW_NAME = "program/programlist";
+	private static final String PROGRAM_VIEW_NAME = "program/programlist";
+	private static final String REDIRECT_PROGRAM = "redirect:/programList";
 
-   /** The Constant REDIRECT_PROGRAM. */
-   private static final String REDIRECT_PROGRAM = "redirect:/programList";
+	@Autowired
+	private ProgramService programService;
 
-   /** The ProgramService. */
-   @Autowired
-   private ProgramService programService;
+	@Autowired
+	private AccountService accountService;
 
-   /** The training service. */
-   @Autowired
-   private AccountService accountService;
+	private List<Program> programs;
 
-   /** The programs. */
-   private List<Program> programs;
+	/**
+	 * Instantiates a new training Controller.
+	 */
+	public ProgramListController() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Instantiates a new training Controller.
-    */
-   public ProgramListController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Show Program List.
+	 *
+	 * @param model the model
+	 * @param principal the principal
+	 * @return the string the view
+	 * @throws UniqueException the unique exception
+	 */
 
-   /**
-    * Show Program List.
-    *
-    * @param model
-    *           the model
-    * @param principal
-    *           the principal
-    * @return the string the view
-    * @throws UniqueException
-    *            the unique exception
-    */
+	@RequestMapping(value = "programList")
+	public String programs(Model model, Principal principal) throws UniqueException {
+		Account account = accountService.findByLogin(principal.getName());
+		// List of programs
+		if (account.getRole() == roles.ROLE_ADMIN) {
+			programs = programService.getProgramList();
+		} else {
+			programs = account.getPrograms();
+		}
+		model.addAttribute("programs", programs);
+		return PROGRAM_VIEW_NAME;
+	}
 
-   @RequestMapping(value = "programList")
-   public String programs(Model model, Principal principal) throws UniqueException {
-      Account account = accountService.findByLogin(principal.getName());
-      // List of programs
-      if (account.getRole() == roles.ROLE_ADMIN) {
-         programs = programService.getProgramList();
-      } else {
-         programs = account.getPrograms();
-      }
-      model.addAttribute("programs", programs);
-      return PROGRAM_VIEW_NAME;
-   }
+	/**
+	 * List of Program.
+	 *
+	 * @return List<Program>
+	 */
+	@ModelAttribute("programs")
+	public List<Program> programs() {
+		return programs;
+	}
 
-   /**
-    * List of Program.
-    *
-    * @return List<Program>
-    */
-   @ModelAttribute("programs")
-   public List<Program> programs() {
-      return programs;
-   }
+	/**
+	 * Delete Program by Id.
+	 *
+	 * @param id the id
+	 * @param ra the redirect atributes
+	 * @param principal the principal
+	 * @return the string destinity page
+	 */
+	@RequestMapping(value = "programList/programDelete/{id}", method = RequestMethod.POST)
+	public String remove(@PathVariable Long id, RedirectAttributes ra, Principal principal) {
 
-   /**
-    * Delete Program by Id.
-    *
-    * @param id
-    *           the id
-    * @param ra
-    *           the redirect atributes
-    * @param principal
-    *           the principal
-    * @return the string destinity page
-    */
-   @RequestMapping(value = "programList/programDelete/{id}", method = RequestMethod.POST)
-   public String remove(@PathVariable Long id, RedirectAttributes ra, Principal principal) {
+		Account account = accountService.findByLogin(principal.getName());
+		Program program = programService.findById(id);
 
-      Account account = accountService.findByLogin(principal.getName());
-      Program program = programService.findById(id);
+		// Security, Only user can delete him program or admin
+		if (program.getAccounts().contains(account) || (account.getRole() == roles.ROLE_ADMIN)) {
+			try {
+				programService.delete(program, account);
+				MessageHelper.addInfoAttribute(ra, "program.successDelete", program.getName());
+			} catch (ExistPaymentsException e) {
+				MessageHelper.addErrorAttribute(ra, "program.existPayments", program.getName());
+			}
+		}
+		return REDIRECT_PROGRAM;
+	}
 
-      // Security, Only user can delete him program or admin
-      if (program.getAccounts().contains(account) || (account.getRole() == roles.ROLE_ADMIN)) {
-         try {
-            programService.delete(id);
-            MessageHelper.addInfoAttribute(ra, "program.successDelete", program.getName());
-         } catch (ExistPaymentsException e) {
-            MessageHelper.addErrorAttribute(ra, "program.existPayments", program.getName());
-         }
-      }
-      return REDIRECT_PROGRAM;
-   }
+	/**
+	 * Program down.
+	 *
+	 * @param id the id
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programDown/{id}", method = RequestMethod.POST)
+	public String programDown(@PathVariable Long id, RedirectAttributes ra) {
 
-   /**
-    * Program down.
-    *
-    * @param id
-    *           the id
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programDown/{id}", method = RequestMethod.POST)
-   public String programDown(@PathVariable Long id, RedirectAttributes ra) {
+		Program program = programService.findById(id);
+		programService.down(program);
+		MessageHelper.addInfoAttribute(ra, "program.successDown", program.getName());
+		return REDIRECT_PROGRAM;
+	}
 
-      String name = programService.findById(id).getName();
-      programService.down(id);
-      MessageHelper.addInfoAttribute(ra, "program.successDown", name);
-      return REDIRECT_PROGRAM;
-   }
+	/**
+	 * Program up.
+	 *
+	 * @param id the id
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/programUp/{id}", method = RequestMethod.POST)
+	public String programUp(@PathVariable Long id, RedirectAttributes ra) {
 
-   /**
-    * Program up.
-    *
-    * @param id
-    *           the id
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "programList/programUp/{id}", method = RequestMethod.POST)
-   public String programUp(@PathVariable Long id, RedirectAttributes ra) {
-
-      String name = programService.findById(id).getName();
-      programService.up(id);
-      MessageHelper.addInfoAttribute(ra, "program.successUp", name);
-      return REDIRECT_PROGRAM;
-   }
+		Program program = programService.findById(id);
+		programService.up(program);
+		MessageHelper.addInfoAttribute(ra, "program.successUp", program.getName());
+		return REDIRECT_PROGRAM;
+	}
 }

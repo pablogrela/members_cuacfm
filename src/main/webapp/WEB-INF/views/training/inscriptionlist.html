@@ -29,6 +29,13 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
 	
+	<!-- Button redirect to Training List Open-->
+	<div class="text-center">
+		<a class="btn btn-info btn-lg" th:href="@{/trainingList}"
+			th:text="#{training.backTrainingOpen}">View Training Open</a>
+	</div>
+	
+	<br></br>
 	<!-- Form to add user by login -->
 	<div>
 		<form class="form-narrow form-horizontal ws-validate" method="post"

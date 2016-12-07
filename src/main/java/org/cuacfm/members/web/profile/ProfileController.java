@@ -203,7 +203,7 @@ public class ProfileController {
 
       // If correct
       try {
-         accountService.update(account, modifyPassword);
+         accountService.update(account, modifyPassword, true);
       } catch (UniqueException e) {
          if (e.getAttribute() == "Dni") {
             errors.rejectValue("dni", "signup.existentDni", new Object[] { e.getAttribute() },

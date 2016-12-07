@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cuacfm.members.web.support;
+package org.cuacfm.members.model.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,6 +29,7 @@ import java.util.Locale;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.directdebit.DirectDebit;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -44,25 +44,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AccountController {
 
-	/** The Constant ACCOUNT_VIEW_NAME. */
 	private static final String ACCOUNT_VIEW_NAME = "account/account";
 
-	/** The account service. */
 	@Autowired
 	private AccountService accountService;
 
-	/** The account Type service. */
 	@Autowired
 	private AccountTypeService accountTypeService;
 
-	/** The account Method Payment service. */
 	@Autowired
 	private MethodPaymentService methodPaymentService;
 
-	/** The bank accounts. */
 	private List<BankAccount> bankAccounts;
-
-	/** The Global variable account. */
 	private Account account;
 
 	/**
@@ -222,9 +215,8 @@ public class AccountController {
 		}
 
 		// If correct
-
 		try {
-			accountService.update(account, modifyPassword);
+			accountService.update(account, modifyPassword, false);
 		} catch (UniqueException e) {
 			if (e.getAttribute() == "Dni") {
 				errors.rejectValue("dni", "signup.existentDni", new Object[] { e.getValue() }, "dni");

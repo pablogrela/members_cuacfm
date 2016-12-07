@@ -40,7 +40,7 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
-import org.cuacfm.members.model.util.States.states;
+import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
@@ -55,185 +55,161 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PayProgramListControllerTest extends WebSecurityConfigurationAware {
 
-   /** The default session. */
-   private MockHttpSession defaultSession;
+	/** The default session. */
+	private MockHttpSession defaultSession;
 
-   /** The account service. */
-   @Inject
-   private AccountService accountService;
+	/** The account service. */
+	@Inject
+	private AccountService accountService;
 
-   /** The program service. */
-   @Inject
-   private ProgramService programService;
+	/** The program service. */
+	@Inject
+	private ProgramService programService;
 
-   /** The fee program service. */
-   @Inject
-   private FeeProgramService feeProgramService;
+	/** The fee program service. */
+	@Inject
+	private FeeProgramService feeProgramService;
 
-   /** The training service. */
-   @Inject
-   private PayProgramService payProgramService;
+	/** The training service. */
+	@Inject
+	private PayProgramService payProgramService;
 
-   /** The fee program. */
-   private FeeProgram feeProgram;
+	/** The fee program. */
+	private FeeProgram feeProgram;
 
-   /** The pay program. */
-   private PayProgram payProgram;
+	/** The pay program. */
+	private PayProgram payProgram;
 
-   /**
-    * Initialize default session.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Before
-   public void initializeDefaultSession() throws UniqueException {
-      Account admin = new Account("admin", "11111111D", "London", "admin", "admin@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_ADMIN);
-      accountService.save(admin);
-      defaultSession = getDefaultSession("admin");
+	/**
+	 * Initialize default session.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Before
+	public void initializeDefaultSession() throws UniqueException {
+		Account admin = new Account("admin", "11111111D", "London", "admin", "admin@udc.es", "666666666", "666666666", "demo", roles.ROLE_ADMIN);
+		accountService.save(admin);
+		defaultSession = getDefaultSession("admin");
 
-      // Create User
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "22222222C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
-      Account account2 = new Account("user2", "33333333C", "London", "user2", "user2@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account2);
-      accounts.add(account2);
+		// Create User
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "22222222C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
+		Account account2 = new Account("user2", "33333333C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(account2);
+		accounts.add(account2);
 
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program);
-      programService.up(program.getId());
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program);
+		programService.up(program);
 
-      Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
-      programService.save(program2);
-      programService.up(program2.getId());
+		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
+		programService.save(program2);
+		programService.up(program2);
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
-      PayProgram payProgram2 = payProgramService.findByPayProgramIds(program2.getId(),
-            feeProgram.getId());
-      payProgramService.pay(payProgram2);
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
+		PayProgram payProgram2 = payProgramService.findByPayProgramIds(program2.getId(), feeProgram.getId());
+		payProgramService.pay(payProgram2);
 
-      payProgram = payProgramService.findByPayProgramIds(program.getId(), feeProgram.getId());
-   }
+		payProgram = payProgramService.findByPayProgramIds(program.getId(), feeProgram.getId());
+	}
 
-   /**
-    * Display PayProgramList page without signin in test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displayInscriptionsViewPageWithoutSiginInTest() throws Exception {
-      mockMvc.perform(get("/feeProgramList/payProgramList")).andExpect(
-            redirectedUrl("http://localhost/signin"));
-   }
+	/**
+	 * Display PayProgramList page without signin in test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displayInscriptionsViewPageWithoutSiginInTest() throws Exception {
+		mockMvc.perform(get("/feeProgramList/payProgramList")).andExpect(redirectedUrl("http://localhost/signin"));
+	}
 
-   /**
-    * Send PayProgramList.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displaysInscriptionsTest() throws Exception {
+	/**
+	 * Send PayProgramList.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysInscriptionsTest() throws Exception {
 
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
+		mockMvc.perform(post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/feeProgramList/payProgramList"));
 
-      mockMvc
-            .perform(
-                  get("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(
-                        defaultSession)).andExpect(view().name("payprogram/payprogramlist"))
-            .andExpect(content().string(containsString("<title>Payments pay program</title>")));
-   }
+		mockMvc.perform(get("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("payprogram/payprogramlist"))
+				.andExpect(content().string(containsString("<title>Payments pay program</title>")));
+	}
 
-   /**
-    * Send redirect FeeProgramList Because FeeProgram Is Null.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void redirectTrainingListBecauseTrainingIsNullTest() throws Exception {
+	/**
+	 * Send redirect FeeProgramList Because FeeProgram Is Null.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void redirectTrainingListBecauseTrainingIsNullTest() throws Exception {
 
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/" + Long.valueOf(0)).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
+		mockMvc.perform(post("/feeProgramList/payProgramList/" + Long.valueOf(0)).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/feeProgramList/payProgramList"));
 
-      mockMvc.perform(
-            get("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("redirect:/feeProgramList"));
-   }
+		mockMvc.perform(get("/feeProgramList/payProgramList").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/feeProgramList"));
+	}
 
-   /**
-    * Pay user pay inscription test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void payPayProgramTest() throws Exception {
+	/**
+	 * Pay user pay inscription test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void payPayProgramTest() throws Exception {
 
-      // Assert no pay
-      assertTrue(payProgram.getState().equals(states.NO_PAY));
+		// Assert no pay
+		assertTrue(payProgram.getState().equals(states.NO_PAY));
 
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
+		mockMvc.perform(post("/feeProgramList/payProgramList/" + feeProgram.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/feeProgramList/payProgramList"));
 
-      mockMvc.perform(
-            post("/feeProgramList/payProgramList/pay/" + payProgram.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(
-            view().name("redirect:/feeProgramList/payProgramList"));
+		mockMvc.perform(post("/feeProgramList/payProgramList/pay/" + payProgram.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/feeProgramList/payProgramList"));
 
-      // Assert Pay
-      assertTrue(payProgram.getState().equals(states.PAY));
-   }
+		// Assert Pay
+		assertTrue(payProgram.getState().equals(states.PAY));
+	}
 
-   /**
-    * Creates the pdf all.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void createPdfALL() throws Exception {
-      mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
-            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "ALL"));
-   }
+	/**
+	 * Creates the pdf all.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void createPdfALL() throws Exception {
+		mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId()).locale(Locale.ENGLISH).session(defaultSession)
+				.param("createPdf", "ALL"));
+	}
 
-   /**
-    * Creates the pdf pay.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void createPdfPAy() throws Exception {
-      mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
-            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "PAY"));
-   }
+	/**
+	 * Creates the pdf pay.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void createPdfPAy() throws Exception {
+		mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId()).locale(Locale.ENGLISH).session(defaultSession)
+				.param("createPdf", "PAY"));
+	}
 
-   /**
-    * Creates the pdf no pay.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void createPdfNoPAy() throws Exception {
-      mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId())
-            .locale(Locale.ENGLISH).session(defaultSession).param("createPdf", "NOPAY"));
-   }
+	/**
+	 * Creates the pdf no pay.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void createPdfNoPAy() throws Exception {
+		mockMvc.perform(post("/feeProgramList/payProgramList/createPdf/" + feeProgram.getId()).locale(Locale.ENGLISH).session(defaultSession)
+				.param("createPdf", "NOPAY"));
+	}
 }

@@ -49,25 +49,19 @@ public class TrainingListController {
    /** The Constant REDIRECT_TRAINING. */
    private static final String REDIRECT_TRAINING = "redirect:/trainingList";
    
-   /** The training service. */
    @Autowired
    private AccountService accountService;
 
-   /** The trainingTypeService. */
    @Autowired
    private TrainingTypeService trainingTypeService;
 
-   /** The training service. */
    @Autowired
    private TrainingService trainingService;
 
-   /** The trainings. */
    private List<Training> trainings;
 
-   /** The trainingAccounts. */
    private List<Long> trainingAccountIds;
 
-   /** The trainingUnsubscribes. */
    private List<Long> trainingUnsubscribeIds;
 
    /**
@@ -154,12 +148,12 @@ public class TrainingListController {
    @RequestMapping(value = "trainingList/trainingDelete/{id}", method = RequestMethod.POST)
    public String remove(RedirectAttributes ra, @PathVariable Long id) throws UniqueException {
 
-      String name = trainingService.findById(id).getName();
+     Training training = trainingService.findById(id);
       try {
-         trainingService.delete(id);
-         MessageHelper.addInfoAttribute(ra, "training.successDelete", name);
+         trainingService.delete(training);
+         MessageHelper.addInfoAttribute(ra, "training.successDelete", training.getName());
       } catch (ExistInscriptionsException e) {
-         MessageHelper.addErrorAttribute(ra, "training.existDependenciesTrainingsException", name);
+         MessageHelper.addErrorAttribute(ra, "training.existDependenciesTrainingsException", training.getName());
       }
       return REDIRECT_TRAINING;
    }

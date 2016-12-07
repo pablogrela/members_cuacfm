@@ -28,8 +28,8 @@ import javax.persistence.ManyToOne;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.feemember.FeeMember;
-import org.cuacfm.members.model.util.States.methods;
-import org.cuacfm.members.model.util.States.states;
+import org.cuacfm.members.model.util.Constants.methods;
+import org.cuacfm.members.model.util.Constants.states;
 
 /** The Class PayMember. */
 @SuppressWarnings("serial")

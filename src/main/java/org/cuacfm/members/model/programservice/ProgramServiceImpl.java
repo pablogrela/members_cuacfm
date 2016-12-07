@@ -17,6 +17,8 @@ package org.cuacfm.members.model.programservice;
 
 import java.util.List;
 
+import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.ExistPaymentsException;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
@@ -29,143 +31,100 @@ import org.springframework.stereotype.Service;
 @Service("programService")
 public class ProgramServiceImpl implements ProgramService {
 
-   /** The program repository. */
+	@Autowired
+	private PayProgramService payProgramService;
 
-   @Autowired
-   private PayProgramService payProgramService;
+	@Autowired
+	private ProgramRepository programRepository;
 
-   @Autowired
-   private ProgramRepository programRepository;
+	@Autowired
+	private EventService eventService;
 
-   /** Instantiates a new program service. */
-   public ProgramServiceImpl() {
-      // Default empty constructor.
-   }
+	/** Instantiates a new program service. */
+	public ProgramServiceImpl() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Save an training into database.
-    *
-    * @param program
-    *           the training
-    * @return Program
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Override
-   public Program save(Program program) throws UniqueException {
-      // It is verified that there is not exist name of program in other
-      // program
-      if (programRepository.findByName(program.getName()) != null) {
-         throw new UniqueException("Name", program.getName());
-      }
-      return programRepository.save(program);
-   }
+	@Override
+	public Program save(Program program) throws UniqueException {
+		// It is verified that there is not exist name of program in other program
+		if (programRepository.findByName(program.getName()) != null) {
+			throw new UniqueException("Name", program.getName());
+		}
 
-   /**
-    * Update Program.
-    *
-    * @param program
-    *           the program
-    * @return Program
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Override
-   public Program update(Program program) throws UniqueException {
-      // It is verified that there is not exist name of program in other
-      // program
-      Program programSearch = programRepository.findByName(program.getName());
-      if ((programSearch != null) && (programSearch.getId() != program.getId())) {
-         throw new UniqueException("Name", program.getName());
-      }
-      return programRepository.update(program);
+		// Save Message Event
+		Object[] arguments = { program.getName() };
+		eventService.save("program.successCreate", null, 3, arguments);
+		return programRepository.save(program);
+	}
 
-   }
+	@Override
+	public Program update(Program program) throws UniqueException {
+		// It is verified that there is not exist name of program in other program
+		Program programSearch = programRepository.findByName(program.getName());
+		if ((programSearch != null) && (programSearch.getId() != program.getId())) {
+			throw new UniqueException("Name", program.getName());
+		}
 
-   /**
-    * Delete.
-    *
-    * @param id
-    *           the id
-    * @throws ExistPaymentsException
-    *            the exist payments exception
-    */
-   @Override
-   public void delete(Long id) throws ExistPaymentsException {
-      // If Exist payments
-      if (!payProgramService.getPayProgramListByProgramId(id).isEmpty()) {
-         throw new ExistPaymentsException();
-      }
-      programRepository.delete(id);
-   }
+		// Save Message Event
+		Object[] arguments = { program.getName() };
+		eventService.save("program.successModify", null, 3, arguments);
+		return programRepository.update(program);
 
-   /**
-    * Find by Name the program.
-    *
-    * @param login
-    *           the login
-    * @return Program
-    */
-   @Override
-   public Program findByName(String login) {
-      return programRepository.findByName(login);
-   }
+	}
 
-   /**
-    * Find by id returns program which has this identifier.
-    *
-    * @param id
-    *           the id
-    * @return program
-    */
-   @Override
-   public Program findById(Long id) {
-      return programRepository.findById(id);
-   }
+	@Override
+	public void delete(Program program) throws ExistPaymentsException {
+		delete(program, null);
+	}
 
-   /**
-    * Get all programs.
-    *
-    * @return List<Program>
-    */
-   @Override
-   public List<Program> getProgramList() {
-      return programRepository.getProgramList();
-   }
+	@Override
+	public void delete(Program program, Account account) throws ExistPaymentsException {
+		// If Exist payments
+		if (!payProgramService.getPayProgramListByProgramId(program.getId()).isEmpty()) {
+			throw new ExistPaymentsException();
+		}
+		programRepository.delete(program);
 
-   /**
-    * Get all active programs.
-    *
-    * @return List<Program>
-    */
-   @Override
-   public List<Program> getProgramListActive() {
-      return programRepository.getProgramListActive();
-   }
+		Object[] arguments = { program.getName() };
+		eventService.save("program.successDelete", account, 3, arguments);
+	}
 
-   /**
-    * Up.
-    *
-    * @param id
-    *           the id
-    */
-   @Override
-   public void up(Long id) {
-      Program program = programRepository.findById(id);
-      program.setActive(true);
-      programRepository.update(program);
-   }
+	@Override
+	public Program findByName(String login) {
+		return programRepository.findByName(login);
+	}
 
-   /**
-    * Down.
-    *
-    * @param id
-    *           the id
-    */
-   @Override
-   public void down(Long id) {
-      Program program = programRepository.findById(id);
-      program.setActive(false);
-      programRepository.update(program);
-   }
+	@Override
+	public Program findById(Long id) {
+		return programRepository.findById(id);
+	}
+
+	@Override
+	public List<Program> getProgramList() {
+		return programRepository.getProgramList();
+	}
+
+	@Override
+	public List<Program> getProgramListActive() {
+		return programRepository.getProgramListActive();
+	}
+
+	@Override
+	public void up(Program program) {
+		program.setActive(true);
+		programRepository.update(program);
+
+		Object[] arguments = { program.getName() };
+		eventService.save("program.successUp", null, 3, arguments);
+	}
+
+	@Override
+	public void down(Program program) {
+		program.setActive(false);
+		programRepository.update(program);
+
+		Object[] arguments = { program.getName() };
+		eventService.save("program.successDown", null, 3, arguments);
+	}
 }

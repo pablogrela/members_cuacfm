@@ -17,62 +17,61 @@ package org.cuacfm.members.model.program;
 
 import java.util.List;
 
+/**
+ * The Interface ProgramRepository.
+ */
 public interface ProgramRepository {
-   /**
-    * Save.
-    *
-    * @param training
-    *           the program
-    * @return program
-    */
-   public Program save(Program program);
 
-   /**
-    * Update.
-    *
-    * @param program
-    *           the program
-    * @return program
-    */
-   public Program update(Program program);
+	/**
+	 * Save.
+	 *
+	 * @param program the program
+	 * @return program
+	 */
+	public Program save(Program program);
 
-   /**
-    * Delete.
-    *
-    * @param program
-    *           the program
-    */
-   public void delete(Long id);
+	/**
+	 * Update.
+	 *
+	 * @param program the program
+	 * @return program
+	 */
+	public Program update(Program program);
 
-   /**
-    * Find by id.
-    *
-    * @param id
-    *           the id of program
-    * @return the program
-    */
-   public Program findById(Long id);
+	/**
+	 * Delete.
+	 *
+	 * @param program the program
+	 */
+	public void delete(Program program);
 
-   /**
-    * Find by login.
-    *
-    * @param name
-    *           the name of program
-    * @return Program
-    */
-   public Program findByName(String name);
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id of program
+	 * @return the program
+	 */
+	public Program findById(Long id);
 
-   /**
-    * Get all programs.
-    *
-    * @return List<Program>
-    */
-   public List<Program> getProgramList();
+	/**
+	 * Find by login.
+	 *
+	 * @param name the name of program
+	 * @return Program
+	 */
+	public Program findByName(String name);
 
-   /**
-    * Get all active programs.
-    *
-    * @return List<Program>
-    */
-   public List<Program> getProgramListActive();
+	/**
+	 * Get all programs.
+	 *
+	 * @return List<Program>
+	 */
+	public List<Program> getProgramList();
+
+	/**
+	 * Get all active programs.
+	 *
+	 * @return List<Program>
+	 */
+	public List<Program> getProgramListActive();
 }

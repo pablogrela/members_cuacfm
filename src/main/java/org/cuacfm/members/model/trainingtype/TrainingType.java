@@ -15,204 +15,201 @@
  */
 package org.cuacfm.members.model.trainingtype;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /** The Class TrainingType. */
-@SuppressWarnings("serial")
 @Entity
-public class TrainingType implements java.io.Serializable {
+public class TrainingType implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	private static final long serialVersionUID = 1L;
 
-   /** The name. */
-   @Column(unique = true)
-   private String name;
+	/** The id. */
+	@Id
+	@GeneratedValue
+	private Long id;
 
-   /** The required. */
-   private boolean required;
+	/** The name. */
+	@Column(unique = true)
+	private String name;
 
-   /** The description. */
-   private String description;
+	/** The required. */
+	private boolean required;
 
-   /** The place. */
-   private String place;
+	/** The description. */
+	private String description;
 
-   /** The duration. */
-   private int duration;
+	/** The place. */
+	private String place;
 
-   /**
-    * The hasTrainings, is more efficient save this parameter for display valor
-    * in table.
-    */
-   private boolean hasTrainings;
+	/** The duration. */
+	private int duration;
 
-   /** Instantiates a new training. */
-   protected TrainingType() {
-      // Default empty constructor.
-   }
+	/**
+	 * The hasTrainings, is more efficient save this parameter for display valor in table.
+	 */
+	private boolean hasTrainings;
 
-   /**
-    * Instantiates a new training.
-    *
-    * @param name
-    *           String
-    * @param required
-    *           boolean
-    * @param description
-    *           String
-    * @param place
-    *           String
-    * @param duration
-    *           int
-    */
-   public TrainingType(String name, boolean required, String description, String place, int duration) {
-      super();
-      this.name = name;
-      this.required = required;
-      this.description = description;
-      this.place = place;
-      this.duration = duration;
-      this.hasTrainings = false;
-   }
+	/** Instantiates a new training type. */
+	public TrainingType() {
+		super();
+	}
 
-   /**
-    * Get the id.
-    *
-    * @return id
-    */
-   public Long getId() {
-      return id;
-   }
+	/**
+	 * Instantiates a new training type.
+	 *
+	 * @param name String
+	 * @param required boolean
+	 * @param description String
+	 * @param place String
+	 * @param duration int
+	 */
+	public TrainingType(String name, boolean required, String description, String place, int duration) {
+		super();
+		this.name = name;
+		this.required = required;
+		this.description = description;
+		this.place = place;
+		this.duration = duration;
+		this.hasTrainings = false;
+	}
 
-   /**
-    * Sets the id.
-    *
-    * @param id
-    *           the new id
-    */
-   // If necessary to probe test in Junit, because is necessary one object in
-   // detach
-   public void setId(Long id) {
-      this.id = id;
-   }
+	/**
+	 * Get the id.
+	 *
+	 * @return id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-   /**
-    * Get the name.
-    *
-    * @return name
-    */
-   public String getName() {
-      return name;
-   }
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	// If necessary to probe test in Junit, because is necessary one object in
+	// detach
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-   /**
-    * Set the name.
-    *
-    * @param name
-    *           String, the new name
-    */
-   public void setName(String name) {
-      this.name = name;
-   }
+	/**
+	 * Get the name.
+	 *
+	 * @return name
+	 */
+	public String getName() {
+		return name;
+	}
 
-   /**
-    * Get the required.
-    *
-    * @return the boolean isRequired
-    */
-   public boolean isRequired() {
-      return required;
-   }
+	/**
+	 * Set the name.
+	 *
+	 * @param name String, the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /**
-    * Set the required.
-    *
-    * @param required
-    *           boolean
-    */
-   public void setRequired(boolean required) {
-      this.required = required;
-   }
+	/**
+	 * Get the required.
+	 *
+	 * @return the boolean isRequired
+	 */
+	public boolean isRequired() {
+		return required;
+	}
 
-   /**
-    * Get the description.
-    *
-    * @return the description
-    */
-   public String getDescription() {
-      return description;
-   }
+	/**
+	 * Set the required.
+	 *
+	 * @param required boolean
+	 */
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
 
-   /**
-    * Set the description.
-    *
-    * @param description
-    *           String, the new description
-    */
-   public void setDescription(String description) {
-      this.description = description;
-   }
+	/**
+	 * Get the description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-   /**
-    * Get the place.
-    *
-    * @return String
-    */
-   public String getPlace() {
-      return place;
-   }
+	/**
+	 * Set the description.
+	 *
+	 * @param description String, the new description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-   /**
-    * Set the place.
-    *
-    * @param place
-    *           String, the new place
-    */
-   public void setPlace(String place) {
-      this.place = place;
-   }
+	/**
+	 * Get the place.
+	 *
+	 * @return String
+	 */
+	public String getPlace() {
+		return place;
+	}
 
-   /**
-    * Get the duration.
-    *
-    * @return int
-    */
-   public int getDuration() {
-      return duration;
-   }
+	/**
+	 * Set the place.
+	 *
+	 * @param place String, the new place
+	 */
+	public void setPlace(String place) {
+		this.place = place;
+	}
 
-   /**
-    * Set the duration.
-    *
-    * @param duration
-    *           int, the new duration
-    */
-   public void setDuration(int duration) {
-      this.duration = duration;
-   }
+	/**
+	 * Get the duration.
+	 *
+	 * @return int
+	 */
+	public int getDuration() {
+		return duration;
+	}
 
-   /**
-    * Get the hasTrainings.
-    *
-    * @return the boolean isHasTrainings
-    */
-   public boolean isHasTrainings() {
-      return hasTrainings;
-   }
+	/**
+	 * Set the duration.
+	 *
+	 * @param duration int, the new duration
+	 */
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
 
-   /**
-    * Set the hasTrainings.
-    *
-    * @param hasTrainings
-    *           boolean
-    */
-   public void setHasTrainings(boolean hasTrainings) {
-      this.hasTrainings = hasTrainings;
-   }
+	/**
+	 * Get the hasTrainings.
+	 *
+	 * @return the boolean isHasTrainings
+	 */
+	public boolean isHasTrainings() {
+		return hasTrainings;
+	}
+
+	/**
+	 * Set the hasTrainings.
+	 *
+	 * @param hasTrainings boolean
+	 */
+	public void setHasTrainings(boolean hasTrainings) {
+		this.hasTrainings = hasTrainings;
+	}
+
+	@Override
+	public String toString() {
+		return "TrainingType [id=" + id + ", name=" + name + ", required=" + required + ", description=" + description + ", place=" + place
+				+ ", duration=" + duration + ", hasTrainings=" + hasTrainings + "]";
+	}
+
 }

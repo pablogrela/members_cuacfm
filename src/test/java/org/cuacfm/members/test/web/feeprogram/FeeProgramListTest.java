@@ -100,7 +100,7 @@ public class FeeProgramListTest extends WebSecurityConfigurationAware {
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
 		user.setInstallments(1);
-		accountService.update(user, false);
+		accountService.update(user, false, true);
 		
 		//Create Payment
       Date date = DisplayDate.stringToMonthOfYear("2015-12");

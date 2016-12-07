@@ -34,71 +34,66 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TrainingTypeListController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
-   private static final String TRAINING_VIEW_NAME = "trainingtype/trainingtypelist";
+	private static final String TRAINING_VIEW_NAME = "trainingtype/trainingtypelist";
 
-   /** The TrainingTypeService. */
-   @Autowired
-   private TrainingTypeService trainingTypeService;
+	@Autowired
+	private TrainingTypeService trainingTypeService;
 
-   /** The trainingTypes. */
-   private List<TrainingType> trainingTypes;
+	private List<TrainingType> trainingTypes;
 
-   /**
-    * Instantiates a new training Controller.
-    */
-   public TrainingTypeListController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Instantiates a new training Controller.
+	 */
+	public TrainingTypeListController() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Show TrainingType List.
-    *
-    * @param model
-    *           the model
-    * @return the string the view
-    */
+	/**
+	 * Show TrainingType List.
+	 *
+	 * @param model the model
+	 * @return the string the view
+	 */
 
-   @RequestMapping(value = "trainingTypeList")
-   public String trainings(Model model) {
-      // List of Training Types
-      trainingTypes = trainingTypeService.getTrainingTypeList();
-      model.addAttribute("trainingTypes", trainingTypes);
-      return TRAINING_VIEW_NAME;
-   }
+	@RequestMapping(value = "trainingTypeList")
+	public String trainings(Model model) {
+		// List of Training Types
+		trainingTypes = trainingTypeService.getTrainingTypeList();
+		model.addAttribute("trainingTypes", trainingTypes);
+		return TRAINING_VIEW_NAME;
+	}
 
-   /**
-    * List of TrainingType.
-    *
-    * @return List<TrainingType>
-    */
-   @ModelAttribute("trainingTypes")
-   public List<TrainingType> trainingTypes() {
-      return trainingTypes;
-   }
+	/**
+	 * List of TrainingType.
+	 *
+	 * @return List<TrainingType>
+	 */
+	@ModelAttribute("trainingTypes")
+	public List<TrainingType> trainingTypes() {
+		return trainingTypes;
+	}
 
-   /**
-    * Delete TrainingType by Id.
-    *
-    * @param @PathVariable Long id
-    * 
-    * @param ra
-    *           the redirect atributes
-    * @return the string destinity page
-    */
-   @RequestMapping(value = "trainingTypeList/trainingTypeDelete/{id}", method = RequestMethod.POST)
-   public String remove(@PathVariable Long id, RedirectAttributes ra) {
+	/**
+	 * Delete TrainingType by Id.
+	 *
+	 * @param @PathVariable Long id
+	 * 
+	 * @param ra the redirect atributes
+	 * @return the string destinity page
+	 */
+	@RequestMapping(value = "trainingTypeList/trainingTypeDelete/{id}", method = RequestMethod.POST)
+	public String remove(@PathVariable Long id, RedirectAttributes ra) {
 
-      String name = trainingTypeService.findById(id).getName();
+		TrainingType trainingType = trainingTypeService.findById(id);
 
-      // If Exist Dependencies Trainings
-      try {
-         trainingTypeService.delete(id);
-         MessageHelper.addInfoAttribute(ra, "trainingType.successDelete", name);
-      } catch (ExistTrainingsException e) {
-         MessageHelper.addErrorAttribute(ra, "trainingType.existDependenciesTrainings", name);
-      }
+		// If Exist Dependencies Trainings
+		try {
+			trainingTypeService.delete(trainingType);
+			MessageHelper.addInfoAttribute(ra, "trainingType.successDelete", trainingType.getName());
+		} catch (ExistTrainingsException e) {
+			MessageHelper.addErrorAttribute(ra, "trainingType.existDependenciesTrainings", trainingType.getName());
+		}
 
-      return "redirect:/trainingTypeList";
-   }
+		return "redirect:/trainingTypeList";
+	}
 }

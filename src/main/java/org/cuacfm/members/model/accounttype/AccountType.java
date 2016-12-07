@@ -15,141 +15,143 @@
  */
 package org.cuacfm.members.model.accounttype;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /** The Class AccountType. */
-@SuppressWarnings("serial")
 @Entity
-public class AccountType implements java.io.Serializable {
+public class AccountType implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	private static final long serialVersionUID = 1L;
 
-   /** The name. */
-   @Column(unique = true)
-   private String name;
+	/** The id. */
+	@Id
+	@GeneratedValue
+	private Long id;
 
-   /** The organization. */
-   private boolean organization;
+	/** The name. */
+	@Column(unique = true)
+	private String name;
 
-   /** The description. */
-   private String description;
+	/** The organization. */
+	private boolean organization;
 
-   /** The discount in %. */
-   private int discount;
+	/** The description. */
+	private String description;
 
-   /** Instantiates a new account type. */
-   protected AccountType() {
-      // Default empty constructor.
-   }
+	/** The discount in %. */
+	private int discount;
 
-   /**
-    * Instantiates a new account type.
-    *
-    * @param name
-    *           the name
-    * @param organization
-    *           the organization
-    * @param description
-    *           the description
-    * @param discount
-    *           the discount
-    */
-   public AccountType(String name, boolean organization, String description, int discount) {
-      super();
-      this.name = name;
-      this.organization = organization;
-      this.description = description;
-      this.discount = discount;
-   }
+	/** Instantiates a new account type. */
+	protected AccountType() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	/**
+	 * Instantiates a new account type.
+	 *
+	 * @param name the name
+	 * @param organization the organization
+	 * @param description the description
+	 * @param discount the discount
+	 */
+	public AccountType(String name, boolean organization, String description, int discount) {
+		super();
+		this.name = name;
+		this.organization = organization;
+		this.description = description;
+		this.discount = discount;
+	}
 
-   /**
-    * Gets the name.
-    *
-    * @return the name
-    */
-   public String getName() {
-      return name;
-   }
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-   /**
-    * Sets the name.
-    *
-    * @param name
-    *           the new name
-    */
-   public void setName(String name) {
-      this.name = name;
-   }
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-   /**
-    * Checks if is organization.
-    *
-    * @return true, if is organization
-    */
-   public boolean isOrganization() {
-      return organization;
-   }
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /**
-    * Sets the organization.
-    *
-    * @param organization
-    *           the new organization
-    */
-   public void setOrganization(boolean organization) {
-      this.organization = organization;
-   }
+	/**
+	 * Checks if is organization.
+	 *
+	 * @return true, if is organization
+	 */
+	public boolean isOrganization() {
+		return organization;
+	}
 
-   /**
-    * Gets the description.
-    *
-    * @return the description
-    */
-   public String getDescription() {
-      return description;
-   }
+	/**
+	 * Sets the organization.
+	 *
+	 * @param organization the new organization
+	 */
+	public void setOrganization(boolean organization) {
+		this.organization = organization;
+	}
 
-   /**
-    * Sets the description.
-    *
-    * @param description
-    *           the new description
-    */
-   public void setDescription(String description) {
-      this.description = description;
-   }
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-   /**
-    * Gets the discount.
-    *
-    * @return the discount
-    */
-   public int getDiscount() {
-      return discount;
-   }
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-   /**
-    * Sets the discount.
-    *
-    * @param discount
-    *           the new discount
-    */
-   public void setDiscount(int discount) {
-      this.discount = discount;
-   }
+	/**
+	 * Gets the discount.
+	 *
+	 * @return the discount
+	 */
+	public int getDiscount() {
+		return discount;
+	}
+
+	/**
+	 * Sets the discount.
+	 *
+	 * @param discount the new discount
+	 */
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+	@Override
+	public String toString() {
+		return "AccountType [id=" + id + ", name=" + name + ", organization=" + organization + ", description=" + description + ", discount="
+				+ discount + "]";
+	}
+
 }

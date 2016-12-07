@@ -17,6 +17,7 @@ package org.cuacfm.members.model.trainingtypeservice;
 
 import java.util.List;
 
+import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.ExistTrainingsException;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.training.Training;
@@ -30,114 +31,80 @@ import org.springframework.stereotype.Service;
 @Service("trainingTypeService")
 public class TrainingTypeServiceImpl implements TrainingTypeService {
 
-   /** The trainingType repository. */
-   @Autowired
-   private TrainingTypeRepository trainingTypeRepository;
+	@Autowired
+	private TrainingTypeRepository trainingTypeRepository;
 
-   /** The training repository. */
-   @Autowired
-   private TrainingRepository trainingRepository;
+	@Autowired
+	private TrainingRepository trainingRepository;
 
-   /** Instantiates a new trainingType service. */
-   public TrainingTypeServiceImpl() {
-      // Default empty constructor.
-   }
+	@Autowired
+	private EventService eventService;
 
-   /**
-    * Save an training into database.
-    *
-    * @param trainingType
-    *           the training
-    * @return TrainingType
-    * @throws UniqueException
-    */
-   @Override
-   public TrainingType save(TrainingType trainingType) throws UniqueException {
-      // It is verified that there is not exist name of trainingType in other
-      // trainingType
-      if (trainingTypeRepository.findByName(trainingType.getName()) != null) {
-         throw new UniqueException("Name", trainingType.getName());
-      }
-      return trainingTypeRepository.save(trainingType);
-   }
+	/** Instantiates a new trainingType service. */
+	public TrainingTypeServiceImpl() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Update TrainingType
-    *
-    * @param trainingType
-    *           the trainingType
-    * @return TrainingType
-    * @throws UniqueException
-    */
-   @Override
-   public TrainingType update(TrainingType trainingType) throws UniqueException {
-      // It is verified that there is not exist name of trainingType in other
-      // trainingType
-      TrainingType trainingTypeSearch = trainingTypeRepository.findByName(trainingType.getName());
-      if ((trainingTypeSearch != null) && (trainingTypeSearch.getId() != trainingType.getId())) {
-         throw new UniqueException("Name", trainingType.getName());
-      }
-      return trainingTypeRepository.update(trainingType);
-   }
+	@Override
+	public TrainingType save(TrainingType trainingType) throws UniqueException {
+		// It is verified that there is not exist name of trainingType in other trainingType
+		Object[] arguments = { trainingType.getName() };
 
-   /**
-    * Delete.
-    *
-    * @param trainingType
-    *           the trainingType
-    * @return TrainingType
-    * @throws ExistTrainingsException
-    */
-   @Override
-   public void delete(Long id) throws ExistTrainingsException {
-      // If Exist Dependencies Trainings
-      if (!trainingRepository.getTrainingListByTrainingTypeId(id).isEmpty()) {
-         throw new ExistTrainingsException();
-      }
-      trainingTypeRepository.delete(id);
-   }
+		if (trainingTypeRepository.findByName(trainingType.getName()) != null) {
+			eventService.save("trainingType.existentName", null, 2, arguments);
+			throw new UniqueException("Name", trainingType.getName());
+		}
 
-   /**
-    * Find by Name the trainingType
-    *
-    * @param id
-    *           the id
-    * @return TrainingType
-    */
-   @Override
-   public TrainingType findByName(String login) {
-      return trainingTypeRepository.findByName(login);
-   }
+		eventService.save("trainingType.successCreate", null, 2, arguments);
+		return trainingTypeRepository.save(trainingType);
+	}
 
-   /**
-    * Find by id returns trainingType which has this identifier.
-    *
-    * @param id
-    *           the id
-    * @return trainingType
-    */
-   @Override
-   public TrainingType findById(Long id) {
-      return trainingTypeRepository.findById(id);
-   }
+	@Override
+	public TrainingType update(TrainingType trainingType) throws UniqueException {
+		// It is verified that there is not exist name of trainingType in other trainingType
+		Object[] arguments = { trainingType.getName() };
 
-   /**
-    * Get all trainingTypes.
-    *
-    * @return List<TrainingType>
-    */
-   @Override
-   public List<TrainingType> getTrainingTypeList() {
-      return trainingTypeRepository.getTrainingTypeList();
-   }
+		TrainingType trainingTypeSearch = trainingTypeRepository.findByName(trainingType.getName());
+		if ((trainingTypeSearch != null) && (trainingTypeSearch.getId() != trainingType.getId())) {
+			eventService.save("trainingType.existentName", null, 2, arguments);
+			throw new UniqueException("Name", trainingType.getName());
+		}
 
-   /**
-    * Get all trainings by trainingTypeId.
-    *
-    * @return List<Training>
-    */
-   @Override
-   public List<Training> getTrainingListByTrainingTypeId(Long trainingTypeId) {
-      return trainingRepository.getTrainingListByTrainingTypeId(trainingTypeId);
-   }
+		eventService.save("trainingType.successModify", null, 2, arguments);
+		return trainingTypeRepository.update(trainingType);
+	}
+
+	@Override
+	public void delete(TrainingType trainingType) throws ExistTrainingsException {
+		// If Exist Dependencies Trainings
+		Object[] arguments = { trainingType.getName() };
+
+		if (!trainingRepository.getTrainingListByTrainingTypeId(trainingType.getId()).isEmpty()) {
+			eventService.save("trainingType.existDependenciesTrainings", null, 2, arguments);
+			throw new ExistTrainingsException();
+
+		}
+		trainingTypeRepository.delete(trainingType.getId());
+		eventService.save("trainingType.successDelete", null, 2, arguments);
+	}
+
+	@Override
+	public TrainingType findByName(String login) {
+		return trainingTypeRepository.findByName(login);
+	}
+
+	@Override
+	public TrainingType findById(Long id) {
+		return trainingTypeRepository.findById(id);
+	}
+
+	@Override
+	public List<TrainingType> getTrainingTypeList() {
+		return trainingTypeRepository.getTrainingTypeList();
+	}
+
+	@Override
+	public List<Training> getTrainingListByTrainingTypeId(Long trainingTypeId) {
+		return trainingRepository.getTrainingListByTrainingTypeId(trainingTypeId);
+	}
 }

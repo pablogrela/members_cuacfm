@@ -29,10 +29,10 @@
 	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
 	
 	
-	<!-- Button redirect to Training List Close-->
+	<!-- Button redirect to Training List Open-->
 	<div class="text-center">
 		<a class="btn btn-info btn-lg" th:href="@{/trainingList}"
-			th:text="#{training.viewTrainingOpen}">View Training Close</a>
+			th:text="#{training.viewTrainingOpen}">View Training Open</a>
 	</div>
 
 	<br></br>
@@ -65,7 +65,7 @@
 
 
 			<!-- Table List of Trainings -->
-			<table class="table table-striped table-hover table-responsive" id="customTable">
+			<table class="disaplay" id="customTable">
 				<thead class="table-bordered">
 					<tr>
 						<th th:text="#{name}">Name</th>

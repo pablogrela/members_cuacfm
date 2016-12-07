@@ -39,31 +39,32 @@ public interface AccountService {
 	 *
 	 * @param account the account
 	 * @param newPassword the new password
+	 * @param profile the profile
 	 * @return the account
 	 * @throws UniqueException the unique exception
 	 */
-	public Account update(Account account, boolean newPassword) throws UniqueException;
+	public Account update(Account account, boolean newPassword, boolean profile) throws UniqueException;
 
 	/**
 	 * Delete.
 	 *
-	 * @param id the id
+	 * @param account the account
 	 */
-	public void delete(Long id);
+	public void delete(Account account);
 
 	/**
 	 * Subscribe Account.
 	 *
-	 * @param id the id
+	 * @param account the account
 	 */
-	public void subscribe(Long id);
+	public void subscribe(Account account);
 
 	/**
 	 * Unsubscribe.
 	 *
-	 * @param id the id
+	 * @param account the account
 	 */
-	public void unsubscribe(Long id);
+	public void unsubscribe(Account account);
 
 	/**
 	 * Find by dni.

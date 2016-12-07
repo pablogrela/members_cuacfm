@@ -132,7 +132,7 @@ public class SignupController {
 			Account account;
 			account = accountService.save(signupForm.createAccount());
 			account.setProgramName(signupForm.getProgramName());
-			accountService.update(account, false);
+			accountService.update(account, false, true);
 			userService.signin(account);
 		} catch (UniqueException e) {
 			if (e.getAttribute() == "Dni") {

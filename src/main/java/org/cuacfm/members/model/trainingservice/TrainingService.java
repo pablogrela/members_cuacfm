@@ -63,7 +63,7 @@ public interface TrainingService {
     * @throws ExistInscriptionsException
     * @throws UniqueException
     */
-   public void delete(Long id) throws ExistInscriptionsException, UniqueException;
+   public void delete(Training training) throws ExistInscriptionsException, UniqueException;
 
    /**
     * Find by id returns user which has this identifier.

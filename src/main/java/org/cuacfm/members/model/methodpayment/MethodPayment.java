@@ -23,111 +23,111 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /** The Class MethodPayment. */
-@SuppressWarnings("serial")
 @Entity
 public class MethodPayment implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	private static final long serialVersionUID = 1L;
 
-   /** The name. */
-   @Column(unique = true)
-   private String name;
+	/** The id. */
+	@Id
+	@GeneratedValue
+	private Long id;
 
-   /** The direct debit. */
-   private boolean directDebit;
+	/** The name. */
+	@Column(unique = true)
+	private String name;
 
-   /** The description. */
-   private String description;
+	/** The direct debit. */
+	private boolean directDebit;
 
-   /** Instantiates a new method payment.*/
-   protected MethodPayment() {
-      // Default empty constructor.
-   }
+	/** The description. */
+	private String description;
 
-   /**
-    * Instantiates a new method payment.
-    *
-    * @param name
-    *           the name
-    * @param directDebit
-    *           the direct debit
-    * @param description
-    *           the description
-    */
-   public MethodPayment(String name, boolean directDebit, String description) {
-      super();
-      this.name = name;
-      this.directDebit = directDebit;
-      this.description = description;
-   }
+	/** Instantiates a new method payment. */
+	protected MethodPayment() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	/**
+	 * Instantiates a new method payment.
+	 *
+	 * @param name the name
+	 * @param directDebit the direct debit
+	 * @param description the description
+	 */
+	public MethodPayment(String name, boolean directDebit, String description) {
+		super();
+		this.name = name;
+		this.directDebit = directDebit;
+		this.description = description;
+	}
 
-   /**
-    * Gets the name.
-    *
-    * @return the name
-    */
-   public String getName() {
-      return name;
-   }
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-   /**
-    * Sets the name.
-    *
-    * @param name
-    *           the new name
-    */
-   public void setName(String name) {
-      this.name = name;
-   }
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-   /**
-    * Gets the description.
-    *
-    * @return the description
-    */
-   public String getDescription() {
-      return description;
-   }
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /**
-    * Sets the description.
-    *
-    * @param description
-    *           the new description
-    */
-   public void setDescription(String description) {
-      this.description = description;
-   }
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
 
-   /**
-    * Checks if is direct debit.
-    *
-    * @return true, if is direct debit
-    */
-   public boolean isDirectDebit() {
-      return directDebit;
-   }
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-   /**
-    * Sets the direct debit.
-    *
-    * @param directDebit
-    *           the new direct debit
-    */
-   public void setDirectDebit(boolean directDebit) {
-      this.directDebit = directDebit;
-   }
+	/**
+	 * Checks if is direct debit.
+	 *
+	 * @return true, if is direct debit
+	 */
+	public boolean isDirectDebit() {
+		return directDebit;
+	}
+
+	/**
+	 * Sets the direct debit.
+	 *
+	 * @param directDebit the new direct debit
+	 */
+	public void setDirectDebit(boolean directDebit) {
+		this.directDebit = directDebit;
+	}
+
+	@Override
+	public String toString() {
+		return "MethodPayment [id=" + id + ", name=" + name + ", directDebit=" + directDebit + ", description=" + description + "]";
+	}
 
 }

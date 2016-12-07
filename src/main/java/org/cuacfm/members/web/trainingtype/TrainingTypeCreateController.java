@@ -33,62 +33,53 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TrainingTypeCreateController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
-   private static final String TRAINING_VIEW_NAME = "trainingtype/trainingtypecreate";
+	private static final String TRAINING_VIEW_NAME = "trainingtype/trainingtypecreate";
 
-   /** The training service. */
-   @Autowired
-   private TrainingTypeService trainingTypeService;
+	@Autowired
+	private TrainingTypeService trainingTypeService;
 
-   /**
-    * Instantiates a new trainingTypeController.
-    */
-   public TrainingTypeCreateController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Instantiates a new trainingTypeController.
+	 */
+	public TrainingTypeCreateController() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Training.
-    *
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "trainingTypeList/trainingTypeCreate")
-   public String training(Model model) {
-      model.addAttribute(new TrainingTypeForm());
-      return TRAINING_VIEW_NAME;
-   }
+	/**
+	 * Training.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "trainingTypeList/trainingTypeCreate")
+	public String training(Model model) {
+		model.addAttribute(new TrainingTypeForm());
+		return TRAINING_VIEW_NAME;
+	}
 
-   /**
-    * Training.
-    *
-    * @param trainingForm
-    *           the training form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "trainingTypeList/trainingTypeCreate", method = RequestMethod.POST)
-   public String trainingType(@Valid @ModelAttribute TrainingTypeForm trainingTypeForm,
-         Errors errors, RedirectAttributes ra) {
+	/**
+	 * Training.
+	 *
+	 * @param trainingForm the training form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "trainingTypeList/trainingTypeCreate", method = RequestMethod.POST)
+	public String trainingType(@Valid @ModelAttribute TrainingTypeForm trainingTypeForm, Errors errors, RedirectAttributes ra) {
 
-      if (errors.hasErrors()) {
-         return TRAINING_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return TRAINING_VIEW_NAME;
+		}
 
-      try {
-         trainingTypeService.save(trainingTypeForm.createTrainingType());
-      } catch (UniqueException e) {
-         errors.rejectValue("name", "trainingType.existentName", new Object[] { e.getValue() },
-               "name");
-         return TRAINING_VIEW_NAME;
-      }
+		try {
+			trainingTypeService.save(trainingTypeForm.createTrainingType());
+		} catch (UniqueException e) {
+			errors.rejectValue("name", "trainingType.existentName", new Object[] { e.getValue() }, "name");
+			return TRAINING_VIEW_NAME;
+		}
 
-      MessageHelper.addSuccessAttribute(ra, "trainingType.successCreate",
-            trainingTypeForm.getName());
-      return "redirect:/trainingTypeList";
-   }
+		MessageHelper.addSuccessAttribute(ra, "trainingType.successCreate", trainingTypeForm.getName());
+		return "redirect:/trainingTypeList";
+	}
 }

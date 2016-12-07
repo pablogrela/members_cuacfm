@@ -23,9 +23,11 @@ import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.account.AccountRepository;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.bankaccount.BankAccountRepository;
-import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
+import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,29 +35,22 @@ import org.springframework.stereotype.Service;
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
-	/** The account repository. */
 	@Autowired
 	private AccountRepository accountRepository;
 
 	@Autowired
 	private BankAccountRepository bankAccountRepository;
 
-	/** The password encoder. */
+	@Autowired
+	private EventService eventService;
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	/** Instantiates a new account service. */
 	public AccountServiceImpl() {
 		// Default empty constructor.
 	}
 
-	/**
-	 * Save, saves an account into database.
-	 *
-	 * @param account the account
-	 * @return the account
-	 * @throws UniqueException
-	 */
 	@Override
 	public Account save(Account account) throws UniqueException {
 
@@ -75,19 +70,16 @@ public class AccountServiceImpl implements AccountService {
 		}
 
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
-		return accountRepository.save(account);
+		Account accountNew = accountRepository.save(account);
+
+		Object[] arguments = { account.getName() };
+		eventService.save("account.successModify", accountNew, 3, arguments);
+
+		return accountNew;
 	}
 
-	/**
-	 * Update, updates an user registered into bd depending if he wants to update his password or not.
-	 *
-	 * @param account the account
-	 * @param passwordUpdate the passwordUpdate
-	 * @return the account
-	 * @throws UniqueException
-	 */
 	@Override
-	public Account update(Account account, boolean newPassword) throws UniqueException {
+	public Account update(Account account, boolean newPassword, boolean profile) throws UniqueException {
 
 		// It is verified that there is not exist dni
 		Account accountSearch = accountRepository.findByDni(account.getDni());
@@ -110,107 +102,63 @@ public class AccountServiceImpl implements AccountService {
 		if (newPassword) {
 			account.setPassword(passwordEncoder.encode(account.getPassword()));
 		}
-		return accountRepository.update(account);
+		Account accountUpdate = accountRepository.update(account);
+
+		// Save Message Event
+		if (profile) {
+			Object[] arguments = { account.getName() };
+			eventService.save("profile.success", accountUpdate, 3, arguments);
+		} else {
+			eventService.save("account.admin.successModify", accountUpdate, 3);
+		}
+
+		return accountUpdate;
 	}
 
-	/**
-	 * Delete.
-	 *
-	 * @param id the id
-	 * @throws ExistInscriptionsException the exist inscriptions exception
-	 */
 	@Override
-	public void delete(Long id) {
-		accountRepository.delete(id);
+	public void delete(Account account) {
+		accountRepository.delete(account);
 	}
 
-	/**
-	 * Subscribe Account.
-	 *
-	 * @param id the id
-	 */
 	@Override
-	public void subscribe(Long id) {
-
-		Account account = accountRepository.findById(id);
+	public void subscribe(Account account) {
 		account.setActive(true);
 		accountRepository.update(account);
+		eventService.save("account.admin.successSubscribe", account, 3);
 	}
 
-	/**
-	 * Unsubscribe Account.
-	 *
-	 * @param id the id
-	 */
 	@Override
-	public void unsubscribe(Long id) {
-
-		Account account = accountRepository.findById(id);
+	public void unsubscribe(Account account) {
 		account.setActive(false);
 		accountRepository.update(account);
+		eventService.save("account.admin.successUnsubscribe", account, 3);
 	}
 
-	/**
-	 * Find by dni.
-	 *
-	 * @param dni the dni
-	 * @return the account
-	 */
 	@Override
 	public Account findByDni(String dni) {
 		return accountRepository.findByDni(dni);
 	}
 
-	/**
-	 * Find by email returns user which has this email.
-	 *
-	 * @param email the email
-	 * @return the account
-	 */
 	@Override
 	public Account findByEmail(String email) {
 		return accountRepository.findByEmail(email);
 	}
 
-	/**
-	 * Find by id returns user which has this identifier.
-	 *
-	 * @param id the id
-	 * @return the account
-	 */
 	@Override
 	public Account findByLogin(String login) {
 		return accountRepository.findByLogin(login);
 	}
 
-	/**
-	 * Find by id returns user which has this identifier.
-	 *
-	 * @param id the id
-	 * @return the account
-	 */
 	@Override
 	public Account findById(Long id) {
 		return accountRepository.findById(id);
 	}
 
-	/**
-	 * Match password check if password match with the user.
-	 *
-	 * @param account the account
-	 * @param rawPassword the raw password
-	 * @return true, if successful
-	 */
 	@Override
 	public boolean matchPassword(Account account, String rawPassword) {
 		return accountRepository.matchPassword(account, rawPassword);
 	}
 
-	/**
-	 * Gets the users.
-	 *
-	 * @return the users
-	 */
 	@Override
 	public List<Account> getUsers() {
 		return accountRepository.getUsers();
@@ -230,7 +178,7 @@ public class AccountServiceImpl implements AccountService {
 	public List<Account> getAccountsOrderByActive() {
 		return accountRepository.getAccountsOrderByActive();
 	}
-	
+
 	@Override
 	public List<AccountDTO> getAccountsDTO() {
 
@@ -278,6 +226,16 @@ public class AccountServiceImpl implements AccountService {
 
 		String mandate = bankAccount.getAccount().getId() + "_" + bankAccount.getAccount().getDni() + "_" + id;
 		bankAccount.setMandate(mandate);
+
+		// Save Message Event
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String adminName = null;
+		if (auth != null) {
+			adminName = auth.getName();
+		}
+		Object[] arguments = { adminName, bankAccount.getAccount().getName(), bankAccount.getBank() };
+		eventService.save("account.admin.successCreateBankAccount", bankAccount.getAccount(), 3, arguments);
+
 		return bankAccountRepository.save(bankAccount);
 	}
 
@@ -289,6 +247,8 @@ public class AccountServiceImpl implements AccountService {
 	 */
 	@Override
 	public BankAccount activeBankAccountByAccountId(Long accountId) {
+		//		eventRepository.save(new Event(bankAccount.getAccount(), new Date(), 3, "prueba"));
 		return bankAccountRepository.activeBankAccountByAccountId(accountId);
 	}
+
 }

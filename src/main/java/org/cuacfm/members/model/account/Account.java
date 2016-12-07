@@ -16,7 +16,6 @@
 package org.cuacfm.members.model.account;
 
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
@@ -38,14 +37,9 @@ import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.program.Program;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-
 /** The Class Account. */
 @Entity
-public class Account implements Serializable, JsonSerializer<Account> {
+public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -619,18 +613,8 @@ public class Account implements Serializable, JsonSerializer<Account> {
 		return "Account [id=" + id + ", name=" + name + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address + ", cp=" + cp
 				+ ", province=" + province + ", codeCountry=" + codeCountry + ", login=" + login + ", email=" + email + ", phone=" + phone
 				+ ", mobile=" + mobile + ", password=" + password + ", methodPayment=" + methodPayment + ", accountType=" + accountType
-				+ ", programs=" + programs + ", bankAccounts=" + bankAccounts + ", installments=" + installments + ", active=" + active + ", student="
-				+ student + ", dateBirth=" + dateBirth + ", observations=" + observations + ", programName=" + programName + ", role=" + role + "]";
-	}
-
-	@Override
-	public JsonElement serialize(Account src, Type typeOfSrc, JsonSerializationContext context) {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id", id);
-        jsonObject.addProperty("login", login);
-        jsonObject.addProperty("address", address);
-        jsonObject.addProperty("email", email);
-        return jsonObject;    
+				+ ", bankAccounts=" + bankAccounts + ", installments=" + installments + ", active=" + active + ", student=" + student + ", dateBirth="
+				+ dateBirth + ", observations=" + observations + ", programName=" + programName + ", role=" + role + "]";
 	}
 
 }

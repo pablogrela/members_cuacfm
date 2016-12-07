@@ -16,8 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{userPayments.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -30,8 +29,7 @@
 		<!-- /* Handle the flash message */-->
 		<th:block th:if="${message != null}">
 			<!-- /* The message code is returned from the @Controller */ -->
-			<div
-				th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
 					message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 		</th:block>
 	</div>
@@ -49,7 +47,7 @@
 
 
 		<!-- Table List of Training Types -->
-		<table class="table table-striped table-hover table-responsive" id="customTable">
+		<table class="display" id="customTable">
 			<thead class="table-bordered">
 				<tr>
 					<th th:text="#{user}">Name</th>
@@ -67,20 +65,19 @@
 				<!-- Table entry -->
 				<tr th:each="payMember : ${payMembers}">
 					<td th:text="${payMember.account.name}">name</td>
-					<td th:if="${payMember.account.accountType != null}"
-						th:text="${payMember.account.accountType.name}">Account Type</td>
-					<td th:if="${payMember.account.accountType == null}" th:text="${payMember.account.accountType}">Account
-						Type</td>
+					<td th:if="${payMember.account.accountType != null}" th:text="${payMember.account.accountType.name}">Account Type</td>
+					<td th:if="${payMember.account.accountType == null}" th:text="${payMember.account.accountType}">Account Type</td>
 					<td th:text="${payMember.feeMember.year}">2015</td>
 					<td th:text="${payMember.price}">price</td>
 					<td th:text="#{${'states.' + payMember.state}}">State</td>
 					<td th:text="#{${'methods.' + payMember.method}}">Method</td>
-					<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">
-						installment of installments</td>
+					<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of installments</td>
 
 					<!-- Pay inscription -->
-					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.States.states).NO_PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.States.states).RETURN_BILL}" class="text-center">
+					<td
+						th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
+						class="text-center">
 						<!--<form th:action="@{'userPayments/pay/'+${payMember.id}}" method="post">
 							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{pay}"
 								style="color: green"></button>
@@ -117,8 +114,9 @@
 					</td>
 
 					<!-- Fill table entry, pay inscription -->
-					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.States.states).PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}"></td>
+					<td
+						th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -150,15 +148,17 @@
 				<tr th:each="payProgram : ${payPrograms}">
 					<td th:text="${payProgram.program.name}">name</td>
 					<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
-					<td th:text="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}"> May of 2015</td>
+					<td th:text="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
 					<td th:text="${payProgram.price}">price</td>
 					<td th:text="#{${'states.' + payProgram.state}}">State</td>
 					<td th:text="#{${'methods.' + payProgram.method}}">Method</td>
 					<td th:text="${payProgram.accountPayer}">mobile</td>
 
 					<!-- Pay Program -->
-					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.States.states).NO_PAY} or
-						${payProgram.state == T(org.cuacfm.members.model.util.States.states).RETURN_BILL}" class="text-center">
+					<td
+						th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+						${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
+						class="text-center">
 						<!-- Form for pay in paypal -->
 						<form name='formTpv' method='post' th:action="#{paypalUrl}">
 							<input type='hidden' name='cmd' value='_xclick' />
@@ -190,10 +190,11 @@
 							<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
 						</form>
 					</td>
-					
+
 					<!-- Fill table entry, pay inscription -->
-					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.States.states).PAY} or
-						${payProgram.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}"></td>
+					<td
+						th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
+						${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></td>
 				</tr>
 			</tbody>
 		</table>

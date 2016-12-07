@@ -53,7 +53,7 @@ public interface TrainingTypeService {
     * @return TrainingType
     * @throws ExistTrainingsException
     */
-   public void delete(Long id) throws ExistTrainingsException;
+   public void delete(TrainingType trainingType) throws ExistTrainingsException;
 
    /**
     * Find by Name the trainingType

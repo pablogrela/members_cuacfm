@@ -298,7 +298,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(trainingUpdate.getName(), training.getName());
 
 		// Delete, no trainings
-		trainingService.delete(training.getId());
+		trainingService.delete(training);
 		assertEquals(trainingService.getTrainingList().size(), 0);
 
 		trainingService.deleteInscription(Long.valueOf(0), Long.valueOf(0));
@@ -332,11 +332,11 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(trainingTypeSarched.isHasTrainings(), true);
 
 		// Delete, 1 training
-		trainingService.delete(training.getId());
+		trainingService.delete(training);
 		assertEquals(trainingService.getTrainingList().size(), 1);
 
 		// Delete, no trainings
-		trainingService.delete(training2.getId());
+		trainingService.delete(training2);
 		trainingTypeSarched = trainingTypeService.findById(training.getTrainingType().getId());
 		assertEquals(trainingTypeSarched.isHasTrainings(), false);
 	}
@@ -370,7 +370,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.createInscription(account.getId(), training.getId());
 
 		// Delete
-		trainingService.delete(training.getId());
+		trainingService.delete(training);
 	}
 
 	/**
@@ -806,7 +806,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		Account account3 = new Account("user3", "55555555F", "London", "user3", "user3@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account3);
 		account3.setNickName("terminataror");
-		accountService.update(account3, false);
+		accountService.update(account3, false, true);
 
 		// Assert
 		List<String> payMembers = trainingService.getUsernamesByInscription(training.getId());

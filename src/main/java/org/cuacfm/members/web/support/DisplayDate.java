@@ -17,6 +17,8 @@ package org.cuacfm.members.web.support;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -233,6 +235,31 @@ public class DisplayDate {
 		return dateFormat.format(monthOfYear);
 	}
 
+
+	/**
+	 * Format.
+	 *
+	 * @param date the date
+	 * @param format the format
+	 * @return the string
+	 */
+	public static String format(LocalDateTime date, String format) {
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(format);
+		return dateFormat.format(date);
+	}
+	
+	/**
+	 * Format.
+	 *
+	 * @param date the date
+	 * @param format the format
+	 * @return the string
+	 */
+	public static String format(Date date, String format) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+		return dateFormat.format(date);
+	}
+	
 	/**
 	 * Month Of Year to string.
 	 *

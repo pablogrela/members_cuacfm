@@ -34,7 +34,7 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
-import org.cuacfm.members.model.util.States.states;
+import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
@@ -92,7 +92,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(2);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -150,12 +150,12 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(1);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       account.setAccountType(accountType);
       account.setMethodPayment(methodPayment);
       account.setInstallments(2);
-      accountService.update(account, false);
+      accountService.update(account, false, true);
 
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -215,12 +215,12 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(1);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       account.setAccountType(accountType);
       account.setMethodPayment(methodPayment);
       account.setInstallments(2);
-      accountService.update(account, false);
+      accountService.update(account, false, true);
 
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -261,12 +261,12 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(1);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       account.setAccountType(accountType);
       account.setMethodPayment(methodPayment);
       account.setInstallments(2);
-      accountService.update(account, false);
+      accountService.update(account, false, true);
 
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -312,12 +312,12 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(1);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       account.setAccountType(accountType);
       account.setMethodPayment(methodPayment);
       account.setInstallments(2);
-      accountService.update(account, false);
+      accountService.update(account, false, true);
 
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -355,7 +355,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(2);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -394,7 +394,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(2);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
             DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
@@ -476,7 +476,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account3);
       account3.setNickName("terminataror");
-      accountService.update(account3, false);
+      accountService.update(account3, false, true);
 
       // Assert
       List<String> payMembers = payMemberService.getUsernamesByFeeMember(feeMember.getId());

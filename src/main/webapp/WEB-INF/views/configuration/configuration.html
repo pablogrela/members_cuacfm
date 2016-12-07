@@ -240,7 +240,7 @@
 					<!-- Delete MethodPayment -->
 					<td>
 						<form th:action="@{'configuration/methodPaymentDelete/'+${methodPayment.id}}" method="post">
-							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{accountType.infoRemove}"
+							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{methodPayment.infoRemove}"
 								style="color: red" onclick="evaluateModal(this.form, modal2, accept2)"></button>
 						</form>
 					</td>

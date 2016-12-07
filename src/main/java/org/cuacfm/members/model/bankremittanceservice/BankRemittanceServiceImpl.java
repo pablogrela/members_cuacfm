@@ -27,14 +27,15 @@ import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.bankremittance.BankRemittanceRepository;
 import org.cuacfm.members.model.directdebit.DirectDebit;
 import org.cuacfm.members.model.directdebit.DirectDebitRepository;
+import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
-import org.cuacfm.members.model.util.States.methods;
-import org.cuacfm.members.model.util.States.states;
-import org.cuacfm.members.web.support.CreatePayRoll;
+import org.cuacfm.members.model.util.Constants.methods;
+import org.cuacfm.members.model.util.Constants.states;
+import org.cuacfm.members.model.util.CreatePayRoll;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -45,32 +46,27 @@ import org.springframework.stereotype.Service;
 @Service("directDebitService")
 public class BankRemittanceServiceImpl implements BankRemittanceService {
 
-	/** The direct debit repository. */
+	@Autowired
+	private MessageSource messageSource;
+
 	@Autowired
 	private DirectDebitRepository directDebitRepository;
 
-	/** The bank remittance repository. */
 	@Autowired
 	private BankRemittanceRepository bankRemittanceRepository;
 
-	/** The account service. */
 	@Autowired
 	private AccountService accountService;
 
-	/** The PayMemberService. */
 	@Autowired
 	private PayMemberService payMemberService;
 
-	/** The pay program service. */
 	@Autowired
 	private PayProgramService payProgramService;
 
-	/**
-	 * Creates the bank remittance.
-	 *
-	 * @param dateCharge the date charge
-	 * @param monthCharge the month charge
-	 */
+	@Autowired
+	private EventService eventService;
+
 	@Override
 	public void createBankRemittance(Date dateCharge, Date monthCharge) {
 
@@ -111,71 +107,59 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 				directDebitRepository.save(directDebit);
 			}
 		}
+		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
+		eventService.save("bankRemittance.successCreate", null, 2, arguments);
 	}
 
-	/**
-	 * Update.
-	 *
-	 * @param bankRemittance the bank remittance
-	 * @return the bank remittance
-	 */
 	@Override
 	public BankRemittance update(BankRemittance bankRemittance) {
+		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
+		eventService.save("bankRemittance.successManagement", null, 2, arguments);
 		return bankRemittanceRepository.update(bankRemittance);
 	}
 
 	/**
 	 * Update state bank remittance.
 	 *
-	 * @param bankRemittanceId the bank remittance id
+	 * @param bankRemittance the bank remittance
 	 * @param state the state
 	 * @param method the method
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public void updateStateBankRemittance(Long bankRemittanceId, states state, methods method) throws ExistTransactionIdException {
-		BankRemittance bankRemittance = bankRemittanceRepository.findById(bankRemittanceId);
+	private void updateStateBankRemittance(BankRemittance bankRemittance, states state, methods method) throws ExistTransactionIdException {
 		bankRemittance.setState(state);
 		bankRemittanceRepository.update(bankRemittance);
 		for (DirectDebit directDebit : directDebitRepository.getDirectDebitListByBankRemittanceId(bankRemittance.getId())) {
 			if (!directDebit.getState().equals(states.RETURN_BILL)) {
-				updateStateDirectDebit(directDebit.getId(), state, method, bankRemittance.getDateCharge());
+				updateStateDirectDebit(directDebit, state, method, bankRemittance.getDateCharge());
 			}
 		}
 	}
 
-	/**
-	 * Pay bank remittance.
-	 *
-	 * @param bankRemittanceId the bank remittance id
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
 	@Override
-	public void payBankRemittance(Long bankRemittanceId) throws ExistTransactionIdException {
-		updateStateBankRemittance(bankRemittanceId, states.PAY, methods.DIRECTDEBIT);
+	public void payBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException {
+		updateStateBankRemittance(bankRemittance, states.PAY, methods.DIRECTDEBIT);
+		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
+		eventService.save("bankRemittance.successPay", null, 2, arguments);
 	}
 
-	/**
-	 * Management bank remittance.
-	 *
-	 * @param bankRemittanceId the bank remittance id
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
 	@Override
-	public void managementBankRemittance(Long bankRemittanceId) throws ExistTransactionIdException {
-		updateStateBankRemittance(bankRemittanceId, states.MANAGEMENT, methods.NO_PAY);
+	public void managementBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException {
+		updateStateBankRemittance(bankRemittance, states.MANAGEMENT, methods.NO_PAY);
+		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
+		eventService.save("bankRemittance.successManagement", null, 2, arguments);
 	}
 
 	/**
 	 * Update state direct debit.
 	 *
-	 * @param directDebitId the direct debit id
+	 * @param directDebit the direct debit
 	 * @param state the state
 	 * @param method the method
 	 * @param datePay the date pay
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public void updateStateDirectDebit(Long directDebitId, states state, methods method, Date datePay) throws ExistTransactionIdException {
-		DirectDebit directDebit = directDebitRepository.findById(directDebitId);
+	private void updateStateDirectDebit(DirectDebit directDebit, states state, methods method, Date datePay) throws ExistTransactionIdException {
 		directDebit.setState(state);
 		directDebitRepository.update(directDebit);
 
@@ -198,102 +182,54 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 		}
 	}
 
-	/**
-	 * Pay direct debit.
-	 *
-	 * @param directDebitId the direct debit id
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
 	@Override
-	public void payDirectDebit(Long directDebitId) throws ExistTransactionIdException {
-		updateStateDirectDebit(directDebitId, states.PAY, methods.DIRECTDEBIT, new Date());
+	public void payDirectDebit(DirectDebit directDebit) throws ExistTransactionIdException {
+		updateStateDirectDebit(directDebit, states.PAY, methods.DIRECTDEBIT, new Date());
+		Object[] arguments = { directDebit.getConcept() + " " + directDebit.getAccount().getName() };
+		eventService.save("directDebit.successPay", null, 2, arguments);
 	}
 
-	/**
-	 * Return bill.
-	 *
-	 * @param directDebitId the direct debit id
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
 	@Override
-	public void returnBill(Long directDebitId) throws ExistTransactionIdException {
-		updateStateDirectDebit(directDebitId, states.RETURN_BILL, methods.NO_PAY, null);
+	public void returnBill(DirectDebit directDebit) throws ExistTransactionIdException {
+		updateStateDirectDebit(directDebit, states.RETURN_BILL, methods.NO_PAY, null);
+		Object[] arguments = { directDebit.getConcept() + " " + directDebit.getAccount().getName() };
+		eventService.save("directDebit.successReturnBill", null, 2, arguments);
 	}
 
-	/**
-	 * Management direct debit.
-	 *
-	 * @param directDebitId the direct debit id
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
 	@Override
-	public void managementDirectDebit(Long directDebitId) throws ExistTransactionIdException {
-		updateStateDirectDebit(directDebitId, states.MANAGEMENT, methods.NO_PAY, new Date());
+	public void managementDirectDebit(DirectDebit directDebit) throws ExistTransactionIdException {
+		updateStateDirectDebit(directDebit, states.MANAGEMENT, methods.NO_PAY, new Date());
+		Object[] arguments = { directDebit.getConcept() + " " + directDebit.getAccount().getName() };
+		eventService.save("directDebit.successPay", null, 2, arguments);
 	}
 
-	/**
-	 * Find by id.
-	 *
-	 * @param id the id
-	 * @return the bank remittance
-	 */
 	@Override
 	public BankRemittance findById(Long id) {
 		return bankRemittanceRepository.findById(id);
 	}
 
-	/**
-	 * Gets the bank remittance list.
-	 *
-	 * @return the bank remittance list
-	 */
 	@Override
 	public List<BankRemittance> getBankRemittanceList() {
 		return bankRemittanceRepository.getBankRemittanceList();
 	}
 
-	/**
-	 * Update direct debit.
-	 *
-	 * @param directDebit the direct debit
-	 * @return the direct debit
-	 */
 	@Override
 	public DirectDebit updateDirectDebit(DirectDebit directDebit) {
 		return directDebitRepository.update(directDebit);
 	}
 
-	/**
-	 * Find by direct debit id.
-	 *
-	 * @param directDebitId the direct debit id
-	 * @return the direct debit
-	 */
 	@Override
 	public DirectDebit findByDirectDebitId(Long directDebitId) {
 		return directDebitRepository.findById(directDebitId);
 	}
 
-	/**
-	 * Gets the direct debit list by bank remittance id.
-	 *
-	 * @param bankRemittanceId the bank remittance id
-	 * @return the direct debit list by bank remittance id
-	 */
 	@Override
 	public List<DirectDebit> getDirectDebitListByBankRemittanceId(Long bankRemittanceId) {
 		return directDebitRepository.getDirectDebitListByBankRemittanceId(bankRemittanceId);
 	}
 
-	/**
-	 * create Txt Bank Remittance.
-	 *
-	 * @param messageSource the message source
-	 * @param bankRemittanceId the bank remittance id
-	 * @return the response entity
-	 */
 	@Override
-	public ResponseEntity<byte[]> createTxtBankRemittance(MessageSource messageSource, Long bankRemittanceId) {
+	public ResponseEntity<byte[]> createTxtBankRemittance(Long bankRemittanceId) {
 
 		BankRemittance bankRemittance = bankRemittanceRepository.findById(bankRemittanceId);
 		Date date = new Date();

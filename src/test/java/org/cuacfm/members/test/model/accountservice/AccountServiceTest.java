@@ -172,7 +172,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 
       Account account3 = new Account("user", "55555555C", "London", "user2", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.update(account3, false);
+      accountService.update(account3, false, true);
    }
 
    /**
@@ -193,7 +193,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
 
       Account account3 = new Account("user", "55555555C", "London", "user", "email2@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.update(account3, false);
+      accountService.update(account3, false, true);
    }
 
    /**
@@ -247,7 +247,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       savedAccount.setRole(roles.ROLE_ADMIN);
       savedAccount.setLogin("user2");
       /* updating */
-      Account updatedAccount = accountService.update(savedAccount, false);
+      Account updatedAccount = accountService.update(savedAccount, false, true);
       assertEqualAccounts(updatedAccount, savedAccount);
       Account searchedAccount = accountService.findByEmail("user2@user2.es");
       assertEqualAccounts(searchedAccount, updatedAccount);
@@ -280,7 +280,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       savedAccount.setObservations("observations");
 
       /* updating */
-      Account updatedAccount = accountService.update(savedAccount, true);
+      Account updatedAccount = accountService.update(savedAccount, true, true);
 
       assertEquals(updatedAccount.getEmail(), savedAccount.getEmail());
       assertEquals(updatedAccount.getLogin(), savedAccount.getLogin());
@@ -399,11 +399,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       accountService.save(user);
 
       // Assert, Unsubscribe
-      accountService.unsubscribe(user.getId());
+      accountService.unsubscribe(user);
       assertEquals(user.isActive(), false);
 
       // Assert, Subscribe
-      accountService.subscribe(user.getId());
+      accountService.subscribe(user);
       assertEquals(user.isActive(), true);
    }
 
@@ -430,7 +430,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(2);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       // Assert
       Account accountSearched = accountService.findById(user.getId());

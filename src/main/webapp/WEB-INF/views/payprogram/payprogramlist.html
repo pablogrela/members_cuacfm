@@ -69,7 +69,7 @@
 	<div class="container" th:unless="${#lists.isEmpty(payPrograms)}">
 
 		<!-- Table List of pay program -->
-		<table class="table table-striped table-hover table-responsive" id="customTable">
+		<table class="display" id="customTable">
 			<thead class="table-bordered">
 				<tr>
 					<th th:text="#{program}">Program</th>
@@ -103,8 +103,8 @@
 
 
 					<!-- Pay payProgram -->
-					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.States.states).NO_PAY} or
-						${payProgram.state == T(org.cuacfm.members.model.util.States.states).RETURN_BILL}" class="text-center">
+					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+						${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}" class="text-center">
 						<form th:action="@{'payProgramList/pay/'+${payProgram.id}}" method="post">
 							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 						</form>
@@ -112,8 +112,8 @@
 
 
 					<!-- Fill table entry, pay program -->
-					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.States.states).PAY} or
-						${payProgram.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}"></td>
+					<td th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
+						${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></td>
 				</tr>
 			</tbody>
 		</table>

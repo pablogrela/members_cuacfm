@@ -25,7 +25,6 @@ import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,128 +38,103 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class BankRemittanceListController {
 
-   /** The Constant BANKREMITTANCE_VIEW_NAME. */
-   private static final String BANKREMITTANCE_VIEW_NAME = "bankremittance/bankremittancelist";
+	private static final String BANKREMITTANCE_VIEW_NAME = "bankremittance/bankremittancelist";
+	private static final String REDIRECT_BANKREMITTANCE = "redirect:/bankRemittanceList";
 
-   /** The Constant BANKREMITTANCE_DIRECTDEBIT. */
-   private static final String REDIRECT_BANKREMITTANCE = "redirect:/bankRemittanceList";
+	@Autowired
+	private BankRemittanceService bankRemittanceService;
 
-   /** The message source. */
-   @Autowired
-   private MessageSource messageSource;
+	private List<BankRemittance> bankRemittances;
 
-   /** The BankRemittanceService. */
-   @Autowired
-   private BankRemittanceService bankRemittanceService;
+	/**
+	 * Instantiates a new bank remittance list controller.
+	 */
+	public BankRemittanceListController() {
+		// Default empty constructor.
+	}
 
-   /** The bankRemittances. */
-   private List<BankRemittance> bankRemittances;
+	/**
+	 * List of BankRemittance.
+	 *
+	 * @return List<BankRemittance>
+	 */
+	@ModelAttribute("bankRemittances")
+	public List<BankRemittance> bankRemittances() {
+		return bankRemittances;
+	}
 
-   /**
-    * Instantiates a new bank remittance list controller.
-    */
-   public BankRemittanceListController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Show BankRemittance List.
+	 *
+	 * @param model the model
+	 * @return the string the view
+	 */
+	@RequestMapping(value = "bankRemittanceList")
+	public String bankRemittances(Model model) {
+		bankRemittances = bankRemittanceService.getBankRemittanceList();
+		model.addAttribute("bankRemittances", bankRemittances);
+		model.addAttribute(new BankRemittanceForm());
+		return BANKREMITTANCE_VIEW_NAME;
+	}
 
-   /**
-    * List of BankRemittance.
-    *
-    * @return List<BankRemittance>
-    */
-   @ModelAttribute("bankRemittances")
-   public List<BankRemittance> bankRemittances() {
-      return bankRemittances;
-   }
+	/**
+	 * Management bank remittance.
+	 *
+	 * @param bankRemittanceId the bank remittance id
+	 * @param ra the ra
+	 * @return the string
+	 * @throws ExistTransactionIdException the exist transaction id exception
+	 */
+	@RequestMapping(value = "bankRemittanceList/management/{bankRemittanceId}", method = RequestMethod.POST)
+	public String managementBankRemittance(@PathVariable Long bankRemittanceId, RedirectAttributes ra) throws ExistTransactionIdException {
+		BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
+		bankRemittanceService.managementBankRemittance(bankRemittance);
 
-   /**
-    * Show BankRemittance List.
-    *
-    * @param model
-    *           the model
-    * @return the string the view
-    */
-   @RequestMapping(value = "bankRemittanceList")
-   public String bankRemittances(Model model) {
-      bankRemittances = bankRemittanceService.getBankRemittanceList();
-      model.addAttribute("bankRemittances", bankRemittances);
-      model.addAttribute(new BankRemittanceForm());
-      return BANKREMITTANCE_VIEW_NAME;
-   }
+		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successManagement", DisplayDate.dateToString(bankRemittance.getDateCharge()));
+		return REDIRECT_BANKREMITTANCE;
+	}
 
-   /**
-    * Management bank remittance.
-    *
-    * @param bankRemittanceId
-    *           the bank remittance id
-    * @param ra
-    *           the ra
-    * @return the string
-    * @throws ExistTransactionIdException
-    *            the exist transaction id exception
-    */
-   @RequestMapping(value = "bankRemittanceList/management/{bankRemittanceId}", method = RequestMethod.POST)
-   public String managementBankRemittance(@PathVariable Long bankRemittanceId, RedirectAttributes ra)
-         throws ExistTransactionIdException {
-      BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
-      bankRemittanceService.managementBankRemittance(bankRemittance.getId());
+	/**
+	 * Pay.
+	 *
+	 * @param bankRemittanceId the bank remittance id
+	 * @param ra the ra
+	 * @return the string
+	 * @throws ExistTransactionIdException the exist transaction id exception
+	 */
+	@RequestMapping(value = "bankRemittanceList/pay/{bankRemittanceId}", method = RequestMethod.POST)
+	public String payBankRemittance(@PathVariable Long bankRemittanceId, RedirectAttributes ra) throws ExistTransactionIdException {
+		BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
+		bankRemittanceService.payBankRemittance(bankRemittance);
 
-      MessageHelper.addSuccessAttribute(ra, "bankRemittance.successManagement",
-            DisplayDate.dateToString(bankRemittance.getDateCharge()));
-      return REDIRECT_BANKREMITTANCE;
-   }
+		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successPay", DisplayDate.dateToString(bankRemittance.getDateCharge()));
+		return REDIRECT_BANKREMITTANCE;
+	}
 
-   /**
-    * Pay.
-    *
-    * @param bankRemittanceId
-    *           the bank remittance id
-    * @param ra
-    *           the ra
-    * @return the string
-    * @throws ExistTransactionIdException
-    *            the exist transaction id exception
-    */
-   @RequestMapping(value = "bankRemittanceList/pay/{bankRemittanceId}", method = RequestMethod.POST)
-   public String payBankRemittance(@PathVariable Long bankRemittanceId, RedirectAttributes ra)
-         throws ExistTransactionIdException {
-      BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
-      bankRemittanceService.payBankRemittance(bankRemittance.getId());
+	/**
+	 * Download bank remittance.
+	 *
+	 * @param bankRemittanceId the bank remittance id
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "bankRemittanceList/downloadBankRemittance/{bankRemittanceId}", method = RequestMethod.POST)
+	public ResponseEntity<byte[]> downloadBankRemittance(@PathVariable Long bankRemittanceId) {
+		return bankRemittanceService.createTxtBankRemittance(bankRemittanceId);
+	}
 
-      MessageHelper.addSuccessAttribute(ra, "bankRemittance.successPay",
-            DisplayDate.dateToString(bankRemittance.getDateCharge()));
-      return REDIRECT_BANKREMITTANCE;
-   }
+	/**
+	 * Creates the bank remittance.
+	 *
+	 * @param bankRemittanceForm the bank remittance form
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "bankRemittanceList", method = RequestMethod.POST)
+	public String createBankRemittance(@Valid @ModelAttribute BankRemittanceForm bankRemittanceForm, RedirectAttributes ra) {
 
-   /**
-    * Download bank remittance.
-    *
-    * @param bankRemittanceId
-    *           the bank remittance id
-    * @return the response entity
-    */
-   @RequestMapping(value = "bankRemittanceList/downloadBankRemittance/{bankRemittanceId}", method = RequestMethod.POST)
-   public ResponseEntity<byte[]> downloadBankRemittance(@PathVariable Long bankRemittanceId) {
-      return bankRemittanceService.createTxtBankRemittance(messageSource, bankRemittanceId);
-   }
-
-   /**
-    * Creates the bank remittance.
-    *
-    * @param bankRemittanceForm
-    *           the bank remittance form
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "bankRemittanceList", method = RequestMethod.POST)
-   public String createBankRemittance(@Valid @ModelAttribute BankRemittanceForm bankRemittanceForm,
-         RedirectAttributes ra) {
-
-      bankRemittanceService.createBankRemittance(
-            DisplayDate.stringToDate2(bankRemittanceForm.getDateCharge()),
-            DisplayDate.stringToMonthOfYear(bankRemittanceForm.getMonthCharge()));
-      MessageHelper.addSuccessAttribute(ra, "bankRemittance.successCreate", bankRemittanceForm.getDateCharge());
-      return REDIRECT_BANKREMITTANCE;
-   }
+		bankRemittanceService.createBankRemittance(DisplayDate.stringToDate2(bankRemittanceForm.getDateCharge()),
+				DisplayDate.stringToMonthOfYear(bankRemittanceForm.getMonthCharge()));
+		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successCreate", bankRemittanceForm.getDateCharge());
+		return REDIRECT_BANKREMITTANCE;
+	}
 }

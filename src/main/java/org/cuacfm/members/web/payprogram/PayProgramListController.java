@@ -23,7 +23,6 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,117 +37,97 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class PayProgramListController {
 
-   /** The Constant PAYPROGRAM_VIEW_NAME. */
-   private static final String PAYPROGRAM_VIEW_NAME = "payprogram/payprogramlist";
+	private static final String PAYPROGRAM_VIEW_NAME = "payprogram/payprogramlist";
+	private static final String REDIRECT_PAYPROGRAM = "redirect:/feeProgramList/payProgramList";
 
-   /** The Constant REDIRECT_PAYPROGRAM. */
-   private static final String REDIRECT_PAYPROGRAM = "redirect:/feeProgramList/payProgramList";
+	@Autowired
+	private FeeProgramService feeProgramService;
 
-   /** The message source. */
-   @Autowired
-   private MessageSource messageSource;
+	@Autowired
+	private PayProgramService payProgramService;
 
-   /** The fee program service. */
-   @Autowired
-   private FeeProgramService feeProgramService;
+	private FeeProgram feeProgram;
+	private List<PayProgram> payPrograms;
 
-   /** The pay program service. */
-   @Autowired
-   private PayProgramService payProgramService;
+	/** Instantiates a new training Controller. */
+	public PayProgramListController() {
+		// Default empty constructor.
+	}
 
-   /** The fee program. */
-   private FeeProgram feeProgram;
+	/**
+	 * Fee Program.
+	 *
+	 * @return the fee Program
+	 */
+	@ModelAttribute("feeProgram")
+	public FeeProgram feeProgram() {
+		return feeProgram;
+	}
 
-   /** The pay programs. */
-   private List<PayProgram> payPrograms;
+	/**
+	 * List of PayProgram.
+	 *
+	 * @return List<PayProgram>
+	 */
+	@ModelAttribute("payPrograms")
+	public List<PayProgram> payPrograms() {
+		return payPrograms;
+	}
 
-   /** Instantiates a new training Controller. */
-   public PayProgramListController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Pay programs.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeProgramList/payProgramList")
+	public String payPrograms(Model model) {
+		if (feeProgram != null) {
+			payPrograms = payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId());
+			model.addAttribute("payPrograms", payPrograms);
+			return PAYPROGRAM_VIEW_NAME;
+		} else {
+			return "redirect:/feeProgramList";
+		}
+	}
 
-   /**
-    * Fee Program.
-    *
-    * @return the fee Program
-    */
-   @ModelAttribute("feeProgram")
-   public FeeProgram feeProgram() {
-      return feeProgram;
-   }
+	/**
+	 * View pay programs by pay fee program id.
+	 *
+	 * @param feeProgramId the pay inscription id
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeProgramList/payProgramList/{feeProgramId}", method = RequestMethod.POST)
+	public String feeProgramList(@PathVariable Long feeProgramId) {
+		feeProgram = feeProgramService.findById(feeProgramId);
+		return REDIRECT_PAYPROGRAM;
+	}
 
-   /**
-    * List of PayProgram.
-    *
-    * @return List<PayProgram>
-    */
-   @ModelAttribute("payPrograms")
-   public List<PayProgram> payPrograms() {
-      return payPrograms;
-   }
+	/**
+	 * Pay bill fee program.
+	 *
+	 * @param payProgramId the pay program id
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeProgramList/payProgramList/pay/{payProgramId}", method = RequestMethod.POST)
+	public String payBillFeeProgram(@PathVariable Long payProgramId, RedirectAttributes ra) {
+		PayProgram payProgram = payProgramService.findById(payProgramId);
+		payProgramService.pay(payProgram);
 
-   /**
-    * Pay programs.
-    *
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "feeProgramList/payProgramList")
-   public String payPrograms(Model model) {
-      if (feeProgram != null) {
-         payPrograms = payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId());
-         model.addAttribute("payPrograms", payPrograms);
-         return PAYPROGRAM_VIEW_NAME;
-      } else {
-         return "redirect:/feeProgramList";
-      }
-   }
+		MessageHelper.addSuccessAttribute(ra, "payProgram.successPay", payProgram.getProgram().getName());
+		return REDIRECT_PAYPROGRAM;
+	}
 
-   /**
-    * View pay programs by pay fee program id.
-    *
-    * @param feeProgramId
-    *           the pay inscription id
-    * @return the string
-    */
-   @RequestMapping(value = "feeProgramList/payProgramList/{feeProgramId}", method = RequestMethod.POST)
-   public String feeProgramList(@PathVariable Long feeProgramId) {
-      feeProgram = feeProgramService.findById(feeProgramId);
-      return REDIRECT_PAYPROGRAM;
-   }
-
-   /**
-    * Pay bill fee program.
-    *
-    * @param payProgramId
-    *           the pay program id
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "feeProgramList/payProgramList/pay/{payProgramId}", method = RequestMethod.POST)
-   public String payBillFeeProgram(@PathVariable Long payProgramId, RedirectAttributes ra) {
-      PayProgram payProgram = payProgramService.findById(payProgramId);
-      payProgramService.pay(payProgram);
-
-      MessageHelper.addSuccessAttribute(ra, "payProgram.successPay", payProgram.getProgram()
-            .getName());
-      return REDIRECT_PAYPROGRAM;
-   }
-
-   /**
-    * Creates the pdf.
-    *
-    * @param payProgramId
-    *           the pay program id
-    * @param createPdf
-    *           the create pdf
-    * @return the response entity
-    */
-   @RequestMapping(value = "feeProgramList/payProgramList/createPdf/{payProgramId}", method = RequestMethod.POST, params = { "createPdf" })
-   public ResponseEntity<byte[]> createPdf(@PathVariable Long payProgramId,
-         @RequestParam("createPdf") String createPdf) {
-      return payProgramService.createPdfFeeProgram(messageSource, payProgramId, createPdf);
-   }
+	/**
+	 * Creates the pdf.
+	 *
+	 * @param payProgramId the pay program id
+	 * @param createPdf the create pdf
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "feeProgramList/payProgramList/createPdf/{payProgramId}", method = RequestMethod.POST, params = { "createPdf" })
+	public ResponseEntity<byte[]> createPdf(@PathVariable Long payProgramId, @RequestParam("createPdf") String createPdf) {
+		return payProgramService.createPdfFeeProgram(payProgramId, createPdf);
+	}
 }

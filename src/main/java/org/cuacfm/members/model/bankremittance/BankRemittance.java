@@ -22,7 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.cuacfm.members.model.util.States.states;
+import org.cuacfm.members.model.util.Constants.states;
 
 /** The Class BankRemittance. */
 @SuppressWarnings("serial")

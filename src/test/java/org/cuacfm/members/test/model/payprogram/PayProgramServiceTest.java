@@ -33,7 +33,7 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
-import org.cuacfm.members.model.util.States.states;
+import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
@@ -87,7 +87,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -142,7 +142,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -191,7 +191,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -200,20 +200,20 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
-      programService.up(program2.getId());
+      programService.up(program2);
 
       programs.add(program2);
       account2.setPrograms(programs);
-      accountService.update(account2, false);
+      accountService.update(account2, false, true);
 
       programs.add(program);
       account.setPrograms(programs);
-      accountService.update(account, false);
+      accountService.update(account, false, true);
 
       Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9,
             new ArrayList<Account>());
       programService.save(program3);
-      programService.up(program3.getId());
+      programService.up(program3);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -252,11 +252,11 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
-      programService.up(program2.getId());
+      programService.up(program2);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -293,11 +293,11 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
-      programService.up(program2.getId());
+      programService.up(program2);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -336,11 +336,11 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
-      programService.up(program2.getId());
+      programService.up(program2);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -383,11 +383,11 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
-      programService.up(program2.getId());
+      programService.up(program2);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -432,11 +432,11 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program2);
-      programService.up(program2.getId());
+      programService.up(program2);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");

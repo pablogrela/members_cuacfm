@@ -16,7 +16,7 @@
 package org.cuacfm.members.web.feemember;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 import javax.validation.Valid;
@@ -40,93 +40,84 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class FeeMemberCreateController {
 
-   /** The Constant FEEMEMBER_VIEW_NAME. */
-   private static final String FEEMEMBER_VIEW_NAME = "feemember/feemembercreate";
+	/** The Constant FEEMEMBER_VIEW_NAME. */
+	private static final String FEEMEMBER_VIEW_NAME = "feemember/feemembercreate";
 
-   /** The message source. */
-   @Autowired
-   private MessageSource messageSource;
+	/** The message source. */
+	@Autowired
+	private MessageSource messageSource;
 
-   /** The ConfigurationService. */
-   @Autowired
-   private ConfigurationService configurationService;
+	/** The ConfigurationService. */
+	@Autowired
+	private ConfigurationService configurationService;
 
-   /** The fee member service. */
-   @Autowired
-   private FeeMemberService feeMemberService;
+	/** The fee member service. */
+	@Autowired
+	private FeeMemberService feeMemberService;
 
-   /**
-    * Instantiates a new fee member Controller.
-    */
-   public FeeMemberCreateController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Instantiates a new fee member Controller.
+	 */
+	public FeeMemberCreateController() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Training.
-    *
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @SuppressWarnings("deprecation")
-   @RequestMapping(value = "feeMemberList/feeMemberCreate")
-   public String feeMember(Model model) {
+	/**
+	 * Training.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeMemberList/feeMemberCreate")
+	public String feeMember(Model model) {
 
-      FeeMemberForm feeMemberForm = new FeeMemberForm();
+		FeeMemberForm feeMemberForm = new FeeMemberForm();
 
-      String feeProgramFile = messageSource.getMessage("feeMemberName", null, Locale.getDefault());
-      feeMemberForm.setName(feeProgramFile + " " + LocalDate.now().getYear());
-      feeMemberForm.setPrice(configurationService.getConfiguration().getFeeMember());
-      feeMemberForm.setDescription(feeProgramFile + " " + LocalDate.now().getYear());
-      feeMemberForm.setYear(LocalDate.now().getYear());
-      Date dateLimit = new Date();
-      dateLimit.setMonth(2);
-      String monthLimit = DisplayDate.monthOfYearToString(dateLimit);
-      feeMemberForm.setDateLimit1(monthLimit);
-      dateLimit.setMonth(8);
-      monthLimit = DisplayDate.monthOfYearToString(dateLimit);
-      feeMemberForm.setDateLimit2(monthLimit);
-      model.addAttribute(feeMemberForm);
+		String feeProgramFile = messageSource.getMessage("feeMemberName", null, Locale.getDefault());
+		feeMemberForm.setName(feeProgramFile + " " + LocalDate.now().getYear());
+		feeMemberForm.setPrice(configurationService.getConfiguration().getFeeMember());
+		feeMemberForm.setDescription(feeProgramFile + " " + LocalDate.now().getYear());
+		feeMemberForm.setYear(LocalDate.now().getYear());
+		String monthLimit = DisplayDate.format(LocalDateTime.now().plusMonths(2), "yyyy-MM");
+		feeMemberForm.setDateLimit1(monthLimit);
+		monthLimit = DisplayDate.format(LocalDateTime.now().plusMonths(10), "yyyy-MM");
+		feeMemberForm.setDateLimit2(monthLimit);
+		model.addAttribute(feeMemberForm);
 
-      return FEEMEMBER_VIEW_NAME;
-   }
+		return FEEMEMBER_VIEW_NAME;
+	}
 
-   /**
-    * Fee member.
-    *
-    * @param feeMemberForm
-    *           the fee member form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "feeMemberList/feeMemberCreate", method = RequestMethod.POST)
-   public String feeMember(@Valid @ModelAttribute FeeMemberForm feeMemberForm, Errors errors,
-         RedirectAttributes ra) {
+	/**
+	 * Fee member.
+	 *
+	 * @param feeMemberForm the fee member form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeMemberList/feeMemberCreate", method = RequestMethod.POST)
+	public String feeMember(@Valid @ModelAttribute FeeMemberForm feeMemberForm, Errors errors, RedirectAttributes ra) {
 
-      if (errors.hasErrors()) {
-         return FEEMEMBER_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return FEEMEMBER_VIEW_NAME;
+		}
 
-      int year = feeMemberForm.getYear();
-      String name = feeMemberForm.getName();
-      try {
-         feeMemberService.save(feeMemberForm.createFeeMember());
-         // It is verified that there is not exist year of feeMember in
-         // other feeMember
-      } catch (UniqueException e) {
-         errors.rejectValue("year", "feeMember.yearException", new Object[] { year }, "year");
-      }
+		int year = feeMemberForm.getYear();
+		String name = feeMemberForm.getName();
+		try {
+			feeMemberService.save(feeMemberForm.createFeeMember());
+			// It is verified that there is not exist year of feeMember in
+			// other feeMember
+		} catch (UniqueException e) {
+			errors.rejectValue("year", "feeMember.yearException", new Object[] { year }, "year");
+		}
 
-      if (errors.hasErrors()) {
-         return FEEMEMBER_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return FEEMEMBER_VIEW_NAME;
+		}
 
-      MessageHelper.addSuccessAttribute(ra, "feeMember.successCreate", name);
-      return "redirect:/feeMemberList";
-   }
+		MessageHelper.addSuccessAttribute(ra, "feeMember.successCreate", name);
+		return "redirect:/feeMemberList";
+	}
 
 }

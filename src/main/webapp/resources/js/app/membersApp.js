@@ -1,6 +1,6 @@
 'use strict';
 
-var App = angular.module('membersApp', [ 'datatables' ]).run(function(DTDefaultOptions) {
+var membersApp = angular.module('membersApp', [ 'datatables', 'ui.bootstrap', 'ngResource'  ]).run(function(DTDefaultOptions) {
 
 	var ln = window.navigator.language || navigator.browserLanguage;
 	if (ln == 'gl') {
@@ -16,3 +16,4 @@ var App = angular.module('membersApp', [ 'datatables' ]).run(function(DTDefaultO
 	DTDefaultOptions.setDisplayLength(25);
 
 });
+

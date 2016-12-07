@@ -126,7 +126,7 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(trainingType, trainingTypeSearch);
 
 		// Delete
-		trainingTypeService.delete(trainingType.getId());
+		trainingTypeService.delete(trainingType);
 
 		// findById
 		trainingTypeSearch = trainingTypeService.findById(trainingType.getId());
@@ -141,7 +141,7 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void deleteTrainingTypeNullTest() throws ExistTrainingsException {
 		// Delete
-		trainingTypeService.delete(Long.valueOf(1));
+		trainingTypeService.delete(new TrainingType());
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Delete, ExistTrainingsException
-		trainingTypeService.delete(trainingType.getId());
+		trainingTypeService.delete(trainingType);
 	}
 
 	/**

@@ -32,20 +32,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AccountRepositoryImpl implements AccountRepository {
 
-	/** The entity manager. */
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/** The password encoder. */
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	/**
-	 * Save.
-	 *
-	 * @param account the account
-	 * @return the account
-	 */
 	@Override
 	@Transactional
 	public Account save(Account account) {
@@ -53,49 +45,22 @@ public class AccountRepositoryImpl implements AccountRepository {
 		return account;
 	}
 
-	/**
-	 * Update.
-	 *
-	 * @param account the account
-	 * @return the account
-	 */
 	@Override
 	@Transactional
 	public Account update(Account account) {
 		return entityManager.merge(account);
 	}
 
-	/**
-	 * Delete.
-	 *
-	 * @param id the id
-	 */
 	@Override
-	public void delete(Long id) {
-		Account account = findById(id);
-		if (account != null) {
+	public void delete(Account account) {
 			entityManager.remove(account);
-		}
 	}
 
-	/**
-	 * Match password.
-	 *
-	 * @param account the account
-	 * @param rawPassword the raw password
-	 * @return true, if successful
-	 */
 	@Override
 	public boolean matchPassword(Account account, String rawPassword) {
 		return passwordEncoder.matches(rawPassword, account.getPassword());
 	}
 
-	/**
-	 * Find by id.
-	 *
-	 * @param id the id of user
-	 * @return the account
-	 */
 	@Override
 	public Account findById(Long id) {
 		try {
@@ -105,12 +70,6 @@ public class AccountRepositoryImpl implements AccountRepository {
 		}
 	}
 
-	/**
-	 * Find by dni.
-	 *
-	 * @param dni the dni
-	 * @return the account
-	 */
 	@Override
 	public Account findByDni(String dni) {
 		try {
@@ -120,12 +79,6 @@ public class AccountRepositoryImpl implements AccountRepository {
 		}
 	}
 
-	/**
-	 * Find by email.
-	 *
-	 * @param email the email of user
-	 * @return the account
-	 */
 	@Override
 	public Account findByEmail(String email) {
 		try {
@@ -136,12 +89,6 @@ public class AccountRepositoryImpl implements AccountRepository {
 		}
 	}
 
-	/**
-	 * Find by login.
-	 *
-	 * @param login the login of user
-	 * @return the account
-	 */
 	@Override
 	public Account findByLogin(String login) {
 		try {
@@ -152,21 +99,11 @@ public class AccountRepositoryImpl implements AccountRepository {
 		}
 	}
 
-	/**
-	 * Gets the users.
-	 *
-	 * @return the users
-	 */
 	@Override
 	public List<Account> getUsers() {
 		return entityManager.createQuery("select a from Account a where a.role <> 'ROLE_ADMIN' and a.active = true", Account.class).getResultList();
 	}
 
-	/**
-	 * Gets the users direct debit.
-	 *
-	 * @return the users direct debit
-	 */
 	@Override
 	public List<Account> getUsersDirectDebit() {
 		return entityManager
@@ -175,11 +112,6 @@ public class AccountRepositoryImpl implements AccountRepository {
 				.getResultList();
 	}
 
-	/**
-	 * Gets the accounts.
-	 *
-	 * @return the accounts
-	 */
 	@Override
 	public List<Account> getAccounts() {
 		return entityManager.createQuery("select a from Account a", Account.class).getResultList();
@@ -190,11 +122,6 @@ public class AccountRepositoryImpl implements AccountRepository {
 		return entityManager.createQuery("select a from Account a order by a.active desc", Account.class).getResultList();
 	}
 
-	/**
-	 * Gets the name users with role=ROLE_USER an active=true.
-	 *
-	 * @return the name users
-	 */
 	@Override
 	public List<String> getUsernames() {
 		// No running Concat(a.name, ' - ', a.nickname)
@@ -203,7 +130,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 						Account.class)
 				.getResultList();
 
-		List<String> usernames = new ArrayList<String>();
+		List<String> usernames = new ArrayList<>();
 		for (Account account : accounts) {
 			if (account.getNickName() != null) {
 				usernames.add(account.getId() + ": " + account.getName() + " - " + account.getNickName());

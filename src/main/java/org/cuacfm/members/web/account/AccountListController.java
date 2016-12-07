@@ -34,11 +34,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AccountListController {
 
 	private static final String ACCOUNT_VIEW_NAME = "account/accountlist";
+	private roles rolAdmin = roles.ROLE_ADMIN;
 
 	@Autowired
 	private AccountService accountService;
-
-	private roles rolAdmin = roles.ROLE_ADMIN;
 
 	/**
 	 * Accounts.
@@ -82,12 +81,11 @@ public class AccountListController {
 	public String unsubscribe(@PathVariable Long id, RedirectAttributes ra) {
 
 		Account account = accountService.findById(id);
-		String name = account.getName();
 		if (account.getRole() == roles.ROLE_ADMIN) {
-			MessageHelper.addErrorAttribute(ra, "account.errorUnsubscribe", name);
+			MessageHelper.addErrorAttribute(ra, "account.errorUnsubscribe", account.getName());
 		} else {
-			accountService.unsubscribe(id);
-			MessageHelper.addInfoAttribute(ra, "account.successUnsubscribe", name);
+			accountService.unsubscribe(account);
+			MessageHelper.addInfoAttribute(ra, "account.successUnsubscribe", account.getName());
 		}
 		return "redirect:/accountList";
 	}
@@ -102,9 +100,9 @@ public class AccountListController {
 	@RequestMapping(value = "accountList/accountSubscribe/{id}", method = RequestMethod.POST)
 	public String subscribe(@PathVariable Long id, RedirectAttributes ra) {
 
-		String name = accountService.findById(id).getName();
-		accountService.subscribe(id);
-		MessageHelper.addInfoAttribute(ra, "account.successSubscribe", name);
+		Account account = accountService.findById(id);
+		accountService.subscribe(account);
+		MessageHelper.addInfoAttribute(ra, "account.successSubscribe", account.getName());
 		return "redirect:/accountList";
 	}
 }

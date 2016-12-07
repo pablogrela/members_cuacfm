@@ -101,7 +101,7 @@ public class FeeMemberListTest extends WebSecurityConfigurationAware {
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
 		user.setInstallments(1);
-		accountService.update(user, false);
+		accountService.update(user, false, true);
 		
 		//Create Payment
 		feeMember = new FeeMember("pay of 2016",

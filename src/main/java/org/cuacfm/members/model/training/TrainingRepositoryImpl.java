@@ -31,136 +31,68 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class TrainingRepositoryImpl implements TrainingRepository {
 
-   /** The entity manager. */
-   @PersistenceContext
-   private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-   /**
-    * Save Training.
-    *
-    * @param training
-    *           the training
-    * @return the training
-    */
-   @Override
-   @Transactional
-   public Training save(Training training) {
-      entityManager.persist(training);
-      return training;
-   }
+	@Override
+	@Transactional
+	public Training save(Training training) {
+		entityManager.persist(training);
+		return training;
+	}
 
-   /**
-    * Update Training.
-    *
-    * @param training
-    *           the training
-    * @return the training
-    */
-   @Override
-   @Transactional
-   public Training update(Training training) {
-      return entityManager.merge(training);
-   }
+	@Override
+	@Transactional
+	public Training update(Training training) {
+		return entityManager.merge(training);
+	}
 
-   /**
-    * Delete Training.
-    *
-    * @param training
-    *           the training
-    * @return the training
-    */
-   @Override
-   @Transactional
-   public void delete(Long id) {
-      Training training = findById(id);
-      if (training != null) {
-         entityManager.remove(training);
-      }
-   }
+	@Override
+	@Transactional
+	public void delete(Training training) {
+		entityManager.remove(training);
+	}
 
-   /**
-    * Find by id.
-    *
-    * @param id
-    *           the id of training
-    * @return the training
-    */
-   @Override
-   public Training findById(Long id) {
-      try {
-         return entityManager
-               .createQuery("select t from Training t where t.id = :id", Training.class)
-               .setParameter("id", id).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	public Training findById(Long id) {
+		try {
+			return entityManager.createQuery("select t from Training t where t.id = :id", Training.class).setParameter("id", id).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 
-   /**
-    * Find by name.
-    *
-    * @param name
-    *           the name of training
-    * @return the training
-    */
-   @Override
-   public Training findByName(String name) {
-      try {
-         return entityManager
-               .createQuery("select t from Training t where t.name = :name", Training.class)
-               .setParameter("name", name).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	public Training findByName(String name) {
+		try {
+			return entityManager.createQuery("select t from Training t where t.name = :name", Training.class).setParameter("name", name)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 
-   /**
-    * Get all trainings.
-    *
-    * @return List<Training>
-    */
-   @Override
-   public List<Training> getTrainingList() {
-      return entityManager.createQuery("select t from Training t order by t.name", Training.class)
-            .getResultList();
-   }
+	@Override
+	public List<Training> getTrainingList() {
+		return entityManager.createQuery("select t from Training t order by t.name", Training.class).getResultList();
+	}
 
-   /**
-    * Get all trainings with close = false.
-    *
-    * @return List<Training>
-    */
-   @Override
-   public List<Training> getTrainingListOpen() {
-      return entityManager.createQuery(
-            "select t from Training t where t.close = false order by t.name", Training.class)
-            .getResultList();
-   }
+	@Override
+	public List<Training> getTrainingListOpen() {
+		return entityManager.createQuery("select t from Training t where t.close = false order by t.name", Training.class).getResultList();
+	}
 
-   /**
-    * Gets the training list close with close = true.
-    *
-    * @param year
-    *           the year
-    * @return the training list close
-    */
-   @Override
-   public List<Training> getTrainingListClose(int year) {
-      return entityManager.createQuery(
-            "select t from Training t where t.close = true and year(t.dateTraining) = :year order by t.name ", Training.class)
-            .setParameter("year", year).getResultList();
-   }
+	@Override
+	public List<Training> getTrainingListClose(int year) {
+		return entityManager
+				.createQuery("select t from Training t where t.close = true and year(t.dateTraining) = :year order by t.name ", Training.class)
+				.setParameter("year", year).getResultList();
+	}
 
-   /**
-    * Get all trainings by trainingTypeId.
-    *
-    * @return List<Training> pertains at trainingType
-    */
-   @Override
-   public List<Training> getTrainingListByTrainingTypeId(Long trainingTypeId) {
-      return entityManager
-            .createQuery("select t from Training t where t.trainingType.id = :trainingTypeId",
-                  Training.class).setParameter("trainingTypeId", trainingTypeId).getResultList();
+	@Override
+	public List<Training> getTrainingListByTrainingTypeId(Long trainingTypeId) {
+		return entityManager.createQuery("select t from Training t where t.trainingType.id = :trainingTypeId", Training.class)
+				.setParameter("trainingTypeId", trainingTypeId).getResultList();
 
-   }
+	}
 }

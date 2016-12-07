@@ -75,25 +75,25 @@
 						<td th:text="#{${'states.' + directDebit.state}}">State</td>
 
 						<!-- Pay direct Debit -->
-						<td th:if="!${directDebit.state == T(org.cuacfm.members.model.util.States.states).PAY}" class="text-center">
+						<td th:if="!${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).PAY}" class="text-center">
 							<form th:action="@{'directDebitList/pay/'+${directDebit.id}}" method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 							</form>
 						</td>
 						<!-- Fill table entry, bankRemittance -->
-						<td th:if="${directDebit.state == T(org.cuacfm.members.model.util.States.states).PAY}"></td>
+						<td th:if="${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).PAY}"></td>
 						
 						<!-- Return direct Debit -->
-						<td th:if="${directDebit.state == T(org.cuacfm.members.model.util.States.states).PAY} or
-							${directDebit.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT}" class="text-center">
+						<td th:if="${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
+							${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}" class="text-center">
 							<form th:action="@{'directDebitList/returnBill/'+${directDebit.id}}" method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-share-alt" th:title="#{directDebit.infoReturnBill}" 
 									style="color: red"></button>
 							</form>
 						</td>
 						<!-- Fill table entry, bankRemittance -->
-						<td th:if="!(${directDebit.state == T(org.cuacfm.members.model.util.States.states).PAY} or 
-							${directDebit.state == T(org.cuacfm.members.model.util.States.states).MANAGEMENT})"></td>
+						<td th:if="!(${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or 
+							${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT})"></td>
 					</tr>
 				</tbody>
 			</table>

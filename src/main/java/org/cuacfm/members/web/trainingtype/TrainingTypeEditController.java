@@ -36,106 +36,95 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 // @Secured("ROLE_ADMIN")
 public class TrainingTypeEditController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
-   private static final String TRAINING_VIEW_NAME = "trainingtype/trainingtypedit";
+	private static final String TRAINING_VIEW_NAME = "trainingtype/trainingtypedit";
 
-   /** The training service. */
-   @Autowired
-   private TrainingTypeService trainingTypeService;
+	@Autowired
+	private TrainingTypeService trainingTypeService;
 
-   /** The Global variable trainingType. */
-   private TrainingType trainingType;
+	private TrainingType trainingType;
 
-   /**
-    * Instantiates a new training Controller.
-    */
-   public TrainingTypeEditController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Instantiates a new training Controller.
+	 */
+	public TrainingTypeEditController() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Training.
-    *
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "trainingTypeList/trainingTypeEdit")
-   public String training(Model model) {
+	/**
+	 * Training.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "trainingTypeList/trainingTypeEdit")
+	public String training(Model model) {
 
-      if (trainingType != null) {
-         TrainingTypeForm trainingTypeForm = new TrainingTypeForm();
-         trainingTypeForm.setName(trainingType.getName());
-         trainingTypeForm.setRequired(trainingType.isRequired());
-         trainingTypeForm.setDescription(trainingType.getDescription());
-         trainingTypeForm.setPlace(trainingType.getPlace());
-         trainingTypeForm.setDuration(trainingType.getDuration());
-         model.addAttribute(trainingType);
-         model.addAttribute(trainingTypeForm);
-         return TRAINING_VIEW_NAME;
-      }
-      // If not have trainingType, redirect to trainingList
-      else {
-         return "redirect:/trainingList";
-      }
-   }
+		if (trainingType != null) {
+			TrainingTypeForm trainingTypeForm = new TrainingTypeForm();
+			trainingTypeForm.setName(trainingType.getName());
+			trainingTypeForm.setRequired(trainingType.isRequired());
+			trainingTypeForm.setDescription(trainingType.getDescription());
+			trainingTypeForm.setPlace(trainingType.getPlace());
+			trainingTypeForm.setDuration(trainingType.getDuration());
+			model.addAttribute(trainingType);
+			model.addAttribute(trainingTypeForm);
+			return TRAINING_VIEW_NAME;
+		}
+		// If not have trainingType, redirect to trainingList
+		else {
+			return "redirect:/trainingList";
+		}
+	}
 
-   /**
-    * TrainingType.
-    *
-    * @return TrainingType
-    */
-   @ModelAttribute("trainingType")
-   public TrainingType trainingType() {
-      return trainingType;
-   }
+	/**
+	 * TrainingType.
+	 *
+	 * @return TrainingType
+	 */
+	@ModelAttribute("trainingType")
+	public TrainingType trainingType() {
+		return trainingType;
+	}
 
-   /**
-    * Training.
-    *
-    * @param trainingFormType
-    *           the training type form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @return the string
-    */
+	/**
+	 * Training.
+	 *
+	 * @param trainingFormType the training type form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @return the string
+	 */
 
-   @RequestMapping(value = "trainingTypeList/trainingTypeEdit", method = RequestMethod.POST)
-   public String training(@Valid @ModelAttribute TrainingTypeForm trainingTypeForm, Errors errors,
-         RedirectAttributes ra) {
+	@RequestMapping(value = "trainingTypeList/trainingTypeEdit", method = RequestMethod.POST)
+	public String training(@Valid @ModelAttribute TrainingTypeForm trainingTypeForm, Errors errors, RedirectAttributes ra) {
 
-      if (errors.hasErrors()) {
-         return TRAINING_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return TRAINING_VIEW_NAME;
+		}
 
-      try {
-         trainingTypeService.update(trainingTypeForm.updateTrainingType(trainingType));
-      } catch (UniqueException e) {
-         errors.rejectValue("name", "trainingType.existentName", new Object[] { e.getValue() },
-               "name");
-         return TRAINING_VIEW_NAME;
-      }
+		try {
+			trainingTypeService.update(trainingTypeForm.updateTrainingType(trainingType));
+		} catch (UniqueException e) {
+			errors.rejectValue("name", "trainingType.existentName", new Object[] { e.getValue() }, "name");
+			return TRAINING_VIEW_NAME;
+		}
 
-      MessageHelper.addWarningAttribute(ra, "trainingType.successModify",
-            trainingTypeForm.getName());
-      return "redirect:/trainingTypeList";
-   }
+		MessageHelper.addWarningAttribute(ra, "trainingType.successModify", trainingTypeForm.getName());
+		return "redirect:/trainingTypeList";
+	}
 
-   /**
-    * Modify TrainingType by Id.
-    *
-    * @param @PathVariable Long id
-    * 
-    * @param errors
-    *           the errors
-    * @return the string destinity page
-    */
-   @RequestMapping(value = "trainingTypeList/trainingTypeEdit/{id}", method = RequestMethod.POST)
-   public String modifyTraining(@PathVariable Long id) {
+	/**
+	 * Modify TrainingType by Id.
+	 *
+	 * @param @PathVariable Long id
+	 * 
+	 * @param errors the errors
+	 * @return the string destinity page
+	 */
+	@RequestMapping(value = "trainingTypeList/trainingTypeEdit/{id}", method = RequestMethod.POST)
+	public String modifyTraining(@PathVariable Long id) {
 
-      trainingType = trainingTypeService.findById(id);
-      return "redirect:/trainingTypeList/trainingTypeEdit";
-   }
+		trainingType = trainingTypeService.findById(id);
+		return "redirect:/trainingTypeList/trainingTypeEdit";
+	}
 }

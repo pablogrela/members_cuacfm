@@ -21,14 +21,16 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feemember.FeeMemberRepository;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymember.PayMemberRepository;
-import org.cuacfm.members.model.util.States.methods;
-import org.cuacfm.members.model.util.States.states;
-import org.cuacfm.members.web.support.CreatePdf;
+import org.cuacfm.members.model.util.Constants;
+import org.cuacfm.members.model.util.Constants.methods;
+import org.cuacfm.members.model.util.Constants.states;
+import org.cuacfm.members.model.util.CreatePdf;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -41,76 +43,50 @@ import com.lowagie.text.pdf.PdfPTable;
 @Service("payMemberService")
 public class PayMemberServiceImpl implements PayMemberService {
 
-	/** The Constant NOPAY. */
-	private static final String NOPAY = "NOPAY";
+	@Autowired
+	private MessageSource messageSource;
 
-	/** The Constant PAY. */
-	private static final String PAY = "PAY";
-
-	/** The pay member repository. */
 	@Autowired
 	private PayMemberRepository payMemberRepository;
 
-	/** The fee member repository. */
 	@Autowired
 	private FeeMemberRepository feeMemberRepository;
 
-	/** Instantiates a new pay member service. */
+	@Autowired
+	private EventService eventService;
+
 	public PayMemberServiceImpl() {
 		// Default empty constructor.
 	}
 
-	/**
-	 * Save an pay Member into database.
-	 *
-	 * @param payMember the pay member
-	 * @return PayMember
-	 */
 	@Override
 	public PayMember save(PayMember payMember) {
 		return payMemberRepository.save(payMember);
 	}
 
-	/**
-	 * Update Pay Member.
-	 *
-	 * @param payMember the pay member
-	 * @return PayMember
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
 	@Override
 	public PayMember update(PayMember payMember) throws ExistTransactionIdException {
 		PayMember paymentExist = payMemberRepository.findByIdTxn(payMember.getIdTxn());
 		if ((paymentExist != null) && (paymentExist.getId() != payMember.getId())) {
 			throw new ExistTransactionIdException(payMember.getIdTxn());
 		}
+
+		Object[] arguments = { payMember.getFeeMember().getName() };
+		eventService.save("payMember.successModify", null, 2, arguments);
 		return payMemberRepository.update(payMember);
 	}
 
-	/**
-	 * Pay the PayMember.
-	 *
-	 * @param payMember the pay member
-	 */
 	@Override
 	public void pay(PayMember payMember) {
 		payMember.setState(states.PAY);
 		payMember.setMethod(methods.CASH);
 		payMember.setDatePay(new Date());
 		payMemberRepository.update(payMember);
+
+		Object[] arguments = { payMember.getFeeMember().getName() };
+		eventService.save("payMember.successPay", null, 2, arguments);
 	}
 
-	/**
-	 * Pay paypal.
-	 *
-	 * @param payMember the pay member
-	 * @param idTxn the id txn
-	 * @param idPayer the id payer
-	 * @param emailPayer the email payer
-	 * @param statusPay the status pay
-	 * @param datePay the date pay
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
 	@Override
 	public void payPayPal(PayMember payMember, String idTxn, String idPayer, String emailPayer, String statusPay, String datePay)
 			throws ExistTransactionIdException {
@@ -131,106 +107,53 @@ public class PayMemberServiceImpl implements PayMemberService {
 			payMember.setMethod(methods.PAYPAL);
 		}
 		payMemberRepository.update(payMember);
+
+		Object[] arguments = { payMember.getFeeMember().getName() };
+		eventService.save("userPayments.successPayPayPal", null, 2, arguments);
 	}
 
-	/**
-	 * Find by id returns feeMember which has this identifier.
-	 *
-	 * @param id the id
-	 * @return feeMember
-	 */
 	@Override
 	public PayMember findById(Long id) {
 		return payMemberRepository.findById(id);
 	}
 
-	/**
-	 * Find by id txn.
-	 *
-	 * @param idTxn the id txn
-	 * @return the pay member
-	 */
 	@Override
 	public PayMember findByIdTxn(String idTxn) {
 		return payMemberRepository.findByIdTxn(idTxn);
 	}
 
-	/**
-	 * Find by pay member ids.
-	 *
-	 * @param accountId the account id
-	 * @param feeMemberId the fee member id
-	 * @return List<PayMember>
-	 */
 	@Override
 	public List<PayMember> findByPayMemberIds(Long accountId, Long feeMemberId) {
 		return payMemberRepository.findByPayMemberIds(accountId, feeMemberId);
 	}
 
-	/**
-	 * Get all feeMembers.
-	 *
-	 * @return List<FeeMember>
-	 */
 	@Override
 	public List<PayMember> getPayMemberList() {
 		return payMemberRepository.getPayMemberList();
 	}
 
-	/**
-	 * Gets the pay member no pay list by direct debit.
-	 *
-	 * @param monthCharge the month charge
-	 * @return the pay member no pay list by direct debit
-	 */
 	@Override
 	public Map<Account, List<PayMember>> getPayMemberNoPayListByDirectDebit(Date monthCharge) {
 		return payMemberRepository.getPayMemberNoPayListByDirectDebit(monthCharge);
 	}
 
-	/**
-	 * Gets the pay member list by fee member id.
-	 *
-	 * @param feeMemberId the fee member id
-	 * @return the pay member list by fee member id
-	 */
 	@Override
 	public List<PayMember> getPayMemberListByFeeMemberId(Long feeMemberId) {
 		return payMemberRepository.getPayMemberListByFeeMemberId(feeMemberId);
 	}
 
-	/**
-	 * Gets the pay member list by pay account id.
-	 *
-	 * @param accountId the fee member id
-	 * @return the pay member list by account id
-	 */
 	@Override
 	public List<PayMember> getPayMemberListByAccountId(Long accountId) {
 		return payMemberRepository.getPayMemberListByAccountId(accountId);
 	}
 
-	/**
-	 * Gets the name users by fee member with role=ROLE_USER an active=true.
-	 *
-	 * @param feeMemberId the fee member id
-	 * @return the name users by fee member
-	 */
 	@Override
 	public List<String> getUsernamesByFeeMember(Long feeMemberId) {
 		return payMemberRepository.getUsernamesByFeeMember(feeMemberId);
 	}
 
-	/**
-	 * Creates the pdf fee member.
-	 *
-	 * @param messageSource the message source
-	 * @param feeMemberId the fee member id
-	 * @param option the option
-	 * @return the response entity
-	 */
 	@Override
-	public ResponseEntity<byte[]> createPdfFeeMember(MessageSource messageSource, Long feeMemberId, String option) {
+	public ResponseEntity<byte[]> createPdfFeeMember(Long feeMemberId, String option) {
 
 		FeeMember feeMember = feeMemberRepository.findById(feeMemberId);
 		List<PayMember> payMembers = payMemberRepository.getPayMemberListByFeeMemberId(feeMemberId);
@@ -243,9 +166,9 @@ public class PayMemberServiceImpl implements PayMemberService {
 		String path = messageSource.getMessage("path", null, Locale.getDefault()) + "/" + fileNameFeeMember;
 
 		String title;
-		if (option.equals(PAY)) {
+		if (option.equals(Constants.PAY)) {
 			title = feeMember.getName() + " - " + messageSource.getMessage("feeMember.printPayList", null, Locale.getDefault());
-		} else if (option.equals(NOPAY)) {
+		} else if (option.equals(Constants.NOPAY)) {
 			title = feeMember.getName() + " - " + messageSource.getMessage("feeMember.printNoPayList", null, Locale.getDefault());
 		} else {
 			title = feeMember.getName() + " - " + messageSource.getMessage("feeMember.printAllList", null, Locale.getDefault());

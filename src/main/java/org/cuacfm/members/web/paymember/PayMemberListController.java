@@ -28,7 +28,6 @@ import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.cuacfm.members.web.training.FindUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,187 +43,156 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class PayMemberListController {
 
-   /** The Constant PAYMEMBER_VIEW_NAME. */
-   private static final String PAYMEMBER_VIEW_NAME = "paymember/paymemberlist";
+	private static final String PAYMEMBER_VIEW_NAME = "paymember/paymemberlist";
+	private static final String REDIRECT_PAYMEMBER = "redirect:/feeMemberList/payMemberList";
 
-   /** The Constant REDIRECT_PAYMEMBER. */
-   private static final String REDIRECT_PAYMEMBER = "redirect:/feeMemberList/payMemberList";
+	@Autowired
+	private AccountService accountService;
 
-   /** The message source. */
-   @Autowired
-   private MessageSource messageSource;
+	@Autowired
+	private FeeMemberService feeMemberService;
 
-   /** The account service. */
-   @Autowired
-   private AccountService accountService;
+	@Autowired
+	private PayMemberService payMemberService;
 
-   /** The fee member service. */
-   @Autowired
-   private FeeMemberService feeMemberService;
+	private FindUserForm findUserform;
+	private FeeMember feeMember;
+	private static List<PayMember> payMembers;
+	private List<String> usernames;
 
-   /** The Pay Member Service. */
-   @Autowired
-   private PayMemberService payMemberService;
+	/**
+	 * Instantiates a new training Controller.
+	 */
+	public PayMemberListController() {
+		// Default empty constructor.
+	}
 
-   /** The find user form. */
-   private FindUserForm findUserform;
+	/**
+	 * fee member.
+	 *
+	 * @return the fee member
+	 */
+	@ModelAttribute("feeMember")
+	public FeeMember feeMember() {
+		return feeMember;
+	}
 
-   /** The fee Member. */
-   private FeeMember feeMember;
+	/**
+	 * List of PayMember.
+	 *
+	 * @return List<PayMember>
+	 */
+	@ModelAttribute("payMembers")
+	public List<PayMember> payMembers() {
+		return payMembers;
+	}
 
-   /** The pay Members. */
-   private static List<PayMember> payMembers;
+	/**
+	 * User fee members.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeMemberList/payMemberList")
+	public String getPayMembers(Model model) {
+		if (feeMember != null) {
+			findUserform = new FindUserForm();
+			model.addAttribute(findUserform);
+			payMembers = payMemberService.getPayMemberListByFeeMemberId(feeMember.getId());
+			model.addAttribute("payMembers", payMembers);
+			usernames = payMemberService.getUsernamesByFeeMember(feeMember.getId());
+			model.addAttribute("usernames", usernames);
 
-   /** The nameUsers. */
-   private List<String> usernames;
+			return PAYMEMBER_VIEW_NAME;
+		} else {
+			return "redirect:/feeMemberList";
+		}
+	}
 
-   /**
-    * Instantiates a new training Controller.
-    */
-   public PayMemberListController() {
-      // Default empty constructor.
-   }
+	/**
+	 * View user fee members by fee member id.
+	 *
+	 * @param feeMemberId the fee member id
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeMemberList/payMemberList/{feeMemberId}", method = RequestMethod.POST)
+	public String viewPayMembersByFeeMemberId(@PathVariable Long feeMemberId) {
+		feeMember = feeMemberService.findById(feeMemberId);
+		return REDIRECT_PAYMEMBER;
+	}
 
-   /**
-    * fee member.
-    *
-    * @return the fee member
-    */
-   @ModelAttribute("feeMember")
-   public FeeMember feeMember() {
-      return feeMember;
-   }
+	/**
+	 * Join account to PayMember.
+	 *
+	 * @param findUserForm the find user form
+	 * @param errors the errors
+	 * @param ra the redirect atributes
+	 * @param model the model
+	 * @return the string destinity page to page trainingList
+	 */
+	@RequestMapping(value = "feeMemberList/payMemberList", method = RequestMethod.POST)
+	public String addUserToPayMemberList(@Valid @ModelAttribute FindUserForm findUserForm, Errors errors, RedirectAttributes ra, Model model) {
 
-   /**
-    * List of PayMember.
-    *
-    * @return List<PayMember>
-    */
-   @ModelAttribute("payMembers")
-   public List<PayMember> payMembers() {
-      return payMembers;
-   }
+		if (errors.hasErrors()) {
+			model.addAttribute("usernames", usernames);
+			return PAYMEMBER_VIEW_NAME;
+		}
 
-   /**
-    * User fee members.
-    *
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "feeMemberList/payMemberList")
-   public String getPayMembers(Model model) {
-      if (feeMember != null) {
-         findUserform = new FindUserForm();
-         model.addAttribute(findUserform);
-         payMembers = payMemberService.getPayMemberListByFeeMemberId(feeMember.getId());
-         model.addAttribute("payMembers", payMembers);
-         usernames = payMemberService.getUsernamesByFeeMember(feeMember.getId());
-         model.addAttribute("usernames", usernames);
+		String name = findUserForm.getLogin();
+		Long id = Long.valueOf(0);
+		if (name.contains(": ")) {
+			String[] parts = findUserForm.getLogin().split(": ");
+			id = Long.valueOf(parts[0]);
+			name = parts[1].split(" - ")[0].trim();
+		}
 
-         return PAYMEMBER_VIEW_NAME;
-      } else {
-         return "redirect:/feeMemberList";
-      }
-   }
+		// Check if account exist
+		Account account = accountService.findById(id);
+		if (account == null) {
+			errors.rejectValue("login", "inscription.noExistLogin", new Object[] { name }, "login");
+			model.addAttribute("usernames", usernames);
+			return PAYMEMBER_VIEW_NAME;
+		}
 
-   /**
-    * View user fee members by fee member id.
-    *
-    * @param feeMemberId
-    *           the fee member id
-    * @return the string
-    */
-   @RequestMapping(value = "feeMemberList/payMemberList/{feeMemberId}", method = RequestMethod.POST)
-   public String viewPayMembersByFeeMemberId(@PathVariable Long feeMemberId) {
-      feeMember = feeMemberService.findById(feeMemberId);
-      return REDIRECT_PAYMEMBER;
-   }
+		// Check if account already payMember
+		List<PayMember> payMembersSearched = payMemberService.findByPayMemberIds(account.getId(), feeMember.getId());
+		if (!payMembersSearched.isEmpty()) {
+			errors.rejectValue("login", "payMember.alreadyExistLogin", new Object[] { name }, "login");
+			model.addAttribute("usernames", usernames);
+			return PAYMEMBER_VIEW_NAME;
+		}
 
-   /**
-    * Join account to PayMember.
-    *
-    * @param findUserForm
-    *           the find user form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the redirect atributes
-    * @param model
-    *           the model
-    * @return the string destinity page to page trainingList
-    */
-   @RequestMapping(value = "feeMemberList/payMemberList", method = RequestMethod.POST)
-   public String addUserToPayMemberList(@Valid @ModelAttribute FindUserForm findUserForm,
-         Errors errors, RedirectAttributes ra, Model model) {
+		feeMemberService.savePayMember(account, feeMember);
+		MessageHelper.addSuccessAttribute(ra, "payMember.successJoin", name);
+		return REDIRECT_PAYMEMBER;
+	}
 
-      if (errors.hasErrors()) {
-         model.addAttribute("usernames", usernames);
-         return PAYMEMBER_VIEW_NAME;
-      }
+	/**
+	 * Pay bill.
+	 *
+	 * @param payMemberId the user fee member id
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeMemberList/payMemberList/pay/{payMemberId}", method = RequestMethod.POST)
+	public String pay(@PathVariable Long payMemberId, RedirectAttributes ra) {
+		PayMember payMember = payMemberService.findById(payMemberId);
+		payMemberService.pay(payMember);
 
-      String name = findUserForm.getLogin();
-      Long id = Long.valueOf(0);
-      if (name.contains(": ")) {
-         String[] parts = findUserForm.getLogin().split(": ");
-         id = Long.valueOf(parts[0]);
-         name = parts[1].split(" - ")[0].trim();
-      }
+		MessageHelper.addSuccessAttribute(ra, "payMember.successPay", payMember.getAccount().getName());
+		return REDIRECT_PAYMEMBER;
+	}
 
-      // Check if account exist
-      Account account = accountService.findById(id);
-      if (account == null) {
-         errors.rejectValue("login", "inscription.noExistLogin", new Object[] { name }, "login");
-         model.addAttribute("usernames", usernames);
-         return PAYMEMBER_VIEW_NAME;
-      }
-
-      // Check if account already payMember
-      List<PayMember> payMembersSearched = payMemberService.findByPayMemberIds(account.getId(),
-            feeMember.getId());
-      if (!payMembersSearched.isEmpty()) {
-         errors.rejectValue("login", "payMember.alreadyExistLogin", new Object[] { name }, "login");
-         model.addAttribute("usernames", usernames);
-         return PAYMEMBER_VIEW_NAME;
-      }
-
-      feeMemberService.savePayMember(account, feeMember);
-      MessageHelper.addSuccessAttribute(ra, "payMember.successJoin", name);
-      return REDIRECT_PAYMEMBER;
-   }
-
-   /**
-    * Pay bill.
-    *
-    * @param payMemberId
-    *           the user fee member id
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "feeMemberList/payMemberList/pay/{payMemberId}", method = RequestMethod.POST)
-   public String pay(@PathVariable Long payMemberId, RedirectAttributes ra) {
-      PayMember payMember = payMemberService.findById(payMemberId);
-      payMemberService.pay(payMember);
-
-      MessageHelper.addSuccessAttribute(ra, "payMember.successPay", payMember.getAccount()
-            .getName());
-      return REDIRECT_PAYMEMBER;
-   }
-
-   /**
-    * Creates the pdf.
-    *
-    * @param feeMemberId
-    *           the fee member id
-    * @param createPdf
-    *           the create pdf
-    * @return the response entity
-    */
-   @RequestMapping(value = "feeMemberList/payMemberList/createPdf/{feeMemberId}", method = RequestMethod.POST, params = { "createPdf" })
-   public ResponseEntity<byte[]> createPdf(@PathVariable Long feeMemberId,
-         @RequestParam("createPdf") String createPdf) {
-      return payMemberService.createPdfFeeMember(messageSource, feeMemberId, createPdf);
-   }
+	/**
+	 * Creates the pdf.
+	 *
+	 * @param feeMemberId the fee member id
+	 * @param createPdf the create pdf
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "feeMemberList/payMemberList/createPdf/{feeMemberId}", method = RequestMethod.POST, params = { "createPdf" })
+	public ResponseEntity<byte[]> createPdf(@PathVariable Long feeMemberId, @RequestParam("createPdf") String createPdf) {
+		return payMemberService.createPdfFeeMember(feeMemberId, createPdf);
+	}
 
 }

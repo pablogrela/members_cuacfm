@@ -18,6 +18,7 @@ package org.cuacfm.members.model.feeprogramservice;
 import java.util.Date;
 import java.util.List;
 
+import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogram.FeeProgramRepository;
@@ -32,110 +33,72 @@ import org.springframework.stereotype.Service;
 @Service("feeProgramService")
 public class FeeProgramServiceImpl implements FeeProgramService {
 
-   /** The FeeProgram repository. */
-   @Autowired
-   private FeeProgramRepository feeProgramRepository;
+	@Autowired
+	private FeeProgramRepository feeProgramRepository;
 
-   @Autowired
-   private ProgramService programService;
+	@Autowired
+	private ProgramService programService;
 
-   @Autowired
-   private PayProgramService payProgramService;
+	@Autowired
+	private PayProgramService payProgramService;
 
-   /** Instantiates a new feeProgram service. */
-   public FeeProgramServiceImpl() {
-      // Default empty constructor.
-   }
+	@Autowired
+	private EventService eventService;
 
-   /**
-    * Save.
-    *
-    * @param feeProgram
-    *           the fee program
-    * @return the fee program
-    * @throws UniqueException
-    */
-   @Override
-   public FeeProgram save(FeeProgram feeProgram) throws UniqueException {
-      // It is verified that there is not exist year of feeProgram in other
-      // feeProgram
-      if (feeProgramRepository.findByDate(feeProgram.getDate()) != null) {
-         throw new UniqueException("Date", String.valueOf(feeProgram.getDate()));
-      }
-      feeProgramRepository.save(feeProgram);
+	/** Instantiates a new feeProgram service. */
+	public FeeProgramServiceImpl() {
+		// Default empty constructor.
+	}
 
-      // Create payments of programs
-      for (Program program : programService.getProgramListActive()) {
+	@Override
+	public FeeProgram save(FeeProgram feeProgram) throws UniqueException {
+		// It is verified that there is not exist year of feeProgram in other feeProgram
+		if (feeProgramRepository.findByDate(feeProgram.getDate()) != null) {
+			throw new UniqueException("Date", String.valueOf(feeProgram.getDate()));
+		}
+		feeProgramRepository.save(feeProgram);
 
-         Double price = feeProgram.getPrice() * program.getDuration() * program.getPeriodicity();
-         payProgramService.save(new PayProgram(program, feeProgram, price));
-      }
+		// Create payments of programs
+		for (Program program : programService.getProgramListActive()) {
+			Double price = feeProgram.getPrice() * program.getDuration() * program.getPeriodicity();
+			payProgramService.save(new PayProgram(program, feeProgram, price));
+		}
 
-      return feeProgram;
-   }
+		Object[] arguments = { feeProgram.getName() };
+		eventService.save("feeProgram.successCreate", null, 2, arguments);
+		return feeProgram;
+	}
 
-   /**
-    * Update.
-    *
-    * @param feeProgram
-    *           the fee program
-    * @return the fee program
-    * @throws UniqueException
-    */
-   @Override
-   public FeeProgram update(FeeProgram feeProgram) throws UniqueException {
-      // It is verified that there is not exist name of feeProgram in other
-      // feeProgram
-      FeeProgram feeProgramSearch = feeProgramRepository.findByDate(feeProgram.getDate());
-      if ((feeProgramSearch != null) && (feeProgramSearch.getId() != feeProgram.getId())) {
-            throw new UniqueException("Date", String.valueOf(feeProgram.getDate()));
-      }
-      return feeProgramRepository.update(feeProgram);
-   }
+	@Override
+	public FeeProgram update(FeeProgram feeProgram) throws UniqueException {
+		// It is verified that there is not exist name of feeProgram in other feeProgram
+		FeeProgram feeProgramSearch = feeProgramRepository.findByDate(feeProgram.getDate());
+		if ((feeProgramSearch != null) && (feeProgramSearch.getId() != feeProgram.getId())) {
+			throw new UniqueException("Date", String.valueOf(feeProgram.getDate()));
+		}
 
-   /**
-    * Find by Name the feeProgram.
-    *
-    * @param name
-    *           the name
-    * @return FeeProgram
-    */
-   @Override
-   public FeeProgram findByName(String name) {
-      return feeProgramRepository.findByName(name);
-   }
+		Object[] arguments = { feeProgram.getName() };
+		eventService.save("feeProgram.successModify", null, 2, arguments);
+		return feeProgramRepository.update(feeProgram);
+	}
 
-   /**
-    * Find by id returns feeProgram which has this identifier.
-    *
-    * @param id
-    *           the id
-    * @return feeProgram
-    */
-   @Override
-   public FeeProgram findById(Long id) {
-      return feeProgramRepository.findById(id);
-   }
+	@Override
+	public FeeProgram findByName(String name) {
+		return feeProgramRepository.findByName(name);
+	}
 
-   /**
-    * Find by date.
-    *
-    * @param Date
-    *           the date
-    * @return the fee program
-    */
-   @Override
-   public FeeProgram findByDate(Date date) {
-      return feeProgramRepository.findByDate(date);
-   }
+	@Override
+	public FeeProgram findById(Long id) {
+		return feeProgramRepository.findById(id);
+	}
 
-   /**
-    * Get all feePrograms.
-    *
-    * @return List<FeeProgram>
-    */
-   @Override
-   public List<FeeProgram> getFeeProgramList() {
-      return feeProgramRepository.getFeeProgramList();
-   }
+	@Override
+	public FeeProgram findByDate(Date date) {
+		return feeProgramRepository.findByDate(date);
+	}
+
+	@Override
+	public List<FeeProgram> getFeeProgramList() {
+		return feeProgramRepository.getFeeProgramList();
+	}
 }

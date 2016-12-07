@@ -16,13 +16,17 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{home.title}">Home</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <object th:include="fragments/head :: head" th:remove="tag"></object>
+<script th:src="@{/resources/js/app/membersApp.js}">
+	
+</script>
+<script th:src="@{/resources/js/service/eventListService.js}"></script>
+<script th:src="@{/resources/js/controller/eventListController.js}"></script>
 </head>
-<body>
+<body data-ng-app="membersApp" class="ng-cloak">
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='Home')">&nbsp;</div>
@@ -33,15 +37,71 @@
 		<!-- /* Handle the flash message */-->
 		<th:block th:if="${message != null}">
 			<!-- /* The message code is returned from the @Controller */ -->
-			<div
-				th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
 		</th:block>
 
 		<!-- Welcome message -->
-		<div class="text-center">
-			<p class="lead" th:text="#{home.welcome}">Welcome to the Spring MVC Quickstart application!</p>
+		<div data-ng-if="ctrl.events" class="text-center">
+			<p class="lead" th:text="#{home.welcome}">Welcome</p>
 		</div>
 
+		<!-- Button redirect to Event List Close-->
+		<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
+			<a href="#" class="btn btn-info btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
+		</div>
+		<br></br>
+
+		<!-- List events -->
+		<div data-ng-if="!ctrl.events" data-ng-controller="EventController as ctrl">
+			<div data-ng-repeat="event in ctrl.events">
+
+				<!-- Start Only Admin -->
+				<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+					<div class="alert alert-danger" data-ng-if="event.priority == 1">
+						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star" th:title="#{event.Highlighted}"
+							style="color: yellow" disabled="disabled"></button>
+						<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
+							style="color: red"></button>
+						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
+					</div>
+
+					<div class="alert alert-warning" data-ng-if="event.priority == 2">
+						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
+							th:title="#{event.infoHighlight}" style="color: grey"></button>
+						<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
+							style="color: red"></button>
+						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
+					</div>
+					
+					<div class="alert alert-info" data-ng-if="event.priority == 3">
+						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
+							th:title="#{event.infoHighlight}" style="color: grey"></button>
+						<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
+							style="color: red"></button>
+						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
+					</div>
+
+					<div class="alert alert-success" data-ng-if="event.priority == 4">
+						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
+							th:title="#{event.infoHighlight}" style="color: grey"></button>
+						<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
+							style="color: red"></button>
+						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
+					</div>
+					
+				</th:block>
+				<!-- Finish Only Admin -->
+
+				<!-- Start Messages no user -->
+				<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+					<div class="alert alert-info">
+						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.description"></span>
+					</div>
+				</th:block>
+				<!-- Finish Messages no user -->
+
+			</div>
+		</div>
 	</div>
 </body>
 </html>

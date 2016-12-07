@@ -98,7 +98,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 
       Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
       programService.save(program);
-      programService.up(program.getId());
+      programService.up(program);
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");

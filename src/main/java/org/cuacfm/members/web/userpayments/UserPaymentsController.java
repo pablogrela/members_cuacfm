@@ -41,188 +41,148 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UserPaymentsController {
 
-   /** The Constant USERPAYMENTS_VIEW_NAME. */
-   private static final String USERPAYMENTS_VIEW_NAME = "userpayments/userpayments";
+	private static final String USERPAYMENTS_VIEW_NAME = "userpayments/userpayments";
 
-   /** The ConfigurationService. */
-   @Autowired
-   private ConfigurationService configurationService;
+	@Autowired
+	private ConfigurationService configurationService;
 
-   /** The account service. */
-   @Autowired
-   private AccountService accountService;
+	@Autowired
+	private AccountService accountService;
 
-   /** The PayMemberService. */
-   @Autowired
-   private PayMemberService payMemberService;
+	@Autowired
+	private PayMemberService payMemberService;
 
-   /** The PayProgramService. */
-   @Autowired
-   private PayProgramService payProgramService;
+	@Autowired
+	private PayProgramService payProgramService;
 
-   /** The payInscriptions. */
-   private List<PayMember> payMembers;
+	private List<PayMember> payMembers;
+	private List<PayProgram> payPrograms;
+	private String email;
 
-   /** The payInscriptions. */
-   private List<PayProgram> payPrograms;
+	/**
+	 * Instantiates a new user payments controller.
+	 */
+	public UserPaymentsController() {
+		// Default empty constructor.
+	}
 
-   /** The email. */
-   private String email;
+	/**
+	 * Email.
+	 *
+	 * @return the string
+	 */
+	@ModelAttribute("email")
+	public String email() {
+		return email;
+	}
 
-   /**
-    * Instantiates a new user payments controller.
-    */
-   public UserPaymentsController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Pay programs.
+	 *
+	 * @return the list
+	 */
+	@ModelAttribute("payPrograms")
+	public List<PayProgram> payPrograms() {
+		return payPrograms;
+	}
 
-   /**
-    * Email.
-    *
-    * @return the string
-    */
-   @ModelAttribute("email")
-   public String email() {
-      return email;
-   }
+	/**
+	 * List of PayMember.
+	 *
+	 * @return List<PayMember>
+	 */
+	@ModelAttribute("payMembers")
+	public List<PayMember> payMembers() {
+		return payMembers;
+	}
 
-   /**
-    * Pay programs.
-    *
-    * @return the list
-    */
-   @ModelAttribute("payPrograms")
-   public List<PayProgram> payPrograms() {
-      return payPrograms;
-   }
+	/**
+	 * User payments.
+	 *
+	 * @param model the model
+	 * @param principal the principal
+	 * @return the string
+	 */
+	@RequestMapping(value = "userPayments")
+	public String userPayments(Model model, Principal principal) {
+		email = configurationService.getConfiguration().getEmail();
+		model.addAttribute(email);
+		Account account = accountService.findByLogin(principal.getName());
+		payMembers = payMemberService.getPayMemberListByAccountId(account.getId());
+		model.addAttribute("payMembers", payMembers);
+		payPrograms = payProgramService.getPayProgramListByAccountId(account.getId());
+		model.addAttribute("payPrograms", payPrograms);
+		return USERPAYMENTS_VIEW_NAME;
+	}
 
-   /**
-    * List of PayMember.
-    *
-    * @return List<PayMember>
-    */
-   @ModelAttribute("payMembers")
-   public List<PayMember> payMembers() {
-      return payMembers;
-   }
+	/**
+	 * View user fee members by fee member id.
+	 *
+	 * @param payMemberId the user fee member id
+	 * @param emailPayer the email payer
+	 * @param idPayer the id payer
+	 * @param datePay the date pay
+	 * @param statusPay the status pay
+	 * @param idTxn the id txn
+	 * @param principal the principal
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "userPayments/payMember/{payMemberId}", method = RequestMethod.POST)
+	public String payMemberByPayPal(@PathVariable Long payMemberId, @RequestParam("payer_email") String emailPayer,
+			@RequestParam("payer_id") String idPayer, @RequestParam("payment_date") String datePay, @RequestParam("payment_status") String statusPay,
+			@RequestParam("txn_id") String idTxn, Principal principal, RedirectAttributes ra) {
 
-   /**
-    * User payments.
-    *
-    * @param model
-    *           the model
-    * @param principal
-    *           the principal
-    * @return the string
-    */
-   @RequestMapping(value = "userPayments")
-   public String userPayments(Model model, Principal principal) {
-      email = configurationService.getConfiguration().getEmail();
-      model.addAttribute(email);
-      Account account = accountService.findByLogin(principal.getName());
-      payMembers = payMemberService.getPayMemberListByAccountId(account
-            .getId());
-      model.addAttribute("payMembers", payMembers);
-      payPrograms = payProgramService.getPayProgramListByAccountId(account.getId());
-      model.addAttribute("payPrograms", payPrograms);
-      return USERPAYMENTS_VIEW_NAME;
-   }
+		// Validar que el pago, este realmente echo en paypal, con la informacion
+		// que viene en el post....
 
-   /**
-    * View user fee members by fee member id.
-    *
-    * @param payMemberId
-    *           the user fee member id
-    * @param emailPayer
-    *           the email payer
-    * @param idPayer
-    *           the id payer
-    * @param datePay
-    *           the date pay
-    * @param statusPay
-    *           the status pay
-    * @param idTxn
-    *           the id txn
-    * @param principal
-    *           the principal
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "userPayments/payMember/{payMemberId}", method = RequestMethod.POST)
-   public String payMemberByPayPal(@PathVariable Long payMemberId,
-         @RequestParam("payer_email") String emailPayer, @RequestParam("payer_id") String idPayer,
-         @RequestParam("payment_date") String datePay,
-         @RequestParam("payment_status") String statusPay, @RequestParam("txn_id") String idTxn,
-         Principal principal, RedirectAttributes ra) {
+		Account account = accountService.findByLogin(principal.getName());
+		PayMember payMember = payMemberService.findById(payMemberId);
 
-      // Validar que el pago, este realmente echo en paypal, con la informacion
-      // que viene en el post....
+		// Verified if account is equals to account of userPayAccount
+		if (payMember.getAccount().getId() == account.getId()) {
+			try {
+				payMemberService.payPayPal(payMember, idTxn, idPayer, emailPayer, statusPay, datePay);
+				MessageHelper.addSuccessAttribute(ra, "userPayments.successPayPayPal", payMember.getFeeMember().getName());
+			} catch (ExistTransactionIdException e) {
+				MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", payMember.getFeeMember().getName(), e.getIdTxn());
+			}
+		}
 
-      Account account = accountService.findByLogin(principal.getName());
-      PayMember payMember = payMemberService
-            .findById(payMemberId);
+		return "redirect:/userPayments";
+	}
 
-      // Verified if account is equals to account of userPayAccount
-      if (payMember.getAccount().getId() == account.getId()) {
-         try {
-            payMemberService.payPayPal(payMember, idTxn, idPayer, emailPayer,
-                  statusPay, datePay);
-            MessageHelper.addSuccessAttribute(ra, "userPayments.successPayPayPal",
-                  payMember.getFeeMember().getName());
-         } catch (ExistTransactionIdException e) {
-            MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", payMember
-                  .getFeeMember().getName(), e.getIdTxn());
-         }
-      }
+	/**
+	 * View user fee members by fee member id.
+	 *
+	 * @param payProgramId the pay program id
+	 * @param emailPayer the email payer
+	 * @param idPayer the id payer
+	 * @param datePay the date pay
+	 * @param statusPay the status pay
+	 * @param idTxn the id txn
+	 * @param principal the principal
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "userPayments/payProgram/{payProgramId}", method = RequestMethod.POST)
+	public String payProgramByPayPal(@PathVariable Long payProgramId, @RequestParam("payer_email") String emailPayer,
+			@RequestParam("payer_id") String idPayer, @RequestParam("payment_date") String datePay, @RequestParam("payment_status") String statusPay,
+			@RequestParam("txn_id") String idTxn, Principal principal, RedirectAttributes ra) {
 
-      return "redirect:/userPayments";
-   }
+		Account account = accountService.findByLogin(principal.getName());
+		PayProgram payProgram = payProgramService.findById(payProgramId);
 
-   /**
-    * View user fee members by fee member id.
-    *
-    * @param payProgramId
-    *           the pay program id
-    * @param emailPayer
-    *           the email payer
-    * @param idPayer
-    *           the id payer
-    * @param datePay
-    *           the date pay
-    * @param statusPay
-    *           the status pay
-    * @param idTxn
-    *           the id txn
-    * @param principal
-    *           the principal
-    * @param ra
-    *           the ra
-    * @return the string
-    */
-   @RequestMapping(value = "userPayments/payProgram/{payProgramId}", method = RequestMethod.POST)
-   public String payProgramByPayPal(@PathVariable Long payProgramId,
-         @RequestParam("payer_email") String emailPayer, @RequestParam("payer_id") String idPayer,
-         @RequestParam("payment_date") String datePay,
-         @RequestParam("payment_status") String statusPay, @RequestParam("txn_id") String idTxn,
-         Principal principal, RedirectAttributes ra) {
+		// Verified if account is equals to account of userPayAccount
+		if (payProgram.getProgram().getAccounts().contains(account)) {
+			try {
+				payProgramService.payPayPal(payProgram, account.getName(), idTxn, idPayer, emailPayer, statusPay, datePay);
+				MessageHelper.addSuccessAttribute(ra, "userPayments.successPayPayPal", payProgram.getProgram().getName());
+			} catch (ExistTransactionIdException e) {
+				MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", payProgram.getProgram().getName());
+			}
+		}
 
-      Account account = accountService.findByLogin(principal.getName());
-      PayProgram payProgram = payProgramService.findById(payProgramId);
-
-      // Verified if account is equals to account of userPayAccount
-      if (payProgram.getProgram().getAccounts().contains(account)) {
-         try {
-            payProgramService.payPayPal(payProgram, account.getName(), idTxn, idPayer, emailPayer,
-                  statusPay, datePay);
-            MessageHelper.addSuccessAttribute(ra, "userPayments.successPayPayPal", payProgram
-                  .getProgram().getName());
-         } catch (ExistTransactionIdException e) {
-            MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", payProgram
-                  .getProgram().getName());
-         }
-      }
-
-      return "redirect:/userPayments";
-   }
+		return "redirect:/userPayments";
+	}
 }

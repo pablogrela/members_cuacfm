@@ -110,7 +110,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
       admin.setAccountType(accountType);
       admin.setMethodPayment(methodPayment);
       admin.setInstallments(1);
-      accountService.update(admin, false);
+      accountService.update(admin, false, true);
       defaultSession = getDefaultSession("admin");
 
       // Create User
@@ -120,7 +120,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(1);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       Account account = new Account("user2", "255555555C", "London", "user2", "email2@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);

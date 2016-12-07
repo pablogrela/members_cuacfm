@@ -102,7 +102,7 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(1);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
 
       Account user2 = new Account("user2", "11111111C", "London", "user2", "email2@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -169,56 +169,56 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
       user.setAccountType(accountType);
       user.setMethodPayment(methodPayment);
       user.setInstallments(1);
-      accountService.update(user, false);
+      accountService.update(user, false, true);
       feeMemberService.savePayMember(user, feeMember);
 
       Account user2 = new Account("user2", "22222222C", "London", "user2", "email2@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user2);
       user.setInstallments(2);
-      accountService.update(user2, false);
+      accountService.update(user2, false, true);
       feeMemberService.savePayMember(user2, feeMember);
 
       Account user3 = new Account("user3", "33333333C", "London", "user3", "email3@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user3);
       user.setInstallments(3);
-      accountService.update(user3, false);
+      accountService.update(user3, false, true);
       feeMemberService.savePayMember(user3, feeMember);
 
       Account user4 = new Account("user4", "44444444C", "London", "user4", "email4@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user4);
       user.setInstallments(4);
-      accountService.update(user4, false);
+      accountService.update(user4, false, true);
       feeMemberService.savePayMember(user4, feeMember);
       
       Account user5 = new Account("user5", "55555555C", "London", "user5", "email5@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user5);
       user.setInstallments(5);
-      accountService.update(user5, false);
+      accountService.update(user5, false, false);
       feeMemberService.savePayMember(user5, feeMember);
       
       Account user6 = new Account("user6", "66666666C", "London", "user6", "email6@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user6);
       user.setInstallments(6);
-      accountService.update(user6, false);
+      accountService.update(user6, false, true);
       feeMemberService.savePayMember(user6, feeMember);
       
       Account user7 = new Account("user7", "77777777C", "London", "user7", "email7@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user7);
       user.setInstallments(7);
-      accountService.update(user7, false);
+      accountService.update(user7, false, true);
       feeMemberService.savePayMember(user7, feeMember);
       
       Account user0 = new Account("user0", "00000000C", "London", "user0", "email0@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(user0);
       user.setInstallments(0);
-      accountService.update(user7, false);
+      accountService.update(user7, false, true);
       feeMemberService.savePayMember(user0, feeMember);
 
       // findById
