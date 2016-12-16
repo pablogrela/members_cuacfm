@@ -16,9 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{training.titleCloseList}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -27,41 +25,35 @@
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
-	
-	
-	<!-- Button redirect to Training List Open-->
-	<div class="text-center">
-		<a class="btn btn-info btn-lg" th:href="@{/trainingList}"
-			th:text="#{training.viewTrainingOpen}">View Training Open</a>
-	</div>
 
-	<br></br>
-	<!-- Form for view different years -->
-	<div class="container text-center scroll">
-		<div class="btn-group" th:each="year : ${years}">
-			<form method="post" th:action="@{trainingCloseList}">
-				<button class="btn btn-info btn-lg" th:name="year" th:value="${year}" th:title="#{infoYears}"
-					th:text="${year}"></button>
-			</form>
+
+	<div class="container-fluid">
+
+		<!-- Button redirect to Training List Open-->
+		<div class="text-center">
+			<a class="btn btn-info btn-lg" th:href="@{/trainingList}" th:text="#{training.viewTrainingOpen}">View Training Open</a>
 		</div>
-	</div>
-	
-	
-	<!-- Show message, if directDebit list is empty -->
-	<div th:if="${#lists.isEmpty(closeTrainings)}">
-		<h2 class="text-center" th:text="#{training.trainingCloseListEmpty} + #{from} + ${yearShow}">List of DirectDebit
-			Types</h2>
-	</div>
 
+		<br></br>
+		<!-- Form for view different years -->
+		<div class="text-center scroll">
+			<div class="btn-group" th:each="year : ${years}">
+				<form method="post" th:action="@{trainingCloseList}">
+					<button class="btn btn-info btn-lg" th:name="year" th:value="${year}" th:title="#{infoYears}" th:text="${year}"></button>
+				</form>
+			</div>
+		</div>
 
-	<fieldset>
+		<!-- Show message, if close training list is empty -->
+		<div th:if="${#lists.isEmpty(closeTrainings)}">
+			<h2 class="text-center" th:text="#{training.trainingCloseListEmpty} + #{from} + ${yearShow}">List of training types</h2>
+		</div>
 
 		<!-- Verify if exits close trainings -->
-		<div class="container" th:unless="${#lists.isEmpty(closeTrainings)}">
+		<div th:unless="${#lists.isEmpty(closeTrainings)}">
 
 			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{training.trainingCloseList} + #{from} + ${yearShow}">List
-				of Trainings</h2>
+			<h2 class="text-center" th:text="#{training.trainingCloseList} + #{from} + ${yearShow}">List of Trainings</h2>
 
 
 			<!-- Table List of Trainings -->
@@ -89,25 +81,21 @@
 						<!-- View info of training -->
 						<td>
 							<form th:action="@{'trainingView/'+${training.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-search"
-									th:title="#{info}" style="color: blue"></button>
+								<button class="btnTable btn-link glyphicon glyphicon-search" th:title="#{info}" style="color: blue"></button>
 							</form>
 						</td>
-						
+
 						<!-- View Close Inscriptions -->
 						<td>
-							<form
-								th:action="@{'inscriptionCloseList/'+${training.id}}"
-								method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-user"
-									th:title="#{training.infoInscriptions}" style="color: green"></button>
+							<form th:action="@{'inscriptionCloseList/'+${training.id}}" method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-user" th:title="#{training.infoInscriptions}" style="color: green"></button>
 							</form>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+	</div>
 
-	</fieldset>
 </body>
 </html>

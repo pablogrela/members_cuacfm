@@ -16,8 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{payMember.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -27,146 +26,131 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='feeMember')">&nbsp;</div>
 
+	<div class="container-fluid">
+		<h1 class="text-center" th:text="*{feeMember.name}">List of User Pay member</h1>
+		<br></br>
 
-	<h1 class="text-center" th:text="*{feeMember.name}">List of User Pay member</h1>
-	<br></br>
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */ -->
+		<div class="container-fluid text-center" th:if="${message != null}">
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
 
+		<br></br>
+		<!-- Div of buttons -->
+		<div class="container text-center containerColums">
 
-	<div class="container text-center">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-					message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-		</th:block>
-	</div>
+			<!-- Form to add user by login -->
+			<div class="columLeft-large">
+				<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payMemberList}" th:object="${findUserForm}">
 
-	<br></br>
-	<!-- Div of buttons -->
-	<div class="container text-center containerColums">
+					<fieldset>
+						<!-- Title -->
+						<legend th:text="#{payMember.infoAddUser}">Add user to training</legend>
 
-		<!-- Form to add user by login -->
-		<div class="columLeft">
-			<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payMemberList}"
-				th:object="${findUserForm}">
-
-				<fieldset>
-					<!-- Title -->
-					<legend th:text="#{payMember.infoAddUser}">Add user to training</legend>
-
-					<!-- Insert Login -->
-					<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
-						<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
-						<div class="col-lg-10 text-danger">
-							<input type="text" class="form-control" list="userlist" th:placeholder="#{login}" th:field="*{login}"
-								autocomplete="off" required="required"/>
-
-							<!-- Datalist is a search by keyword-->
-							<datalist id="userlist">
-								<option th:each="username : ${usernames}" th:value="${username}" />
-							</datalist>
-
-							<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
-							<div class="ws-errorbox" hidden=""></div>
+						<!-- Insert Login -->
+						<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+							<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+							<div class="col-lg-10">
+								<div class="input-group">
+									<input type="text" class="form-control text-danger" list="userlist" th:placeholder="#{login}" th:field="*{login}" autocomplete="off"
+										required="required" />
+									<span class="input-group-btn">
+										<button type="submit" class="btn btn-success" th:text="#{payMember.addUser}">Add User</button>
+									</span>
+									<!-- Datalist is a search by keyword-->
+									<datalist id="userlist">
+										<option th:each="username : ${usernames}" th:value="${username}" />
+									</datalist>
+								</div>
+								<span class="help-block pull-left" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+								<div class="ws-errorbox pull-left" hidden=""></div>
+							</div>
 						</div>
-					</div>
+					</fieldset>
+				</form>
+			</div>
 
 
-					<!-- Button Add User to payMember-->
-					<div class="form-group">
-						<div class="text-center">
-							<button type="submit" class="btn btn-success btn-lg" th:text="#{payMember.addUser}">Add User</button>
+			<!-- Form to print -->
+			<!-- Note: target="_blank" open result of form in a new tab -->
+			<div class="columRight-large">
+				<form class="form-narrow form-horizontal" th:action="@{'payMemberList/createPdf/'+${feeMember.id}}" method="post">
+					<fieldset>
+						<!-- Title -->
+						<legend th:text="#{feeMember.infoPrint}">Print </legend>
+
+						<!-- Div of buttons -->
+						<div>
+							<button class="btn btn-info" th:name="createPdf" th:value="ALL" th:title="#{feeMember.infoAllList}" th:text="#{feeMember.printAllList}"></button>
+							<button class="btn btn-info" th:name="createPdf" th:value="NOPAY" th:title="#{feeMember.infoNoPayList}" th:text="#{feeMember.printNoPayList}"></button>
+							<button class="btn btn-info" th:name="createPdf" th:value="PAY" th:title="#{feeMember.infoPayList}" th:text="#{feeMember.printPayList}"></button>
 						</div>
-					</div>
-				</fieldset>
-			</form>
+					</fieldset>
+				</form>
+			</div>
 		</div>
 
 
-		<!-- Form to print -->
-		<!-- Note: target="_blank" open result of form in a new tab -->
-		<div class="columRight">
-			<form class="form-narrow form-horizontal" th:action="@{'payMemberList/createPdf/'+${feeMember.id}}" method="post">
-				<fieldset>
-					<!-- Title -->
-					<legend th:text="#{feeMember.infoPrint}">Print </legend>
+		<br></br>
+		<h2 class="text-center" th:text="#{payMember.payMemberList}">List of User Pay Member</h2>
 
-					<!-- Div of buttons -->
-					<div>
-						<button class="btn btn-info btn-lg" th:name="createPdf" th:value="ALL" th:title="#{feeMember.infoAllList}"
-							th:text="#{feeMember.printAllList}"></button>
+		<!-- Verify if exits fee members -->
+		<div th:unless="${#lists.isEmpty(payMembers)}">
 
-						<button class="btn btn-info btn-lg" th:name="createPdf" th:value="NOPAY"
-							th:title="#{feeMember.infoNoPayList}" th:text="#{feeMember.printNoPayList}"></button>
 
-						<button class="btn btn-info btn-lg" th:name="createPdf" th:value="PAY" th:title="#{feeMember.infoPayList}"
-							th:text="#{feeMember.printPayList}"></button>
-					</div>
-				</fieldset>
-			</form>
+			<!-- Table List of Training Types -->
+			<table class="display" id="customTable">
+				<thead class="table-bordered">
+					<tr>
+						<th th:text="#{user}">Name</th>
+						<th th:text="#{mobile}">Mobile</th>
+						<th th:text="#{price}">Price</th>
+						<th th:text="#{state}" th:title="#{infoState}">State</th>
+						<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
+						<th th:text="#{payMember.installment}">Installment</th>
+						<th th:text="#{dateCharge}">Date charge</th>
+						<th class="no-sort"></th>
+						<th class="no-sort"></th>
+					</tr>
+				</thead>
+				<tbody class="table-bordered">
+
+					<!-- Table entry -->
+					<tr th:each="payMember : ${payMembers}" id="payMembers">
+						<td id="payMemberName" th:text="${payMember.account.name}">name</td>
+						<td th:text="${payMember.account.mobile}">mobile</td>
+						<td id="payMemberPrice" th:text="${payMember.price}">price</td>
+						<td th:text="#{${'states.' + payMember.state}}">State</td>
+						<td th:text="#{${'methods.' + payMember.method}}">Method</td>
+						<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of installments</td>
+						<td th:text="${#dates.format(payMember.dateCharge, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
+
+
+						<!-- Modify payMember  -->
+						<td>
+							<form th:action="@{'payMemberList/payMemberEdit/'+${payMember.id}}" method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+							</form>
+						</td>
+
+						<td>
+							<!-- Pay payMember --> 
+						<object th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
+								class="text-center">
+								<form th:action="@{'payMemberList/pay/'+${payMember.id}}" method="post">
+									<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
+								</form>
+							</object> 
+						<!-- Fill table entry, pay member -->
+						<object th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
+						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></object>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
 		</div>
-	</div>
-
-
-	<br></br>
-	<h2 class="text-center" th:text="#{payMember.payMemberList}">List of User Pay Member</h2>
-
-	<!-- Verify if exits feeMembers -->
-	<div class="container" th:unless="${#lists.isEmpty(payMembers)}">
-
-
-		<!-- Table List of Training Types -->
-		<table class="display" id="customTable">
-			<thead class="table-bordered">
-				<tr>
-					<th th:text="#{user}">Name</th>
-					<th th:text="#{mobile}">Mobile</th>
-					<th th:text="#{price}">Price</th>
-					<th th:text="#{state}" th:title="#{infoState}">State</th>
-					<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
-					<th th:text="#{payMember.installment}">Installment</th>
-					<th th:text="#{dateCharge}">Date charge</th>
-					<th class="no-sort"></th>
-					<th class="no-sort"></th>
-				</tr>
-			</thead>
-			<tbody class="table-bordered">
-
-				<!-- Table entry -->
-				<tr th:each="payMember : ${payMembers}" id="payMembers">
-					<td id="payMemberName" th:text="${payMember.account.name}">name</td>
-					<td th:text="${payMember.account.mobile}">mobile</td>
-					<td id="payMemberPrice" th:text="${payMember.price}">price</td>
-					<td th:text="#{${'states.' + payMember.state}}">State</td>
-					<td th:text="#{${'methods.' + payMember.method}}">Method</td>
-					<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of
-						installments</td>
-					<td th:text="${#dates.format(payMember.dateCharge, #messages.msg('dateFormatMonthOfYear'))}"> May of 2015</td>
-
-
-					<!-- Modify payMember  -->
-					<td>
-						<form th:action="@{'payMemberList/payMemberEdit/'+${payMember.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
-						</form>
-					</td>
-
-
-					<!-- Pay payMember -->
-					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}" class="text-center">
-						<form th:action="@{'payMemberList/pay/'+${payMember.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
-						</form>
-					</td>
-
-
-					<!-- Fill table entry, pay member -->
-					<td th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></td>
-				</tr>
-			</tbody>
-		</table>
 	</div>
 </body>
 </html>

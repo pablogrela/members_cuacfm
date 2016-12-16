@@ -52,7 +52,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public void save(String message, Account account, int priority, Object[] arguments) {
+	public String save(String message, Account account, int priority, Object[] arguments) {
 		String messageI18n = messageSource.getMessage(message, arguments, Locale.getDefault());
 
 		// Si es nula se asume que es el administrador
@@ -62,7 +62,12 @@ public class EventServiceImpl implements EventService {
 				account = accountService.findByLogin(auth.getName());
 			}
 		}
-		eventRepository.save(new Event(account, new Date(), priority, messageI18n));
+		// If account is null, it is not save message
+		if (account != null) {
+			eventRepository.save(new Event(account, new Date(), priority, messageI18n));
+		}
+		
+		return messageI18n;
 	}
 
 	@Override
@@ -82,48 +87,33 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
+	public List<Event> findAllByAccountId(Long accountId) {
+		return eventRepository.findAllByAccountId(accountId);
+	}
+
+	@Override
+	public List<Event> findAll() {
+		return eventRepository.findAll();
+	}
+
+	@Override
+	public List<Event> findAllOpen() {
+		return eventRepository.findAllOpen();
+	}
+
+	@Override
+	public List<Event> findAllClose() {
+		return eventRepository.findAllClose();
+	}
+
+	@Override
 	public Event highlight(Event event, int priority) {
 		event.setPriority(priority);
 		return eventRepository.update(event);
 	}
 
 	@Override
-	public List<Event> getEvents(Long accountId) {
-		return eventRepository.getEvents(accountId);
-	}
-
-	@Override
-	public List<Event> getAllEvents() {
-		return eventRepository.getAllEvents();
-	}
-
-	@Override
-	public List<EventDTO> getEventsDTO() {
-		return convertEventsToEventsDTO(eventRepository.getAllEvents());
-	}
-
-	@Override
-	public List<EventDTO> getActiveEventsDTO() {
-		return convertEventsToEventsDTO(eventRepository.getActiveEvents());
-	}
-
-	@Override
-	public List<EventDTO> getCloseEventsDTO() {
-		return convertEventsToEventsDTO(eventRepository.getCloseEventsDTO());
-	}
-
-	@Override
-	public List<EventDTO> getEventsDTO(Long accountId) {
-		return convertEventsToEventsDTO(eventRepository.getEvents(accountId));
-	}
-
-	/**
-	 * Convert events to events DTO.
-	 *
-	 * @param events the events
-	 * @return the list
-	 */
-	private List<EventDTO> convertEventsToEventsDTO(List<Event> events) {
+	public List<EventDTO> getDTO(List<Event> events) {
 		List<EventDTO> eventsDTO = new ArrayList<>();
 		for (Event event : events) {
 			EventDTO eventDTO = new EventDTO(event.getId(), event.getAccount().getName(), event.getDateEvent(), event.getPriority(),

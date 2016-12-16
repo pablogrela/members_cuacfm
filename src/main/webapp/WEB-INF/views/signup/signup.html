@@ -101,7 +101,7 @@
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
 					<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}"
-						minlength="6" maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" />
+						data-minlength="6" maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" />
 					<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -112,7 +112,7 @@
 				<label for="text" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
 					<input type="tel" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" maxlength="20"
-						minlength="6" pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
+						data-minlength="6" pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -135,7 +135,7 @@
 				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
 				<div class="col-lg-10">
 					<input type="password" class="form-control" id="password" th:placeholder="#{password}" th:field="*{password}"
-						minlength="4" maxlength="80" required="required" />
+						data-minlength="4" maxlength="80" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -146,7 +146,7 @@
 				<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
 				<div class="col-lg-10">
 					<input type="password" class="form-control" id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}"
-						minlength="4" data-dependent-validation="password" maxlength="80" required="required" />
+						data-minlength="4" data-dependent-validation="password" maxlength="80" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect
 						password</span>
 					<div class="ws-errorbox" hidden=""></div>

@@ -5,6 +5,7 @@ insert into MethodPayment values (1, 'Exento', false, 'No tiene que pagar');
 insert into MethodPayment values (2, 'Efectivo', false, 'Pago en efectivo');
 insert into MethodPayment values (3, 'Domiciliado', true, 'Domiciliado');
 insert into MethodPayment values (4, 'Paypal', false, 'Paypal');	
+insert into MethodPayment values (5, 'Ingreso', false, 'Ingreso mediante un ingreso bancario');	
 
 
 -- Insert Account Types:
@@ -18,11 +19,11 @@ insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0)
 
 -- Insert Account:
 insert into Account values 
-(2, 'user', null, '12345678A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(2, 'Juan B.', null, '12345678A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666666, 2, 2, 1, false, null, true, '', '', 'ROLE_USER');
 
 insert into Account values 
-(3, 'trainer', null, '12345678C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(3, 'Pepe el otro', null, '12345678C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666666, 1, 1, 1, false, null, true, '', '', 'ROLE_TRAINER');
 
 insert into Account values 
@@ -38,7 +39,7 @@ insert into Account values
 	981666666, 666666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
 insert into Account values 
-(7, 'Lorena Fernandez', null, '12345678Z', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.fernandez', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(7, 'Lorena Fernandez', 'lorenita', '12345678Z', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.fernandez', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666666, 2, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 	
 insert into Account values 
@@ -46,12 +47,20 @@ insert into Account values
 	981666666, 666666666, 3, 2 , 1, false, null, true, null, '', 'ROLE_USER');
 
 insert into Account values 
-(9, 'Pablo Martínez Pérez', null, '12347678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.martinez.perez', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(9, 'Pablo Martínez Pérez', 'pau', '12347678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.martinez.perez', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666666, 3, 2 , 2, false, null, true, null, '', 'ROLE_USER');
 
 insert into Account values 
 (10, 'Conservera Martínez', null, 'A58818501', 'Puerto A Coruña', 'A coruña', 'A coruña', 'ES', 'conservera.martinez', 'conservera.martinez@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666666, 3, 5 , 1, false, null, true, null, '', 'ROLE_USER');
+	
+insert into Account values 
+(11, 'Pera Olart', 'pau', '12347679P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pera', 'pera@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666666, 3, 2 , 2, false, null, true, null, '', 'ROLE_USER');
+
+insert into Account values 
+(12, 'Manolo el del bombo', 'bombo', '22347678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'bombo', 'bombo@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666666, 3, 2 , 2, false, null, true, null, '', 'ROLE_USER');
 	
 	
 insert into BankAccount values 	
@@ -72,9 +81,9 @@ insert into Program values
 insert into Program values 
 (2, 'Program 2', 1, 2, 'Description of Program 2', true, 4);
 insert into Program values 
-(3, 'Program 3', 1, 2, 'Description of Program 3', true, null);
+(3, 'Program 3', 1, 2, 'Description of Program 3', true, 7);
 insert into Program values 
-(4, 'Program 4', 1, 2, 'Description of Program 4', true, null);
+(4, 'Program 4', 1, 2, 'Description of Program 4', true, 8);
 insert into Program values 
 (5, 'Program 5', 1, 2, 'Description of Program 5', true, 8);
 
@@ -103,17 +112,17 @@ insert into TrainingType values
 
 -- Insert Trainings:
 insert into Training values 
-(1, 1, 'Camara', "2016-12-10 11:00", null, 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, true);
+(1, 1, 'Camara', CURRENT_TIMESTAMP - INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, true);
 insert into Training values 
-(2, 2, 'Locución', "2016-12-17 11:00", "2015-12-15 11:00", 'Se enseñara a hablar', 'Estudio Cuac', 2.00, 10, 0, 1, true);
+(2, 2, 'Locución', CURRENT_TIMESTAMP - INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a hablar por radio', 'Estudio Cuac', 2.00, 10, 1, true);
 insert into Training values 
-(3, 3, 'Redacción', "2016-12-24 11:00",  "2015-12-22 11:00", 'Se enseñara a redactar el programa', 'Estudio Cuac', 1, 10, 0, false);
+(3, 3, 'Redacción', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP + INTERVAL 17 DAY, 'Se enseñara a redactar', 'Estudio Cuac', 1.00, 10, 0, false);
 insert into Training values 
-(4, 4, 'Audacity', "2016-12-31 11:00", "2015-12-29 11:00", 'Se enseñara a posicionarse en el estudio', 'Estudio Cuac', 2.10, 10, 0, false);
+(4, 4, 'Audacity', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a hablar por radio', 'Estudio Cuac', 2.10, 10, 0, false);
 insert into Training values 
-(5, 1, 'Camara', "2016-12-10 11:00", "2015-12-08 11:00", 'Se enseñara a grabar', 'Estudio Cuac', 1.30, 10, 0, false);
+(5, 1, 'Camara', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a grabar','Estudio Cuac', 1.30, 10, 0, false);
 insert into Training values 
-(6, 2, 'Locución', "2016-12-17 11:00", "2015-12-15 11:00", 'Se enseñara a hablar', 'Estudio Cuac', 2.00, 10, 0, false);
+(6, 2, 'Locución', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a hablar por radio','Estudio Cuac', 2.00, 10, 0, false);
 
 
 

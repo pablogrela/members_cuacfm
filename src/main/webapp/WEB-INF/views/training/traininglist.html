@@ -16,10 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html 
-xmlns:th="http://www.thymeleaf.org" 
-xmlns:tiles="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{training.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -29,60 +26,51 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
 
-	<!-- Div of buttons -->
-	<div class="container text-center containerColums">
+	<div class="container-fluid">
 
-		<!-- Form for droplist -->
-		<div class="columLeft">
-			<form method="post" th:action="@{trainingList/trainingLoad}" th:object="${trainingSelectForm}"
-				sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
+		<!-- Div of buttons -->
+		<div class="container-fluid text-center containerColums">
 
-				<!-- DropList Box -->
-				<select onchange="this.form.submit()" class="btn btn-success btn-lg" th:field="*{trainingTypeId}">
+			<!-- Form for droplist -->
+			<div class="columLeft">
+				<form method="post" th:action="@{trainingList/trainingLoad}" th:object="${trainingSelectForm}"
+					sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
 
-					<!-- Default option in droplist -->
-					<option th:value="0" th:text="#{training.createNewTraining}" style="display:none;">Create New Training</option>
+					<!-- DropList Box -->
+					<select onchange="this.form.submit()" class="btn btn-success btn-lg" th:field="*{trainingTypeId}">
 
-					<!-- Selected option in droplist -->
-					<option th:each="trainingType : ${trainingSelectForm.trainingTypes}" 
-							th:value="${trainingType.id}"
-							th:text="${trainingType.name}"> name
-					</option>
-				</select> <br></br>
-			</form>
-		</div>
+						<!-- Default option in droplist -->
+						<option th:value="0" th:text="#{training.createNewTraining}" style="display: none;">Create New Training</option>
 
-		<!-- Button redirect to Training List Close-->
-		<div class="columRight" sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
-			<a class="btn btn-info btn-lg" th:href="@{/trainingList/trainingCloseList}"
-				th:text="#{training.viewTrainingClose}">View Training Close</a>
-		</div>
-	</div>
-
-
-	<br></br><br></br>
-	<!-- Message Info -->
-	<div class="container text-center ">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-				message=#{${message.message}(${message.args[0]})})">&nbsp;
+						<!-- Selected option in droplist -->
+						<option th:each="trainingType : ${trainingSelectForm.trainingTypes}" th:value="${trainingType.id}" th:text="${trainingType.name}">name
+						</option>
+					</select> <br></br>
+				</form>
+				<br></br>
 			</div>
-		</th:block>
-	</div>
 			
-	<!-- Show message, if training list is empty -->
-	<div th:if="${#lists.isEmpty(trainings)}">
-		<h2 class="text-center"
-			th:text="#{training.trainingListEmpty}">
-			List of Training Types</h2>
-	</div>
-	
-	<fieldset>
+			<!-- Button redirect to Training List Close-->
+			<div class="columRight" sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
+				<a class="btn btn-info btn-lg" th:href="@{/trainingList/trainingCloseList}" th:text="#{training.viewTrainingClose}">View Training Close</a>
+			</div>
+		</div>
+
+
+		<br></br>
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
+
+		<!-- Show message, if training list is empty -->
+		<div th:if="${#lists.isEmpty(trainings)}">
+			<h2 class="text-center" th:text="#{training.trainingListEmpty}">List of Training Types</h2>
+		</div>
 
 		<!-- Verify if exits Trainings -->
-		<div class="container" th:unless="${#lists.isEmpty(trainings)}">
+		<div th:unless="${#lists.isEmpty(trainings)}">
 
 			<!-- Tittle -->
 			<h2 class="text-center" th:text="#{training.trainingList}">List of Trainings</h2>
@@ -117,36 +105,33 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						<!-- View info of training -->
 						<td class="text-center">
 							<form th:action="@{'trainingList/trainingView/'+${training.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-search" th:title="#{info}"
-									style="color: blue"></button>
+								<button class="btnTable btn-link glyphicon glyphicon-search" th:title="#{info}" style="color: blue"></button>
 							</form>
 						</td>
 
 
 						<!-- Start Only Admin or Trainer -->
 						<th:block sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
-							
+
 							<!-- Delete Training -->
 							<td class="text-center">
-								<form th:action="@{'trainingList/trainingDelete/'+${training.id}}" method="post" >
-									<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{remove}"
-										style="color: red" onclick="evaluateModal(this.form, modal, accept)"></button>
+								<form th:action="@{'trainingList/trainingDelete/'+${training.id}}" method="post">
+									<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{remove}" style="color: red"
+										onclick="evaluateModal(this.form, modal, accept)"></button>
 								</form>
 							</td>
 
 							<!-- Modify Training -->
 							<td class="text-center">
 								<form th:action="@{'trainingList/trainingEdit/'+${training.id}}" method="post">
-									<button role="tooltip" class="btnTable btn-link glyphicon glyphicon-edit" data-toggle="popover"
-										th:title="#{edit}" style="color: orange"></button>
+									<button role="tooltip" class="btnTable btn-link glyphicon glyphicon-edit" data-toggle="popover" th:title="#{edit}" style="color: orange"></button>
 								</form>
 							</td>
 
 							<!-- View Inscriptions -->
 							<td class="text-center">
 								<form th:action="@{'trainingList/inscriptionList/'+${training.id}}" method="post">
-									<button class="btnTable btn-link glyphicon glyphicon-user"
-										th:title="#{training.infoInscriptions}" id="viewInscriptions" style="color: green"></button>
+									<button class="btnTable btn-link glyphicon glyphicon-user" th:title="#{training.infoInscriptions}" id="viewInscriptions" style="color: green"></button>
 								</form>
 							</td>
 						</th:block>
@@ -160,17 +145,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 								<!-- Join Training -->
 								<td th:if="!${#lists.contains(trainingAccountIds, training.id)}" class="text-center">
 									<form th:action="@{'trainingUserList/trainingJoin/'+${training.id}}" method="post">
-										<button class="btnTable btn-link glyphicon glyphicon-ok-sign" id="joinTraining" th:title="#{training.join}"
-											style="color: green"></button>
+										<button class="btnTable btn-link glyphicon glyphicon-ok-sign" id="joinTraining" th:title="#{training.join}" style="color: green"></button>
 									</form>
 								</td>
 
-								<!-- Remove Join Training -->		
-								<td th:if="${#lists.contains(trainingAccountIds, training.id)}" class="text-center">						
+								<!-- Remove Join Training -->
+								<td th:if="${#lists.contains(trainingAccountIds, training.id)}" class="text-center">
 									<form th:action="@{'trainingUserList/trainingRemoveJoin/'+${training.id}}" method="post" id="formEvaluate2">
-										<button type="button" class="btnTable btn-link glyphicon glyphicon-remove-sign"
-											th:title="#{training.infoRemoveJoin}" style="color: red" onclick="evaluateModal(this.form, modal2, accept2)"></button>
-									</form>												
+										<button type="button" class="btnTable btn-link glyphicon glyphicon-remove-sign" th:title="#{training.infoRemoveJoin}" style="color: red"
+											onclick="evaluateModal(this.form, modal2, accept2)"></button>
+									</form>
 								</td>
 							</th:block>
 
@@ -183,46 +167,47 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				</tbody>
 			</table>
 		</div>
-	</fieldset>
 
-    
-    <!-- Modal Info Delete	-->
-	<div id="modal" class="modal fade">
-	    <div class="modal-dialog">
-	        <div class="modal-content  panel-danger">
-	            <div class="modal-header  modal-header-danger">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                <h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
-	            </div>
-	            <div class="modal-body">
-	                <p th:text="#{training.infoModalDelete}">Message</p>
-	            </div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
-	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
-	            </div>
-	        </div>
-	    </div>
-    </div>
-    	
-			
-	<!-- Modal Info Unsubscribe	-->
-	<div id="modal2" class="modal fade">
-	    <div class="modal-dialog">
-	        <div class="modal-content  panel-danger">
-	            <div class="modal-header  modal-header-danger">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                <h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
-	            </div>
-	            <div class="modal-body">
-	                <p th:text="#{training.infoModalRemoveJoin}">Message</p>
-	            </div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-danger" th:text="#{accept}" id="accept2" name="accept2">Accept</button>
-	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
-	            </div>
-	        </div>
-	    </div>
-    </div>
+
+
+		<!-- Modal Info Delete	-->
+		<div id="modal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content  panel-danger">
+					<div class="modal-header  modal-header-danger">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+					</div>
+					<div class="modal-body">
+						<p th:text="#{training.infoModalDelete}">Message</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
+						<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Modal Info Unsubscribe	-->
+		<div id="modal2" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content  panel-danger">
+					<div class="modal-header  modal-header-danger">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+					</div>
+					<div class="modal-body">
+						<p th:text="#{training.infoModalRemoveJoin}">Message</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept2" name="accept2">Accept</button>
+						<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

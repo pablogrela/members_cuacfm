@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.cuacfm.members.model.util.Constants.states;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,10 +47,70 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 	}
 
 	@Override
-	public DirectDebit findById(Long id) {
+	public DirectDebit findById(String id) {
 		try {
 			return entityManager.createQuery("select d from DirectDebit d where d.id = :id", DirectDebit.class).setParameter("id", id)
 					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public String findLastId() {
+		try {
+			String id = entityManager.createQuery("select MAX(d.id) from DirectDebit d", String.class).getSingleResult();
+			if (id != null) {
+				return id;
+			} else {
+				return "_0";
+			}
+		} catch (NoResultException e) {
+			return "_0";
+		}
+	}
+
+	@Override
+	public List<DirectDebit> findAll() {
+		return entityManager.createQuery("select d from DirectDebit d order by d.id asc ", DirectDebit.class).getResultList();
+	}
+
+	@Override
+	public List<DirectDebit> findAllOpen() {
+		return entityManager
+				.createQuery("select d from DirectDebit d where d.state = :state1 or d.state = :state2 or d.state = :state3 order by d.id desc",
+						DirectDebit.class)
+				.setParameter("state1", states.NO_PAY).setParameter("state2", states.MANAGEMENT).setParameter("state3", states.RETURN_BILL)
+				.getResultList();
+	}
+
+	@Override
+	public List<DirectDebit> findAllClose() {
+		return entityManager
+				.createQuery("select d from DirectDebit d where d.state = :state1 or d.state = :state2 order by d.id desc", DirectDebit.class)
+				.setParameter("state1", states.PAY).setParameter("state2", states.CANCEL).getResultList();
+	}
+
+	@Override
+	public List<DirectDebit> findAllByAccountId(Long accountId) {
+		return entityManager.createQuery("select d from DirectDebit d where d.account.id = :accountId order by d.id desc", DirectDebit.class)
+				.setParameter("accountId", accountId).getResultList();
+	}
+
+	@Override
+	public List<DirectDebit> findAllOpenByAccountId(Long accountId) {
+		return entityManager
+				.createQuery(
+						"select d from DirectDebit d where d.account.id = :accountId and (d.state = :state1 or d.state = :state2) order by d.id desc",
+						DirectDebit.class)
+				.setParameter("accountId", accountId).setParameter("state1", states.NO_PAY).setParameter("state2", states.MANAGEMENT).getResultList();
+	}
+
+	@Override
+	public DirectDebit getLastDirectDebit(Long accountId) {
+		try {
+			return entityManager.createQuery("select d from DirectDebit d where d.account.id = :accountId and d.state = :state", DirectDebit.class)
+					.setParameter("accountId", accountId).setParameter("state", states.NO_PAY).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -66,8 +127,18 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 	}
 
 	@Override
-	public List<DirectDebit> getDirectDebitListByBankRemittanceId(Long bankRemittanceId) {
+	public List<DirectDebit> findAllByBankRemittanceId(Long bankRemittanceId) {
 		return entityManager.createQuery("select d from DirectDebit d where d.bankRemittance.id = :bankRemittanceId", DirectDebit.class)
 				.setParameter("bankRemittanceId", bankRemittanceId).getResultList();
+	}
+
+	@Override
+	public DirectDebit findByIdTxn(String idTxn) {
+		try {
+			return entityManager.createQuery("select d from DirectDebit d where d.idTxn = :idTxn", DirectDebit.class).setParameter("idTxn", idTxn)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 }

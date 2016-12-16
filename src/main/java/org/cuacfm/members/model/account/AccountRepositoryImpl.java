@@ -53,7 +53,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 	@Override
 	public void delete(Account account) {
-			entityManager.remove(account);
+		entityManager.remove(account);
 	}
 
 	@Override

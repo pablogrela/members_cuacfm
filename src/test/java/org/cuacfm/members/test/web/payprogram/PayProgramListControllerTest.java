@@ -100,11 +100,11 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
 		accountService.save(account2);
 		accounts.add(account2);
 
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
 
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program2);
 		programService.up(program2);
 

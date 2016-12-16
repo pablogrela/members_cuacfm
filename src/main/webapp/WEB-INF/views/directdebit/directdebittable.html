@@ -1,0 +1,148 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+</head>
+<body>
+
+	<!-- Fragment user direct debit -->
+	<div data-ng-show="directDebits" th:fragment="directdebittable(tittle, tittleEmpty)">
+
+		<!-- Show info account -->
+		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<object data-ng-show="message">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+		</object>
+
+		<!-- Message if directDebits is empty -->
+		<div data-ng-show="!directDebits">
+			<h2 class="text-center" th:text="${tittleEmpty}"></h2>
+		</div>
+
+		<div data-ng-show="directDebits">
+
+			<!-- Title of table -->
+			<h2 class="text-center" th:text="${tittle}"></h2>
+
+			<!-- Search and index -->
+			<div th:include="fragments/sortColumn :: search"></div>
+
+			<!-- Table list of directDebits -->
+			<table class="dataTable display table-striped">
+				<thead>
+					<tr>
+						<th><a href="#" data-ng-click="sortType = 'account.name'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
+									data-ng-show="sortType == 'account.name' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'account.name' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></th>
+						<td><a href="#" data-ng-click="sortType = 'id'; sortReverse = !sortReverse"> <span th:text="#{concept}">concept</span> <span
+									data-ng-show="sortType == 'id' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'id' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+						<td><a href="#" data-ng-click="sortType = 'concept'; sortReverse = !sortReverse"> <span th:text="#{description}">description</span> <span
+									data-ng-show="sortType == 'concept' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'concept' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+						<td><a href="#" data-ng-click="sortType = 'price'; sortReverse = !sortReverse"> <span th:text="#{price}">price</span> <span
+									data-ng-show="sortType == 'price' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'price' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+						<td th:title="#{infoState}"><a href="#" data-ng-click="sortType = 'state'; sortReverse = !sortReverse"> <span th:text="#{state}">state</span>
+								<span data-ng-show="sortType == 'state' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'state' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+						<td th:title="#{infoMethodPayment}"><a href="#" data-ng-click="sortType = 'method'; sortReverse = !sortReverse"> <span
+									th:text="#{methodPayment}">methodPayment</span> <span data-ng-show="sortType == 'method' &amp;&amp; !sortReverse"
+									class="glyphicon glyphicon-triangle-bottom"></span> <span data-ng-show="sortType == 'method' &amp;&amp; sortReverse"
+									class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+						<td></td>
+					</tr>
+				</thead>
+
+				<tbody>
+					<!-- Table entry -->
+					<tr data-ng-repeat="directDebit in directDebits | orderBy:sortType:sortReverse | filter:search | filter:paginate">
+						<td><span th:title="#{account.infoAccount}" data-ng-bind="directDebit.account.name" data-ng-click="ctrl.infoAccount(directDebit.account)"
+								data-toggle="modal" data-target="#infoAccount"></span></td>
+
+						<td><span data-ng-bind="directDebit.id"></span></td>
+						<td><span data-ng-bind="directDebit.concept"></span></td>
+						<td><span data-ng-bind="directDebit.price"></span></td>
+
+						<!-- start If`s state -->
+						<td data-ng-if="!directDebit.state"><span></span></td>
+						<td data-ng-if="directDebit.state == 'NO_PAY'"><span th:text="#{states.NO_PAY}"> </span></td>
+						<td data-ng-if="directDebit.state == 'MANAGEMENT'"><span th:text="#{states.MANAGEMENT}"> </span></td>
+						<td data-ng-if="directDebit.state == 'PAY'"><span th:text="#{states.PAY}"> </span></td>
+						<td data-ng-if="directDebit.state == 'RETURN_BILL'"><span th:text="#{states.RETURN_BILL}"> </span></td>
+						<td data-ng-if="directDebit.state == 'CANCEL'"><span th:text="#{states.CANCEL}"> </span></td>
+						<!-- end If`s state -->
+
+						<!-- start If`s state -->
+						<td data-ng-if="!directDebit.method"><span></span></td>
+						<td data-ng-if="directDebit.method == 'BANK_DEPOSIT'"><span th:text="#{methods.BANK_DEPOSIT}"> </span></td>
+						<td data-ng-if="directDebit.method == 'CASH'"><span th:text="#{methods.CASH}"> </span></td>
+						<td data-ng-if="directDebit.method == 'NO_PAY'"><span th:text="#{methods.NO_PAY}"> </span></td>
+						<td data-ng-if="directDebit.method == 'PAYPAL'"><span th:text="#{methods.PAYPAL}"> </span></td>
+						<td data-ng-if="directDebit.method == 'DIRECTDEBIT'"><span th:text="#{methods.DIRECTDEBIT}"> </span></td>
+						<!-- end If`s state -->
+
+
+						<td class="text-center">
+							<!-- Mark bank deposit --> <object data-ng-if="(directDebit.state == 'NO_PAY' || directDebit.state == 'RETURN_BILL')">
+								<button data-ng-click="ctrl.markBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+									th:title="#{directDebit.infoBankDeposit.mark}" style="color: orange"></button>
+							</object> <!-- Cancel bank deposit --> <object data-ng-if="directDebit.state == 'MANAGEMENT' &amp;&amp; directDebit.method == 'BANK_DEPOSIT'">
+								<button data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+									th:title="#{directDebit.infoBankDeposit.cancel}" style="color: red"></button>
+							</object> <!-- Confirm pay bank deposit --> <object data-ng-if="directDebit.state == 'MANAGEMENT' &amp;&amp; directDebit.method == 'BANK_DEPOSIT'">
+								<button data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+									th:title="#{directDebit.infoBankDeposit.pay}" style="color: green"></button>
+							</object> <!-- Pay Cash --> <object data-ng-if="(directDebit.state == 'NO_PAY' || directDebit.state == 'RETURN_BILL')">
+								<button data-ng-click="ctrl.cash(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}"
+									style="color: green"></button>
+							</object> <!-- Return Bill --> <object
+								data-ng-if="(directDebit.state == 'PAY' || directDebit.state == 'MANAGEMENT') &amp;&amp; directDebit.method == 'DIRECTDEBIT'">
+								<button data-ng-click="ctrl.returnBill(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-share-alt"
+									th:title="#{directDebit.infoReturnBill}" style="color: red"></button>
+							</object> <!-- Cancel --> <object data-ng-if="(directDebit.state == 'NO_PAY' || directDebit.state != 'CANCEL')  ">
+								<button data-ng-click="ctrl.cancel(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-ban-circle"
+									th:title="#{directDebit.infoCancel}" style="color: red"></button>
+							</object>
+
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div data-uib-pagination="uib-pagination" data-total-items="totalItems" data-ng-model="currentPage" data-ng-change="pageChanged()"
+				data-items-per-page="numPerPage" class="pagination-sm pull-right" data-boundary-links="true" data-previous-text="&lsaquo;"
+				data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;"></div>
+
+		</div>
+	</div>
+
+
+</body>
+</html>

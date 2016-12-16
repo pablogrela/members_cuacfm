@@ -122,6 +122,13 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 		return entityManager.createQuery("select a from PayMember a order by a.account.login", PayMember.class).getResultList();
 	}
 
+	@Override
+	public List<PayMember> findNoPayListByAccountId(Long accountId) {
+		return entityManager.createQuery(
+				"select p from PayMember p where p.state <> 'PAY' and p.dateCharge <= :date and p.account.id = :accountId",
+				PayMember.class).setParameter("date", new Date()).setParameter("accountId", accountId).getResultList();
+	}
+
 	/**
 	 * Gets the pay member no pay list by direct debit.
 	 *

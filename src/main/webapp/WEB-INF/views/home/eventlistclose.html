@@ -21,8 +21,8 @@
 <title th:text="#{eventListClose.title}">Title</title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 <script th:src="@{/resources/js/app/membersApp.js}"></script>
-<script th:src="@{/resources/js/service/eventListService.js}"></script>
-<script th:src="@{/resources/js/controller/eventListCloseController.js}"></script>
+<script th:src="@{/resources/js/service/eventService.js}"></script>
+<script th:src="@{/resources/js/controller/eventCloseController.js}"></script>
 </head>
 <body data-ng-app="membersApp" class="ng-cloak">
 
@@ -30,7 +30,7 @@
 	<div th:replace="fragments/header :: header(active='Home')">&nbsp;</div>
 
 
-	<div class="container">
+	<div class="container-fluid">
 
 		<!-- Button redirect to Event List-->
 		<div class="text-center">
@@ -39,16 +39,12 @@
 		<br></br>
 
 		<!-- List events -->
-		<div data-ng-if="!ctrl.events" data-ng-controller="EventController as ctrl">
+		<div data-ng-controller="EventController as ctrl" data-ng-show="ctrl.eventsClose">
 			<div data-ng-repeat="event in ctrl.eventsClose">
 
 				<!-- Start Only Admin -->
 				<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-					<div class="alert alert-default" data-ng-if="event.priority == 0">
-						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
-							th:title="#{event.infoHighlight}" style="color: white"></button>
-						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
-					</div>
+					<div th:include="home/event :: eventClose" class="alert alert-default" data-ng-if="event.priority == 0"></div>
 				</th:block>
 
 			</div>

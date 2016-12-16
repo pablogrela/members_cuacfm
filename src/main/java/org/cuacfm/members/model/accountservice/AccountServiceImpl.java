@@ -185,19 +185,26 @@ public class AccountServiceImpl implements AccountService {
 		List<Account> accounts = accountRepository.getAccountsOrderByActive();
 		List<AccountDTO> accountsDTO = new ArrayList<>();
 		for (Account account : accounts) {
-			AccountDTO accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getName(),
-					account.getNickName(), account.getAddress(), account.isActive(), account.getRole(), account.getInstallments());
-
-			if (account.getAccountType() != null) {
-				accountDTO.setAccountType(account.getAccountType().getName());
-			}
-			if (account.getMethodPayment() != null) {
-				accountDTO.setMethodPayment(account.getMethodPayment().getName());
-			}
-			accountsDTO.add(accountDTO);
+			accountsDTO.add(getAccountDTO(account));
 		}
 
 		return accountsDTO;
+	}
+
+	@Override
+	public AccountDTO getAccountDTO(Account account) {
+
+		AccountDTO accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getPhone(),
+				account.getMobile(), account.getName(), account.getNickName(), account.getAddress(), account.isActive(), account.getRole(),
+				account.getInstallments());
+
+		if (account.getAccountType() != null) {
+			accountDTO.setAccountType(account.getAccountType().getName());
+		}
+		if (account.getMethodPayment() != null) {
+			accountDTO.setMethodPayment(account.getMethodPayment().getName());
+		}
+		return accountDTO;
 	}
 
 	/**

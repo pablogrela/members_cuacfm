@@ -96,7 +96,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
       accountService.save(account);
       accounts.add(account);
 
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
       programService.save(program);
       programService.up(program);
 
@@ -144,7 +144,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
       accountService.save(account);
       accounts.add(account);
 
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
       programService.save(program);
       programService.update(program);
 

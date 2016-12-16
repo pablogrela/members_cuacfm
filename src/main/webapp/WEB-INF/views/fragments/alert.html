@@ -18,9 +18,92 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div th:fragment="alert (type, message)" class="alert alert-dismissable" th:classappend="'alert-' + ${type}">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <span th:text="${message}">Test</span>
-    </div>
+	<div th:fragment="alert (type, message)" class="alert alert-dismissable" th:classappend="'alert-' + ${type}">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<span th:text="${message}">Test</span>
+	</div>
+
+
+	<div th:fragment="alertModal (type, message)">
+		<div id="modal" class="modal fade">
+			<div class="modal-dialog">
+				<!-- <div class="modal-content panel-info"> -->
+				<div class="modal-header modal-header-info" th:classappend="'modal-header-' + ${type}">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" th:text="#{advice}">Confirmation</h4>
+				</div>
+				<div class="modal-body alert alert-dismissable" th:classappend="'alert-' + ${type}">
+					<span th:text="${message}">Test</span>
+				</div>
+			</div>
+			<!-- </div> -->
+		</div>
+	</div>
+
+
+	<!-- Modal Info -->
+	<div th:fragment="infoAccount" id="infoAccount" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-info">
+				<div class="modal-header modal-header-info">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" data-ng-bind="account.name"></h4>
+				</div>
+				<div class="modal-body">
+					<label th:text="#{name} + ': ' "></label>
+					<span data-ng-bind="account.name"></span>
+					<br></br> <label th:text="#{nickName} + ': ' "></label>
+					<span data-ng-bind="account.nickName"></span>
+					<br></br> <label th:text="#{login} + ': ' "></label>
+					<span data-ng-bind="account.login"></span>
+					<br></br> <label th:text="#{email} + ': ' "></label>
+					<span data-ng-bind="account.email"></span>
+					<br></br> <label th:text="#{phone} + ': ' "></label>
+					<span data-ng-bind="account.phone"></span>
+					<br></br> <label th:text="#{mobile} + ': ' "></label>
+					<span data-ng-bind="account.mobile"></span>
+					<br></br> <label th:text="#{methodPayment} + ': ' "></label>
+					<span data-ng-bind="account.methodPayment"></span>
+					<br></br> <label th:text="#{accountType} + ': ' "></label>
+					<span data-ng-bind="account.accountType"></span>
+					<br></br> <label th:text="#{installments} + ': ' "></label>
+					<span data-ng-bind="account.installments"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal Info -->
+	<!-- 	<div th:fragment="alert24 (type, message)"> -->
+	<!-- 		<div id="modal" class="modal fade"> -->
+	<!-- 			<div class="modal-dialog"> -->
+	<!-- 				<div class="modal-body alert alert-dismissable" th:classappend="'alert-' + ${type}"> -->
+	<!-- 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+	<!-- 					<span th:text="${message}">Test</span> -->
+	<!-- 				</div> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
+
+
+	<!-- 	<div th:fragment="alert4 (type, message)"> -->
+	<!-- 		<div id="modal" class="modal fade"> -->
+	<!-- 			<div class="modal-dialog"> -->
+	<!-- 				<div class="modal-content panel-info"> -->
+	<!-- 					<div class="modal-header modal-header-info"> -->
+	<!-- 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+	<!-- 						<h4 class="modal-title" th:text="#{account.infoBankAccounts}">Confirmation</h4> -->
+	<!-- 					</div> -->
+	<!-- 					<div class="modal-body"> -->
+	<!-- 						<div class="alert alert-dismissable" th:classappend="'alert-' + ${type}"> -->
+	<!-- 							<span th:text="${message}">Test</span> -->
+	<!-- 						</div> -->
+	<!-- 					</div> -->
+	<!-- 				</div> -->
+	<!-- 			</div> -->
+	<!-- 		</div> -->
+	<!-- 	</div> -->
+
 </body>
 </html>

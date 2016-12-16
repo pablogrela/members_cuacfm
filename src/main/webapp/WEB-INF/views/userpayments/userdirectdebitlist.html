@@ -1,0 +1,112 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+</head>
+<body>
+
+	<div th:fragment="userdirectdebitlist">
+
+		<h2 data-ng-show="directDebits" class="text-center" th:text="#{directDebits.directPay}"></h2>
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<object data-ng-show="message">
+			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+		</object>
+
+		<table data-ng-show="directDebits" class="dataTable display table-striped">
+			<thead class="table-bordered">
+				<tr>
+					<th th:text="#{concept}">Concept</th>
+					<th th:text="#{description}">Description</th>
+					<th th:text="#{price}">Price</th>
+					<th th:text="#{state}" th:title="#{infoState}">State</th>
+					<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
+					<th class="no-sort"></th>
+				</tr>
+			</thead>
+			<tbody class="table-bordered">
+
+				<!-- Table entry -->
+				<tr data-ng-repeat="directDebit in directDebits">
+					<td><span data-ng-bind="directDebit.id"></span></td>
+					<td><span data-ng-bind="directDebit.concept"></span></td>
+					<td><span data-ng-bind="directDebit.price"></span></td>
+
+					<!-- start If`s state -->
+					<td data-ng-if="!directDebit.state"><span></span></td>
+					<td data-ng-if="directDebit.state == 'NO_PAY'"><span th:text="#{states.NO_PAY}"> </span></td>
+					<td data-ng-if="directDebit.state == 'MANAGEMENT'"><span th:text="#{states.MANAGEMENT}"> </span></td>
+					<td data-ng-if="directDebit.state == 'PAY'"><span th:text="#{states.PAY}"> </span></td>
+					<td data-ng-if="directDebit.state == 'RETURN_BILL'"><span th:text="#{states.RETURN_BILL}"> </span></td>
+					<td data-ng-if="directDebit.state == 'CANCEL'"><span th:text="#{states.CANCEL}"> </span></td>
+					<!-- end If`s state -->
+
+					<!-- start If`s state -->
+					<td data-ng-if="!directDebit.method"><span></span></td>
+					<td data-ng-if="directDebit.method == 'BANK_DEPOSIT'"><span th:text="#{methods.BANK_DEPOSIT}"> </span></td>
+					<td data-ng-if="directDebit.method == 'CASH'"><span th:text="#{methods.CASH}"> </span></td>
+					<td data-ng-if="directDebit.method == 'NO_PAY'"><span th:text="#{methods.NO_PAY}"> </span></td>
+					<td data-ng-if="directDebit.method == 'PAYPAL'"><span th:text="#{methods.PAYPAL}"> </span></td>
+					<td data-ng-if="directDebit.method == 'DIRECTDEBIT'"><span th:text="#{methods.DIRECTDEBIT}"> </span></td>
+					<!-- end If`s state -->
+
+					<!-- Pay PayPal direct Debit -->
+					<td class="text-center">
+					
+					<!-- pay bank deposit --> 
+					<object data-ng-if="!directDebit.method &amp;&amp; directDebit.state != 'CANCEL'">
+							<form name='formTpv' method='post' th:action="#{paypalUrl}">
+								<input type='hidden' name='cmd' value='_xclick' />
+								<input type='hidden' name='business' th:value="${email}" />
+								<input type='hidden' name='item_name' value="{{directDebit.concept}}" />
+								<input type='hidden' name='item_number' value="{{directDebit.id}}" />
+								<input type='hidden' name='amount' value="{{directDebit.price}}" />
+								<input type='hidden' name='page_style' value='primary' />
+								<input type='hidden' name='no_shipping' value='1' />
+								<input type='hidden' name='return'
+									th:value=" @{${#httpServletRequest.scheme}} + '://' + @{${#httpServletRequest.serverName}}  + ':' + @{${#httpServletRequest.serverPort}} 
+										+ '/members/userPayments/directDebitList/paypal/' + '{{directDebit.id}}' + '?' + ${_csrf.parameterName} + '=' + ${_csrf.token}" />
+								<input type='hidden' name='rm' value='2' />
+								<input type='hidden' name='cancel_return' th:value="@{${#httpServletRequest.requestURL}}" />
+								<input type='hidden' name='no_note' value='1' />
+								<input type='hidden' name='currency_code' th:value="#{currencyCode}" />
+								<input type='hidden' name='cn' value='PP-BuyNowBF' />
+								<input type='hidden' name='custom' value='' />
+								<input type='hidden' name='lc' th:value="#{lcCode}" />
+								<input type='hidden' name='country' th:value="#{countryCode}" />
+								<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
+							</form>
+
+							<!-- mark bank deposit --> 
+							<button data-ng-click="ctrl.markBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file" th:title="#{directDebit.infoBankDeposit.mark}"
+								style="color: orange"></button>
+						</object> 
+						
+						<!-- cancel bank deposit --> 
+						<object data-ng-if="directDebit.method == 'BANK_DEPOSIT' &amp;&amp; directDebit.state == 'MANAGEMENT'" class="text-center">
+							<button data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+								th:title="#{directDebit.infoBankDeposit.cancel}" style="color: red"></button>
+						</object></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

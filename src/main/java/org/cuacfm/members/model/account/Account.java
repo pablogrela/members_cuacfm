@@ -141,7 +141,7 @@ public class Account implements Serializable {
 	private roles role;
 
 	/** Instantiates a new account. */
-	protected Account() {
+	public Account() {
 		// Default empty constructor.
 	}
 

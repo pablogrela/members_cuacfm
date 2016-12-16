@@ -21,18 +21,20 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 	$scope.totalItems = 0;
 	$scope.currentPage = 1;
 	$scope.numPerPage = 20;
+	$scope.account = '';
 	$scope.accounts = [];
+	$scope.message = '';
 
 	var self = this;
 	self.unsubscribe = unsubscribe;
 	self.subscribe = subscribe;
-	self.account = account;
+	self.infoAccount = infoAccount;
 
 	fetchAllUsers();
 
 	function fetchAllUsers() {
-		AccountService.fetchAllUsers().then(function(d) {
-			$scope.accounts = d;
+		AccountService.fetchAllUsers().then(function(data) {
+			$scope.accounts = data;
 			$scope.totalItems = $scope.accounts.length;
 		}, function(errResponse) {
 			console.error('Error while fetching Users');
@@ -40,19 +42,23 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 	}
 
 	function unsubscribe(id) {
-		AccountService.unsubscribe(id).then(fetchAllUsers, function(errResponse) {
+		AccountService.unsubscribe(id).then(function(data) {
+			$scope.message = data;
+			fetchAllUsers();
+			showModal(modal);
+		}, function(errResponse) {
 			console.error('Error while unsubscribe User');
 		});
 	}
 
 	function subscribe(id) {
-		AccountService.subscribe(id).then(fetchAllUsers, function(errResponse) {
+		AccountService.subscribe(id).then(function(data) {
+			$scope.message = data;
+			fetchAllUsers();
+			showModal(modal);
+		}, function(errResponse) {
 			console.error('Error while subscribe User');
 		});
-	}
-
-	function account(id) {
-		AccountService.account(id);
 	}
 
 	$scope.paginate = function(value) {
@@ -62,5 +68,9 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 		index = $scope.accounts.indexOf(value);
 		return (begin <= index && index < end);
 	};
+	
+	function infoAccount(aux) {
+		$scope.account = aux;
+	}
 
 } ]);

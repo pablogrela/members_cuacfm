@@ -35,10 +35,10 @@ DROP TABLE IF EXISTS Training;
 DROP TABLE IF EXISTS TrainingType;
 DROP TABLE IF EXISTS Program;
 DROP TABLE IF EXISTS BankAccount;
+DROP TABLE IF EXISTS Event;
 DROP TABLE IF EXISTS Account;
 DROP TABLE IF EXISTS AccountType;
 DROP TABLE IF EXISTS MethodPayment;
-DROP TABLE IF EXISTS Event;
 
 CREATE TABLE Configuration (
     id INT NOT NULL auto_increment, 
@@ -131,7 +131,7 @@ CREATE TABLE Program(
     duration INT NOT NULL,
     description VARCHAR(500),
     active BOOLEAN,
-    accountPayer INT,
+    accountPayer INT NOT NULL,
     CONSTRAINT ProgramId_PK PRIMARY KEY (id),
     CONSTRAINT Program_AccountId_FK FOREIGN KEY (accountPayer) REFERENCES Account(id),
     CONSTRAINT NameProgramUniqueKey UNIQUE (name)
@@ -189,7 +189,7 @@ CREATE TABLE Inscription(
     unsubscribe BOOLEAN,
     CONSTRAINT InscriptionId_PK PRIMARY KEY (id),
 	CONSTRAINT AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
-	CONSTRAINT TrainingId_FK FOREIGN KEY (trainingId) REFERENCES Training(id)
+	CONSTRAINT TrainingId_FK FOREIGN KEY (trainingId) REFERENCES Training(id) ON DELETE CASCADE
 );
 	
     
@@ -212,15 +212,15 @@ CREATE TABLE PayProgram(
     price DOUBLE(5,2) NOT NULL,
     accountPayer VARCHAR(30),
     state VARCHAR(20) NOT NULL,
-    method VARCHAR(20) NOT NULL,
+    method VARCHAR(20),
    	idPayer VARCHAR(30),
    	idTxn VARCHAR(30),
    	emailPayer VARCHAR(30),
     datePay TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT PayProgramId_PK PRIMARY KEY (id),
 	CONSTRAINT PayProgram_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
-	CONSTRAINT FeeProgramId_FK FOREIGN KEY (feeProgramId) REFERENCES FeeProgram(id),
-	CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
+	CONSTRAINT FeeProgramId_FK FOREIGN KEY (feeProgramId) REFERENCES FeeProgram(id)
+	-- CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
 );   
 	
 
@@ -245,7 +245,7 @@ CREATE TABLE PayMember(
     installment INT,
     installments INT,
     state VARCHAR(20) NOT NULL,
-    method VARCHAR(20) NOT NULL,
+    method VARCHAR(20),
    	idPayer VARCHAR(30),
    	idTxn VARCHAR(30),
    	emailPayer VARCHAR(30),
@@ -253,8 +253,8 @@ CREATE TABLE PayMember(
     dateCharge DATE,
     CONSTRAINT PayMemberId_PK PRIMARY KEY (id),
 	CONSTRAINT PayMember_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
-	CONSTRAINT FeeMemberId_FK FOREIGN KEY (feeMemberId) REFERENCES FeeMember(id),
-	CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
+	CONSTRAINT FeeMemberId_FK FOREIGN KEY (feeMemberId) REFERENCES FeeMember(id)
+	-- CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
 );   	
 
 
@@ -270,24 +270,33 @@ CREATE TABLE BankRemittance(
 
 CREATE TABLE DirectDebit(
    -- id referencia adeudo
-    id INT NOT NULL auto_increment, 
+    id VARCHAR(20) NOT NULL, 
     accountId INT NOT NULL,
-    bankRemittanceId INT NOT NULL,
-    concept VARCHAR(140) NOT NULL,
-    price DOUBLE(5,2) NOT NULL,
-    mandate VARCHAR(24) NOT NULL,
-    -- secuencia adeudose
-    secuence VARCHAR(4) NOT NULL,
+    bankRemittanceId INT,
+    dateUpdate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    datePay TIMESTAMP NULL,
     state VARCHAR(20) NOT NULL,
+    method VARCHAR(20),
+    
+    mandate VARCHAR(24) NULL,
+    -- secuencia adeudose
+    secuence VARCHAR(4) NULL,
+    
+    -- paypal
+    idPayer VARCHAR(30),
+   	idTxn VARCHAR(30),
+   	emailPayer VARCHAR(30),
+   	
     CONSTRAINT DirectDebitId_PK PRIMARY KEY (id),
     CONSTRAINT DirectDebit_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
-    CONSTRAINT DirectDebit_BankRemittance_FK FOREIGN KEY (bankRemittanceId) REFERENCES BankRemittance(id)
+    CONSTRAINT DirectDebit_BankRemittance_FK FOREIGN KEY (bankRemittanceId) REFERENCES BankRemittance(id),
+    CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
 );  
 
 
 CREATE TABLE DirectDebitPayPrograms(
     id INT NOT NULL auto_increment, 
-    directDebitId INT NOT NULL,
+    directDebitId VARCHAR(20) NOT NULL,
     payProgramId INT NOT NULL,
     CONSTRAINT DirectDebitPayProgramsId_PK PRIMARY KEY (id),
     CONSTRAINT DirectDebitPayPrograms_DirectDebitId_FK FOREIGN KEY (directDebitId) REFERENCES DirectDebit(id),
@@ -297,7 +306,7 @@ CREATE TABLE DirectDebitPayPrograms(
 
 CREATE TABLE DirectDebitPayMembers(
     id INT NOT NULL auto_increment,
-    directDebitId INT NOT NULL,
+    directDebitId VARCHAR(20) NOT NULL,
     payMemberId INT NOT NULL,
     CONSTRAINT DirectDebitPayMembersId_PK PRIMARY KEY (id),
     CONSTRAINT DirectDebitPayMembers_DirectDebitId_FK FOREIGN KEY (directDebitId) REFERENCES DirectDebit(id),

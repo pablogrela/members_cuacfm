@@ -16,91 +16,118 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
 <title th:text="#{account.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
+<script th:src="@{/resources/js/service/accountService.js}"></script>
+<script th:src="@{/resources/js/controller/accountController.js}"></script>
 </head>
 <body>
+
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='account')">&nbsp;</div>
 
-	<h2 class="text-center" th:text="#{account.accountList}">Account List</h2>
 
-	<div class="container text-center">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div
-				th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-		</th:block>
-	</div>
+	<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="AccountController as ctrl">
+		
+		<!-- Show info account -->
+		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
+		
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<object data-ng-show="message">
+			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+		</object>
 
-	<!-- Verify if exits Accounts -->
-	<div class="container" th:unless="${#lists.isEmpty(accounts)}">
+		<h2 class="text-center" th:text="#{account.accountList}">Account List</h2>
 
+		<div th:include="fragments/sortColumn :: search"></div>
 
-		<!-- Table List of Training Types -->
-		<table class="display" id="customTable">
-			<thead class="table-bordered">
+		<table class="dataTable display table-striped">
+			<thead>
 				<tr>
-					<th th:text="#{name}">Name</th>
-					<th th:text="#{login}">Login</th>
-					<th th:text="#{email}">Email</th>
-					<th th:text="#{methodPayment}">Method Payment</th>
-					<th th:text="#{accountType}">Account Type</th>
-					<th th:text="#{installments}">Installments</th>
-					<th th:text="#{role}">Role</th>
-					<th class="no-sort"></th>
+					<td><a href="#" data-ng-click="sortType = 'name'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
+								data-ng-show="sortType == 'name' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+								data-ng-show="sortType == 'name' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a></td>
+					<td><a href="#" data-ng-click="sortType = 'login'; sortReverse = !sortReverse"> <span th:text="#{login}">login</span> <span
+								data-ng-show="sortType == 'login' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+								data-ng-show="sortType == 'login' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a></td>
+					<td><a href="#" data-ng-click="sortType = 'email'; sortReverse = !sortReverse"> <span th:text="#{email}">email</span> <span
+								data-ng-show="sortType == 'email' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+								data-ng-show="sortType == 'email' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a></td>
+					<td><a href="#" data-ng-click="sortType = 'methodPayment'; sortReverse = !sortReverse"> <span th:text="#{methodPayment}">methodPayment</span>
+							<span data-ng-show="sortType == 'methodPayment' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+								data-ng-show="sortType == 'methodPayment' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a></td>
+					<td><a href="#" data-ng-click="sortType = 'accountType'; sortReverse = !sortReverse"> <span th:text="#{accountType}">accountType</span>
+							<span data-ng-show="sortType == 'accountType' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+								data-ng-show="sortType == 'accountType' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a></td>
+					<td><a href="#" data-ng-click="sortType = 'installments'; sortReverse = !sortReverse"> <span th:text="#{installments}">installments</span>
+							<span data-ng-show="sortType == 'installments' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+								data-ng-show="sortType == 'installments' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a></td>
+					<td><a href="#" data-ng-click="sortType = 'role'; sortReverse = !sortReverse"> <span th:text="#{role}">role</span> <span
+								data-ng-show="sortType == 'role' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+								data-ng-show="sortType == 'role' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a></td>
+					<td><a href="#" data-ng-click="sortType = 'active'; sortReverse = !sortReverse"> <span th:text="#{active}">active</span> <span
+								data-ng-show="sortType == 'active' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+								data-ng-show="sortType == 'active' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+					</a></td>
 					<th class="no-sort"></th>
 				</tr>
 			</thead>
-			<tbody class="table-bordered">
 
-				<!-- Table entry -->
-				<tr th:each="account : ${accounts}">
-					<td th:text="${account.name}">name</td>
-					<td th:text="${account.login}">login</td>
-					<td th:text="${account.email}">email</td>
-					<td th:if="${account.methodPayment != null}" th:text="${account.methodPayment.name}"></td>
-					<td th:if="${account.methodPayment == null}" th:text="${account.methodPayment}"></td>
-					<td th:if="${account.accountType != null}" th:text="${account.accountType.name}"></td>
-					<td th:if="${account.accountType == null}" th:text="${account.accountType}"></td>
-					<td th:text="${account.installments}">installments</td>
-					<td th:text="#{${'roles.' + account.role}}">role</td>
+			<tbody>
+				<tr data-ng-repeat="account in accounts | orderBy:sortType:sortReverse | filter:search | filter:paginate">
+					<td><span th:title="#{account.infoAccount}" data-ng-bind="account.name" data-ng-click="ctrl.infoAccount(account)"
+								data-toggle="modal" data-target="#infoAccount"></span></td>
+					<td><span data-ng-bind="account.login"></span></td>
+					<td><span data-ng-bind="account.email"></span></td>
+					<td><span data-ng-bind="account.methodPayment"></span></td>
+					<td><span data-ng-bind="account.accountType"></span></td>
+					<td><span data-ng-bind="account.installments"></span></td>
 
-					<!-- Unsubscribe Account -->
-					<td th:if="${account.active} and !${account.role==rolAdmin}">
-						<form th:action="@{'accountList/accountUnsubscribe/'+${account.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
-								th:title="#{account.infoUnsubscribe}" style="color: red"></button>
-						</form>
-					</td>
-					
+					<!-- start If`s role -->
+					<td data-ng-if="account.role == 'ROLE_ADMIN'"><span th:text="#{roles.ROLE_ADMIN}"> </span></td>
+					<td data-ng-if="account.role == 'ROLE_TRAINER'"><span th:text="#{roles.ROLE_TRAINER}"> </span></td>
+					<td data-ng-if="account.role == 'ROLE_USER'"><span th:text="#{roles.ROLE_USER}"> </span></td>
+					<td data-ng-if="account.role == 'ROLE_PREREGISTERED'"><span th:text="#{roles.ROLE_PREREGISTERED}"> </span></td>
+					<!-- end If`s role -->
+
+					<!-- start If`s active -->
+					<td data-ng-if="account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{active}"></span>
+						<button data-ng-click="ctrl.unsubscribe(account.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
+							th:title="#{account.infoUnsubscribe}" style="color: red"></button></td>
+					<td data-ng-if="!account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{down}"></span>
+						<button data-ng-click="ctrl.subscribe(account.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up" th:title="#{account.infoSubscribe}"
+							style="color: green"></button></td>
 					<!-- Fill table entry -->
-					<td th:if="${account.active} and ${account.role==rolAdmin}"></td>
-					
-					<!-- Subscribe Account -->
-					<td th:if="!${account.active}">
-						<form th:action="@{'accountList/accountSubscribe/'+${account.id}}" method="post">
-							<button class="btnTable btn-link glyphicon  glyphicon-chevron-up"
-								th:title="#{account.infoSubscribe}" style="color: green"></button>
-						</form>
-					</td>
+					<td data-ng-if="account.active &amp;&amp; account.role == 'ROLE_ADMIN'"></td>
+					<!-- end If`s active -->
 
 					<!-- Modify Account -->
 					<td>
-						<form th:action="@{'account/'+${account.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}"
-								style="color: orange"></button>
+						<form action="{{'account/' + account.id}} " method="post">
+							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+							<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 						</form>
-					</td>
 
+					</td>
 				</tr>
 			</tbody>
 		</table>
+
+		<div data-uib-pagination="uib-pagination" data-total-items="totalItems" data-ng-model="currentPage" data-ng-change="pageChanged()"
+			data-items-per-page="numPerPage" class="pagination-sm pull-right" data-boundary-links="true" data-previous-text="&lsaquo;"
+			data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;"></div>
+
 	</div>
 
 </body>

@@ -79,7 +79,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
 		// findById
@@ -105,7 +105,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account2);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 90, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 90, accounts, account);
 
 		programService.save(program);
 
@@ -136,7 +136,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.save(program);
 	}
@@ -154,7 +154,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.update(program);
 
@@ -177,7 +177,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(program.getDuration(), programSearch.getDuration());
 		assertEquals(program.getPeriodicity(), programSearch.getPeriodicity());
 
-		Program program2 = new Program("program 22", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program2 = new Program("program 22", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.update(program2);
 	}
 
@@ -195,13 +195,13 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program2);
 
 		// Update
-		Program program3 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program3 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.update(program3);
 	}
 
@@ -219,7 +219,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
 		// Up and assert
@@ -246,7 +246,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
 		// Delete and assert
@@ -272,7 +272,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
 
@@ -300,7 +300,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		Date date = DisplayDate.stringToMonthOfYear("2015-12");
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
 
@@ -336,7 +336,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		Date date = DisplayDate.stringToMonthOfYear("2015-12");
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
 
@@ -374,10 +374,10 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		Date date = DisplayDate.stringToMonthOfYear("2015-12");
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program2);
 		programService.up(program2);
 

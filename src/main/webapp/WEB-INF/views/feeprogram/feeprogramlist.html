@@ -16,10 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html 
-xmlns:th="http://www.thymeleaf.org" 
-xmlns:tiles="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{feeProgram.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -29,88 +26,77 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='feeProgram')">&nbsp;</div>
 
+	<div class="container-fluid">
+		<!-- Button Create New Fee Program -->
+		<div class="text-center">
+			<a href="#" class="btn btn-success btn-lg" th:href="@{/feeProgramList/feeProgramCreate}" th:text="#{feeProgram.createNewFeeProgram}">Create New
+				Fee Program </a>
+		</div>
+		<br></br>
+		
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
 
-	<!-- Button Create New Fee Program -->
-	<div class="text-center">
-		<a href="#" class="btn btn-success btn-lg" th:href="@{/feeProgramList/feeProgramCreate}"
-			th:text="#{feeProgram.createNewFeeProgram}">Create New Fee Program </a>
-	</div>
-	
-	<br></br><br></br>
-	<!-- Message Info -->
-	<div class="container text-center ">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-						message=#{${message.message}(${message.args[0]})})">&nbsp;
-			</div>
+		<!-- Message if feePrograms is Empty -->
+		<th:block th:if="${#lists.isEmpty(feePrograms)}">
+			<h2 class="text-center" th:text="#{feeProgram.feeProgramListEmpty}">List of feePrograms Empty</h2>
 		</th:block>
-	</div>
-	
-	<!-- Message if feePrograms is Empty -->
-	<th:block th:if="${#lists.isEmpty(feePrograms)}">
-		<h2 class="text-center" th:text="#{feeProgram.feeProgramListEmpty}">List of
-			feePrograms Empty</h2>
-	</th:block>
-
-	<!-- Verify if exits feePrograms -->
-	<div class="container" th:unless="${#lists.isEmpty(feePrograms)}">
-		<h2 class="text-center" th:text="#{feeProgram.feeProgramList}">List of Pay
-			Inscriptions</h2>
-
-		<!-- Table List of Fee Programs -->
-		<table class="display" id="customTable">
-			<thead class="table-bordered">
-				<tr>
-					<th th:text="#{name}">Name</th>
-					<th th:text="#{date}">Year</th>
-					<th th:text="#{price}">Price</th>
-					<th th:text="#{description}">Description</th>
-					<th class="no-sort"></th>
-					<th class="no-sort"></th>
-					<th class="no-sort"></th>
-				</tr>
-			</thead>
-			<tbody class="table-bordered">
-
-				<!-- Table entry -->
-				<tr th:each="feeProgram : ${feePrograms}">
-					<td th:text="${feeProgram.name}">name</td>				
-					<td th:text="${#dates.format(feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}"> May of 2015</td>
-					<td th:text="${feeProgram.price}">price</td>
-					<td th:text="${feeProgram.description}">description</td>
 
 
-					<!-- Modify FeeProgram -->
-					<td>
-						<form th:action="@{'feeProgramList/feeProgramEdit/'+${feeProgram.id}}"
-							method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}"
-								style="color: orange"></button>
-						</form>
-					</td>
+		<!-- Verify if exits feePrograms -->
+		<div th:unless="${#lists.isEmpty(feePrograms)}">
+			<h2 class="text-center" th:text="#{feeProgram.feeProgramList}">List of Pay Inscriptions</h2>
 
-					<!-- View Inscriptions -->
-					<td>
-						<form th:action="@{'feeProgramList/payProgramList/'+${feeProgram.id}}"
-							method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-headphones"
-								th:title="#{feeProgram.infoPayProgramList}" style="color: green"></button>
-						</form>
-					</td>
-					
-					<!-- Print All List of feeProgram-->
-					<td>
-						<form th:action="@{'feeProgramList/payProgramList/createPdf/'+${feeProgram.id}}"
-							method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-download-alt" th:name="createPdf" th:value="ALL" 
-								th:title="#{feeMember.infoAllList}"></button>
-						</form>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+			<!-- Table List of Fee Programs -->
+			<table class="display" id="customTable">
+				<thead class="table-bordered">
+					<tr>
+						<th th:text="#{name}">Name</th>
+						<th th:text="#{date}">Year</th>
+						<th th:text="#{price}">Price</th>
+						<th th:text="#{description}">Description</th>
+						<th class="no-sort"></th>
+						<th class="no-sort"></th>
+						<th class="no-sort"></th>
+					</tr>
+				</thead>
+				<tbody class="table-bordered">
+
+					<!-- Table entry -->
+					<tr th:each="feeProgram : ${feePrograms}">
+						<td th:text="${feeProgram.name}">name</td>
+						<td th:text="${#dates.format(feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
+						<td th:text="${feeProgram.price}">price</td>
+						<td th:text="${feeProgram.description}">description</td>
+
+
+						<!-- Modify FeeProgram -->
+						<td>
+							<form th:action="@{'feeProgramList/feeProgramEdit/'+${feeProgram.id}}" method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+							</form>
+						</td>
+
+						<!-- View Inscriptions -->
+						<td>
+							<form th:action="@{'feeProgramList/payProgramList/'+${feeProgram.id}}" method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-headphones" th:title="#{feeProgram.infoPayProgramList}" style="color: green"></button>
+							</form>
+						</td>
+
+						<!-- Print All List of feeProgram-->
+						<td>
+							<form th:action="@{'feeProgramList/payProgramList/createPdf/'+${feeProgram.id}}" method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-download-alt" th:name="createPdf" th:value="ALL" th:title="#{feeMember.infoAllList}"></button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </body>
 </html>

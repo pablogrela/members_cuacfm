@@ -66,12 +66,12 @@ public class PayMemberServiceImpl implements PayMemberService {
 
 	@Override
 	public PayMember update(PayMember payMember) throws ExistTransactionIdException {
-		PayMember paymentExist = payMemberRepository.findByIdTxn(payMember.getIdTxn());
-		if ((paymentExist != null) && (paymentExist.getId() != payMember.getId())) {
-			throw new ExistTransactionIdException(payMember.getIdTxn());
-		}
+		//	PayMember paymentExist = payMemberRepository.findByIdTxn(payMember.getIdTxn());
+		//	if ((paymentExist != null) && (paymentExist.getId() != payMember.getId())) {
+		//		throw new ExistTransactionIdException(payMember.getIdTxn());
+		//	}
 
-		Object[] arguments = { payMember.getFeeMember().getName() };
+		Object[] arguments = { payMember.getFeeMember().getName(), payMember.getAccount().getName() };
 		eventService.save("payMember.successModify", null, 2, arguments);
 		return payMemberRepository.update(payMember);
 	}
@@ -132,6 +132,9 @@ public class PayMemberServiceImpl implements PayMemberService {
 		return payMemberRepository.getPayMemberList();
 	}
 
+	public List<PayMember> findNoPayListByAccountId(Long accountId){
+		return payMemberRepository.findNoPayListByAccountId(accountId);
+	}
 	@Override
 	public Map<Account, List<PayMember>> getPayMemberNoPayListByDirectDebit(Date monthCharge) {
 		return payMemberRepository.getPayMemberNoPayListByDirectDebit(monthCharge);

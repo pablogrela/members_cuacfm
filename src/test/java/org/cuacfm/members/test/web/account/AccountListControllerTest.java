@@ -41,6 +41,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.DefaultCsrfToken;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -130,8 +132,9 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void displaysaccountFormTest() throws Exception {
+		CsrfToken token = new DefaultCsrfToken("headerName", "parameterName", "token");
 		mockMvc.perform(
-				get("/accountList").locale(Locale.ENGLISH).session(defaultSession))
+				get("/accountList").locale(Locale.ENGLISH).session(defaultSession).sessionAttr("_csrf", token))
 				.andExpect(view().name("account/accountlist"))
 				.andExpect(
 						content()

@@ -18,7 +18,7 @@
 
 angular.module('membersApp').factory('AccountService', [ '$http', '$q', function($http, $q) {
 
-	var REST_SERVICE_URI = 'accountListAjax/';
+	var REST_SERVICE_URI = 'accountList/';
 	var csrf = '?' + document.getElementById("csrf.parameterName").value + '=' + document.getElementById("csrf.token").value;
 
 	var factory = {
@@ -42,8 +42,8 @@ angular.module('membersApp').factory('AccountService', [ '$http', '$q', function
 
 	function unsubscribe(id) {
 		var deferred = $q.defer();
-		var a = REST_SERVICE_URI + 'unsubscribe/' + id + csrf;
-		$http.post(a).then(function(response) {
+		var url = REST_SERVICE_URI + 'unsubscribe/' + id + csrf;
+		$http.post(url).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
 			console.error('Error while unsubscribe User');
@@ -54,8 +54,8 @@ angular.module('membersApp').factory('AccountService', [ '$http', '$q', function
 
 	function subscribe(id) {
 		var deferred = $q.defer();
-		var a = REST_SERVICE_URI + 'subscribe/' + id + csrf;
-		$http.post(a).then(function(response) {
+		var url = REST_SERVICE_URI + 'subscribe/' + id + csrf;
+		$http.post(url).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
 			console.error('Error while subscribe User');

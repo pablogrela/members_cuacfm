@@ -20,185 +20,180 @@
 <head>
 <title th:text="#{userPayments.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
+<script th:src="@{/resources/js/service/directDebitService.js}"></script>
+<script th:src="@{/resources/js/controller/directDebitController.js}"></script>
 </head>
 <body>
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='userPayments')">&nbsp;</div>
-	<div class="container text-center">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-					message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+
+	<div class="container-fluid">
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
+
+
+		<!-- Message if UserList is Empty -->
+		<th:block th:if="${#lists.isEmpty(payMembers) and #lists.isEmpty(payPrograms)}">
+			<h2 class="text-center" th:text="#{userPayments.listEmpty}">List of FeeMember Empty</h2>
 		</th:block>
-	</div>
-
-	<!-- Message if trainingUserList is Empty -->
-	<th:block th:if="${#lists.isEmpty(payMembers)}">
-		<h2 class="text-center" th:text="#{payMember.payMemberListEmpty}">List of FeeMember Empty</h2>
-	</th:block>
 
 
-	<!-- Verify if exits feeMembers -->
-	<div class="container" th:unless="${#lists.isEmpty(payMembers)}">
-
-		<h2 class="text-center" th:text="#{userPayments.payMemberList}">List of User Pay Inscriptions</h2>
-
-
-		<!-- Table List of Training Types -->
-		<table class="display" id="customTable">
-			<thead class="table-bordered">
-				<tr>
-					<th th:text="#{user}">Name</th>
-					<th th:text="#{accountType}">Account Type</th>
-					<th th:text="#{year}">Year</th>
-					<th th:text="#{price}">Price</th>
-					<th th:text="#{state}" th:title="#{infoState}">State</th>
-					<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
-					<th th:text="#{payMember.installment}">Installment</th>
-					<th class="no-sort"></th>
-				</tr>
-			</thead>
-			<tbody class="table-bordered">
-
-				<!-- Table entry -->
-				<tr th:each="payMember : ${payMembers}">
-					<td th:text="${payMember.account.name}">name</td>
-					<td th:if="${payMember.account.accountType != null}" th:text="${payMember.account.accountType.name}">Account Type</td>
-					<td th:if="${payMember.account.accountType == null}" th:text="${payMember.account.accountType}">Account Type</td>
-					<td th:text="${payMember.feeMember.year}">2015</td>
-					<td th:text="${payMember.price}">price</td>
-					<td th:text="#{${'states.' + payMember.state}}">State</td>
-					<td th:text="#{${'methods.' + payMember.method}}">Method</td>
-					<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of installments</td>
-
-					<!-- Pay inscription -->
-					<td
-						th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
-						class="text-center">
-						<!--<form th:action="@{'userPayments/pay/'+${payMember.id}}" method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{pay}"
-								style="color: green"></button>
-						</form>--> <!-- Form for pay in paypal -->
-						<form name='formTpv' method='post' th:action="#{paypalUrl}">
-							<input type='hidden' name='cmd' value='_xclick' />
-							<input type='hidden' name='business' th:value="${email}" />
-							<input type='hidden' name='item_name' th:value="${payMember.feeMember.name}" />
-							<input type='hidden' name='item_number' th:value="${payMember.feeMember.year}" />
-							<input type='hidden' name='amount' th:value="${payMember.price}" />
-							<input type='hidden' name='page_style' value='primary' />
-							<input type='hidden' name='no_shipping' value='1' />
-							<input type='hidden' name='return'
-								th:value="@{'http://localhost:8080/members/userPayments/payMember/' 
-						    	+ ${payMember.id}} + '?' + ${_csrf.parameterName} + '=' + ${_csrf.token}" />
-							<input type='hidden' name='rm' value='2' />
-							<input type='hidden' name='cancel_return' th:value="'http://localhost:8080/members/userPayments'" />
-							<input type='hidden' name='no_note' value='1' />
-							<input type='hidden' name='currency_code' th:value="#{currencyCode}" />
-							<input type='hidden' name='cn' value='PP-BuyNowBF' />
-							<input type='hidden' name='custom' value='' />
-							<input type='hidden' name='first_name' th:value="${payMember.account.name}" />
-							<input type='hidden' name='last_name' value='APELLIDOS' />
-							<input type='hidden' name='address1' value='DIRECCIÓN' />
-							<input type='hidden' name='city' value='POBLACIÓN' />
-							<input type='hidden' name='zip' value='CÓDIGO POSTAL' />
-							<input type='hidden' name='night_phone_a' value='' />
-							<input type='hidden' name='night_phone_b' value='TELÉFONO' />
-							<input type='hidden' name='night_phone_c' value='' />
-							<input type='hidden' name='lc' th:value="#{lcCode}" />
-							<input type='hidden' name='country' th:value="#{countryCode}" />
-							<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
-						</form> <!--<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{pay}" style="color: green"></button>-->
-					</td>
-
-					<!-- Fill table entry, pay inscription -->
-					<td
-						th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+		<!-- Table List of directDebits -->
+		<div data-ng-app="membersApp" data-ng-controller="DirectDebitController as ctrl">
+			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
+		</div>
 
 
-	<!-- Verify if exits feeMembers -->
-	<div class="container" th:unless="${#lists.isEmpty(payPrograms)}">
 
-		<h2 class="text-center" th:text="#{userPayments.payProgramsList}">List of pay programs</h2>
+		<!-- Table of feeMembers -->
+		<div th:unless="${#lists.isEmpty(payMembers)}">
 
-		<!-- Table List of pay program -->
-		<table class="table table-striped table-hover table-responsive" id="customTable2">
-			<thead class="table-bordered">
-				<tr>
-					<th th:text="#{program}">Program</th>
-					<th th:text="#{members}">Accounts</th>
-					<th th:text="#{fee}">Date</th>
-					<th th:text="#{price}">Price</th>
-					<th th:text="#{state}" th:title="#{infoState}">State</th>
-					<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
-					<th th:text="#{payerAccount}">Mobile</th>
-					<th class="no-sort"></th>
-				</tr>
-			</thead>
-			<tbody class="table-bordered">
+			<h2 class="text-center" th:text="#{userPayments.payMemberList}">List of User Pay Inscriptions</h2>
 
-				<!-- Table entry -->
-				<tr th:each="payProgram : ${payPrograms}">
-					<td th:text="${payProgram.program.name}">name</td>
-					<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
-					<td th:text="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
-					<td th:text="${payProgram.price}">price</td>
-					<td th:text="#{${'states.' + payProgram.state}}">State</td>
-					<td th:text="#{${'methods.' + payProgram.method}}">Method</td>
-					<td th:text="${payProgram.accountPayer}">mobile</td>
+			<!-- Table List of pay members-->
+			<table class="display" id="customTable">
+				<thead class="table-bordered">
+					<tr>
+						<th th:text="#{year}">Year</th>
+						<th th:text="#{price}">Price</th>
+						<th th:text="#{state}" th:title="#{infoState}">State</th>
+						<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
+						<th th:text="#{payMember.installment}">Installment</th>
+						<th class="no-sort"></th>
+					</tr>
+				</thead>
+				<tbody class="table-bordered">
 
-					<!-- Pay Program -->
-					<td
-						th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+					<!-- Table entry -->
+					<tr th:each="payMember : ${payMembers}">
+						<td th:text="${payMember.feeMember.year}">2015</td>
+						<td th:text="${payMember.price}">price</td>
+						<td th:text="#{${'states.' + payMember.state}}">State</td>
+						<td th:if="${payMember.method == null}"></td>
+						<td th:if="${payMember.method != null}" th:text="#{${'methods.' + payMember.method}}">Method</td>
+						<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of installments</td>
+
+						<!-- Pay inscription -->
+						<td class="text-center"><th:object
+								th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+									${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
+								class="text-center">
+								<!-- Form for pay in paypal -->
+								<form name='formTpv' method='post' th:action="#{paypalUrl}">
+									<input type='hidden' name='cmd' value='_xclick' />
+									<input type='hidden' name='business' th:value="${email}" />
+									<input type='hidden' name='item_name' th:value="${payMember.feeMember.name}" />
+									<input type='hidden' name='item_number' th:value="${payMember.feeMember.year}" />
+									<input type='hidden' name='amount' th:value="${payMember.price}" />
+									<input type='hidden' name='page_style' value='primary' />
+									<input type='hidden' name='no_shipping' value='1' />
+									<input type='hidden' name='return'
+										th:value="@{${#httpServletRequest.requestURL} + '/payMember/' + ${payMember.id}} 
+											+ '?' + ${_csrf.parameterName} + '=' + ${_csrf.token}" />
+									<input type='hidden' name='rm' value='2' />
+									<input type='hidden' name='cancel_return' th:value="@{${#httpServletRequest.requestURL}}" />
+									<input type='hidden' name='no_note' value='1' />
+									<input type='hidden' name='currency_code' th:value="#{currencyCode}" />
+									<input type='hidden' name='cn' value='PP-BuyNowBF' />
+									<input type='hidden' name='custom' value='' />
+									<input type='hidden' name='first_name' th:value="${payMember.account.name}" />
+									<input type='hidden' name='last_name' value='APELLIDOS' />
+									<input type='hidden' name='address1' value='DIRECCIÓN' />
+									<input type='hidden' name='city' value='POBLACIÓN' />
+									<input type='hidden' name='zip' value='CÓDIGO POSTAL' />
+									<input type='hidden' name='night_phone_a' value='' />
+									<input type='hidden' name='night_phone_b' value='TELÉFONO' />
+									<input type='hidden' name='night_phone_c' value='' />
+									<input type='hidden' name='lc' th:value="#{lcCode}" />
+									<input type='hidden' name='country' th:value="#{countryCode}" />
+									<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
+								</form>
+							</th:object></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+
+		<!-- Verify if exits feePrograms -->
+		<div th:unless="${#lists.isEmpty(payPrograms)}">
+
+			<h2 class="text-center" th:text="#{userPayments.payProgramsList}">List of pay programs</h2>
+
+			<!-- Table List of pay program -->
+			<table class="display" id="customTable2">
+				<thead class="table-bordered">
+					<tr>
+						<th th:text="#{program}">Program</th>
+						<th th:text="#{members}">Accounts</th>
+						<th th:text="#{fee}">Date</th>
+						<th th:text="#{price}">Price</th>
+						<th th:text="#{state}" th:title="#{infoState}">State</th>
+						<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
+						<th th:text="#{payerAccount}">Mobile</th>
+						<th class="no-sort"></th>
+					</tr>
+				</thead>
+				<tbody class="table-bordered">
+
+					<!-- Table entry -->
+					<tr th:each="payProgram : ${payPrograms}">
+						<td th:text="${payProgram.program.name}">name</td>
+						<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
+						<td th:text="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
+						<td th:text="${payProgram.price}">price</td>
+						<td th:text="#{${'states.' + payProgram.state}}">State</td>
+						<td th:if="${payProgram.method == null}"></td>
+						<td th:if="${payProgram.method != null}" th:text="#{${'methods.' + payProgram.method}}">Method</td>
+						<td th:text="${payProgram.accountPayer}">mobile</td>
+
+						<!-- Pay Program -->
+						<td class="text-center"><th:object
+								th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
 						${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
-						class="text-center">
-						<!-- Form for pay in paypal -->
-						<form name='formTpv' method='post' th:action="#{paypalUrl}">
-							<input type='hidden' name='cmd' value='_xclick' />
-							<input type='hidden' name='business' th:value="${email}" />
-							<input type='hidden' name='item_name' th:value="${payProgram.feeProgram.name}" />
-							<input type='hidden' name='item_number' th:value="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}" />
-							<input type='hidden' name='amount' th:value="${payProgram.price}" />
-							<input type='hidden' name='page_style' value='primary' />
-							<input type='hidden' name='no_shipping' value='1' />
-							<input type='hidden' name='return'
-								th:value="@{'http://localhost:8080/members/userPayments/payProgram/' 
-						    	+ ${payProgram.id}} + '?' + ${_csrf.parameterName} + '=' + ${_csrf.token}" />
-							<input type='hidden' name='rm' value='2' />
-							<input type='hidden' name='cancel_return' th:value="'http://localhost:8080/members/userPayments'" />
-							<input type='hidden' name='no_note' value='1' />
-							<input type='hidden' name='currency_code' th:value="#{currencyCode}" />
-							<input type='hidden' name='cn' value='PP-BuyNowBF' />
-							<input type='hidden' name='custom' value='' />
-							<!--<input type='hidden' name='first_name' th:value="${payMember.account.name}" />-->
-							<input type='hidden' name='last_name' value='APELLIDOS' />
-							<input type='hidden' name='address1' value='DIRECCIÓN' />
-							<input type='hidden' name='city' value='POBLACIÓN' />
-							<input type='hidden' name='zip' value='CÓDIGO POSTAL' />
-							<input type='hidden' name='night_phone_a' value='' />
-							<input type='hidden' name='night_phone_b' value='TELÉFONO' />
-							<input type='hidden' name='night_phone_c' value='' />
-							<input type='hidden' name='lc' th:value="#{lcCode}" />
-							<input type='hidden' name='country' th:value="#{countryCode}" />
-							<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
-						</form>
-					</td>
+								class="text-center">
+								<!-- Form for pay in paypal -->
+								<form name='formTpv' method='post' th:action="#{paypalUrl}">
+									<input type='hidden' name='cmd' value='_xclick' />
+									<input type='hidden' name='business' th:value="${email}" />
+									<input type='hidden' name='item_name' th:value="${payProgram.feeProgram.name}" />
+									<input type='hidden' name='item_number' th:value="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}" />
+									<input type='hidden' name='amount' th:value="${payProgram.price}" />
+									<input type='hidden' name='page_style' value='primary' />
+									<input type='hidden' name='no_shipping' value='1' />
+									<input type='hidden' name='return'
+										th:value="@{${#httpServletRequest.requestURL} + '/payProgram/' + ${payProgram.id}} 
+											+ '?' + ${_csrf.parameterName} + '=' + ${_csrf.token}" />
+									<input type='hidden' name='rm' value='2' />
+									<input type='hidden' name='cancel_return' th:value="@{${#httpServletRequest.requestURL}}" />
+									<input type='hidden' name='no_note' value='1' />
+									<input type='hidden' name='currency_code' th:value="#{currencyCode}" />
+									<input type='hidden' name='cn' value='PP-BuyNowBF' />
+									<input type='hidden' name='custom' value='' />
+									<!--<input type='hidden' name='first_name' th:value="${payMember.account.name}" />-->
+									<input type='hidden' name='last_name' value='APELLIDOS' />
+									<input type='hidden' name='address1' value='DIRECCIÓN' />
+									<input type='hidden' name='city' value='POBLACIÓN' />
+									<input type='hidden' name='zip' value='CÓDIGO POSTAL' />
+									<input type='hidden' name='night_phone_a' value='' />
+									<input type='hidden' name='night_phone_b' value='TELÉFONO' />
+									<input type='hidden' name='night_phone_c' value='' />
+									<input type='hidden' name='lc' th:value="#{lcCode}" />
+									<input type='hidden' name='country' th:value="#{countryCode}" />
+									<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
+								</form>
+							</th:object></td>
+					</tr>
+				</tbody>
+			</table>
 
-					<!-- Fill table entry, pay inscription -->
-					<td
-						th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
-						${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></td>
-				</tr>
-			</tbody>
-		</table>
+		</div>
 	</div>
-
 </body>
 </html>

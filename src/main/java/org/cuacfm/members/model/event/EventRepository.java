@@ -47,31 +47,31 @@ public interface EventRepository {
 	public Event findById(Long id);
 
 	/**
-	 * Gets the events.
+	 * Gets the all events.
 	 *
-	 * @param accountId the account id
-	 * @return the events
+	 * @return the all events
 	 */
-	public List<Event> getEvents(Long accountId);
+	public List<Event> findAll();
 
 	/**
 	 * Gets the active events.
 	 *
 	 * @return the active events
 	 */
-	public List<Event> getActiveEvents();
+	public List<Event> findAllOpen();
 
 	/**
 	 * Gets the close events.
 	 *
 	 * @return the close events
 	 */
-	public List<Event> getCloseEventsDTO();
+	public List<Event> findAllClose();
 
 	/**
-	 * Gets the all events.
+	 * Gets the events.
 	 *
-	 * @return the all events
+	 * @param accountId the account id
+	 * @return the events
 	 */
-	public List<Event> getAllEvents();
+	public List<Event> findAllByAccountId(Long accountId);
 }

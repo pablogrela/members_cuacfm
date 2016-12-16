@@ -143,6 +143,14 @@ public interface AccountService {
 	public List<AccountDTO> getAccountsDTO();
 
 	/**
+	 * Gets the account DTO.
+	 *
+	 * @param account the account
+	 * @return the account DTO
+	 */
+	public AccountDTO getAccountDTO(Account account);
+
+	/**
 	 * Gets the name users with role=ROLE_USER an active=true.
 	 *
 	 * @return the name users

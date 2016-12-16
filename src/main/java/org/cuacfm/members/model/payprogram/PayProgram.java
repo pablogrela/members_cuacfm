@@ -18,8 +18,9 @@ package org.cuacfm.members.model.payprogram;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,258 +33,237 @@ import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 
 /** The Class PayProgram. */
-@SuppressWarnings("serial")
 @Entity
 public class PayProgram implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	private static final long serialVersionUID = 1L;
 
-   /** The program. */
-   @ManyToOne(optional = false, fetch = FetchType.EAGER)
-   @JoinColumn(name = "programId")
-   private Program program;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-   /** The feeProgram. */
-   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-   @JoinColumn(name = "feeProgramId")
-   private FeeProgram feeProgram;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "programId")
+	private Program program;
 
-   // @ManyToOne(optional = false, fetch = FetchType.LAZY)
-   // @JoinColumn(name = "directDebitId")
-   // private DirectDebit directDebit
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "feeProgramId")
+	private FeeProgram feeProgram;
 
-   /** The price. */
-   private Double price;
+	private Double price;
 
-   /** The State. */
-   private states state;
-   
-   /** The method. */
-   private methods method;
+	@Enumerated(EnumType.STRING)
+	private states state;
 
-   /** The account payer. */
-   private String accountPayer;
+	@Enumerated(EnumType.STRING)
+	private methods method;
 
-   /** The id payer. */
-   private String idPayer;
+	private String accountPayer;
 
-   /** The id transaction. */
-   @Column(unique = true)
-   private String idTxn;
+	private String idPayer;
 
-   /** The email payer. */
-   private String emailPayer;
+	//@Column(unique = true)
+	// May have been paid with the same directDebit transaction
+	private String idTxn;
 
-   /** The date pay. */
-   private Date datePay;
+	/** The email payer. */
+	private String emailPayer;
 
-   /**
-    * Instantiates a new pay program.
-    */
-   public PayProgram() {
-      // Default empty constructor.
-   }
+	/** The date pay. */
+	private Date datePay;
 
-   /**
-    * Instantiates a new pay program.
-    *
-    * @param program
-    *           the program
-    * @param feeProgram
-    *           the fee program
-    * @param price
-    *           the price
-    */
-   public PayProgram(Program program, FeeProgram feeProgram, Double price) {
-      super();
-      this.program = program;
-      this.feeProgram = feeProgram;
-      this.price = price;
-      this.state = states.NO_PAY;
-      this.method = methods.NO_PAY;
-   }
+	/**
+	 * Instantiates a new pay program.
+	 */
+	public PayProgram() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	/**
+	 * Instantiates a new pay program.
+	 *
+	 * @param program the program
+	 * @param feeProgram the fee program
+	 * @param price the price
+	 */
+	public PayProgram(Program program, FeeProgram feeProgram, Double price) {
+		super();
+		this.program = program;
+		this.feeProgram = feeProgram;
+		this.price = price;
+		this.state = states.NO_PAY;
+		this.method = methods.NO_PAY;
+	}
 
-   /**
-    * Gets the program.
-    *
-    * @return the program
-    */
-   public Program getProgram() {
-      return program;
-   }
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-   /**
-    * Gets the fee program.
-    *
-    * @return the fee program
-    */
-   public FeeProgram getFeeProgram() {
-      return feeProgram;
-   }
+	/**
+	 * Gets the program.
+	 *
+	 * @return the program
+	 */
+	public Program getProgram() {
+		return program;
+	}
 
-   /**
-    * Gets the price.
-    *
-    * @return the price
-    */
-   public Double getPrice() {
-      return price;
-   }
+	/**
+	 * Gets the fee program.
+	 *
+	 * @return the fee program
+	 */
+	public FeeProgram getFeeProgram() {
+		return feeProgram;
+	}
 
-   /**
-    * Sets the price.
-    *
-    * @param price
-    *           the new price
-    */
-   public void setPrice(Double price) {
-      this.price = price;
-   }
+	/**
+	 * Gets the price.
+	 *
+	 * @return the price
+	 */
+	public Double getPrice() {
+		return price;
+	}
 
-   /**
-    * Gets the state.
-    *
-    * @return the state
-    */
-   public states getState() {
-      return state;
-   }
+	/**
+	 * Sets the price.
+	 *
+	 * @param price the new price
+	 */
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
-   /**
-    * Sets the state.
-    *
-    * @param state
-    *           the new state
-    */
-   public void setState(states state) {
-      this.state = state;
-   }
+	/**
+	 * Gets the state.
+	 *
+	 * @return the state
+	 */
+	public states getState() {
+		return state;
+	}
 
-   /**
-    * Gets the method.
-    *
-    * @return the method
-    */
-   public methods getMethod() {
-      return method;
-   }
+	/**
+	 * Sets the state.
+	 *
+	 * @param state the new state
+	 */
+	public void setState(states state) {
+		this.state = state;
+	}
 
-   /**
-    * Sets the method.
-    *
-    * @param method
-    *           the new method
-    */
-   public void setMethod(methods method) {
-      this.method = method;
-   }
+	/**
+	 * Gets the method.
+	 *
+	 * @return the method
+	 */
+	public methods getMethod() {
+		return method;
+	}
 
-   
-   /**
-    * Gets the account payer.
-    *
-    * @return the account payer
-    */
-   public String getAccountPayer() {
-      return accountPayer;
-   }
+	/**
+	 * Sets the method.
+	 *
+	 * @param method the new method
+	 */
+	public void setMethod(methods method) {
+		this.method = method;
+	}
 
-   /**
-    * Sets the account payer.
-    *
-    * @param accountPayer
-    *           the new account payer
-    */
-   public void setAccountPayer(String accountPayer) {
-      this.accountPayer = accountPayer;
-   }
+	/**
+	 * Gets the account payer.
+	 *
+	 * @return the account payer
+	 */
+	public String getAccountPayer() {
+		return accountPayer;
+	}
 
-   /**
-    * Gets the id payer.
-    *
-    * @return the id payer
-    */
-   public String getIdPayer() {
-      return idPayer;
-   }
+	/**
+	 * Sets the account payer.
+	 *
+	 * @param accountPayer the new account payer
+	 */
+	public void setAccountPayer(String accountPayer) {
+		this.accountPayer = accountPayer;
+	}
 
-   /**
-    * Sets the id payer.
-    *
-    * @param idPayer
-    *           the new id payer
-    */
-   public void setIdPayer(String idPayer) {
-      this.idPayer = idPayer;
-   }
+	/**
+	 * Gets the id payer.
+	 *
+	 * @return the id payer
+	 */
+	public String getIdPayer() {
+		return idPayer;
+	}
 
-   /**
-    * Gets the id txn.
-    *
-    * @return the id txn
-    */
-   public String getIdTxn() {
-      return idTxn;
-   }
+	/**
+	 * Sets the id payer.
+	 *
+	 * @param idPayer the new id payer
+	 */
+	public void setIdPayer(String idPayer) {
+		this.idPayer = idPayer;
+	}
 
-   /**
-    * Sets the id txn.
-    *
-    * @param idTxn
-    *           the new id txn
-    */
-   public void setIdTxn(String idTxn) {
-      this.idTxn = idTxn;
-   }
+	/**
+	 * Gets the id txn.
+	 *
+	 * @return the id txn
+	 */
+	public String getIdTxn() {
+		return idTxn;
+	}
 
-   /**
-    * Gets the email payer.
-    *
-    * @return the email payer
-    */
-   public String getEmailPayer() {
-      return emailPayer;
-   }
+	/**
+	 * Sets the id txn.
+	 *
+	 * @param idTxn the new id txn
+	 */
+	public void setIdTxn(String idTxn) {
+		this.idTxn = idTxn;
+	}
 
-   /**
-    * Sets the email payer.
-    *
-    * @param emailPayer
-    *           the new email payer
-    */
-   public void setEmailPayer(String emailPayer) {
-      this.emailPayer = emailPayer;
-   }
+	/**
+	 * Gets the email payer.
+	 *
+	 * @return the email payer
+	 */
+	public String getEmailPayer() {
+		return emailPayer;
+	}
 
-   /**
-    * Gets the date pay.
-    *
-    * @return the date pay
-    */
-   public Date getDatePay() {
-      return datePay;
-   }
+	/**
+	 * Sets the email payer.
+	 *
+	 * @param emailPayer the new email payer
+	 */
+	public void setEmailPayer(String emailPayer) {
+		this.emailPayer = emailPayer;
+	}
 
-   /**
-    * Sets the date pay.
-    *
-    * @param datePay
-    *           the new date pay
-    */
-   public void setDatePay(Date datePay) {
-      this.datePay = datePay;
-   }
+	/**
+	 * Gets the date pay.
+	 *
+	 * @return the date pay
+	 */
+	public Date getDatePay() {
+		return datePay;
+	}
+
+	/**
+	 * Sets the date pay.
+	 *
+	 * @param datePay the new date pay
+	 */
+	public void setDatePay(Date datePay) {
+		this.datePay = datePay;
+	}
 
 }

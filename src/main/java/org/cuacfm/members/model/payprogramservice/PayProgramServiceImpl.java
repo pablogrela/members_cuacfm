@@ -72,12 +72,12 @@ public class PayProgramServiceImpl implements PayProgramService {
 
 	@Override
 	public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException {
-		PayProgram paymentExist = payProgramRepository.findByIdTxn(payProgram.getIdTxn());
-		if ((paymentExist != null) && (paymentExist.getId() != payProgram.getId())) {
-			throw new ExistTransactionIdException(payProgram.getIdTxn());
-		}
+		//	PayProgram paymentExist = payProgramRepository.findByIdTxn(payProgram.getIdTxn());
+		//	if ((paymentExist != null) && (paymentExist.getId() != payProgram.getId())) {
+		//		throw new ExistTransactionIdException(payProgram.getIdTxn());
+		//	}
 
-		Object[] arguments = { payProgram.getFeeProgram().getName() };
+		Object[] arguments = { payProgram.getFeeProgram().getName(), payProgram.getProgram().getName() };
 		eventService.save("payProgram.successModify", null, 2, arguments);
 		return payProgramRepository.update(payProgram);
 	}
@@ -139,6 +139,11 @@ public class PayProgramServiceImpl implements PayProgramService {
 		return payProgramRepository.getPayProgramList();
 	}
 
+	@Override
+	public List<PayProgram> findNoPayListByAccountId(Long accountId) {
+		return payProgramRepository.findNoPayListByAccountId(accountId);
+	}
+	
 	@Override
 	public Map<Account, List<PayProgram>> getPayProgramNoPayListByDirectDebit(Date monthCharge) {
 		return payProgramRepository.getPayProgramNoPayListByDirectDebit(monthCharge);

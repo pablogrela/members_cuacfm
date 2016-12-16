@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feemember.FeeMember;
@@ -43,6 +44,9 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private DirectDebitService directDebitService;
 
 	@Autowired
 	private EventService eventService;
@@ -90,6 +94,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 
 					PayMember payMember = new PayMember(user, feeMember, price, installment, user.getInstallments(), dateCharge);
 					payMemberService.save(payMember);
+					directDebitService.save(user);
 				}
 			}
 		}
@@ -120,6 +125,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 		Double amount = Double.valueOf(0);
 
 		// Create installments
+		// Si se añade en diciembre no paga
 		for (int installment = 1; installment <= account.getInstallments(); installment++) {
 
 			if (fee > 0) {
@@ -142,7 +148,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 
 				PayMember payMember = new PayMember(account, feeMember, amount, installment, account.getInstallments(), dateCharge);
 				payMemberService.save(payMember);
-
+				directDebitService.save(account);
 			}
 		}
 

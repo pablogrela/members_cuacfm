@@ -17,17 +17,26 @@ package org.cuacfm.members.web.userpayments;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
+import org.cuacfm.members.model.directdebit.DirectDebit;
+import org.cuacfm.members.model.directdebit.DirectDebitDTO;
+import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
+import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,7 +51,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserPaymentsController {
 
 	private static final String USERPAYMENTS_VIEW_NAME = "userpayments/userpayments";
-
+	private static final String REDIRECT_USERPAYMENTS = "redirect:/userPayments";
+	
 	@Autowired
 	private ConfigurationService configurationService;
 
@@ -54,6 +64,12 @@ public class UserPaymentsController {
 
 	@Autowired
 	private PayProgramService payProgramService;
+
+	@Autowired
+	private DirectDebitService directDebitService;
+
+	@Autowired
+	private MessageSource messageSource;
 
 	private List<PayMember> payMembers;
 	private List<PayProgram> payPrograms;
@@ -106,13 +122,145 @@ public class UserPaymentsController {
 	@RequestMapping(value = "userPayments")
 	public String userPayments(Model model, Principal principal) {
 		email = configurationService.getConfiguration().getEmail();
-		model.addAttribute(email);
+		model.addAttribute("email", email);
+
 		Account account = accountService.findByLogin(principal.getName());
 		payMembers = payMemberService.getPayMemberListByAccountId(account.getId());
 		model.addAttribute("payMembers", payMembers);
+
 		payPrograms = payProgramService.getPayProgramListByAccountId(account.getId());
 		model.addAttribute("payPrograms", payPrograms);
+
 		return USERPAYMENTS_VIEW_NAME;
+	}
+
+	/**
+	 * Direct debit list.
+	 *
+	 * @param principal the principal
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "userPayments/directDebitList/", method = RequestMethod.GET)
+	public ResponseEntity<List<DirectDebitDTO>> directDebitList(Principal principal) {
+
+		Account account = accountService.findByLogin(principal.getName());
+		List<DirectDebitDTO> directDebitsDTO = directDebitService.getDTO(directDebitService.findAllByAccountId(account.getId()));
+
+		if (directDebitsDTO.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(directDebitsDTO, HttpStatus.OK);
+	}
+
+	/**
+	 * Direct debit active list.
+	 *
+	 * @param principal the principal
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "userPayments/directDebitList/open/", method = RequestMethod.GET)
+	public ResponseEntity<List<DirectDebitDTO>> directDebitActiveList(Principal principal) {
+
+		Account account = accountService.findByLogin(principal.getName());
+		List<DirectDebitDTO> directDebitsDTO = directDebitService.getDTO(directDebitService.findAllOpenByAccountId(account.getId()));
+
+		if (directDebitsDTO.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(directDebitsDTO, HttpStatus.OK);
+	}
+
+	/**
+	 * View user fee members by fee member id.
+	 *
+	 * @param directDebitId the direct debit id
+	 * @param emailPayer the email payer
+	 * @param idPayer the id payer
+	 * @param datePay the date pay
+	 * @param statusPay the status pay
+	 * @param idTxn the id txn
+	 * @param principal the principal
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "userPayments/directDebitList/paypal/{directDebitId}", method = RequestMethod.POST)
+	public String directDebitByPayPal(@PathVariable String directDebitId, @RequestParam("payer_email") String emailPayer,
+			@RequestParam("payer_id") String idPayer, @RequestParam("payment_date") String datePay, @RequestParam("payment_status") String statusPay,
+			@RequestParam("txn_id") String idTxn, Principal principal, RedirectAttributes ra) {
+
+		// Validar que el pago, este realmente echo en paypal, con la informacion
+		// que viene en el post....
+
+		Account account = accountService.findByLogin(principal.getName());
+		DirectDebit directDebit = directDebitService.findById(directDebitId);
+
+		// Verified if account is equals to account of userPayAccount
+		if (directDebit.getAccount().getId() == account.getId()) {
+			try {
+				directDebitService.paypal(directDebit, account, idTxn, idPayer, emailPayer, statusPay, datePay);
+				MessageHelper.addSuccessAttribute(ra, Constants.SUCCESSPAYPAL, directDebit.getConcept());
+			} catch (ExistTransactionIdException e) {
+				MessageHelper.addErrorAttribute(ra, Constants.ERRORPAYPAL, directDebit.getConcept(), e.getIdTxn());
+			}
+		}
+
+		return REDIRECT_USERPAYMENTS;
+	}
+
+	/**
+	 * Direct debit by bank deposit.
+	 *
+	 * @param directDebitId the direct debit id
+	 * @param principal the principal
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "userPayments/directDebitList/markBankDeposit/{directDebitId}", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> directDebitByMarkBankDeposit(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
+
+		Account account = accountService.findByLogin(principal.getName());
+		DirectDebit directDebit = directDebitService.findById(directDebitId);
+
+		// Verified if account is equals to account of userPayAccount
+		if (directDebit.getAccount().getId() == account.getId()) {
+			try {
+				String message = directDebitService.markBankDeposit(directDebit, account);
+				MessageHelper.addSuccessAttribute(ra, message);
+			} catch (ExistTransactionIdException e) {
+				Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
+				String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
+				MessageHelper.addErrorAttribute(ra, messageI18n);
+			}
+		}
+		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
+	}
+
+	/**
+	 * Direct debit by cancel.
+	 *
+	 * @param directDebitId the direct debit id
+	 * @param principal the principal
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "userPayments/directDebitList/cancelBankDeposit/{directDebitId}", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> directDebitByCancelBankDeposit(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
+
+		Account account = accountService.findByLogin(principal.getName());
+		DirectDebit directDebit = directDebitService.findById(directDebitId);
+
+		// Verified if account is equals to account of userPayAccount
+		if (directDebit.getAccount().getId() == account.getId()) {
+			try {
+				String message = directDebitService.cancelBankDeposit(directDebit, account);
+				MessageHelper.addWarningAttribute(ra, message);
+			} catch (ExistTransactionIdException e) {
+				Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
+				String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
+				MessageHelper.addErrorAttribute(ra, messageI18n);
+			}
+		}
+		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
 	/**
@@ -143,13 +291,12 @@ public class UserPaymentsController {
 		if (payMember.getAccount().getId() == account.getId()) {
 			try {
 				payMemberService.payPayPal(payMember, idTxn, idPayer, emailPayer, statusPay, datePay);
-				MessageHelper.addSuccessAttribute(ra, "userPayments.successPayPayPal", payMember.getFeeMember().getName());
+				MessageHelper.addSuccessAttribute(ra, Constants.SUCCESSPAYPAL, payMember.getFeeMember().getName());
 			} catch (ExistTransactionIdException e) {
-				MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", payMember.getFeeMember().getName(), e.getIdTxn());
+				MessageHelper.addErrorAttribute(ra, Constants.ERRORPAYPAL, payMember.getFeeMember().getName(), e.getIdTxn());
 			}
 		}
-
-		return "redirect:/userPayments";
+		return REDIRECT_USERPAYMENTS;
 	}
 
 	/**
@@ -177,12 +324,11 @@ public class UserPaymentsController {
 		if (payProgram.getProgram().getAccounts().contains(account)) {
 			try {
 				payProgramService.payPayPal(payProgram, account.getName(), idTxn, idPayer, emailPayer, statusPay, datePay);
-				MessageHelper.addSuccessAttribute(ra, "userPayments.successPayPayPal", payProgram.getProgram().getName());
+				MessageHelper.addSuccessAttribute(ra, Constants.SUCCESSPAYPAL, payProgram.getProgram().getName());
 			} catch (ExistTransactionIdException e) {
-				MessageHelper.addErrorAttribute(ra, "userPayments.errorPayPayPal", payProgram.getProgram().getName());
+				MessageHelper.addErrorAttribute(ra, Constants.ERRORPAYPAL, payProgram.getProgram().getName());
 			}
 		}
-
-		return "redirect:/userPayments";
+		return REDIRECT_USERPAYMENTS;
 	}
 }

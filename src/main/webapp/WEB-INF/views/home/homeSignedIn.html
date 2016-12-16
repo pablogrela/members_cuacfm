@@ -20,19 +20,18 @@
 <head>
 <title th:text="#{home.title}">Home</title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
-<script th:src="@{/resources/js/app/membersApp.js}">
-	
-</script>
-<script th:src="@{/resources/js/service/eventListService.js}"></script>
-<script th:src="@{/resources/js/controller/eventListController.js}"></script>
+<script th:src="@{/resources/js/service/eventService.js}"></script>
+<script th:src="@{/resources/js/controller/eventController.js}"></script>
+<script th:src="@{/resources/js/service/directDebitService.js}"></script>
+<script th:src="@{/resources/js/controller/directDebitOpenController.js}"></script>
 </head>
-<body data-ng-app="membersApp" class="ng-cloak">
+<body data-ng-app="membersApp">
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='Home')">&nbsp;</div>
 
 
-	<div class="container">
+	<div class="container-fluid">
 
 		<!-- /* Handle the flash message */-->
 		<th:block th:if="${message != null}">
@@ -40,68 +39,55 @@
 			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
 		</th:block>
 
-		<!-- Welcome message -->
-		<div data-ng-if="ctrl.events" class="text-center">
-			<p class="lead" th:text="#{home.welcome}">Welcome</p>
+
+		<!-- Table List of directDebits -->
+		<div sec:authorize="!hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp" data-ng-controller="DirectDebitOpenController as ctrl">
+			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
+			<br></br>
 		</div>
 
-		<!-- Button redirect to Event List Close-->
-		<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
-			<a href="#" class="btn btn-info btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
-		</div>
-		<br></br>
 
 		<!-- List events -->
-		<div data-ng-if="!ctrl.events" data-ng-controller="EventController as ctrl">
+		<div data-ng-show="ctrl.events" data-ng-controller="EventController as ctrl">
+
+			<!-- Welcome message -->
+			<div data-ng-show="!ctrl.events" class="text-center">
+				<p class="lead" th:text="#{home.welcome}">Welcome</p>
+				<br></br>
+			</div>
+			
+			
+			<!-- Button redirect to event list close-->
+			<div data-ng-show="ctrl.events" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
+				<div>
+					<a href="#" class="btn btn-info btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
+				</div>
+				<br></br>
+			</div>
+
+			
 			<div data-ng-repeat="event in ctrl.events">
 
-				<!-- Start Only Admin -->
+				<!-- Start messages only admin -->
 				<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-					<div class="alert alert-danger" data-ng-if="event.priority == 1">
-						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star" th:title="#{event.Highlighted}"
-							style="color: yellow" disabled="disabled"></button>
-						<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
-							style="color: red"></button>
-						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
-					</div>
+					<div th:include="home/event :: eventImportant" class="alert alert-danger" data-ng-if="event.priority == 1"></div>
+					<div th:include="home/event :: eventNormal" class="alert alert-warning" data-ng-if="event.priority == 2"></div>
+					<div th:include="home/event :: eventNormal" class="alert alert-info" data-ng-if="event.priority == 3"></div>
+					<div th:include="home/event :: eventNormal" class="alert alert-success" data-ng-if="event.priority == 4"></div>
 
-					<div class="alert alert-warning" data-ng-if="event.priority == 2">
-						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
-							th:title="#{event.infoHighlight}" style="color: grey"></button>
-						<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
-							style="color: red"></button>
-						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
-					</div>
-					
-					<div class="alert alert-info" data-ng-if="event.priority == 3">
-						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
-							th:title="#{event.infoHighlight}" style="color: grey"></button>
-						<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
-							style="color: red"></button>
-						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
-					</div>
-
-					<div class="alert alert-success" data-ng-if="event.priority == 4">
-						<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
-							th:title="#{event.infoHighlight}" style="color: grey"></button>
-						<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
-							style="color: red"></button>
-						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
-					</div>
-					
 				</th:block>
-				<!-- Finish Only Admin -->
+				<!-- Finish messages only admin -->
 
-				<!-- Start Messages no user -->
+				<!-- Start messages no admin -->
 				<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
-					<div class="alert alert-info">
-						<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.description"></span>
-					</div>
+					<div th:include="home/event :: eventUser" class="alert alert-info"></div>
 				</th:block>
-				<!-- Finish Messages no user -->
+				<!-- Finish messages no admin -->
 
 			</div>
 		</div>
+
 	</div>
 </body>
 </html>

@@ -20,6 +20,33 @@ body {
 	/* 	background-color: #f5f5f5; 	grey */
 }
 
+/* Contendor de bootstrap que abarca toda la pantalla */
+.container-fluid {
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+/* start modal center vetical */
+.modal {
+	text-align: center;
+	padding: 0 !important;
+}
+
+.modal:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	margin-right: -4px;
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+/* end modal center vetical */
+
 /* Formulario mitad de tamaño y centrado a la izquierda */
 .form-group-search {
 	width: 300px;
@@ -149,6 +176,9 @@ div.scroll {
 	.col-lg-1 {
 		top: -10px;
 		margin-right: 43px;
+	}
+	.col-lg-1-center {
+		top: 0px;
 	}
 	/* form label */
 	.col-lg-2 {
@@ -366,10 +396,76 @@ div.scroll {
 
 /****************************** columns ***************************************/
 /* Pantalla grande */
-@media ( min-width : 768px) {
-	.containerColums {
-		
+@media ( min-width :320px) {
+	/* smartphones, iPhone, portrait 480x320 phones */
+}
+
+@media ( min-width :481px) {
+	/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+
+@media ( min-width :641px) {
+	/* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+}
+
+@media ( min-width :961px) {
+	/* tablet, landscape iPad, lo-res laptops ands desktops */
+}
+
+@media ( min-width :1025px) {
+	/* big landscape tablets, laptops, and desktops */
+}
+
+@media ( min-width :1281px) { /* hi-res laptops and desktops */
+}
+
+@media ( min-width : 1281px) {
+	.columLeft {
+		float: right;
+		left: -51%;
+		position: relative;
 	}
+	.columRight {
+		float: left;
+		left: 51%;
+		position: relative;
+	}
+	.columLeft-large {
+		float: right;
+		left: -51%;
+		position: relative;
+	}
+	.columRight-large {
+		float: left;
+		left: 51%;
+		position: relative;
+	}
+}
+
+@media ( min-width : 1025px) {
+	.columLeft {
+		float: right;
+		left: -51%;
+		position: relative;
+	}
+	.columRight {
+		float: left;
+		left: 51%;
+		position: relative;
+	}
+	.columLeft-large {
+		float: right;
+		left: -41%;
+		position: relative;
+	}
+	.columRight-large {
+		float: left;
+		left: 61%;
+		position: relative;
+	}
+}
+
+@media ( min-width : 961px) {
 	.columLeft {
 		float: right;
 		left: -51%;
@@ -382,10 +478,16 @@ div.scroll {
 	}
 }
 
-/* VersiÃ³n mobil*/
-@media ( max-width : 767px) {
+@media ( min-width :641px) {
 	.columLeft {
-		padding-bottom: 10px;
+		float: right;
+		left: -51%;
+		position: relative;
+	}
+	.columRight {
+		float: left;
+		left: 51%;
+		position: relative;
 	}
 }
 /****************************** columns ***************************************/

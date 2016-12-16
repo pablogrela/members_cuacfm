@@ -31,6 +31,7 @@ import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.bankremittanceservice.BankRemittanceService;
 import org.cuacfm.members.model.directdebit.DirectDebit;
+import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
@@ -78,6 +79,9 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 	/** The fee program service. */
 	@Autowired
 	private FeeProgramService feeProgramService;
+
+	@Autowired
+	private DirectDebitService directDebitService;
 
 	/**
 	 * Save and update user pay inscription test.
@@ -155,17 +159,17 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 				DisplayDate.stringToDate2("2015-07-01"), "pay of 2016");
 		feeMemberService.save(feeMember);
 
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
 
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, new ArrayList<Account>());
+		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, new ArrayList<Account>(), account);
 		programService.save(program2);
 		programService.up(program2);
 
 		List<Account> accounts2 = new ArrayList<Account>();
 		accounts2.add(account3);
-		Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9, accounts2);
+		Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9, accounts2, account);
 		programService.save(program3);
 		programService.up(program3);
 
@@ -236,14 +240,14 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
 		BankRemittance bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
 		bankRemittanceService.update(bankRemittance);
-		DirectDebit directDebit = bankRemittanceService.getDirectDebitListByBankRemittanceId(bankRemittance.getId()).get(0);
+		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
 
 		assertEquals(directDebit.getBankRemittance(), bankRemittance);
 		// Not Null
-		assertNotNull(bankRemittanceService.findByDirectDebitId(directDebit.getId()));
+		assertNotNull(directDebitService.findById(directDebit.getId()));
 
 		// Null
-		assertNull(bankRemittanceService.findByDirectDebitId(Long.valueOf(0)));
+		assertNull(directDebitService.findById(""));
 	}
 
 	/**
@@ -274,10 +278,10 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 
 		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
 		BankRemittance bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
-		DirectDebit directDebit = bankRemittanceService.getDirectDebitListByBankRemittanceId(bankRemittance.getId()).get(0);
-		bankRemittanceService.updateDirectDebit(directDebit);
-		bankRemittanceService.managementDirectDebit(directDebit);
-		bankRemittanceService.returnBill(directDebit);
+		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
+		//bankRemittanceService.updateDirectDebit(directDebit);
+		directDebitService.management(directDebit, null);
+		directDebitService.returnBill(directDebit, null);
 		assertTrue(directDebit.getState().equals(states.RETURN_BILL));
 		bankRemittanceService.managementBankRemittance(bankRemittance);
 

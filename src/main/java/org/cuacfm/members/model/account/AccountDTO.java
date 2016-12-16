@@ -27,6 +27,8 @@ public class AccountDTO {
 	private String address;
 	private String login;
 	private String email;
+	private String phone;
+	private String mobile;
 	private boolean active;
 	private roles role;
 	private String methodPayment;
@@ -70,7 +72,7 @@ public class AccountDTO {
 	 * @param role the role
 	 * @param installments the installments
 	 */
-	public AccountDTO(Long id, String login, String dni, String email, String name, String nickName, String address, boolean active, roles role,
+	public AccountDTO(Long id, String login, String dni, String email, String phone, String mobile, String name, String nickName, String address, boolean active, roles role,
 			int installments) {
 		super();
 		this.id = id;
@@ -80,6 +82,8 @@ public class AccountDTO {
 		this.address = address;
 		this.login = login;
 		this.email = email;
+		this.phone = phone;
+		this.mobile = mobile;
 		this.active = active;
 		this.role = role;
 		this.installments = installments;
@@ -139,6 +143,22 @@ public class AccountDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public boolean isActive() {

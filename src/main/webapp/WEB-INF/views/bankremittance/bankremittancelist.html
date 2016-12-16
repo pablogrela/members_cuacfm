@@ -16,8 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{bankRemittance.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -27,64 +26,53 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='bankRemittance')">&nbsp;</div>
 
+	<div class="container-fluid">
+		<!-- Form for create bank remittance -->
+		<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{bankRemittanceList}" th:object="${bankRemittanceForm}">
 
-	<!-- Form for create bank remittance -->
-	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{bankRemittanceList}"
-		th:object="${bankRemittanceForm}">
-
-		<!-- Insert DateCharge -->
-		<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateCharge')}? 'has-error'">
-			<label for="dateCharge" class="col-lg-1 control-label" th:text="#{dateCharge}">DateCharge</label>
-			<div class="col-lg-8">
-				<input type="date" class="form-control" id="dateCharge" th:placeholder="#{dateCharge}" th:field="*{dateCharge}"
-					required="required" />
-				<span class="help-block" th:if="${#fields.hasErrors('dateCharge')}" th:errors="*{dateCharge}">Incorrect
-					dateCharge</span>
-				<div class="ws-errorbox" hidden=""></div>
+			<!-- Insert DateCharge -->
+			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateCharge')}? 'has-error'">
+				<label for="dateCharge" class="col-lg-1 control-label" th:text="#{dateCharge}">DateCharge</label>
+				<div class="col-lg-8">
+					<input type="date" class="form-control" id="dateCharge" th:placeholder="#{dateCharge}" th:field="*{dateCharge}" required="required" />
+					<span class="help-block" th:if="${#fields.hasErrors('dateCharge')}" th:errors="*{dateCharge}">Incorrect dateCharge</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
 			</div>
-		</div>
-		
-		<!-- Insert MonthCharge -->
-		<div class="form-inline form-group" th:classappend="${#fields.hasErrors('monthCharge')}? 'has-error'">
-			<label for="dateCharge" class="col-lg-1 control-label" th:text="#{monthCharge}">MonthCharge</label>
-			<div class="col-lg-8">
-				<input type="month" class="form-control" id="monthCharge" th:placeholder="#{monthCharge}" th:field="*{monthCharge}"
-					required="required" />
-				<span class="help-block" th:if="${#fields.hasErrors('monthCharge')}" th:errors="*{monthCharge}">Incorrect
-					monthCharge</span>
-				<div class="ws-errorbox" hidden=""></div>
+
+			<!-- Insert MonthCharge -->
+			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('monthCharge')}? 'has-error'">
+				<label for="dateCharge" class="col-lg-1 control-label" th:text="#{monthCharge}">MonthCharge</label>
+				<div class="col-lg-8">
+					<input type="month" class="form-control" id="monthCharge" th:placeholder="#{monthCharge}" th:field="*{monthCharge}" required="required" />
+					<span class="help-block" th:if="${#fields.hasErrors('monthCharge')}" th:errors="*{monthCharge}">Incorrect monthCharge</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
 			</div>
-		</div>
 
-		<!-- Button Create Bank Remittance -->
-		<div class="form-group">
-			<div class="col-lg-10">
-				<button type="submit" class="btn btn-success btn-lg" th:text="#{bankRemittance.createBankRemittance}">Create</button>
+			<!-- Button Create Bank Remittance -->
+			<div class="form-group">
+				<div class="col-lg-10">
+					<button type="submit" class="btn btn-success btn-lg" th:text="#{bankRemittance.createBankRemittance}">Create</button>
+				</div>
 			</div>
+		</form>
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 		</div>
-	</form>
 
-	<br></br>
-	<!-- Message Info -->
-	<div class="container text-center">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div
-				th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-					message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-		</th:block>
-	</div>
 
-	<!-- Show message, if bankRemittance list is empty -->
-	<div th:if="${#lists.isEmpty(bankRemittances)}">
-		<h2 class="text-center" th:text="#{bankRemittance.bankRemittancelistEmpty}">List of BankRemittance Types</h2>
-	</div>
+		<!-- Show message, if bankRemittance list is empty -->
+		<div th:if="${#lists.isEmpty(bankRemittances)}">
+			<h2 class="text-center" th:text="#{bankRemittance.bankRemittancelistEmpty}">List of BankRemittance Types</h2>
+		</div>
 
-	<fieldset>
 
 		<!-- Verify if exits BankRemittances -->
-		<div class="container" th:unless="${#lists.isEmpty(bankRemittances)}">
+		<div th:unless="${#lists.isEmpty(bankRemittances)}">
 
 			<!-- Tittle -->
 			<h2 class="text-center" th:text="#{bankRemittance.bankRemittancelist}">List of BankRemittances</h2>
@@ -100,7 +88,6 @@
 						<th class="no-sort"></th>
 						<th class="no-sort"></th>
 						<th class="no-sort"></th>
-						<th class="no-sort"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -109,33 +96,29 @@
 
 						<td th:text="${#dates.format(bankRemittance.dateDebit, #messages.msg('dateFormat'))}">2015/05/12</td>
 						<td th:text="${#dates.format(bankRemittance.dateCharge, #messages.msg('dateFormat'))}">2015/05/12</td>
-						<td th:text="${#dates.format(bankRemittance.dateCharge, #messages.msg('dateFormatMonthOfYear'))}">May 2015</td>
+						<td th:text="${#dates.format(bankRemittance.monthCharge, #messages.msg('dateFormatMonthOfYear'))}">May 2015</td>
 						<td th:text="#{${'states.' + bankRemittance.state}}">State</td>
 						<!-- View Direct Debits -->
 						<td>
 							<form th:action="@{'bankRemittanceList/directDebitList/'+${bankRemittance.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-user" th:title="#{bankRemittance.infoDirectDebitList}"
-									style="color: green"></button>
+								<button class="btnTable btn-link glyphicon glyphicon-user" th:title="#{bankRemittance.infoDirectDebitList}" style="color: green"></button>
 							</form>
 						</td>
 
-						<!-- Management bank Remittance -->
-						<td th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY}" class="text-center">
-							<form th:action="@{'bankRemittanceList/management/'+${bankRemittance.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-repeat" th:title="#{managementCheck}" style="color: green"></button>
-							</form>
-						</td>
-						<!-- Fill table entry, bankRemittance -->
-						<td th:if="${bankRemittance.state != T(org.cuacfm.members.model.util.Constants.states).NO_PAY}"></td>
 						
-						<!-- Pay bank Remittance -->
-						<td th:if="${bankRemittance.state != T(org.cuacfm.members.model.util.Constants.states).PAY}" class="text-center">
-							<form th:action="@{'bankRemittanceList/pay/'+${bankRemittance.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
+						<td>
+						   <!-- Management bank Remittance -->
+							<form th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY}"
+								th:action="@{'bankRemittanceList/management/'+${bankRemittance.id}}" method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-repeat" th:title="#{managementCheck}" style="color: green"></button>
+							</form> <!-- Pay bank Remittance -->
+
+							<!-- Pay bank Remittance -->
+							<form th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"
+								th:action="@{'bankRemittanceList/pay/'+${bankRemittance.id}}" method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-ok-circle" th:title="#{payCheck}" style="color: green"></button>
 							</form>
 						</td>
-						<!-- Fill table entry, bankRemittance -->
-						<td th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).PAY}"></td>
 
 						<!-- Print All List of feeMember-->
 						<td>
@@ -147,7 +130,8 @@
 					</tr>
 				</tbody>
 			</table>
+
 		</div>
-	</fieldset>
+	</div>
 </body>
 </html>

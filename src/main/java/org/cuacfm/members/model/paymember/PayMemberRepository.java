@@ -73,6 +73,14 @@ public interface PayMemberRepository {
 	public List<PayMember> getPayMemberList();
 
 	/**
+	 * Find no pay list by account id.
+	 *
+	 * @param accountId the account id
+	 * @return the list
+	 */
+	public List<PayMember> findNoPayListByAccountId(Long accountId);
+	
+	/**
 	 * Gets the pay member no pay list by direct debit.
 	 *
 	 * @param monthCharge the month charge

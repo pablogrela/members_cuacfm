@@ -42,7 +42,67 @@ public interface DirectDebitRepository {
 	 * @param id the id
 	 * @return the direct debit
 	 */
-	public DirectDebit findById(Long id);
+	public DirectDebit findById(String id);
+
+	/**
+	 * Find last id.
+	 *
+	 * @return the string
+	 */
+	public String findLastId();
+
+	/**
+	 * Find all.
+	 *
+	 * @return the list
+	 */
+	public List<DirectDebit> findAll();
+
+	/**
+	 * Find all open.
+	 *
+	 * @return the list
+	 */
+	public List<DirectDebit> findAllOpen();
+
+	/**
+	 * Find all close.
+	 *
+	 * @return the list
+	 */
+	public List<DirectDebit> findAllClose();
+
+	/**
+	 * Find allby account id.
+	 *
+	 * @param accountId the account id
+	 * @return the list
+	 */
+	public List<DirectDebit> findAllByAccountId(Long accountId);
+
+	/**
+	 * Find all activeby account id.
+	 *
+	 * @param accountId the account id
+	 * @return the list
+	 */
+	public List<DirectDebit> findAllOpenByAccountId(Long accountId);
+
+	/**
+	 * Gets the direct debit list by bank remittance id.
+	 *
+	 * @param bankRemittanceId the bank remittance id
+	 * @return the direct debit list by bank remittance id
+	 */
+	public List<DirectDebit> findAllByBankRemittanceId(Long bankRemittanceId);
+
+	/**
+	 * Gets the last direct debit, with state NO_PAY.
+	 *
+	 * @param accountId the account id
+	 * @return the last direct debit
+	 */
+	public DirectDebit getLastDirectDebit(Long accountId);
 
 	/**
 	 * Checks if is rcur or frst.
@@ -53,10 +113,10 @@ public interface DirectDebitRepository {
 	public String isRcurOrFRST(Long accountId);
 
 	/**
-	 * Gets the direct debit list by bank remittance id.
+	 * Find by id txn.
 	 *
-	 * @param bankRemittanceId the bank remittance id
-	 * @return the direct debit list by bank remittance id
+	 * @param idTxn the id txn
+	 * @return the direct debit
 	 */
-	public List<DirectDebit> getDirectDebitListByBankRemittanceId(Long bankRemittanceId);
+	public DirectDebit findByIdTxn(String idTxn);
 }

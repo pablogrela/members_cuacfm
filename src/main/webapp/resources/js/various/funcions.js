@@ -21,6 +21,13 @@ function showModal(modal) {
 	});
 }
 
+function showModal(modal, aux) {
+	this.directDebit = aux;
+	$(document).ready(function() {
+		$(modal).modal('show');
+	});
+}
+
 // Show and evaluate function
 function evaluateModal(form, modal, accept) {
 	$(document).ready(function() {

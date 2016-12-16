@@ -87,6 +87,8 @@ public class ProgramCreateController {
 		Account account = accountService.findByLogin(principal.getName());
 		if (account.getRole() != roles.ROLE_ADMIN) {
 			programForm.addAccount(account);
+			programForm.setAccountPayer(account);
+			programForm.setAccountPayerName(account.getName());
 		}
 		model.addAttribute(programForm);
 		return PROGRAM_VIEW_NAME;
@@ -108,7 +110,11 @@ public class ProgramCreateController {
 			model.addAttribute("usernames", usernames);
 			return PROGRAM_VIEW_NAME;
 		}
-
+		if (programForm.getAccountPayer() == null) {
+			model.addAttribute("usernames", usernames);
+			errors.rejectValue("accountPayerName", "program.accountPayer.required");
+			return PROGRAM_VIEW_NAME;
+		}
 		try {
 			programService.save(programForm.createProgram());
 		} catch (UniqueException e) {

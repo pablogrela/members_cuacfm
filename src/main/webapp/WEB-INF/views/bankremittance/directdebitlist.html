@@ -16,88 +16,33 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="#{directDebit.title}"></title>
+<title th:text="#{directDebitList.remittance.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
+<script th:src="@{/resources/js/service/directDebitAdminService.js}"></script>
+<script th:src="@{/resources/js/controller/directDebitAdminRemittanceController.js}"></script>
 </head>
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='directDebit')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='bankRemittance')">&nbsp;</div>
 
-	<br></br>
-	<!-- Message Info -->
-	<div class="container text-center">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-					message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-		</th:block>
+
+	<!-- Button redirect to bankRemittanceList-->
+	<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
+		<a href="#" class="btn btn-info btn-lg" th:href="@{/bankRemittanceList}" th:text="#{directDebit.backBankRemittanceList}"> </a>
 	</div>
 
-	<!-- Show message, if directDebit list is empty -->
-	<div th:if="${#lists.isEmpty(directDebits)}">
-		<h2 class="text-center" th:text="#{directDebit.directDebitlistEmpty}">List of DirectDebit Types</h2>
+
+	<!-- Table list of directDebits -->
+	<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="DirectDebitAdminRemittanceController as ctrl">
+		<div
+			th:include="directdebit/directdebittable :: directdebittable(#{directDebit.directDebitList.bankRemittance} + ' ' + ${#dates.format(bankRemittance.monthCharge, #messages.msg('dateFormatMonthOfYear'))}, 
+			#{directDebit.directDebitList.bankRemittanceEmpty} + ' ' 
+		     + ${#dates.format(bankRemittance.monthCharge, #messages.msg('dateFormatMonthOfYear'))})"></div>
 	</div>
 
-	<fieldset>
 
-		<!-- Verify if exits DirectDebits -->
-		<div class="container" th:unless="${#lists.isEmpty(directDebits)}">
-
-			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{directDebit.directDebitlist} + ' ' + ${#dates.format(bankRemittance.monthCharge, #messages.msg('dateFormatMonthOfYear'))}">List of DirectDebits: May 2015</h2>
-
-			<!-- Table List of DirectDebits -->
-			<table class="display" id="customTable">
-				<thead>
-					<tr>
-						<th th:text="#{name}">Name</th>
-						<th th:text="#{mobile}">Mobile</th>
-						<th th:text="#{concept}">Concept</th>
-						<th th:text="#{price}">Concept</th>
-						<th th:text="#{state}" th:title="#{infoState}">State</th>
-						<th class="no-sort"></th>
-						<th class="no-sort"></th>
-					</tr>
-				</thead>
-				<tbody>
-
-					<tr th:each="directDebit : ${directDebits}" id="directDebits">
-					
-						<td th:text="${directDebit.account.name}">name</td>
-						<td th:text="${directDebit.account.mobile}">6666666666</td>
-						<td th:text="${directDebit.concept}">concept</td>
-						<td th:text="${directDebit.price}">price</td>
-						<td th:text="#{${'states.' + directDebit.state}}">State</td>
-
-						<!-- Pay direct Debit -->
-						<td th:if="!${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).PAY}" class="text-center">
-							<form th:action="@{'directDebitList/pay/'+${directDebit.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
-							</form>
-						</td>
-						<!-- Fill table entry, bankRemittance -->
-						<td th:if="${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).PAY}"></td>
-						
-						<!-- Return direct Debit -->
-						<td th:if="${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
-							${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}" class="text-center">
-							<form th:action="@{'directDebitList/returnBill/'+${directDebit.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-share-alt" th:title="#{directDebit.infoReturnBill}" 
-									style="color: red"></button>
-							</form>
-						</td>
-						<!-- Fill table entry, bankRemittance -->
-						<td th:if="!(${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or 
-							${directDebit.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT})"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</fieldset>
 </body>
 </html>

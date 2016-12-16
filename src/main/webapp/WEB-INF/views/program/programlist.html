@@ -16,8 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{program.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -27,38 +26,30 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='program')">&nbsp;</div>
 
+	<div class="container-fluid">
+		<!-- Button Create New Program -->
+		<div class="text-center">
+			<a href="#" class="btn btn-success btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}">Create New Training
+				Type </a>
+		</div>
 
-	<!-- Button Create New Program -->
-	<div class="text-center">
-		<a href="#" class="btn btn-success btn-lg" th:href="@{/programList/programCreate}"
-			th:text="#{program.createNewProgram}">Create New Training Type </a>
-	</div>
+		
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
 
-	<br></br>
-	<br></br>
-	<!-- Message Info -->
-	<div class="container text-center ">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div
-				th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-				message=#{${message.message}(${message.args[0]})})">&nbsp;
-			</div>
-		</th:block>
-	</div>
+		<!-- Show message, if programs list is empty -->
+		<div th:if="${#lists.isEmpty(programs)}">
+			<h2 class="text-center" th:text="#{program.programlistEmpty}">List of Programs Empty</h2>
+		</div>
 
-	<!-- Show message, if programs list is empty -->
-	<div th:if="${#lists.isEmpty(programs)}">
-		<h2 class="text-center" th:text="#{program.programlistEmpty}">List of Programs Empty</h2>
-	</div>
-
-	<fieldset>
 
 		<!-- Verify if exits Programs -->
-		<div class="container" th:unless="${#lists.isEmpty(programs)}">
-		
-		<h2 class="text-center" th:text="#{program.programlist}">List of Programs</h2>
+		<div th:unless="${#lists.isEmpty(programs)}">
+
+			<h2 class="text-center" th:text="#{program.programlist}">List of Programs</h2>
 
 			<!-- Table List of Training Types -->
 			<table class="display" id="customTable">
@@ -81,7 +72,7 @@
 						<td th:text="${program.name}">name</td>
 						<td th:text="${{program.periodicity}}">1</td>
 						<td th:text="${program.duration}">duration</td>
-						<td><span th:each="account : ${program.accounts}" th:text="${account.name} + ' , '"></span></td>
+						<td><span th:each="account : ${program.accounts}" th:text="${account.name} + ', '"></span></td>
 						<th:block th:if="${program.active == false}">
 							<td th:text="#{false}">false</td>
 						</th:block>
@@ -91,8 +82,7 @@
 						<!-- Delete Program -->
 						<td>
 							<form th:action="@{'programList/programDelete/'+${program.id}}" method="post">
-								<button type="button" class="btnTable btn-link glyphicon glyphicon-remove"
-									th:title="#{program.infoRemove}" style="color: red"
+								<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemove}" style="color: red"
 									onclick="evaluateModal(this.form, modal, accept)"></button>
 
 							</form>
@@ -101,24 +91,21 @@
 						<!-- Up Program -->
 						<td sec:authorize="hasAnyRole('ROLE_ADMIN')" th:if="!${program.active}">
 							<form th:action="@{'programList/programUp/'+${program.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-up"
-									th:title="#{program.infoUp}" style="color: green"></button>
+								<button class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-up" th:title="#{program.infoUp}" style="color: green"></button>
 							</form>
 						</td>
 
 						<!-- Down Program -->
 						<td sec:authorize="hasAnyRole('ROLE_ADMIN')" th:if="${program.active}">
 							<form th:action="@{'programList/programDown/'+${program.id}}" method="post">
-								<button class="btnTable btn-link glyphicon  glyphicon-chevron-down"
-									th:title="#{program.infoDown}" style="color: red"></button>
+								<button class="btnTable btn-link glyphicon  glyphicon-chevron-down" th:title="#{program.infoDown}" style="color: red"></button>
 							</form>
 						</td>
-						
+
 						<!-- Modify Program -->
 						<td>
 							<form th:action="@{'programList/programEdit/'+${program.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}"
-									style="color: orange"></button>
+								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
 							</form>
 						</td>
 
@@ -127,23 +114,21 @@
 			</table>
 		</div>
 
-
-	</fieldset>
-
-	<!-- Modal Info Delete Program	-->
-	<div id="modal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content  panel-danger">
-				<div class="modal-header  modal-header-danger">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
-				</div>
-				<div class="modal-body">
-					<p th:text="#{program.infoModalDelete}">Message</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
-					<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+		<!-- Modal Info Delete Program	-->
+		<div id="modal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content  panel-danger">
+					<div class="modal-header  modal-header-danger">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+					</div>
+					<div class="modal-body">
+						<p th:text="#{program.infoModalDelete}">Message</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
+						<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+					</div>
 				</div>
 			</div>
 		</div>

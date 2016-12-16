@@ -16,9 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{training.titleTrainingUserList}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -28,27 +26,25 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='trainingUserList')">&nbsp;</div>
 
+
+	<div class="container-fluid">
+
 		<!-- Message if trainingUserList is Empty -->
 		<th:block th:if="${#lists.isEmpty(inscriptions)}">
-			<h2 class="text-center" th:text="#{training.trainingUserListEmpty}">List of Trainings Empty</h2>
+			<h2 class="text-center" th:text="#{training.trainingUserListEmpty}">List of trainings Empty</h2>
 		</th:block>
-		
+
 		<!-- Verify if exits Trainings -->
-		<div class="container" th:unless="${#lists.isEmpty(inscriptions)}">
+		<div th:unless="${#lists.isEmpty(inscriptions)}">
 
 			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{training.trainingUserList}">List of Trainings</h2>
+			<h2 class="text-center" th:text="#{training.trainingUserList}">List of trainings</h2>
 
 
-			<!-- Message Info -->
-			<div class="container text-center ">
-				<!-- /* Handle the flash message */-->
-				<th:block th:if="${message != null}">
-					<!-- /* The message code is returned from the @Controller */ -->
-					<div
-						th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-						message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-				</th:block>
+			<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+			<div class="text-center" th:if="${message != null}">
+				<br></br>
+				<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 			</div>
 
 
@@ -76,18 +72,13 @@
 						<td th:text="${{inscription.training.dateTraining}}">15/01/2015</td>
 						<td th:text="${inscription.training.countPlaces}">place</td>
 						<td th:text="${inscription.training.maxPlaces}">place</td>
-						<td class="text-center"><input type="checkbox"
-							th:checked="${inscription.training.close}" onClick="return false" /></td>
-						<td class="text-center"><input type="checkbox"
-							th:checked="${inscription.pass}" onClick="return false" /></td>
-						<td class="text-center"><input type="checkbox"
-							th:checked="${inscription.unsubscribe}" onClick="return false" /></td>
-							
+						<td class="text-center"><input type="checkbox" th:checked="${inscription.training.close}" onClick="return false" /></td>
+						<td class="text-center"><input type="checkbox" th:checked="${inscription.pass}" onClick="return false" /></td>
+						<td class="text-center"><input type="checkbox" th:checked="${inscription.unsubscribe}" onClick="return false" /></td>
+
 						<td class="text-center">
-							<form th:action="@{'trainingList/trainingView/'+${inscription.training.id}}"
-								method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-search"
-									th:title="#{info}" style="color: blue"></button>
+							<form th:action="@{'trainingList/trainingView/'+${inscription.training.id}}" method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-search" th:title="#{info}" style="color: blue"></button>
 							</form>
 						</td>
 
@@ -95,5 +86,6 @@
 				</tbody>
 			</table>
 		</div>
+	</div>
 </body>
 </html>

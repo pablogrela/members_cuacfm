@@ -35,6 +35,7 @@ import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.bankremittanceservice.BankRemittanceService;
 import org.cuacfm.members.model.directdebit.DirectDebit;
+import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
@@ -87,6 +88,9 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	@Autowired
 	private BankRemittanceService bankRemittanceService;
 
+	@Autowired
+	private DirectDebitService directDebitService;
+
 	private BankRemittance bankRemittance;
 
 	/**
@@ -134,13 +138,13 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		feeMemberService.save(feeMember);
 
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
 		program.setAccountPayer(account);
 		programService.update(program);
 
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, new ArrayList<Account>());
+		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, new ArrayList<Account>(), account);
 		programService.save(program2);
 		programService.up(program2);
 		program2.setAccountPayer(account2);
@@ -148,7 +152,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 
 		List<Account> accounts2 = new ArrayList<Account>();
 		accounts2.add(account3);
-		Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9, accounts2);
+		Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9, accounts2, account);
 		programService.save(program3);
 		programService.up(program3);
 		program3.setAccountPayer(account2);
@@ -197,12 +201,13 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void payDirectDebitTest() throws Exception {
+	public void payCashDirectDebitTest() throws Exception {
 
-		DirectDebit directDebit = bankRemittanceService.getDirectDebitListByBankRemittanceId(bankRemittance.getId()).get(0);
+		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
 
-		mockMvc.perform(post("/bankRemittanceList/directDebitList/pay/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession))
-				.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));
+		mockMvc.perform(post("/directDebitList/cash/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				//.andExpect(view().name("bankremittance/directdebitlist"))
+		;
 		assertTrue(directDebit.getState().equals(states.PAY));
 
 	}
@@ -215,7 +220,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	@Test
 	public void returnBillDirectDebitTest() throws Exception {
 
-		DirectDebit directDebit = bankRemittanceService.getDirectDebitListByBankRemittanceId(bankRemittance.getId()).get(0);
+		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
 
 		mockMvc.perform(post("/bankRemittanceList/directDebitList/returnBill/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));
@@ -227,7 +232,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-04-01"));
 
 		BankRemittance bankRemittance2 = bankRemittanceService.getBankRemittanceList().get(1);
-		DirectDebit directDebit2 = bankRemittanceService.getDirectDebitListByBankRemittanceId(bankRemittance2.getId()).get(0);
+		DirectDebit directDebit2 = directDebitService.findAllByBankRemittanceId(bankRemittance2.getId()).get(0);
 
 		mockMvc.perform(post("/bankRemittanceList/directDebitList/returnBill/" + directDebit2.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));

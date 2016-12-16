@@ -18,6 +18,7 @@ package org.cuacfm.members.model.feeprogramservice;
 import java.util.Date;
 import java.util.List;
 
+import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
@@ -43,6 +44,9 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 	private PayProgramService payProgramService;
 
 	@Autowired
+	private DirectDebitService directDebitService;
+
+	@Autowired
 	private EventService eventService;
 
 	/** Instantiates a new feeProgram service. */
@@ -61,7 +65,9 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 		// Create payments of programs
 		for (Program program : programService.getProgramListActive()) {
 			Double price = feeProgram.getPrice() * program.getDuration() * program.getPeriodicity();
-			payProgramService.save(new PayProgram(program, feeProgram, price));
+			PayProgram payProgram = new PayProgram(program, feeProgram, price);
+			payProgramService.save(payProgram);
+			directDebitService.save(program.getAccountPayer());
 		}
 
 		Object[] arguments = { feeProgram.getName() };

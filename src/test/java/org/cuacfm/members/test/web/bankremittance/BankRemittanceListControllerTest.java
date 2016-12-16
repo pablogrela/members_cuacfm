@@ -153,19 +153,19 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
 		feeMemberService.save(feeMember);
 
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
 		program.setAccountPayer(account);
 		programService.update(program);
 
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, new ArrayList<Account>());
+		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, new ArrayList<Account>(), account);
 		programService.save(program2);
 		programService.up(program2);
 
 		List<Account> accounts2 = new ArrayList<Account>();
 		accounts2.add(account3);
-		Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9, accounts2);
+		Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9, accounts2, account);
 		programService.save(program3);
 		programService.up(program3);
 		program3.setAccountPayer(account2);

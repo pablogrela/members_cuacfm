@@ -72,13 +72,11 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Initialize default session.
 	 *
-	 * @throws UniqueException
-	 *             the unique exception
+	 * @throws UniqueException the unique exception
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException {
-		Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es", "666666666", "666666666",
-				"admin", roles.ROLE_ADMIN);
+		Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
 		defaultSession = getDefaultSession("admin");
 	}
@@ -86,8 +84,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Display ProgramList page without signin in test.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void displayProgramListPageWithoutSiginInTest() throws Exception {
@@ -97,74 +94,63 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void displaysProgramList() throws Exception {
-		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
-				.andExpect(view().name("program/programlist"))
+		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("program/programlist"))
 				.andExpect(content().string(containsString("<title>Programs</title>")));
 	}
 
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void displaysUserProgramList() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		defaultSession = getDefaultSession("user");
 
-		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
-				.andExpect(view().name("program/programlist"))
+		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("program/programlist"))
 				.andExpect(content().string(containsString("<title>Programs</title>")));
 	}
 
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void displaysProgramListWithDatabase() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
-		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession))
-				.andExpect(view().name("program/programlist"))
+		mockMvc.perform(get("/programList").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("program/programlist"))
 				.andExpect(content().string(containsString("<title>Programs</title>")));
 	}
 
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void deleteProgramList() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
-		mockMvc.perform(
-				post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/programList"));
 
 		// Assert, it remove program
@@ -174,22 +160,19 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Delete program by user list.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void deleteProgramByUserList() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
 		defaultSession = getDefaultSession("user");
-		mockMvc.perform(
-				post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/programList"));
 
 		// Assert, it remove program
@@ -199,25 +182,21 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Delete program by diferent user list.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void deleteProgramByDiferentUserList() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
-		Account account2 = new Account("user2", "555555552C", "London", "user2", "user2@udc.es", "666666666",
-				"666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "555555552C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		defaultSession = getDefaultSession("user2");
-		mockMvc.perform(
-				post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/programList"));
 
 		// Assert, it remove program
@@ -227,25 +206,22 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void deleteExistPaymentsInProgramList() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 		programService.up(program);
 		Date date = DisplayDate.stringToMonthOfYear("2015-12");
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
-		mockMvc.perform(
-				post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/programList"));
 
 		// Assert, it don´t remove program
@@ -255,29 +231,25 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void programEdit() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
-		mockMvc.perform(
-				post("/programList/programEdit/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/programList/programEdit/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/programList/programEdit"));
 	}
 
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void programCreate() throws Exception {
@@ -288,21 +260,18 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void programDown() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
-		mockMvc.perform(
-				post("/programList/programDown/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/programList/programDown/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/programList"));
 		assertFalse(program.isActive());
 	}
@@ -310,21 +279,18 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Send displaysProgramList.
 	 * 
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void programUp() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666",
-				"demo", roles.ROLE_USER);
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts);
+		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
 		programService.save(program);
 
-		mockMvc.perform(
-				post("/programList/programUp/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
+		mockMvc.perform(post("/programList/programUp/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/programList"));
 		assertTrue(program.isActive());
 

@@ -27,8 +27,7 @@
 	<div th:replace="fragments/header :: header(active='feeProgram')">&nbsp;</div>
 
 
-	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{feeProgramCreate}"
-		th:object="${feeProgramForm}">
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{feeProgramCreate}" th:object="${feeProgramForm}">
 
 
 		<!--/* Show general error message when form contains errors */-->
@@ -46,10 +45,8 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}"
-						maxlength="40" required="required" />
-					<span class="help-block with-errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect
-						name</span>
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="40" required="required" />
+					<span class="help-block with-errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
@@ -59,38 +56,31 @@
 				<label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="price" th:placeholder="#{price}"
-							th:field="*{price}" step="0.01" min="0.01" required="required" />
+						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0.01" required="required" />
 					</div>
 					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
 					<br></br>
-					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}"
-						th:errors="*{price}"> Incorrect price</span>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"> Incorrect price</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
 			<!-- Insert date -->
 			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('date')}? 'has-error'">
-				<label for="date" class="col-lg-2 control-label" th:text="#{feeProgram.date}">date</label>
+				<label for="date" class="col-lg-1 col-lg-1-center control-label" th:text="#{feeProgram.date}">date</label>
 				<div class="col-lg-10">
-					<input type="month" name="date" class="form-control" id="date"
-						th:placeholder="#{feeProgram.date}" th:field="*{date}" />
-					<span class="help-block" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Incorrect
-						date</span>
+					<input type="month" name="date" class="form-control" id="date" th:placeholder="#{feeProgram.date}" th:field="*{date}" />
+					<span class="help-block" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Incorrect date</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
 			<!-- Insert dateLimit -->
-			<div class="form-inline form-group"
-				th:classappend="${#fields.hasErrors('dateLimit')}? 'has-error'">
+			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateLimit')}? 'has-error'">
 				<label for="dateLimit" class="col-lg-1 control-label" th:text="#{feeProgram.dateLimit}">dateLimit</label>
 				<div class="col-lg-10">
-					<input type="month" name="dateLimit" class="form-control" id="dateLimit"
-						th:placeholder="#{feeProgram.dateLimit}" th:field="*{dateLimit}" />
-					<span class="help-block" th:if="${#fields.hasErrors('dateLimit')}" th:errors="*{dateLimit}">Incorrect
-						dateLimit</span>
+					<input type="month" name="dateLimit" class="form-control" id="dateLimit" th:placeholder="#{feeProgram.dateLimit}" th:field="*{dateLimit}" />
+					<span class="help-block" th:if="${#fields.hasErrors('dateLimit')}" th:errors="*{dateLimit}">Incorrect dateLimit</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
@@ -99,11 +89,10 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
 				<div class="col-lg-10">
-					<textarea class="form-control" id="description" th:placeholder="#{description}"
-						th:field="*{description}" rows="5" cols="40" maxlength="500" required="required">
+					<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" rows="5" cols="40" maxlength="500"
+						required="required">
             	Description</textarea>
-					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect
-						description</span>
+					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>

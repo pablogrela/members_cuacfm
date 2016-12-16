@@ -16,10 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html 
-xmlns:th="http://www.thymeleaf.org" 
-xmlns:tiles="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{trainingType.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -29,114 +26,111 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='trainingType')">&nbsp;</div>
 
-
-	<!-- Button Create New Training Type -->
-	<div class="text-center">
-		<a href="#" class="btn btn-success btn-lg" id="createNewTrainingType" th:href="@{/trainingTypeList/trainingTypeCreate}"
-			th:text="#{trainingType.createNewTrainingType}">Create New Training Type </a>
-	</div>
-	
-	<br></br><br></br>
-	<!-- Message Info -->
-	<div class="container text-center ">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-				message=#{${message.message}(${message.args[0]})})">&nbsp;
-			</div>
-		</th:block>
-	</div>
-			
-	<!-- Show message, if training type list is empty -->
-	<div th:if="${#lists.isEmpty(trainingTypes)}">
-		<h2 class="text-center"
-			th:text="#{trainingType.trainingTypelistEmpty}">
-			List of Training Types</h2>
-	</div>
-	
-	<fieldset>
-
-		<!-- Verify if exits Trainings -->
-		<div class="container" th:unless="${#lists.isEmpty(trainingTypes)}">
-		
-			<h2 class="text-center" th:text="#{trainingType.trainingTypelist}">List of Training Types</h2>
-
-			<!-- Table List of Training Types -->
-			<table class="display" id="customTable">
-				<thead class="table-bordered">
-					<tr>
-						<th th:text="#{name}">Name</th>
-						<th th:text="#{trainingType.required}">Close</th>
-						<th th:text="#{place}">Place</th>
-						<th th:text="#{duration}">Duration</th>
-						<th class="no-sort"></th>
-						<th class="no-sort"></th>
-					</tr>
-				</thead>
-				<tbody class="table-bordered">
-
-					<!-- Table entry -->
-					<tr th:each="trainingType : ${trainingTypes}" id="trainingTypes">
-						<td id="trainingTypeName" th:text="${trainingType.name}">name</td>
-						<td><input type="checkbox" th:checked="${trainingType.required}"
-							onClick="return false" th:title="#{trainingType.infoShowRequired}" /></td>
-						<td th:text="${trainingType.place}">place</td>
-						<td th:text="${trainingType.duration}">duration</td>
-
-
-						<!-- Delete TrainingType -->
-						<td>	
-							<form th:action="@{'trainingTypeList/trainingTypeDelete/'+${trainingType.id}}" method="post">
-							
-								<th:block th:if="!${trainingType.hasTrainings}">	
-									<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" 
-										th:title="#{trainingType.infoRemove}" style="color: red" onclick="evaluateModal(this.form, modal, accept)"></button>
-								</th:block>	
-													
-								<!-- It doesn´t delete TrainingType because TrainingType has trainings-->
-								<th:block th:if="${trainingType.hasTrainings}">				
-									<button class="btnTableLocked btn-link glyphicon glyphicon-remove" 
-											th:title="#{trainingType.infoRemoveLocked}" style="color: black">
-									</button>
-								</th:block>
-							
-							</form>
-						</td>
-
-						<!-- Modify TrainingType -->
-						<td>
-							<form th:action="@{'trainingTypeList/trainingTypeEdit/'+${trainingType.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}"
-									style="color: orange"></button>
-							</form>
-						</td>
-
-					</tr>
-				</tbody>
-			</table>
+	<div class="container-fluid">
+		<!-- Button Create New Training Type -->
+		<div class="text-center">
+			<a href="#" class="btn btn-success btn-lg" id="createNewTrainingType" th:href="@{/trainingTypeList/trainingTypeCreate}"
+				th:text="#{trainingType.createNewTrainingType}">Create New Training Type </a>
 		</div>
 
+		<br></br>
+		<br></br>
+		<!-- Message Info -->
+		<div class="text-center ">
+			<!-- /* Handle the flash message */-->
+			<th:block th:if="${message != null}">
+				<!-- /* The message code is returned from the @Controller */ -->
+				<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
+				message=#{${message.message}(${message.args[0]})})">&nbsp;
+				</div>
+			</th:block>
+		</div>
 
-	</fieldset>
-	
-	<!-- Modal Info Delete TrainingType	-->
-	<div id="modal" class="modal fade">
-	    <div class="modal-dialog">
-	        <div class="modal-content  panel-danger">
-	            <div class="modal-header  modal-header-danger">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                <h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
-	            </div>
-	            <div class="modal-body">
-	                <p th:text="#{trainingType.infoModalDelete}">Message</p>
-	            </div>
-	            <div class="modal-footer">
-	                <button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
-	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
-	            </div>
-	        </div>
-	    </div>
-    </div>
+		<!-- Show message, if training type list is empty -->
+		<div th:if="${#lists.isEmpty(trainingTypes)}">
+			<h2 class="text-center" th:text="#{trainingType.trainingTypelistEmpty}">List of Training Types</h2>
+		</div>
+
+		<fieldset>
+
+			<!-- Verify if exits Trainings -->
+			<div th:unless="${#lists.isEmpty(trainingTypes)}">
+
+				<h2 class="text-center" th:text="#{trainingType.trainingTypelist}">List of Training Types</h2>
+
+				<!-- Table List of Training Types -->
+				<table class="display" id="customTable">
+					<thead class="table-bordered">
+						<tr>
+							<th th:text="#{name}">Name</th>
+							<th th:text="#{trainingType.required}">Close</th>
+							<th th:text="#{place}">Place</th>
+							<th th:text="#{duration}">Duration</th>
+							<th class="no-sort"></th>
+							<th class="no-sort"></th>
+						</tr>
+					</thead>
+					<tbody class="table-bordered">
+
+						<!-- Table entry -->
+						<tr th:each="trainingType : ${trainingTypes}" id="trainingTypes">
+							<td id="trainingTypeName" th:text="${trainingType.name}">name</td>
+							<td><input type="checkbox" th:checked="${trainingType.required}" onClick="return false" th:title="#{trainingType.infoShowRequired}" /></td>
+							<td th:text="${trainingType.place}">place</td>
+							<td th:text="${trainingType.duration}">duration</td>
+
+
+							<!-- Delete TrainingType -->
+							<td>
+								<form th:action="@{'trainingTypeList/trainingTypeDelete/'+${trainingType.id}}" method="post">
+
+									<th:block th:if="!${trainingType.hasTrainings}">
+										<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{trainingType.infoRemove}" style="color: red"
+											onclick="evaluateModal(this.form, modal, accept)"></button>
+									</th:block>
+
+									<!-- It doesn´t delete TrainingType because TrainingType has trainings-->
+									<th:block th:if="${trainingType.hasTrainings}">
+										<button class="btnTableLocked btn-link glyphicon glyphicon-remove" th:title="#{trainingType.infoRemoveLocked}" style="color: black">
+										</button>
+									</th:block>
+
+								</form>
+							</td>
+
+							<!-- Modify TrainingType -->
+							<td>
+								<form th:action="@{'trainingTypeList/trainingTypeEdit/'+${trainingType.id}}" method="post">
+									<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+								</form>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+
+		</fieldset>
+
+		<!-- Modal Info Delete TrainingType	-->
+		<div id="modal" class="modal fade">
+			<div class="modal-dialog ">
+				<div class="modal-content  panel-danger">
+					<div class="modal-header  modal-header-danger">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+					</div>
+					<div class="modal-body">
+						<p th:text="#{trainingType.infoModalDelete}">Message</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
+						<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -18,8 +18,9 @@ package org.cuacfm.members.model.paymember;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,311 +33,282 @@ import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 
 /** The Class PayMember. */
-@SuppressWarnings("serial")
 @Entity
 public class PayMember implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	private static final long serialVersionUID = 1L;
 
-   /** The account. */
-   @ManyToOne(optional = false, fetch = FetchType.EAGER)
-   @JoinColumn(name = "accountId")
-   private Account account;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-   /** The feeMember. */
-   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-   @JoinColumn(name = "feeMemberId")
-   private FeeMember feeMember;
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "accountId")
+	private Account account;
 
-   // @ManyToOne(optional = false, fetch = FetchType.LAZY)
-   // @JoinColumn(name = "directDebitId")
-   // private DirectDebit directDebit
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "feeMemberId")
+	private FeeMember feeMember;
 
-   /** The price. */
-   private Double price;
+	private Double price;
 
-   /** The State. */
-   private states state;
+	@Enumerated(EnumType.STRING)
+	private states state;
 
-   /** The method. */
-   private methods method;
+	@Enumerated(EnumType.STRING)
 
-   /** The installment. */
-   private int installment;
+	private methods method;
 
-   /** The installment. */
-   private int installments;
+	private int installment;
 
-   /** The id payer. */
-   private String idPayer;
+	private int installments;
 
-   /** The id txn. */
-   @Column(unique = true)
-   private String idTxn;
+	private String idPayer;
 
-   /** The email payer. */
-   private String emailPayer;
+	//@Column(unique = true)
+	// May have been paid with the same directDebit transaction
+	private String idTxn;
 
-   /** The date pay. */
-   private Date datePay;
+	private String emailPayer;
 
-   /** The date charge. */
-   private Date dateCharge;
+	private Date datePay;
 
-   /**
-    * Instantiates a pay fee member.
-    */
-   public PayMember() {
-      // Default empty constructor.
-   }
+	private Date dateCharge;
 
-   /**
-    * Instantiates a new user fee member.
-    *
-    * @param account
-    *           the account
-    * @param feeMember
-    *           the fee member
-    * @param price
-    *           the price
-    * @param installment
-    *           the installment
-    * @param installments
-    *           the installments
-    * @param dateCharge
-    *           the date charge
-    */
-   public PayMember(Account account, FeeMember feeMember, Double price, int installment,
-         int installments, Date dateCharge) {
-      super();
-      this.account = account;
-      this.feeMember = feeMember;
-      this.price = price;
-      this.installment = installment;
-      this.installments = installments;
-      this.dateCharge = dateCharge;
-      this.state = states.NO_PAY;
-      this.method = methods.NO_PAY;
-   }
+	/**
+	 * Instantiates a pay fee member.
+	 */
+	public PayMember() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Gets the account.
-    *
-    * @return the account
-    */
-   public Account getAccount() {
-      return account;
-   }
+	/**
+	 * Instantiates a new user fee member.
+	 *
+	 * @param account the account
+	 * @param feeMember the fee member
+	 * @param price the price
+	 * @param installment the installment
+	 * @param installments the installments
+	 * @param dateCharge the date charge
+	 */
+	public PayMember(Account account, FeeMember feeMember, Double price, int installment, int installments, Date dateCharge) {
+		super();
+		this.account = account;
+		this.feeMember = feeMember;
+		this.price = price;
+		this.installment = installment;
+		this.installments = installments;
+		this.dateCharge = dateCharge;
+		this.state = states.NO_PAY;
+		this.method = methods.NO_PAY;
+	}
 
-   /**
-    * Gets the fee member.
-    *
-    * @return the fee member
-    */
-   public FeeMember getFeeMember() {
-      return feeMember;
-   }
+	/**
+	 * Gets the account.
+	 *
+	 * @return the account
+	 */
+	public Account getAccount() {
+		return account;
+	}
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	/**
+	 * Gets the fee member.
+	 *
+	 * @return the fee member
+	 */
+	public FeeMember getFeeMember() {
+		return feeMember;
+	}
 
-   /**
-    * Gets the price.
-    *
-    * @return the price
-    */
-   public Double getPrice() {
-      return price;
-   }
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-   /**
-    * Sets the price.
-    *
-    * @param price
-    *           the new price
-    */
-   public void setPrice(Double price) {
-      this.price = price;
-   }
+	/**
+	 * Gets the price.
+	 *
+	 * @return the price
+	 */
+	public Double getPrice() {
+		return price;
+	}
 
-   /**
-    * Gets the state.
-    *
-    * @return the state
-    */
-   public states getState() {
-      return state;
-   }
+	/**
+	 * Sets the price.
+	 *
+	 * @param price the new price
+	 */
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
-   /**
-    * Sets the state.
-    *
-    * @param state
-    *           the new state
-    */
-   public void setState(states state) {
-      this.state = state;
-   }
+	/**
+	 * Gets the state.
+	 *
+	 * @return the state
+	 */
+	public states getState() {
+		return state;
+	}
 
-   /**
-    * Gets the installment.
-    *
-    * @return the installment
-    */
-   public int getInstallment() {
-      return installment;
-   }
+	/**
+	 * Sets the state.
+	 *
+	 * @param state the new state
+	 */
+	public void setState(states state) {
+		this.state = state;
+	}
 
-   /**
-    * Sets the installment.
-    *
-    * @param installment
-    *           the new installment
-    */
-   public void setInstallment(int installment) {
-      this.installment = installment;
-   }
+	/**
+	 * Gets the installment.
+	 *
+	 * @return the installment
+	 */
+	public int getInstallment() {
+		return installment;
+	}
 
-   /**
-    * Gets the installments.
-    *
-    * @return the installments
-    */
-   public int getInstallments() {
-      return installments;
-   }
+	/**
+	 * Sets the installment.
+	 *
+	 * @param installment the new installment
+	 */
+	public void setInstallment(int installment) {
+		this.installment = installment;
+	}
 
-   /**
-    * Sets the installments.
-    *
-    * @param installments
-    *           the new installments
-    */
-   public void setInstallments(int installments) {
-      this.installments = installments;
-   }
+	/**
+	 * Gets the installments.
+	 *
+	 * @return the installments
+	 */
+	public int getInstallments() {
+		return installments;
+	}
 
-   /**
-    * Gets the id payer.
-    *
-    * @return the id payer
-    */
-   public String getIdPayer() {
-      return idPayer;
-   }
+	/**
+	 * Sets the installments.
+	 *
+	 * @param installments the new installments
+	 */
+	public void setInstallments(int installments) {
+		this.installments = installments;
+	}
 
-   /**
-    * Sets the id payer.
-    *
-    * @param idPayer
-    *           the new id payer
-    */
-   public void setIdPayer(String idPayer) {
-      this.idPayer = idPayer;
-   }
+	/**
+	 * Gets the id payer.
+	 *
+	 * @return the id payer
+	 */
+	public String getIdPayer() {
+		return idPayer;
+	}
 
-   /**
-    * Gets the id txn.
-    *
-    * @return the id txn
-    */
-   public String getIdTxn() {
-      return idTxn;
-   }
+	/**
+	 * Sets the id payer.
+	 *
+	 * @param idPayer the new id payer
+	 */
+	public void setIdPayer(String idPayer) {
+		this.idPayer = idPayer;
+	}
 
-   /**
-    * Sets the id txn.
-    *
-    * @param idTxn
-    *           the new id txn
-    */
-   public void setIdTxn(String idTxn) {
-      this.idTxn = idTxn;
-   }
+	/**
+	 * Gets the id txn.
+	 *
+	 * @return the id txn
+	 */
+	public String getIdTxn() {
+		return idTxn;
+	}
 
-   /**
-    * Gets the email payer.
-    *
-    * @return the email payer
-    */
-   public String getEmailPayer() {
-      return emailPayer;
-   }
+	/**
+	 * Sets the id txn.
+	 *
+	 * @param idTxn the new id txn
+	 */
+	public void setIdTxn(String idTxn) {
+		this.idTxn = idTxn;
+	}
 
-   /**
-    * Sets the email payer.
-    *
-    * @param emailPayer
-    *           the new email payer
-    */
-   public void setEmailPayer(String emailPayer) {
-      this.emailPayer = emailPayer;
-   }
+	/**
+	 * Gets the email payer.
+	 *
+	 * @return the email payer
+	 */
+	public String getEmailPayer() {
+		return emailPayer;
+	}
 
-   /**
-    * Gets the method.
-    *
-    * @return the method
-    */
-   public methods getMethod() {
-      return method;
-   }
+	/**
+	 * Sets the email payer.
+	 *
+	 * @param emailPayer the new email payer
+	 */
+	public void setEmailPayer(String emailPayer) {
+		this.emailPayer = emailPayer;
+	}
 
-   /**
-    * Sets the method.
-    *
-    * @param method
-    *           the new method
-    */
-   public void setMethod(methods method) {
-      this.method = method;
-   }
+	/**
+	 * Gets the method.
+	 *
+	 * @return the method
+	 */
+	public methods getMethod() {
+		return method;
+	}
 
-   /**
-    * Gets the date pay.
-    *
-    * @return the date pay
-    */
-   public Date getDatePay() {
-      return datePay;
-   }
+	/**
+	 * Sets the method.
+	 *
+	 * @param method the new method
+	 */
+	public void setMethod(methods method) {
+		this.method = method;
+	}
 
-   /**
-    * Sets the date pay.
-    *
-    * @param datePay
-    *           the new date pay
-    */
-   public void setDatePay(Date datePay) {
-      this.datePay = datePay;
-   }
+	/**
+	 * Gets the date pay.
+	 *
+	 * @return the date pay
+	 */
+	public Date getDatePay() {
+		return datePay;
+	}
 
-   /**
-    * Gets the date charge.
-    *
-    * @return the date charge
-    */
-   public Date getDateCharge() {
-      return dateCharge;
-   }
+	/**
+	 * Sets the date pay.
+	 *
+	 * @param datePay the new date pay
+	 */
+	public void setDatePay(Date datePay) {
+		this.datePay = datePay;
+	}
 
-   /**
-    * Sets the date charge.
-    *
-    * @param dateCharge
-    *           the new date charge
-    */
-   public void setDateCharge(Date dateCharge) {
-      this.dateCharge = dateCharge;
-   }
+	/**
+	 * Gets the date charge.
+	 *
+	 * @return the date charge
+	 */
+	public Date getDateCharge() {
+		return dateCharge;
+	}
+
+	/**
+	 * Sets the date charge.
+	 *
+	 * @param dateCharge the new date charge
+	 */
+	public void setDateCharge(Date dateCharge) {
+		this.dateCharge = dateCharge;
+	}
 
 }

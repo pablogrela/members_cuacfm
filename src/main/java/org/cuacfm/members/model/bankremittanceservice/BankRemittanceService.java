@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.cuacfm.members.model.bankremittance.BankRemittance;
-import org.cuacfm.members.model.directdebit.DirectDebit;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.springframework.http.ResponseEntity;
 
@@ -46,17 +45,19 @@ public interface BankRemittanceService {
 	 * Pay bank remittance.
 	 *
 	 * @param bankRemittance the bank remittance
+	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public void payBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException;
+	public String payBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException;
 
 	/**
 	 * Management bank remittance.
 	 *
 	 * @param bankRemittanc the bank remittanc
+	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public void managementBankRemittance(BankRemittance bankRemittanc) throws ExistTransactionIdException;
+	public String managementBankRemittance(BankRemittance bankRemittanc) throws ExistTransactionIdException;
 
 	/**
 	 * Find by id.
@@ -72,54 +73,6 @@ public interface BankRemittanceService {
 	 * @return the bank remittance list
 	 */
 	public List<BankRemittance> getBankRemittanceList();
-
-	/**
-	 * Update direct debit.
-	 *
-	 * @param directDebit the direct debit
-	 * @return the direct debit
-	 */
-	public DirectDebit updateDirectDebit(DirectDebit directDebit);
-
-	/**
-	 * Find by direct debit id.
-	 *
-	 * @param directDebitid the direct debitid
-	 * @return the direct debit
-	 */
-	public DirectDebit findByDirectDebitId(Long directDebitid);
-
-	/**
-	 * Pay direct debit.
-	 *
-	 * @param directDebitId the direct debit id
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
-	public void payDirectDebit(DirectDebit directDebit) throws ExistTransactionIdException;
-
-	/**
-	 * Return bill.
-	 *
-	 * @param directDebit the direct debit
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
-	public void returnBill(DirectDebit directDebit) throws ExistTransactionIdException;
-
-	/**
-	 * Management direct debit.
-	 *
-	 * @param directDebitId the direct debit id
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
-	public void managementDirectDebit(DirectDebit directDebit) throws ExistTransactionIdException;
-
-	/**
-	 * Gets the direct debit list by bank remittance id.
-	 *
-	 * @param bankRemittanceId the bank remittance id
-	 * @return the direct debit list by bank remittance id
-	 */
-	public List<DirectDebit> getDirectDebitListByBankRemittanceId(Long bankRemittanceId);
 
 	/**
 	 * create Txt Bank Remittance.

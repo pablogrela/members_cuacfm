@@ -22,9 +22,12 @@
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
 <body>
-<div class="container">
-    <div th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">Error: Error</div>
-    <div th:include="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
-</div>
+	<!-- Generic Header -->
+	<div th:replace="fragments/header ">&nbsp;</div>
+	
+	<div class="container-fluid">
+		<div th:replace="fragments/alert :: alert (type='danger', message=${errorMessage})">Error: Error</div>
+		<div th:include="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
+	</div>
 </body>
 </html>

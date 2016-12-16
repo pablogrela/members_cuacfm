@@ -24,13 +24,13 @@ if(ln == 'es'){
 	$(document).ready(function() {
 		   $('#customTable').dataTable( {
 		       "language": {
-		           "sUrl": "resources/json/datatables/Spanish.json"
+		           "sUrl": "/members/resources/json/datatables/Spanish.json"
 		       },
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
 		   $('#customTable2').dataTable( {
 		       "language": {
-		    	   "sUrl": "resources/json/datatables/Spanish.json"
+		    	   "sUrl": "/members/resources/json/datatables/Spanish.json"
 		       },
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
@@ -39,13 +39,13 @@ if(ln == 'es'){
 		$(document).ready(function() {
 			   $('#customTable').dataTable( {
 			       "language": {
-			    	   "sUrl": "resources/json/datatables/Galician.json"
+			    	   "sUrl": "/members/resources/json/datatables/Galician.json"
 			       },
 			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 			   } );
 			   $('#customTable2').dataTable( {
 			       "language": {
-			    	   "sUrl": "resources/json/datatables/Galician.json"
+			    	   "sUrl": "/members/resources/json/datatables/Galician.json"
 			       },
 			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 			   } );

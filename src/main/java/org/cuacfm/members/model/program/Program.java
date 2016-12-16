@@ -79,13 +79,14 @@ public class Program implements Serializable {
 	 * @param duration the duration
 	 * @param accounts the accounts
 	 */
-	public Program(String name, Float periodicity, String description, int duration, List<Account> accounts) {
+	public Program(String name, Float periodicity, String description, int duration, List<Account> accounts, Account accountPayer) {
 		super();
 		this.name = name;
 		this.periodicity = periodicity;
 		this.description = description;
 		this.duration = duration;
 		this.accounts = accounts;
+		this.accountPayer = accountPayer;
 		this.active = false;
 	}
 

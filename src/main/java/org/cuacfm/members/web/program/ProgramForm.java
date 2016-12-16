@@ -249,7 +249,7 @@ public class ProgramForm {
 	 * @return the program
 	 */
 	public Program createProgram() {
-		Program program = new Program(getName(), getPeriodicity(), getDescription(), getDuration(), getAccounts());
+		Program program = new Program(getName(), getPeriodicity(), getDescription(), getDuration(), getAccounts(), accountPayer);
 		program.setAccountPayer(accountPayer);
 		return program;
 	}

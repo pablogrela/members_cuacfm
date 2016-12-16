@@ -57,23 +57,23 @@ public class EventRepositoryImpl implements EventRepository {
 	}
 
 	@Override
-	public List<Event> getEvents(Long accountId) {
-		return entityManager.createQuery("select e from Event e where e.account.id = :accountId order by e.dateEvent", Event.class)
+	public List<Event> findAllByAccountId(Long accountId) {
+		return entityManager.createQuery("select e from Event e where e.account.id = :accountId order by e.dateEvent desc", Event.class)
 				.setParameter("accountId", accountId).getResultList();
 	}
 
 	@Override
-	public List<Event> getActiveEvents() {
-		return entityManager.createQuery("select e from Event e where e.priority!=0 order by e.priority, e.dateEvent", Event.class).getResultList();
+	public List<Event> findAllOpen() {
+		return entityManager.createQuery("select e from Event e where e.priority!=0 order by e.priority, e.dateEvent desc", Event.class).getResultList();
 	}
 	
 	@Override
-	public List<Event> getCloseEventsDTO() {
-		return entityManager.createQuery("select e from Event e where e.priority=0 order by e.priority, e.dateEvent", Event.class).getResultList();
+	public List<Event> findAllClose() {
+		return entityManager.createQuery("select e from Event e where e.priority=0 order by e.priority, e.dateEvent desc", Event.class).getResultList();
 	}
 	
 	@Override
-	public List<Event> getAllEvents() {
-		return entityManager.createQuery("select e from Event e order by e.priority, e.dateEvent", Event.class).getResultList();
+	public List<Event> findAll() {
+		return entityManager.createQuery("select e from Event e order by e.priority, e.dateEvent desc", Event.class).getResultList();
 	}
 }

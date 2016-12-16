@@ -21,6 +21,7 @@ import java.util.List;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.event.Event;
 import org.cuacfm.members.model.event.EventDTO;
 import org.cuacfm.members.model.eventservice.EventService;
@@ -30,6 +31,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,10 +46,25 @@ public class HomeController {
 	private static final String EVENTLISTCLOSE = "home/eventlistclose";
 
 	@Autowired
+	private ConfigurationService configurationService;
+
+	@Autowired
 	private EventService eventService;
 
 	@Autowired
 	private AccountService accountService;
+
+	private String email;
+
+	/**
+	 * Email.
+	 *
+	 * @return the string
+	 */
+	@ModelAttribute("email")
+	public String email() {
+		return email;
+	}
 
 	/**
 	 * Index.
@@ -55,9 +73,11 @@ public class HomeController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Principal principal) {
+	public String index(Model model, Principal principal) {
 
 		if (principal != null) {
+			email = configurationService.getConfiguration().getEmail();
+			model.addAttribute("email", email);
 			return HOMESIGNEDIN;
 		} else {
 			return HOMENOTSIGNEDIN;
@@ -87,10 +107,10 @@ public class HomeController {
 		List<EventDTO> eventsDTO;
 
 		if (auth.getAuthorities().toString().contains(roles.ROLE_ADMIN.toString())) {
-			eventsDTO = eventService.getActiveEventsDTO();
+			eventsDTO = eventService.getDTO(eventService.findAllOpen());
 		} else {
 			Account account = accountService.findByLogin(auth.getName());
-			eventsDTO = eventService.getEventsDTO(account.getId());
+			eventsDTO = eventService.getDTO(eventService.findAllByAccountId((account.getId())));
 		}
 		if (eventsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -110,7 +130,7 @@ public class HomeController {
 		List<EventDTO> eventsDTO = null;
 
 		if (auth.getAuthorities().toString().contains(roles.ROLE_ADMIN.toString())) {
-			eventsDTO = eventService.getCloseEventsDTO();
+			eventsDTO = eventService.getDTO(eventService.findAllClose());
 		}
 		if (eventsDTO == null || eventsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);

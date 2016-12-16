@@ -117,7 +117,11 @@ public class ProgramEditController {
 			model.addAttribute("usernames", usernames);
 			return PROGRAM_VIEW_NAME;
 		}
-
+		if (programForm.getAccountPayer() == null) {
+			model.addAttribute("usernames", usernames);
+			errors.rejectValue("accountPayerName", "program.accountPayer.required");
+			return PROGRAM_VIEW_NAME;
+		}
 		try {
 			programService.update(programForm.updateProgram(program));
 		} catch (UniqueException e) {

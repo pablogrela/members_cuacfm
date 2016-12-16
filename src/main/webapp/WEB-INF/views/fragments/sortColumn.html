@@ -1,0 +1,59 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+</head>
+<body>
+
+	<div th:fragment="search">
+		<!-- Form number of elements -->
+		<form>
+			<div class="form-group form-group-elements pull-left">
+				<div class="input-group">
+					<div class="input-group-addon">
+						<i th:text="#{elements}" class="fa fa-search"></i>
+					</div>
+					<input type="number" class="form-control" th:placeholder="#{elements.info}" data-ng-model="numPerPage" />
+				</div>
+			</div>
+		</form>
+
+		<!-- Form search -->
+		<form>
+			<div class="form-group form-group-search pull-right">
+				<div class="input-group">
+					<div class="input-group-addon">
+						<i th:text="#{search}" class="fa fa-search"></i>
+					</div>
+					<input type="text" class="form-control" th:placeholder="#{search.info}" data-ng-model="search" />
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+	<th:object th:fragment="sortColumn (column)">
+		<a href="#" data-ng-click="sortType = 'column'; sortReverse = !sortReverse"> <span th:text="#{${column}}"></span> <span
+				data-ng-show="sortType == '{{column}}' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+				data-ng-show="sortType == '{{column}}' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+		</a>
+	</th:object>
+
+</body>
+</html>

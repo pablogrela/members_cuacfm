@@ -41,8 +41,9 @@ public interface EventService {
 	 * @param account the account
 	 * @param priority the priority
 	 * @param arguments the arguments
+	 * @return the string
 	 */
-	public void save(String message, Account account, int priority, Object[] arguments);
+	public String save(String message, Account account, int priority, Object[] arguments);
 
 	/**
 	 * Save.
@@ -62,6 +63,35 @@ public interface EventService {
 	public Event findById(Long id);
 
 	/**
+	 * Find all.
+	 *
+	 * @return the list
+	 */
+	public List<Event> findAll();
+
+	/**
+	 * Find all active.
+	 *
+	 * @return the list
+	 */
+	public List<Event> findAllOpen();
+
+	/**
+	 * Find all close.
+	 *
+	 * @return the list
+	 */
+	public List<Event> findAllClose();
+
+	/**
+	 * Gets the events.
+	 *
+	 * @param accountId the account id
+	 * @return the events
+	 */
+	public List<Event> findAllByAccountId(Long accountId);
+
+	/**
 	 * Highlight.
 	 *
 	 * @param event the event
@@ -71,47 +101,10 @@ public interface EventService {
 	public Event highlight(Event event, int priority);
 
 	/**
-	 * Gets the events.
+	 * Convert events to events DTO.
 	 *
-	 * @param accountId the account id
-	 * @return the events
+	 * @param events the events
+	 * @return the list
 	 */
-	public List<Event> getEvents(Long accountId);
-
-	/**
-	 * Gets the all events.
-	 *
-	 * @return the all events
-	 */
-	public List<Event> getAllEvents();
-
-	/**
-	 * Gets the events DTO.
-	 *
-	 * @return the events DTO
-	 */
-	public List<EventDTO> getEventsDTO();
-
-	/**
-	 * Gets the active events DTO.
-	 *
-	 * @return the active events DTO
-	 */
-	public List<EventDTO> getActiveEventsDTO();
-
-	/**
-	 * Gets the close events DTO.
-	 *
-	 * @return the close events DTO
-	 */
-	public List<EventDTO> getCloseEventsDTO();
-
-	/**
-	 * Gets the events DTO.
-	 *
-	 * @param accountId the account id
-	 * @return the events DTO
-	 */
-	public List<EventDTO> getEventsDTO(Long accountId);
-
+	public List<EventDTO> getDTO(List<Event> events);
 }

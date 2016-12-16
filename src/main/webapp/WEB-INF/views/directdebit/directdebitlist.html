@@ -1,0 +1,67 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{directDebitList.title}"></title>
+<object th:include="fragments/head :: head" th:remove="tag"></object>
+<script th:src="@{/resources/js/service/directDebitAdminService.js}"></script>
+<script th:src="@{/resources/js/controller/directDebitAdminController.js}"></script>
+</head>
+<body data-ng-app="membersApp">
+
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='directDebit')">&nbsp;</div>
+
+	<div class="container-fluid">
+
+		<!-- Div of buttons -->
+		<div class="container-fluid text-center containerColums">
+
+			<!-- Form for droplist -->
+			<div class="columLeft">
+				<form method="post" th:action="@{directDebitList/refresh}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+					<button type="submit" class="btn btn-danger btn-lg" th:title="#{directDebit.infoUpdateDirectDebits}" th:text="#{directDebit.updateDirectDebits}"></button>
+				</form>
+				<br></br>
+			</div>
+
+			<!-- Button redirect to directDebit list close-->
+			<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="columRight">
+				<a href="#" class="btn btn-info btn-lg" th:href="@{/directDebitList/close}" th:text="#{directDebit.viewdirectDebitListClose}"> </a>
+			</div>
+		</div>
+
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
+
+
+
+		<!-- Table list of directDebits -->
+		<div data-ng-app="membersApp" data-ng-controller="DirectDebitAdminController as ctrl">
+			<div th:include="directdebit/directdebittable :: directdebittable(#{directDebit.directDebitList}, #{directDebit.directDebitListEmpty})"></div>
+		</div>
+	</div>
+
+</body>
+</html>

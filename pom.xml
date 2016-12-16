@@ -21,17 +21,17 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>0.2.0 - managements, events, payments and bankremittance txt</version>
+	<version>0.2.1 - managements, events, payments and bankRemitances</version>
 	<inceptionYear>2015</inceptionYear>
 	<name>members</name>
 	<url>https://github.com/pablogrela/members_cuacfm</url>
-	<description>Member management: accounts, trainings, programs, fee members, fee programs, bank remitances, bank accounts, ...
+	<description>Member management: accounts, trainings, programs, fee members, fee programs, directDebits, bankRemitances, bank accounts, ...
 Management of events of each important action.</description>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java-version>1.8</java-version>
-		<io.spring.platform-version>1.1.5.RELEASE</io.spring.platform-version>
+		<io.spring.platform-version>2.0.8.RELEASE</io.spring.platform-version>
 		<!-- AssertJ is not a part of Spring IO platform, so the version must be 
 			provided explicitly -->
 		<assertj-core-version>1.5.0</assertj-core-version>
@@ -105,7 +105,7 @@ Management of events of each important action.</description>
 		</dependency>
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity3</artifactId>
+			<artifactId>thymeleaf-extras-springsecurity4</artifactId>
 		</dependency>
 		<!-- Persistence -->
 		<!-- MySQL -->
@@ -304,7 +304,6 @@ Management of events of each important action.</description>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.11</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>xml-apis</artifactId>

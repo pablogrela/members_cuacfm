@@ -20,7 +20,10 @@ public class Constants {
 
 	public static final String NOPAY = "NOPAY";
 	public static final String PAY = "PAY";
-
+	public static final String ERRORIDEXCEPTION = "userPayments.errorIdException";
+	public static final String SUCCESSPAYPAL = "userPayments.successPayPal";
+	public static final String ERRORPAYPAL = "userPayments.errorPayPal";
+	
 	/** Instantiates a new Constants. */
 	protected Constants() {
 		// Default empty constructor.
@@ -29,7 +32,7 @@ public class Constants {
 	/**
 	 * The Enum states.
 	 */
-	public static enum states {
+	public enum states {
 
 		/** The no pay. */
 		NO_PAY,
@@ -41,13 +44,16 @@ public class Constants {
 		MANAGEMENT,
 
 		/** The return bill. */
-		RETURN_BILL
+		RETURN_BILL,
+		
+		/** Cancel. */
+		CANCEL
 	}
 
 	/**
 	 * The Enum method.
 	 */
-	public static enum methods {
+	public enum methods {
 
 		/** The no pay. */
 		NO_PAY,
@@ -60,6 +66,9 @@ public class Constants {
 
 		/** The cash. */
 		CASH,
+		
+		/** The bank deposit. */
+		BANK_DEPOSIT
 
 	}
 }
