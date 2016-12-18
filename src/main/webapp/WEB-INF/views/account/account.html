@@ -26,374 +26,478 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='account')">&nbsp;</div>
 
-	<!-- Button redirect to Account List-->
-	<div class="text-center">
-		<a href="#" class="btn btn-info btn-lg" th:href="@{/accountList}" th:text="#{account.backAccountList}"> </a>
-	</div>
-	<br></br>
 
-	<div class="container text-center">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-		</th:block>
+	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+	<div class="container-fluid text-center" th:if="${message != null}">
+		<br></br>
+		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 	</div>
 
-	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/account}" th:object="${profileForm}">
 
-		<!--/* Show general error message when form contains errors */-->
-		<th:block th:if="${#fields.hasErrors('${profileForm.*}')}">
-			<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
-		</th:block>
+	<!-- Div of buttons -->
+	<div class=" containerColums">
 
-		<fieldset>
+		<!-- Div of info account -->
+		<div class="  columLeft-big">
 
-			<!-- Message help-->
-			<legend th:text="#{account.info}">Would you like to change any of the information?</legend>
-
-			<!-- Edit Name -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
-				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
-				<div class="col-lg-10">
-					<input type="text" name="name" class="form-control" id="namess" th:placeholder="#{name}" th:field="*{name}" maxlength="30" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
+			<!-- Button redirect to Account List-->
+			<div class="text-center">
+				<a href="#" class="btn btn-info btn-lg" th:href="@{/accountList}" th:text="#{account.backAccountList}"> </a>
 			</div>
+			<br></br>
 
-			<!-- Edit NickName -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('nickName')}? 'has-error'">
-				<label for="nickName" class="col-lg-2 control-label" th:text="#{nickName}">NickName</label>
-				<div class="col-lg-10">
-					<input type="text" name="nickName" class="form-control" id="nickName" th:placeholder="#{nickName}" th:field="*{nickName}" maxlength="30" />
-					<span class="help-block" th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Incorrect nickName</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
+			<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/account}" th:object="${profileForm}">
 
-			<!-- Edit dni -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
-				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
-				<div class="col-lg-10">
-					<input type="text" name="dni" class="form-control" id="dni" th:placeholder="#{dni}" th:field="*{dni}" maxlength="30" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Incorrect dni</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
+				<!--/* Show general error message when form contains errors */-->
+				<th:block th:if="${#fields.hasErrors('${profileForm.*}')}">
+					<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
+				</th:block>
 
-			<!-- Edit address -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-error'">
-				<label for="address" class="col-lg-2 control-label" th:text="#{address}">address</label>
-				<div class="col-lg-10">
-					<input type="text" name="address" class="form-control" id="address" th:placeholder="#{address}" th:field="*{address}" maxlength="30"
-						required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect address</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
+				<fieldset>
 
-			<!-- Edit cp -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('cp')}? 'has-error'">
-				<label for="cp" class="col-lg-2 control-label" th:text="#{cp}">cp</label>
-				<div class="col-lg-10">
-					<input type="text" name="cp" class="form-control" id="cp" th:placeholder="#{cp}" th:field="*{cp}" maxlength="30" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('cp')}" th:errors="*{cp}">Incorrect cp</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
+					<!-- Message help-->
+					<legend th:text="#{account.info}">Would you like to change any of the information?</legend>
 
-
-			<!-- Edit province -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('province')}? 'has-error'">
-				<label for="province" class="col-lg-2 control-label" th:text="#{province}">province</label>
-				<div class="col-lg-10">
-					<input type="text" name="province" class="form-control" id="province" th:placeholder="#{province}" th:field="*{province}" maxlength="30"
-						required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('province')}" th:errors="*{province}">Incorrect province</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit codeCountry-->
-			<div class="form-group" th:classappend="${#fields.hasErrors('codeCountry')}? 'has-error'">
-				<label for="codeCountry" class="col-lg-2 control-label" th:text="#{codeCountry}">codeCountry</label>
-				<div class="col-lg-10">
-					<input type="text" name="codeCountry" class="form-control" id="codeCountry" th:placeholder="#{codeCountry}" th:field="*{codeCountry}"
-						maxlength="2" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('codeCountry')}" th:errors="*{codeCountry}">Incorrect codeCountry</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit Login, with a checkbox to enable field login-->
-			<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
-				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
-				<div class="col-lg-10">
-					<input type="text" name="login" disabled="disabled" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}" maxlength="30"
-						required="required" />
-					<input type="checkbox" id="onLogin" th:text="#{profile}" name="onLogin" onChange="unlockText('onLogin', 'login')" />
-					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit Email, with a checkbox to enable field email -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
-				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
-				<div class="col-lg-10">
-					<input type="email" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="30"
-						required="required" />
-					<input type="checkbox" id="onEmail" th:text="#{profile}" name="onEmail" onChange="unlockText('onEmail', 'email')" />
-					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit phone  -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
-				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
-				<div class="col-lg-10">
-					<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" data-minlength="6" maxlength="20"
-						pattern="[0-9]{6,20}" th:title="#{telPattern}" value="" />
-					<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit mobile -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
-				<label for="mobile" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
-				<div class="col-lg-10">
-					<input type="tel" name="mobile" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" data-minlength="6"
-						maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" value="" />
-					<span class="help-block" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit ProgramName -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('programName')}? 'has-error'">
-				<label for="programName" class="col-lg-1 control-label" th:text="#{programName}">programName</label>
-				<div class="col-lg-10">
-					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}" th:field="*{programName}" maxlength="30"
-						th:title="#{infoProgramName}" />
-					<span class="help-block" th:if="${#fields.hasErrors('programName')}" th:errors="*{programName}">Incorrect programName</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit student -->
-			<div class="form-group">
-				<label for="student" class="col-lg-2 control-label" th:text="#{student}">student</label>
-				<div class="col-lg-2">
-					<input type="checkbox" class="form-control-edit" name="student" id="student" th:title="#{signup.infoStudent}" />
-				</div>
-			</div>
-
-			<!-- Edit dateBirth -->
-			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateBirth')}? 'has-error'">
-				<label for="dateBirth" class="col-lg-1 control-label" th:text="#{dateBirth}">dateBirth</label>
-				<div class="col-lg-10">
-					<input type="date" name="dateBirth" class="form-control" id="dateBirth" th:placeholder="#{account.dateBirth}" th:field="*{dateBirth}" />
-					<br></br>
-					<span class="help-block" th:if="${#fields.hasErrors('dateBirth')}" th:errors="*{dateBirth}">Incorrect dateBirth</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit Password, with a checkbox to enable field password and rePassword-->
-			<div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
-				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
-				<div class="col-lg-10">
-					<input type="password" name="password" disabled="disabled" class="form-control" id="password" th:placeholder="#{password}" th:field="*{password}"
-						data-minlength="4" maxlength="20" required="required" />
-					<input type="checkbox" id="onPassword" th:text="#{profile}" name="onPassword"
-						onChange="unlockText2('onPassword', 'visibleRePasswords', 'password', 'rePassword')" />
-					<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-
-			<!-- Reinsert Password -->
-			<div id="visibleRePasswords" style="display: none;">
-				<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
-					<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
-					<div class="col-lg-10">
-						<input type="password" name="rePassword" disabled="disabled" class="form-control" id="rePassword" th:placeholder="#{rePassword}"
-							th:field="*{rePassword}" data-minlength="4" data-dependent-validation="password" maxlength="20" required="required" />
-						<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
-						<div class="ws-errorbox" hidden=""></div>
+					<!-- Edit Name -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+						<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+						<div class="col-lg-10">
+							<input type="text" name="name" class="form-control" id="namess" th:placeholder="#{name}" th:field="*{name}" maxlength="30" required="required" />
+							<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
 					</div>
-				</div>
-			</div>
 
-			<!-- Account Type, Selected option in droplist, with a checkbox to enable field account Type -->
-			<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group">
-				<label for="accountType" class="col-lg-1 control-label" th:text="#{accountType}">accountType</label>
-				<div class="col-lg-4">
-					<select class="form-control" id="accountType" name="accountTypeId" th:field="*{accountTypeId}">
-						<option th:if="${accountTypeId == null}" th:value="''"></option>
-						<option th:field="*{accountTypeId}" th:each="accountType : ${profileForm.accountTypes}" th:value="${accountType.id}"
-							th:text="${accountType.name}">accountType</option>
-					</select>
-				</div>
-			</div>
-
-			<!-- Method Payment, Selected option in droplist -->
-			<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group">
-				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">methodPayment</label>
-				<div class="col-lg-4">
-					<select class="form-control" id="methodPayment" name="roleId" th:field="*{methodPaymentId}">
-						<option th:if="${methodPaymentId == null}" th:value="''"></option>
-						<option th:field="*{methodPaymentId}" th:each="methodPayment : ${profileForm.methodPayments}" th:value="${methodPayment.id}"
-							th:text="${methodPayment.name}">methodPayment</option>
-					</select>
-				</div>
-			</div>
-
-			<!-- Edit Installments -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('installments')}? 'has-error'">
-				<label for="installments" class="col-lg-1 control-label" th:text="#{installmentsInscription}">installments</label>
-				<div class="col-lg-10">
-					<div class="col-lg-3-edit">
-						<input type="number" name="installments" class="form-control" id="installments" th:placeholder="#{installments}" th:field="*{installments}"
-							min="1" max="12" required="required" />
+					<!-- Edit NickName -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('nickName')}? 'has-error'">
+						<label for="nickName" class="col-lg-2 control-label" th:text="#{nickName}">NickName</label>
+						<div class="col-lg-10">
+							<input type="text" name="nickName" class="form-control" id="nickName" th:placeholder="#{nickName}" th:field="*{nickName}" maxlength="30" />
+							<span class="help-block" th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Incorrect nickName</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
 					</div>
-					<br></br> <br></br>
-					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('installments')}" th:errors="*{installments}">Incorrect installments</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
 
-			<!-- Edit Observations -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('observations')}? 'has-error'">
-				<label for="observations" class="col-lg-2 control-label" th:text="#{observations}">Observations</label>
-				<div class="col-lg-10">
-					<textarea class="form-control" name="observations" id="observations" th:placeholder="#{observations}" th:field="*{observations}" rows="5"
-						cols="40">
+					<!-- Edit dni -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
+						<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
+						<div class="col-lg-10">
+							<input type="text" name="dni" class="form-control" id="dni" th:placeholder="#{dni}" th:field="*{dni}" maxlength="30" required="required" />
+							<span class="help-block" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Incorrect dni</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+					<!-- Edit address -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-error'">
+						<label for="address" class="col-lg-2 control-label" th:text="#{address}">address</label>
+						<div class="col-lg-10">
+							<input type="text" name="address" class="form-control" id="address" th:placeholder="#{address}" th:field="*{address}" maxlength="30"
+								required="required" />
+							<span class="help-block" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect address</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+					<!-- Edit cp -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('cp')}? 'has-error'">
+						<label for="cp" class="col-lg-2 control-label" th:text="#{cp}">cp</label>
+						<div class="col-lg-10">
+							<input type="text" name="cp" class="form-control" id="cp" th:placeholder="#{cp}" th:field="*{cp}" maxlength="30" />
+							<span class="help-block" th:if="${#fields.hasErrors('cp')}" th:errors="*{cp}">Incorrect cp</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit province -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('province')}? 'has-error'">
+						<label for="province" class="col-lg-2 control-label" th:text="#{province}">province</label>
+						<div class="col-lg-10">
+							<input type="text" name="province" class="form-control" id="province" th:placeholder="#{province}" th:field="*{province}" maxlength="30" />
+							<span class="help-block" th:if="${#fields.hasErrors('province')}" th:errors="*{province}">Incorrect province</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit codeCountry-->
+					<div class="form-group" th:classappend="${#fields.hasErrors('codeCountry')}? 'has-error'">
+						<label for="codeCountry" class="col-lg-2 control-label" th:text="#{codeCountry}">codeCountry</label>
+						<div class="col-lg-10">
+							<input type="text" name="codeCountry" class="form-control" id="codeCountry" th:placeholder="#{codeCountry}" th:field="*{codeCountry}"
+								maxlength="2" />
+							<span class="help-block" th:if="${#fields.hasErrors('codeCountry')}" th:errors="*{codeCountry}">Incorrect codeCountry</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit Login, with a checkbox to enable field login-->
+					<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+						<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+						<div class="col-lg-10">
+							<div class="input-group">
+								<input type="text" name="login" disabled="disabled" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}"
+									maxlength="30" required="required" />
+								<span class="input-group-btn">
+									<input type="checkbox" id="onLogin" name="onLogin" onChange="unlockText('onLogin', 'login')" data-toggle="toggle" data-onstyle="success"
+										data-offstyle="danger" />
+								</span>
+							</div>
+							<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit Email, with a checkbox to enable field email -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+						<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
+						<div class="col-lg-10">
+							<div class="input-group">
+								<input type="email" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}"
+									maxlength="30" required="required" />
+								<span class="input-group-btn">
+									<input type="checkbox" id="onEmail" th:text="#{profile}" name="onEmail" onChange="unlockText('onEmail', 'email')" data-toggle="toggle"
+										data-onstyle="success" data-offstyle="danger" />
+								</span>
+							</div>
+							<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit phone  -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
+						<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
+						<div class="col-lg-10">
+							<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" data-minlength="6" maxlength="20"
+								pattern="[0-9]{6,20}" th:title="#{telPattern}" value="" />
+							<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit mobile -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
+						<label for="mobile" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
+						<div class="col-lg-10">
+							<input type="tel" name="mobile" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" data-minlength="6"
+								maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" value="" />
+							<span class="help-block" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit ProgramName -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('programName')}? 'has-error'">
+						<label for="programName" class="col-lg-1 control-label" th:text="#{programName}">programName</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="programName" th:placeholder="#{programName}" th:field="*{programName}" maxlength="30"
+								th:title="#{infoProgramName}" />
+							<span class="help-block" th:if="${#fields.hasErrors('programName')}" th:errors="*{programName}">Incorrect programName</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit student -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('student')}? 'has-error'">
+						<label class="col-lg-10" th:text="#{student.coruna }"></label>
+						<div class="col-lg-10 control">
+							<label for="text" class="col-lg-1"></label>
+							<span class="col-lg-3">
+								<input type="checkbox" name="student" value="true" id="studentTrue" th:title="#{signup.infoStudent}"
+									onClick="switchCheckbox('studentTrue', 'studentFalse')" th:field="*{studentTrue}" />
+								<span th:text="#{true}"></span>
+							</span>
+							<span class="col-lg-3 ">
+								<input type="checkbox" name="student" value="false" id="studentFalse" th:title="#{signup.infoStudent}"
+									onClick="switchCheckbox('studentFalse', 'studentTrue')" th:field="*{studentFalse}" />
+								<span th:text="#{false}"></span>
+							</span>
+							<span class="help-block" th:if="${#fields.hasErrors('student')}" th:errors="*{mobile}">Incorrect mobile</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit emit program -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('emitProgram')}? 'has-error'">
+						<label class="col-lg-20" th:text="#{emitProgram.info}"></label>
+						<div class="col-lg-10">
+							<label for="text" class="col-lg-1"></label>
+							<span class="col-lg-3">
+								<input type="checkbox" name="emitProgram" value="true" id="emitProgramTrue" th:title="#{signup.infoStudent}"
+									onClick="switchCheckbox('emitProgramTrue', 'emitProgramFalse')" th:field="*{emitProgramTrue}" />
+								<span th:text="#{true}"></span>
+							</span>
+							<span class="col-lg-3 ">
+								<input type="checkbox" name="emitProgram" value="false" id="emitProgramFalse" th:title="#{signup.infoStudent}"
+									onClick="switchCheckbox('emitProgramFalse', 'emitProgramTrue')" th:field="*{emitProgramFalse}" />
+								<span th:text="#{false}"></span>
+							</span>
+						</div>
+					</div>
+
+
+					<!-- Edit dateBirth -->
+					<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateBirth')}? 'has-error'">
+						<label for="dateBirth" class="col-lg-1 control-label" th:text="#{dateBirth}">dateBirth</label>
+						<div class="col-lg-10">
+							<input type="date" name="dateBirth" class="form-control" id="dateBirth" th:placeholder="#{account.dateBirth}" th:field="*{dateBirth}" />
+							<br></br>
+							<span class="help-block" th:if="${#fields.hasErrors('dateBirth')}" th:errors="*{dateBirth}">Incorrect dateBirth</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+					<!-- Edit Password, with a checkbox to enable field password and rePassword-->
+					<div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
+						<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
+						<div class="col-lg-10">
+							<div class="input-group">
+								<input type="password" name="password" disabled="disabled" class="form-control" id="password" th:placeholder="#{password}"
+									th:field="*{password}" data-minlength="4" maxlength="20" required="required" />
+								<span class="input-group-btn">
+									<input type="checkbox" id="onPassword" th:text="#{profile}" name="onPassword"
+										onChange="unlockText2('onPassword', 'visibleRePasswords', 'password', 'rePassword')" data-toggle="toggle" data-onstyle="success"
+										data-offstyle="danger" />
+								</span>
+							</div>
+							<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Reinsert Password -->
+					<div id="visibleRePasswords" style="display: none;">
+						<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
+							<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
+							<div class="col-lg-10">
+								<input type="password" name="rePassword" disabled="disabled" class="form-control" id="rePassword" th:placeholder="#{rePassword}"
+									th:field="*{rePassword}" data-minlength="4" data-dependent-validation="password" maxlength="20" required="required" />
+								<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- Personality -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('personality')}? 'has-error'">
+						<label for="personality" class="col-lg-20" th:text="#{account.personality}">personality</label> <br></br>
+						<div class="col-lg-20">
+							<span class="col-lg-20" th:text="#{account.personality.info}"></span>
+						</div>
+						<div class="col-lg-20">
+							<textarea class="form-control" name="personality" id="personality" th:placeholder="#{personality}" th:field="*{personality}" rows="5" cols="40">
             	Observations</textarea>
-					<span class="help-block" th:if="${#fields.hasErrors('observations')}" th:errors="*{observations}">Incorrect observations</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Role, Selected option in droplist, with a checkbox to enable field role -->
-			<div class="form-group">
-				<label for="role" class="col-lg-2 control-label" th:text="#{role}">role</label>
-				<div class="col-lg-6">
-					<select class="form-control" id="role" disabled="disabled" name="role" th:field="*{role}">
-						<option th:field="*{role}" th:each="role : ${profileForm.roles}" th:value="${role}" th:text="#{${'roles.' + role}}">role</option>
-					</select>
-					<input type="checkbox" id="onRole" th:text="#{profile}" name="onRole" onChange="unlockText('onRole', 'role')" />
-				</div>
-			</div>
-
-			<!-- Button Modify, visible if a checkbox enable is pressed -->
-			<div>
-				<div class="form-group">
-					<div class="col-lg-offset-2 col-lg-10">
-						<button type="submit" class="btn btn-success btn-lg" th:text="#{profile}">Sign Up</button>
+							<span class="help-block" th:if="${#fields.hasErrors('personality')}" th:errors="*{personality}">Incorrect personality</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
 					</div>
-				</div>
+
+
+					<!-- Edit knowledge -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('knowledge')}? 'has-error'">
+						<label for="knowledge" class="col-lg-20" th:text="#{account.knowledge}">knowledge</label> <br></br>
+						<div class="col-lg-20">
+							<span class="col-lg-20" th:text="#{account.knowledge.info}"></span>
+						</div>
+						<div class="col-lg-20">
+							<textarea class="form-control" name="observations" id="knowledge" th:placeholder="#{account.knowledge}" th:field="*{knowledge}" rows="5"
+								cols="40">
+            	Observations</textarea>
+							<span class="help-block" th:if="${#fields.hasErrors('knowledge')}" th:errors="*{knowledge}">Incorrect knowledge</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Account Type, Selected option in droplist, with a checkbox to enable field account Type -->
+					<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group">
+						<label for="accountType" class="col-lg-1 control-label" th:text="#{accountType}">accountType</label>
+						<div class="col-lg-4">
+							<select class="form-control" id="accountType" name="accountTypeId" th:field="*{accountTypeId}">
+								<option th:if="${accountTypeId == null}" th:value="''"></option>
+								<option th:field="*{accountTypeId}" th:each="accountType : ${profileForm.accountTypes}" th:value="${accountType.id}"
+									th:text="${accountType.name}">accountType</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- Method Payment, Selected option in droplist -->
+					<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group">
+						<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">methodPayment</label>
+						<div class="col-lg-4">
+							<select class="form-control" id="methodPayment" name="roleId" th:field="*{methodPaymentId}">
+								<option th:if="${methodPaymentId == null}" th:value="''"></option>
+								<option th:field="*{methodPaymentId}" th:each="methodPayment : ${profileForm.methodPayments}" th:value="${methodPayment.id}"
+									th:text="${methodPayment.name}">methodPayment</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- Edit Installments -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('installments')}? 'has-error'">
+						<label for="installments" class="col-lg-1 control-label" th:text="#{installmentsInscription}">installments</label>
+						<div class="col-lg-10">
+							<div class="col-lg-3-edit">
+								<input type="number" name="installments" class="form-control" id="installments" th:placeholder="#{installments}" th:field="*{installments}"
+									min="1" max="12" required="required" />
+							</div>
+							<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('installments')}" th:errors="*{installments}">Incorrect installments</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+					<!-- Edit Observations -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('observations')}? 'has-error'">
+						<label for="observations" class="col-lg-20" th:text="#{observations}">Observations</label>
+						<div class="col-lg-20">
+							<textarea class="form-control" name="observations" id="observations" th:placeholder="#{observations}" th:field="*{observations}" rows="5"
+								cols="40">
+            	Observations</textarea>
+							<span class="help-block" th:if="${#fields.hasErrors('observations')}" th:errors="*{observations}">Incorrect observations</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Role, Selected option in droplist, with a checkbox to enable field role -->
+					<div class="form-group">
+						<label for="role" class="col-lg-2 control-label" th:text="#{role}">role</label>
+						<div class="col-lg-6">
+							<div class="input-group">
+								<select class="form-control" id="role" disabled="disabled" name="role" th:field="*{role}">
+									<option th:field="*{role}" th:each="role : ${profileForm.roles}" th:value="${role}" th:text="#{${'roles.' + role}}">role</option>
+								</select>
+								<span class="input-group-btn">
+									<input type="checkbox" id="onRole" th:text="#{profile}" name="onRole" onChange="unlockText('onRole', 'role')" data-toggle="toggle"
+										data-onstyle="success" data-offstyle="danger" />
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Button Modify, visible if a checkbox enable is pressed -->
+					<div>
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<button type="submit" class="btn btn-success btn-lg" th:text="#{profile}">Sign Up</button>
+							</div>
+						</div>
+					</div>
+
+				</fieldset>
+			</form>
+		</div>
+
+
+		<!-- Div banck accounts -->
+		<div class=" columRight-big">
+
+			<!-- Button view Bank Accounts-->
+			<div class="form-group text-center">
+				<button type="button" class="btn btn-info btn-lg" th:text="#{account.viewBankAccounts}" th:title="#{account.infoBankAccounts}"
+					onclick="showModal(modal)"></button>
 			</div>
 
-		</fieldset>
-	</form>
+
+			<!-- Form to create Bank Account-->
+			<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/bankAccount}" th:object="${bankAccountForm}">
 
 
-	<!-- Button view Bank Accounts-->
-	<div class="form-group text-center">
-		<button type="button" class="btn btn-info btn-lg" th:text="#{account.viewBankAccounts}" th:title="#{account.infoBankAccounts}"
-			onclick="showModal(modal)"></button>
+				<!--/* Show general error message when form contains errors */-->
+				<th:block th:if="${#fields.hasErrors('${bankAccountForm.*}')}">
+					<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
+				</th:block>
+
+				<fieldset>
+
+					<legend th:text="#{account.infoBankAccount}">BankAccount</legend>
+
+					<!-- Edit bank, with a checkbox to enable field bank -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('bank')}? 'has-error'">
+						<label for="bank" class="col-lg-2 control-label" th:text="#{bank}">bank</label>
+						<div class="col-lg-10">
+							<input type="text" name="bank" class="form-control" id="bank" th:placeholder="#{bank}" th:field="*{bank}" maxlength="30" required="required" />
+							<span class="help-block" th:if="${#fields.hasErrors('bank')}" th:errors="*{bank}">Incorrect bank</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+					<!-- Edit bic, with a checkbox to enable field bic -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('bic')}? 'has-error'">
+						<label for="bic" class="col-lg-2 control-label" th:text="#{bic}">bic</label>
+						<div class="col-lg-10">
+							<input type="text" name="bic" class="form-control" id="bic" th:placeholder="#{bic}" th:field="*{bic}" data-minlength="8" maxlength="11"
+								pattern="^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$" required="required" />
+							<span class="help-block" th:if="${#fields.hasErrors('bic')}" th:errors="*{bic}">Incorrect bic</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+
+					<!-- Edit iban, with a checkbox to enable field iban -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('iban')}? 'has-error'">
+						<label for="iban" class="col-lg-2 control-label" th:text="#{iban}">iban</label>
+						<div class="col-lg-10">
+							<input type="text" name="iban" class="form-control" id="iban" th:placeholder="#{iban}" th:field="*{iban}" data-minlength="24" maxlength="34"
+								pattern="^([A-Z]){2}([0-9]{22,32})?$" th:title="#{ibanPattern}" required="required" />
+							<span class="help-block" th:if="${#fields.hasErrors('iban')}" th:errors="*{iban}">Incorrect iban</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+					<!-- Button Create Bank Account -->
+					<div>
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<button type="submit" class="btn btn-success btn-lg" th:text="#{account.createNewBankAccount}">createNewBankAccount</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal Info 	-->
+					<div id="modal" class="modal fade">
+						<div class="modal-dialog">
+							<div class="modal-content panel-info">
+								<div class="modal-header modal-header-info">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title" th:text="#{account.infoBankAccounts}"></h4>
+								</div>
+								<div class="modal-body">
+									<ul th:each="bankAccount : ${bankAccounts}">
+										<th:block th:if="${bankAccount.active}">
+											<h3 th:text="#{account.activeBankAccount}" style="color: blue">bank</h3>
+										</th:block>
+										<th:block th:if="!${bankAccount.active}">
+											<h3 th:text="#{account.infoBankAccount}" style="color: red">bank</h3>
+										</th:block>
+										<li th:text="${bankAccount.bank}">bank</li>
+										<li th:text="${bankAccount.bic}">bic</li>
+										<li th:text="${bankAccount.iban}">iban</li>
+										<li th:text="${bankAccount.mandate}">mandate</li>
+									</ul>
+									<!-- Show message, if bank accounts is empty -->
+									<h2 class="text-center" th:if="${#lists.isEmpty(bankAccounts)}" th:text="#{account.bankAccount.bankAccountListEmpy}"></h2>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-info" th:text="#{accept}" data-dismiss="modal">Accept</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
 	</div>
-
-
-	<!-- Form to create Bank Account-->
-	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/bankAccount}" th:object="${bankAccountForm}">
-
-
-		<!--/* Show general error message when form contains errors */-->
-		<th:block th:if="${#fields.hasErrors('${bankAccountForm.*}')}">
-			<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
-		</th:block>
-
-		<fieldset>
-
-			<legend th:text="#{account.infoBankAccount}">BankAccount</legend>
-
-			<!-- Edit bank, with a checkbox to enable field bank -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('bank')}? 'has-error'">
-				<label for="bank" class="col-lg-2 control-label" th:text="#{bank}">bank</label>
-				<div class="col-lg-10">
-					<input type="text" name="bank" class="form-control" id="bank" th:placeholder="#{bank}" th:field="*{bank}" maxlength="30" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('bank')}" th:errors="*{bank}">Incorrect bank</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Edit bic, with a checkbox to enable field bic -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('bic')}? 'has-error'">
-				<label for="bic" class="col-lg-2 control-label" th:text="#{bic}">bic</label>
-				<div class="col-lg-10">
-					<input type="text" name="bic" class="form-control" id="bic" th:placeholder="#{bic}" th:field="*{bic}" data-minlength="8" maxlength="11"
-						pattern="^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('bic')}" th:errors="*{bic}">Incorrect bic</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-
-			<!-- Edit iban, with a checkbox to enable field iban -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('iban')}? 'has-error'">
-				<label for="iban" class="col-lg-2 control-label" th:text="#{iban}">iban</label>
-				<div class="col-lg-10">
-					<input type="text" name="iban" class="form-control" id="iban" th:placeholder="#{iban}" th:field="*{iban}" data-minlength="24" maxlength="34"
-						pattern="^([A-Z]){2}([0-9]{22,32})?$" th:title="#{ibanPattern}" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('iban')}" th:errors="*{iban}">Incorrect iban</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</div>
-
-			<!-- Button Create Bank Account -->
-			<div>
-				<div class="form-group">
-					<div class="col-lg-offset-2 col-lg-10">
-						<button type="submit" class="btn btn-success btn-lg" th:text="#{account.createNewBankAccount}">createNewBankAccount</button>
-					</div>
-				</div>
-			</div>
-
-			<!-- Modal Info 	-->
-			<div id="modal" class="modal fade">
-				<div class="modal-dialog">
-					<div class="modal-content panel-info">
-						<div class="modal-header modal-header-info">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-							<h4 class="modal-title" th:text="#{account.infoBankAccounts}">Confirmation</h4>
-						</div>
-						<div class="modal-body">
-							<ul th:each="bankAccount : ${bankAccounts}">
-								<th:block th:if="${bankAccount.active}">
-									<h3 th:text="#{account.activeBankAccount}" style="color: blue">bank</h3>
-								</th:block>
-								<th:block th:if="!${bankAccount.active}">
-									<h3 th:text="#{account.infoBankAccount}" style="color: red">bank</h3>
-								</th:block>
-								<li th:text="${bankAccount.bank}">bank</li>
-								<li th:text="${bankAccount.bic}">bic</li>
-								<li th:text="${bankAccount.iban}">iban</li>
-								<li th:text="${bankAccount.mandate}">mandate</li>
-							</ul>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-info" th:text="#{accept}" data-dismiss="modal">Accept</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</fieldset>
-	</form>
 </body>
 </html>

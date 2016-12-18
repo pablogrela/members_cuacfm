@@ -22,7 +22,7 @@
 <title th:text="#{signup.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
-<body >
+<body>
 
 
 	<!-- Generic Header -->
@@ -45,8 +45,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="30"
-						required="required" />
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="30" required="required" />
 					<span class="help-block ws-errorbox" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -56,159 +55,227 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
 				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="dni" th:placeholder="#{dni}" th:field="*{dni}" maxlength="30"
-						required="required" />
+					<input type="text" class="form-control" id="dni" th:placeholder="#{dni}" th:field="*{dni}" maxlength="30" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Incorrect dni</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
+
 			<!-- Insert address -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-error'">
 				<label for="address" class="col-lg-2 control-label" th:text="#{address}">address</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="address" th:placeholder="#{address}" th:field="*{address}"
-						maxlength="30" required="required" />
+					<input type="text" class="form-control" id="address" th:placeholder="#{address}" th:field="*{address}" maxlength="30" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect address</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
+
 			<!-- Insert Login -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}" maxlength="30"
-						required="required" />
+					<input type="text" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}" maxlength="30" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
+
 			<!-- Insert Email -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
-					<input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="30"
-						required="required" />
+					<input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="30" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
+
 			<!-- Insert phone -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
-					<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}"
-						data-minlength="6" maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" />
+					<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" data-minlength="6" maxlength="20"
+						pattern="[0-9]{6,20}" th:title="#{telPattern}" />
 					<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
+
 			<!-- Insert mobile -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="text" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
-					<input type="tel" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" maxlength="20"
-						data-minlength="6" pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
+					<input type="tel" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" maxlength="20" data-minlength="6"
+						pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
+
+			<!-- Edit student -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('student')}? 'has-error'">
+				<label class="col-lg-20 control-label" th:text="#{student.coruna}"></label>
+				<div class="col-lg-10 control">
+					<label for="text" class="col-lg-1"></label>
+					<span class="col-lg-3">
+						<input type="checkbox" name="student" value="true" id="studentTrue" th:title="#{signup.infoStudent}"
+							onClick="switchCheckbox('studentTrue', 'studentFalse')" required="required" />
+						<span th:text="#{true}"></span>
+					</span>
+					<span class="col-lg-3 ">
+						<input type="checkbox" name="student" value="false" id="studentFalse" th:title="#{signup.infoStudent}"
+							onClick="switchCheckbox('studentFalse', 'studentTrue')" />
+						<span th:text="#{false}"></span>
+					</span>
+					<div class="help-block" th:if="${#fields.hasErrors('student')}" th:errors="*{student}"></div>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Edit emit program -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('emitProgram')}? 'has-error'">
+				<label class="col-lg-20 control-label" th:text="#{emitProgram.info}"></label>
+				<div class="col-lg-10 control">
+					<label for="text" class="col-lg-1"></label>
+					<span class="col-lg-3">
+						<input type="checkbox" name="emitProgram" value="true" id="emitProgramTrue" th:title="#{signup.infoEmitProgram}"
+							onClick="switchCheckbox('emitProgramTrue', 'emitProgramFalse')" required="required" />
+						<span th:text="#{true}"></span>
+					</span>
+					<span class="col-lg-3 ">
+						<input type="checkbox" name="emitProgram" value="false" id="emitProgramFalse" th:title="#{signup.infoEmitProgram}"
+							onClick="switchCheckbox('emitProgramFalse', 'emitProgramTrue')" />
+						<span th:text="#{false}"></span>
+					</span>
+					<div class="help-block" th:if="${#fields.hasErrors('emitProgram')}" th:errors="*{emitProgram}"></div>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+
+			</div>
+
+
 			<!-- Insert ProgramName -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('programName')}? 'has-error'">
 				<label for="programName" class="col-lg-1 control-label" th:text="#{programName}">programName</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}" th:field="*{programName}"
-						maxlength="30" th:title="#{infoProgramName}" />
-					<span class="help-block" th:if="${#fields.hasErrors('programName')}" th:errors="*{programName}">Incorrect
-						programName</span>
+					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}" th:field="*{programName}" maxlength="30"
+						th:title="#{infoProgramName}" />
+					<span class="help-block" th:if="${#fields.hasErrors('programName')}" th:errors="*{programName}">Incorrect programName</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
 
 			<!-- Insert Password -->
 			<div class="form-group ws-validate" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
 				<div class="col-lg-10">
-					<input type="password" class="form-control" id="password" th:placeholder="#{password}" th:field="*{password}"
-						data-minlength="4" maxlength="80" required="required" />
+					<input type="password" class="form-control" id="password" th:placeholder="#{password}" th:field="*{password}" data-minlength="4" maxlength="80"
+						required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
+
 			<!-- Reinsert Password -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
 				<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
 				<div class="col-lg-10">
-					<input type="password" class="form-control" id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}"
-						data-minlength="4" data-dependent-validation="password" maxlength="80" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect
-						password</span>
+					<input type="password" class="form-control" id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}" data-minlength="4"
+						data-dependent-validation="password" maxlength="80" required="required" />
+					<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-			<!-- View Description Rule -->
-			<div class="form-group">
-				<label for="descriptionRule" class="col-lg-2 control-label" th:text="#{descriptionRule}">descriptionRule</label>
-				<div class="col-lg-10">
-					<textarea readonly="readonly" class="form-control" id="descriptionRule" th:text="${descriptionRule}" rows="5"
+
+			<!-- Personality -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('personality')}? 'has-error'">
+				<label for="personality" class="col-lg-20" th:text="#{account.personality}">personality</label> <br></br>
+				<div class="col-lg-20">
+					<span class="col-lg-20" th:text="#{account.personality.info}"></span>
+				</div>
+				<div class="col-lg-20">
+					<textarea class="form-control" name="personality" id="personality" th:placeholder="#{personality}" th:field="*{personality}" rows="5" cols="40">
+            	Observations</textarea>
+					<span class="help-block" th:if="${#fields.hasErrors('personality')}" th:errors="*{personality}">Incorrect personality</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
+
+
+			<!-- Edit knowledge -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('knowledge')}? 'has-error'">
+				<label for="knowledge" class="col-lg-20" th:text="#{account.knowledge}">knowledge</label> <br></br>
+				<div class="col-lg-20">
+					<span class="col-lg-20" th:text="#{account.knowledge.info}"></span>
+				</div>
+				<div class="col-lg-20">
+					<textarea class="form-control" name="observations" id="knowledge" th:placeholder="#{account.knowledge}" th:field="*{knowledge}" rows="5"
 						cols="40">
-            	Description</textarea>
+            	Observations</textarea>
+					<span class="help-block" th:if="${#fields.hasErrors('knowledge')}" th:errors="*{knowledge}">Incorrect knowledge</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-			<!-- Accept rule -->
+
+			<!-- View Description Rule -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('rule')}? 'has-error'">
-				<label for="rule" class="col-lg-2-edit control-label" th:text="#{signup.rule}">rule</label>
-				<div class="col-lg-10">
-					<div class="col-lg-2-check">
-						<input type="checkbox" class="form-control-edit" id="rule" name="rule" th:title="#{signup.infoRule}"
-							required="required" />
+				<label for="descriptionRule" class="col-lg-20 control-label" th:text="#{descriptionRule}">descriptionRule</label><br></br>
+				<div>
+					<div class="col-lg-20">
+						<span class="col-lg-21" th:text="#{descriptionRule.info}"></span>
+						<a th:href="#{descriptionRule.url}" th:text="#{descriptionRule.url}"></a>
 					</div>
-					<a th:text="#{signup.goCuacFM}" href="http://cuacfm.org/">view rule</a> <br></br>
-					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('rule')}" th:errors="*{rule}"> Incorrect
-						rule</span>
-					<div class="ws-errorbox col-lg-10" hidden=""></div>
+					<label for="text" class="col-lg-3 control-label"></label>
+					<input type="checkbox" id="rule" name="rule" th:title="#{signup.infoRule}" required="required" />
+					<span th:text="#{accept}"></span>
+					<span class="col-lg-20 help-block" th:if="${#fields.hasErrors('rule')}" th:errors="*{rule}"> Incorrect rule</span>
+					<div class="ws-errorbox col-lg-20" hidden=""></div>
 				</div>
 			</div>
-			
-			
-<!-- 			Deshabilitado temporalmente -->
-			<!-- Insert Recaptcha -->
-<!-- 			<div class="g-recaptcha form-group" data-sitekey="6LdmvgwTAAAAAFJQuCgiHWK3B5_YjTJ1jI7i3DhG"></div> -->
-<!-- 				<noscript> -->
-<!-- 				  <div style="width: 302px; height: 422px;"> -->
-<!-- 				    <div style="width: 302px; height: 422px; position: relative;"> -->
-<!-- 				      <div style="width: 302px; height: 422px; position: absolute;"> -->
-<!-- 				        <iframe src="https://www.google.com/recaptcha/api/fallback?k=your_site_key" -->
-<!-- 				                frameborder="0" scrolling="no" -->
-<!-- 				                style="width: 302px; height:422px; border-style: none;"> -->
-<!-- 				        </iframe> -->
-<!-- 				      </div> -->
-<!-- 				      <div style="width: 300px; height: 60px; border-style: none; -->
-<!-- /* 				                  bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; */ -->
-<!-- 				                  background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;"> -->
-<!-- 				        <textarea id="g-recaptcha-response" name="g-recaptcha-response" -->
-<!-- 				                  class="g-recaptcha-response" -->
-<!-- 				                  style="width: 250px; height: 40px; border: 1px solid #c1c1c1; -->
-<!-- 				                         margin: 10px 25px; padding: 0px; resize: none;" > -->
-<!-- 				        </textarea> -->
-<!-- 				      </div> -->
-<!-- 				    </div> -->
-<!-- 				  </div> -->
-<!-- 				</noscript> -->
-				
-<!-- 			<div class="form-group" th:classappend="${#fields.hasErrors('captcha')}? 'has-error'"> -->
-<!-- 				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}"> Incorrect captcha</span> -->
-<!-- 			</div> -->
 
-			
+
+			<!-- 			Deshabilitado temporalmente -->
+			<!-- Insert Recaptcha -->
+			<!-- 			<div class="g-recaptcha form-group" data-sitekey="6LdmvgwTAAAAAFJQuCgiHWK3B5_YjTJ1jI7i3DhG"></div> -->
+			<!-- 				<noscript> -->
+			<!-- 				  <div style="width: 302px; height: 422px;"> -->
+			<!-- 				    <div style="width: 302px; height: 422px; position: relative;"> -->
+			<!-- 				      <div style="width: 302px; height: 422px; position: absolute;"> -->
+			<!-- 				        <iframe src="https://www.google.com/recaptcha/api/fallback?k=your_site_key" -->
+			<!-- 				                frameborder="0" scrolling="no" -->
+			<!-- 				                style="width: 302px; height:422px; border-style: none;"> -->
+			<!-- 				        </iframe> -->
+			<!-- 				      </div> -->
+			<!-- 				      <div style="width: 300px; height: 60px; border-style: none; -->
+			<!-- /* 				                  bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; */ -->
+			<!-- 				                  background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;"> -->
+			<!-- 				        <textarea id="g-recaptcha-response" name="g-recaptcha-response" -->
+			<!-- 				                  class="g-recaptcha-response" -->
+			<!-- 				                  style="width: 250px; height: 40px; border: 1px solid #c1c1c1; -->
+			<!-- 				                         margin: 10px 25px; padding: 0px; resize: none;" > -->
+			<!-- 				        </textarea> -->
+			<!-- 				      </div> -->
+			<!-- 				    </div> -->
+			<!-- 				  </div> -->
+			<!-- 				</noscript> -->
+
+			<!-- 			<div class="form-group" th:classappend="${#fields.hasErrors('captcha')}? 'has-error'"> -->
+			<!-- 				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}"> Incorrect captcha</span> -->
+			<!-- 			</div> -->
+
+
 
 
 			<!-- Button SignUp -->

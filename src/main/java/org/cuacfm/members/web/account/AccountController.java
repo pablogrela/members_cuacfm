@@ -95,7 +95,18 @@ public class AccountController {
 		profileForm.setPhone(account.getPhone());
 		profileForm.setMobile(account.getMobile());
 		profileForm.setProgramName(account.getProgramName());
-		profileForm.setStudent(account.isStudent());
+		if (account.isStudent()) {
+			profileForm.setStudentTrue(true);
+		} else {
+			profileForm.setStudentFalse(true);
+		}
+		if (account.isEmitProgram()) {
+			profileForm.setEmitProgramTrue(true);
+		} else {
+			profileForm.setEmitProgramFalse(true);
+		}
+		profileForm.setPersonality(account.getPersonality());
+		profileForm.setKnowledge(account.getKnowledge());
 		profileForm.setDateBirth(DisplayDate.dateToString(account.getDateBirth()));
 		if (account.getAccountType() != null) {
 			profileForm.setAccountTypeId(account.getAccountType().getId());
@@ -190,8 +201,11 @@ public class AccountController {
 		account.setPhone(profileForm.getPhone());
 		account.setMobile(profileForm.getMobile());
 		account.setProgramName(profileForm.getProgramName());
-		account.setStudent(profileForm.isStudent());
+		account.setStudent(profileForm.isStudentTrue());
+		account.setEmitProgram(profileForm.isEmitProgramTrue());
 		account.setDateBirth(DisplayDate.stringToDate2(profileForm.getDateBirth()));
+		account.setPersonality(profileForm.getPersonality());
+		account.setKnowledge(profileForm.getKnowledge());
 		account.setAccountType(accountTypeService.findById(profileForm.getAccountTypeId()));
 		account.setMethodPayment(methodPaymentService.findById(profileForm.getMethodPaymentId()));
 		account.setInstallments(profileForm.getInstallments());

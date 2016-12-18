@@ -90,10 +90,10 @@
 
 						<!-- Button Training -->
 						<th:block th:if="${active != 'training'}" sec:authorize="isAuthenticated()">
-							<li><a href="#" th:href="@{/trainingList}" th:text="#{training}">trainingList</a></li>
+							<li><a href="#" th:href="@{/trainingList}" th:text="#{trainings}">trainingList</a></li>
 						</th:block>
 						<th:block th:if="${active == 'training'}" sec:authorize="isAuthenticated()">
-							<li class="active"><a href="#" th:href="@{/trainingList}" th:text="#{training}">trainingList</a></li>
+							<li class="active"><a href="#" th:href="@{/trainingList}" th:text="#{trainings}">trainingList</a></li>
 						</th:block>
 
 
@@ -141,19 +141,19 @@
 
 						<!-- Button DirectDebit -->
 						<th:block th:if="${active != 'directDebit'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/directDebitList}" th:text="#{directDebit}">directDebitList</a></li>
+							<li><a href="#" th:href="@{/directDebitList}" th:text="#{directDebits}">directDebitList</a></li>
 						</th:block>
 						<th:block th:if="${active == 'directDebit'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/directDebitList}" th:text="#{directDebit}">directDebitList</a></li>
+							<li class="active"><a href="#" th:href="@{/directDebitList}" th:text="#{directDebits}">directDebitList</a></li>
 						</th:block>
 
 
 						<!-- Button BankRemittance -->
 						<th:block th:if="${active != 'bankRemittance'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/bankRemittanceList}" th:text="#{bankRemittance}">/bankRemittance</a></li>
+							<li><a href="#" th:href="@{/bankRemittanceList}" th:text="#{bankRemittances}">/bankRemittance</a></li>
 						</th:block>
 						<th:block th:if="${active == 'bankRemittance'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/bankRemittanceList}" th:text="#{bankRemittance}">bankRemittance</a></li>
+							<li class="active"><a href="#" th:href="@{/bankRemittanceList}" th:text="#{bankRemittances}">bankRemittance</a></li>
 						</th:block>
 
 

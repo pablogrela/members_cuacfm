@@ -73,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
 		Account accountNew = accountRepository.save(account);
 
 		Object[] arguments = { account.getName() };
-		eventService.save("account.successModify", accountNew, 3, arguments);
+		eventService.save("account.successModify", null, 1, arguments);
 
 		return accountNew;
 	}

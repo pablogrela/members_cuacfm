@@ -15,317 +15,230 @@
  */
 package org.cuacfm.members.web.signup;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.*;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class SignupForm. */
 public class SignupForm {
 
-   /** The Constant NOT_BLANK_MESSAGE. */
-   private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
+	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
+	private static final String EMAIL_MESSAGE = "{email.message}";
+	private static final String INSUFFICIENT_CHARACTERS = "{insuficient.characters}";
+	private static final String MAX_CHARACTERS = "{max.characters}";
 
-   /** The Constant EMAIL_MESSAGE. */
-   private static final String EMAIL_MESSAGE = "{email.message}";
+	/** The name. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String name;
 
-   /** The Constant INSUFFICIENT_CHARACTERS. */
-   private static final String INSUFFICIENT_CHARACTERS = "{insuficient.characters}";
+	/** The login. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String login;
 
-   /** The Constant MAX_CHARACTERS. */
-   private static final String MAX_CHARACTERS = "{max.characters}";
+	/** The dni. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String dni;
 
-   /** The name. */
-   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private String name;
+	/** The address. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String address;
 
-   /** The login. */
-   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private String login;
+	/** The email. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Email(message = SignupForm.EMAIL_MESSAGE)
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String email;
 
-   /** The dni. */
-   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private String dni;
+	/** The student. */
+	@NotNull(message = SignupForm.NOT_BLANK_MESSAGE)
+	private Boolean student;
 
-   /** The address. */
-   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private String address;
+	/** The emitProgram. */
+	@NotNull(message = SignupForm.NOT_BLANK_MESSAGE)
+	private Boolean emitProgram;
 
-   /** The email. */
-   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Email(message = SignupForm.EMAIL_MESSAGE)
-   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private String email;
+	/** The phone. */
+	@Size(max = 20, message = SignupForm.MAX_CHARACTERS)
+	private String phone;
 
-   /** The phone. */
-   @Size(max = 20, message = SignupForm.MAX_CHARACTERS)
-   private String phone;
+	/** The mobile. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(max = 20, message = SignupForm.MAX_CHARACTERS)
+	private String mobile;
 
-   /** The mobile. */
-   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(max = 20, message = SignupForm.MAX_CHARACTERS)
-   private String mobile;
+	/** The rule. */
+	private boolean rule;
 
-   /** The rule. */
-   private boolean rule;
+	/** The program name. */
+	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	private String programName;
 
-   /** The program name. */
-   @Size(max = 30, message = SignupForm.MAX_CHARACTERS)
-   private String programName;
+	/** The password. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(min = 4, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
+	private String password;
 
-   /** The password. */
-   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(min = 4, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
-   private String password;
+	/** The retry password. */
+	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
+	@Size(min = 4, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
+	private String rePassword;
 
-   /** The retry password. */
-   @NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-   @Size(min = 4, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
-   private String rePassword;
+	@Size(max = 500, message = SignupForm.MAX_CHARACTERS)
+	private String personality;
 
-   /** The captcha. */
-   private String captcha;
-   
-   /** Instantiates a new sign up form. */
-   public SignupForm() {
-      // Default empty constructor.
-   }
+	@Size(max = 500, message = SignupForm.MAX_CHARACTERS)
+	private String knowledge;
 
-   /**
-    * Gets the login.
-    *
-    * @return the login
-    */
-   public String getLogin() {
-      return login;
-   }
+	private String captcha;
 
-   /**
-    * Sets the login.
-    *
-    * @param login
-    *           String, the new login
-    */
-   public void setLogin(String login) {
-      this.login = login;
-   }
+	/** Instantiates a new sign up form. */
+	public SignupForm() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Gets the name.
-    *
-    * @return the name
-    */
-   public String getName() {
-      return name;
-   }
+	public String getLogin() {
+		return login;
+	}
 
-   /**
-    * Sets the name.
-    *
-    * @param name
-    *           the new name
-    */
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
-   /**
-    * Gets the address.
-    *
-    * @return the address
-    */
-   public String getAddress() {
-      return address;
-   }
+	public String getName() {
+		return name;
+	}
 
-   /**
-    * Sets the address.
-    *
-    * @param address
-    *           the new address
-    */
-   public void setAddress(String address) {
-      this.address = address;
-   }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /**
-    * Gets the email.
-    *
-    * @return the email
-    */
-   public String getEmail() {
-      return email;
-   }
+	public String getAddress() {
+		return address;
+	}
 
-   /**
-    * Sets the email.
-    *
-    * @param email
-    *           the new email
-    */
-   public void setEmail(String email) {
-      this.email = email;
-   }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-   /**
-    * Gets the phone.
-    *
-    * @return the phone
-    */
+	public String getEmail() {
+		return email;
+	}
 
-   /**
-    * Gets the dni.
-    *
-    * @return the dni
-    */
-   public String getDni() {
-      return dni;
-   }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-   /**
-    * Gets the phone.
-    *
-    * @return the phone
-    */
-   public String getPhone() {
-      return phone;
-   }
+	public String getDni() {
+		return dni;
+	}
 
-   /**
-    * Sets the phone.
-    *
-    * @param phone
-    *           the new phone
-    */
-   public void setPhone(String phone) {
-      this.phone = phone;
-   }
+	public String getPhone() {
+		return phone;
+	}
 
-   /**
-    * Gets the mobile.
-    *
-    * @return the mobile
-    */
-   public String getMobile() {
-      return mobile;
-   }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-   /**
-    * Sets the mobile.
-    *
-    * @param mobile
-    *           the new mobile
-    */
-   public void setMobile(String mobile) {
-      this.mobile = mobile;
-   }
+	public String getMobile() {
+		return mobile;
+	}
 
-   /**
-    * Sets the dni.
-    *
-    * @param dni
-    *           the new dni
-    */
-   public void setDni(String dni) {
-      this.dni = dni;
-   }
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
-   /**
-    * Checks if is rule.
-    *
-    * @return true, if is rule
-    */
-   public boolean getRule() {
-      return rule;
-   }
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
 
-   /**
-    * Sets the rule.
-    *
-    * @param rule
-    *           the new rule
-    */
-   public void setRule(boolean rule) {
-      this.rule = rule;
-   }
+	public boolean getRule() {
+		return rule;
+	}
 
-   /**
-    * Gets the program name.
-    *
-    * @return the program name
-    */
-   public String getProgramName() {
-      return programName;
-   }
+	public void setRule(boolean rule) {
+		this.rule = rule;
+	}
 
-   /**
-    * Sets the program name.
-    *
-    * @param programName
-    *           the new program name
-    */
-   public void setProgramName(String programName) {
-      this.programName = programName;
-   }
+	public String getProgramName() {
+		return programName;
+	}
 
-   /**
-    * Gets the password.
-    *
-    * @return the password
-    */
-   public String getPassword() {
-      return password;
-   }
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 
-   /**
-    * Sets the password.
-    *
-    * @param password
-    *           the new password
-    */
-   public void setPassword(String password) {
-      this.password = password;
-   }
+	public String getPassword() {
+		return password;
+	}
 
-   /**
-    * Gets the retry password.
-    *
-    * @return the retry password
-    */
-   public String getRePassword() {
-      return rePassword;
-   }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-   /**
-    * Sets the retry password.
-    *
-    * @param rePassword
-    *           the new re password
-    */
-   public void setRePassword(String rePassword) {
-      this.rePassword = rePassword;
-   }
+	public String getRePassword() {
+		return rePassword;
+	}
 
-   public String getCaptcha() {
-      return captcha;
-   }
+	public void setRePassword(String rePassword) {
+		this.rePassword = rePassword;
+	}
 
-   public void setCaptcha(String captcha) {
-      this.captcha = captcha;
-   }
+	public Boolean getStudent() {
+		return student;
+	}
 
-   /**
-    * Creates the account.
-    *
-    * @return the account
-    */
-   public Account createAccount() {
-      return new Account(getName(), getDni(), getAddress(), getLogin(), getEmail(), getPhone(),
-            getMobile(), getPassword(), roles.ROLE_PREREGISTERED);
-   }
+	public void setStudent(Boolean student) {
+		this.student = student;
+	}
+
+	public Boolean getEmitProgram() {
+		return emitProgram;
+	}
+
+	public void setEmitProgram(Boolean emitProgram) {
+		this.emitProgram = emitProgram;
+	}
+
+	public String getPersonality() {
+		return personality;
+	}
+
+	public void setPersonality(String personality) {
+		this.personality = personality;
+	}
+
+	public String getKnowledge() {
+		return knowledge;
+	}
+
+	public void setKnowledge(String knowledge) {
+		this.knowledge = knowledge;
+	}
+
+	public String getCaptcha() {
+		return captcha;
+	}
+
+	public void setCaptcha(String captcha) {
+		this.captcha = captcha;
+	}
+
+	/**
+	 * Creates the account.
+	 *
+	 * @return the account
+	 */
+	public Account createAccount() {
+		return new Account(getName(), getDni(), getAddress(), getLogin(), getEmail(), getPhone(), getMobile(), getPassword(),
+				roles.ROLE_PREREGISTERED, programName, student, emitProgram, personality, knowledge);
+	}
 }

@@ -39,6 +39,18 @@ function evaluateModal(form, modal, accept) {
 }
 
 // lock and unlock camp depends on check
+function switchCheckbox(checkbox1, checkbox2) {
+	if (document.getElementById(checkbox1).checked) {
+		document.getElementById(checkbox2).checked = false;
+		document.getElementById(checkbox2).required = false;
+	} 
+	else {
+		document.getElementById(checkbox2).checked = true;
+		document.getElementById(checkbox2).required = false;
+	}
+}
+
+// lock and unlock camp depends on check
 function unlockText(checkbox, camp) {
 	if (document.getElementById(checkbox) != null && document.getElementById(camp) != null) {
 		if (document.getElementById(checkbox).checked) {
@@ -49,7 +61,7 @@ function unlockText(checkbox, camp) {
 	}
 }
 
-//lock and unlock camp depends on check, and visibility div
+// lock and unlock camp depends on check, and visibility div
 function unlockText2(checkbox, divVisible, camp1, camp2) {
 	if (document.getElementById(checkbox) != null && document.getElementById(camp1) != null && document.getElementById(camp2) != null) {
 		if (document.getElementById(checkbox).checked) {

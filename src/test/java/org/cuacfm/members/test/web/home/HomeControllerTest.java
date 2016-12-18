@@ -48,11 +48,13 @@ public class HomeControllerTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Initialize default session.
-	 * @throws UniqueException 
+	 * 
+	 * @throws UniqueException
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException {
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
+		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER, "", true,
+				true, "", "");
 		accountService.save(user);
 		defaultSession = getDefaultSession("user");
 	}
@@ -60,25 +62,21 @@ public class HomeControllerTest extends WebSecurityConfigurationAware {
 	/**
 	 * Show page homeNotSignedIn
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void displayHomeNotSignedIn() throws Exception {
-		mockMvc.perform(get("/").locale(Locale.ENGLISH)).andExpect(
-				view().name("home/homeNotSignedIn"));
+		mockMvc.perform(get("/").locale(Locale.ENGLISH)).andExpect(view().name("home/homeNotSignedIn"));
 	}
 
 	/**
 	 * Show page homeSignedIn
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	@Test
 	public void displayHomeSignedIn() throws Exception {
-		mockMvc.perform(get("/").locale(Locale.ENGLISH).session(defaultSession))
-				.andExpect(view().name("home/homeSignedIn"));
+		mockMvc.perform(get("/").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("home/homeSignedIn"));
 	}
 
 }

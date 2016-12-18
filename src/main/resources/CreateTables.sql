@@ -91,9 +91,12 @@ CREATE TABLE Account(
     accountTypeId INT,
     installments INT NOT NULL,
     student BOOLEAN,
+    emitProgram BOOLEAN,
     dateBirth DATE NULL,
     active BOOLEAN,
     observations VARCHAR(500),
+    personality VARCHAR(500),
+    knowledge VARCHAR(500),   
     programName VARCHAR(30),
     role VARCHAR(20) NOT NULL,
     -- bankAccountId INT,
@@ -334,7 +337,7 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 insert into Account values 
 (1, 'admin', null, '12345678B', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, null, null, 1, false, null, true, '', '', 'ROLE_ADMIN');
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN');
 
 
 

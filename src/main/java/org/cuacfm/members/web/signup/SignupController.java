@@ -38,23 +38,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class SignupController {
 
-	/** The Constant SIGNUP_VIEW_NAME. */
 	private static final String SIGNUP_VIEW_NAME = "signup/signup";
 
-	/** The ConfigurationService. */
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private AccountService accountService;
+	
 	@Autowired
 	private ConfigurationService configurationService;
 
-	/** The description rule. */
 	private String descriptionRule;
-
-	/** The account service. */
-	@Autowired
-	private AccountService accountService;
-
-	/** The user service. */
-	@Autowired
-	private UserService userService;
 
 	/**
 	 * Instantiates a new signup Controller.
@@ -131,8 +126,6 @@ public class SignupController {
 		try {
 			Account account;
 			account = accountService.save(signupForm.createAccount());
-			account.setProgramName(signupForm.getProgramName());
-			accountService.update(account, false, true);
 			userService.signin(account);
 		} catch (UniqueException e) {
 			if (e.getAttribute() == "Dni") {

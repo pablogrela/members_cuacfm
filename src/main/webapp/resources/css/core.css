@@ -245,6 +245,23 @@ div.scroll {
 	}
 }
 
+.col-lg-20 {
+	padding-left: 15px;
+	padding-right: 15px;
+	text-align: left;
+}
+
+.col-lg-21 {
+	padding-left: 15px;
+}
+
+.form-horizontal .control-label {
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+
 /* Botón metido en las tablas*/
 .btnTable {
 	display: inline-block;
@@ -437,8 +454,22 @@ div.scroll {
 	}
 	.columRight-large {
 		float: left;
+		left: 61%;
+		position: relative;
+	}
+	.columLeft-big {
+		float: right;
+		left: -51%;
+		position: relative;
+		max-width: 600px;
+		min-width: 600px;
+	}
+	.columRight-big {
+		float: left;
 		left: 51%;
 		position: relative;
+		max-width: 600px;
+		min-width: 600px;
 	}
 }
 
