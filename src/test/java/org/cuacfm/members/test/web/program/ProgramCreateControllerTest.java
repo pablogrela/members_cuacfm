@@ -32,6 +32,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -64,7 +65,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Before
-	public void initializeDefaultSession() throws UniqueException {
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
 		defaultSession = getDefaultSession("admin");
@@ -137,7 +138,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program = new Program("Program", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program =new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 
 		mockMvc.perform(get("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession))
@@ -171,9 +172,9 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void maxCharactersTest() throws Exception {
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("create", "create")
-				.param("name", "1111111111111111111111111111111111111111111111111111111")
-				.param("description", "111111111111111111111111111111111111111111111111"))
-				.andExpect(content().string(containsString("Maximum 30 characters"))).andExpect(view().name("program/programcreate"));
+				.param("name", "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+				.param("description", "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111"))
+				.andExpect(content().string(containsString("Maximum 50 characters"))).andExpect(view().name("program/programcreate"));
 
 	}
 

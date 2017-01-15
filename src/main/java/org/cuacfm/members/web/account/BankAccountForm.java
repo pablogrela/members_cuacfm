@@ -32,11 +32,10 @@ public class BankAccountForm {
 
    /** The bank. */
    @NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = BankAccountForm.MAX_CHARACTERS)
+   @Size(max = 50, message = BankAccountForm.MAX_CHARACTERS)
    private String bank;
 
    /** The bic. */
-   @NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
    @Size(max = 11, message = BankAccountForm.MAX_CHARACTERS)
    private String bic;
 

@@ -32,6 +32,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
@@ -85,7 +86,7 @@ public class FeeProgramListTest extends WebSecurityConfigurationAware {
      * @throws UniqueException the unique exception
      */
     @Before
-    public void initializeDefaultSession() throws UniqueException {
+    public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", "666666666", "666666666","demo", roles.ROLE_ADMIN);
 		accountService.save(admin);
         defaultSession = getDefaultSession("admin");

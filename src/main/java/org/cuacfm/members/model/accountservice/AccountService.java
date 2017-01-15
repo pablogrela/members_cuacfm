@@ -20,7 +20,7 @@ import java.util.List;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.bankaccount.BankAccount;
-import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 
 /** The Class AccountService. */
 public interface AccountService {
@@ -30,9 +30,9 @@ public interface AccountService {
 	 *
 	 * @param account the account
 	 * @return the account
-	 * @throws UniqueException the unique exception
+	 * @throws UniqueListException the various unique exception
 	 */
-	public Account save(Account account) throws UniqueException;
+	public Account save(Account account) throws UniqueListException;
 
 	/**
 	 * Update, updates an user registered into bd depending if he wants to update his password or not.
@@ -41,9 +41,9 @@ public interface AccountService {
 	 * @param newPassword the new password
 	 * @param profile the profile
 	 * @return the account
-	 * @throws UniqueException the unique exception
+	 * @throws UniqueListException the unique list exception
 	 */
-	public Account update(Account account, boolean newPassword, boolean profile) throws UniqueException;
+	public Account update(Account account, boolean newPassword, boolean profile) throws UniqueListException;
 
 	/**
 	 * Delete.
@@ -138,9 +138,10 @@ public interface AccountService {
 	/**
 	 * Gets the accounts DTO.
 	 *
+	 * @param accounts the accounts
 	 * @return the accounts DTO
 	 */
-	public List<AccountDTO> getAccountsDTO();
+	public List<AccountDTO> getAccountsDTO(List<Account> accounts);
 
 	/**
 	 * Gets the account DTO.

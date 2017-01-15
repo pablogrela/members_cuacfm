@@ -69,41 +69,37 @@
 
 					<!-- Pay PayPal direct Debit -->
 					<td class="text-center">
-					
-					<!-- pay bank deposit --> 
-					<object data-ng-if="!directDebit.method &amp;&amp; directDebit.state != 'CANCEL'">
-							<form name='formTpv' method='post' th:action="#{paypalUrl}">
-								<input type='hidden' name='cmd' value='_xclick' />
-								<input type='hidden' name='business' th:value="${email}" />
-								<input type='hidden' name='item_name' value="{{directDebit.concept}}" />
-								<input type='hidden' name='item_number' value="{{directDebit.id}}" />
-								<input type='hidden' name='amount' value="{{directDebit.price}}" />
-								<input type='hidden' name='page_style' value='primary' />
-								<input type='hidden' name='no_shipping' value='1' />
-								<input type='hidden' name='return'
-									th:value=" @{${#httpServletRequest.scheme}} + '://' + @{${#httpServletRequest.serverName}}  + ':' + @{${#httpServletRequest.serverPort}} 
+						<!-- pay bank deposit -->
+						<form data-ng-if="directDebit.state != 'CANCEL'" name='formTpv' method='post' th:action="#{paypalUrl}">
+							<input type='hidden' name='cmd' value='_xclick' />
+							<input type='hidden' name='business' th:value="${email}" />
+							<input type='hidden' name='item_name' value="{{directDebit.concept}}" />
+							<input type='hidden' name='item_number' value="{{directDebit.id}}" />
+							<input type='hidden' name='amount' value="{{directDebit.price}}" />
+							<input type='hidden' name='page_style' value='primary' />
+							<input type='hidden' name='no_shipping' value='1' />
+							<input type='hidden' name='return'
+								th:value=" @{${#httpServletRequest.scheme}} + '://' + @{${#httpServletRequest.serverName}}  + ':' + @{${#httpServletRequest.serverPort}} 
 										+ '/members/userPayments/directDebitList/paypal/' + '{{directDebit.id}}' + '?' + ${_csrf.parameterName} + '=' + ${_csrf.token}" />
-								<input type='hidden' name='rm' value='2' />
-								<input type='hidden' name='cancel_return' th:value="@{${#httpServletRequest.requestURL}}" />
-								<input type='hidden' name='no_note' value='1' />
-								<input type='hidden' name='currency_code' th:value="#{currencyCode}" />
-								<input type='hidden' name='cn' value='PP-BuyNowBF' />
-								<input type='hidden' name='custom' value='' />
-								<input type='hidden' name='lc' th:value="#{lcCode}" />
-								<input type='hidden' name='country' th:value="#{countryCode}" />
-								<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
-							</form>
-
-							<!-- mark bank deposit --> 
-							<button data-ng-click="ctrl.markBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file" th:title="#{directDebit.infoBankDeposit.mark}"
-								style="color: orange"></button>
-						</object> 
+							<input type='hidden' name='rm' value='2' />
+							<input type='hidden' name='cancel_return' th:value="@{${#httpServletRequest.requestURL}}" />
+							<input type='hidden' name='no_note' value='1' />
+							<input type='hidden' name='currency_code' th:value="#{currencyCode}" />
+							<input type='hidden' name='cn' value='PP-BuyNowBF' />
+							<input type='hidden' name='custom' value='' />
+							<input type='hidden' name='lc' th:value="#{lcCode}" />
+							<input type='hidden' name='country' th:value="#{countryCode}" />
+							<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
+						</form> 
 						
-						<!-- cancel bank deposit --> 
-						<object data-ng-if="directDebit.method == 'BANK_DEPOSIT' &amp;&amp; directDebit.state == 'MANAGEMENT'" class="text-center">
-							<button data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
-								th:title="#{directDebit.infoBankDeposit.cancel}" style="color: red"></button>
-						</object></td>
+						<!-- mark bank deposit -->
+						<button data-ng-if="!directDebit.method &amp;&amp; directDebit.state != 'CANCEL'" data-ng-click="ctrl.markBankDeposit(directDebit.id)"
+							class="btnTable btn-link glyphicon glyphicon-file" th:title="#{directDebit.infoBankDeposit.mark}" style="color: orange"></button> <!-- cancel bank deposit -->
+
+						<button data-ng-if="directDebit.method == 'BANK_DEPOSIT' &amp;&amp; directDebit.state == 'MANAGEMENT'"
+							data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+							th:title="#{directDebit.infoBankDeposit.cancel}" style="color: red"></button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

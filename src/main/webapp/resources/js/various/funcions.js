@@ -21,34 +21,44 @@ function showModal(modal) {
 	});
 }
 
-function showModal(modal, aux) {
-	this.directDebit = aux;
+// Show and evaluate function
+function evaluateModal2(evaluateModal) {
 	$(document).ready(function() {
-		$(modal).modal('show');
+		$(evaluateModal).modal('show');
 	});
 }
 
 // Show and evaluate function
-function evaluateModal(form, modal, accept) {
+function evaluateModal(form, evaluateModal, accept) {
 	$(document).ready(function() {
-		$(modal).modal('show');
+		$(evaluateModal).modal('show');
 		$(accept).click(function(evento) {
 			form.submit()
 		});
 	});
 }
 
-// lock and unlock camp depends on check
+// Change check checkbox
 function switchCheckbox(checkbox1, checkbox2) {
 	if (document.getElementById(checkbox1).checked) {
 		document.getElementById(checkbox2).checked = false;
 		document.getElementById(checkbox2).required = false;
-	} 
-	else {
+	} else {
 		document.getElementById(checkbox2).checked = true;
 		document.getElementById(checkbox2).required = false;
 	}
 }
+
+// Check required checkbox
+function validateCheckbox() {
+	if (document.getElementById('studentTrue').checked || document.getElementById('studentFalse').checked) {
+		document.getElementById('studentTrue').required = false;
+	}
+	if (document.getElementById('emitProgramTrue').checked || document.getElementById('emitProgramFalse').checked) {
+		document.getElementById('emitProgramTrue').required = false;
+	}	
+}
+
 
 // lock and unlock camp depends on check
 function unlockText(checkbox, camp) {
@@ -75,3 +85,57 @@ function unlockText2(checkbox, divVisible, camp1, camp2) {
 		}
 	}
 }
+
+// Este codigo esta en pruebas
+$(document).ready(
+		function() {
+
+			/**
+			 * This method will check if the entered value is a valid NIF or NIE Number
+			 */
+			$.validator.addMethod("nif_or_nie", function(value, element) {
+				var nifES = $.validator.methods["nifES"];
+				var nieES = $.validator.methods["nieES"];
+
+				return nifES.call(this, value, element) || nieES.call(this, value, element);
+			}, "Please enter a valid NIF or NIE Number.");
+
+			$("#form").validate(
+					{
+						rules : {
+							"dni" : {
+//								"required" : true,
+								"nif_or_nie" : true
+							}
+						},
+						messages : {
+							"dni" : {
+//								"required" : "Por favor, rellene este campo.",
+								"nif_or_nie" : "Por favor, introduce un NIF o NIE valido",
+							}
+						},
+						highlight : function(element) {
+							$(element).closest('.form-group').removeClass('has-success').addClass('has-error').end().siblings('.glyphicon')
+									.removeClass('glyphicon-ok').addClass('glyphicon-error');
+						},
+						unhighlight : function(element) {
+							$(element).closest('.form-group').removeClass('has-error').addClass('has-success').end().siblings('.glyphicon')
+									.removeClass('glyphicon-error').addClass('glyphicon-ok');
+						},
+						errorElement : 'span',
+						errorClass : 'help-block',
+						errorPlacement : function(error, element) {
+							if (element.length) {
+								error.insertAfter(element);
+							} else {
+								error.insertAfter(element);
+							}
+						},
+						// for demo
+//						submitHandler : function(form) {
+//							alert("valid form submitted");
+//							return false;
+//						}
+
+					});
+		});

@@ -20,6 +20,8 @@
 <head>
 <title th:text="#{program.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
+<script th:src="@{/resources/js/service/programService.js}"></script>
+<script th:src="@{/resources/js/controller/programController.js}"></script>
 </head>
 <body>
 
@@ -32,106 +34,208 @@
 			<a href="#" class="btn btn-success btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}">Create New Training
 				Type </a>
 		</div>
+		<br></br>
 
-		
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<div class="text-center" th:if="${message != null}">
-			<br></br>
 			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 		</div>
 
-		<!-- Show message, if programs list is empty -->
-		<div th:if="${#lists.isEmpty(programs)}">
-			<h2 class="text-center" th:text="#{program.programlistEmpty}">List of Programs Empty</h2>
-		</div>
+		<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
+
+			<!-- Show info account -->
+			<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
+			<div th:replace="fragments/alert :: infoAccounts">&nbsp;</div>
+			<div th:replace="fragments/alert :: infoProgram">&nbsp;</div>
+			<div th:replace="fragments/alert :: infoDelete">&nbsp;</div>
 
 
-		<!-- Verify if exits Programs -->
-		<div th:unless="${#lists.isEmpty(programs)}">
+			<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+			<object data-ng-show="message">
+				<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+				<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			</object>
 
-			<h2 class="text-center" th:text="#{program.programlist}">List of Programs</h2>
+			<h2 class="text-center" th:text="#{account.accountList}">Account List</h2>
 
-			<!-- Table List of Training Types -->
-			<table class="display" id="customTable">
-				<thead class="table-bordered">
+			<div th:include="fragments/sortColumn :: search"></div>
+
+			<table class="dataTable display table-striped">
+				<thead>
 					<tr>
-						<th th:text="#{name}">Name</th>
-						<th th:text="#{periodicity}">Periodicity</th>
-						<th th:text="#{duration}">Duration</th>
+						<td><a href="#" data-ng-click="sortType = 'name'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
+									data-ng-show="sortType == 'name' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'name' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+						
+						<td><a href="#" data-ng-click="sortType = 'periodicity'; sortReverse = !sortReverse"> <span th:text="#{periodicity}">periodicity</span>
+								<span data-ng-show="sortType == 'periodicity' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'periodicity' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+						
+						<td><a href="#" data-ng-click="sortType = 'duration'; sortReverse = !sortReverse"> <span th:text="#{duration}">duration</span> <span
+									data-ng-show="sortType == 'duration' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'duration' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+
 						<th th:text="#{members}">Accounts</th>
-						<th th:text="#{active}">Accounts</th>
-						<th sec:authorize="hasAnyRole('ROLE_ADMIN')" class="no-sort"></th>
+
+						<td><a href="#" data-ng-click="sortType = 'accountPayer.name'; sortReverse = !sortReverse"> <span th:text="#{program.acountPayer}">accountPayer.name</span>
+								<span data-ng-show="sortType == 'accountPayer.name' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'accountPayer.name' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+
+						<td><a href="#" data-ng-click="sortType = 'active'; sortReverse = !sortReverse"> <span th:text="#{state}">state</span> <span
+									data-ng-show="sortType == 'active' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'active' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+						
 						<th class="no-sort"></th>
-						<th class="no-sort"></th>
+						
 					</tr>
 				</thead>
-				<tbody class="table-bordered">
 
-					<!-- Table entry -->
-					<tr th:each="program : ${programs}">
-						<td th:text="${program.name}">name</td>
-						<td th:text="${{program.periodicity}}">1</td>
-						<td th:text="${program.duration}">duration</td>
-						<td><span th:each="account : ${program.accounts}" th:text="${account.name} + ', '"></span></td>
-						<th:block th:if="${program.active == false}">
-							<td th:text="#{false}">false</td>
-						</th:block>
-						<th:block th:if="${program.active == true}">
-							<td th:text="#{true}">true</td>
-						</th:block>
-						<!-- Delete Program -->
-						<td>
-							<form th:action="@{'programList/programDelete/'+${program.id}}" method="post">
-								<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemove}" style="color: red"
-									onclick="evaluateModal(this.form, modal, accept)"></button>
+				<tbody>
+					<tr data-ng-repeat="program in programs | orderBy:sortType:sortReverse | filter:search | filter:paginate">
 
-							</form>
-						</td>
+						<td><span data-ng-bind="program.name" th:title="#{program.infoProgram}" data-ng-click="ctrl.infoProgram(program)" data-toggle="modal"
+								data-target="#infoProgram"></span></td>
 
-						<!-- Up Program -->
-						<td sec:authorize="hasAnyRole('ROLE_ADMIN')" th:if="!${program.active}">
-							<form th:action="@{'programList/programUp/'+${program.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-up" th:title="#{program.infoUp}" style="color: green"></button>
-							</form>
-						</td>
+						<!-- start If`s role -->
+						<td data-ng-if="program.periodicity == 0"><span th:text="#{periodicity.other}"> </span></td>
+						<td data-ng-if="program.periodicity == 0.25"><span th:text="#{periodicity.monthly}"> </span></td>
+						<td data-ng-if="program.periodicity == 0.5"><span th:text="#{periodicity.bimonthly}"> </span></td>
+						<td data-ng-if="program.periodicity == 1"><span th:text="#{periodicity.weekly}"> </span></td>
+						<td data-ng-if="program.periodicity == 2"><span th:text="#{periodicity.biweekly}"> </span></td>
+						<!-- end If`s role -->
+
+						<td><span data-ng-bind="program.duration"></span></td>
+
+						<td><table data-ng-repeat="account in program.accounts" data-ng-bind="account.name"  th:title="#{account.infoAccounts}"
+							data-ng-click="ctrl.infoAccounts(program.accounts)" data-toggle="modal" data-target="#infoAccounts"></table></td>
+						
+						<td><span data-ng-bind="program.accountPayer.name" th:title="#{account.infoAccount}"
+								data-ng-click="ctrl.infoAccount(program.accountPayer)" data-toggle="modal" data-target="#infoAccount"></span></td>
+
 
 						<!-- Down Program -->
-						<td sec:authorize="hasAnyRole('ROLE_ADMIN')" th:if="${program.active}">
-							<form th:action="@{'programList/programDown/'+${program.id}}" method="post">
-								<button class="btnTable btn-link glyphicon  glyphicon-chevron-down" th:title="#{program.infoDown}" style="color: red"></button>
-							</form>
-						</td>
+						<td sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-if="program.active"><span th:text="#{active}"></span>
+							<button data-ng-click="ctrl.programDown(program.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
+								th:title="#{program.infoDown}" style="color: red"></button></td>
 
-						<!-- Modify Program -->
+
+						<!-- Up Program -->
+						<td sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-if="!program.active"><span th:text="#{down}"></span>
+							<button data-ng-click="ctrl.programUp(program.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up" th:title="#{program.infoUp}"
+								style="color: green"></button></td>
+
+
 						<td>
-							<form th:action="@{'programList/programEdit/'+${program.id}}" method="post">
+							<!-- Delete Program -->
+							<button type="button" data-toggle="modal" data-ng-click="ctrl.infoDelete(program)" data-target="#infoDelete"
+								class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemove}" style="color: red"></button> 
+								
+							<!-- Modify program -->
+							<form action="{{'programList/programEdit/' + program.id}} " method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+								<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 							</form>
-						</td>
 
+						</td>
 					</tr>
 				</tbody>
 			</table>
+
+			<div data-uib-pagination="uib-pagination" data-total-items="totalItems" data-ng-model="currentPage" data-ng-change="pageChanged()"
+				data-items-per-page="numPerPage" class="pagination-sm pull-right" data-boundary-links="true" data-previous-text="&lsaquo;"
+				data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;"></div>
+
 		</div>
 
-		<!-- Modal Info Delete Program	-->
-		<div id="modal" class="modal fade">
-			<div class="modal-dialog">
-				<div class="modal-content  panel-danger">
-					<div class="modal-header  modal-header-danger">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
-					</div>
-					<div class="modal-body">
-						<p th:text="#{program.infoModalDelete}">Message</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept" name="accept">Accept</button>
-						<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
+
+
+
+
+
+
+		<!-- Show message, if programs list is empty -->
+		<!-- 		<div th:if="${#lists.isEmpty(programs)}"> -->
+		<!-- 			<h2 class="text-center" th:text="#{program.programlistEmpty}">List of Programs Empty</h2> -->
+		<!-- 		</div> -->
+
+
+		<!-- 		 Verify if exits Programs -->
+		<!-- 		<div th:unless="${#lists.isEmpty(programs)}"> -->
+
+		<!-- 			<h2 class="text-center" th:text="#{program.programlist}">List of Programs</h2> -->
+
+		<!-- 			 Table List of Training Types -->
+		<!-- 			<table class="display" id="customTable"> -->
+		<!-- 				<thead class="table-bordered"> -->
+		<!-- 					<tr> -->
+		<!-- 						<th th:text="#{name}">Name</th> -->
+		<!-- 						<th th:text="#{periodicity}">Periodicity</th> -->
+		<!-- 						<th th:text="#{duration}">Duration</th> -->
+		<!-- 						<th th:text="#{members}">Accounts</th> -->
+		<!-- 						<th th:text="#{active}">Accounts</th> -->
+		<!-- 						<th sec:authorize="hasAnyRole('ROLE_ADMIN')" class="no-sort"></th> -->
+		<!-- 						<th class="no-sort"></th> -->
+		<!-- 						<th class="no-sort"></th> -->
+		<!-- 					</tr> -->
+		<!-- 				</thead> -->
+		<!-- 				<tbody class="table-bordered"> -->
+
+		<!-- 					Table entry -->
+		<!-- 					<tr th:each="program : ${programs}"> -->
+		<!-- 						<td th:text="${program.name}">name</td> -->
+		<!-- 						<td th:text="${{program.periodicity}}">1</td> -->
+		<!-- 						<td th:text="${program.duration}">duration</td> -->
+		<!-- 						<td><span th:each="account : ${program.accounts}" th:text="${account.name} + ', '"></span></td> -->
+		<!-- 						<th:block th:if="${program.active == false}"> -->
+		<!-- 							<td th:text="#{false}">false</td> -->
+		<!-- 						</th:block> -->
+		<!-- 						<th:block th:if="${program.active == true}"> -->
+		<!-- 							<td th:text="#{true}">true</td> -->
+		<!-- 						</th:block> -->
+
+
+		<!-- 						Delete Program -->
+		<!-- 						<td> -->
+		<!-- 							<form th:action="@{'programList/programDelete/'+${program.id}}" method="post"> -->
+		<!-- 								<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemove}" style="color: red" -->
+		<!-- 									onclick="evaluateModal(this.form, evaluateModal, accept)"></button> -->
+
+		<!-- 							</form> -->
+		<!-- 						</td> -->
+
+		<!-- 						Up Program -->
+		<!-- 						<td sec:authorize="hasAnyRole('ROLE_ADMIN')" th:if="!${program.active}"> -->
+		<!-- 							<form th:action="@{'programList/programUp/'+${program.id}}" method="post"> -->
+		<!-- 								<button class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-up" th:title="#{program.infoUp}" style="color: green"></button> -->
+		<!-- 							</form> -->
+		<!-- 						</td> -->
+
+		<!-- 						Down Program -->
+		<!-- 						<td sec:authorize="hasAnyRole('ROLE_ADMIN')" th:if="${program.active}"> -->
+		<!-- 							<form th:action="@{'programList/programDown/'+${program.id}}" method="post"> -->
+		<!-- 								<button class="btnTable btn-link glyphicon  glyphicon-chevron-down" th:title="#{program.infoDown}" style="color: red"></button> -->
+		<!-- 							</form> -->
+		<!-- 						</td> -->
+
+		<!-- 						Modify Program -->
+		<!-- 						<td> -->
+		<!-- 							<form th:action="@{'programList/programEdit/'+${program.id}}" method="post"> -->
+		<!-- 								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button> -->
+		<!-- 							</form> -->
+		<!-- 						</td> -->
+
+		<!-- 					</tr> -->
+		<!-- 				</tbody> -->
+		<!-- 			</table> -->
+		<!-- 		</div> -->
+
+
+
 	</div>
 </body>
 </html>

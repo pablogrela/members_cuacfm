@@ -17,18 +17,18 @@
 -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <title th:text="#{signup.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
-<body>
+<body onload="validateCheckbox()">
 
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header">&nbsp;</div>
 
-
+	<!-- Si se añade id="form"  al from valida el dni, pero destroza el resto del formulario -->
 	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/signup}" th:object="${signupForm}">
 
 		<!--/* Show general error message when form contains errors */-->
@@ -41,61 +41,61 @@
 			<!-- Message help-->
 			<legend th:text="#{signup.info}">Please Sign Up</legend>
 
-			<!-- Insert Name -->
+			<!-- Name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="30" required="required" />
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="50" required="required" />
 					<span class="help-block ws-errorbox" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-			<!-- Insert dni -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
+
+			<!-- Dni, se pone otro form para las validaciones del dni -->
+			<div class="form-group has-feedback" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
 				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="dni" th:placeholder="#{dni}" th:field="*{dni}" maxlength="30" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Incorrect dni</span>
+					<input type="text" class="form-control" id="dni" name="dni" th:placeholder="#{dni}" th:field="*{dni}" maxlength="10" required="required" />
+					<span class="help-block ws-errorbox" id="dni" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Incorrect dni</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-
-			<!-- Insert address -->
+			<!-- Address -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-error'">
 				<label for="address" class="col-lg-2 control-label" th:text="#{address}">address</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="address" th:placeholder="#{address}" th:field="*{address}" maxlength="30" required="required" />
+					<input type="text" class="form-control" id="address" th:placeholder="#{address}" th:field="*{address}" maxlength="50" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect address</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
 
-			<!-- Insert Login -->
+			<!-- Login -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}" maxlength="30" required="required" />
+					<input type="text" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}" maxlength="50" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
 
-			<!-- Insert Email -->
+			<!-- Email -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
-					<input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="30" required="required" />
+					<input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
 
-			<!-- Insert phone -->
+			<!-- Phone -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
@@ -107,7 +107,7 @@
 			</div>
 
 
-			<!-- Insert mobile -->
+			<!-- Mobile -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="text" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
@@ -119,18 +119,18 @@
 			</div>
 
 
-			<!-- Edit student -->
-			<div class="form-group" th:classappend="${#fields.hasErrors('student')}? 'has-error'">
+			<!-- Student -->
+			<div class="form-group" data-onload="validateCheckbox('studentFalse', 'studentTrue')" th:classappend="${#fields.hasErrors('student')}? 'has-error'">
 				<label class="col-lg-20 control-label" th:text="#{student.coruna}"></label>
 				<div class="col-lg-10 control">
 					<label for="text" class="col-lg-1"></label>
 					<span class="col-lg-3">
-						<input type="checkbox" name="student" value="true" id="studentTrue" th:title="#{signup.infoStudent}"
+						<input type="checkbox" name="student" value="true" id="studentTrue" th:field="*{studentTrue}" th:title="#{signup.infoStudent}"
 							onClick="switchCheckbox('studentTrue', 'studentFalse')" required="required" />
 						<span th:text="#{true}"></span>
 					</span>
 					<span class="col-lg-3 ">
-						<input type="checkbox" name="student" value="false" id="studentFalse" th:title="#{signup.infoStudent}"
+						<input type="checkbox" name="student" value="false" id="studentFalse" th:field="*{studentFalse}" th:title="#{signup.infoStudent}"
 							onClick="switchCheckbox('studentFalse', 'studentTrue')" />
 						<span th:text="#{false}"></span>
 					</span>
@@ -140,19 +140,19 @@
 			</div>
 
 
-			<!-- Edit emit program -->
+			<!-- Emit program -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('emitProgram')}? 'has-error'">
 				<label class="col-lg-20 control-label" th:text="#{emitProgram.info}"></label>
 				<div class="col-lg-10 control">
 					<label for="text" class="col-lg-1"></label>
 					<span class="col-lg-3">
-						<input type="checkbox" name="emitProgram" value="true" id="emitProgramTrue" th:title="#{signup.infoEmitProgram}"
+						<input type="checkbox" name="emitProgram" value="true" id="emitProgramTrue" th:field="*{emitProgramTrue}" th:title="#{signup.infoEmitProgram}"
 							onClick="switchCheckbox('emitProgramTrue', 'emitProgramFalse')" required="required" />
 						<span th:text="#{true}"></span>
 					</span>
 					<span class="col-lg-3 ">
-						<input type="checkbox" name="emitProgram" value="false" id="emitProgramFalse" th:title="#{signup.infoEmitProgram}"
-							onClick="switchCheckbox('emitProgramFalse', 'emitProgramTrue')" />
+						<input type="checkbox" name="emitProgram" value="false" id="emitProgramFalse" th:field="*{emitProgramFalse}"
+							th:title="#{signup.infoEmitProgram}" onClick="switchCheckbox('emitProgramFalse', 'emitProgramTrue')" />
 						<span th:text="#{false}"></span>
 					</span>
 					<div class="help-block" th:if="${#fields.hasErrors('emitProgram')}" th:errors="*{emitProgram}"></div>
@@ -162,11 +162,11 @@
 			</div>
 
 
-			<!-- Insert ProgramName -->
+			<!-- ProgramName -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('programName')}? 'has-error'">
 				<label for="programName" class="col-lg-1 control-label" th:text="#{programName}">programName</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}" th:field="*{programName}" maxlength="30"
+					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}" th:field="*{programName}" maxlength="50"
 						th:title="#{infoProgramName}" />
 					<span class="help-block" th:if="${#fields.hasErrors('programName')}" th:errors="*{programName}">Incorrect programName</span>
 					<div class="ws-errorbox" hidden=""></div>
@@ -174,7 +174,7 @@
 			</div>
 
 
-			<!-- Insert Password -->
+			<!-- Password -->
 			<div class="form-group ws-validate" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
 				<div class="col-lg-10">
@@ -200,7 +200,8 @@
 
 			<!-- Personality -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('personality')}? 'has-error'">
-				<label for="personality" class="col-lg-20" th:text="#{account.personality}">personality</label> <br></br>
+				<label for="personality" class="col-lg-20" th:text="#{account.personality}">personality</label>
+				<br></br>
 				<div class="col-lg-20">
 					<span class="col-lg-20" th:text="#{account.personality.info}"></span>
 				</div>
@@ -213,9 +214,10 @@
 			</div>
 
 
-			<!-- Edit knowledge -->
+			<!-- knowledge -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('knowledge')}? 'has-error'">
-				<label for="knowledge" class="col-lg-20" th:text="#{account.knowledge}">knowledge</label> <br></br>
+				<label for="knowledge" class="col-lg-20" th:text="#{account.knowledge}">knowledge</label>
+				<br></br>
 				<div class="col-lg-20">
 					<span class="col-lg-20" th:text="#{account.knowledge.info}"></span>
 				</div>
@@ -231,49 +233,45 @@
 
 			<!-- View Description Rule -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('rule')}? 'has-error'">
-				<label for="descriptionRule" class="col-lg-20 control-label" th:text="#{descriptionRule}">descriptionRule</label><br></br>
+				<label for="descriptionRule" class="col-lg-20 control-label" th:text="#{descriptionRule}">descriptionRule</label>
+				<br></br>
 				<div>
 					<div class="col-lg-20">
 						<span class="col-lg-21" th:text="#{descriptionRule.info}"></span>
 						<a th:href="#{descriptionRule.url}" th:text="#{descriptionRule.url}"></a>
 					</div>
 					<label for="text" class="col-lg-3 control-label"></label>
-					<input type="checkbox" id="rule" name="rule" th:title="#{signup.infoRule}" required="required" />
 					<span th:text="#{accept}"></span>
+					<input type="checkbox" id="rule" name="rule" th:title="#{signup.infoRule}" required="required" />
 					<span class="col-lg-20 help-block" th:if="${#fields.hasErrors('rule')}" th:errors="*{rule}"> Incorrect rule</span>
 					<div class="ws-errorbox col-lg-20" hidden=""></div>
 				</div>
 			</div>
 
 
-			<!-- 			Deshabilitado temporalmente -->
-			<!-- Insert Recaptcha -->
-			<!-- 			<div class="g-recaptcha form-group" data-sitekey="6LdmvgwTAAAAAFJQuCgiHWK3B5_YjTJ1jI7i3DhG"></div> -->
-			<!-- 				<noscript> -->
-			<!-- 				  <div style="width: 302px; height: 422px;"> -->
-			<!-- 				    <div style="width: 302px; height: 422px; position: relative;"> -->
-			<!-- 				      <div style="width: 302px; height: 422px; position: absolute;"> -->
-			<!-- 				        <iframe src="https://www.google.com/recaptcha/api/fallback?k=your_site_key" -->
-			<!-- 				                frameborder="0" scrolling="no" -->
-			<!-- 				                style="width: 302px; height:422px; border-style: none;"> -->
-			<!-- 				        </iframe> -->
-			<!-- 				      </div> -->
-			<!-- 				      <div style="width: 300px; height: 60px; border-style: none; -->
-			<!-- /* 				                  bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; */ -->
-			<!-- 				                  background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;"> -->
-			<!-- 				        <textarea id="g-recaptcha-response" name="g-recaptcha-response" -->
-			<!-- 				                  class="g-recaptcha-response" -->
-			<!-- 				                  style="width: 250px; height: 40px; border: 1px solid #c1c1c1; -->
-			<!-- 				                         margin: 10px 25px; padding: 0px; resize: none;" > -->
-			<!-- 				        </textarea> -->
-			<!-- 				      </div> -->
-			<!-- 				    </div> -->
-			<!-- 				  </div> -->
-			<!-- 				</noscript> -->
+			<!-- Recaptcha, el data-sitekey se debe cambiar el funcion del entorno -->
+			<div class="g-recaptcha form-group" data-sitekey="6LeTZg8UAAAAAHtqK7Hgl0zhcUW8W-Nsr-5SwJah"></div>
+			<noscript>
+				<div style="width: 302px; height: 422px;">
+					<div style="width: 302px; height: 422px; position: relative;">
+						<div style="width: 302px; height: 422px; position: absolute;">
+							<iframe src="https://www.google.com/recaptcha/api/fallback?k=your_site_key" data-frameborder="0" data-scrolling="no"
+								style="width: 302px; height: 422px; border-style: none;"> </iframe>
+						</div>
+						<div
+							style="width: 300px; height: 60px; border-style: none;
+	/* 				                  bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; */ background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+							<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response"
+								style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;"> 
+							        </textarea>
+						</div>
+					</div>
+				</div>
+			</noscript>
 
-			<!-- 			<div class="form-group" th:classappend="${#fields.hasErrors('captcha')}? 'has-error'"> -->
-			<!-- 				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}"> Incorrect captcha</span> -->
-			<!-- 			</div> -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('captcha')}? 'has-error'">
+				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}"> Incorrect captcha</span>
+			</div>
 
 
 

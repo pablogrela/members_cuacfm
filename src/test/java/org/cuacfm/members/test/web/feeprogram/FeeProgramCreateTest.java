@@ -33,6 +33,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -70,7 +71,7 @@ public class FeeProgramCreateTest extends WebSecurityConfigurationAware {
     * @throws UniqueException the unique exception
     */
    @Before
-   public void initializeDefaultSession() throws UniqueException {
+   public void initializeDefaultSession() throws UniqueException, UniqueListException {
       Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_ADMIN);
       accountService.save(admin);
@@ -139,9 +140,9 @@ public class FeeProgramCreateTest extends WebSecurityConfigurationAware {
             .perform(
                   post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH)
                         .session(defaultSession)
-                        .param("name", "111111111111111111111111111111111111111111111111111")
+                        .param("name", "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
                         .param("price", "24").param("description", "Pay of inscription 2015"))
-            .andExpect(content().string(containsString("Maximum 30 characters")))
+            .andExpect(content().string(containsString("Maximum 50 characters")))
             .andExpect(view().name("feeprogram/feeprogramcreate"));
    }
 

@@ -28,6 +28,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -65,7 +66,7 @@ public class FeeMemberEditTest extends WebSecurityConfigurationAware {
      * @throws UniqueException 
      */
     @Before
-    public void initializeDefaultSession() throws UniqueException {
+    public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", "666666666", "666666666","demo", roles.ROLE_ADMIN);
 		accountService.save(admin);
         defaultSession = getDefaultSession("admin");
@@ -156,12 +157,12 @@ public class FeeMemberEditTest extends WebSecurityConfigurationAware {
 		.andExpect(view().name("redirect:/feeMemberList/feeMemberEdit"));
 		
 		mockMvc.perform(post("/feeMemberList/feeMemberEdit").locale(Locale.ENGLISH).session(defaultSession)
-				.param("name", "111111111111111111111111111111111111111111111111111")
+				.param("name", "111111111111111111111111111111111111111111111111111111111111111111111111111111111")
 				.param("year", "2015")
 				.param("price", "24")
 				.param("description", "Pay of inscription 2015"))
 					.andExpect(content()
-                		.string(containsString("Maximum 30 characters")))
+                		.string(containsString("Maximum 50 characters")))
                 		.andExpect(view().name("feemember/feememberedit"));
 	}
 	

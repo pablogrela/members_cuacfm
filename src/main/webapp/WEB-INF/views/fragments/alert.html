@@ -27,8 +27,7 @@
 	<div th:fragment="alertModal (type, message)">
 		<div id="modal" class="modal fade">
 			<div class="modal-dialog">
-				<!-- <div class="modal-content panel-info"> -->
-				<div class="modal-header modal-header-info" th:classappend="'modal-header-' + ${type}">
+				<div class="modal-header" th:classappend="'modal-header-' + ${type}">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" th:text="#{advice}">Confirmation</h4>
 				</div>
@@ -36,12 +35,11 @@
 					<span th:text="${message}">Test</span>
 				</div>
 			</div>
-			<!-- </div> -->
 		</div>
 	</div>
 
 
-	<!-- Modal Info -->
+	<!-- Modal Info Accounts -->
 	<div th:fragment="infoAccount" id="infoAccount" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content panel-info">
@@ -49,25 +47,43 @@
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" data-ng-bind="account.name"></h4>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" th:fragment="dataAccount">
 					<label th:text="#{name} + ': ' "></label>
 					<span data-ng-bind="account.name"></span>
-					<br></br> <label th:text="#{nickName} + ': ' "></label>
+					<br></br>
+					<label th:text="#{nickName} + ': ' "></label>
 					<span data-ng-bind="account.nickName"></span>
-					<br></br> <label th:text="#{login} + ': ' "></label>
+					<br></br>
+					<label th:text="#{login} + ': ' "></label>
 					<span data-ng-bind="account.login"></span>
-					<br></br> <label th:text="#{email} + ': ' "></label>
+					<br></br>
+					<label th:text="#{email} + ': ' "></label>
 					<span data-ng-bind="account.email"></span>
-					<br></br> <label th:text="#{phone} + ': ' "></label>
+					<br></br>
+					<label th:text="#{phone} + ': ' "></label>
 					<span data-ng-bind="account.phone"></span>
-					<br></br> <label th:text="#{mobile} + ': ' "></label>
+					<br></br>
+					<label th:text="#{mobile} + ': ' "></label>
 					<span data-ng-bind="account.mobile"></span>
-					<br></br> <label th:text="#{methodPayment} + ': ' "></label>
+					<br></br>
+					<label th:text="#{methodPayment} + ': ' "></label>
 					<span data-ng-bind="account.methodPayment"></span>
-					<br></br> <label th:text="#{accountType} + ': ' "></label>
+					<br></br>
+					<label th:text="#{accountType} + ': ' "></label>
 					<span data-ng-bind="account.accountType"></span>
-					<br></br> <label th:text="#{installments} + ': ' "></label>
+					<br></br>
+					<label th:text="#{installments} + ': ' "></label>
 					<span data-ng-bind="account.installments"></span>
+					<br></br>
+					<label th:text="#{state} + ': ' "></label>
+					<span data-ng-if="account.active" th:text="#{active}"></span>
+					<span data-ng-if="!account.active" th:text="#{down}"></span>
+					<br></br>
+					<label th:text="#{dateCreate} + ': ' "></label>
+					<span data-ng-bind="account.dateCreate | date : 'short'"></span>
+					<br></br>
+					<label th:text="#{dateDown} + ': ' "></label>
+					<span data-ng-bind="account.dateDown | date : 'short'"></span>
 				</div>
 			</div>
 		</div>
@@ -75,35 +91,102 @@
 
 
 	<!-- Modal Info -->
-	<!-- 	<div th:fragment="alert24 (type, message)"> -->
-	<!-- 		<div id="modal" class="modal fade"> -->
-	<!-- 			<div class="modal-dialog"> -->
-	<!-- 				<div class="modal-body alert alert-dismissable" th:classappend="'alert-' + ${type}"> -->
-	<!-- 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-	<!-- 					<span th:text="${message}">Test</span> -->
-	<!-- 				</div> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 	</div> -->
+	<div th:fragment="infoAccounts" id="infoAccounts" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-info">
+				<div class="modal-header modal-header-info">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" th:text="#{members}"></h4>
+				</div>
+				<div data-ng-repeat="account in accounts" class="modal-body">
+					<div th:replace="fragments/alert :: dataAccount">&nbsp;</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
-	<!-- 	<div th:fragment="alert4 (type, message)"> -->
-	<!-- 		<div id="modal" class="modal fade"> -->
-	<!-- 			<div class="modal-dialog"> -->
-	<!-- 				<div class="modal-content panel-info"> -->
-	<!-- 					<div class="modal-header modal-header-info"> -->
-	<!-- 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-	<!-- 						<h4 class="modal-title" th:text="#{account.infoBankAccounts}">Confirmation</h4> -->
-	<!-- 					</div> -->
-	<!-- 					<div class="modal-body"> -->
-	<!-- 						<div class="alert alert-dismissable" th:classappend="'alert-' + ${type}"> -->
-	<!-- 							<span th:text="${message}">Test</span> -->
-	<!-- 						</div> -->
-	<!-- 					</div> -->
-	<!-- 				</div> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 	</div> -->
+	<!-- Modal Info Program -->
+	<div th:fragment="infoProgram" id="infoProgram" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-info">
+				<div class="modal-header modal-header-info">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" data-ng-bind="program.name"></h4>
+				</div>
+				<div class="modal-body">
+					<label th:text="#{name} + ': ' "></label>
+					<span data-ng-bind="program.name"></span>
+					<br></br>
+					<label th:text="#{periodicity} + ': ' "></label>
+					<span data-ng-bind="program.periodicity"></span>
+					<br></br>
+					<label th:text="#{duration} + ': ' "></label>
+					<span data-ng-bind="program.duration"></span>
+					<br></br>
+					<label th:text="#{program.acountPayer} + ': ' "></label>
+					<span data-ng-bind="program.accountPayer.name"></span>
+					<br></br>
+					<label th:text="#{program.programType} + ': ' "></label>
+					<span data-ng-bind="program.programType"></span>
+					<br></br>
+					<label th:text="#{program.programThematic} + ': ' "></label>
+					<span data-ng-bind="program.programThematic"></span>
+					<br></br>
+					<label th:text="#{program.programCategory} + ': ' "></label>
+					<span data-ng-bind="program.programCategory"></span>
+					<br></br>
+					<label th:text="#{program.programLanguage} + ': ' "></label>
+					<span data-ng-bind="program.programLanguage"></span>
+					<br></br>
+					<label th:text="#{email} + ': ' "></label>
+					<span data-ng-bind="program.email"></span>
+					<br></br>
+					<label th:text="#{twitter} + ': ' "></label>
+					<span data-ng-bind="program.twitter"></span>
+					<br></br>
+					<label th:text="#{facebook} + ': ' "></label>
+					<span data-ng-bind="program.facebook"></span>
+					<br></br>
+					<label th:text="#{podcast} + ': ' "></label>
+					<span data-ng-bind="program.podcast"></span>
+					<br></br>
+					<label th:text="#{web} + ': ' "></label>
+					<span data-ng-bind="program.web"></span>
+					<br></br>
+					<label th:text="#{state} + ': ' "></label>
+					<span data-ng-if="program.active" th:text="#{active}"></span>
+					<span data-ng-if="!program.active" th:text="#{down}"></span>
+					<br></br>
+					<label th:text="#{dateCreate} + ': ' "></label>
+					<span data-ng-bind="program.dateCreate | date : 'short'"></span>
+					<br></br>
+					<label th:text="#{dateDown} + ': ' "></label>
+					<span data-ng-bind="program.dateDown | date : 'short'"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Modal Info Delete -->
+	<div th:fragment="infoDelete" id="infoDelete" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-info">
+				<div class="modal-header modal-header-danger">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" data-ng-bind="program.name"></h4>
+				</div>
+				<div class="modal-body">
+					<p th:text="#{program.infoModalDelete}">Message</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" th:text="#{accept}" data-dismiss="modal" data-ng-click="programDelete(program.id)">Accept</button>
+					<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

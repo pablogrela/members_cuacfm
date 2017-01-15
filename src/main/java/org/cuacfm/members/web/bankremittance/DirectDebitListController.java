@@ -331,9 +331,9 @@ public class DirectDebitListController {
 	 */
 	@RequestMapping(value = "directDebitList/refresh", method = RequestMethod.POST)
 	public String directDebitRefresh(RedirectAttributes ra) {
-		directDebitService.refreshAll();
+		directDebitService.refresh();
 		
-		MessageHelper.addErrorAttribute(ra, "directDebit.successUpdateDirectDebits", "");
+		MessageHelper.addErrorAttribute(ra, "directDebit.successRefresh", "");
 		return "redirect:/directDebitList";
 	}
 }

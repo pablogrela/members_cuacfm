@@ -15,6 +15,7 @@
  */
 package org.cuacfm.members.model.program;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,4 +75,72 @@ public interface ProgramRepository {
 	 * @return List<Program>
 	 */
 	public List<Program> getProgramListActive();
+
+	/**
+	 * Gets the program list active whitout pays.
+	 *
+	 * @param month the month
+	 * @return the program list active whitout pays
+	 */
+	public List<Program> getProgramListActiveWhitoutPays(Date month);
+
+	/**
+	 * Find program type list.
+	 *
+	 * @return the list
+	 */
+	public List<ProgramType> findProgramTypeList();
+
+	/**
+	 * Find program type by id.
+	 *
+	 * @param id the id
+	 * @return the program type
+	 */
+	public ProgramType findProgramTypeById(int id);
+
+	/**
+	 * Find program thematic list.
+	 *
+	 * @return the list
+	 */
+	public List<ProgramThematic> findProgramThematicList();
+
+	/**
+	 * Find program thematic by id.
+	 *
+	 * @param id the id
+	 * @return the program thematic
+	 */
+	public ProgramThematic findProgramThematicById(int id);
+
+	/**
+	 * Find program category list.
+	 *
+	 * @return the list
+	 */
+	public List<ProgramCategory> findProgramCategoryList();
+
+	/**
+	 * Find program category by id.
+	 *
+	 * @param id the id
+	 * @return the program category
+	 */
+	public ProgramCategory findProgramCategoryById(int id);
+
+	/**
+	 * Find program language list.
+	 *
+	 * @return the list
+	 */
+	public List<ProgramLanguage> findProgramLanguageList();
+
+	/**
+	 * Find program language by id.
+	 *
+	 * @param id the id
+	 * @return the program language
+	 */
+	public ProgramLanguage findProgramLanguageById(int id);
 }

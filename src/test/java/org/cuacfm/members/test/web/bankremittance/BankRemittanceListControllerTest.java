@@ -38,6 +38,7 @@ import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.bankremittanceservice.BankRemittanceService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
@@ -99,7 +100,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 	 * @throws UniqueException the unique exception
 	 */
 	@Before
-	public void initializeDefaultSession() throws UniqueException {
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
 		defaultSession = getDefaultSession("admin");
@@ -153,19 +154,20 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
 		feeMemberService.save(feeMember);
 
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
 		program.setAccountPayer(account);
 		programService.update(program);
-
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, new ArrayList<Account>(), account);
+		
+		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, new ArrayList<Account>(), account, null, null, null, null, "", "", "", "", "");
 		programService.save(program2);
 		programService.up(program2);
 
 		List<Account> accounts2 = new ArrayList<Account>();
 		accounts2.add(account3);
-		Program program3 = new Program("Pepe3", Float.valueOf(1), "Very interesting", 9, accounts2, account);
+		
+		Program program3 = new Program("Pepe3", "Very interesting", Float.valueOf(1), 9, accounts2, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program3);
 		programService.up(program3);
 		program3.setAccountPayer(account2);

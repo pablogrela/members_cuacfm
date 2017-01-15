@@ -200,13 +200,13 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	 */
 	@Test
 	public void maximumCharacters() throws Exception {
-		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "1234567890123456789012345678901")
-				.param("login", "1234567890123456789012345678901")
+		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "1234567890123456789012345678903453444444444444444445345345345345345351")
+				.param("login", "1234567890123456789012345678903453453534534535345345345341")
 				.param("email", "1234567890123456789012345678901@example.es")
 				.param("password", "1234567890123456789012345678901")
 				.param("rePassword", "1234567890123456789012345678901").param("g-recaptcha-response",
 						"03AHJ_VuvpwN_rZWFIqT34HNbDM0NWvTupj7zpEPoEtZ_enmgoGvYQjZEEAbJt80m9so_yAo3e6J9frhLs-5hrLxpmCE-1Xwk0vaAtaK9eoKO2cNGl-Boz4Tx8-4icsnQCbjCf-bRreNjSp1SicP1NV6iGy_Tb6zwT2Zy6tpNZCSCZ7O0RmjeAwmrGYO794A3slNu_6MafCbDe_32GzboC2ggJ7udtteQwe5V5FwRLvkPWD_2zGBaGstnUemwU07gXTRv5Nl7tnxmvxXDrkG7QjLbZdZJZ5N2EmUd6evaQhKLCdnF4N9BVdeaVIXIKjo9SVs4OOlWkNFHSnzuCWplW15YgAx10GWhyPoFWU2mTD3Jms12KTa_PWUXCd1nm4uXDvK72VTJ0JgnQ2jcPvs_NckMU61RHOUZYCeBmtfe0RJ06I_E8BfssiPx0dy_Rh808O5KYUIy97tenpN00UEmHcakQCblxEM7hlarB9KoN0jmJUcA5s5Zve7Ipd32xm2NevM5BjzmcGa-f_YeyCdBeYiDVfcFSxg8bKxbV0X32FoOUuJqHOcRTw2UzmxZk86wXRWmoKKyp8_jua2Uwb4JVoJjiXRO_PNwQKYsgQQC1O1NrAKzM5fXXI5Y0umxFmj5K3vmj0dxEV-YmVfsJ4shryUMSS7QJ9ZOpnIL7rx2p5bimhmGbbcjYiS8M-8se0PhYVLE_hiQsYfXz5x-nJ0WBVU_c5kQN3B03d9RCIaJmkaypFTtbHq9bEIc"))
-				.andExpect(content().string(containsString("Maximum 30 characters")))
+				.andExpect(content().string(containsString("Maximum 50 characters")))
 				.andExpect(view().name("signup/signup"));
 	}
 

@@ -84,7 +84,7 @@
 				<label for="accountPayer" class="col-lg-1 control-label" th:text="#{payProgram.accountPayer}">Account Payer</label>
 				<div class="col-lg-10">
 					<input type="text" name="accountPayer" class="form-control" id="accountPayer" list="userlist"
-						th:placeholder="#{payProgram.accountPayer}" th:field="*{accountPayer}" maxlength="30" />
+						th:placeholder="#{payProgram.accountPayer}" th:field="*{accountPayer}" maxlength="50" />
 					<span class="help-block" th:if="${#fields.hasErrors('accountPayer')}" th:errors="*{accountPayer}">Incorrect
 						accountPayer</span>
 					<!-- Datalist is a search by keyword-->
@@ -100,7 +100,7 @@
 				<label for="idTxn" class="col-lg-1 control-label" th:text="#{payProgram.idTxn}">IdTxn</label>
 				<div class="col-lg-10">
 					<input type="text" name="idTxn" class="form-control" id="idTxn" th:placeholder="#{payProgram.idTxn}"
-						th:field="*{idTxn}" maxlength="30" />
+						th:field="*{idTxn}" maxlength="50" />
 					<span class="help-block" th:if="${#fields.hasErrors('idTxn')}" th:errors="*{idTxn}">Incorrect idTxn</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -113,7 +113,7 @@
 				<label for="idPayer" class="col-lg-1 control-label" th:text="#{payProgram.idPayer}">IdPayer</label>
 				<div class="col-lg-10">
 					<input type="text" name="idPayer" class="form-control" id="idPayer" th:placeholder="#{payProgram.idPayer}"
-						th:field="*{idPayer}" maxlength="30" />
+						th:field="*{idPayer}" maxlength="50" />
 					<span class="help-block" th:if="${#fields.hasErrors('idPayer')}" th:errors="*{idPayer}">Incorrect idPayer</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -126,7 +126,7 @@
 				<label for="emailPayer" class="col-lg-1 control-label" th:text="#{payProgram.emailPayer}">EmailPayer</label>
 				<div class="col-lg-10">
 					<input type="text" name="emailPayer" class="form-control" id="emailPayer"
-						th:placeholder="#{payProgram.emailPayer}" th:field="*{emailPayer}" maxlength="30" />
+						th:placeholder="#{payProgram.emailPayer}" th:field="*{emailPayer}" maxlength="50" />
 					<span class="help-block" th:if="${#fields.hasErrors('emailPayer')}" th:errors="*{emailPayer}">Incorrect
 						emailPayer</span>
 					<div class="ws-errorbox" hidden=""></div>

@@ -36,7 +36,7 @@ public class TrainingForm {
 
    /** The name. */
    @NotBlank(message = TrainingForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = TrainingForm.MAX_CHARACTERS)
+   @Size(max = 50, message = TrainingForm.MAX_CHARACTERS)
    private String name;
 
    /** The timeTraining. */
@@ -62,7 +62,7 @@ public class TrainingForm {
 
    /** The place. */
    @NotBlank(message = TrainingForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = TrainingForm.MAX_CHARACTERS)
+   @Size(max = 50, message = TrainingForm.MAX_CHARACTERS)
    private String place;
 
    /** The duration. */

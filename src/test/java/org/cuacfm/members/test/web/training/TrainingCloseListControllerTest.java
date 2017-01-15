@@ -28,6 +28,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.trainingtype.TrainingType;
@@ -68,7 +69,7 @@ public class TrainingCloseListControllerTest extends WebSecurityConfigurationAwa
      * @throws UniqueException the unique exception
      */
     @Before
-    public void initializeDefaultSession() throws UniqueException {
+    public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
         defaultSession = getDefaultSession("trainer");

@@ -29,6 +29,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
@@ -89,14 +90,14 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void saveFeeProgramWithUsersTest() throws UniqueException {
+   public void saveFeeProgramWithUsersTest() throws UniqueException, UniqueListException {
       List<Account> accounts = new ArrayList<Account>();
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
       accounts.add(account);
 
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+      Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
       programService.save(program);
       programService.up(program);
 
@@ -119,7 +120,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test(expected = UniqueException.class)
-   public void saveFeeProgramExceptionTest() throws UniqueException {
+   public void saveFeeProgramExceptionTest() throws UniqueException, UniqueListException {
 
       // Save
       Date date = DisplayDate.stringToMonthOfYear("2015-12");
@@ -135,7 +136,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void saveUserFeeProgramTest() throws UniqueException {
+   public void saveUserFeeProgramTest() throws UniqueException, UniqueListException {
 
       // Save
       List<Account> accounts = new ArrayList<Account>();
@@ -144,7 +145,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
       accountService.save(account);
       accounts.add(account);
 
-      Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+      Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
       programService.save(program);
       programService.update(program);
 

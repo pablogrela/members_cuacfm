@@ -1,0 +1,314 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<body>
+
+	<div th:fragment="programform">
+
+		<!-- Name -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+			<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="50" required="required" />
+				<span class="help-block with-errors" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+		<!-- Description -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+			<label for="description" class="col-lg-20 control-label" th:text="#{description}">Description</label>
+			<div class="col-lg-20">
+				<textarea class="form-control" id="description" th:placeholder="#{program.description}" th:field="*{description}" rows="10" cols="40"
+					maxlength="5000" required="required">
+            	Description</textarea>
+				<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+		
+
+		<!-- Periodicity, Selected option in droplist -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('periodicity')}? 'has-error'">
+			<label for="programType" class="col-lg-20 control-label" th:text="#{periodicity}">periodicity</label>
+			<div class="col-lg-20" th:text="#{program.times}"></div>
+			<div class="col-lg-10 col-lg-4-edit">
+				<select class="form-control" id="periodicity" th:field="*{periodicity}" required="required">
+					<option value="0" th:text="#{periodicity.other}"></option>
+					<option value="0.25" th:text="#{periodicity.monthly}"></option>
+					<option value="0.5" th:text="#{periodicity.bimonthly}"></option>
+					<option value="1" th:text="#{periodicity.weekly}"></option>
+					<option value="2" th:text="#{periodicity.biweekly}"></option>
+				</select>
+			</div>
+			<div class="col-lg-20 ws-errorbox help-block with-errors" th:if="${#fields.hasErrors('periodicity')}" th:errors="*{periodicity}">Incorrect
+				periodicity</div>
+			<div class="col-lg-20 ws-errorbox" hidden=""></div>
+		</div>
+
+
+
+		<!-- Duration -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
+			<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
+			<div class="col-lg-10">
+				<div class="col-lg-4-edit">
+					<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
+				</div>
+				<span class="col-lg-2-right control-label" th:text="#{minutes}">minutes</span>
+				<br></br>
+				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"> Incorrect duration</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+		<!-- Program Type, Selected option in droplist -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('programTypeId')}? 'has-error'">
+			<label for="programType" class="col-lg-20 control-label" th:text="#{program.programType}">programType</label>
+			<div class="col-lg-20" th:text="#{program.programType.info}"></div>
+			<div class="col-lg-10 col-lg-4-edit">
+				<select class="form-control" id="programType" name="programTypeId" th:field="*{programTypeId}" required="required">
+					<option th:if="${programTypeId == null}" th:value="''"></option>
+					<option th:field="*{programTypeId}" th:each="programType : ${programForm.programTypes}" th:value="${programType.id}"
+						th:text="${programType.name}">programType</option>
+				</select>
+			</div>
+			<div class="col-lg-20 ws-errorbox help-block with-errors" th:if="${#fields.hasErrors('programTypeId')}" th:errors="*{programTypeId}">Incorrect
+				programTypeId</div>
+			<div class="col-lg-20 ws-errorbox" hidden=""></div>
+		</div>
+
+
+		<!-- Program Thematic, Selected option in droplist -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('programThematicId')}? 'has-error'">
+			<label for="programThematic" class="col-lg-20 control-label" th:text="#{program.programThematic}">programThematic</label>
+			<div class="col-lg-20" th:text="#{program.programThematic.info}"></div>
+			<div class="col-lg-10 col-lg-4-edit">
+				<select class="form-control" id="programThematicId" name="programThematicId" th:field="*{programThematicId}" required="required">
+					<option th:if="${programThematicId == null}" th:value="''"></option>
+					<option th:field="*{programThematicId}" th:each="programThematic : ${programForm.programThematics}" th:value="${programThematic.id}"
+						th:text="${programThematic.name}">programThematic</option>
+				</select>
+			</div>
+			<div class="col-lg-20 ws-errorbox help-block with-errors" th:if="${#fields.hasErrors('programThematicId')}" th:errors="*{programThematicId}">Incorrect
+				programThematicId</div>
+			<div class="col-lg-20 ws-errorbox" hidden=""></div>
+		</div>
+
+
+		<!-- Program Category, Selected option in droplist -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('programCategoryId')}? 'has-error'">
+			<label for="programCategory" class="col-lg-20 control-label" th:text="#{program.programCategory}">programCategory</label>
+			<div class="col-lg-20" th:text="#{program.programCategory.info}"></div>
+			<div class="col-lg-10 col-lg-4-edit">
+				<select class="form-control" id="programCategoryId" name="programCategoryId" th:field="*{programCategoryId}" required="required">
+					<option th:if="${programCategoryId == null}" th:value="''"></option>
+					<option th:field="*{programCategoryId}" th:each="programCategory : ${programForm.programCategories}" th:value="${programCategory.id}"
+						th:text="${programCategory.name}">programThematic</option>
+				</select>
+			</div>
+			<div class="col-lg-20 ws-errorbox help-block with-errors" th:if="${#fields.hasErrors('programThematicId')}" th:errors="*{programCategoryId}">Incorrect
+				programCategoryId</div>
+			<div class="col-lg-20 ws-errorbox" hidden=""></div>
+		</div>
+
+
+		<!--Program language, Selected option in droplist -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('programLanguageId')}? 'has-error'">
+			<label for="programLanguage" class="col-lg-20 control-label" th:text="#{program.programLanguage}">programLanguage</label>
+			<div class="col-lg-20" th:text="#{program.programLanguage.info}"></div>
+			<div class="col-lg-10 col-lg-4-edit">
+				<select class="form-control" id="programLanguageId" name="programLanguageId" th:field="*{programLanguageId}" required="required">
+					<option th:if="${programLanguageId == null}" th:value="''"></option>
+					<option th:field="*{programLanguageId}" th:each="programLanguage : ${programForm.programLanguages}" th:value="${programLanguage.id}"
+						th:text="${programLanguage.name}">programThematic</option>
+				</select>
+			</div>
+			<div class="col-lg-20 ws-errorbox help-block with-errors" th:if="${#fields.hasErrors('programLanguageId')}" th:errors="*{programLanguageId}">Incorrect
+				programLanguageId</div>
+			<div class="col-lg-20 ws-errorbox" hidden=""></div>
+		</div>
+		<br></br>
+
+
+		<!-- Email -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+			<label for="email" class="col-lg-2 control-label" th:text="#{email}">email</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50" />
+				<span class="help-block with-errors" th:if="${#fields.hasErrors('name')}" th:errors="*{email}">Incorrect email</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<!-- Name -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('twitter')}? 'has-error'">
+			<label for="twitter" class="col-lg-2 control-label" th:text="#{twitter}">twitter</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control" id="twitter" th:placeholder="#{twitter}" th:field="*{twitter}" maxlength="50" />
+				<span class="help-block with-errors" th:if="${#fields.hasErrors('twitter')}" th:errors="*{twitter}">Incorrect twitter</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<!-- Facebook -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('facebook')}? 'has-error'">
+			<label for="facebook" class="col-lg-2 control-label" th:text="#{facebook}">Name</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control" id="facebook" th:placeholder="#{facebook}" th:field="*{facebook}" maxlength="50" />
+				<span class="help-block with-errors" th:if="${#fields.hasErrors('facebook')}" th:errors="*{facebook}">Incorrect facebook</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<!-- Insert podcast -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('podcast')}? 'has-error'">
+			<label for="podcast" class="col-lg-2 control-label" th:text="#{podcast}">podcast</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control" id="name" th:placeholder="#{podcast}" th:field="*{podcast}" maxlength="50" />
+				<span class="help-block with-errors" th:if="${#fields.hasErrors('podcast')}" th:errors="*{podcast}">Incorrect podcast</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<!-- Web -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('web')}? 'has-error'">
+			<label for="web" class="col-lg-2 control-label" th:text="#{web}">web</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control" id="web" th:placeholder="#{web}" th:field="*{web}" maxlength="50" />
+				<span class="help-block with-errors" th:if="${#fields.hasErrors('web')}" th:errors="*{web}">Incorrect web</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+		<br></br>
+
+		<h3 class="text-center" th:text="#{members}">List of Programs Empty</h3>
+
+		<br></br>
+		<!-- Login -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+			<!-- Form add user by admin -->
+			<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+
+				<div class="col-lg-9 text-danger">
+					<input type="text" class="form-control" list="userlist" th:placeholder="#{login}" th:field="*{login}" autocomplete="off" />
+
+					<!-- Datalist is a search by keyword-->
+					<datalist id="userlist">
+						<option th:each="username : ${usernames}" th:value="${username}" />
+					</datalist>
+
+					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</th:block>
+
+			<!-- Form add user by no admin -->
+			<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+				<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
+
+				<div class="col-lg-9 text-danger">
+					<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{login}" th:title="#{program.infoAddUserByDni}" autocomplete="off" />
+					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</th:block>
+
+			<!-- Button Add User to Program-->
+			<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign" th:title="#{inscription.addUser}"
+				style="color: green"></button>
+
+		</div>
+
+		<!-- List of users pertains to program -->
+		<table class="dataTable display table-striped">
+			<thead class="table-bordered">
+				<tr>
+					<th th:text="#{nameAdd}">Name</th>
+					<th class="no-sort"></th>
+				</tr>
+			</thead>
+			<tbody class="table-bordered">
+				<tr th:each="account : ${programForm.accounts}">
+					<td th:text="${account.name}"></td>
+					<!-- Delete User to Program -->
+					<td>
+						<button type="submit" th:value="${account.id}" th:name="removeUser" class="btnTable btn-link glyphicon glyphicon-remove-sign"
+							th:title="#{account.infoRemove}" style="color: red"></button>
+
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<!-- Form add account payer -->
+		<table class="dataTable display table-striped">
+			<thead class="table-bordered">
+				<tr>
+					<th th:text="#{program.acountPayer}">Name</th>
+					<th class="no-sort"></th>
+				</tr>
+			</thead>
+			<tbody class="table-bordered">
+				<tr>
+					<th th:classappend="${#fields.hasErrors('accountPayerName')}? 'has-error'">
+						<!-- Form add account payer by admin --> <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+							<div class="col-lg-9 text-danger">
+								<input type="text" class="form-control" list="userlist" th:placeholder="#{program.acountPayer}" th:field="*{accountPayerName}"
+									autocomplete="off" />
+
+								<!-- Datalist is a search by keyword-->
+								<datalist id="userlist">
+									<option th:each="username : ${usernames}" th:value="${username}" />
+								</datalist>
+
+								<span class="help-block" th:if="${#fields.hasErrors('accountPayerName')}" th:errors="*{accountPayerName}"> Incorrect accountPayerName</span>
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</th:block> <!-- Form add account payer by no admin --> <th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+							<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
+							<div class="col-lg-9 text-danger">
+								<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}"
+									autocomplete="off" />
+								<span class="help-block" th:if="${#fields.hasErrors('accountPayerName')}" th:errors="*{accountPayerName}"> Incorrect accountPayerName</span>
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</th:block>
+					</th>
+					<!-- Comfirm Account Payer -->
+					<td>
+						<button th:if="${programForm.accountPayer} == null" type="submit" th:value="*{accountPayerName}" th:name="addAccountPayer"
+							class="btnTable btn-link glyphicon glyphicon-ok" th:title="#{program.infoAddAcountPayer}" style="color: green"></button> <!-- Remove Account Payer -->
+						<button type="submit" th:if="${programForm.accountPayer} != null" th:value="*{accountPayerName}" th:name="removeAccountPayer"
+							class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemoveAccountPayer}" style="color: red"></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+</body>
+</html>

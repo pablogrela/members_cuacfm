@@ -17,19 +17,25 @@ package org.cuacfm.members.web.program;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
+import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.ExistPaymentsException;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.program.Program;
+import org.cuacfm.members.model.program.ProgramDTO;
 import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +46,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProgramListController {
 
 	private static final String PROGRAM_VIEW_NAME = "program/programlist";
-	private static final String REDIRECT_PROGRAM = "redirect:/programList";
 
 	@Autowired
 	private ProgramService programService;
@@ -48,7 +53,8 @@ public class ProgramListController {
 	@Autowired
 	private AccountService accountService;
 
-	private List<Program> programs;
+	@Autowired
+	private MessageSource messageSource;
 
 	/**
 	 * Instantiates a new training Controller.
@@ -67,26 +73,29 @@ public class ProgramListController {
 	 */
 
 	@RequestMapping(value = "programList")
-	public String programs(Model model, Principal principal) throws UniqueException {
-		Account account = accountService.findByLogin(principal.getName());
-		// List of programs
-		if (account.getRole() == roles.ROLE_ADMIN) {
-			programs = programService.getProgramList();
-		} else {
-			programs = account.getPrograms();
-		}
-		model.addAttribute("programs", programs);
+	public String getView(Model model, Principal principal) throws UniqueException {
 		return PROGRAM_VIEW_NAME;
 	}
 
-	/**
-	 * List of Program.
-	 *
-	 * @return List<Program>
-	 */
-	@ModelAttribute("programs")
-	public List<Program> programs() {
-		return programs;
+	@RequestMapping(value = "programList/")
+	public ResponseEntity<List<ProgramDTO>> getPrograms(Model model, Principal principal) throws UniqueException {
+
+		Account account = accountService.findByLogin(principal.getName());
+		
+		// List of programs
+		List<ProgramDTO> programsDTO;
+		if (account.getRole() == roles.ROLE_ADMIN) {
+			programsDTO = programService.getProgramsDTO(programService.getProgramList());
+		} else {
+			programsDTO = programService.getProgramsDTO(account.getPrograms());
+		}
+
+		List<AccountDTO> accountsDTO = accountService.getAccountsDTO(accountService.getAccountsOrderByActive());
+
+		if (accountsDTO.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(programsDTO, HttpStatus.OK);
 	}
 
 	/**
@@ -98,7 +107,7 @@ public class ProgramListController {
 	 * @return the string destinity page
 	 */
 	@RequestMapping(value = "programList/programDelete/{id}", method = RequestMethod.POST)
-	public String remove(@PathVariable Long id, RedirectAttributes ra, Principal principal) {
+	public ResponseEntity<Map<String, ?>> remove(@PathVariable Long id, RedirectAttributes ra, Principal principal) {
 
 		Account account = accountService.findByLogin(principal.getName());
 		Program program = programService.findById(id);
@@ -106,13 +115,34 @@ public class ProgramListController {
 		// Security, Only user can delete him program or admin
 		if (program.getAccounts().contains(account) || (account.getRole() == roles.ROLE_ADMIN)) {
 			try {
-				programService.delete(program, account);
-				MessageHelper.addInfoAttribute(ra, "program.successDelete", program.getName());
-			} catch (ExistPaymentsException e) {
-				MessageHelper.addErrorAttribute(ra, "program.existPayments", program.getName());
+				programService.delete(program, account);				
+				Object[] arguments = { program.getName() };
+				MessageHelper.addSuccessAttribute(ra, messageSource.getMessage("program.successDelete", arguments, Locale.getDefault()));
+				
+			} catch (ExistPaymentsException e) {				
+				Object[] arguments = { program.getName() };
+				MessageHelper.addErrorAttribute(ra, messageSource.getMessage("program.existPayments", arguments, Locale.getDefault()));
 			}
 		}
-		return REDIRECT_PROGRAM;
+		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
+	}
+
+	/**
+	 * Unsubscribe.
+	 *
+	 * @param id the id
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "programList/programDown/{id}", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> programDown(@PathVariable("id") Long id, RedirectAttributes ra) {
+
+		Program program = programService.findById(id);
+
+		programService.down(program);
+		Object[] arguments = { program.getName() };
+		MessageHelper.addInfoAttribute(ra, messageSource.getMessage("program.successDown", arguments, Locale.getDefault()));
+
+		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
 	/**
@@ -122,28 +152,15 @@ public class ProgramListController {
 	 * @param ra the ra
 	 * @return the string
 	 */
-	@RequestMapping(value = "programList/programDown/{id}", method = RequestMethod.POST)
-	public String programDown(@PathVariable Long id, RedirectAttributes ra) {
-
-		Program program = programService.findById(id);
-		programService.down(program);
-		MessageHelper.addInfoAttribute(ra, "program.successDown", program.getName());
-		return REDIRECT_PROGRAM;
-	}
-
-	/**
-	 * Program up.
-	 *
-	 * @param id the id
-	 * @param ra the ra
-	 * @return the string
-	 */
 	@RequestMapping(value = "programList/programUp/{id}", method = RequestMethod.POST)
-	public String programUp(@PathVariable Long id, RedirectAttributes ra) {
+	public ResponseEntity<Map<String, ?>> programUp(@PathVariable("id") Long id, RedirectAttributes ra) {
 
 		Program program = programService.findById(id);
+
 		programService.up(program);
-		MessageHelper.addInfoAttribute(ra, "program.successUp", program.getName());
-		return REDIRECT_PROGRAM;
+		Object[] arguments = { program.getName() };
+		MessageHelper.addInfoAttribute(ra, messageSource.getMessage("program.successUp", arguments, Locale.getDefault()));
+
+		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 }

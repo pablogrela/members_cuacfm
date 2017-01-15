@@ -15,6 +15,8 @@
  */
 package org.cuacfm.members.model.account;
 
+import java.util.Date;
+
 import org.cuacfm.members.model.account.Account.roles;
 
 /** The Class AccountDTO. */
@@ -34,6 +36,8 @@ public class AccountDTO {
 	private String methodPayment;
 	private String accountType;
 	private int installments;
+	private Date dateCreate;
+	private Date dateDown;
 
 	/**
 	 * Instantiates a new account DTO.
@@ -72,8 +76,8 @@ public class AccountDTO {
 	 * @param role the role
 	 * @param installments the installments
 	 */
-	public AccountDTO(Long id, String login, String dni, String email, String phone, String mobile, String name, String nickName, String address, boolean active, roles role,
-			int installments) {
+	public AccountDTO(Long id, String login, String dni, String email, String phone, String mobile, String name, String nickName, String address,
+			boolean active, roles role, int installments, Date dateCreate, Date dateDown) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -87,6 +91,8 @@ public class AccountDTO {
 		this.active = active;
 		this.role = role;
 		this.installments = installments;
+		this.dateCreate = dateCreate;
+		this.dateDown = dateDown;
 	}
 
 	public Long getId() {
@@ -201,11 +207,28 @@ public class AccountDTO {
 		this.accountType = accountType;
 	}
 
+	public Date getDateCreate() {
+		return dateCreate;
+	}
+
+	public void setDateCreate(Date dateCreate) {
+		this.dateCreate = dateCreate;
+	}
+
+	public Date getDateDown() {
+		return dateDown;
+	}
+
+	public void setDateDown(Date dateDown) {
+		this.dateDown = dateDown;
+	}
+
 	@Override
 	public String toString() {
 		return "AccountDTO [id=" + id + ", name=" + name + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address + ", login=" + login
-				+ ", email=" + email + ", active=" + active + ", role=" + role + ", methodPayment=" + methodPayment + ", accountType=" + accountType
-				+ ", installments=" + installments + "]";
+				+ ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", active=" + active + ", role=" + role + ", methodPayment="
+				+ methodPayment + ", accountType=" + accountType + ", installments=" + installments + ", dateCreate=" + dateCreate + ", dateDown="
+				+ dateDown + "]";
 	}
 
 }

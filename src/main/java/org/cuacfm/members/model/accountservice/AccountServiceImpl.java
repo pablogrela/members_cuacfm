@@ -16,6 +16,7 @@
 package org.cuacfm.members.model.accountservice;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
@@ -25,6 +26,7 @@ import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.bankaccount.BankAccountRepository;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,21 +54,27 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account save(Account account) throws UniqueException {
+	public Account save(Account account) throws UniqueListException {
+
+		List<UniqueException> uniques = new ArrayList<>();
 
 		// It is verified that there is not exist dni
 		if (accountRepository.findByDni(account.getDni()) != null) {
-			throw new UniqueException("Dni", account.getDni());
+			uniques.add(new UniqueException("dni", account.getDni()));
 		}
 
 		// It is verified that there is not exist login
 		if (accountRepository.findByLogin(account.getLogin()) != null) {
-			throw new UniqueException("Login", account.getLogin());
+			uniques.add(new UniqueException("login", account.getLogin()));
 		}
 
 		// It is verified that there is not exist email
 		if (accountRepository.findByEmail(account.getEmail()) != null) {
-			throw new UniqueException("Email", account.getEmail());
+			uniques.add(new UniqueException("email", account.getEmail()));
+		}
+
+		if (!uniques.isEmpty()) {
+			throw new UniqueListException(uniques);
 		}
 
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
@@ -79,24 +87,30 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Account update(Account account, boolean newPassword, boolean profile) throws UniqueException {
+	public Account update(Account account, boolean newPassword, boolean profile) throws UniqueListException {
+
+		List<UniqueException> uniques = new ArrayList<>();
 
 		// It is verified that there is not exist dni
 		Account accountSearch = accountRepository.findByDni(account.getDni());
 		if ((accountSearch != null) && (accountSearch.getId() != account.getId())) {
-			throw new UniqueException("Dni", account.getDni());
+			uniques.add(new UniqueException("dni", account.getDni()));
 		}
 
 		// It is verified that there is not exist login
 		accountSearch = accountRepository.findByLogin(account.getLogin());
 		if ((accountSearch != null) && (accountSearch.getId() != account.getId())) {
-			throw new UniqueException("Login", account.getLogin());
+			uniques.add(new UniqueException("login", account.getLogin()));
 		}
 
 		// It is verified that there is not exist email
 		accountSearch = accountRepository.findByEmail(account.getEmail());
 		if ((accountSearch != null) && (accountSearch.getId() != account.getId())) {
-			throw new UniqueException("Email", account.getEmail());
+			uniques.add(new UniqueException("email", account.getEmail()));
+		}
+
+		if (!uniques.isEmpty()) {
+			throw new UniqueListException(uniques);
 		}
 
 		if (newPassword) {
@@ -130,6 +144,7 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void unsubscribe(Account account) {
 		account.setActive(false);
+		account.setDateDown(new Date());
 		accountRepository.update(account);
 		eventService.save("account.admin.successUnsubscribe", account, 3);
 	}
@@ -180,9 +195,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<AccountDTO> getAccountsDTO() {
-
-		List<Account> accounts = accountRepository.getAccountsOrderByActive();
+	public List<AccountDTO> getAccountsDTO(List<Account> accounts) {
 		List<AccountDTO> accountsDTO = new ArrayList<>();
 		for (Account account : accounts) {
 			accountsDTO.add(getAccountDTO(account));
@@ -193,17 +206,21 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public AccountDTO getAccountDTO(Account account) {
+		AccountDTO accountDTO = null;
 
-		AccountDTO accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getPhone(),
-				account.getMobile(), account.getName(), account.getNickName(), account.getAddress(), account.isActive(), account.getRole(),
-				account.getInstallments());
+		if (account != null) {
+			accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getPhone(),
+					account.getMobile(), account.getName(), account.getNickName(), account.getAddress(), account.isActive(), account.getRole(),
+					account.getInstallments(), account.getDateCreate(), account.getDateDown());
 
-		if (account.getAccountType() != null) {
-			accountDTO.setAccountType(account.getAccountType().getName());
+			if (account.getAccountType() != null) {
+				accountDTO.setAccountType(account.getAccountType().getName());
+			}
+			if (account.getMethodPayment() != null) {
+				accountDTO.setMethodPayment(account.getMethodPayment().getName());
+			}
 		}
-		if (account.getMethodPayment() != null) {
-			accountDTO.setMethodPayment(account.getMethodPayment().getName());
-		}
+
 		return accountDTO;
 	}
 

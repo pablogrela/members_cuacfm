@@ -32,6 +32,7 @@ import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.exceptions.UnsubscribeException;
 import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.inscription.Inscription;
@@ -72,7 +73,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException
 	 */
 	@Test
-	public void saveAndFindsByIdTest() throws ExistInscriptionsException, DateLimitException, UniqueException {
+	public void saveAndFindsByIdTest() throws ExistInscriptionsException, UniqueListException, DateLimitException, UniqueException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -204,7 +205,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException
 	 */
 	@Test(expected = DateLimitException.class)
-	public void updateDateLimitExceptionTest() throws ExistInscriptionsException, DateLimitException, UniqueException {
+	public void updateDateLimitExceptionTest() throws ExistInscriptionsException, DateLimitException, UniqueException, UniqueListException {
 
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
@@ -232,7 +233,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void inscriptionUpdateTest() throws ExistInscriptionsException, MaximumCapacityException, UnsubscribeException, DateLimitException,
-			DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -274,7 +275,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException
 	 */
 	@Test
-	public void saveUpdateAndDeleteTrainingTest() throws ExistInscriptionsException, DateLimitException, UniqueException {
+	public void saveUpdateAndDeleteTrainingTest() throws ExistInscriptionsException, DateLimitException, UniqueException, UniqueListException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -312,7 +313,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException
 	 */
 	@Test
-	public void updateHasTrainingTest() throws ExistInscriptionsException, DateLimitException, UniqueException {
+	public void updateHasTrainingTest() throws ExistInscriptionsException, DateLimitException, UniqueException, UniqueListException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -353,7 +354,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test(expected = ExistInscriptionsException.class)
 	public void existInscriptionsExceptionTest() throws ExistInscriptionsException, MaximumCapacityException, DateLimitException,
-			DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -384,7 +385,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test(expected = DateLimitExpirationException.class)
 	public void dateLimitExpirationExceptionTest() throws ExistInscriptionsException, MaximumCapacityException, DateLimitException,
-			DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -412,7 +413,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test(expected = MaximumCapacityException.class)
 	public void maximumCapacityExceptionTest() throws ExistInscriptionsException, MaximumCapacityException, DateLimitException,
-			DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -446,7 +447,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void unsubscribeInscriptionSuccesfullTest() throws ExistInscriptionsException, MaximumCapacityException, UnsubscribeException,
-			DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitException, DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -485,7 +486,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test(expected = UnsubscribeException.class)
 	public void UnsubscribeExceptionTest() throws ExistInscriptionsException, MaximumCapacityException, UnsubscribeException, DateLimitException,
-			DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -522,7 +523,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void getByAccountIdTest() throws ExistInscriptionsException, MaximumCapacityException, UnsubscribeException, DateLimitException,
-			DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -565,7 +566,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void getByTrainingIdTest() throws ExistInscriptionsException, MaximumCapacityException, UnsubscribeException, DateLimitException,
-			DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -606,7 +607,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void deleteInscriptionTest() throws ExistInscriptionsException, MaximumCapacityException, UnsubscribeException, DateLimitException,
-			DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -653,7 +654,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void getIdsUnsubscribeByAccountIdTest() throws ExistInscriptionsException, MaximumCapacityException, UnsubscribeException,
-			DateLimitException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			DateLimitException, DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
@@ -694,7 +695,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void getIdsByAccountIdTest()
-			throws DateLimitException, MaximumCapacityException, DateLimitExpirationException, UniqueException, UserAlreadyJoinedException {
+			throws DateLimitException, MaximumCapacityException, DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
 
@@ -746,7 +747,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException
 	 */
 	@Test
-	public void getTrainingsOpenAndCloseTest() throws DateLimitException, UniqueException {
+	public void getTrainingsOpenAndCloseTest() throws DateLimitException, UniqueException, UniqueListException {
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
 
@@ -787,7 +788,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws DateLimitException
 	 */
 	@Test
-	public void getUsernamesByInscription() throws UniqueException, DateLimitException {
+	public void getUsernamesByInscription() throws UniqueException, UniqueListException, DateLimitException {
 
 		// Save
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);

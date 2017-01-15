@@ -28,6 +28,7 @@ import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -73,11 +74,12 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Save and find by email account test.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
+ * @throws UniqueListException 
     */
    @Test
-   public void saveAndFindByEmailAccountTest() throws UniqueException {
+   public void saveAndFindByEmailAccountTest() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
@@ -98,11 +100,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Find by id.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void findById() throws UniqueException {
+   public void findById() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       Account accountSaved = accountService.save(account);
@@ -123,11 +125,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * insert Exception the same login.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
-   @Test(expected = UniqueException.class)
-   public void insertUserTheSameLoginException() throws UniqueException {
+   @Test(expected = UniqueListException.class)
+   public void insertUserTheSameLoginException() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
@@ -140,11 +142,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * insert Exception the same email.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
-   @Test(expected = UniqueException.class)
-   public void insertUserTheSameEmailException() throws UniqueException {
+   @Test(expected = UniqueListException.class)
+   public void insertUserTheSameEmailException() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
@@ -157,11 +159,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * update Exception the same login.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
-   @Test(expected = UniqueException.class)
-   public void updateUserTheSameLoginException() throws UniqueException {
+   @Test(expected = UniqueListException.class)
+   public void updateUserTheSameLoginException() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
@@ -178,11 +180,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * update Exception the same email.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
-   @Test(expected = UniqueException.class)
-   public void updateUserTheSameEmailException() throws UniqueException {
+   @Test(expected = UniqueListException.class)
+   public void updateUserTheSameEmailException() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
@@ -199,11 +201,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Save and find by login account test.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void saveAndFindByLoginAccountTest() throws UniqueException {
+   public void saveAndFindByLoginAccountTest() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       accountService.save(account);
@@ -232,11 +234,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Update user data without password.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void updateUserDataWithoutPassword() throws UniqueException {
+   public void updateUserDataWithoutPassword() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       Account savedAccount = accountService.save(account);
@@ -262,11 +264,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Update user data with password.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void updateUserDataWithPassword() throws UniqueException {
+   public void updateUserDataWithPassword() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
       Account savedAccount = accountService.save(account);
@@ -303,11 +305,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Match password test.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void matchPasswordTest() throws UniqueException {
+   public void matchPasswordTest() throws UniqueListException {
       Account account = new Account("user", "55555555C", "London", "user", "email1@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_USER);
 
@@ -321,11 +323,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
     * Gets the users test.
     *
     * @return the users test
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void getUsersTest() throws UniqueException {
+   public void getUsersTest() throws UniqueListException {
       // Save
       Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
             "666666666", "demo", roles.ROLE_USER);
@@ -345,11 +347,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
     * Gets the accounts test.
     *
     * @return the accounts test
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void getAccountsTest() throws UniqueException {
+   public void getAccountsTest() throws UniqueListException {
       // Save
       Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
             "666666666", "demo", roles.ROLE_USER);
@@ -368,11 +370,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Save test.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void SaveTest() throws UniqueException {
+   public void SaveTest() throws UniqueListException {
       // Save
       Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
             "666666666", "demo", roles.ROLE_USER);
@@ -388,11 +390,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Unsubscribe and subscribe test.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void UnsubscribeAndSubscribeTest() throws UniqueException {
+   public void UnsubscribeAndSubscribeTest() throws UniqueListException {
       // Save
       Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
             "666666666", "demo", roles.ROLE_USER);
@@ -410,11 +412,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Update test.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void AddAcountTypeAndMethodPaymentToAccountTest() throws UniqueException {
+   public void AddAcountTypeAndMethodPaymentToAccountTest() throws UniqueException, UniqueListException {
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);
@@ -442,11 +444,11 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
    /**
     * Bank account test.
     *
-    * @throws UniqueException
+    * @throws UniqueListException
     *            the unique exception
     */
    @Test
-   public void BankAccountTest() throws UniqueException {
+   public void BankAccountTest() throws UniqueException, UniqueListException {
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);

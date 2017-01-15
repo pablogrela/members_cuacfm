@@ -36,7 +36,7 @@ public class TrainingTypeForm {
 
 	/** The name. */
 	@NotBlank(message = TrainingTypeForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = TrainingTypeForm.MAX_CHARACTERS)
+	@Size(max = 50, message = TrainingTypeForm.MAX_CHARACTERS)
 	private String name;
 
 	/** The description. */
@@ -46,7 +46,7 @@ public class TrainingTypeForm {
 
 	/** The place. */
 	@NotBlank(message = TrainingTypeForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = TrainingTypeForm.MAX_CHARACTERS)
+	@Size(max = 50, message = TrainingTypeForm.MAX_CHARACTERS)
 	private String place;
 
 	/** The duration. */
@@ -57,6 +57,7 @@ public class TrainingTypeForm {
 	/** Instantiates a new training form. */
 	public TrainingTypeForm() {
 		// Default empty constructor.
+		super();
 	}
 
 	/**

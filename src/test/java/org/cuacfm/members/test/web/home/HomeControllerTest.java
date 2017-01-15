@@ -26,6 +26,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class HomeControllerTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException
 	 */
 	@Before
-	public void initializeDefaultSession() throws UniqueException {
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER, "", true,
 				true, "", "");
 		accountService.save(user);

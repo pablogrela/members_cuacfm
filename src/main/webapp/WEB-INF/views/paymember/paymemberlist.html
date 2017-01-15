@@ -121,7 +121,8 @@
 						<td th:text="${payMember.account.mobile}">mobile</td>
 						<td id="payMemberPrice" th:text="${payMember.price}">price</td>
 						<td th:text="#{${'states.' + payMember.state}}">State</td>
-						<td th:text="#{${'methods.' + payMember.method}}">Method</td>
+						<td th:if="${payMember.method == null}"></td>
+						<td th:if="${payMember.method != null}" th:text="#{${'methods.' + payMember.method}}">Method</td>
 						<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of installments</td>
 						<td th:text="${#dates.format(payMember.dateCharge, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
 
@@ -134,16 +135,15 @@
 						</td>
 
 						<td>
-							<!-- Pay payMember --> 
-						<object th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+							<!-- Pay payMember --> <object
+								th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
 						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
 								class="text-center">
 								<form th:action="@{'payMemberList/pay/'+${payMember.id}}" method="post">
 									<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 								</form>
-							</object> 
-						<!-- Fill table entry, pay member -->
-						<object th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
+							</object> <!-- Fill table entry, pay member --> <object
+								th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
 						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></object>
 						</td>
 					</tr>

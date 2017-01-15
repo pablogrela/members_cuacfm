@@ -35,6 +35,7 @@ import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -78,11 +79,11 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
    /**
     * Initialize default session.
     *
-    * @throws UniqueException
+    * @throws UniqueException, UniqueListException
     *            the unique exception
     */
    @Before
-   public void initializeDefaultSession() throws UniqueException {
+   public void initializeDefaultSession() throws UniqueException, UniqueListException {
       Account admin = new Account("admin", "55555555C", "London", "admin", "admin@udc.es",
             "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);

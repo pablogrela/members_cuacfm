@@ -130,4 +130,18 @@ public class PayProgramListController {
 	public ResponseEntity<byte[]> createPdf(@PathVariable Long payProgramId, @RequestParam("createPdf") String createPdf) {
 		return payProgramService.createPdfFeeProgram(payProgramId, createPdf);
 	}
+
+	/**
+	 * Direct debit refresh.
+	 *
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeProgramList/payProgramList/refresh", method = RequestMethod.POST)
+	public String refresh(RedirectAttributes ra) {
+		feeProgramService.refresh(feeProgram);
+
+		MessageHelper.addErrorAttribute(ra, "feeProgram.successRefresh", "");
+		return REDIRECT_PAYPROGRAM;
+	}
 }

@@ -21,7 +21,7 @@
 <title th:text="#{profile.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
-<body>
+<body onload="validateCheckbox()">
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='profile')">&nbsp;</div>
@@ -56,7 +56,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<input type="text" name="name" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="30" required="required" />
+					<input type="text" name="name" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="50" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -66,7 +66,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('nickName')}? 'has-error'">
 				<label for="nickName" class="col-lg-2 control-label" th:text="#{nickName}">NickName</label>
 				<div class="col-lg-10">
-					<input type="text" name="nickName" class="form-control" id="nickName" th:placeholder="#{nickName}" th:field="*{nickName}" maxlength="30" />
+					<input type="text" name="nickName" class="form-control" id="nickName" th:placeholder="#{nickName}" th:field="*{nickName}" maxlength="50" />
 					<span class="help-block" th:if="${#fields.hasErrors('nickName')}" th:errors="*{nickName}">Incorrect nickName</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -76,7 +76,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
 				<label for="dni" class="col-lg-2 control-label" th:text="#{dni}">dni</label>
 				<div class="col-lg-10">
-					<input type="text" name="dni" class="form-control" id="dni" th:placeholder="#{dni}" th:field="*{dni}" maxlength="30" required="required" />
+					<input type="text" name="dni" class="form-control" id="dni" th:placeholder="#{dni}" th:field="*{dni}" maxlength="10" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">Incorrect dni</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -87,7 +87,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('address')}? 'has-error'">
 				<label for="address" class="col-lg-2 control-label" th:text="#{address}">address</label>
 				<div class="col-lg-10">
-					<input type="text" name="address" class="form-control" id="address" th:placeholder="#{address}" th:field="*{address}" maxlength="30"
+					<input type="text" name="address" class="form-control" id="address" th:placeholder="#{address}" th:field="*{address}" maxlength="50"
 						required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect address</span>
 					<div class="ws-errorbox" hidden=""></div>
@@ -99,7 +99,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('cp')}? 'has-error'">
 				<label for="cp" class="col-lg-1 control-label" th:text="#{cp}">cp</label>
 				<div class="col-lg-10">
-					<input type="text" name="cp" class="form-control" id="cp" th:placeholder="#{cp}" th:field="*{cp}" maxlength="30" />
+					<input type="text" name="cp" class="form-control" id="cp" th:placeholder="#{cp}" th:field="*{cp}" maxlength="10" />
 					<span class="help-block" th:if="${#fields.hasErrors('cp')}" th:errors="*{cp}">Incorrect cp</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -110,7 +110,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('province')}? 'has-error'">
 				<label for="province" class="col-lg-2 control-label" th:text="#{province}">province</label>
 				<div class="col-lg-10">
-					<input type="text" name="province" class="form-control" id="province" th:placeholder="#{province}" th:field="*{province}" maxlength="30" />
+					<input type="text" name="province" class="form-control" id="province" th:placeholder="#{province}" th:field="*{province}" maxlength="50" />
 					<span class="help-block" th:if="${#fields.hasErrors('province')}" th:errors="*{province}">Incorrect province</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -133,7 +133,7 @@
 				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
 				<div class="col-lg-10">
 					<div class="input-group">
-						<input type="text" name="login" disabled="disabled" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}" maxlength="30"
+						<input type="text" name="login" disabled="disabled" class="form-control" id="login" th:placeholder="#{login}" th:field="*{login}" maxlength="50"
 							required="required" />
 						<span class="input-group-btn">
 							<input type="checkbox" id="onLogin" name="onLogin" onChange="unlockText('onLogin', 'login')" data-toggle="toggle" data-onstyle="success"
@@ -152,7 +152,7 @@
 				<div class="col-lg-10">
 					<div class="input-group">
 						<input type="email" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}"
-							maxlength="30" required="required" />
+							maxlength="50" required="required" />
 						<span class="input-group-btn">
 							<input type="checkbox" id="onEmail" th:text="#{profile}" name="onEmail" onChange="unlockText('onEmail', 'email')" data-toggle="toggle"
 								data-onstyle="success" data-offstyle="danger" />
@@ -192,7 +192,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('programName')}? 'has-error'">
 				<label for="programName" class="col-lg-1 control-label" th:text="#{programName}">programName</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}" th:field="*{programName}" maxlength="30"
+					<input type="text" class="form-control" id="programName" th:placeholder="#{programName}" th:field="*{programName}" maxlength="50"
 						th:title="#{infoProgramName}" />
 					<span class="help-block" th:if="${#fields.hasErrors('programName')}" th:errors="*{programName}">Incorrect programName</span>
 					<div class="ws-errorbox" hidden=""></div>

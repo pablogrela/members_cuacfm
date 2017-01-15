@@ -15,6 +15,7 @@
  */
 package org.cuacfm.members.model.program;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -80,4 +81,72 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 	public List<Program> getProgramListActive() {
 		return entityManager.createQuery("select p from Program p where p.active = true order by p.name", Program.class).getResultList();
 	}
+
+	@Override
+	public List<Program> getProgramListActiveWhitoutPays(Date month) {
+		return entityManager.createQuery("select p from Program p where p.active = true "
+				+ "and p not in (select program from PayProgram pay join pay.program program join pay.feeProgram fee where program.active = true and month(fee.date) = month(:month)) "
+				+ "order by p.name", Program.class).setParameter("month", month).getResultList();
+	}
+
+	@Override
+	public List<ProgramType> findProgramTypeList() {
+		return entityManager.createQuery("select p from ProgramType p order by p.name", ProgramType.class).getResultList();
+	}
+
+	@Override
+	public ProgramType findProgramTypeById(int id) {
+		try {
+			return entityManager.createQuery("select p from ProgramType p where p.id = :id", ProgramType.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<ProgramThematic> findProgramThematicList() {
+		return entityManager.createQuery("select p from ProgramThematic p order by p.name", ProgramThematic.class).getResultList();
+	}
+
+	@Override
+	public ProgramThematic findProgramThematicById(int id) {
+		try {
+			return entityManager.createQuery("select p from ProgramThematic p where p.id = :id", ProgramThematic.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<ProgramCategory> findProgramCategoryList() {
+		return entityManager.createQuery("select p from ProgramCategory p order by p.name", ProgramCategory.class).getResultList();
+	}
+
+	@Override
+	public ProgramCategory findProgramCategoryById(int id) {
+		try {
+			return entityManager.createQuery("select p from ProgramCategory p where p.id = :id", ProgramCategory.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<ProgramLanguage> findProgramLanguageList() {
+		return entityManager.createQuery("select p from ProgramLanguage p order by p.name", ProgramLanguage.class).getResultList();
+	}
+
+	@Override
+	public ProgramLanguage findProgramLanguageById(int id) {
+		try {
+			return entityManager.createQuery("select p from ProgramLanguage p where p.id = :id", ProgramLanguage.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
 }

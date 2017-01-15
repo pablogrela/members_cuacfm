@@ -383,17 +383,17 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 				post("/profile")
 						.locale(Locale.ENGLISH)
 						.session(defaultSession)
-						.param("name", "1234567890123456789012345678901")
+						.param("name", "12345678901234567890123456789012343234234234234234")
 						.param("mobile", "12356789")
-						.param("login", "1234567890123456789012345678901")
+						.param("login", "12345678901234567890123456789012342342342342342434233")
 						.param("email",
-								"1234567890123456789012345678901@example.es")
+								"1234567890123456789012345678234234234343242901@example.es")
 						.param("password", "1234567890123456789012345678901")
 						.param("rePassword", "1234567890123456789012345678901")
 						.param("installments", "1"))
 				.andExpect(
 						content().string(
-								containsString("Maximum 30 characters")))
+								containsString("Maximum 50 characters")))
 				.andExpect(view().name("profile/profile"));
 	}
 

@@ -1,33 +1,24 @@
-<!--
-
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-            http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
+<!-- Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com) Licensed 
+	under the Apache License, Version 2.0 (the "License"); you may not use this 
+	file except in compliance with the License. You may obtain a copy of the 
+	License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by 
+	applicable law or agreed to in writing, software distributed under the License 
+	is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+	KIND, either express or implied. See the License for the specific language 
+	governing permissions and limitations under the License. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>0.2.1 - managements, events, payments and bankRemitances</version>
+	<version>0.2.2 - managements, events, payments and bankRemitances</version>
 	<inceptionYear>2015</inceptionYear>
 	<name>members</name>
 	<url>https://github.com/pablogrela/members_cuacfm</url>
 	<description>Member management: accounts, trainings, programs, fee members, fee programs, directDebits, bankRemitances, bank accounts, ...
 Management of events of each important action.</description>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java-version>1.8</java-version>
@@ -36,7 +27,16 @@ Management of events of each important action.</description>
 			provided explicitly -->
 		<assertj-core-version>1.5.0</assertj-core-version>
 		<slf4j.version>1.7.12</slf4j.version>
+		<valnif.version>2.0.1</valnif.version>
 	</properties>
+
+	<repositories>
+	<!-- Rspositorio para descargar el validador de la AEAT -->
+		<repository>
+			<id>aet</id>
+			<url>http://nexus.emergya.es/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
 	
 	<scm>
 		<url>scm:git:ssh://git@git.org.cuacfm:members_cuacfm.git</url>
@@ -44,12 +44,12 @@ Management of events of each important action.</description>
 		<connection>scm:git:git@git.org.cuacfm:members_cuacfm.git</connection>
 		<tag>HEAD</tag>
 	</scm>
-	
+
 	<issueManagement>
 		<system>Redmine</system>
-		<url>http://balrog.dc.fi.udc.es/projects/xestion-radio-comunitaria</url>	
+		<url>http://balrog.dc.fi.udc.es/projects/xestion-radio-comunitaria</url>
 	</issueManagement>
-	
+
 	<developers>
 		<developer>
 			<id>pablo.grela</id>
@@ -62,7 +62,7 @@ Management of events of each important action.</description>
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
-		
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -74,7 +74,7 @@ Management of events of each important action.</description>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -158,21 +158,21 @@ Management of events of each important action.</description>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-         
-    <exclusions>
-      <exclusion> 
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-      </exclusion>
-      <exclusion> 
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-      </exclusion>
-    </exclusions> 
+
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
 
 		</dependency>
 		<!-- @Inject -->
-		
+
 		<!-- ========== Mail ========== -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -180,24 +180,24 @@ Management of events of each important action.</description>
 			<version>1.4</version>
 		</dependency>
 		<dependency>
-		    <groupId>javax.activation</groupId>
-		    <artifactId>activation</artifactId>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
 		</dependency>
-		
-		  <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-        <dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.subethamail</groupId>
 			<artifactId>subethasmtp</artifactId>
 			<version>3.1.7</version>
 		</dependency>
 
-        <dependency>
-		    <groupId>velocity</groupId>
-		    <artifactId>velocity</artifactId>
-		    <version>1.5</version>
+		<dependency>
+			<groupId>velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.5</version>
 		</dependency>
 
 		<dependency>
@@ -265,9 +265,9 @@ Management of events of each important action.</description>
 		</dependency>
 		<!-- Iban Validator -->
 		<dependency>
-		  <groupId>commons-validator</groupId>
-		  <artifactId>commons-validator</artifactId>
-		  <version>1.4.1</version>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mycila</groupId>
@@ -297,9 +297,9 @@ Management of events of each important action.</description>
 		</dependency>
 		<!-- Necessary for selenium -->
 		<dependency>
-    		<groupId>xml-apis</groupId>
-    		<artifactId>xml-apis</artifactId>
-   			<version>1.4.01</version>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -308,48 +308,55 @@ Management of events of each important action.</description>
 				<exclusion>
 					<artifactId>xml-apis</artifactId>
 					<groupId>xml-apis</groupId>
-				</exclusion>		
+				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<!-- AEAT -->
+		<dependency>
+			<groupId>valnif</groupId>
+			<artifactId>valnif</artifactId>
+			<version>${valnif.version}</version>
 		</dependency>
 	</dependencies>
 	<!-- Build -->
 	<build>
 		<plugins>
-		
+
 			<!-- mycila, management licenses -->
 			<plugin>
-			    <groupId>com.mycila</groupId>
-			    <artifactId>license-maven-plugin</artifactId>
-			    <version>2.11</version>
-			    <configuration>
-			        <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
-			        <properties>
-			            <owner>Pablo Grela Palleiro</owner>
-			            <email>pablogp_9@hotmail.com</email>
-			        </properties>
-			        <excludes>
-			            <exclude>**/README</exclude>
-			            <exclude>src/test/resources/**</exclude>
-			            <exclude>src/main/resources/**</exclude>
-			            <exclude>src/main/webapp/resources/js/formcfg-es.js</exclude>
-			            <exclude>src/main/webapp/resources/js/formcfg-gl.js</exclude>
-			            <exclude>src/main/webapp/resources/css/dataTables.css</exclude>
-			            <exclude>src/main/webapp/resources/fonts/**</exclude>
-			            <exclude>logs/**</exclude>
-			            <exclude>src/main/webapp/WEB-INF/i18n/**</exclude>
-			        </excludes>
-			    </configuration>
-			    <executions>
-			        <execution>
-			            <goals>
-			                <goal>check</goal>
-			                <goal>format</goal>
-			                <goal>remove</goal>
-			            </goals>
-			        </execution>
-			    </executions>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+					<properties>
+						<owner>Pablo Grela Palleiro</owner>
+						<email>pablogp_9@hotmail.com</email>
+					</properties>
+					<excludes>
+						<exclude>**/README</exclude>
+						<exclude>src/test/resources/**</exclude>
+						<exclude>src/main/resources/**</exclude>
+						<exclude>src/main/webapp/resources/js/formcfg-es.js</exclude>
+						<exclude>src/main/webapp/resources/js/formcfg-gl.js</exclude>
+						<exclude>src/main/webapp/resources/css/dataTables.css</exclude>
+						<exclude>src/main/webapp/resources/fonts/**</exclude>
+						<exclude>logs/**</exclude>
+						<exclude>src/main/webapp/WEB-INF/i18n/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+							<goal>format</goal>
+							<goal>remove</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>

@@ -46,7 +46,7 @@ public class PayProgram implements Serializable {
 	@JoinColumn(name = "programId")
 	private Program program;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "feeProgramId")
 	private FeeProgram feeProgram;
 
@@ -92,7 +92,6 @@ public class PayProgram implements Serializable {
 		this.feeProgram = feeProgram;
 		this.price = price;
 		this.state = states.NO_PAY;
-		this.method = methods.NO_PAY;
 	}
 
 	/**

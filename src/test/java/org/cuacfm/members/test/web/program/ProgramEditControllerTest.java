@@ -32,6 +32,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -67,7 +68,7 @@ public class ProgramEditControllerTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Before
-	public void initializeDefaultSession() throws UniqueException {
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
 		defaultSession = getDefaultSession("admin");
@@ -76,7 +77,7 @@ public class ProgramEditControllerTest extends WebSecurityConfigurationAware {
 		Account account = new Account("userz", "11111111C", "London", "userz", "userz@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		program = new Program("ProgramZ", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 
 	}
@@ -130,7 +131,7 @@ public class ProgramEditControllerTest extends WebSecurityConfigurationAware {
 		accountService.save(account2);
 		List<Account> accounts = new ArrayList<Account>();
 		accounts.add(account2);
-		program = new Program("Program2", Float.valueOf(1), "Very interesting", 9, accounts, account2);
+		program = new Program("Program2", "Very interesting", Float.valueOf(1), 9, accounts, account2, null, null, null, null, "", "", "", "", "");
 		program.setAccountPayer(account2);
 		programService.save(program);
 

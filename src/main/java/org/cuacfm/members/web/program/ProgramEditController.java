@@ -86,11 +86,33 @@ public class ProgramEditController {
 			programForm.setName(program.getName());
 			programForm.setDescription(program.getDescription());
 			programForm.setDuration(program.getDuration());
-			programForm.setPeriodicity(program.getPeriodicity());
+			programForm.setPeriodicity(program.getPeriodicity());			
+			programForm.setTwitter(program.getTwitter());
+			programForm.setFacebook(program.getFacebook());
+			programForm.setEmail(program.getEmail());
+			programForm.setPodcast(program.getPodcast());
+			programForm.setWeb(program.getWeb());
+
 			programForm.setAccounts(program.getAccounts());
 			if (program.getAccountPayer() != null) {
 				programForm.setAccountPayer(program.getAccountPayer());
 				programForm.setAccountPayerName(program.getAccountPayer().getName());
+			}
+			programForm.setProgramThematics(programService.findProgramThematicList());
+			if (program.getProgramThematic() != null) {
+				programForm.setProgramThematicId(program.getProgramThematic().getId());
+			}
+			programForm.setProgramCategories(programService.findProgramCategoryList());
+			if (program.getProgramCategory() != null){
+				programForm.setProgramCategoryId(program.getProgramCategory().getId());
+			}
+			programForm.setProgramTypes(programService.findProgramTypeList());
+			if (program.getProgramType() != null) {
+				programForm.setProgramTypeId(program.getProgramType().getId());
+			}
+			programForm.setProgramLanguages(programService.findProgramLanguageList());
+			if (program.getProgramLanguage() != null) {
+				programForm.setProgramLanguageId(program.getProgramLanguage().getId());
 			}
 			model.addAttribute(programForm);
 			return PROGRAM_VIEW_NAME;
@@ -123,7 +145,11 @@ public class ProgramEditController {
 			return PROGRAM_VIEW_NAME;
 		}
 		try {
-			programService.update(programForm.updateProgram(program));
+			programForm.updateProgram(program);
+//			program.setProgramType(programService.findProgramTypeById(programForm.getProgramTypeId()));
+//			program.setProgramThematic(programService.findProgramThematicById(programForm.getProgramThematicId()));
+//			program.setProgramLanguage(programService.findProgramLanguageById(programForm.getProgramLanguageId()));
+			programService.update(program);
 		} catch (UniqueException e) {
 			errors.rejectValue("name", "program.existentName", new Object[] { e.getValue() }, "name");
 			return PROGRAM_VIEW_NAME;
@@ -147,10 +173,9 @@ public class ProgramEditController {
 		model.addAttribute("usernames", usernames);
 		Account account;
 		String name = programForm.getLogin();
-		Long id = Long.valueOf(0);
 		if (name.contains(": ")) {
 			String[] parts = programForm.getLogin().split(": ");
-			id = Long.valueOf(parts[0]);
+			Long id = Long.valueOf(parts[0]);
 			name = parts[1].split(" - ")[0].trim();
 			account = accountService.findById(id);
 		} else {
@@ -178,6 +203,8 @@ public class ProgramEditController {
 		usernames.remove(name);
 		programForm.setLogin("");
 		programForm.addAccount(account);
+		
+		MessageHelper.addSuccessAttribute(model, "program.successCreate", programForm.getName());
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -210,10 +237,9 @@ public class ProgramEditController {
 		model.addAttribute("usernames", usernames);
 		Account account;
 		String name = programForm.getAccountPayerName();
-		Long id = Long.valueOf(0);
 		if (name.contains(": ")) {
 			String[] parts = programForm.getAccountPayerName().split(": ");
-			id = Long.valueOf(parts[0]);
+			Long id = Long.valueOf(parts[0]);
 			name = parts[1].split(" - ")[0].trim();
 			account = accountService.findById(id);
 		} else {

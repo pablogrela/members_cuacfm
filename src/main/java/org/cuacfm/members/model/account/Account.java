@@ -124,6 +124,10 @@ public class Account implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private roles role;
 
+	private Date dateCreate;
+	
+	private Date dateDown;
+
 	/** Instantiates a new account. */
 	public Account() {
 		// Default empty constructor.
@@ -153,8 +157,9 @@ public class Account implements Serializable {
 		this.mobile = mobile;
 		this.password = password;
 		this.installments = 1;
-		this.active = true;
 		this.role = role;
+		this.dateCreate = new Date();
+		this.active = true;
 	}
 
 	/**
@@ -419,6 +424,22 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
+	public Date getDateCreate() {
+		return dateCreate;
+	}
+
+	public void setDateCreate(Date dateCreate) {
+		this.dateCreate = dateCreate;
+	}
+
+	public Date getDateDown() {
+		return dateDown;
+	}
+
+	public void setDateDown(Date dateDown) {
+		this.dateDown = dateDown;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", name=" + name + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address + ", cp=" + cp
@@ -426,7 +447,8 @@ public class Account implements Serializable {
 				+ ", mobile=" + mobile + ", password=" + password + ", methodPayment=" + methodPayment + ", accountType=" + accountType
 				+ ", programs=" + programs + ", bankAccounts=" + bankAccounts + ", installments=" + installments + ", active=" + active + ", student="
 				+ student + ", emitProgram=" + emitProgram + ", dateBirth=" + dateBirth + ", observations=" + observations + ", personality="
-				+ personality + ", knowledge=" + knowledge + ", programName=" + programName + ", role=" + role + "]";
+				+ personality + ", knowledge=" + knowledge + ", programName=" + programName + ", role=" + role + ", dateCreate=" + dateCreate
+				+ ", dateDown=" + dateDown + "]";
 	}
 
 }

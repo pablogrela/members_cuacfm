@@ -45,6 +45,14 @@ public interface PayProgramService {
 	public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException;
 
 	/**
+	 * Removes the.
+	 *
+	 * @param payProgram the pay program
+	 * @return the pay program
+	 */
+	public void remove(PayProgram payProgram);
+
+	/**
 	 * Pay the PayProgram.
 	 *
 	 * @param payProgram the pay program

@@ -24,58 +24,61 @@ import org.cuacfm.members.model.feeprogram.FeeProgram;
 /** The Class FeeProgramService. */
 public interface FeeProgramService {
 
-   /**
-    * Save.
-    *
-    * @param feeProgram
-    *           the fee program
-    * @return the fee program
-    * @throws UniqueException
-    */
-   public FeeProgram save(FeeProgram feeProgram) throws UniqueException;
+	/**
+	 * Save.
+	 *
+	 * @param feeProgram the fee program
+	 * @return the fee program
+	 * @throws UniqueException the unique exception
+	 */
+	public FeeProgram save(FeeProgram feeProgram) throws UniqueException;
 
-   /**
-    * Update.
-    *
-    * @param feeProgram
-    *           the fee program
-    * @return the fee program
-    * @throws UniqueException
-    */
-   public FeeProgram update(FeeProgram feeProgram) throws UniqueException;
+	/**
+	 * Update.
+	 *
+	 * @param feeProgram the fee program
+	 * @return the fee program
+	 * @throws UniqueException the unique exception
+	 */
+	public FeeProgram update(FeeProgram feeProgram) throws UniqueException;
 
-   /**
-    * Find by Name the feeProgram.
-    *
-    * @param name
-    *           the name
-    * @return FeeProgram
-    */
-   public FeeProgram findByName(String name);
+	/**
+	 * Refresh.
+	 *
+	 * @param feeProgram the fee program
+	 * @return the fee program
+	 */
+	public FeeProgram refresh(FeeProgram feeProgram);
 
-   /**
-    * Find by id returns feeProgram which has this identifier.
-    *
-    * @param id
-    *           the id
-    * @return feeProgram
-    */
-   public FeeProgram findById(Long id);
+	/**
+	 * Find by Name the feeProgram.
+	 *
+	 * @param name the name
+	 * @return FeeProgram
+	 */
+	public FeeProgram findByName(String name);
 
-   /**
-    * Find by date.
-    *
-    * @param Date
-    *           the date
-    * @return the fee program
-    */
-   public FeeProgram findByDate(Date date);
+	/**
+	 * Find by id returns feeProgram which has this identifier.
+	 *
+	 * @param id the id
+	 * @return feeProgram
+	 */
+	public FeeProgram findById(Long id);
 
-   /**
-    * Get all feePrograms.
-    *
-    * @return List<FeeProgram>
-    */
-   public List<FeeProgram> getFeeProgramList();
+	/**
+	 * Find by date.
+	 *
+	 * @param date the date
+	 * @return the fee program
+	 */
+	public FeeProgram findByDate(Date date);
+
+	/**
+	 * Get all feePrograms.
+	 *
+	 * @return List<FeeProgram>
+	 */
+	public List<FeeProgram> getFeeProgramList();
 
 }

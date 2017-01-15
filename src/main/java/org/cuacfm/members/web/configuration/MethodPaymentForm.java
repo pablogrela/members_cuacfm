@@ -31,7 +31,7 @@ public class MethodPaymentForm {
 
    /** The name. */
    @NotBlank(message = MethodPaymentForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = MethodPaymentForm.MAX_CHARACTERS)
+   @Size(max = 50, message = MethodPaymentForm.MAX_CHARACTERS)
    private String name;
 
    /** The direct debit. */

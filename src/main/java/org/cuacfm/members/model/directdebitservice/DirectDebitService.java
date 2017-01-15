@@ -65,11 +65,11 @@ public interface DirectDebitService {
 	//	public DirectDebit save(Account account, PayProgram payProgram);
 
 	/**
-	 * Refresh all.
+	 * Refresh.
 	 *
 	 * @return the string
 	 */
-	public String refreshAll();
+	public String refresh();
 
 	/**
 	 * Update state direct debit.

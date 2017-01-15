@@ -69,6 +69,8 @@ public class DirectDebit implements Serializable {
 			@JoinColumn(name = "payProgramId") })
 	private List<PayProgram> payPrograms;
 
+	private Date dateCreate;
+
 	private Date dateUpdate;
 
 	private Date datePay;
@@ -103,6 +105,7 @@ public class DirectDebit implements Serializable {
 	public DirectDebit(Account account, String id) {
 		super();
 		this.account = account;
+		this.dateCreate = new Date();
 		this.state = states.NO_PAY;
 		this.id = id;
 	}
@@ -119,17 +122,17 @@ public class DirectDebit implements Serializable {
 	 * @param mandate the mandate
 	 * @param secuence the secuence
 	 */
-//	public DirectDebit(Account account, BankRemittance bankRemittance, List<PayMember> payMembers, List<PayProgram> payPrograms, Double price,
-//			String concept, String mandate, String secuence) {
-//		super();
-//		this.account = account;
-//		this.bankRemittance = bankRemittance;
-//		this.payMembers = payMembers;
-//		this.payPrograms = payPrograms;
-//		this.mandate = mandate;
-//		this.secuence = secuence;
-//		this.state = states.NO_PAY;
-//	}
+	//	public DirectDebit(Account account, BankRemittance bankRemittance, List<PayMember> payMembers, List<PayProgram> payPrograms, Double price,
+	//			String concept, String mandate, String secuence) {
+	//		super();
+	//		this.account = account;
+	//		this.bankRemittance = bankRemittance;
+	//		this.payMembers = payMembers;
+	//		this.payPrograms = payPrograms;
+	//		this.mandate = mandate;
+	//		this.secuence = secuence;
+	//		this.state = states.NO_PAY;
+	//	}
 
 	public String getId() {
 		return id;
@@ -161,6 +164,10 @@ public class DirectDebit implements Serializable {
 
 	public void setPayPrograms(List<PayProgram> payPrograms) {
 		this.payPrograms = payPrograms;
+	}
+
+	public Date getDateCreate() {
+		return dateCreate;
 	}
 
 	public Date getDateUpdate() {

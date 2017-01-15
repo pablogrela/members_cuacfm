@@ -15,7 +15,6 @@
  */
 package org.cuacfm.members.web.signup;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.account.Account;
@@ -33,37 +32,37 @@ public class SignupForm {
 
 	/** The name. */
 	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
 	private String name;
 
 	/** The login. */
 	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
 	private String login;
 
 	/** The dni. */
 	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 10, message = SignupForm.MAX_CHARACTERS)
 	private String dni;
 
 	/** The address. */
 	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
 	private String address;
 
 	/** The email. */
 	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
 	@Email(message = SignupForm.EMAIL_MESSAGE)
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
 	private String email;
 
-	/** The student. */
-	@NotNull(message = SignupForm.NOT_BLANK_MESSAGE)
-	private Boolean student;
+	private boolean student;
+	private boolean studentTrue;
+	private boolean studentFalse;
 
-	/** The emitProgram. */
-	@NotNull(message = SignupForm.NOT_BLANK_MESSAGE)
-	private Boolean emitProgram;
+	private boolean emitProgram;
+	private boolean emitProgramTrue;
+	private boolean emitProgramFalse;
 
 	/** The phone. */
 	@Size(max = 20, message = SignupForm.MAX_CHARACTERS)
@@ -78,7 +77,7 @@ public class SignupForm {
 	private boolean rule;
 
 	/** The program name. */
-	@Size(max = 30, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
 	private String programName;
 
 	/** The password. */
@@ -192,20 +191,52 @@ public class SignupForm {
 		this.rePassword = rePassword;
 	}
 
-	public Boolean getStudent() {
+	public boolean isStudent() {
 		return student;
 	}
 
-	public void setStudent(Boolean student) {
+	public void setStudent(boolean student) {
 		this.student = student;
 	}
 
-	public Boolean getEmitProgram() {
+	public boolean isStudentTrue() {
+		return studentTrue;
+	}
+
+	public void setStudentTrue(boolean studentTrue) {
+		this.studentTrue = studentTrue;
+	}
+
+	public boolean isStudentFalse() {
+		return studentFalse;
+	}
+
+	public void setStudentFalse(boolean studentFalse) {
+		this.studentFalse = studentFalse;
+	}
+
+	public boolean isEmitProgram() {
 		return emitProgram;
 	}
 
-	public void setEmitProgram(Boolean emitProgram) {
+	public void setEmitProgram(boolean emitProgram) {
 		this.emitProgram = emitProgram;
+	}
+
+	public boolean isEmitProgramTrue() {
+		return emitProgramTrue;
+	}
+
+	public void setEmitProgramTrue(boolean emitProgramTrue) {
+		this.emitProgramTrue = emitProgramTrue;
+	}
+
+	public boolean isEmitProgramFalse() {
+		return emitProgramFalse;
+	}
+
+	public void setEmitProgramFalse(boolean emitProgramFalse) {
+		this.emitProgramFalse = emitProgramFalse;
 	}
 
 	public String getPersonality() {
@@ -239,6 +270,6 @@ public class SignupForm {
 	 */
 	public Account createAccount() {
 		return new Account(getName(), getDni(), getAddress(), getLogin(), getEmail(), getPhone(), getMobile(), getPassword(),
-				roles.ROLE_PREREGISTERED, programName, student, emitProgram, personality, knowledge);
+				roles.ROLE_PREREGISTERED, programName, studentTrue, emitProgramTrue, personality, knowledge);
 	}
 }

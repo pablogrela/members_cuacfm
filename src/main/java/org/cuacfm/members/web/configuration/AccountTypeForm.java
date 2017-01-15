@@ -33,7 +33,7 @@ public class AccountTypeForm {
 
    /** The name. */
    @NotBlank(message = AccountTypeForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = AccountTypeForm.MAX_CHARACTERS)
+   @Size(max = 50, message = AccountTypeForm.MAX_CHARACTERS)
    private String name;
 
    /** The organization. */

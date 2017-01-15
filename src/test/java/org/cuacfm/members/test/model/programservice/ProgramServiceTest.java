@@ -31,6 +31,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.ExistPaymentsException;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.payprogram.PayProgram;
@@ -72,14 +73,14 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Test
-	public void saveProgramTest() throws UniqueException {
+	public void saveProgramTest() throws UniqueException, UniqueListException {
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 
 		// findById
@@ -95,7 +96,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Test
-	public void saveAndFindUsersProgramTest() throws UniqueException {
+	public void saveAndFindUsersProgramTest() throws UniqueException, UniqueListException {
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
@@ -105,7 +106,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account2);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 90, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 90, accounts, account, null, null, null, null, "", "", "", "", "");
 
 		programService.save(program);
 
@@ -128,7 +129,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Test(expected = UniqueException.class)
-	public void saveProgramUniqueExceptionTest() throws UniqueException {
+	public void saveProgramUniqueExceptionTest() throws UniqueException, UniqueListException {
 
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -136,7 +137,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.save(program);
 	}
@@ -147,14 +148,14 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Test
-	public void updateProgramTest() throws UniqueException {
+	public void updateProgramTest() throws UniqueException, UniqueListException {
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.update(program);
 
@@ -177,7 +178,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(program.getDuration(), programSearch.getDuration());
 		assertEquals(program.getPeriodicity(), programSearch.getPeriodicity());
 
-		Program program2 = new Program("program 22", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program2 = new Program("program 22", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.update(program2);
 	}
 
@@ -187,7 +188,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Test(expected = UniqueException.class)
-	public void UpdateProgramUniqueExceptionTest() throws UniqueException {
+	public void UpdateProgramUniqueExceptionTest() throws UniqueException, UniqueListException {
 
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -195,13 +196,13 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program2);
 
 		// Update
-		Program program3 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program3 = new Program("Pepe3", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.update(program3);
 	}
 
@@ -211,7 +212,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Test
-	public void upAndDownProgramTest() throws UniqueException {
+	public void upAndDownProgramTest() throws UniqueException, UniqueListException {
 
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -219,7 +220,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 
 		// Up and assert
@@ -238,7 +239,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws ExistPaymentsException the exist payments exception
 	 */
 	@Test
-	public void deleteProgramTest() throws UniqueException, ExistPaymentsException {
+	public void deleteProgramTest() throws UniqueException, UniqueListException, ExistPaymentsException {
 
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -246,7 +247,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 
 		// Delete and assert
@@ -264,7 +265,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws ExistPaymentsException the exist payments exception
 	 */
 	@Test(expected = ExistPaymentsException.class)
-	public void deleteProgramPaymentsExceptionTest() throws UniqueException, ExistPaymentsException {
+	public void deleteProgramPaymentsExceptionTest() throws UniqueException, UniqueListException, ExistPaymentsException {
 
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -272,7 +273,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		accounts.add(account);
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
 
@@ -290,7 +291,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Test
-	public void payProgramTest() throws UniqueException {
+	public void payProgramTest() throws UniqueException, UniqueListException {
 
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -300,7 +301,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		Date date = DisplayDate.stringToMonthOfYear("2015-12");
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
 
@@ -326,7 +327,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
 	@Test
-	public void payPalProgramTest() throws UniqueException, ExistTransactionIdException {
+	public void payPalProgramTest() throws UniqueException, UniqueListException, ExistTransactionIdException {
 
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -336,7 +337,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		Date date = DisplayDate.stringToMonthOfYear("2015-12");
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
 
@@ -364,7 +365,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
 	@Test(expected = ExistTransactionIdException.class)
-	public void existTransactionIdExceptionTest() throws UniqueException, ExistTransactionIdException {
+	public void existTransactionIdExceptionTest() throws UniqueException, UniqueListException, ExistTransactionIdException {
 
 		List<Account> accounts = new ArrayList<Account>();
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -374,10 +375,10 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		Date date = DisplayDate.stringToMonthOfYear("2015-12");
 
 		// Save
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program2);
 		programService.up(program2);
 

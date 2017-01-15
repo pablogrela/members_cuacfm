@@ -68,7 +68,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		if (directDebit == null) {
 			String[] idRevious = directDebitRepository.findLastId().split("_");
 			String date = DisplayDate.format(new Date(), "ddMMyyyy");
-			String idNew = date + "_" + (Long.valueOf(idRevious[1]) + 1);
+			String idNew = date + "_" + String.format("%03d", Integer.parseInt(idRevious[1]) + 1);
 			directDebit = new DirectDebit(account, idNew);
 		}
 		// Al actualizarse se borra el metodo que existiese
@@ -85,12 +85,12 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public String refreshAll() {
+	public String refresh() {
 
 		for (Account account :accountService.getAccounts()) {
 			save(account);
 		}
-		return eventService.save("directDebit.successUpdateDirectDebits", null, 1, null);
+		return eventService.save("directDebit.successRefresh", null, 1, null);
 	}
 	
 	//	@Override

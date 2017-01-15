@@ -33,6 +33,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -84,7 +85,7 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException the unique exception
 	 */
 	@Before
-	public void initializeDefaultSession() throws UniqueException {
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
 		methodPayment = new MethodPayment("cash", false, "cash");

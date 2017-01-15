@@ -26,7 +26,7 @@ import java.util.Collection;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountServiceImpl;
-import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.userservice.UserService;
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,7 +52,7 @@ public class UserServiceTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-	public void shouldInitializeWithTwoDemoUsers() throws UniqueException {
+	public void shouldInitializeWithTwoDemoUsers() throws UniqueListException {
 		// act
 		accountRepositoryMock.save(new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666","demo", roles.ROLE_USER));
 		accountRepositoryMock.save(new Account("admin", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666","demo", roles.ROLE_ADMIN));

@@ -28,6 +28,7 @@ import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
@@ -77,7 +78,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
     *            the exist transaction id exception
     */
    @Test
-   public void SaveAndUpdatePayMemberTest() throws UniqueException, ExistTransactionIdException {
+   public void SaveAndUpdatePayMemberTest() throws UniqueException, UniqueListException, ExistTransactionIdException {
 
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -132,7 +133,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void getPayMemberListByFeeMemberTest() throws UniqueException {
+   public void getPayMemberListByFeeMemberTest() throws UniqueException, UniqueListException {
 
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -197,7 +198,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void getPayMemberListByAccountIdTest() throws UniqueException {
+   public void getPayMemberListByAccountIdTest() throws UniqueException, UniqueListException {
 
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -243,7 +244,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void getPayMemberListTest() throws UniqueException {
+   public void getPayMemberListTest() throws UniqueException, UniqueListException {
 
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -294,7 +295,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void findByPayMemberIds() throws UniqueException {
+   public void findByPayMemberIds() throws UniqueException, UniqueListException {
 
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -340,7 +341,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void payPayMemberTest() throws UniqueException {
+   public void payPayMemberTest() throws UniqueException, UniqueListException {
 
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -379,7 +380,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
     *            the exist transaction id exception
     */
    @Test(expected = ExistTransactionIdException.class)
-   public void existTransactionIdTest() throws UniqueException, ExistTransactionIdException {
+   public void existTransactionIdTest() throws UniqueException, UniqueListException, ExistTransactionIdException {
 
       // Save
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -454,7 +455,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Test
-   public void getUsernamesByFeeMember() throws UniqueException {
+   public void getUsernamesByFeeMember() throws UniqueException, UniqueListException {
 
       // Save
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),

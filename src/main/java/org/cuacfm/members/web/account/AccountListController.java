@@ -40,7 +40,7 @@ public class AccountListController {
 	 * @return the accounts
 	 */
 	@RequestMapping(value = "accountList")
-	public String getAccounts() {
+	public String getView() {
 		return ACCOUNT_VIEW_NAME;
 	}
 
@@ -50,9 +50,9 @@ public class AccountListController {
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "accountList/", method = RequestMethod.GET)
-	public ResponseEntity<List<AccountDTO>> listAllUsers() {
+	public ResponseEntity<List<AccountDTO>> getAccounts() {
 
-		List<AccountDTO> accountsDTO = accountService.getAccountsDTO();
+		List<AccountDTO> accountsDTO = accountService.getAccountsDTO(accountService.getAccountsOrderByActive());
 
 		if (accountsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -46,7 +46,7 @@ public class PayMember implements Serializable {
 	@JoinColumn(name = "accountId")
 	private Account account;
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "feeMemberId")
 	private FeeMember feeMember;
 
@@ -101,7 +101,6 @@ public class PayMember implements Serializable {
 		this.installments = installments;
 		this.dateCharge = dateCharge;
 		this.state = states.NO_PAY;
-		this.method = methods.NO_PAY;
 	}
 
 	/**

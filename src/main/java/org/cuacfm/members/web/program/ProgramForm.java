@@ -24,25 +24,26 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.program.Program;
+import org.cuacfm.members.model.program.ProgramCategory;
+import org.cuacfm.members.model.program.ProgramLanguage;
+import org.cuacfm.members.model.program.ProgramThematic;
+import org.cuacfm.members.model.program.ProgramType;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class ProgramForm. */
 public class ProgramForm {
 
-	/** The Constant NOT_BLANK_MESSAGE. */
 	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
-
-	/** The Constant MAX_CHARACTERS. */
 	private static final String MAX_CHARACTERS = "{max.characters}";
 
 	/** The name. */
 	@NotBlank(message = ProgramForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = ProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
 	private String name;
 
 	/** The description. */
 	@NotBlank(message = ProgramForm.NOT_BLANK_MESSAGE)
-	@Size(max = 500, message = ProgramForm.MAX_CHARACTERS)
+	@Size(max = 5000, message = ProgramForm.MAX_CHARACTERS)
 	private String description;
 
 	/** The duration. */
@@ -55,17 +56,45 @@ public class ProgramForm {
 	@Min(0)
 	private Float periodicity;
 
-	/** The accounts. */
+	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	private String email;
+
+	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	private String twitter;
+
+	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	private String facebook;
+
+	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	private String podcast;
+
+	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	private String web;
+
 	private List<Account> accounts;
 
-	/** The login. */
 	private String login;
 
-	/** The account payer. */
 	private Account accountPayer;
 
-	/** The account payer name. */
+	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
 	private String accountPayerName;
+
+	private List<ProgramType> programTypes;
+	@NotNull(message = ProgramForm.NOT_BLANK_MESSAGE)
+	private Integer programTypeId;
+
+	private List<ProgramThematic> programThematics;
+	@NotNull(message = ProgramForm.NOT_BLANK_MESSAGE)
+	private Integer programThematicId;
+
+	private List<ProgramCategory> programCategories;
+	@NotNull(message = ProgramForm.NOT_BLANK_MESSAGE)
+	private Integer programCategoryId;
+
+	private List<ProgramLanguage> programLanguages;
+	@NotNull(message = ProgramForm.NOT_BLANK_MESSAGE)
+	private Integer programLanguageId;
 
 	/**
 	 * Instantiates a new program form.
@@ -243,15 +272,155 @@ public class ProgramForm {
 		this.accountPayerName = accountPayerName;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTwitter() {
+		return twitter;
+	}
+
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
+	}
+
+	public String getFacebook() {
+		return facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	public String getPodcast() {
+		return podcast;
+	}
+
+	public void setPodcast(String podcast) {
+		this.podcast = podcast;
+	}
+
+	public String getWeb() {
+		return web;
+	}
+
+	public void setWeb(String web) {
+		this.web = web;
+	}
+
+	public List<ProgramType> getProgramTypes() {
+		return programTypes;
+	}
+
+	public void setProgramTypes(List<ProgramType> programTypes) {
+		this.programTypes = programTypes;
+	}
+
+	public List<ProgramThematic> getProgramThematics() {
+		return programThematics;
+	}
+
+	public void setProgramThematics(List<ProgramThematic> programThematics) {
+		this.programThematics = programThematics;
+	}
+
+	public List<ProgramLanguage> getProgramLanguages() {
+		return programLanguages;
+	}
+
+	public void setProgramLanguages(List<ProgramLanguage> programLanguages) {
+		this.programLanguages = programLanguages;
+	}
+
+	public Integer getProgramTypeId() {
+		return programTypeId;
+	}
+
+	public void setProgramTypeId(Integer programTypeId) {
+		this.programTypeId = programTypeId;
+	}
+
+	public Integer getProgramThematicId() {
+		return programThematicId;
+	}
+
+	public void setProgramThematicId(Integer programThematicId) {
+		this.programThematicId = programThematicId;
+	}
+
+	public List<ProgramCategory> getProgramCategories() {
+		return programCategories;
+	}
+
+	public void setProgramCategories(List<ProgramCategory> programCategories) {
+		this.programCategories = programCategories;
+	}
+
+	public Integer getProgramCategoryId() {
+		return programCategoryId;
+	}
+
+	public void setProgramCategoryId(Integer programCategoryId) {
+		this.programCategoryId = programCategoryId;
+	}
+
+	public Integer getProgramLanguageId() {
+		return programLanguageId;
+	}
+
+	public void setProgramLanguageId(Integer programLanguageId) {
+		this.programLanguageId = programLanguageId;
+	}
+
+	public ProgramType getProgramType() {
+		for (ProgramType programType : programTypes) {
+			if (programType.getId() == programTypeId) {
+				return programType;
+			}
+		}
+		return null;
+	}
+
+	public ProgramThematic getProgramThematic() {
+		for (ProgramThematic programThematic : programThematics) {
+			if (programThematic.getId() == programThematicId) {
+				return programThematic;
+			}
+		}
+		return null;
+	}
+
+	public ProgramCategory getProgramCategory() {
+		for (ProgramCategory programCategory : programCategories) {
+			if (programCategory.getId() == programCategoryId) {
+				return programCategory;
+			}
+		}
+		return null;
+	}
+
+	public ProgramLanguage getProgramLanguage() {
+		for (ProgramLanguage programLanguage : programLanguages) {
+			if (programLanguage.getId() == programLanguageId) {
+				return programLanguage;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Creates the program.
 	 *
 	 * @return the program
 	 */
 	public Program createProgram() {
-		Program program = new Program(getName(), getPeriodicity(), getDescription(), getDuration(), getAccounts(), accountPayer);
-		program.setAccountPayer(accountPayer);
-		return program;
+
+		return new Program(name, description, periodicity, duration, accounts, accountPayer, getProgramType(), getProgramThematic(),
+				getProgramCategory(), getProgramLanguage(), email, twitter, facebook, podcast, web);
 	}
 
 	/**
@@ -262,11 +431,21 @@ public class ProgramForm {
 	 */
 	public Program updateProgram(Program program) {
 		program.setName(getName());
-		program.setPeriodicity(getPeriodicity());
 		program.setDescription(getDescription());
+		program.setPeriodicity(getPeriodicity());
 		program.setDuration(getDuration());
-		program.setAccounts(getAccounts());
 		program.setAccountPayer(accountPayer);
+		program.setAccounts(getAccounts());
+		program.setProgramType(getProgramType());
+		program.setProgramThematic(getProgramThematic());
+		program.setProgramCategory(getProgramCategory());
+		program.setProgramLanguage(getProgramLanguage());
+		program.setEmail(email);
+		program.setTwitter(twitter);
+		program.setFacebook(facebook);
+		program.setPodcast(podcast);
+		program.setWeb(web);
+
 		return program;
 	}
 }

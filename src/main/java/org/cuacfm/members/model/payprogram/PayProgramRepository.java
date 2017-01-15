@@ -41,6 +41,14 @@ public interface PayProgramRepository {
 	public PayProgram update(PayProgram payProgram);
 
 	/**
+	 * Removes the.
+	 *
+	 * @param payProgram the pay program
+	 * @return the pay program
+	 */
+	public void remove(PayProgram payProgram);
+
+	/**
 	 * Find by id.
 	 *
 	 * @param id the id

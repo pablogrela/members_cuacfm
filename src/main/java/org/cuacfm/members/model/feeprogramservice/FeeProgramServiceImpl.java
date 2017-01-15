@@ -27,6 +27,7 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.Constants.states;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,10 +65,13 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 
 		// Create payments of programs
 		for (Program program : programService.getProgramListActive()) {
-			Double price = feeProgram.getPrice() * program.getDuration() * program.getPeriodicity();
+			// Duration in minutes, fee in hours, it is necessary convert price to minutes
+			Double price = (feeProgram.getPrice() / 60) * program.getDuration() * program.getPeriodicity() ;
 			PayProgram payProgram = new PayProgram(program, feeProgram, price);
 			payProgramService.save(payProgram);
-			directDebitService.save(program.getAccountPayer());
+			if (program.getAccountPayer() != null){
+				directDebitService.save(program.getAccountPayer());
+			}
 		}
 
 		Object[] arguments = { feeProgram.getName() };
@@ -86,6 +90,29 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 		Object[] arguments = { feeProgram.getName() };
 		eventService.save("feeProgram.successModify", null, 2, arguments);
 		return feeProgramRepository.update(feeProgram);
+	}
+
+	@Override
+	public FeeProgram refresh(FeeProgram feeProgram) {
+
+		for (PayProgram payProgram : payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId())) {
+			// Si el programa esta dado de baja y no esta pagado se elimina
+			if (!payProgram.getProgram().isActive() && payProgram.getState().equals(states.NO_PAY) && payProgram.getState().equals(states.CANCEL)) {
+				payProgramService.remove(payProgram);
+			}
+		}
+
+		// Añadir nuevos pagos si es necesario
+		for (Program program : programService.getProgramListActiveWhitoutPays(feeProgram.getDate())) {
+			Double price = feeProgram.getPrice() * program.getDuration() * program.getPeriodicity();
+			PayProgram payProgram = new PayProgram(program, feeProgram, price);
+			payProgramService.save(payProgram);
+			directDebitService.save(program.getAccountPayer());
+		}
+
+		Object[] arguments = { feeProgram.getName() };
+		eventService.save("feeProgram.successRefresh", null, 2, arguments);
+		return feeProgram;
 	}
 
 	@Override

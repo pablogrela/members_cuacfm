@@ -27,6 +27,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -81,7 +82,7 @@ public class WebTests extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Before
-   public void getDriver() throws UniqueException {
+   public void getDriver() throws UniqueException, UniqueListException {
       // Create Admin
       Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
             "666666666", "666666666", "1234", roles.ROLE_ADMIN);

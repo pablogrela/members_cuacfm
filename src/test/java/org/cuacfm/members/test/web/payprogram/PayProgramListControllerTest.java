@@ -34,6 +34,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.payprogram.PayProgram;
@@ -86,7 +87,7 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
 	 * @throws UniqueException the unique exception
 	 */
 	@Before
-	public void initializeDefaultSession() throws UniqueException {
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "11111111D", "London", "admin", "admin@udc.es", "666666666", "666666666", "demo", roles.ROLE_ADMIN);
 		accountService.save(admin);
 		defaultSession = getDefaultSession("admin");
@@ -100,11 +101,11 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
 		accountService.save(account2);
 		accounts.add(account2);
 
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
 
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program2);
 		programService.up(program2);
 

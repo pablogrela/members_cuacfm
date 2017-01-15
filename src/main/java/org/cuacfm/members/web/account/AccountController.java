@@ -26,6 +26,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.web.profile.ProfileForm;
 import org.cuacfm.members.web.support.DisplayDate;
@@ -39,6 +40,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.aeat.valida.Validador;
 
 /** The Class AccountController. */
 @Controller
@@ -169,6 +172,12 @@ public class AccountController {
 	@RequestMapping(value = "account", method = RequestMethod.POST)
 	public String profile(@Valid @ModelAttribute ProfileForm profileForm, Errors errors, RedirectAttributes ra, Model model) {
 
+		// Validar DNI
+		Validador validador = new Validador();
+		if (validador.checkNif(profileForm.getDni()) < 0){
+			errors.rejectValue("dni", "signup.dni.noValid", new Object[] { profileForm.getDni() }, "dni");
+		}
+		
 		if (errors.hasErrors()) {
 			model.addAttribute(new BankAccountForm());
 			return createProfileForm(model, profileForm);
@@ -231,15 +240,10 @@ public class AccountController {
 		// If correct
 		try {
 			accountService.update(account, modifyPassword, false);
-		} catch (UniqueException e) {
-			if (e.getAttribute() == "Dni") {
-				errors.rejectValue("dni", "signup.existentDni", new Object[] { e.getValue() }, "dni");
-			}
-			if (e.getAttribute() == "Login") {
-				errors.rejectValue("login", "signup.existentLogin", new Object[] { e.getValue() }, "login");
-			}
-			if (e.getAttribute() == "Email") {
-				errors.rejectValue("email", "signup.existentEmail", new Object[] { e.getValue() }, "email");
+		} catch (UniqueListException e) {
+			for (UniqueException unique : e.getMessages()) {
+				errors.rejectValue(unique.getAttribute(), "signup.existent." + unique.getAttribute(), new Object[] { unique.getValue() },
+						unique.getAttribute());
 			}
 
 			if (errors.hasErrors()) {

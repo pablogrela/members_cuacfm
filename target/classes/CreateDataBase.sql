@@ -1,66 +1,50 @@
 -- Datos de ejemplo para usar la aplicación
 
--- Insert Method Payment:
-insert into MethodPayment values (1, 'Exento', false, 'No tiene que pagar');
-insert into MethodPayment values (2, 'Efectivo', false, 'Pago en efectivo');
-insert into MethodPayment values (3, 'Domiciliado', true, 'Domiciliado');
-insert into MethodPayment values (4, 'Paypal', false, 'Paypal');	
-insert into MethodPayment values (5, 'Ingreso', false, 'Ingreso mediante un ingreso bancario');	
-
-
--- Insert Account Types:
-insert into AccountType values (1, 'Exento', false, 'No tiene que pagar', 100);
-insert into AccountType values (2, 'Adulto', false, 'Tarifa adulta', 0);
-insert into AccountType values (3, 'Juvenil', false, 'Tarifa juvenil', 50);
-insert into AccountType values (4, 'Jubilado', false, 'Tarifa adulta', 50);
-insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0);
-
-	
 
 -- Insert Account:
 insert into Account values 
 (2, 'Juan B.', null, '12345678A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER');
+	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', null, null);
 
 insert into Account values 
 (3, 'Pepe el otro', null, '12345678C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 1, 1, 1, false, false, null, true, '', '', '', '', 'ROLE_TRAINER');
+	981666666, 666666666, 1, 1, 1, false, false, null, true, '', '', '', '', 'ROLE_TRAINER', null, null);
 
 insert into Account values 
 (4, 'Pablo Grela', null, '12345678D', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.grela', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 3, 1, true, false, null, true, '', '', '', '', 'ROLE_USER');
+	981666666, 666666666, 3, 3, 1, true, false, null, true, '', '', '', '', 'ROLE_USER', null, null);
 
 insert into Account values 
 (5, 'Manuel Fernandez', null, '12345678E', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manuel.fernandez', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 4, 1, false, true, null, true, '', '', '', '', 'ROLE_USER');
+	981666666, 666666666, 2, 4, 1, false, true, null, true, '', '', '', '', 'ROLE_USER', null, null);
 
 insert into Account values 
 (6, 'Lorena Borrazás', null, '12345678F', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.borrazas', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER');
+	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null);
 
 insert into Account values 
 (7, 'Lorena Fernandez', 'lorenita', '12345678Z', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.fernandez', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER');
+	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null);
 	
 insert into Account values 
 (8, 'Manuel Borrazás', null, '12345678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manu.borrazas', 'manuf@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER');
+	981666666, 666666666, 3, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null);
 
 insert into Account values 
 (9, 'Pablo Martínez Pérez', 'pau', '12347678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.martinez.perez', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER');
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null);
 
 insert into Account values 
 (10, 'Conservera Martínez', null, 'A58818501', 'Puerto A Coruña', 'A coruña', 'A coruña', 'ES', 'conservera.martinez', 'conservera.martinez@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 5 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER');
+	981666666, 666666666, 3, 5 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null);
 	
 insert into Account values 
 (11, 'Pera Olart', 'pau', '12347679P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pera', 'pera@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER');
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null);
 
 insert into Account values 
 (12, 'Manolo el del bombo', 'bombo', '22347678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'bombo', 'bombo@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER');
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null);
 	
 	
 insert into BankAccount values 	
@@ -77,15 +61,15 @@ insert into BankAccount values
 
 -- Insert Program:
 insert into Program values 
-(1, 'Program 1', 1, 1, 'Description of Program 1', true, 4);
+(1, 'Program 1', 'Description of Program 1', 1, 1, 4, 1, 1, 1, 1, '', '', '', '', '', true, null, null);
 insert into Program values 
-(2, 'Program 2', 1, 2, 'Description of Program 2', true, 4);
+(2, 'Program 2', 'Description of Program 2', 1, 1, 4, 1, 1, 1, 1, '', '', '', '', '', true, null, null);
 insert into Program values 
-(3, 'Program 3', 1, 2, 'Description of Program 3', true, 7);
+(3, 'Program 3', 'Description of Program 3', 1, 2, 9, 1, 1, 1, 1, '', '', '', '', '', true, null, null);
 insert into Program values 
-(4, 'Program 4', 1, 2, 'Description of Program 4', true, 8);
+(4, 'Program 4', 'Description of Program 4', 1, 2, 7, 1, 1, 1, 1, '', '', '', '', '', true, null, null);
 insert into Program values 
-(5, 'Program 5', 1, 2, 'Description of Program 5', true, 8);
+(5, 'Program 5', 'Description of Program 5', 1, 2, 8, 1, 1, 1, 1, '', '', '', '', '', true, null, null);
 
 
 -- Relacionated Program with User:
@@ -97,6 +81,7 @@ insert into UserPrograms values (5, 8, 3);
 insert into UserPrograms values (6, 9, 4);
 insert into UserPrograms values (7, 7, 4);
 insert into UserPrograms values (8, 8, 5);
+
 
 -- Insert Trainings Type:
 insert into TrainingType values 

@@ -38,29 +38,29 @@ public class ProfileForm {
 
 	/** The name. */
 	@NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
 	private String name;
 
 	/** The nickName. */
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
 	private String nickName;
 
 	/** The dni. */
 	@NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 10, message = ProfileForm.MAX_CHARACTERS)
 	private String dni;
 
 	/** The address. */
 	@NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
 	private String address;
 
 	/** The cp. */
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 10, message = ProfileForm.MAX_CHARACTERS)
 	private String cp;
 
 	/** The province. */
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
 	private String province;
 
 	/** The code country. */
@@ -68,12 +68,12 @@ public class ProfileForm {
 	private String codeCountry;
 
 	/** The login. */
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
 	private String login;
 
 	/** The email. */
 	@Email(message = ProfileForm.EMAIL_MESSAGE)
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
 	private String email;
 
 	/** The phone. */
@@ -86,7 +86,7 @@ public class ProfileForm {
 	private String mobile;
 
 	/** The program name. */
-	@Size(max = 30, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
 	private String programName;
 
 	private boolean student;

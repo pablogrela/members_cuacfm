@@ -27,6 +27,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
@@ -68,10 +69,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * Save and find by FeeMember test.
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
    @Test
-   public void saveFeeMemberTest() throws UniqueException {
+   public void saveFeeMemberTest() throws UniqueException, UniqueListException {
 
       // Save
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
@@ -87,10 +88,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * Save and find by FeeMember test.
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
    @Test
-   public void saveFeeMemberWithUsersTest() throws UniqueException {
+   public void saveFeeMemberWithUsersTest() throws UniqueException, UniqueListException {
       AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);
       MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
@@ -124,10 +125,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * Save and find by FeeMember test.
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
-   @Test(expected = UniqueException.class)
-   public void saveFeeMemberExceptionTest() throws UniqueException {
+   @Test(expected = UniqueListException.class)
+   public void saveFeeMemberExceptionTest() throws UniqueException, UniqueListException {
 
       // Save
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
@@ -147,10 +148,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * Save and find by FeeMember test.
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
    @Test
-   public void savePayMemberTest() throws UniqueException {
+   public void savePayMemberTest() throws UniqueException, UniqueListException {
 
       // Save
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
@@ -230,10 +231,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * Update
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
    @Test
-   public void UpdateFeeMemberTest() throws UniqueException {
+   public void UpdateFeeMemberTest() throws UniqueException, UniqueListException {
 
       // Save
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
@@ -265,10 +266,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * Update Inscription Exception
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
-   @Test(expected = UniqueException.class)
-   public void UpdateFeeMemberExceptionTest() throws UniqueException {
+   @Test(expected = UniqueListException.class)
+   public void UpdateFeeMemberExceptionTest() throws UniqueException, UniqueListException {
 
       // Save
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
@@ -290,10 +291,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * findByName test.
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
    @Test
-   public void findByNameTest() throws UniqueException {
+   public void findByNameTest() throws UniqueException, UniqueListException {
 
       // Save
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
@@ -312,10 +313,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * findByYear test.
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
    @Test
-   public void findByYearTest() throws UniqueException {
+   public void findByYearTest() throws UniqueException, UniqueListException {
 
       // Save
       FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
@@ -331,10 +332,10 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
    /**
     * getFeeMemberList test.
     * 
-    * @throws UniqueException
+    * @throws UniqueListException
     */
    @Test
-   public void getFeeMemberListTest() throws UniqueException {
+   public void getFeeMemberListTest() throws UniqueException, UniqueListException {
 
       // getFeeMemberList, no FeeMembers
       List<FeeMember> feeMemberList = feeMemberService.getFeeMemberList();

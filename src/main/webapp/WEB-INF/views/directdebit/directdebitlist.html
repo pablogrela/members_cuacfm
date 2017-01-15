@@ -37,7 +37,7 @@
 			<!-- Form for droplist -->
 			<div class="columLeft">
 				<form method="post" th:action="@{directDebitList/refresh}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-					<button type="submit" class="btn btn-danger btn-lg" th:title="#{directDebit.infoUpdateDirectDebits}" th:text="#{directDebit.updateDirectDebits}"></button>
+					<button type="submit" class="btn btn-danger btn-lg" th:title="#{directDebit.infoRefresh}" th:text="#{directDebit.refresh}"></button>
 				</form>
 				<br></br>
 			</div>

@@ -72,16 +72,21 @@ public class PayProgramServiceImpl implements PayProgramService {
 
 	@Override
 	public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException {
-		//	PayProgram paymentExist = payProgramRepository.findByIdTxn(payProgram.getIdTxn());
-		//	if ((paymentExist != null) && (paymentExist.getId() != payProgram.getId())) {
-		//		throw new ExistTransactionIdException(payProgram.getIdTxn());
-		//	}
-
 		Object[] arguments = { payProgram.getFeeProgram().getName(), payProgram.getProgram().getName() };
-		eventService.save("payProgram.successModify", null, 2, arguments);
+		eventService.save("payProgram.successModify.event", null, 2, arguments);
 		return payProgramRepository.update(payProgram);
 	}
 
+	/**
+	 * Removes the.
+	 *
+	 * @param payProgram the pay program
+	 * @return the pay program
+	 */
+	public void remove(PayProgram payProgram){
+		payProgramRepository.remove(payProgram);
+	}
+	
 	@Override
 	public void pay(PayProgram payProgram) {
 		payProgram.setState(states.PAY);

@@ -15,12 +15,18 @@
  */
 package org.cuacfm.members.model.programservice;
 
+import java.util.Date;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.exceptions.ExistPaymentsException;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.program.Program;
+import org.cuacfm.members.model.program.ProgramCategory;
+import org.cuacfm.members.model.program.ProgramDTO;
+import org.cuacfm.members.model.program.ProgramLanguage;
+import org.cuacfm.members.model.program.ProgramThematic;
+import org.cuacfm.members.model.program.ProgramType;
 
 /** The Class ProgramService. */
 public interface ProgramService {
@@ -91,6 +97,14 @@ public interface ProgramService {
 	public List<Program> getProgramListActive();
 
 	/**
+	 * Gets the program list active whitout pays.
+	 *
+	 * @param month the month
+	 * @return the program list active whitout pays
+	 */
+	public List<Program> getProgramListActiveWhitoutPays(Date month);
+	
+	/**
 	 * Up.
 	 *
 	 * @param program the program
@@ -103,4 +117,80 @@ public interface ProgramService {
 	 * @param program the program
 	 */
 	public void down(Program program);
+
+	/**
+	 * Gets the programs DTO.
+	 *
+	 * @param programs the programs
+	 * @return the programs DTO
+	 */
+	public List<ProgramDTO> getProgramsDTO(List<Program> programs);
+
+	/**
+	 * Gets the program DTO.
+	 *
+	 * @param program the program
+	 * @return the program DTO
+	 */
+	public ProgramDTO getProgramDTO(Program program);
+
+	/**
+	 * Find program type list.
+	 *
+	 * @return the list
+	 */
+	public List<ProgramType> findProgramTypeList();
+
+	/**
+	 * Find program type by id.
+	 *
+	 * @param id the id
+	 * @return the program type
+	 */
+	public ProgramType findProgramTypeById(int id);
+
+	/**
+	 * Find program thematic list.
+	 *
+	 * @return the list
+	 */
+	public List<ProgramThematic> findProgramThematicList();
+
+	/**
+	 * Find program thematic by id.
+	 *
+	 * @param id the id
+	 * @return the program thematic
+	 */
+	public ProgramThematic findProgramThematicById(int id);
+
+	/**
+	 * Find program category list.
+	 *
+	 * @return the list
+	 */
+	public List<ProgramCategory> findProgramCategoryList();
+
+	/**
+	 * Find program category by id.
+	 *
+	 * @param id the id
+	 * @return the program category
+	 */
+	public ProgramCategory findProgramCategoryById(int id);
+
+	/**
+	 * Find program language list.
+	 *
+	 * @return the list
+	 */
+	public List<ProgramLanguage> findProgramLanguageList();
+
+	/**
+	 * Find program language by id.
+	 *
+	 * @param id the id
+	 * @return the program language
+	 */
+	public ProgramLanguage findProgramLanguageById(int id);
 }

@@ -36,6 +36,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
@@ -103,7 +104,7 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 	 * @throws UniqueException the unique exception
 	 */
 	@Before
-	public void initializeDefaultSession() throws UniqueException {
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		accountType = new AccountType("Adult", false, "Fee for adults", 0);
 		accountTypeService.save(accountType);
 		methodPayment = new MethodPayment("cash", false, "cash");
@@ -125,11 +126,11 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 		accountService.save(account2);
 		accounts.add(account2);
 
-		Program program = new Program("Pepe", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
 
-		Program program2 = new Program("Pepe2", Float.valueOf(1), "Very interesting", 9, accounts, account);
+		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
 		programService.save(program2);
 		programService.up(program2);
 
@@ -231,9 +232,9 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 
 		mockMvc.perform(post("/feeProgramList/payProgramList/payProgramEdit").locale(Locale.ENGLISH).session(defaultSession).param("price", "24")
 				.param("hasPay", "true").param("installment", "1").param("installments", "1")
-				.param("idPayer", "1G3210111111111111111111111111111111111111111").param("idTxn", "1G321011111111111111111111111111111111111111111")
-				.param("emailPayer", "user@hotmail.com11111111111111111111111111").param("statusPay", "Completed1111111111111111111111111111111111")
-				.param("datePay", "10:10 10/10/2015")).andExpect(content().string(containsString("Maximum 30 characters")))
+				.param("idPayer", "1G3210111111111111111111111111111111111111111").param("idTxn", "1G3210111111111111111111111111111111111111111123123123213123123111231231231232131")
+				.param("emailPayer", "user@hotmail.com11111111111111111111111111").param("statusPay", "Completed11111111111111111111111111111111112312313123122222222222222222312321")
+				.param("datePay", "10:10 10/10/2015")).andExpect(content().string(containsString("Maximum 50 characters")))
 				.andExpect(view().name("payprogram/payprogramedit"));
 
 	}

@@ -66,7 +66,7 @@ public class EventServiceImpl implements EventService {
 		if (account != null) {
 			eventRepository.save(new Event(account, new Date(), priority, messageI18n));
 		}
-		
+
 		return messageI18n;
 	}
 

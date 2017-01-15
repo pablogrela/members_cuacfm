@@ -30,6 +30,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,7 +63,7 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
     *            the unique exception
     */
    @Before
-   public void initializeDefaultSession() throws UniqueException {
+   public void initializeDefaultSession() throws UniqueException, UniqueListException {
       Account admin = new Account("admin", "55555555C", "London", "admin", "admin@udc.es",
             "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);
@@ -163,10 +164,10 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
             .perform(
                   post("/configuration/accountTypeCreate").locale(Locale.ENGLISH)
                         .session(defaultSession)
-                        .param("name", "1111111111111111111111111111111111111111111111111111111")
-                        .param("description", "111111111111111111111111111111111111111111111111")
+                        .param("name", "1111111111111111111111111111111111111111111111111111111111111111111111111111111")
+                        .param("description", "111111111111111111111111111111111111111111111111111111111111111111111111")
                         .param("discount", "0"))
-            .andExpect(content().string(containsString("Maximum 30 characters")))
+            .andExpect(content().string(containsString("Maximum 50 characters")))
             .andExpect(view().name("configuration/accountypecreate"));
 
    }

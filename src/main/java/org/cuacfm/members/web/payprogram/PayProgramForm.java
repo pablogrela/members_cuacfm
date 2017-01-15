@@ -51,27 +51,27 @@ public class PayProgramForm {
 	private List<methods> methodList;
 
 	/** The account Payer. */
-	@Size(max = 30, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
 	private String accountPayer;
 
 	/** The id payer. */
-	@Size(max = 30, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
 	private String idPayer;
 
 	/** The id txn. */
-	@Size(max = 30, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
 	private String idTxn;
 
 	/** The email payer. */
-	@Size(max = 30, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
 	private String emailPayer;
 
 	/** The status pay. */
-	@Size(max = 30, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
 	private String statusPay;
 
 	/** The date pay. */
-	@Size(max = 30, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
 	private String datePay;
 
 	/** Instantiates a new user pay inscription form. */

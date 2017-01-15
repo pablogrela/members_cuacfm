@@ -38,25 +38,25 @@ public class ConfigurationForm {
 
    /** The name. */
    @NotBlank(message = ConfigurationForm.NOT_BLANK_MESSAGE)
-   @Size(max = 30, message = ConfigurationForm.MAX_CHARACTERS)
+   @Size(max = 50, message = ConfigurationForm.MAX_CHARACTERS)
    private String name;
 
    /** The email. */
    @NotBlank(message = ConfigurationForm.NOT_BLANK_MESSAGE)
    @Email(message = ConfigurationForm.EMAIL_MESSAGE)
-   @Size(max = 30, message = ConfigurationForm.MAX_CHARACTERS)
+   @Size(max = 50, message = ConfigurationForm.MAX_CHARACTERS)
    private String email;
 
    /** The phone. */
    private int phone;
 
    @NotNull
-   @Digits(fraction = 2, integer = 3)
+   @Digits(fraction = 2, integer = 5)
    @DecimalMin("0.00")
    private Double feeMember;
    
    @NotNull
-   @Digits(fraction = 2, integer = 3)
+   @Digits(fraction = 2, integer = 5)
    @DecimalMin("0.00")
    private Double feeProgram;
    

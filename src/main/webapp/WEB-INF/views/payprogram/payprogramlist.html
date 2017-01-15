@@ -36,20 +36,34 @@
 			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 		</div>
 
-		<!-- Form to print -->
-		<form class="form-narrow form-horizontal" th:action="@{'payProgramList/createPdf/'+${feeProgram.id}}" method="post">
-			<fieldset>
-				<!-- Title -->
-				<legend th:text="#{feeProgram.infoPrint}">Print </legend>
+		<!-- Div of buttons -->
+		<div class="container text-center containerColums">
 
-				<!-- Div of buttons -->
-				<div>
-					<button class="btn btn-info" th:name="createPdf" th:value="ALL" th:title="#{feeProgram.infoAllList}" th:text="#{feeMember.printAllList}"></button>
-					<button class="btn btn-info" th:name="createPdf" th:value="NOPAY" th:title="#{feeProgram.infoNoPayList}" th:text="#{feeMember.printNoPayList}"></button>
-					<button class="btn btn-info" th:name="createPdf" th:value="PAY" th:title="#{feeProgram.infoPayList}" th:text="#{feeMember.printPayList}"></button>
-				</div>
-			</fieldset>
-		</form>
+			<!-- Form to refresh -->
+			<div class="columLeft">
+				<form method="post" th:action="@{payProgramList/refresh}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+					<button type="submit" class="btn btn-danger btn-lg" th:title="#{feeProgram.infoRefresh}" th:text="#{feeProgram.refresh}"></button>
+				</form>
+				<br></br>
+			</div>
+			
+
+			<div class="columRight">
+				<form class="form-narrow form-horizontal" th:action="@{'payProgramList/createPdf/'+${feeProgram.id}}" method="post">
+					<fieldset>
+						<!-- Title -->
+						<legend th:text="#{feeProgram.infoPrint}">Print </legend>
+
+						<!-- Div of buttons -->
+						<div>
+							<button class="btn btn-info" th:name="createPdf" th:value="ALL" th:title="#{feeProgram.infoAllList}" th:text="#{feeMember.printAllList}"></button>
+							<button class="btn btn-info" th:name="createPdf" th:value="NOPAY" th:title="#{feeProgram.infoNoPayList}" th:text="#{feeMember.printNoPayList}"></button>
+							<button class="btn btn-info" th:name="createPdf" th:value="PAY" th:title="#{feeProgram.infoPayList}" th:text="#{feeMember.printPayList}"></button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
 
 
 		<h2 class="text-center" th:text="#{payProgram.payProgramList}">List of Pay Program</h2>
@@ -79,7 +93,8 @@
 						<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
 						<td th:text="${payProgram.price}">price</td>
 						<td th:text="#{${'states.' + payProgram.state}}">State</td>
-						<td th:text="#{${'methods.' + payProgram.method}}">Method</td>
+						<td th:if="${payProgram.method == null}"></td>
+						<td th:if="${payProgram.method != null}" th:text="#{${'methods.' + payProgram.method}}">Method</td>
 						<td th:text="${payProgram.accountPayer}">mobile</td>
 
 

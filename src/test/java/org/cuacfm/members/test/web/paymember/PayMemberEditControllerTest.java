@@ -33,6 +33,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
@@ -98,7 +99,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
     *            the unique exception
     */
    @Before
-   public void initializeDefaultSession() throws UniqueException {
+   public void initializeDefaultSession() throws UniqueException, UniqueListException {
       accountType = new AccountType("Adult", false, "Fee for adults", 0);
       accountTypeService.save(accountType);
       methodPayment = new MethodPayment("cash", false, "cash");
@@ -259,12 +260,12 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
                   post("/feeMemberList/payMemberList/payMemberEdit").locale(Locale.ENGLISH)
                         .session(defaultSession).param("price", "24").param("hasPay", "true")
                         .param("installment", "1").param("installments", "1")
-                        .param("idPayer", "1G3210111111111111111111111111111111111111111")
-                        .param("idTxn", "1G321011111111111111111111111111111111111111111")
-                        .param("emailPayer", "user@hotmail.com11111111111111111111111111")
-                        .param("statusPay", "Completed1111111111111111111111111111111111")
+                        .param("idPayer", "1G3210111111111111111111111111111111111111111111111111111111111111111111111111111111")
+                        .param("idTxn", "1G321011111111111111111111111111111111111111111111111111111111111111111111111111111111")
+                        .param("emailPayer", "user@hotmail.com11111111111111111111111111111111111111111111111111111111111111111")
+                        .param("statusPay", "Completed1111111111111111111111111111111111111111111111111111111111111111111111111")
                         .param("datePay", "10:10 10/10/2015"))
-            .andExpect(content().string(containsString("Maximum 30 characters")))
+            .andExpect(content().string(containsString("Maximum 50 characters")))
             .andExpect(view().name("paymember/paymemberedit"));
 
    }

@@ -39,12 +39,6 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/**
-	 * Save.
-	 *
-	 * @param payProgram the training type
-	 * @return payProgram
-	 */
 	@Override
 	@Transactional
 	public PayProgram save(PayProgram payProgram) {
@@ -52,24 +46,18 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
 		return payProgram;
 	}
 
-	/**
-	 * Update.
-	 *
-	 * @param payProgram the training type
-	 * @return payProgram
-	 */
 	@Override
 	@Transactional
 	public PayProgram update(PayProgram payProgram) {
 		return entityManager.merge(payProgram);
 	}
 
-	/**
-	 * Find by id.
-	 *
-	 * @param id the id of payProgram
-	 * @return payProgram
-	 */
+	@Override
+	@Transactional
+	public void remove(PayProgram payProgram) {
+		entityManager.remove(payProgram);
+	}
+
 	@Override
 	public PayProgram findById(Long id) {
 		try {
@@ -80,12 +68,6 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
 		}
 	}
 
-	/**
-	 * Find by id txn.
-	 *
-	 * @param idTxn the id txn
-	 * @return the pay program
-	 */
 	@Override
 	public PayProgram findByIdTxn(String idTxn) {
 		try {
@@ -96,13 +78,6 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
 		}
 	}
 
-	/**
-	 * Find by pay program ids.
-	 *
-	 * @param programId the program id
-	 * @param feeProgram the fee program
-	 * @return the pay program
-	 */
 	@Override
 	public PayProgram findByPayProgramIds(Long programId, Long feeProgramId) {
 		return entityManager
@@ -110,11 +85,6 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
 				.setParameter("programId", programId).setParameter("feeProgramId", feeProgramId).getSingleResult();
 	}
 
-	/**
-	 * Get all payPrograms.
-	 *
-	 * @return List<FeeProgram>
-	 */
 	@Override
 	public List<PayProgram> getPayProgramList() {
 		return entityManager.createQuery("select p from PayProgram p order by p.program.name", PayProgram.class).getResultList();
@@ -145,7 +115,7 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
 				.setParameter("month", monthCharge);
 
 		List<Object[]> resultList = q.getResultList();
-		Map<Account, List<PayProgram>> userPayPrograms = new HashMap<Account, List<PayProgram>>();
+		Map<Account, List<PayProgram>> userPayPrograms = new HashMap<>();
 
 		for (Object[] result : resultList) {
 			Account account = (Account) result[0];
@@ -166,36 +136,18 @@ public class PayProgramRepositoryImpl implements PayProgramRepository {
 		return userPayPrograms;
 	}
 
-	/**
-	 * Gets the pay program list by fee program id.
-	 *
-	 * @param feeProgramId the fee program id
-	 * @return the pay program list by fee program id
-	 */
 	@Override
 	public List<PayProgram> getPayProgramListByFeeProgramId(Long feeProgramId) {
 		return entityManager.createQuery("select p from PayProgram p where p.feeProgram.id = :feeProgramId", PayProgram.class)
 				.setParameter("feeProgramId", feeProgramId).getResultList();
 	}
 
-	/**
-	 * Gets the pay program list by program id.
-	 *
-	 * @param programId the pay inscription id
-	 * @return the pay program list by program id
-	 */
 	@Override
 	public List<PayProgram> getPayProgramListByProgramId(Long programId) {
 		return entityManager.createQuery("select p from PayProgram p where p.program.id = :programId", PayProgram.class)
 				.setParameter("programId", programId).getResultList();
 	}
 
-	/**
-	 * Gets the pay program list by account id.
-	 *
-	 * @param accountId the account id
-	 * @return the pay program list by account id
-	 */
 	@Override
 	public List<PayProgram> getPayProgramListByAccountId(Long accountId) {
 		return entityManager

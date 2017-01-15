@@ -25,6 +25,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,10 @@ public class ProgramCreateController {
 			programForm.setAccountPayer(account);
 			programForm.setAccountPayerName(account.getName());
 		}
+		programForm.setProgramThematics(programService.findProgramThematicList());
+		programForm.setProgramTypes(programService.findProgramTypeList());
+		programForm.setProgramCategories(programService.findProgramCategoryList());
+		programForm.setProgramLanguages(programService.findProgramLanguageList());
 		model.addAttribute(programForm);
 		return PROGRAM_VIEW_NAME;
 	}
@@ -116,7 +121,9 @@ public class ProgramCreateController {
 			return PROGRAM_VIEW_NAME;
 		}
 		try {
-			programService.save(programForm.createProgram());
+			Program program = programForm.createProgram();
+			programService.save(program);		
+			
 		} catch (UniqueException e) {
 			errors.rejectValue("name", "program.existentName", new Object[] { e.getValue() }, "name");
 			model.addAttribute("usernames", usernames);
@@ -140,10 +147,9 @@ public class ProgramCreateController {
 		model.addAttribute("usernames", usernames);
 		Account account;
 		String name = programForm.getLogin();
-		Long id = Long.valueOf(0);
 		if (name.contains(": ")) {
 			String[] parts = programForm.getLogin().split(": ");
-			id = Long.valueOf(parts[0]);
+			Long id = Long.valueOf(parts[0]);
 			name = parts[1].split(" - ")[0].trim();
 			account = accountService.findById(id);
 		} else {
@@ -171,6 +177,8 @@ public class ProgramCreateController {
 		usernames.remove(name);
 		programForm.setLogin("");
 		programForm.addAccount(account);
+		
+		MessageHelper.addSuccessAttribute(model, "program.successCreate", programForm.getName());
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -202,10 +210,9 @@ public class ProgramCreateController {
 		model.addAttribute("usernames", usernames);
 		Account account;
 		String name = programForm.getAccountPayerName();
-		Long id = Long.valueOf(0);
 		if (name.contains(": ")) {
 			String[] parts = programForm.getAccountPayerName().split(": ");
-			id = Long.valueOf(parts[0]);
+			Long id = Long.valueOf(parts[0]);
 			name = parts[1].split(" - ")[0].trim();
 			account = accountService.findById(id);
 		} else {

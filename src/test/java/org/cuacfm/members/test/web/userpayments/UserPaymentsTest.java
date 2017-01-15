@@ -38,6 +38,7 @@ import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
@@ -131,7 +132,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 	 * @throws UniqueException
 	 */
 	@Before
-	public void initializeDefaultSession() throws UniqueException {
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Configuration configuration = new Configuration("CuacFM", "cuacfm@hotmail.com", 6666666, Double.valueOf(24), Double.valueOf(25), "Rul");
 		configurationService.save(configuration);
 
@@ -157,7 +158,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		List<Account> accounts = new ArrayList<Account>();
 		List<Program> programs = new ArrayList<Program>();
 		accounts.add(user);
-		program = new Program("Program 1", Float.valueOf(1), "About program", 1, accounts, user);
+		program = new Program("Program 1", "About program", Float.valueOf(1), 9, accounts, user, null, null, null, null, "", "", "", "", "");
 		programs.add(program);
 		programService.save(program);
 		programService.up(program);
@@ -200,11 +201,11 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/userPayments/payProgram/" + payProgram.getId()).locale(Locale.ENGLISH).session(defaultSession)
 				.sessionAttr("_csrf", "csrf").param("payer_email", "email").param("payer_id", "id").param("payment_date", "10:10:10 Jun 10, 2015")
 				.param("payment_status", "Completed").param("txn_id", "txn")).andExpect(view().name("redirect:/userPayments"));
-		
+
 		CsrfToken token = new DefaultCsrfToken("headerName", "parameterName", "token");
 		try {
-		mockMvc.perform(get("/userPayments").locale(Locale.ENGLISH).session(defaultSession).sessionAttr("_csrf", token)).andExpect(view().name("userpayments/userpayments"))
-				.andExpect(content().string(containsString("<title>My payments</title>")));
+			mockMvc.perform(get("/userPayments").locale(Locale.ENGLISH).session(defaultSession).sessionAttr("_csrf", token))
+					.andExpect(view().name("userpayments/userpayments")).andExpect(content().string(containsString("<title>My payments</title>")));
 		} catch (Exception e) {
 			// prueba
 		}
@@ -308,14 +309,14 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		List<PayMember> userFeeMemberProbe = userFeeMemberService.getPayMemberListByAccountId(user2.getId());
 
 		if (userFeeMemberProbe != null && !userFeeMemberProbe.isEmpty()) {
-		PayMember payMember = userFeeMemberProbe.get(0);
-		mockMvc.perform(post("/userPayments/payMember/" + payMember.getId()).locale(Locale.ENGLISH).session(defaultSession)
-				.sessionAttr("_csrf", "csrf").param("payer_email", "email").param("payer_id", "id").param("payment_date", "10:10:10 Jun 10, 2015")
-				.param("payment_status", "Completed").param("txn_id", "txn")).andExpect(view().name("redirect:/userPayments"));
+			PayMember payMember = userFeeMemberProbe.get(0);
+			mockMvc.perform(post("/userPayments/payMember/" + payMember.getId()).locale(Locale.ENGLISH).session(defaultSession)
+					.sessionAttr("_csrf", "csrf").param("payer_email", "email").param("payer_id", "id").param("payment_date", "10:10:10 Jun 10, 2015")
+					.param("payment_status", "Completed").param("txn_id", "txn")).andExpect(view().name("redirect:/userPayments"));
 
-		// Assert Pay
-		assertTrue(payMember.getState().equals(states.NO_PAY));
-		assertTrue(payMember.getMethod().equals(methods.NO_PAY));
+			// Assert Pay
+			assertTrue(payMember.getState().equals(states.NO_PAY));
+			assertTrue(payMember.getMethod().equals(methods.NO_PAY));
 		}
 	}
 
@@ -417,7 +418,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		// Create Program and Payments
 		List<Account> accounts = new ArrayList<Account>();
 		accounts.add(user2);
-		Program program2 = new Program("Program 2", Float.valueOf(1), "About program", 1, accounts, user2);
+		Program program2 = new Program("Program 1", "About program", Float.valueOf(1), 9, accounts, user2, null, null, null, null, "", "", "", "",
+				"");
 		programService.save(program2);
 		programService.up(program2);
 

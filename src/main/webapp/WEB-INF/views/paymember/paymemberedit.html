@@ -112,7 +112,7 @@
 				<label for="idTxn" class="col-lg-1 control-label" th:text="#{payMember.idTxn}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="idTxn" class="form-control" id="idTxn"
-						th:placeholder="#{payMember.idTxn}" th:field="*{idTxn}" maxlength="30"/> 
+						th:placeholder="#{payMember.idTxn}" th:field="*{idTxn}" maxlength="50"/> 
 						<span class="help-block" th:if="${#fields.hasErrors('idTxn')}" th:errors="*{idTxn}">Incorrect
 						idTxn</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -126,7 +126,7 @@
 				<label for="idPayer" class="col-lg-1 control-label" th:text="#{payMember.idPayer}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="idPayer" class="form-control" id="idPayer"
-						th:placeholder="#{payMember.idPayer}" th:field="*{idPayer}" maxlength="30"/>  
+						th:placeholder="#{payMember.idPayer}" th:field="*{idPayer}" maxlength="50"/>  
 						<span class="help-block" th:if="${#fields.hasErrors('idPayer')}" th:errors="*{idPayer}">Incorrect
 						idPayer</span>
 						<div class="ws-errorbox" hidden=""></div>
@@ -140,7 +140,7 @@
 				<label for="emailPayer" class="col-lg-1 control-label" th:text="#{payMember.emailPayer}">Login</label>
 				<div class="col-lg-10">
 					<input type="text" name="emailPayer" class="form-control" id="emailPayer"
-						th:placeholder="#{payMember.emailPayer}" th:field="*{emailPayer}" maxlength="30"/> 
+						th:placeholder="#{payMember.emailPayer}" th:field="*{emailPayer}" maxlength="50"/> 
 						<span class="help-block" th:if="${#fields.hasErrors('emailPayer')}" th:errors="*{emailPayer}">Incorrect
 						emailPayer</span>
 						<div class="ws-errorbox" hidden=""></div>

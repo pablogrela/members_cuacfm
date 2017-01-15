@@ -32,6 +32,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.exceptions.UniqueException;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -81,7 +82,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
     * @throws UniqueException the unique exception
     */
    @Before
-   public void initializeDefaultSession() throws UniqueException {
+   public void initializeDefaultSession() throws UniqueException, UniqueListException {
       user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
             "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
@@ -256,7 +257,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	}
 
 	/**
-	 * Send account form with more of 30 characters.
+	 * Send account form with more of 50 characters.
 	 * 
 	 * @throws Exception the exception
 	 */
@@ -264,11 +265,11 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	public void maxTest() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
-		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "1234567890123456789012345678901")
-				.param("mobile", "12356789111111111111111111").param("login", "1234567890123456789012345678901")
-				.param("email", "1234567890123456789012345678901@example.es").param("password", "1234567890123456789012345678901")
+		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "123456789012345678901234567890123532452353245324532453245")
+				.param("mobile", "12356789111111111111111111").param("login", "12345678901234567890123456789012345233333333333333333")
+				.param("email", "1234567890123456789012345678901@example.es").param("password", "12345678901234567890123456789012353252345235")
 				.param("rePassword", "1234567890123456789012345678901").param("onInstallments", "true").param("installments", "1"))
-				.andExpect(content().string(containsString("Maximum 30 characters"))).andExpect(view().name("account/account"));
+				.andExpect(content().string(containsString("Maximum 50 characters"))).andExpect(view().name("account/account"));
 	}
 
 	/**

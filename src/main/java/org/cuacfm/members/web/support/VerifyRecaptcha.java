@@ -29,19 +29,25 @@ import javax.net.ssl.HttpsURLConnection;
 public class VerifyRecaptcha {
 
 	/** The Constant url. */
-	public static final String url = "https://www.google.com/recaptcha/api/siteverify";
+	public static final String URL = "https://www.google.com/recaptcha/api/siteverify";
 
 	/** The Constant secret. */
-	public static final String secret = "6LdmvgwTAAAAAEMHhg_UtMMWKZS-4QM00HF_xugF";
+	//	La clave secreta se debe cambiar el funcion del entorno
+	public static final String SECRET = "6LeTZg8UAAAAAD2nWjiLQaEDB-zvdXxZtpbGnvO8";
+
+	/**
+	 * Instantiates a new verify recaptcha.
+	 */
+	protected VerifyRecaptcha() {
+		super();
+	}
 
 	/**
 	 * Verify.
 	 *
-	 * @param g-recaptcha-response
-	 *            the g recaptcha response
+	 * @param g-recaptcha-response the g recaptcha response
 	 * @return true, if successful
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public static boolean verify(String gRecaptchaResponse) throws IOException {
 		if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {
@@ -49,12 +55,12 @@ public class VerifyRecaptcha {
 		}
 
 		try {
-			URL obj = new URL(url);
+			URL obj = new URL(URL);
 			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
 			// add request header
 			con.setRequestMethod("POST");
-			String postParams = "secret=" + secret + "&response=" + gRecaptchaResponse;
+			String postParams = "secret=" + SECRET + "&response=" + gRecaptchaResponse;
 
 			// Send post request
 			con.setDoOutput(true);
@@ -65,7 +71,7 @@ public class VerifyRecaptcha {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String inputLine;
-			StringBuffer response = new StringBuffer();
+			StringBuilder response = new StringBuilder();
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
@@ -74,20 +80,10 @@ public class VerifyRecaptcha {
 			if (response.toString().contains("true")) {
 				return true;
 			}
-
 			return false;
 
-			// Codigo alternativo
-			// parse JSON response and return 'success' value JsonReader
-			// JsonReader jsonReader = Json.createReader(new
-			// StringReader(response.toString()));
-			// JsonObject jsonObject = jsonReader.readObject();
-			// jsonReader.close();
-			// return jsonObject.getBoolean("success");
-
-			//Si entra por aqui es que no hay internet, por tanto se permite el registro
 		} catch (Exception e) {
-			//e.printStackTrace();
+			//Si entra por aqui es que no hay internet, por tanto se permite el registro
 			return true;
 		}
 	}

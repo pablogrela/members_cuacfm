@@ -34,16 +34,21 @@ DROP TABLE IF EXISTS Inscription;
 DROP TABLE IF EXISTS Training;
 DROP TABLE IF EXISTS TrainingType;
 DROP TABLE IF EXISTS Program;
+DROP TABLE IF EXISTS ProgramType;
+DROP TABLE IF EXISTS ProgramThematic;
+DROP TABLE IF EXISTS ProgramCategory;
+DROP TABLE IF EXISTS ProgramLanguage;
 DROP TABLE IF EXISTS BankAccount;
 DROP TABLE IF EXISTS Event;
 DROP TABLE IF EXISTS Account;
 DROP TABLE IF EXISTS AccountType;
 DROP TABLE IF EXISTS MethodPayment;
 
+
 CREATE TABLE Configuration (
     id INT NOT NULL auto_increment, 
-    name VARCHAR(30) NOT NULL,
-    email VARCHAR(30),
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50),
     phone INT NOT NULL,
     feeMember DOUBLE(5,2) NOT NULL,
     feeProgram DOUBLE(5,2) NOT NULL,
@@ -54,7 +59,7 @@ CREATE TABLE Configuration (
 
 CREATE TABLE MethodPayment (
     id INT NOT NULL auto_increment, 
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     directDebit BOOLEAN,
     description VARCHAR(100),
     CONSTRAINT MethodPaymentId_PK PRIMARY KEY (id),
@@ -64,7 +69,7 @@ CREATE TABLE MethodPayment (
 
 CREATE TABLE AccountType (
     id INT NOT NULL auto_increment, 
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     organization BOOLEAN,
     description VARCHAR(100),
     discount INT NOT NULL,
@@ -75,15 +80,15 @@ CREATE TABLE AccountType (
 
 CREATE TABLE Account(
     id INT NOT NULL auto_increment, 
-    name VARCHAR(30) NOT NULL,
-    nickName VARCHAR(30),
-    dni VARCHAR(30) NOT NULL,
-    address VARCHAR(30) NOT NULL,
-    cp VARCHAR(30),
-    province VARCHAR(30),
+    name VARCHAR(50) NOT NULL,
+    nickName VARCHAR(50),
+    dni VARCHAR(10) NOT NULL,
+    address VARCHAR(50) NOT NULL,
+    cp VARCHAR(10),
+    province VARCHAR(50),
     codeCountry VARCHAR(2),
-    login VARCHAR(30) NOT NULL,
-    email VARCHAR(30) NOT NULL,
+    login VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(80) NOT NULL,
     phone VARCHAR(20),
     mobile VARCHAR(20) NOT NULL,
@@ -97,8 +102,10 @@ CREATE TABLE Account(
     observations VARCHAR(500),
     personality VARCHAR(500),
     knowledge VARCHAR(500),   
-    programName VARCHAR(30),
+    programName VARCHAR(50),
     role VARCHAR(20) NOT NULL,
+    dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    dateDown TIMESTAMP NULL,
     -- bankAccountId INT,
     -- activeBankAccount INT,
     CONSTRAINT AccountId_PK PRIMARY KEY (id),
@@ -112,12 +119,11 @@ CREATE TABLE Account(
 );  
  
     
-    
 CREATE TABLE BankAccount(
     id INT NOT NULL auto_increment,
     accountId INT NOT NULL,
-    bank VARCHAR(30) NOT NULL,
-    bic VARCHAR(11) NOT NULL,
+    bank VARCHAR(50) NOT NULL,
+    bic VARCHAR(11),
     iban VARCHAR(34) NOT NULL,
     mandate VARCHAR(24) NOT NULL,
     dateCreated TIMESTAMP NULL,
@@ -127,16 +133,67 @@ CREATE TABLE BankAccount(
 ); 
 
 
+CREATE TABLE ProgramType (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT ProgramType_PK PRIMARY KEY (id),
+    CONSTRAINT ProgramTypeUniqueKey UNIQUE (name)
+);
+
+
+CREATE TABLE ProgramThematic (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT ProgramThematic_PK PRIMARY KEY (id),
+    CONSTRAINT ProgramThematicUniqueKey UNIQUE (name)
+);
+
+
+CREATE TABLE ProgramCategory (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT ProgramCategory_PK PRIMARY KEY (id),
+    CONSTRAINT ProgramCategoryUniqueKey UNIQUE (name)
+);
+
+
+CREATE TABLE ProgramLanguage (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(100),
+    CONSTRAINT ProgramThematic_PK PRIMARY KEY (id),
+    CONSTRAINT ProgramThematicUniqueKey UNIQUE (name)
+);
+
+
 CREATE TABLE Program(
     id INT NOT NULL auto_increment,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(5000),
     periodicity FLOAT NOT NULL,
-    duration INT NOT NULL,
-    description VARCHAR(500),
+    duration INT NOT NULL, 
+    accountPayer INT,
+    programType INT NOT NULL,
+    programThematic INT NOT NULL,
+    programCategory INT NOT NULL,
+    programLanguage INT NOT NULL,   
+    email VARCHAR(50),
+    twitter VARCHAR(50),
+    facebook VARCHAR(50),
+    podcast VARCHAR(50),
+    web VARCHAR(50),
     active BOOLEAN,
-    accountPayer INT NOT NULL,
+    dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    dateDown TIMESTAMP NULL,
     CONSTRAINT ProgramId_PK PRIMARY KEY (id),
     CONSTRAINT Program_AccountId_FK FOREIGN KEY (accountPayer) REFERENCES Account(id),
+    CONSTRAINT Program_ProgramType_FK FOREIGN KEY (programType) REFERENCES ProgramType(id),
+    CONSTRAINT Program_ProgramThematic_FK FOREIGN KEY (programThematic) REFERENCES ProgramThematic(id),
+    CONSTRAINT Program_ProgramCategory_FK FOREIGN KEY (programThematic) REFERENCES ProgramThematic(id),
+    CONSTRAINT Program_ProgramLanguage_FK FOREIGN KEY (programCategory) REFERENCES ProgramCategory(id),
     CONSTRAINT NameProgramUniqueKey UNIQUE (name)
 ); 
 
@@ -148,16 +205,16 @@ CREATE TABLE UserPrograms(
     CONSTRAINT UserProgramsId_PK PRIMARY KEY (id),
     CONSTRAINT UserPrograms_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
     CONSTRAINT UserPrograms_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
-    CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId,programId)
+    CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId, programId)
 );	
 
 
 CREATE TABLE TrainingType(
     id INT NOT NULL auto_increment, 
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     required BOOLEAN,
     description VARCHAR(500),
-    place VARCHAR(30),
+    place VARCHAR(50),
     duration INT NOT NULL,
     hasTrainings BOOLEAN,
     CONSTRAINT TrainingId_PK PRIMARY KEY (id),
@@ -168,11 +225,11 @@ CREATE TABLE TrainingType(
 CREATE TABLE Training(	
     id INT NOT NULL auto_increment, 
     trainingTypeId INT NOT NULL,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     dateTraining TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dateLimit TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description VARCHAR(500),
-    place VARCHAR(30) NOT NULL,
+    place VARCHAR(50) NOT NULL,
     duration INT NOT NULL,
     maxPlaces INT NOT NULL,
     countPlaces INT NOT NULL,
@@ -198,7 +255,7 @@ CREATE TABLE Inscription(
     
 CREATE TABLE FeeProgram(
     id INT NOT NULL auto_increment, 
-    name VARCHAR(40) NOT NULL,
+    name VARCHAR(50) NOT NULL,
  	date DATE NOT NULL,
     price DOUBLE(5,2) NOT NULL ,
     dateLimit TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -212,13 +269,13 @@ CREATE TABLE PayProgram(
     id INT NOT NULL auto_increment, 
     programId INT NOT NULL,
     feeProgramId INT NOT NULL,
-    price DOUBLE(5,2) NOT NULL,
-    accountPayer VARCHAR(30),
+    price DOUBLE(10,2) NOT NULL,
+    accountPayer VARCHAR(50),
     state VARCHAR(20) NOT NULL,
     method VARCHAR(20),
-   	idPayer VARCHAR(30),
-   	idTxn VARCHAR(30),
-   	emailPayer VARCHAR(30),
+   	idPayer VARCHAR(50),
+   	idTxn VARCHAR(50),
+   	emailPayer VARCHAR(50),
     datePay TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT PayProgramId_PK PRIMARY KEY (id),
 	CONSTRAINT PayProgram_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
@@ -229,9 +286,9 @@ CREATE TABLE PayProgram(
 
 CREATE TABLE FeeMember(
     id INT NOT NULL auto_increment, 
-    name VARCHAR(40) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     year int NOT NULL,
-    price DOUBLE(5,2) NOT NULL,
+    price DOUBLE(10,2) NOT NULL,
     dateLimit1 DATE NOT NULL,
     dateLimit2 DATE NOT NULL,
     description VARCHAR(100),
@@ -249,9 +306,9 @@ CREATE TABLE PayMember(
     installments INT,
     state VARCHAR(20) NOT NULL,
     method VARCHAR(20),
-   	idPayer VARCHAR(30),
-   	idTxn VARCHAR(30),
-   	emailPayer VARCHAR(30),
+   	idPayer VARCHAR(50),
+   	idTxn VARCHAR(50),
+   	emailPayer VARCHAR(50),
     datePay TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateCharge DATE,
     CONSTRAINT PayMemberId_PK PRIMARY KEY (id),
@@ -276,6 +333,7 @@ CREATE TABLE DirectDebit(
     id VARCHAR(20) NOT NULL, 
     accountId INT NOT NULL,
     bankRemittanceId INT,
+    dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateUpdate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     datePay TIMESTAMP NULL,
     state VARCHAR(20) NOT NULL,
@@ -286,9 +344,9 @@ CREATE TABLE DirectDebit(
     secuence VARCHAR(4) NULL,
     
     -- paypal
-    idPayer VARCHAR(30),
-   	idTxn VARCHAR(30),
-   	emailPayer VARCHAR(30),
+    idPayer VARCHAR(50),
+   	idTxn VARCHAR(50),
+   	emailPayer VARCHAR(50),
    	
     CONSTRAINT DirectDebitId_PK PRIMARY KEY (id),
     CONSTRAINT DirectDebit_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
@@ -337,8 +395,61 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 insert into Account values 
 (1, 'admin', null, '12345678B', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN');
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', null, null);
 
 
+-- Insert Method Payment:
+insert into MethodPayment values (1, 'Exento', false, 'No tiene que pagar');
+insert into MethodPayment values (2, 'Efectivo', false, 'Pago en efectivo');
+insert into MethodPayment values (3, 'Domiciliado', true, 'Domiciliado');
+insert into MethodPayment values (4, 'Paypal', false, 'Paypal');	
+insert into MethodPayment values (5, 'Ingreso', false, 'Pago mediante un ingreso bancario');	
 
+
+-- Insert Account Types:
+insert into AccountType values (1, 'Exento', false, 'No tiene que pagar', 100);
+insert into AccountType values (2, 'Adulto', false, 'Tarifa adulta', 0);
+insert into AccountType values (3, 'Juvenil', false, 'Tarifa juvenil', 50);
+insert into AccountType values (4, 'Jubilado', false, 'Tarifa adulta', 50);
+insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0);
 	
+
+-- Insert Program Type:
+insert into ProgramType values (1, 'Outro', 'Outro');	
+insert into ProgramType values (2, 'Musical', 'Musical');
+insert into ProgramType values (3, 'Informativo', 'Informativo');
+insert into ProgramType values (4, 'Magazine', 'Magazine');
+insert into ProgramType values (5, 'Debate', 'Debate');	
+insert into ProgramType values (6, 'Educativo', 'Educativo');	
+insert into ProgramType values (7, 'Entrevistas', 'Entrevistas');	
+
+
+
+-- Insert Program Thematic:
+insert into ProgramThematic values (1, 'Outros temas', 'Outros temas');	
+insert into ProgramThematic values (2, 'Sociedade', ' Sociedade');
+insert into ProgramThematic values (3, 'Política', 'Política');
+insert into ProgramThematic values (4, 'Cultura', ' Cultura');
+insert into ProgramThematic values (5, 'Deportes', 'Deportes');	
+insert into ProgramThematic values (6, 'Humor', 'Humor');	
+insert into ProgramThematic values (7, 'Actualidade', 'Actualidade');	
+insert into ProgramThematic values (8, 'Ciencia', 'Ciencia');	
+
+
+
+-- Insert ProgramCategory:
+insert into ProgramCategory values (1, 'Others', ' Others');
+-- insert into ProgramCategory values (2, 'Política', 'Política');
+-- insert into ProgramCategory values (3, 'Cultura', ' Cultura');
+-- insert into ProgramCategory values (4, 'Deportes', 'Deportes');	
+-- insert into ProgramCategory values (5, 'Humor', 'Humor');	
+-- insert into ProgramCategory values (6, 'Actualidade', 'Actualidade');	
+-- insert into ProgramCategory values (7, 'Ciencia', 'Ciencia');	
+-- insert into ProgramCategory values (8, 'Outros temas', 'Outros temas');	
+
+
+-- Insert Program Thematic:
+insert into ProgramLanguage values (1, 'Español', ' Español');
+insert into ProgramLanguage values (2, 'Gallego', 'Gallego');
+insert into ProgramLanguage values (3, 'Inglés', ' Inglés');
+insert into ProgramLanguage values (4, 'Otro', ' Otro');
