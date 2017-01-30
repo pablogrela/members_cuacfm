@@ -121,7 +121,7 @@
 					<td>
 						<form action="{{'account/' + account.id}} " method="post">
 							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
-							<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+							<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 						</form>
 
 					</td>

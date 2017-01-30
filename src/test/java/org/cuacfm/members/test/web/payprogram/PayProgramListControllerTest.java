@@ -90,7 +90,7 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "11111111D", "London", "admin", "admin@udc.es", "666666666", "666666666", "demo", roles.ROLE_ADMIN);
 		accountService.save(admin);
-		defaultSession = getDefaultSession("admin");
+		defaultSession = getDefaultSession("admin@udc.es");
 
 		// Create User
 		List<Account> accounts = new ArrayList<Account>();
@@ -101,11 +101,13 @@ public class PayProgramListControllerTest extends WebSecurityConfigurationAware 
 		accountService.save(account2);
 		accounts.add(account2);
 
-		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
 
-		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
+		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "", "", "", "", "");
 		programService.save(program2);
 		programService.up(program2);
 

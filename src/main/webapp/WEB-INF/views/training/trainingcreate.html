@@ -26,6 +26,12 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
 
+	<!-- Button redirect to Program List-->
+	<div class="text-center">
+		<a href="#" class="btn btn-info btn-lg" th:href="@{/trainingList}" th:text="#{training.backTrainingList}"> </a>
+	</div>
+	<br></br>
+	
 
 	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{trainingCreate}"
 		th:object="${trainingForm}">

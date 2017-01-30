@@ -76,7 +76,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer",
 				roles.ROLE_TRAINER);
 		accountService.save(trainer);
-		defaultSession = getDefaultSession("trainer");
+		defaultSession = getDefaultSession("trainer@udc.es");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		trainingService.save(training);
 		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
-		trainingService.createInscription(user.getId(), training.getId());
+		trainingService.createInscription(user, training);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/trainingList/inscriptionList"));
@@ -147,7 +147,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		trainingService.save(training);
 		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
-		trainingService.createInscription(user.getId(), training.getId());
+		trainingService.createInscription(user, training);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/trainingList/inscriptionList"));
@@ -188,7 +188,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		trainingService.save(training);
 		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
-		trainingService.createInscription(user.getId(), training.getId());
+		trainingService.createInscription(user, training);
 		//List<Inscription> inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
 		//System.out.println("incriptions: " + inscriptions + "tamaño: " + inscriptions.size());
 
@@ -223,7 +223,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		trainingService.save(training);
 		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
-		trainingService.createInscription(user.getId(), training.getId());
+		trainingService.createInscription(user, training);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/trainingList/inscriptionList"));
@@ -247,7 +247,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		trainingService.save(training);
 		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
-		trainingService.createInscription(user.getId(), training.getId());
+		trainingService.createInscription(user, training);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/trainingList/inscriptionList"));
@@ -273,7 +273,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		trainingService.save(training);
 		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
-		trainingService.createInscription(user.getId(), training.getId());
+		trainingService.createInscription(user, training);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/trainingList/inscriptionList"));
@@ -305,7 +305,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		accountService.save(user);
 		Account user2 = new Account("user2", "55555555A", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
-		trainingService.createInscription(user.getId(), training.getId());
+		trainingService.createInscription(user, training);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/trainingList/inscriptionList"));

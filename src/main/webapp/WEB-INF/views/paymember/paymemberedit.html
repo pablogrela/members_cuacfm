@@ -26,10 +26,17 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='feeMember')">&nbsp;</div>
 
+	<!-- Button redirect to fee member list-->
+	<div class="text-center">
+		<input type="button" class="btn btn-info btn-lg" th:value="#{payMember.backPayMemberList}" onclick="previousPage()" />
+	</div>
+	<br></br>
+
+
 	<h1 class="text-center" th:text="*{payMember.account.name}">Account Name</h1>
 
-	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payMemberEdit}"
-		th:object="${payMemberForm}">
+
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payMemberEdit}" th:object="${payMemberForm}">
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${payMemberForm.*}')}">
@@ -40,18 +47,17 @@
 
 			<!-- Message help-->
 			<legend th:text="#{payMember.infoEdit}">Edit PayMember</legend>
-			
+
 			<!-- Edit Price -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
 				<label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="price" th:placeholder="#{price}"
-							th:field="*{price}" step="0.01" min="0" required="required" />
+						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0" required="required" />
 					</div>
 					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
-					<br></br> <span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}"
-						th:errors="*{price}"> Incorrect price</span>
+					<br></br>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"> Incorrect price</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
@@ -61,13 +67,12 @@
 				<label for="countPlaces" class="col-lg-1 control-label" th:text="#{payMember.installment}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-					<input type="number" class="form-control" id="installment" th:placeholder="#{payMember.installment}"
-						th:field="*{installment}" min="1" max ="12" required="required" /> 
+						<input type="number" class="form-control" id="installment" th:placeholder="#{payMember.installment}" th:field="*{installment}" min="1" max="12"
+							required="required" />
 					</div>
-	            	<br></br>
-					<span class="col-lg-10-edit help-block"
-						th:if="${#fields.hasErrors('installment')}" th:errors="*{installment}">Incorrect installment</span>
-	                <div class="ws-errorbox" hidden=""></div>
+					<br></br>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('installment')}" th:errors="*{installment}">Incorrect installment</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
@@ -76,13 +81,12 @@
 				<label for="countPlaces" class="col-lg-1 control-label" th:text="#{payMember.installments}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-					<input type="number" class="form-control" id="installments" th:placeholder="#{payMember.installments}"
-						th:field="*{installments}" min="1" max ="12" required="required" /> 
+						<input type="number" class="form-control" id="installments" th:placeholder="#{payMember.installments}" th:field="*{installments}" min="1"
+							max="12" required="required" />
 					</div>
-	            	<br></br>
-					<span class="col-lg-10-edit help-block"
-						th:if="${#fields.hasErrors('installments')}" th:errors="*{installments}">Incorrect installments</span>
-	                <div class="ws-errorbox" hidden=""></div>
+					<br></br>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('installments')}" th:errors="*{installments}">Incorrect installments</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
@@ -101,21 +105,18 @@
 				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">method</label>
 				<div class="col-lg-6">
 					<select class="form-control" th:field="*{method}" th:title="#{infoMethodPayment}">
-						<option th:field="*{method}" th:each="method : ${payMemberForm.methodList}" th:value="${method}" 
-							th:text="#{${'methods.' + method}}">method</option>
+						<option th:field="*{method}" th:each="method : ${payMemberForm.methodList}" th:value="${method}" th:text="#{${'methods.' + method}}">method</option>
 					</select>
 				</div>
 			</div>
-			
+
 			<!-- Edit IdTxn -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('idTxn')}? 'has-error'">
 				<label for="idTxn" class="col-lg-1 control-label" th:text="#{payMember.idTxn}">Login</label>
 				<div class="col-lg-10">
-					<input type="text" name="idTxn" class="form-control" id="idTxn"
-						th:placeholder="#{payMember.idTxn}" th:field="*{idTxn}" maxlength="50"/> 
-						<span class="help-block" th:if="${#fields.hasErrors('idTxn')}" th:errors="*{idTxn}">Incorrect
-						idTxn</span>
-						<div class="ws-errorbox" hidden=""></div>
+					<input type="text" name="idTxn" class="form-control" id="idTxn" th:placeholder="#{payMember.idTxn}" th:field="*{idTxn}" maxlength="50" />
+					<span class="help-block" th:if="${#fields.hasErrors('idTxn')}" th:errors="*{idTxn}">Incorrect idTxn</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
@@ -125,43 +126,36 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('idPayer')}? 'has-error'">
 				<label for="idPayer" class="col-lg-1 control-label" th:text="#{payMember.idPayer}">Login</label>
 				<div class="col-lg-10">
-					<input type="text" name="idPayer" class="form-control" id="idPayer"
-						th:placeholder="#{payMember.idPayer}" th:field="*{idPayer}" maxlength="50"/>  
-						<span class="help-block" th:if="${#fields.hasErrors('idPayer')}" th:errors="*{idPayer}">Incorrect
-						idPayer</span>
-						<div class="ws-errorbox" hidden=""></div>
+					<input type="text" name="idPayer" class="form-control" id="idPayer" th:placeholder="#{payMember.idPayer}" th:field="*{idPayer}" maxlength="50" />
+					<span class="help-block" th:if="${#fields.hasErrors('idPayer')}" th:errors="*{idPayer}">Incorrect idPayer</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-		
-		
-			
+
+
+
 			<!-- Edit EmailPayer -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('emailPayer')}? 'has-error'">
 				<label for="emailPayer" class="col-lg-1 control-label" th:text="#{payMember.emailPayer}">Login</label>
 				<div class="col-lg-10">
-					<input type="text" name="emailPayer" class="form-control" id="emailPayer"
-						th:placeholder="#{payMember.emailPayer}" th:field="*{emailPayer}" maxlength="50"/> 
-						<span class="help-block" th:if="${#fields.hasErrors('emailPayer')}" th:errors="*{emailPayer}">Incorrect
-						emailPayer</span>
-						<div class="ws-errorbox" hidden=""></div>
+					<input type="text" name="emailPayer" class="form-control" id="emailPayer" th:placeholder="#{payMember.emailPayer}" th:field="*{emailPayer}"
+						maxlength="50" />
+					<span class="help-block" th:if="${#fields.hasErrors('emailPayer')}" th:errors="*{emailPayer}">Incorrect emailPayer</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-			
-			
+
+
 			<!-- Edit DatePay -->
-			<div class="form-inline form-group"
-				th:classappend="${#fields.hasErrors('datePay')}? 'has-error'">
+			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('datePay')}? 'has-error'">
 				<label for="datePay" class="col-lg-1 control-label" th:text="#{payMember.datePay}">Date PayMember</label>
 				<div class="col-lg-10">
-						<input
-						type="datetime" class="form-control" id="datePay" th:placeholder="#{payMember.datePay}"
-						th:field="*{datePay}"/> <span class="help-block"
-						th:if="${#fields.hasErrors('datePay')}" th:errors="*{datePay}">Incorrect
-						datePay</span> 
-						<div class="ws-errorbox" hidden=""></div>
+					<input type="datetime" class="form-control" id="datePay" th:placeholder="#{payMember.datePay}" th:field="*{datePay}" />
+					<span class="help-block" th:if="${#fields.hasErrors('datePay')}" th:errors="*{datePay}">Incorrect datePay</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-			
+
 
 			<!-- Button Edit  -->
 			<div class="form-group">

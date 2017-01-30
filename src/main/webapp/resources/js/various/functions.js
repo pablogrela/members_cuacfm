@@ -56,9 +56,8 @@ function validateCheckbox() {
 	}
 	if (document.getElementById('emitProgramTrue').checked || document.getElementById('emitProgramFalse').checked) {
 		document.getElementById('emitProgramTrue').required = false;
-	}	
+	}
 }
-
 
 // lock and unlock camp depends on check
 function unlockText(checkbox, camp) {
@@ -91,7 +90,8 @@ $(document).ready(
 		function() {
 
 			/**
-			 * This method will check if the entered value is a valid NIF or NIE Number
+			 * This method will check if the entered value is a valid NIF or NIE
+			 * Number
 			 */
 			$.validator.addMethod("nif_or_nie", function(value, element) {
 				var nifES = $.validator.methods["nifES"];
@@ -104,13 +104,14 @@ $(document).ready(
 					{
 						rules : {
 							"dni" : {
-//								"required" : true,
+								// "required" : true,
 								"nif_or_nie" : true
 							}
 						},
 						messages : {
 							"dni" : {
-//								"required" : "Por favor, rellene este campo.",
+								// "required" : "Por favor, rellene este
+								// campo.",
 								"nif_or_nie" : "Por favor, introduce un NIF o NIE valido",
 							}
 						},
@@ -131,11 +132,93 @@ $(document).ready(
 								error.insertAfter(element);
 							}
 						},
-						// for demo
-//						submitHandler : function(form) {
-//							alert("valid form submitted");
-//							return false;
-//						}
+					// for demo
+					// submitHandler : function(form) {
+					// alert("valid form submitted");
+					// return false;
+					// }
 
 					});
 		});
+
+
+
+// Parse.initialize("YOUR_APP_ID");
+// Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
+// //var Parse = require('parse');
+// var obj = new Parse.Object('GameScore');
+// obj.set('score', 1337);
+// obj.save().then(function(obj) {
+// console.log(obj.toJSON());
+// var query = new Parse.Query('GameScore');
+// query.get(obj.id).then(function(objAgain) {
+// console.log(objAgain.toJSON());
+// }, function(err) {
+// console.log(err);
+// });
+// }, function(err) {
+// console.log(err);
+// });
+
+
+
+function signup(email, password) {
+	var emailValue = document.getElementById(email).value;
+	var passwordValue = document.getElementById(password).value;
+	
+	firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
+		.then(function() {
+//			form.submit()
+			return null;
+		})
+		.catch(function(error) {
+		  // Handle Errors here.
+		  var errorCode = error.code;
+		  var errorMessage = error.message;
+		  console.log(errorCode, errorMessage);
+		  return errorCode;
+		  // ...
+		});
+}
+
+function signin(form, email, password) {
+	var emailValue = document.getElementById(email).value;
+	var passwordValue = document.getElementById(password).value;
+	
+	firebase.auth().signInWithEmailAndPassword(emailValue, passwordValue)
+		.then(function() {
+			form.submit()
+		})
+		.catch(function(error) {
+		  // Handle Errors here.
+		  var errorCode = error.code;
+		  var errorMessage = error.message;
+		  console.log(errorCode, errorMessage);
+//		  alert(error.message);
+
+		  document.getElementById('errorBox').style.display = 'block';
+		  document.getElementById('errorFirebase').innerHTML = errorMessage;
+		  return errorCode;
+		  
+		  // ...
+		});
+}
+
+
+function authenticationValidate(){
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			// User is signed in.
+			alert('autenticado');
+		} else {
+			// No user is signed in.
+			alert('no autenticado');
+			signup('email', 'password');
+		}
+	});
+}
+
+// Return previous page
+function previousPage(){
+	window.location = document.referrer;
+}

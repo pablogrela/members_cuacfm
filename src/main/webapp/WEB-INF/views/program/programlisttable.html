@@ -1,0 +1,149 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+</head>
+<body>
+
+	<div th:fragment="programlisttable(tittle, tittleEmpty)">
+
+		<!-- Show info account -->
+		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
+		<div th:replace="fragments/alert :: infoAccounts">&nbsp;</div>
+		<div th:replace="fragments/alert :: infoProgram">&nbsp;</div>
+		<div th:replace="fragments/alert :: infoDelete">&nbsp;</div>
+
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<object data-ng-show="message">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+		</object>
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
+
+		<!-- Message if directDebits is empty -->
+		<div data-ng-show="!programs">
+			<h2 class="text-center" th:text="${tittleEmpty}"></h2>
+		</div>
+
+
+		<div data-ng-show="programs">
+			<h2 class="text-center" th:text="${tittle}"></h2>
+
+			<div th:include="fragments/sortColumn :: search"></div>
+			<table class="dataTable display table-striped">
+				<thead>
+					<tr>
+						<td><a href="#" data-ng-click="sortType = 'name'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
+									data-ng-show="sortType == 'name' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'name' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+
+						<td><a href="#" data-ng-click="sortType = 'periodicity'; sortReverse = !sortReverse"> <span th:text="#{periodicity}">periodicity</span>
+								<span data-ng-show="sortType == 'periodicity' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'periodicity' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+
+						<td><a href="#" data-ng-click="sortType = 'duration'; sortReverse = !sortReverse"> <span th:text="#{duration}">duration</span> <span
+									data-ng-show="sortType == 'duration' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'duration' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+
+						<th th:text="#{members}">Accounts</th>
+
+						<td><a href="#" data-ng-click="sortType = 'accountPayer.name'; sortReverse = !sortReverse"> <span th:text="#{program.acountPayer}">accountPayer.name</span>
+								<span data-ng-show="sortType == 'accountPayer.name' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'accountPayer.name' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+
+						<td><a href="#" data-ng-click="sortType = 'active'; sortReverse = !sortReverse"> <span th:text="#{state}">state</span> <span
+									data-ng-show="sortType == 'active' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'active' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						</a></td>
+
+						<th class="no-sort"></th>
+
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr data-ng-repeat="program in programs | orderBy:sortType:sortReverse | filter:search | filter:paginate">
+
+						<td><span data-ng-bind="program.name" th:title="#{program.infoProgram}" data-ng-click="ctrl.infoProgram(program)" data-toggle="modal"
+								data-target="#infoProgram"></span></td>
+
+						<!-- start If`s role -->
+						<td data-ng-if="program.periodicity == 0"><span th:text="#{periodicity.other}"> </span></td>
+						<td data-ng-if="program.periodicity == 0.25"><span th:text="#{periodicity.monthly}"> </span></td>
+						<td data-ng-if="program.periodicity == 0.5"><span th:text="#{periodicity.bimonthly}"> </span></td>
+						<td data-ng-if="program.periodicity == 1"><span th:text="#{periodicity.weekly}"> </span></td>
+						<td data-ng-if="program.periodicity == 2"><span th:text="#{periodicity.biweekly}"> </span></td>
+						<!-- end If`s role -->
+
+						<td><span data-ng-bind="program.duration"></span></td>
+
+						<td><table data-ng-repeat="account in program.accounts" data-ng-bind="account.name" th:title="#{account.infoAccounts}"
+								data-ng-click="ctrl.infoAccounts(program.accounts)" data-toggle="modal" data-target="#infoAccounts"></table></td>
+
+						<td><span data-ng-bind="program.accountPayer.name" th:title="#{account.infoAccount}" data-ng-click="ctrl.infoAccount(program.accountPayer)"
+								data-toggle="modal" data-target="#infoAccount"></span></td>
+
+
+						<!-- Down Program -->
+						<td data-ng-if="program.active"><span th:text="#{active}"></span>
+							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.programDown(program.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
+								th:title="#{program.infoDown}" style="color: red"></button></td>
+
+
+						<!-- Up Program -->
+						<td data-ng-if="!program.active"><span th:text="#{down}"></span>
+							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.programUp(program.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up" th:title="#{program.infoUp}"
+								style="color: green"></button></td>
+
+
+						<td>
+							<!-- Delete Program -->
+							<button type="button" data-toggle="modal" data-ng-click="ctrl.infoDelete(program)" data-target="#infoDelete"
+								class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemove}" style="color: red"></button> 
+								
+							<!-- Modify program -->
+							<form action="{{'programList/programEdit/' + program.id}} " method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+								<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
+							</form>
+						</td>
+						
+					</tr>
+				</tbody>
+			</table>
+
+			<div data-uib-pagination="uib-pagination" data-total-items="totalItems" data-ng-model="currentPage" data-ng-change="pageChanged()"
+				data-items-per-page="numPerPage" class="pagination-sm pull-right" data-boundary-links="true" data-previous-text="&lsaquo;"
+				data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;"></div>
+
+		</div>
+	</div>
+</body>
+</html>

@@ -47,6 +47,12 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 	}
 
 	@Override
+	@Transactional
+	public void remove(DirectDebit directDebit) {
+		entityManager.remove(directDebit);
+	}
+
+	@Override
 	public DirectDebit findById(String id) {
 		try {
 			return entityManager.createQuery("select d from DirectDebit d where d.id = :id", DirectDebit.class).setParameter("id", id)

@@ -77,7 +77,7 @@ public class FeeMemberCreateTest extends WebSecurityConfigurationAware {
       Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
             "666666666", "666666666", "demo", roles.ROLE_ADMIN);
       accountService.save(admin);
-      defaultSession = getDefaultSession("admin");
+      defaultSession = getDefaultSession("admin@udc.es");
 
       Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666,
             Double.valueOf(24), Double.valueOf(25), "Rul");
@@ -147,7 +147,7 @@ public class FeeMemberCreateTest extends WebSecurityConfigurationAware {
                         .param("name", "111111111111111111111111111111111111111111111111111")
                         .param("year", "2015").param("price", "24")
                         .param("description", "Pay of inscription 2015"))
-            .andExpect(content().string(containsString("Maximum 30 characters")))
+            .andExpect(content().string(containsString("Maximum 50 characters")))
             .andExpect(view().name("feemember/feemembercreate"));
    }
 

@@ -17,6 +17,7 @@ package org.cuacfm.members.web.signup;
 
 import java.io.IOException;
 
+import javax.script.ScriptException;
 import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
@@ -60,7 +61,7 @@ public class SignupController {
 	 * Instantiates a new signup Controller.
 	 */
 	public SignupController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -95,10 +96,12 @@ public class SignupController {
 	 * @param ra the ra
 	 * @return the string
 	 * @throws IOException
+	 * @throws ScriptException
+	 * @throws NoSuchMethodException
 	 */
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra,
-			@RequestParam("g-recaptcha-response") String response) throws IOException {
+			@RequestParam("g-recaptcha-response") String response) throws IOException, ScriptException, NoSuchMethodException {
 
 		// check that the password and rePassword are the same
 		String password = signupForm.getPassword();
@@ -145,4 +148,5 @@ public class SignupController {
 		MessageHelper.addSuccessAttribute(ra, "signup.success");
 		return "redirect:/";
 	}
+
 }

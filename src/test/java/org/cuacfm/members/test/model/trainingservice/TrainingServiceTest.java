@@ -248,7 +248,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join and Update
-		trainingService.createInscription(account.getId(), training.getId());
+		trainingService.createInscription(account, training);
 		Inscription inscriptionSearch = trainingService.findByInscriptionIds(account.getId(), training.getId());
 		inscriptionSearch.setAttend(true);
 		inscriptionSearch.setNote("not attend");
@@ -368,7 +368,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join
-		trainingService.createInscription(account.getId(), training.getId());
+		trainingService.createInscription(account, training);
 
 		// Delete
 		trainingService.delete(training);
@@ -398,7 +398,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join
-		trainingService.createInscription(account.getId(), training.getId());
+		trainingService.createInscription(account, training);
 	}
 
 	/**
@@ -430,8 +430,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join
-		trainingService.createInscription(account.getId(), training.getId());
-		trainingService.createInscription(account2.getId(), training.getId());
+		trainingService.createInscription(account, training);
+		trainingService.createInscription(account2, training);
 	}
 
 	/**
@@ -462,13 +462,13 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join
-		trainingService.createInscription(account.getId(), training.getId());
+		trainingService.createInscription(account, training);
 		Inscription inscriptionSearch = trainingService.findByInscriptionIds(account.getId(), training.getId());
 		inscriptionSearch.getId();
 		assertTrue(!inscriptionSearch.isUnsubscribe());
 
 		// Unsubscribe
-		trainingService.unsubscribeInscription(account.getId(), training.getId());
+		trainingService.unsubscribeInscription(account, training);
 		inscriptionSearch = trainingService.findByInscriptionIds(account.getId(), training.getId());
 		assertTrue(inscriptionSearch.isUnsubscribe());
 	}
@@ -501,13 +501,13 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join
-		trainingService.createInscription(account.getId(), training.getId());
+		trainingService.createInscription(account, training);
 
 		// Unsubscribe
-		trainingService.unsubscribeInscription(account.getId(), training.getId());
+		trainingService.unsubscribeInscription(account, training);
 
 		// Unsubscribe Exception
-		trainingService.unsubscribeInscription(account.getId(), training.getId());
+		trainingService.unsubscribeInscription(account, training);
 	}
 
 	/**
@@ -541,8 +541,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		Training trainingSaved2 = trainingService.save(training2);
 
 		// Joins
-		trainingService.createInscription(account.getId(), training.getId());
-		trainingService.createInscription(account.getId(), training2.getId());
+		trainingService.createInscription(account, training);
+		trainingService.createInscription(account, training2);
 
 		// getByAccountId
 		List<Inscription> inscriptionList = trainingService.getInscriptionsByAccountId(account.getId());
@@ -582,8 +582,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Joins
-		trainingService.createInscription(account.getId(), training.getId());
-		trainingService.createInscription(account2.getId(), training.getId());
+		trainingService.createInscription(account, training);
+		trainingService.createInscription(account2, training);
 
 		// getByAccountId
 		List<Inscription> inscriptionList = trainingService.getInscriptionsByTrainingId(training.getId());
@@ -622,7 +622,7 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Joins
-		trainingService.createInscription(account.getId(), training.getId());
+		trainingService.createInscription(account, training);
 
 		// getByAccountId
 		List<Inscription> inscriptionList = trainingService.getInscriptionsByTrainingId(training.getId());
@@ -669,14 +669,14 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingService.save(training);
 
 		// Join
-		trainingService.createInscription(account.getId(), training.getId());
+		trainingService.createInscription(account, training);
 
 		// Assert, no ids in unsubscribe
 		List<Long> inscriptionList = trainingService.getUnsubscribeIdsByAccountId(account.getId());
 		assertEquals(inscriptionList.size(), 0);
 
 		// Unsubscribe
-		trainingService.unsubscribeInscription(account.getId(), training.getId());
+		trainingService.unsubscribeInscription(account, training);
 
 		// Assert, no ids in unsubscribe
 		inscriptionList = trainingService.getUnsubscribeIdsByAccountId(account.getId());
@@ -694,8 +694,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 	 * @throws UserAlreadyJoinedException
 	 */
 	@Test
-	public void getIdsByAccountIdTest()
-			throws DateLimitException, MaximumCapacityException, DateLimitExpirationException, UniqueException, UniqueListException, UserAlreadyJoinedException {
+	public void getIdsByAccountIdTest() throws DateLimitException, MaximumCapacityException, DateLimitExpirationException, UniqueException,
+			UniqueListException, UserAlreadyJoinedException {
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		account = accountService.save(account);
 
@@ -724,12 +724,12 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		// assertEquals(trainingAccounts, null);
 
 		// 1 TrainingAccount
-		trainingService.createInscription(account.getId(), trainingSaved.getId());
+		trainingService.createInscription(account, trainingSaved);
 		trainingAccounts = trainingService.getInscriptionsByAccountId(account.getId());
 		assertEquals(trainingAccounts.size(), 1);
 
 		// 2 TrainingAccount
-		trainingService.createInscription(account.getId(), trainingSaved2.getId());
+		trainingService.createInscription(account, trainingSaved2);
 		trainingAccounts = trainingService.getInscriptionsByAccountId(account.getId());
 		assertEquals(trainingAccounts.size(), 2);
 

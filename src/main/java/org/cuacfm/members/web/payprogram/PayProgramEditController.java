@@ -43,119 +43,115 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class PayProgramEditController {
 
-   private static final String PAYPROGRAM_VIEW_NAME = "payprogram/payprogramedit";
+	private static final String PAYPROGRAM_VIEW_NAME = "payprogram/payprogramedit";
 
-   @Autowired
-   private PayProgramService payProgramService;
+	@Autowired
+	private PayProgramService payProgramService;
 
-   private PayProgram payProgram;
-   private List<String> usernames;
+	private PayProgram payProgram;
+	private List<String> usernames;
 
-   /** Instantiates a new payProgram Controller. */
-   public PayProgramEditController() {
-      // Default empty constructor.
-   }
+	/** Instantiates a new payProgram Controller. */
+	public PayProgramEditController() {
+		// Default empty constructor.
+	}
 
-   /**
-    * PayProgram.
-    *
-    * @return PayProgram
-    */
-   @ModelAttribute("payProgram")
-   public PayProgram payProgram() {
-      return payProgram;
-   }
+	/**
+	 * PayProgram.
+	 *
+	 * @return PayProgram
+	 */
+	@ModelAttribute("payProgram")
+	public PayProgram payProgram() {
+		return payProgram;
+	}
 
-   /**
-    * Usernames.
-    *
-    * @return the list
-    */
-   @ModelAttribute("usernames")
-   public List<String> usernames() {
-      return usernames;
-   }
+	/**
+	 * Usernames.
+	 *
+	 * @return the list
+	 */
+	@ModelAttribute("usernames")
+	public List<String> usernames() {
+		return usernames;
+	}
 
-   /**
-    * PayProgram.
-    *
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "feeProgramList/payProgramList/payProgramEdit")
-   public String getPayProgram(Model model) {
+	/**
+	 * PayProgram.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeProgramList/payProgramList/payProgramEdit")
+	public String getPayProgram(Model model) {
 
-      if (payProgram != null) {
-         usernames = new ArrayList<String>();
-         for (Account account : payProgram.getProgram().getAccounts()) {
-            usernames.add(account.getName());
-         }
-         model.addAttribute("usernames", usernames);
+		if (payProgram != null) {
+			usernames = new ArrayList<String>();
+			for (Account account : payProgram.getProgram().getAccounts()) {
+				usernames.add(account.getName());
+			}
+			model.addAttribute("usernames", usernames);
 
-         PayProgramForm payProgramForm = new PayProgramForm();
-         payProgramForm.setAccountPayer(payProgram.getAccountPayer());
-         payProgramForm.setPrice(payProgram.getPrice());
-         payProgramForm.setState(String.valueOf(payProgram.getState()));
-         payProgramForm.setStateList(java.util.Arrays.asList(states.values()));
-         payProgramForm.setMethod(String.valueOf(payProgram.getMethod()));
-         payProgramForm.setMethodList(java.util.Arrays.asList(methods.values()));
-         payProgramForm.setIdTxn(payProgram.getIdTxn());
-         payProgramForm.setIdPayer(payProgram.getIdPayer());
-         payProgramForm.setEmailPayer(payProgram.getEmailPayer());
-         payProgramForm.setIdPayer(payProgram.getIdPayer());
-         payProgramForm.setDatePay(DisplayDate.dateTimeToString(payProgram.getDatePay()));
-         model.addAttribute(payProgram);
-         model.addAttribute(payProgramForm);
-         return PAYPROGRAM_VIEW_NAME;
-      }
-      // If not have payProgram, redirect to payProgramList
-      else {
-         return "redirect:/feeProgramList/payProgramList";
-      }
-   }
+			PayProgramForm payProgramForm = new PayProgramForm();
+			payProgramForm.setAccountPayer(payProgram.getAccountPayer());
+			payProgramForm.setPrice(payProgram.getPrice());
+			payProgramForm.setState(String.valueOf(payProgram.getState()));
+			payProgramForm.setStateList(java.util.Arrays.asList(states.values()));
+			payProgramForm.setMethod(String.valueOf(payProgram.getMethod()));
+			payProgramForm.setMethodList(java.util.Arrays.asList(methods.values()));
+			payProgramForm.setIdTxn(payProgram.getIdTxn());
+			payProgramForm.setIdPayer(payProgram.getIdPayer());
+			payProgramForm.setEmailPayer(payProgram.getEmailPayer());
+			payProgramForm.setIdPayer(payProgram.getIdPayer());
+			payProgramForm.setDatePay(DisplayDate.dateTimeToString(payProgram.getDatePay()));
+			model.addAttribute(payProgram);
+			model.addAttribute(payProgramForm);
+			return PAYPROGRAM_VIEW_NAME;
+		}
+		// If not have payProgram, redirect to payProgramList
+		else {
+			return "redirect:/feeProgramList/payProgramList";
+		}
+	}
 
-   /**
-    * PayProgram.
-    *
-    * @param payProgramForm
-    *           the payProgram form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @return the string
-    * @throws DateLimitException
-    */
+	/**
+	 * PayProgram.
+	 *
+	 * @param payProgramForm the payProgram form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @return the string
+	 * @throws DateLimitException the date limit exception
+	 */
 
-   @RequestMapping(value = "feeProgramList/payProgramList/payProgramEdit", method = RequestMethod.POST)
-   public String editPayProgram(@Valid @ModelAttribute PayProgramForm payProgramForm,
-         Errors errors, RedirectAttributes ra) throws DateLimitException {
+	@RequestMapping(value = "feeProgramList/payProgramList/payProgramEdit", method = RequestMethod.POST)
+	public String editPayProgram(@Valid @ModelAttribute PayProgramForm payProgramForm, Errors errors, RedirectAttributes ra)
+			throws DateLimitException {
 
-      if (errors.hasErrors()) {
-         return PAYPROGRAM_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return PAYPROGRAM_VIEW_NAME;
+		}
 
-      try {
-         payProgramService.update(payProgramForm.updatePayProgram(payProgram));
-      } catch (ExistTransactionIdException e) {
-         errors.rejectValue("idTxn", "existIdTxn.message", new Object[] {e.getIdTxn() }, "idTxn");
-         return PAYPROGRAM_VIEW_NAME;
-      }
-      MessageHelper.addSuccessAttribute(ra, "payProgram.successModify", payProgram.getProgram().getName());
-      return "redirect:/feeProgramList/payProgramList";
-   }
+		try {
+			payProgramService.update(payProgramForm.updatePayProgram(payProgram));
+		} catch (ExistTransactionIdException e) {
+			errors.rejectValue("idTxn", "existIdTxn.message", new Object[] { e.getIdTxn() }, "idTxn");
+			return PAYPROGRAM_VIEW_NAME;
+		}
+		MessageHelper.addSuccessAttribute(ra, "payProgram.successModify", payProgram.getProgram().getName());
+		return "redirect:/feeProgramList/payProgramList";
+	}
 
-   /**
-    * Modify PayProgram by Id.
-    *
-    * @param @PathVariable Long id the payProgram form
-    * @return the string destinity page
-    */
-   @RequestMapping(value = "feeProgramList/payProgramList/payProgramEdit/{id}", method = RequestMethod.POST)
-   public String chargePayProgram(@PathVariable Long id) {
+	/**
+	 * Modify PayProgram by Id.
+	 *
+	 * @param id the id
+	 * @return the string destinity page
+	 */
+	@RequestMapping(value = "feeProgramList/payProgramList/payProgramEdit/{id}", method = RequestMethod.POST)
+	public String chargePayProgram(@PathVariable Long id) {
 
-      payProgram = payProgramService.findById(id);
-      return "redirect:/feeProgramList/payProgramList/payProgramEdit";
-   }
+		payProgram = payProgramService.findById(id);
+		return "redirect:/feeProgramList/payProgramList/payProgramEdit";
+	}
 }

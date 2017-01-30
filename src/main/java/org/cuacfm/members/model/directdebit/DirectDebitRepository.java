@@ -37,6 +37,14 @@ public interface DirectDebitRepository {
 	public DirectDebit update(DirectDebit directDebit);
 
 	/**
+	 * Save.
+	 *
+	 * @param directDebit the direct debit
+	 * @return the direct debit
+	 */
+	public void remove(DirectDebit directDebit);
+
+	/**
 	 * Find by id.
 	 *
 	 * @param id the id

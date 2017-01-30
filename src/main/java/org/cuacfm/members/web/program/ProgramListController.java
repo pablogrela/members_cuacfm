@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
-import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.ExistPaymentsException;
 import org.cuacfm.members.model.exceptions.UniqueException;
@@ -46,6 +45,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProgramListController {
 
 	private static final String PROGRAM_VIEW_NAME = "program/programlist";
+	private static final String PROGRAM_CLOSE_VIEW_NAME = "program/programlistclose";
 
 	@Autowired
 	private ProgramService programService;
@@ -73,26 +73,71 @@ public class ProgramListController {
 	 */
 
 	@RequestMapping(value = "programList")
-	public String getView(Model model, Principal principal) throws UniqueException {
+	public String getprogramListView(Model model, Principal principal) throws UniqueException {
 		return PROGRAM_VIEW_NAME;
 	}
 
+	/**
+	 * Direct debit view.
+	 *
+	 * @param model the model
+	 * @param principal the principal
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/close")
+	public String getprogramListCloseView(Model model, Principal principal) {
+		return PROGRAM_CLOSE_VIEW_NAME;
+	}
+
+	/**
+	 * Gets the programs.
+	 *
+	 * @param model the model
+	 * @param principal the principal
+	 * @return the programs
+	 * @throws UniqueException the unique exception
+	 */
 	@RequestMapping(value = "programList/")
-	public ResponseEntity<List<ProgramDTO>> getPrograms(Model model, Principal principal) throws UniqueException {
+	public ResponseEntity<List<ProgramDTO>> getPrograms(Model model, Principal principal) {
 
 		Account account = accountService.findByLogin(principal.getName());
-		
+
 		// List of programs
 		List<ProgramDTO> programsDTO;
 		if (account.getRole() == roles.ROLE_ADMIN) {
-			programsDTO = programService.getProgramsDTO(programService.getProgramList());
+			programsDTO = programService.getProgramsDTO(programService.getProgramListActive());
 		} else {
 			programsDTO = programService.getProgramsDTO(account.getPrograms());
 		}
 
-		List<AccountDTO> accountsDTO = accountService.getAccountsDTO(accountService.getAccountsOrderByActive());
+		if (programsDTO.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(programsDTO, HttpStatus.OK);
+	}
 
-		if (accountsDTO.isEmpty()) {
+	/**
+	 * Gets the programs close.
+	 *
+	 * @param model the model
+	 * @param principal the principal
+	 * @return the programs close
+	 * @throws UniqueException the unique exception
+	 */
+	@RequestMapping(value = "programList/close/")
+	public ResponseEntity<List<ProgramDTO>> getProgramsClose(Model model, Principal principal) {
+
+		Account account = accountService.findByLogin(principal.getName());
+
+		// List of programs
+		List<ProgramDTO> programsDTO;
+		if (account.getRole() == roles.ROLE_ADMIN) {
+			programsDTO = programService.getProgramsDTO(programService.getProgramListClose());
+		} else {
+			programsDTO = programService.getProgramsDTO(account.getPrograms());
+		}
+
+		if (programsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(programsDTO, HttpStatus.OK);
@@ -115,11 +160,11 @@ public class ProgramListController {
 		// Security, Only user can delete him program or admin
 		if (program.getAccounts().contains(account) || (account.getRole() == roles.ROLE_ADMIN)) {
 			try {
-				programService.delete(program, account);				
+				programService.delete(program, account);
 				Object[] arguments = { program.getName() };
 				MessageHelper.addSuccessAttribute(ra, messageSource.getMessage("program.successDelete", arguments, Locale.getDefault()));
-				
-			} catch (ExistPaymentsException e) {				
+
+			} catch (ExistPaymentsException e) {
 				Object[] arguments = { program.getName() };
 				MessageHelper.addErrorAttribute(ra, messageSource.getMessage("program.existPayments", arguments, Locale.getDefault()));
 			}
@@ -131,6 +176,7 @@ public class ProgramListController {
 	 * Unsubscribe.
 	 *
 	 * @param id the id
+	 * @param ra the ra
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "programList/programDown/{id}", method = RequestMethod.POST)

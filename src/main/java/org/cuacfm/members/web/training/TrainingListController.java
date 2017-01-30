@@ -43,178 +43,167 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TrainingListController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
-   private static final String TRAINING_VIEW_NAME = "training/traininglist";
+	/** The Constant TRAINING_VIEW_NAME. */
+	private static final String TRAINING_VIEW_NAME = "training/traininglist";
 
-   /** The Constant REDIRECT_TRAINING. */
-   private static final String REDIRECT_TRAINING = "redirect:/trainingList";
-   
-   @Autowired
-   private AccountService accountService;
+	/** The Constant REDIRECT_TRAINING. */
+	private static final String REDIRECT_TRAINING = "redirect:/trainingList";
 
-   @Autowired
-   private TrainingTypeService trainingTypeService;
+	@Autowired
+	private AccountService accountService;
 
-   @Autowired
-   private TrainingService trainingService;
+	@Autowired
+	private TrainingTypeService trainingTypeService;
 
-   private List<Training> trainings;
+	@Autowired
+	private TrainingService trainingService;
 
-   private List<Long> trainingAccountIds;
+	private List<Training> trainings;
 
-   private List<Long> trainingUnsubscribeIds;
+	private List<Long> trainingAccountIds;
 
-   /**
-    * Instantiates a new training Controller.
-    */
-   public TrainingListController() {
-      // Default empty constructor.
-   }
+	private List<Long> trainingUnsubscribeIds;
 
-   /**
-    * List of Training Ids trainings to which the user joined.
-    *
-    * @return List<Long> the id list of account joined
-    */
-   @ModelAttribute("trainingAccountIds")
-   public List<Long> trainingAccountIds() {
-      return trainingAccountIds;
-   }
+	/**
+	 * Instantiates a new training Controller.
+	 */
+	public TrainingListController() {
+		// Default empty constructor.
+	}
 
-   /**
-    * List of Training Ids unsubscribe to which the user can not join neither
-    * remove join.
-    *
-    * @return List<Long> the id list of account joined
-    */
-   @ModelAttribute("trainingUnsubscribeIds")
-   public List<Long> trainingUnsubscribeIds() {
-      return trainingUnsubscribeIds;
-   }
+	/**
+	 * List of Training Ids trainings to which the user joined.
+	 *
+	 * @return List<Long> the id list of account joined
+	 */
+	@ModelAttribute("trainingAccountIds")
+	public List<Long> trainingAccountIds() {
+		return trainingAccountIds;
+	}
 
-   /**
-    * List of Training for show in table.
-    *
-    * @return the list
-    */
-   @ModelAttribute("trainings")
-   public List<Training> trainings() {
-      return trainings;
-   }
+	/**
+	 * List of Training Ids unsubscribe to which the user can not join neither remove join.
+	 *
+	 * @return List<Long> the id list of account joined
+	 */
+	@ModelAttribute("trainingUnsubscribeIds")
+	public List<Long> trainingUnsubscribeIds() {
+		return trainingUnsubscribeIds;
+	}
 
-   /**
-    * Get page trainingList.
-    *
-    * @param model
-    *           the model
-    * @param principal
-    *           Principal
-    * @return the string to view page trainingList
-    */
-   @RequestMapping(value = "trainingList")
-   public String trainings(Model model, Principal principal) {
+	/**
+	 * List of Training for show in table.
+	 *
+	 * @return the list
+	 */
+	@ModelAttribute("trainings")
+	public List<Training> trainings() {
+		return trainings;
+	}
 
-      // List of Trainings for table
-      trainings = trainingService.getTrainingListOpen();
-      model.addAttribute("trainings", trainings);
+	/**
+	 * Get page trainingList.
+	 *
+	 * @param model the model
+	 * @param principal Principal
+	 * @return the string to view page trainingList
+	 */
+	@RequestMapping(value = "trainingList")
+	public String trainings(Model model, Principal principal) {
 
-      // Ids trainings to which the user joined
-      Account account = accountService.findByLogin(principal.getName());
-      trainingAccountIds = trainingService.getInscriptionsIdsByAccountId(account.getId());
-      model.addAttribute("trainingAccountIds", trainingAccountIds);
+		// List of Trainings for table
+		trainings = trainingService.getTrainingListOpen();
+		model.addAttribute("trainings", trainings);
 
-      // Ids trainings unsubscribe to which the user not join and remove join
-      trainingUnsubscribeIds = trainingService.getUnsubscribeIdsByAccountId(account.getId());
-      model.addAttribute("trainingUnsubscribeIds", trainingUnsubscribeIds);
+		// Ids trainings to which the user joined
+		Account account = accountService.findByLogin(principal.getName());
+		trainingAccountIds = trainingService.getInscriptionsIdsByAccountId(account.getId());
+		model.addAttribute("trainingAccountIds", trainingAccountIds);
 
-      // Insert Training Type List in Select ()
-      TrainingSelectForm trainingSelectForm = new TrainingSelectForm();
-      trainingSelectForm.setTrainingTypes(trainingTypeService.getTrainingTypeList());
-      model.addAttribute(trainingSelectForm);
+		// Ids trainings unsubscribe to which the user not join and remove join
+		trainingUnsubscribeIds = trainingService.getUnsubscribeIdsByAccountId(account.getId());
+		model.addAttribute("trainingUnsubscribeIds", trainingUnsubscribeIds);
 
-      return TRAINING_VIEW_NAME;
-   }
+		// Insert Training Type List in Select ()
+		TrainingSelectForm trainingSelectForm = new TrainingSelectForm();
+		trainingSelectForm.setTrainingTypes(trainingTypeService.getTrainingTypeList());
+		model.addAttribute(trainingSelectForm);
 
-   /**
-    * Delete Training by Id.
-    *
-    * @param @PathVariable Long id
-    * 
-    * @param ra
-    *           the redirect atributes
-    * @return the string destinity page to page trainingList
-    * @throws UniqueException
-    */
-   @RequestMapping(value = "trainingList/trainingDelete/{id}", method = RequestMethod.POST)
-   public String remove(RedirectAttributes ra, @PathVariable Long id) throws UniqueException {
+		return TRAINING_VIEW_NAME;
+	}
 
-     Training training = trainingService.findById(id);
-      try {
-         trainingService.delete(training);
-         MessageHelper.addInfoAttribute(ra, "training.successDelete", training.getName());
-      } catch (ExistInscriptionsException e) {
-         MessageHelper.addErrorAttribute(ra, "training.existDependenciesTrainingsException", training.getName());
-      }
-      return REDIRECT_TRAINING;
-   }
+	/**
+	 * Delete Training by Id.
+	 *
+	 * @param @PathVariable Long id
+	 * 
+	 * @param ra the redirect atributes
+	 * @return the string destinity page to page trainingList
+	 * @throws UniqueException
+	 */
+	@RequestMapping(value = "trainingList/trainingDelete/{id}", method = RequestMethod.POST)
+	public String remove(RedirectAttributes ra, @PathVariable Long id) throws UniqueException {
 
-   /**
-    * Join account to training by trainingId.
-    *
-    * @param @PathVariable Long trainingId
-    * 
-    * @param ra
-    *           the redirect atributes
-    * @return the string destinity page to page trainingList
-    */
-   @RequestMapping(value = "trainingUserList/trainingJoin/{trainingId}", method = RequestMethod.POST)
-   public String joinUser(@PathVariable Long trainingId, RedirectAttributes ra, Principal principal) {
+		Training training = trainingService.findById(id);
+		try {
+			trainingService.delete(training);
+			MessageHelper.addInfoAttribute(ra, "training.successDelete", training.getName());
+		} catch (ExistInscriptionsException e) {
+			MessageHelper.addErrorAttribute(ra, "training.existDependenciesTrainingsException", training.getName());
+		}
+		return REDIRECT_TRAINING;
+	}
 
-      Long accountId = accountService.findByLogin(principal.getName()).getId();
-      Training training = trainingService.findById(trainingId);
+	/**
+	 * Join account to training by trainingId.
+	 *
+	 * @param @PathVariable Long trainingId
+	 * 
+	 * @param ra the redirect atributes
+	 * @return the string destinity page to page trainingList
+	 */
+	@RequestMapping(value = "trainingUserList/trainingJoin/{trainingId}", method = RequestMethod.POST)
+	public String joinUser(@PathVariable Long trainingId, RedirectAttributes ra, Principal principal) {
 
-      try {
-         trainingService.createInscription(accountId, trainingId);
-         MessageHelper.addSuccessAttribute(ra, "training.successJoin", training.getName());
-      } catch (UserAlreadyJoinedException e) {
-         MessageHelper.addErrorAttribute(ra, "inscription.alreadyExistLogin", e.getName());
-      } catch (MaximumCapacityException e) {
-         MessageHelper.addErrorAttribute(ra, "training.maxInscriptionsException",
-               training.getName());
-      } catch (DateLimitExpirationException e) {
-         MessageHelper.addErrorAttribute(ra, "training.dateLimitExpirationException",
-               e.getTrainingName(), e.getDateLimit());
-      }
+		Account account = accountService.findByLogin(principal.getName());
+		Training training = trainingService.findById(trainingId);
 
-      return REDIRECT_TRAINING;
-   }
+		try {
+			trainingService.createInscription(account, training);
+			MessageHelper.addSuccessAttribute(ra, "training.successJoin", training.getName());
+		} catch (UserAlreadyJoinedException e) {
+			MessageHelper.addErrorAttribute(ra, "inscription.alreadyExistLogin", e.getName());
+		} catch (MaximumCapacityException e) {
+			MessageHelper.addErrorAttribute(ra, "training.maxInscriptionsException", training.getName());
+		} catch (DateLimitExpirationException e) {
+			MessageHelper.addErrorAttribute(ra, "training.dateLimitExpirationException", e.getTrainingName(), e.getDateLimit());
+		}
 
-   /**
-    * Remove join account to training by trainingId.
-    *
-    * @param @PathVariable Long trainingId
-    * 
-    * @param ra
-    *           the redirect atributes
-    * @param principal
-    *           Principal
-    * @return the string destinity page to page trainingList
-    */
-   @RequestMapping(value = "trainingUserList/trainingRemoveJoin/{trainingId}", method = RequestMethod.POST)
-   public String removeJoinUser(@PathVariable Long trainingId, RedirectAttributes ra,
-         Principal principal) {
+		return REDIRECT_TRAINING;
+	}
 
-      Long accountId = accountService.findByLogin(principal.getName()).getId();
-      Training training = trainingService.findById(trainingId);
+	/**
+	 * Remove join account to training by trainingId.
+	 *
+	 * @param @PathVariable Long trainingId
+	 * 
+	 * @param ra the redirect atributes
+	 * @param principal Principal
+	 * @return the string destinity page to page trainingList
+	 */
+	@RequestMapping(value = "trainingUserList/trainingRemoveJoin/{trainingId}", method = RequestMethod.POST)
+	public String removeJoinUser(@PathVariable Long trainingId, RedirectAttributes ra, Principal principal) {
 
-      try {
-         trainingService.unsubscribeInscription(accountId, trainingId);
-         MessageHelper.addErrorAttribute(ra, "training.removeJoin", training.getName());
-      } catch (UnsubscribeException e) {
-         MessageHelper.addErrorAttribute(ra, "training.unsubscribeInscriptionException",
-               e.getNameTraining());
-      }
+		Account account = accountService.findByLogin(principal.getName());
+		Training training = trainingService.findById(trainingId);
 
-      return REDIRECT_TRAINING;
-   }
+		try {
+			trainingService.unsubscribeInscription(account, training);
+			MessageHelper.addErrorAttribute(ra, "training.removeJoin", training.getName());
+		} catch (UnsubscribeException e) {
+			MessageHelper.addErrorAttribute(ra, "training.unsubscribeInscriptionException", e.getNameTraining());
+		}
+
+		return REDIRECT_TRAINING;
+	}
 }

@@ -56,6 +56,11 @@ public class HomeController {
 
 	private String email;
 
+	//	@Autowired
+	//	private PasswordEncoder passwordEncoder;
+
+	//	private Account account;
+
 	/**
 	 * Email.
 	 *
@@ -74,10 +79,14 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model, Principal principal) {
-
 		if (principal != null) {
 			email = configurationService.getConfiguration().getEmail();
 			model.addAttribute("email", email);
+			//			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			//			account = accountService.findByLogin(auth.getName());			
+			//			account.setPassword(passwordEncoder.encode(account.getPassword()));
+			//			model.addAttribute("account", account);
+
 			return HOMESIGNEDIN;
 		} else {
 			return HOMENOTSIGNEDIN;
@@ -110,7 +119,7 @@ public class HomeController {
 			eventsDTO = eventService.getDTO(eventService.findAllOpen());
 		} else {
 			Account account = accountService.findByLogin(auth.getName());
-			eventsDTO = eventService.getDTO(eventService.findAllByAccountId((account.getId())));
+			eventsDTO = eventService.getDTO(eventService.findAllByAccountId(account.getId()));
 		}
 		if (eventsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);

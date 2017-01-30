@@ -79,8 +79,8 @@
 						<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of installments</td>
 
 						<!-- Pay inscription -->
-						<td class="text-center"><th:object
-								th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+						<td class="text-center">
+							<th:object th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
 									${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
 								class="text-center">
 								<!-- Form for pay in paypal -->
@@ -154,8 +154,8 @@
 						<td th:text="${payProgram.accountPayer}">mobile</td>
 
 						<!-- Pay Program -->
-						<td class="text-center"><th:object
-								th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
+						<td class="text-center">
+						<th:object th:if="${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
 						${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
 								class="text-center">
 								<!-- Form for pay in paypal -->
@@ -188,7 +188,8 @@
 									<input type='hidden' name='country' th:value="#{countryCode}" />
 									<input type="image" th:title="#{payPaypal}" th:src="@{/resources/images/paypal.png}" />
 								</form>
-							</th:object></td>
+							</th:object>
+						</td>
 					</tr>
 				</tbody>
 			</table>

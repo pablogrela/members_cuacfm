@@ -35,10 +35,10 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 	self.infoAccounts = infoAccounts;
 	self.infoProgram = infoProgram;
 
-	fetchAllPrograms();
+	fetchAllProgramsClose();
 
-	function fetchAllPrograms() {
-		ProgramService.fetchAllPrograms().then(function(data) {
+	function fetchAllProgramsClose() {
+		ProgramService.fetchAllProgramsClose().then(function(data) {
 			$scope.programs = data;
 			$scope.totalItems = $scope.programs.length;
 		}, function(errResponse) {
@@ -49,7 +49,7 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 	function programUp(id) {
 		ProgramService.programUp(id).then(function(data) {
 			$scope.message = data;
-			fetchAllPrograms();
+			fetchAllProgramsClose();
 			showModal(modal);
 		}, function(errResponse) {
 			console.error('Error while Up program');
@@ -59,7 +59,7 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 	function programDown(id) {
 		ProgramService.programDown(id).then(function(data) {
 			$scope.message = data;
-			fetchAllPrograms();
+			fetchAllProgramsClose();
 			showModal(modal);
 		}, function(errResponse) {
 			console.error('Error while Down Program');
@@ -69,7 +69,7 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 	function programDelete(id) {
 		ProgramService.programDelete(id).then(function(data) {
 			$scope.message = data;
-			fetchAllPrograms();
+			fetchAllProgramsClose();
 			showModal(modal);
 		}, function(errResponse) {
 			console.error('Error while Delete Program');
@@ -79,7 +79,7 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 	$scope.programDelete = function(id) {
 		ProgramService.programDelete(id).then(function(data) {
 			$scope.message = data;
-			fetchAllPrograms();
+			fetchAllProgramsClose();
 			showModal(modal);
 		}, function(errResponse) {
 			console.error('Error while Delete Program');

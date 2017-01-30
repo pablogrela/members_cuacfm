@@ -89,7 +89,7 @@ public class FeeProgramListTest extends WebSecurityConfigurationAware {
     public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", "666666666", "666666666","demo", roles.ROLE_ADMIN);
 		accountService.save(admin);
-        defaultSession = getDefaultSession("admin");
+        defaultSession = getDefaultSession("admin@udc.es");
         
         // Create User
 		user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);

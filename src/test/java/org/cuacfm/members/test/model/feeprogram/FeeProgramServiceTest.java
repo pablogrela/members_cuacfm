@@ -42,249 +42,238 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /** The Class FeeProgramServiceTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 
-   /** The program service. */
-   @Inject
-   private ProgramService programService;
+	/** The program service. */
+	@Inject
+	private ProgramService programService;
 
-   /** The fee program service. */
-   @Inject
-   private FeeProgramService feeProgramService;
+	/** The fee program service. */
+	@Inject
+	private FeeProgramService feeProgramService;
 
-   /** The pay program service. */
-   @Inject
-   private PayProgramService payProgramService;
+	/** The pay program service. */
+	@Inject
+	private PayProgramService payProgramService;
 
-   /** The account service. */
-   @Inject
-   private AccountService accountService;
+	/** The account service. */
+	@Inject
+	private AccountService accountService;
 
-   /**
-    * Save and find by FeeProgram test.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test
-   public void saveFeeProgramTest() throws UniqueException {
+	/**
+	 * Save and find by FeeProgram test.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Test
+	public void saveFeeProgramTest() throws UniqueException {
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
 
-      // findById
-      FeeProgram feeProgramSearch = feeProgramService.findById(feeProgram.getId());
-      assertEquals(feeProgram, feeProgramSearch);
-   }
+		// findById
+		FeeProgram feeProgramSearch = feeProgramService.findById(feeProgram.getId());
+		assertEquals(feeProgram, feeProgramSearch);
+	}
 
-   /**
-    * Save and find by FeeProgram test.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test
-   public void saveFeeProgramWithUsersTest() throws UniqueException, UniqueListException {
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
+	/**
+	 * Save and find by FeeProgram test.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Test
+	public void saveFeeProgramWithUsersTest() throws UniqueException, UniqueListException {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
 
-      Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
-      programService.save(program);
-      programService.up(program);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "",
+				"", "", "", "");
+		programService.save(program);
+		programService.up(program);
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
 
-      // findById
-      FeeProgram feeProgramSearch = feeProgramService.findById(feeProgram.getId());
-      assertEquals(feeProgram, feeProgramSearch);
+		// findById
+		FeeProgram feeProgramSearch = feeProgramService.findById(feeProgram.getId());
+		assertEquals(feeProgram, feeProgramSearch);
 
-      assertEquals(payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId()).size(), 1);
-   }
+		assertEquals(payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId()).size(), 1);
+	}
 
-   /**
-    * Save and find by FeeProgram test.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test(expected = UniqueException.class)
-   public void saveFeeProgramExceptionTest() throws UniqueException, UniqueListException {
+	/**
+	 * Save and find by FeeProgram test.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Test(expected = UniqueException.class)
+	public void saveFeeProgramExceptionTest() throws UniqueException, UniqueListException {
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
-      feeProgramService.save(feeProgram);
-   }
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
+		feeProgramService.save(feeProgram);
+	}
 
-   /**
-    * Save and find by FeeProgram test.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test
-   public void saveUserFeeProgramTest() throws UniqueException, UniqueListException {
+	/**
+	 * Save and find by FeeProgram test.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Test
+	public void saveUserFeeProgramTest() throws UniqueException, UniqueListException {
 
-      // Save
-      List<Account> accounts = new ArrayList<Account>();
-      Account account = new Account("user", "55555555C", "London", "user", "user@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(account);
-      accounts.add(account);
+		// Save
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(account);
+		accounts.add(account);
 
-      Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
-      programService.save(program);
-      programService.update(program);
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "",
+				"", "", "", "");
+		programService.save(program);
+		programService.update(program);
 
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
 
-      // findById
+		// findById
 
-      FeeProgram feeProgramSearch = feeProgramService.findById(feeProgram.getId());
-      assertEquals(feeProgram, feeProgramSearch);
-   }
+		FeeProgram feeProgramSearch = feeProgramService.findById(feeProgram.getId());
+		assertEquals(feeProgram, feeProgramSearch);
+	}
 
-   /**
-    * Update.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test
-   public void UpdateFeeProgramTest() throws UniqueException {
+	/**
+	 * Update.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Test
+	public void UpdateFeeProgramTest() throws UniqueException {
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
 
-      // Update
-      feeProgram.setName("pay of 1016");
-      feeProgram.setDate(date);
-      feeProgram.setDateLimit(date);
-      feeProgram.setPrice(Double.valueOf(25));
-      feeProgram.setDescription("pay of 2016, tax for members");
-      feeProgramService.update(feeProgram);
+		// Update
+		feeProgram.setName("pay of 1016");
+		feeProgram.setDate(date);
+		feeProgram.setDateLimit(date);
+		feeProgram.setPrice(Double.valueOf(25));
+		feeProgram.setDescription("pay of 2016, tax for members");
+		feeProgramService.update(feeProgram);
 
-      // Assert
-      FeeProgram feeProgramSearch = feeProgramService.findById(feeProgram.getId());
-      assertEquals(feeProgram, feeProgramSearch);
-      assertEquals(feeProgram.getName(), feeProgramSearch.getName());
-      assertEquals(feeProgram.getDate(), feeProgramSearch.getDate());
-      assertEquals(feeProgram.getDateLimit(), feeProgramSearch.getDateLimit());
-      assertEquals(feeProgram.getPrice(), feeProgramSearch.getPrice());
-      assertEquals(feeProgram.getDescription(), feeProgramSearch.getDescription());
-      
-      date = DisplayDate.stringToMonthOfYear("2016-12");
-      FeeProgram feeProgram2 = new FeeProgram("new name", Double.valueOf(25), date, date, "description");
-      feeProgramService.update(feeProgram2);
-   }
+		// Assert
+		FeeProgram feeProgramSearch = feeProgramService.findById(feeProgram.getId());
+		assertEquals(feeProgram, feeProgramSearch);
+		assertEquals(feeProgram.getName(), feeProgramSearch.getName());
+		assertEquals(feeProgram.getDate(), feeProgramSearch.getDate());
+		assertEquals(feeProgram.getDateLimit(), feeProgramSearch.getDateLimit());
+		assertEquals(feeProgram.getPrice(), feeProgramSearch.getPrice());
+		assertEquals(feeProgram.getDescription(), feeProgramSearch.getDescription());
 
-   /**
-    * Update Inscription Exception.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test(expected = UniqueException.class)
-   public void UpdateFeeProgramExceptionTest() throws UniqueException {
+		date = DisplayDate.stringToMonthOfYear("2016-12");
+		FeeProgram feeProgram2 = new FeeProgram("new name", Double.valueOf(25), date, date, "description");
+		feeProgramService.update(feeProgram2);
+	}
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
-      Date date2 = DisplayDate.stringToMonthOfYear("2016-12");
-      FeeProgram feeProgram2 = new FeeProgram("name2", Double.valueOf(25), date2, date2,
-            "description");
-      feeProgramService.save(feeProgram2);
+	/**
+	 * Update Inscription Exception.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Test(expected = UniqueException.class)
+	public void UpdateFeeProgramExceptionTest() throws UniqueException {
 
-      // Update
-      FeeProgram feeProgram3 = new FeeProgram("name3", Double.valueOf(25), date, date,
-            "description");
-      feeProgramService.update(feeProgram3);
-   }
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
+		Date date2 = DisplayDate.stringToMonthOfYear("2016-12");
+		FeeProgram feeProgram2 = new FeeProgram("name2", Double.valueOf(25), date2, date2, "description");
+		feeProgramService.save(feeProgram2);
 
-   /**
-    * findByName test.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test
-   public void findByNameTest() throws UniqueException {
+		// Update
+		FeeProgram feeProgram3 = new FeeProgram("name3", Double.valueOf(25), date, date, "description");
+		feeProgramService.update(feeProgram3);
+	}
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
+	/**
+	 * findByName test.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Test
+	public void findByNameTest() throws UniqueException {
 
-      // findByName
-      FeeProgram feeProgramSearch = feeProgramService.findByName(feeProgram.getName());
-      assertEquals(feeProgram, feeProgramSearch);
-      assertNull(feeProgramService.findByName("Do not exist"));
-   }
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
 
-   /**
-    * findByYear test.
-    *
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test
-   public void findByDateTest() throws UniqueException {
+		// findByName
+		FeeProgram feeProgramSearch = feeProgramService.findByName(feeProgram.getName());
+		assertEquals(feeProgram, feeProgramSearch);
+		assertNull(feeProgramService.findByName("Do not exist"));
+	}
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
+	/**
+	 * findByYear test.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Test
+	public void findByDateTest() throws UniqueException {
 
-      // findByName
-      FeeProgram feeProgramSearch = feeProgramService.findByDate(feeProgram.getDate());
-      assertEquals(feeProgram, feeProgramSearch);
-   }
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
 
-   /**
-    * getFeeProgramList test.
-    *
-    * @return the fee program list test
-    * @throws UniqueException
-    *            the unique exception
-    */
-   @Test
-   public void getFeeProgramListTest() throws UniqueException {
+		// findByName
+		FeeProgram feeProgramSearch = feeProgramService.findByDate(feeProgram.getDate());
+		assertEquals(feeProgram, feeProgramSearch);
+	}
 
-      // getFeeProgramList, no FeePrograms
-      List<FeeProgram> feeProgramList = feeProgramService.getFeeProgramList();
-      // Assert
-      assertTrue(feeProgramList.isEmpty());
+	/**
+	 * getFeeProgramList test.
+	 *
+	 * @return the fee program list test
+	 * @throws UniqueException the unique exception
+	 */
+	@Test
+	public void getFeeProgramListTest() throws UniqueException {
 
-      // Save
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
-      Date date2 = DisplayDate.stringToMonthOfYear("2016-12");
-      FeeProgram feeProgram2 = new FeeProgram("name", Double.valueOf(25), date2, date2,
-            "description");
-      feeProgramService.save(feeProgram2);
+		// getFeeProgramList, no FeePrograms
+		List<FeeProgram> feeProgramList = feeProgramService.getFeeProgramList();
+		// Assert
+		assertTrue(feeProgramList.isEmpty());
 
-      // getFeeProgramList
-      feeProgramList = feeProgramService.getFeeProgramList();
-      // Assert
-      assertEquals(feeProgramList.size(), 2);
-   }
+		// Save
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
+		Date date2 = DisplayDate.stringToMonthOfYear("2016-12");
+		FeeProgram feeProgram2 = new FeeProgram("name", Double.valueOf(25), date2, date2, "description");
+		feeProgramService.save(feeProgram2);
+
+		// getFeeProgramList
+		feeProgramList = feeProgramService.getFeeProgramList();
+		// Assert
+		assertEquals(feeProgramList.size(), 2);
+	}
 }

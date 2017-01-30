@@ -83,6 +83,11 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 	}
 
 	@Override
+	public List<Program> getProgramListClose() {
+		return entityManager.createQuery("select p from Program p where p.active = false order by p.name", Program.class).getResultList();
+	}
+
+	@Override
 	public List<Program> getProgramListActiveWhitoutPays(Date month) {
 		return entityManager.createQuery("select p from Program p where p.active = true "
 				+ "and p not in (select program from PayProgram pay join pay.program program join pay.feeProgram fee where program.active = true and month(fee.date) = month(:month)) "

@@ -26,6 +26,12 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='feeMember')">&nbsp;</div>
 
+	<!-- Button redirect to fee member list-->
+	<div class="text-center">
+		<a href="#" class="btn btn-info btn-lg" th:href="@{/feeMemberList}" th:text="#{feeMember.backFeeMemberList}"> </a>
+	</div>
+	<br></br>
+	
 	<div class="container-fluid">
 		<h1 class="text-center" th:text="*{feeMember.name}">List of User Pay member</h1>
 		<br></br>

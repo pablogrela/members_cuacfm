@@ -361,7 +361,7 @@ CREATE TABLE DirectDebitPayPrograms(
     payProgramId INT NOT NULL,
     CONSTRAINT DirectDebitPayProgramsId_PK PRIMARY KEY (id),
     CONSTRAINT DirectDebitPayPrograms_DirectDebitId_FK FOREIGN KEY (directDebitId) REFERENCES DirectDebit(id),
-    CONSTRAINT DirectDebitPayPrograms_PayProgramId_FK FOREIGN KEY (payProgramId) REFERENCES PayProgram(id)
+    CONSTRAINT DirectDebitPayPrograms_PayProgramId_FK FOREIGN KEY (payProgramId) REFERENCES PayProgram(id) ON DELETE CASCADE
 );		
 
 
@@ -371,7 +371,7 @@ CREATE TABLE DirectDebitPayMembers(
     payMemberId INT NOT NULL,
     CONSTRAINT DirectDebitPayMembersId_PK PRIMARY KEY (id),
     CONSTRAINT DirectDebitPayMembers_DirectDebitId_FK FOREIGN KEY (directDebitId) REFERENCES DirectDebit(id),
-    CONSTRAINT DirectDebitPayMembers_PayMemberId_FK FOREIGN KEY (payMemberId) REFERENCES PayMember(id)
+    CONSTRAINT DirectDebitPayMembers_PayMemberId_FK FOREIGN KEY (payMemberId) REFERENCES PayMember(id) ON DELETE CASCADE
 );		
 
 
@@ -424,7 +424,6 @@ insert into ProgramType values (6, 'Educativo', 'Educativo');
 insert into ProgramType values (7, 'Entrevistas', 'Entrevistas');	
 
 
-
 -- Insert Program Thematic:
 insert into ProgramThematic values (1, 'Outros temas', 'Outros temas');	
 insert into ProgramThematic values (2, 'Sociedade', ' Sociedade');
@@ -436,20 +435,19 @@ insert into ProgramThematic values (7, 'Actualidade', 'Actualidade');
 insert into ProgramThematic values (8, 'Ciencia', 'Ciencia');	
 
 
-
 -- Insert ProgramCategory:
 insert into ProgramCategory values (1, 'Others', ' Others');
--- insert into ProgramCategory values (2, 'Política', 'Política');
--- insert into ProgramCategory values (3, 'Cultura', ' Cultura');
--- insert into ProgramCategory values (4, 'Deportes', 'Deportes');	
--- insert into ProgramCategory values (5, 'Humor', 'Humor');	
--- insert into ProgramCategory values (6, 'Actualidade', 'Actualidade');	
--- insert into ProgramCategory values (7, 'Ciencia', 'Ciencia');	
--- insert into ProgramCategory values (8, 'Outros temas', 'Outros temas');	
+insert into ProgramCategory values (2, 'Política', 'Política');
+insert into ProgramCategory values (3, 'Cultura', ' Cultura');
+insert into ProgramCategory values (4, 'Deportes', 'Deportes');	
+insert into ProgramCategory values (5, 'Humor', 'Humor');	
+insert into ProgramCategory values (6, 'Actualidade', 'Actualidade');	
+insert into ProgramCategory values (7, 'Ciencia', 'Ciencia');	
+insert into ProgramCategory values (8, 'Outros temas', 'Outros temas');	
 
 
 -- Insert Program Thematic:
-insert into ProgramLanguage values (1, 'Español', ' Español');
-insert into ProgramLanguage values (2, 'Gallego', 'Gallego');
-insert into ProgramLanguage values (3, 'Inglés', ' Inglés');
-insert into ProgramLanguage values (4, 'Otro', ' Otro');
+insert into ProgramLanguage values (1, 'Otro', ' Otro');
+insert into ProgramLanguage values (2, 'Español', ' Español');
+insert into ProgramLanguage values (3, 'Gallego', 'Gallego');
+insert into ProgramLanguage values (4, 'Inglés', ' Inglés');

@@ -12,7 +12,7 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>0.2.2 - managements, events, payments and bankRemitances</version>
+	<version>0.2.3 - managements, events, payments and bankRemitances</version>
 	<inceptionYear>2015</inceptionYear>
 	<name>members</name>
 	<url>https://github.com/pablogrela/members_cuacfm</url>
@@ -31,13 +31,13 @@ Management of events of each important action.</description>
 	</properties>
 
 	<repositories>
-	<!-- Rspositorio para descargar el validador de la AEAT -->
+		<!-- Repositorio para descargar el validador de la AEAT -->
 		<repository>
 			<id>aet</id>
 			<url>http://nexus.emergya.es/nexus/content/groups/public</url>
 		</repository>
 	</repositories>
-	
+
 	<scm>
 		<url>scm:git:ssh://git@git.org.cuacfm:members_cuacfm.git</url>
 		<developerConnection>scm:git:git@git.org.cuacfm:members_cuacfm.git</developerConnection>
@@ -173,12 +173,6 @@ Management of events of each important action.</description>
 		</dependency>
 		<!-- @Inject -->
 
-		<!-- ========== Mail ========== -->
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4</version>
-		</dependency>
 		<dependency>
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
@@ -272,7 +266,13 @@ Management of events of each important action.</description>
 		<dependency>
 			<groupId>com.mycila</groupId>
 			<artifactId>license-maven-plugin</artifactId>
-			<version>2.11</version>
+			<version>3.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.maven</groupId>
+					<artifactId>maven-model</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- IText -->
 		<dependency>
@@ -283,24 +283,24 @@ Management of events of each important action.</description>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>2.45.0</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-chrome-driver</artifactId>
-			<version>2.45.0</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-firefox-driver</artifactId>
-			<version>2.45.0</version>
+			<version>3.0.1</version>
 		</dependency>
 		<!-- Necessary for selenium -->
-		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-			<version>1.4.01</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>xml-apis</groupId> -->
+		<!-- <artifactId>xml-apis</artifactId> -->
+		<!-- <version>1.4.01</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
@@ -335,14 +335,17 @@ Management of events of each important action.</description>
 						<email>pablogp_9@hotmail.com</email>
 					</properties>
 					<excludes>
+						<exclude>logs/**</exclude>
 						<exclude>**/README</exclude>
+						<exclude>**/LICENSE</exclude>
 						<exclude>src/test/resources/**</exclude>
 						<exclude>src/main/resources/**</exclude>
-						<exclude>src/main/webapp/resources/js/formcfg-es.js</exclude>
-						<exclude>src/main/webapp/resources/js/formcfg-gl.js</exclude>
-						<exclude>src/main/webapp/resources/css/dataTables.css</exclude>
-						<exclude>src/main/webapp/resources/fonts/**</exclude>
-						<exclude>logs/**</exclude>
+						<exclude>src/main/webapp/resources/js/libraries/**</exclude>
+						<exclude>src/main/webapp/resources/js/various/formcfg-gl.js</exclude>
+						<exclude>src/main/webapp/resources/js/various/formcfg-es.js</exclude>
+						<exclude>src/main/webapp/resources/css/libraries/**</exclude>
+						<exclude>src/main/webapp/resources/css/fonts/**</exclude>
+						<exclude>src/main/webapp/resources/json/**</exclude>
 						<exclude>src/main/webapp/WEB-INF/i18n/**</exclude>
 					</excludes>
 				</configuration>

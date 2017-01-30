@@ -97,7 +97,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
       user.setInstallments(1);
       accountService.update(user, false, true);
 
-      defaultSession = getDefaultSession("user");
+      defaultSession = getDefaultSession("user@udc.es");
    }
 
 	/**

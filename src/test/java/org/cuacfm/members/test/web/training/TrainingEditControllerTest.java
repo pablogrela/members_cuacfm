@@ -75,7 +75,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
     public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
-        defaultSession = getDefaultSession("trainer");
+        defaultSession = getDefaultSession("trainer@udc.es");
     }
 
 	
@@ -189,7 +189,7 @@ public class TrainingEditControllerTest extends WebSecurityConfigurationAware {
 				.param("maxPlaces", "10")
 				.param("close", "false"))
 				.andExpect(content()
-                		.string(containsString("Maximum 30 characters")))
+                		.string(containsString("Maximum 50 characters")))
                 		.andExpect(view().name("training/trainingedit"));
 	}
 	

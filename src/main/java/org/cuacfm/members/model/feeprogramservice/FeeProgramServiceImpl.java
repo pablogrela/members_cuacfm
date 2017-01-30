@@ -97,14 +97,14 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 
 		for (PayProgram payProgram : payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId())) {
 			// Si el programa esta dado de baja y no esta pagado se elimina
-			if (!payProgram.getProgram().isActive() && payProgram.getState().equals(states.NO_PAY) && payProgram.getState().equals(states.CANCEL)) {
+			if (!payProgram.getProgram().isActive() && (payProgram.getState().equals(states.NO_PAY) || payProgram.getState().equals(states.CANCEL))) {
 				payProgramService.remove(payProgram);
 			}
 		}
 
 		// Añadir nuevos pagos si es necesario
 		for (Program program : programService.getProgramListActiveWhitoutPays(feeProgram.getDate())) {
-			Double price = feeProgram.getPrice() * program.getDuration() * program.getPeriodicity();
+			Double price = (feeProgram.getPrice() / 60) * program.getDuration() * program.getPeriodicity();
 			PayProgram payProgram = new PayProgram(program, feeProgram, price);
 			payProgramService.save(payProgram);
 			directDebitService.save(program.getAccountPayer());

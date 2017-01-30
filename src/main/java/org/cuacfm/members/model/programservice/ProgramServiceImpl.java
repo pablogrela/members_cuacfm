@@ -122,6 +122,11 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+	public List<Program> getProgramListClose() {
+		return programRepository.getProgramListClose();
+	}
+	
+	@Override
 	public List<Program> getProgramListActiveWhitoutPays(Date month){
 		return programRepository.getProgramListActiveWhitoutPays(month);
 	}

@@ -103,7 +103,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
-		defaultSession = getDefaultSession("admin");
+		defaultSession = getDefaultSession("admin@udc.es");
 
 		MethodPayment methodPayment = new MethodPayment("name", true, "domiciliacion");
 		methodPaymentService.save(methodPayment);
@@ -139,13 +139,17 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
 		feeMemberService.save(feeMember);
 
-		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
+		Program program = new Program("Program", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1),
+				"", "", "", "", "");
 		programService.save(program);
 		programService.up(program);
 		program.setAccountPayer(account);
 		programService.update(program);
 
-		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, new ArrayList<Account>(), account, null, null, null, null, "", "", "", "", "");
+		Program program2 = new Program("Program2", "Very interesting", Float.valueOf(1), 9, new ArrayList<Account>(), account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1),
+				"", "", "", "", "");
 		programService.save(program2);
 		programService.up(program2);
 		program2.setAccountPayer(account2);
@@ -153,7 +157,9 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 
 		List<Account> accounts2 = new ArrayList<Account>();
 		accounts2.add(account3);
-		Program program3 =  new Program("Pepe3", "Very interesting", Float.valueOf(1), 9, accounts2, account, null, null, null, null, "", "", "", "", "");
+		Program program3 = new Program("Program3", "Very interesting", Float.valueOf(1), 9, accounts2, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1),
+				"", "", "", "", "");
 		programService.save(program3);
 		programService.up(program3);
 		program3.setAccountPayer(account2);
@@ -189,7 +195,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	public void displaysDirectDebitTest() throws Exception {
 
 		mockMvc.perform(post("/bankRemittanceList/directDebitList/" + bankRemittance.getId()).locale(Locale.ENGLISH).session(defaultSession))
-				.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));
+				.andExpect(view().name("redirect:/directDebitList"));
 
 		mockMvc.perform(get("/bankRemittanceList/directDebitList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("bankremittance/directdebitlist"))
@@ -207,7 +213,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
 
 		mockMvc.perform(post("/directDebitList/cash/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession))
-				//.andExpect(view().name("bankremittance/directdebitlist"))
+		//.andExpect(view().name("bankremittance/directdebitlist"))
 		;
 		assertTrue(directDebit.getState().equals(states.PAY));
 

@@ -26,10 +26,15 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='payInscription')">&nbsp;</div>
 
+	<!-- Button redirect to fee program list-->
+	<div class="text-center">
+		<input type="button" class="btn btn-info btn-lg" th:value="#{payProgram.backPayProgramList}" onclick="previousPage()" />
+	</div>
+	<br></br>
+
 	<h1 class="text-center" th:text="*{payProgram.program.name}">Account Name</h1>
 
-	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payProgramEdit}"
-		th:object="${payProgramForm}">
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payProgramEdit}" th:object="${payProgramForm}">
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${payProgramForm.*}')}">
@@ -46,35 +51,31 @@
 				<label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01"
-							min="0.01" required="required" />
+						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0.01" required="required" />
 					</div>
 					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
 					<br></br>
-					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
-						Incorrect price</span>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"> Incorrect price</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-			
+
 			<!-- State, Selected option in droplist, with a checkbox to enable field state -->
 			<div class="form-group">
 				<label for="state" class="col-lg-2 control-label" th:text="#{state}">state</label>
 				<div class="col-lg-6">
 					<select class="form-control" th:field="*{state}" th:title="#{infoState}">
-						<option th:field="*{state}" th:each="state : ${payProgramForm.stateList}" th:value="${state}" 
-							th:text="#{${'states.' + state}}">state</option>
+						<option th:field="*{state}" th:each="state : ${payProgramForm.stateList}" th:value="${state}" th:text="#{${'states.' + state}}">state</option>
 					</select>
 				</div>
 			</div>
-			
+
 			<!-- Method, Selected option in droplist, with a checkbox to enable field method -->
 			<div class="form-group">
 				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">method</label>
 				<div class="col-lg-6">
 					<select class="form-control" th:field="*{method}" th:title="#{infoMethodPayment}">
-						<option th:field="*{method}" th:each="method : ${payProgramForm.methodList}" th:value="${method}" 
-							th:text="#{${'methods.' + method}}">method</option>
+						<option th:field="*{method}" th:each="method : ${payProgramForm.methodList}" th:value="${method}" th:text="#{${'methods.' + method}}">method</option>
 					</select>
 				</div>
 			</div>
@@ -83,10 +84,9 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('accountPayer')}? 'has-error'">
 				<label for="accountPayer" class="col-lg-1 control-label" th:text="#{payProgram.accountPayer}">Account Payer</label>
 				<div class="col-lg-10">
-					<input type="text" name="accountPayer" class="form-control" id="accountPayer" list="userlist"
-						th:placeholder="#{payProgram.accountPayer}" th:field="*{accountPayer}" maxlength="50" />
-					<span class="help-block" th:if="${#fields.hasErrors('accountPayer')}" th:errors="*{accountPayer}">Incorrect
-						accountPayer</span>
+					<input type="text" name="accountPayer" class="form-control" id="accountPayer" list="userlist" th:placeholder="#{payProgram.accountPayer}"
+						th:field="*{accountPayer}" maxlength="50" />
+					<span class="help-block" th:if="${#fields.hasErrors('accountPayer')}" th:errors="*{accountPayer}">Incorrect accountPayer</span>
 					<!-- Datalist is a search by keyword-->
 					<datalist id="userlist">
 						<option th:each="username : ${usernames}" th:value="${username}" />
@@ -99,8 +99,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('idTxn')}? 'has-error'">
 				<label for="idTxn" class="col-lg-1 control-label" th:text="#{payProgram.idTxn}">IdTxn</label>
 				<div class="col-lg-10">
-					<input type="text" name="idTxn" class="form-control" id="idTxn" th:placeholder="#{payProgram.idTxn}"
-						th:field="*{idTxn}" maxlength="50" />
+					<input type="text" name="idTxn" class="form-control" id="idTxn" th:placeholder="#{payProgram.idTxn}" th:field="*{idTxn}" maxlength="50" />
 					<span class="help-block" th:if="${#fields.hasErrors('idTxn')}" th:errors="*{idTxn}">Incorrect idTxn</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -112,8 +111,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('idPayer')}? 'has-error'">
 				<label for="idPayer" class="col-lg-1 control-label" th:text="#{payProgram.idPayer}">IdPayer</label>
 				<div class="col-lg-10">
-					<input type="text" name="idPayer" class="form-control" id="idPayer" th:placeholder="#{payProgram.idPayer}"
-						th:field="*{idPayer}" maxlength="50" />
+					<input type="text" name="idPayer" class="form-control" id="idPayer" th:placeholder="#{payProgram.idPayer}" th:field="*{idPayer}" maxlength="50" />
 					<span class="help-block" th:if="${#fields.hasErrors('idPayer')}" th:errors="*{idPayer}">Incorrect idPayer</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -125,22 +123,20 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('emailPayer')}? 'has-error'">
 				<label for="emailPayer" class="col-lg-1 control-label" th:text="#{payProgram.emailPayer}">EmailPayer</label>
 				<div class="col-lg-10">
-					<input type="text" name="emailPayer" class="form-control" id="emailPayer"
-						th:placeholder="#{payProgram.emailPayer}" th:field="*{emailPayer}" maxlength="50" />
-					<span class="help-block" th:if="${#fields.hasErrors('emailPayer')}" th:errors="*{emailPayer}">Incorrect
-						emailPayer</span>
+					<input type="text" name="emailPayer" class="form-control" id="emailPayer" th:placeholder="#{payProgram.emailPayer}" th:field="*{emailPayer}"
+						maxlength="50" />
+					<span class="help-block" th:if="${#fields.hasErrors('emailPayer')}" th:errors="*{emailPayer}">Incorrect emailPayer</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-			
+
 
 
 			<!-- Edit DatePay -->
 			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('datePay')}? 'has-error'">
 				<label for="datePay" class="col-lg-1 control-label" th:text="#{payProgram.datePay}">Date PayProgram</label>
 				<div class="col-lg-10">
-					<input type="datetime" class="form-control" id="datePay" th:placeholder="#{payProgram.datePay}"
-						th:field="*{datePay}" />
+					<input type="datetime" class="form-control" id="datePay" th:placeholder="#{payProgram.datePay}" th:field="*{datePay}" />
 					<span class="help-block" th:if="${#fields.hasErrors('datePay')}" th:errors="*{datePay}">Incorrect datePay</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>

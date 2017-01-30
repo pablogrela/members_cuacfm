@@ -25,11 +25,19 @@
 <script th:src="@{/resources/js/service/directDebitService.js}"></script>
 <script th:src="@{/resources/js/controller/directDebitOpenController.js}"></script>
 </head>
+
+<script>
+	
+</script>
+
 <body data-ng-app="membersApp">
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='Home')">&nbsp;</div>
 
+	<!-- Info to create values in firebase -->
+	<!-- <input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{account.email}" maxlength="50" required="required" /> -->
+	<!-- <input type="text" class="form-control" id="password" th:placeholder="#{password}" th:field="*{account.password}" maxlength="50" required="required" /> -->
 
 	<div class="container-fluid">
 
@@ -56,8 +64,8 @@
 				<p class="lead" th:text="#{home.welcome}">Welcome</p>
 				<br></br>
 			</div>
-			
-			
+
+
 			<!-- Button redirect to event list close-->
 			<div data-ng-show="ctrl.events" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
 				<div>
@@ -66,7 +74,7 @@
 				<br></br>
 			</div>
 
-			
+
 			<div data-ng-repeat="event in ctrl.events">
 
 				<!-- Start messages only admin -->

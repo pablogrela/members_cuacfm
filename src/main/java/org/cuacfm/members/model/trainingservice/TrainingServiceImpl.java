@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.account.AccountRepository;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
@@ -40,9 +39,6 @@ import org.springframework.stereotype.Service;
 /** The Class TrainingService. */
 @Service("trainingService")
 public class TrainingServiceImpl implements TrainingService {
-
-	@Autowired
-	private AccountRepository accountRepository;
 
 	@Autowired
 	private TrainingRepository trainingRepository;
@@ -131,41 +127,19 @@ public class TrainingServiceImpl implements TrainingService {
 		return trainingRepository.getTrainingList();
 	}
 
-	/**
-	 * Get all trainings with close = false.
-	 *
-	 * @return List<Training>
-	 */
 	@Override
 	public List<Training> getTrainingListOpen() {
 		return trainingRepository.getTrainingListOpen();
 	}
 
-	/**
-	 * Gets the training list close with close = true.
-	 *
-	 * @param year the year
-	 * @return the training list close
-	 */
 	@Override
 	public List<Training> getTrainingListClose(int year) {
 		return trainingRepository.getTrainingListClose(year);
 	}
 
-	/**
-	 * Create the new inscription
-	 *
-	 * @param accountId the id of user
-	 * @param trainingId the id of training
-	 * @throws MaximumCapacityException
-	 * @throws DateLimitExpirationException
-	 * @throws UserAlreadyJoinedException
-	 */
 	@Override
-	public void createInscription(Long accountId, Long trainingId)
+	public void createInscription(Account account, Training training)
 			throws MaximumCapacityException, DateLimitExpirationException, UserAlreadyJoinedException {
-
-		Training training = trainingRepository.findById(trainingId);
 
 		// Checks if a limit past the deadline
 		Date nowDate = new Date();
@@ -180,10 +154,8 @@ public class TrainingServiceImpl implements TrainingService {
 			throw new MaximumCapacityException(maxPlaces);
 		}
 
-		Account account = accountRepository.findById(accountId);
-
 		// Check if account already inscription
-		Inscription inscriptionSearched = inscriptionRepository.findByInscriptionIds(accountId, trainingId);
+		Inscription inscriptionSearched = inscriptionRepository.findByInscriptionIds(account.getId(), training.getId());
 		if (inscriptionSearched != null) {
 			throw new UserAlreadyJoinedException(account.getLogin());
 		}
@@ -193,115 +165,62 @@ public class TrainingServiceImpl implements TrainingService {
 
 		Inscription inscription = new Inscription(account, training);
 		inscriptionRepository.save(inscription);
+		Object[] arguments = { training.getName() };
+		eventService.save("training.successJoin", account, 2, arguments);
 	}
 
-	/**
-	 * Delete Inscription.
-	 *
-	 * @param inscription the inscription
-	 * @return the inscription
-	 */
 	@Override
 	public void deleteInscription(Long accountId, Long trainingId) {
 		inscriptionRepository.delete(accountId, trainingId);
 	}
 
-	/**
-	 * Unsubscribe Inscription.
-	 *
-	 * @param inscription the inscription
-	 * @return the inscription
-	 * @throws UnsubscribeException
-	 */
 	@Override
-	public void unsubscribeInscription(Long accountId, Long trainingId) throws UnsubscribeException {
+	public void unsubscribeInscription(Account account, Training training) throws UnsubscribeException {
 
-		Inscription inscription = inscriptionRepository.findByInscriptionIds(accountId, trainingId);
+		Inscription inscription = inscriptionRepository.findByInscriptionIds(account.getId(), training.getId());
 
 		if (inscription.isUnsubscribe()) {
 			throw new UnsubscribeException(inscription.getTraining().getName());
 		}
-		Training trainingUpdate = trainingRepository.findById(trainingId);
-		trainingUpdate.setCountPlaces(trainingUpdate.getCountPlaces() - 1);
-		trainingRepository.update(trainingUpdate);
+
+		training.setCountPlaces(training.getCountPlaces() - 1);
+		trainingRepository.update(training);
 		inscription.setUnsubscribe(true);
 		inscriptionRepository.update(inscription);
+		Object[] arguments = { training.getName() };
+		eventService.save("training.removeJoin", account, 2, arguments);
 	}
 
-	/**
-	 * Update Inscription.
-	 * 
-	 * @param accountId the id of user
-	 * @param trainingId the id of training
-	 * @return the inscription
-	 */
 	@Override
 	public void updateInscription(Inscription inscription) {
 		inscriptionRepository.update(inscription);
 	}
 
-	/**
-	 * Find Inscription by accountId and trainingId.
-	 *
-	 * @param accountId the id of user
-	 * @param trainingId the id of training
-	 * @return inscription
-	 */
 	@Override
 	public Inscription findByInscriptionIds(Long accountId, Long trainingId) {
 		return inscriptionRepository.findByInscriptionIds(accountId, trainingId);
 	}
 
-	/**
-	 * Get all Inscriptions by accountId.
-	 *
-	 * @param accountId the id of user
-	 * @return the List<Inscription> pertain to user
-	 */
 	@Override
 	public List<Inscription> getInscriptionsByAccountId(Long accountId) {
 		return inscriptionRepository.getByAccountId(accountId);
 	}
 
-	/**
-	 * Get all Inscriptions by trainingId.
-	 *
-	 * @param trainingId the id of training
-	 * @return the List<Inscription> pertain to traing
-	 */
 	@Override
 	public List<Inscription> getInscriptionsByTrainingId(Long trainingId) {
 		return inscriptionRepository.getByTrainingId(trainingId);
 	}
 
-	/**
-	 * Get inscriptions id´s by accountId.
-	 *
-	 * @param accountId the id of user
-	 * @return the List<Long> pertain to traing
-	 */
 	@Override
 	public List<Long> getInscriptionsIdsByAccountId(Long accountId) {
 		return inscriptionRepository.getIdsByAccountId(accountId);
 	}
 
-	/**
-	 * Get inscriptions unsubscribe id´s by accountId.
-	 *
-	 * @param accountId the id of user
-	 * @return the List<Long> pertain to traing
-	 */
 	@Override
 	public List<Long> getUnsubscribeIdsByAccountId(Long accountId) {
 		return inscriptionRepository.getUnsubscribeIdsByAccountId(accountId);
 	}
 
-	/**
-	 * Gets the name users by inscription with role=ROLE_USER an active=true.
-	 *
-	 * @param trainingId the training id
-	 * @return the name users by inscription
-	 */
 	@Override
 	public List<String> getUsernamesByInscription(Long trainingId) {
 		return inscriptionRepository.getUsernamesByInscription(trainingId);

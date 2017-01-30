@@ -27,13 +27,14 @@
 	<div th:replace="fragments/header :: header(active='feeProgram')">&nbsp;</div>
 
 	<div class="container-fluid">
+	
 		<!-- Button Create New Fee Program -->
 		<div class="text-center">
 			<a href="#" class="btn btn-success btn-lg" th:href="@{/feeProgramList/feeProgramCreate}" th:text="#{feeProgram.createNewFeeProgram}">Create New
 				Fee Program </a>
 		</div>
 		<br></br>
-		
+
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<div class="text-center" th:if="${message != null}">
 			<br></br>

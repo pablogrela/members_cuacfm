@@ -97,13 +97,20 @@ public interface ProgramService {
 	public List<Program> getProgramListActive();
 
 	/**
+	 * Gets the program list close.
+	 *
+	 * @return the program list close
+	 */
+	public List<Program> getProgramListClose();
+
+	/**
 	 * Gets the program list active whitout pays.
 	 *
 	 * @param month the month
 	 * @return the program list active whitout pays
 	 */
 	public List<Program> getProgramListActiveWhitoutPays(Date month);
-	
+
 	/**
 	 * Up.
 	 *

@@ -68,7 +68,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
-		defaultSession = getDefaultSession("admin");
+		defaultSession = getDefaultSession("admin@udc.es");
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
-		defaultSession = getDefaultSession("user");
+		defaultSession = getDefaultSession("user@udc.es");
 
 		mockMvc.perform(get("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("program/programcreate")).andExpect(content().string(containsString("<title>Create program</title>")));
@@ -138,7 +138,9 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Program program =new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
+		Program program = new Program("Program", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "",
+				"", "", "", "");
 		programService.save(program);
 
 		mockMvc.perform(get("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession))

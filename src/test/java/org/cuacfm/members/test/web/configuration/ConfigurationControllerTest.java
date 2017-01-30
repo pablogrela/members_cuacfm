@@ -87,7 +87,7 @@ public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
       Account admin = new Account("admin", "55555555C", "London", "admin", "admin@udc.es",
             "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);
-      defaultSession = getDefaultSession("admin");
+      defaultSession = getDefaultSession("admin@udc.es");
 
       accountType = new AccountType("Adult", false, "Tax for Adult", 0);
       accountTypeService.save(accountType);

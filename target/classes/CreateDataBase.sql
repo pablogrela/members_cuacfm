@@ -101,9 +101,9 @@ insert into Training values
 insert into Training values 
 (2, 2, 'Locución', CURRENT_TIMESTAMP - INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a hablar por radio', 'Estudio Cuac', 2.00, 10, 1, true);
 insert into Training values 
-(3, 3, 'Redacción', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP + INTERVAL 17 DAY, 'Se enseñara a redactar', 'Estudio Cuac', 1.00, 10, 0, false);
+(3, 3, 'Redacción', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP + INTERVAL 17 DAY, 'Se enseñara a redactar', 'Estudio Cuac', 1.00, 10, 1, false);
 insert into Training values 
-(4, 4, 'Audacity', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a hablar por radio', 'Estudio Cuac', 2.10, 10, 0, false);
+(4, 4, 'Audacity', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a hablar por radio', 'Estudio Cuac', 2.10, 10, 1, false);
 insert into Training values 
 (5, 1, 'Camara', CURRENT_TIMESTAMP + INTERVAL 15 DAY, CURRENT_TIMESTAMP - INTERVAL 17 DAY, 'Se enseñara a grabar','Estudio Cuac', 1.30, 10, 0, false);
 insert into Training values 

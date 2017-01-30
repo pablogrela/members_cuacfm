@@ -77,6 +77,13 @@ public interface ProgramRepository {
 	public List<Program> getProgramListActive();
 
 	/**
+	 * Gets the program list close.
+	 *
+	 * @return the program list close
+	 */
+	public List<Program> getProgramListClose();
+
+	/**
 	 * Gets the program list active whitout pays.
 	 *
 	 * @param month the month

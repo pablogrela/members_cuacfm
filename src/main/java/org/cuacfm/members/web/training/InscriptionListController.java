@@ -261,7 +261,7 @@ public class InscriptionListController {
       }
 
       try {
-         trainingService.createInscription(id, training.getId());
+         trainingService.createInscription(account, training);
          MessageHelper.addSuccessAttribute(ra, "inscription.successJoin", name);
 
       } catch (UserAlreadyJoinedException e) {

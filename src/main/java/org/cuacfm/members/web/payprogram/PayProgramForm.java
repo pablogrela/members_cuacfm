@@ -79,200 +79,90 @@ public class PayProgramForm {
 		// Default empty constructor.
 	}
 
-	/**
-	 * Gets the price.
-	 *
-	 * @return the price
-	 */
 	public Double getPrice() {
 		return price;
 	}
 
-	/**
-	 * Sets the price.
-	 *
-	 * @param price the new price
-	 */
 	public void setPrice(Double price) {
 		this.price = price;
 	}
 
-	/**
-	 * Gets the state.
-	 *
-	 * @return the state
-	 */
 	public String getState() {
 		return state;
 	}
 
-	/**
-	 * Sets the state.
-	 *
-	 * @param state the new state
-	 */
 	public void setState(String state) {
 		this.state = state;
 	}
 
-	/**
-	 * Gets the state list.
-	 *
-	 * @return the state list
-	 */
 	public List<Constants.states> getStateList() {
 		return stateList;
 	}
 
-	/**
-	 * Sets the state list.
-	 *
-	 * @param stateList the new state list
-	 */
 	public void setStateList(List<Constants.states> stateList) {
 		this.stateList = stateList;
 	}
 
-	/**
-	 * Gets the method.
-	 *
-	 * @return the method
-	 */
 	public String getMethod() {
 		return method;
 	}
 
-	/**
-	 * Sets the method.
-	 *
-	 * @param method the new method
-	 */
 	public void setMethod(String method) {
 		this.method = method;
 	}
 
-	/**
-	 * Gets the method list.
-	 *
-	 * @return the method list
-	 */
 	public List<Constants.methods> getMethodList() {
 		return methodList;
 	}
 
-	/**
-	 * Sets the method list.
-	 *
-	 * @param methodList the new method list
-	 */
 	public void setMethodList(List<Constants.methods> methodList) {
 		this.methodList = methodList;
 	}
 
-	/**
-	 * Gets the account payer.
-	 *
-	 * @return the account payer
-	 */
 	public String getAccountPayer() {
 		return accountPayer;
 	}
 
-	/**
-	 * Sets the account payer.
-	 *
-	 * @param accountPayer the new account payer
-	 */
 	public void setAccountPayer(String accountPayer) {
 		this.accountPayer = accountPayer;
 	}
 
-	/**
-	 * Gets the id payer.
-	 *
-	 * @return the id payer
-	 */
 	public String getIdPayer() {
 		return idPayer;
 	}
 
-	/**
-	 * Sets the id payer.
-	 *
-	 * @param idPayer the new id payer
-	 */
 	public void setIdPayer(String idPayer) {
 		this.idPayer = idPayer;
 	}
 
-	/**
-	 * Gets the id txn.
-	 *
-	 * @return the id txn
-	 */
 	public String getIdTxn() {
 		return idTxn;
 	}
 
-	/**
-	 * Sets the id txn.
-	 *
-	 * @param idTxn the new id txn
-	 */
 	public void setIdTxn(String idTxn) {
 		this.idTxn = idTxn;
 	}
 
-	/**
-	 * Gets the email payer.
-	 *
-	 * @return the email payer
-	 */
 	public String getEmailPayer() {
 		return emailPayer;
 	}
 
-	/**
-	 * Sets the email payer.
-	 *
-	 * @param emailPayer the new email payer
-	 */
 	public void setEmailPayer(String emailPayer) {
 		this.emailPayer = emailPayer;
 	}
 
-	/**
-	 * Gets the status pay.
-	 *
-	 * @return the status pay
-	 */
 	public String getStatusPay() {
 		return statusPay;
 	}
 
-	/**
-	 * Sets the status pay.
-	 *
-	 * @param statusPay the new status pay
-	 */
 	public void setStatusPay(String statusPay) {
 		this.statusPay = statusPay;
 	}
 
-	/**
-	 * Gets the date pay.
-	 *
-	 * @return the date pay
-	 */
 	public String getDatePay() {
 		return datePay;
 	}
 
-	/**
-	 * Sets the date pay.
-	 *
-	 * @param datePay the new date pay
-	 */
 	public void setDatePay(String datePay) {
 		this.datePay = datePay;
 	}

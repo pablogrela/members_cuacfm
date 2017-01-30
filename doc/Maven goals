@@ -1,0 +1,19 @@
+//Maven goals
+
+
+// Usar install con skip test por si falla algun test
+install -skip test
+
+
+// Para ejecutar el site, el cual muestra la informacion de las dependencias y licencias
+--> dentro del target entrar en el site y abrir el index
+site
+
+
+// Para ejecutar la cobertura donde se muestra ta cobertura del codigo
+--> dentro del target  entrar en el site/cobertura y abrir el index
+cobertura:cobertura
+
+
+// Para ejecutar mycilla y añadir las licencias a los archivos que no la tienen
+license:format

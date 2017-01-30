@@ -55,10 +55,10 @@ public class UserAuthenticationIntegrationTest extends WebSecurityConfigurationA
     @Test
     public void userAuthenticates() throws Exception {
     		
-    	Account demoUser = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
+    	Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
     	accountService.save(demoUser);
     	
-        final String username = "user";
+        final String username = "user@udc.es";
         ResultMatcher matcher = new ResultMatcher() {
             public void match(MvcResult mvcResult) throws Exception {
                 HttpSession session = mvcResult.getRequest().getSession();

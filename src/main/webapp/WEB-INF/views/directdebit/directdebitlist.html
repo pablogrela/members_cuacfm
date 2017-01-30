@@ -33,7 +33,7 @@
 
 		<!-- Div of buttons -->
 		<div class="container-fluid text-center containerColums">
-
+		
 			<!-- Form for droplist -->
 			<div class="columLeft">
 				<form method="post" th:action="@{directDebitList/refresh}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
@@ -46,6 +46,7 @@
 			<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="columRight">
 				<a href="#" class="btn btn-info btn-lg" th:href="@{/directDebitList/close}" th:text="#{directDebit.viewdirectDebitListClose}"> </a>
 			</div>
+			
 		</div>
 
 
@@ -62,6 +63,7 @@
 			<div th:include="directdebit/directdebittable :: directdebittable(#{directDebit.directDebitList}, #{directDebit.directDebitListEmpty})"></div>
 		</div>
 	</div>
+
 
 </body>
 </html>

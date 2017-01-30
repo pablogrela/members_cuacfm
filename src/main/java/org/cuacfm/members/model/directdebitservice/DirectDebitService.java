@@ -44,26 +44,6 @@ public interface DirectDebitService {
 	 */
 	public DirectDebit save(Account account);
 
-	//	/**
-	//	 * Create the new direct directDebit if it is null or account has not have directDebit Add payMember to direct directDebit if it exist directDebit
-	//	 * NO_PAY.
-	//	 *
-	//	 * @param account the account
-	//	 * @param payMember the pay member
-	//	 * @return the directDebit
-	//	 */
-	//	public DirectDebit save(Account account, PayMember payMember);
-	//
-	//	/**
-	//	 * Create the new direct directDebit if it is null or account has not have directDebit Add payProgram to direct directDebit if it exist
-	//	 * directDebit NO_PAY.
-	//	 *
-	//	 * @param account the account
-	//	 * @param payProgram the pay program
-	//	 * @return the direct debit
-	//	 */
-	//	public DirectDebit save(Account account, PayProgram payProgram);
-
 	/**
 	 * Refresh.
 	 *
@@ -83,13 +63,11 @@ public interface DirectDebitService {
 	public void updateDirectDebit(DirectDebit directDebit, states state, methods method, Date datePay) throws ExistTransactionIdException;
 
 	/**
-	 * Update.
+	 * Find by id.
 	 *
 	 * @param id the id
 	 * @return the direct debit
 	 */
-	//	public DirectDebit update(DirectDebit directDebit);
-
 	public DirectDebit findById(String id);
 
 	/**

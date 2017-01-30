@@ -67,7 +67,7 @@ public class AccountTypeCreateControllerTest extends WebSecurityConfigurationAwa
       Account admin = new Account("admin", "55555555C", "London", "admin", "admin@udc.es",
             "666666666", "666666666", "admin", roles.ROLE_ADMIN);
       accountService.save(admin);
-      defaultSession = getDefaultSession("admin");
+      defaultSession = getDefaultSession("admin@udc.es");
    }
 
    /**

@@ -160,17 +160,23 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 				DisplayDate.stringToDate2("2015-07-01"), "pay of 2016");
 		feeMemberService.save(feeMember);
 
-		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, null, null, null, null, "", "", "", "", "");
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "",
+				"", "", "", "");
 		programService.save(program);
 		programService.up(program);
 
-		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1),  9, new ArrayList<Account>(), account, null, null, null, null, "", "", "", "", "");
+		Program program2 = new Program("Pepe2", "Very interesting", Float.valueOf(1), 9, new ArrayList<Account>(), account,
+				programService.findProgramTypeById(1), programService.findProgramThematicById(1), programService.findProgramCategoryById(1),
+				programService.findProgramLanguageById(1), "", "", "", "", "");
 		programService.save(program2);
 		programService.up(program2);
 
 		List<Account> accounts2 = new ArrayList<Account>();
 		accounts2.add(account3);
-		Program program3 = new Program("Pepe3", "Very interesting", Float.valueOf(1), 9, accounts2, account, null, null, null, null, "", "", "", "", "");
+		Program program3 = new Program("Pepe3", "Very interesting", Float.valueOf(1), 9, accounts2, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "",
+				"", "", "", "");
 		programService.save(program3);
 		programService.up(program3);
 

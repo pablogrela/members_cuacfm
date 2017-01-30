@@ -75,7 +75,7 @@ public class TrainingTypeListControllerTest extends WebSecurityConfigurationAwar
     public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_TRAINER);
 		accountService.save(trainer);
-        defaultSession = getDefaultSession("trainer");
+        defaultSession = getDefaultSession("trainer@udc.es");
     }
 
 	

@@ -70,7 +70,7 @@
 					<!-- Pay PayPal direct Debit -->
 					<td class="text-center">
 						<!-- pay bank deposit -->
-						<form data-ng-if="directDebit.state != 'CANCEL'" name='formTpv' method='post' th:action="#{paypalUrl}">
+						<form data-ng-if="directDebit.state != 'CANCEL' &amp;&amp; directDebit.state != 'PAY'" name='formTpv' method='post' th:action="#{paypalUrl}">
 							<input type='hidden' name='cmd' value='_xclick' />
 							<input type='hidden' name='business' th:value="${email}" />
 							<input type='hidden' name='item_name' value="{{directDebit.concept}}" />

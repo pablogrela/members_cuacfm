@@ -25,10 +25,14 @@
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='trainingType')">&nbsp;</div>
-	
 
-	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{trainingTypeEdit}"
-		th:object="${trainingTypeForm}">
+	<!-- Button redirect to training type list-->
+	<div class="text-center">
+		<a href="#" class="btn btn-info btn-lg" th:href="@{/trainingTypeList}" th:text="#{trainingType.backTrainingTypeList}"> </a>
+	</div>
+	<br></br>
+
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{trainingTypeEdit}" th:object="${trainingTypeForm}">
 
 
 		<!--/* Show general error message when form contains errors */-->
@@ -46,11 +50,10 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<span th:text="${name}" class="col-sm-1">name</span> <input type="text" class="form-control"
-						id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="50" required="required" /> <span
-						class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect
-						name</span> 
-						<div class="ws-errorbox" hidden=""></div>
+					<span th:text="${name}" class="col-sm-1">name</span>
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="50" required="required" />
+					<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
@@ -59,9 +62,9 @@
 			<div class="form-group">
 				<label for="required" class="col-lg-2 control-label" th:text="#{trainingType.required}">Required</label>
 				<div class="col-lg-2-bigCheck">
-					<input type="checkbox" class="form-control-edit" th:checked="${trainingType.required}"
-						id="trainingType.required" name="required" th:title="#{trainingType.infoRequired}" />
-						<div class="ws-errorbox" hidden=""></div>
+					<input type="checkbox" class="form-control-edit" th:checked="${trainingType.required}" id="trainingType.required" name="required"
+						th:title="#{trainingType.infoRequired}" />
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
@@ -70,12 +73,11 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
 				<label for="description" class="col-lg-2 control-label" th:text="#{description}">Description</label>
 				<div class="col-lg-10">
-					<textarea class="form-control" id="description" th:placeholder="#{description}"
-						th:field="*{description}" rows="5" cols="40" maxlength="500" required="required">
+					<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" rows="5" cols="40" maxlength="500"
+						required="required">
             	Description</textarea>
-					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect
-						description</span> 
-						<div class="ws-errorbox" hidden=""></div>
+					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
@@ -84,29 +86,26 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('place')}? 'has-error'">
 				<label for="place" class="col-lg-2 control-label" th:text="#{place}">place</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="place" th:placeholder="#{place}"
-						th:field="*{place}" maxlength="50" required="required" /> <span class="help-block"
-						th:if="${#fields.hasErrors('place')}" th:errors="*{place}">Incorrect place</span>
-						<div class="ws-errorbox" hidden=""></div>
+					<input type="text" class="form-control" id="place" th:placeholder="#{place}" th:field="*{place}" maxlength="50" required="required" />
+					<span class="help-block" th:if="${#fields.hasErrors('place')}" th:errors="*{place}">Incorrect place</span>
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
 
 			<!-- Edit Duration -->
-	        <div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
-	            <label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
-	            <div class="col-lg-10">
-	            	<div class="col-lg-3-edit">
-	                	<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" 
-	                		min="1" required="required"/>
-	            	</div>
-	            	<span class="col-lg-2-right control-label" th:text="#{minutes}">minutes</span>
-	            	<br></br>
-	            	<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">
-	            		Incorrect duration</span>
-	                <div class="ws-errorbox" hidden=""></div>
-	            </div>
-	        </div>
+			<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
+				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
+				<div class="col-lg-10">
+					<div class="col-lg-3-edit">
+						<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
+					</div>
+					<span class="col-lg-2-right control-label" th:text="#{minutes}">minutes</span>
+					<br></br>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"> Incorrect duration</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
 
 
 			<!-- Button Edit Training -->

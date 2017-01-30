@@ -46,315 +46,291 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 
-   /** The training service. */
-   @Autowired
-   private FeeMemberService feeMemberService;
+	/** The training service. */
+	@Autowired
+	private FeeMemberService feeMemberService;
 
-   /** The training service. */
-   @Autowired
-   private PayMemberService payMemberService;
+	/** The training service. */
+	@Autowired
+	private PayMemberService payMemberService;
 
-   /** The account service. */
-   @Autowired
-   private AccountService accountService;
+	/** The account service. */
+	@Autowired
+	private AccountService accountService;
 
-   /** The account type service. */
-   @Autowired
-   private AccountTypeService accountTypeService;
+	/** The account type service. */
+	@Autowired
+	private AccountTypeService accountTypeService;
 
-   /** The method payment service. */
-   @Autowired
-   private MethodPaymentService methodPaymentService;
+	/** The method payment service. */
+	@Autowired
+	private MethodPaymentService methodPaymentService;
 
-   /**
-    * Save and find by FeeMember test.
-    * 
-    * @throws UniqueListException
-    */
-   @Test
-   public void saveFeeMemberTest() throws UniqueException, UniqueListException {
+	/**
+	 * Save and find by FeeMember test.
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test
+	public void saveFeeMemberTest() throws UniqueException, UniqueListException {
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
 
-      // findById
-      FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
-      assertEquals(feeMember, feeMemberSearch);
-   }
+		// findById
+		FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
+		assertEquals(feeMember, feeMemberSearch);
+	}
 
-   /**
-    * Save and find by FeeMember test.
-    * 
-    * @throws UniqueListException
-    */
-   @Test
-   public void saveFeeMemberWithUsersTest() throws UniqueException, UniqueListException {
-      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-      accountTypeService.save(accountType);
-      MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
-      methodPaymentService.save(methodPayment);
+	/**
+	 * Save and find by FeeMember test.
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test
+	public void saveFeeMemberWithUsersTest() throws UniqueException, UniqueListException {
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+		accountTypeService.save(accountType);
+		MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
+		methodPaymentService.save(methodPayment);
 
-      Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666",
-            "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user);
-      user.setAccountType(accountType);
-      user.setMethodPayment(methodPayment);
-      user.setInstallments(1);
-      accountService.update(user, false, true);
+		Account user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user);
+		user.setAccountType(accountType);
+		user.setMethodPayment(methodPayment);
+		user.setInstallments(1);
+		accountService.update(user, false, true);
 
-      Account user2 = new Account("user2", "11111111C", "London", "user2", "email2@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user2);
+		Account user2 = new Account("user2", "11111111C", "London", "user2", "email2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user2);
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
 
-      // findById
-      FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
-      assertEquals(feeMember, feeMemberSearch);
+		// findById
+		FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
+		assertEquals(feeMember, feeMemberSearch);
 
-      assertEquals(payMemberService.getPayMemberListByFeeMemberId(feeMember.getId()).size(), 2);
-   }
+		assertEquals(payMemberService.getPayMemberListByFeeMemberId(feeMember.getId()).size(), 2);
+	}
 
-   /**
-    * Save and find by FeeMember test.
-    * 
-    * @throws UniqueListException
-    */
-   @Test(expected = UniqueListException.class)
-   public void saveFeeMemberExceptionTest() throws UniqueException, UniqueListException {
+	/**
+	 * Save and find by FeeMember test.
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test(expected = UniqueException.class)
+	public void saveFeeMemberExceptionTest() throws UniqueException, UniqueListException {
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
-      FeeMember feeMember2 = new FeeMember("pay of 2016", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"),
-            "pay of 2016");
-      feeMemberService.save(feeMember2);
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
+		FeeMember feeMember2 = new FeeMember("pay of 2016", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
+				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		feeMemberService.save(feeMember2);
 
-      // findById
-      FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
-      assertEquals(feeMember, feeMemberSearch);
-   }
+		// findById
+		FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
+		assertEquals(feeMember, feeMemberSearch);
+	}
 
-   /**
-    * Save and find by FeeMember test.
-    * 
-    * @throws UniqueListException
-    */
-   @Test
-   public void savePayMemberTest() throws UniqueException, UniqueListException {
+	/**
+	 * Save and find by FeeMember test.
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test
+	public void savePayMemberTest() throws UniqueException, UniqueListException {
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
 
-      AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
-      accountTypeService.save(accountType);
-      MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
-      methodPaymentService.save(methodPayment);
+		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
+		accountTypeService.save(accountType);
+		MethodPayment methodPayment = new MethodPayment("cash", false, "cash");
+		methodPaymentService.save(methodPayment);
 
-      Account user = new Account("user", "11111111C", "London", "user", "email1@udc.es", "666666666",
-            "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user);
-      user.setAccountType(accountType);
-      user.setMethodPayment(methodPayment);
-      user.setInstallments(1);
-      accountService.update(user, false, true);
-      feeMemberService.savePayMember(user, feeMember);
+		Account user = new Account("user", "11111111C", "London", "user", "email1@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user);
+		user.setAccountType(accountType);
+		user.setMethodPayment(methodPayment);
+		user.setInstallments(1);
+		accountService.update(user, false, true);
+		feeMemberService.savePayMember(user, feeMember);
 
-      Account user2 = new Account("user2", "22222222C", "London", "user2", "email2@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user2);
-      user.setInstallments(2);
-      accountService.update(user2, false, true);
-      feeMemberService.savePayMember(user2, feeMember);
+		Account user2 = new Account("user2", "22222222C", "London", "user2", "email2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user2);
+		user.setInstallments(2);
+		accountService.update(user2, false, true);
+		feeMemberService.savePayMember(user2, feeMember);
 
-      Account user3 = new Account("user3", "33333333C", "London", "user3", "email3@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user3);
-      user.setInstallments(3);
-      accountService.update(user3, false, true);
-      feeMemberService.savePayMember(user3, feeMember);
+		Account user3 = new Account("user3", "33333333C", "London", "user3", "email3@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user3);
+		user.setInstallments(3);
+		accountService.update(user3, false, true);
+		feeMemberService.savePayMember(user3, feeMember);
 
-      Account user4 = new Account("user4", "44444444C", "London", "user4", "email4@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user4);
-      user.setInstallments(4);
-      accountService.update(user4, false, true);
-      feeMemberService.savePayMember(user4, feeMember);
-      
-      Account user5 = new Account("user5", "55555555C", "London", "user5", "email5@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user5);
-      user.setInstallments(5);
-      accountService.update(user5, false, false);
-      feeMemberService.savePayMember(user5, feeMember);
-      
-      Account user6 = new Account("user6", "66666666C", "London", "user6", "email6@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user6);
-      user.setInstallments(6);
-      accountService.update(user6, false, true);
-      feeMemberService.savePayMember(user6, feeMember);
-      
-      Account user7 = new Account("user7", "77777777C", "London", "user7", "email7@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user7);
-      user.setInstallments(7);
-      accountService.update(user7, false, true);
-      feeMemberService.savePayMember(user7, feeMember);
-      
-      Account user0 = new Account("user0", "00000000C", "London", "user0", "email0@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_USER);
-      accountService.save(user0);
-      user.setInstallments(0);
-      accountService.update(user7, false, true);
-      feeMemberService.savePayMember(user0, feeMember);
+		Account user4 = new Account("user4", "44444444C", "London", "user4", "email4@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user4);
+		user.setInstallments(4);
+		accountService.update(user4, false, true);
+		feeMemberService.savePayMember(user4, feeMember);
 
-      // findById
+		Account user5 = new Account("user5", "55555555C", "London", "user5", "email5@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user5);
+		user.setInstallments(5);
+		accountService.update(user5, false, false);
+		feeMemberService.savePayMember(user5, feeMember);
 
-      FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
-      assertEquals(feeMember, feeMemberSearch);
-   }
+		Account user6 = new Account("user6", "66666666C", "London", "user6", "email6@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user6);
+		user.setInstallments(6);
+		accountService.update(user6, false, true);
+		feeMemberService.savePayMember(user6, feeMember);
 
-   /**
-    * Update
-    * 
-    * @throws UniqueListException
-    */
-   @Test
-   public void UpdateFeeMemberTest() throws UniqueException, UniqueListException {
+		Account user7 = new Account("user7", "77777777C", "London", "user7", "email7@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user7);
+		user.setInstallments(7);
+		accountService.update(user7, false, true);
+		feeMemberService.savePayMember(user7, feeMember);
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
+		Account user0 = new Account("user0", "00000000C", "London", "user0", "email0@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		accountService.save(user0);
+		user.setInstallments(0);
+		accountService.update(user7, false, true);
+		feeMemberService.savePayMember(user0, feeMember);
 
-      // Update
-      feeMember.setName("pay of 1016");
-      feeMember.setYear(2016);
-      feeMember.setPrice(Double.valueOf(25));
-      feeMember.setDescription("pay of 2016, tax for members");
-      feeMemberService.update(feeMember);
+		// findById
 
-      // Assert
-      FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
-      assertEquals(feeMember, feeMemberSearch);
-      assertEquals(feeMember.getName(), feeMemberSearch.getName());
-      assertEquals(feeMember.getYear(), feeMemberSearch.getYear());
-      assertEquals(feeMember.getPrice(), feeMemberSearch.getPrice());
-      assertEquals(feeMember.getDescription(), feeMemberSearch.getDescription());
+		FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
+		assertEquals(feeMember, feeMemberSearch);
+	}
 
-      FeeMember feeMember2 = new FeeMember("pay of 2018", 2018, Double.valueOf(20),
-            DisplayDate.stringToDate2("2018-04-05"), DisplayDate.stringToDate2("2018-07-05"),
-            "pay of 2018");
-      feeMemberService.update(feeMember2);
-   }
+	/**
+	 * Update
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test
+	public void UpdateFeeMemberTest() throws UniqueException, UniqueListException {
 
-   /**
-    * Update Inscription Exception
-    * 
-    * @throws UniqueListException
-    */
-   @Test(expected = UniqueListException.class)
-   public void UpdateFeeMemberExceptionTest() throws UniqueException, UniqueListException {
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
-      FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20),
-            DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"),
-            "pay of 2016");
-      feeMemberService.save(feeMember2);
+		// Update
+		feeMember.setName("pay of 1016");
+		feeMember.setYear(2016);
+		feeMember.setPrice(Double.valueOf(25));
+		feeMember.setDescription("pay of 2016, tax for members");
+		feeMemberService.update(feeMember);
 
-      // Update
-      FeeMember feeMember3 = new FeeMember("pay of 2016", 2016, Double.valueOf(20),
-            DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"),
-            "pay of 2016");
-      feeMemberService.update(feeMember3);
-   }
+		// Assert
+		FeeMember feeMemberSearch = feeMemberService.findById(feeMember.getId());
+		assertEquals(feeMember, feeMemberSearch);
+		assertEquals(feeMember.getName(), feeMemberSearch.getName());
+		assertEquals(feeMember.getYear(), feeMemberSearch.getYear());
+		assertEquals(feeMember.getPrice(), feeMemberSearch.getPrice());
+		assertEquals(feeMember.getDescription(), feeMemberSearch.getDescription());
 
-   /**
-    * findByName test.
-    * 
-    * @throws UniqueListException
-    */
-   @Test
-   public void findByNameTest() throws UniqueException, UniqueListException {
+		FeeMember feeMember2 = new FeeMember("pay of 2018", 2018, Double.valueOf(20), DisplayDate.stringToDate2("2018-04-05"),
+				DisplayDate.stringToDate2("2018-07-05"), "pay of 2018");
+		feeMemberService.update(feeMember2);
+	}
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
+	/**
+	 * Update Inscription Exception
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test(expected = UniqueException.class)
+	public void UpdateFeeMemberExceptionTest() throws UniqueException, UniqueListException {
 
-      // findByName
-      FeeMember feeMemberSearch = feeMemberService.findByName(feeMember.getName());
-      assertEquals(feeMember, feeMemberSearch);
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
+		FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
+				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		feeMemberService.save(feeMember2);
 
-      feeMemberService.findByName(feeMember.getName());
-      assertNull(feeMemberService.findByName("do not exist"));
-   }
+		// Update
+		FeeMember feeMember3 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
+				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		feeMemberService.update(feeMember3);
+	}
 
-   /**
-    * findByYear test.
-    * 
-    * @throws UniqueListException
-    */
-   @Test
-   public void findByYearTest() throws UniqueException, UniqueListException {
+	/**
+	 * findByName test.
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test
+	public void findByNameTest() throws UniqueException, UniqueListException {
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
 
-      // findByName
-      FeeMember feeMemberSearch = feeMemberService.findByYear(feeMember.getYear());
-      assertEquals(feeMember, feeMemberSearch);
-   }
+		// findByName
+		FeeMember feeMemberSearch = feeMemberService.findByName(feeMember.getName());
+		assertEquals(feeMember, feeMemberSearch);
 
-   /**
-    * getFeeMemberList test.
-    * 
-    * @throws UniqueListException
-    */
-   @Test
-   public void getFeeMemberListTest() throws UniqueException, UniqueListException {
+		feeMemberService.findByName(feeMember.getName());
+		assertNull(feeMemberService.findByName("do not exist"));
+	}
 
-      // getFeeMemberList, no FeeMembers
-      List<FeeMember> feeMemberList = feeMemberService.getFeeMemberList();
-      // Assert
-      assertTrue(feeMemberList.isEmpty());
+	/**
+	 * findByYear test.
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test
+	public void findByYearTest() throws UniqueException, UniqueListException {
 
-      // Save
-      FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
-            "pay of 2015");
-      feeMemberService.save(feeMember);
-      FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20),
-            DisplayDate.stringToDate2("2016-04-05"), DisplayDate.stringToDate2("2016-07-05"),
-            "pay of 2016");
-      feeMemberService.save(feeMember2);
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
 
-      // getFeeMemberList
-      feeMemberList = feeMemberService.getFeeMemberList();
-      // Assert
-      assertEquals(feeMemberList.size(), 2);
-   }
+		// findByName
+		FeeMember feeMemberSearch = feeMemberService.findByYear(feeMember.getYear());
+		assertEquals(feeMember, feeMemberSearch);
+	}
+
+	/**
+	 * getFeeMemberList test.
+	 * 
+	 * @throws UniqueListException
+	 */
+	@Test
+	public void getFeeMemberListTest() throws UniqueException, UniqueListException {
+
+		// getFeeMemberList, no FeeMembers
+		List<FeeMember> feeMemberList = feeMemberService.getFeeMemberList();
+		// Assert
+		assertTrue(feeMemberList.isEmpty());
+
+		// Save
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
+				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		feeMemberService.save(feeMember);
+		FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
+				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		feeMemberService.save(feeMember2);
+
+		// getFeeMemberList
+		feeMemberList = feeMemberService.getFeeMemberList();
+		// Assert
+		assertEquals(feeMemberList.size(), 2);
+	}
 }

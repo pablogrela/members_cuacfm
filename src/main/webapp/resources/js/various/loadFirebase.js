@@ -13,7 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
 
-var membersApp = angular.module('membersApp', ['ui.bootstrap', 'ngResource'  ]);
+/* ========================================================================
+ * Initialize Firebase
+ * ========================================================================
 
+ * ======================================================================== */
+
+var config = {
+	apiKey : "AIzaSyCEHGNNH4tMx3wTJcIBCRA0Mv2Y7RPBSdA",
+	authDomain : "members-b4393.firebaseapp.com",
+	databaseURL : "https://members-b4393.firebaseio.com",
+	storageBucket : "members-b4393.appspot.com",
+	messagingSenderId : "187088115583"
+};
+firebase.initializeApp(config);

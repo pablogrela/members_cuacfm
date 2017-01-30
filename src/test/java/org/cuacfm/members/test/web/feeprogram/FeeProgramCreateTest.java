@@ -50,140 +50,113 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FeeProgramCreateTest extends WebSecurityConfigurationAware {
 
-   /** The default session. */
-   private MockHttpSession defaultSession;
+	/** The default session. */
+	private MockHttpSession defaultSession;
 
-   /** The configuration service. */
-   @Inject
-   private ConfigurationService configurationService;
+	/** The configuration service. */
+	@Inject
+	private ConfigurationService configurationService;
 
-   /** The account service. */
-   @Inject
-   private AccountService accountService;
+	/** The account service. */
+	@Inject
+	private AccountService accountService;
 
-   /** The fee program service. */
-   @Inject
-   private FeeProgramService feeProgramService;
+	/** The fee program service. */
+	@Inject
+	private FeeProgramService feeProgramService;
 
-   /**
-    * Initialize default session.
-    *
-    * @throws UniqueException the unique exception
-    */
-   @Before
-   public void initializeDefaultSession() throws UniqueException, UniqueListException {
-      Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
-            "666666666", "666666666", "demo", roles.ROLE_ADMIN);
-      accountService.save(admin);
-      defaultSession = getDefaultSession("admin");
+	/**
+	 * Initialize default session.
+	 *
+	 * @throws UniqueException the unique exception
+	 */
+	@Before
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
+		Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es", "666666666", "666666666", "demo", roles.ROLE_ADMIN);
+		accountService.save(admin);
+		defaultSession = getDefaultSession("admin@udc.es");
 
-      Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666,
-            Double.valueOf(24), Double.valueOf(25), "Rul");
-      configurationService.save(configuration);
-   }
+		Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666, Double.valueOf(24), Double.valueOf(25), "Rul");
+		configurationService.save(configuration);
+	}
 
-   /**
-    * Display FeeProgramCreateView page without signin in test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displayFeeProgramCreateViewPageWithoutSiginInTest() throws Exception {
-      mockMvc.perform(get("/feeProgramList/feeProgramCreate")).andExpect(
-            redirectedUrl("http://localhost/signin"));
-   }
+	/**
+	 * Display FeeProgramCreateView page without signin in test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displayFeeProgramCreateViewPageWithoutSiginInTest() throws Exception {
+		mockMvc.perform(get("/feeProgramList/feeProgramCreate")).andExpect(redirectedUrl("http://localhost/signin"));
+	}
 
-   /**
-    * Send displaysFeeProgramCreate.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displaysFeeProgramCreateTest() throws Exception {
+	/**
+	 * Send displaysFeeProgramCreate.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysFeeProgramCreateTest() throws Exception {
 
-      mockMvc
-            .perform(
-                  get("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH).session(
-                        defaultSession)).andExpect(view().name("feeprogram/feeprogramcreate"))
-            .andExpect(content().string(containsString("<title>Create fee program</title>")));
-   }
+		mockMvc.perform(get("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("feeprogram/feeprogramcreate"))
+				.andExpect(content().string(containsString("<title>Create fee program</title>")));
+	}
 
-   /**
-    * Send displaysFeeProgramCreate.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void postFeeProgramCreateTest() throws Exception {
+	/**
+	 * Send displaysFeeProgramCreate.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void postFeeProgramCreateTest() throws Exception {
 
-      mockMvc.perform(
-            post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("name", "Pay 2015").param("price", "24").param("date", "2015-04")
-                  .param("dateLimit", "2015-07")
-                  .param("description", "Pay of inscription april 2015")).andExpect(
-            view().name("redirect:/feeProgramList"));
-   }
+		mockMvc.perform(post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH).session(defaultSession).param("name", "Pay 2015")
+				.param("price", "24").param("date", "2015-04").param("dateLimit", "2015-07").param("description", "Pay of inscription april 2015"))
+				.andExpect(view().name("redirect:/feeProgramList"));
+	}
 
-   /**
-    * Send maxCharactersFeeProgramCreate.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void maxCharactersFeeProgramCreateTest() throws Exception {
+	/**
+	 * Send maxCharactersFeeProgramCreate.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void maxCharactersFeeProgramCreateTest() throws Exception {
 
-      mockMvc
-            .perform(
-                  post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH)
-                        .session(defaultSession)
-                        .param("name", "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
-                        .param("price", "24").param("description", "Pay of inscription 2015"))
-            .andExpect(content().string(containsString("Maximum 50 characters")))
-            .andExpect(view().name("feeprogram/feeprogramcreate"));
-   }
+		mockMvc.perform(post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH).session(defaultSession)
+				.param("name", "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111").param("price", "24")
+				.param("description", "Pay of inscription 2015")).andExpect(content().string(containsString("Maximum 50 characters")))
+				.andExpect(view().name("feeprogram/feeprogramcreate"));
+	}
 
-   /**
-    * Send dataBlankFeeProgramCreate.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void dataBlankFeeProgramCreateTest() throws Exception {
+	/**
+	 * Send dataBlankFeeProgramCreate.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void dataBlankFeeProgramCreateTest() throws Exception {
 
-      mockMvc
-            .perform(
-                  post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH)
-                        .session(defaultSession).param("name", " ").param("year", "2015")
-                        .param("price", "24").param("description", " "))
-            .andExpect(content().string(containsString("The value may not be empty!")))
-            .andExpect(view().name("feeprogram/feeprogramcreate"));
-   }
+		mockMvc.perform(post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH).session(defaultSession).param("name", " ")
+				.param("year", "2015").param("price", "24").param("description", " "))
+				.andExpect(content().string(containsString("The value may not be empty!"))).andExpect(view().name("feeprogram/feeprogramcreate"));
+	}
 
-   /**
-    * Send dataBlankFeeProgramCreate.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void dateAlreadyExistFeeProgramCreateTest() throws Exception {
-      // Create Payment
-      Date date = DisplayDate.stringToMonthOfYear("2015-12");
-      FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
-      feeProgramService.save(feeProgram);
+	/**
+	 * Send dataBlankFeeProgramCreate.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void dateAlreadyExistFeeProgramCreateTest() throws Exception {
+		// Create Payment
+		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
+		feeProgramService.save(feeProgram);
 
-      mockMvc
-            .perform(
-                  post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH)
-                        .session(defaultSession).param("name", "pay of 2015")
-                        .param("date", "2015-12").param("dateLimit", "2015-12")
-                        .param("price", "24").param("description", "pay of april 2015"))
-            .andExpect(content().string(containsString("Repeated date")))
-            .andExpect(view().name("feeprogram/feeprogramcreate"));
-   }
+		mockMvc.perform(post("/feeProgramList/feeProgramCreate").locale(Locale.ENGLISH).session(defaultSession).param("name", "pay of 2015")
+				.param("date", "2015-12").param("dateLimit", "2015-12").param("price", "24").param("description", "pay of april 2015"))
+				.andExpect(content().string(containsString("Repeated date"))).andExpect(view().name("feeprogram/feeprogramcreate"));
+	}
 }

@@ -78,6 +78,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 
 		// if price is 0, it is not create directDebit
 		if (directDebit.getPrice() == 0) {
+			directDebitRepository.remove(directDebit);
 			return null;
 		}
 
@@ -87,37 +88,11 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	@Override
 	public String refresh() {
 
-		for (Account account :accountService.getAccounts()) {
+		for (Account account : accountService.getAccounts()) {
 			save(account);
 		}
 		return eventService.save("directDebit.successRefresh", null, 1, null);
 	}
-	
-	//	@Override
-	//	public DirectDebit save(Account account, PayMember payMember) {
-	//		DirectDebit directDebit = directDebitRepository.getLastDirectDebit(account.getId());
-	//
-	//		if (directDebit == null) {
-	//			directDebit = new DirectDebit(account);
-	//		}
-	//
-	//		directDebit.setPayPrograms(payProgramService.findNoPayListByAccountId(account.getId()));
-	//		directDebit.setPayMembers(payMemberService.findNoPayListByAccountId(account.getId()));
-	//
-	//		return directDebitRepository.save(directDebit);
-	//	}
-	//
-	//	@Override
-	//	public DirectDebit save(Account account, PayProgram payProgram) {
-	//		DirectDebit directDebit = directDebitRepository.getLastDirectDebit(account.getId());
-	//
-	//		if (directDebit == null) {
-	//			directDebit = new DirectDebit(account);
-	//		}
-	//
-	//		directDebit.addPayProgram(payProgram);
-	//		return directDebitRepository.save(directDebit);
-	//	}
 
 	@Override
 	public List<DirectDebit> findAll() {
