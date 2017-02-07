@@ -167,9 +167,12 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		for (DirectDebit directDebit : directDebits) {
 			DirectDebitDTO directDebitDTO = new DirectDebitDTO(directDebit.getId(), accountService.getAccountDTO(directDebit.getAccount()),
 					directDebit.getConcept(), directDebit.getPrice(), directDebit.getDateUpdate(), directDebit.getDatePay(), directDebit.getState(),
-					directDebit.getMethod(), directDebit.getMandate(), directDebit.getSecuence(), directDebit.getIdPayer(), directDebit.getIdTxn(),
+					directDebit.getMethod(), directDebit.getSecuence(), directDebit.getIdPayer(), directDebit.getIdTxn(),
 					directDebit.getEmailPayer());
 
+			if (directDebit.getReturnReason() != null) {
+				directDebitDTO.setReturnReason(directDebit.getReturnReason().getDescription());
+			}
 			if (directDebit.getBankRemittance() != null) {
 				directDebitDTO.setBankRemittance(directDebit.getBankRemittance().getId());
 			}

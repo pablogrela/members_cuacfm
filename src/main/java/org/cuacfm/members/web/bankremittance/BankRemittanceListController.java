@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class BankRemittanceListController. */
@@ -119,7 +121,29 @@ public class BankRemittanceListController {
 	 */
 	@RequestMapping(value = "bankRemittanceList/downloadBankRemittance/{bankRemittanceId}", method = RequestMethod.POST)
 	public ResponseEntity<byte[]> downloadBankRemittance(@PathVariable Long bankRemittanceId) {
-		return bankRemittanceService.createTxtBankRemittance(bankRemittanceId);
+		return bankRemittanceService.generateXML(bankRemittanceId);
+	}
+
+	/**
+	 * Single file upload.
+	 *
+	 * @param file the file
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "bankRemittanceList/uploadBankRemittance", method = RequestMethod.POST)
+	public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes ra) {
+
+		if (file.isEmpty()) {
+			MessageHelper.addSuccessAttribute(ra, "bankRemittance.noFileUpload", "");
+			ra.addFlashAttribute("message", "Please select a file to upload");
+			return REDIRECT_BANKREMITTANCE;
+		}
+
+		String result = bankRemittanceService.processXML(file);
+
+		MessageHelper.addInfoAttribute(ra, result, "");
+		return REDIRECT_BANKREMITTANCE;
 	}
 
 	/**

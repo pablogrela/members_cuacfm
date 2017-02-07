@@ -19,97 +19,75 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.bankaccount.BankAccount;
+import org.cuacfm.members.web.support.DisplayDate;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class BankAccountForm. */
 public class BankAccountForm {
 
-   /** The Constant NOT_BLANK_MESSAGE. */
-   private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
+	/** The Constant NOT_BLANK_MESSAGE. */
+	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
 
-   /** The Constant MAX_CHARACTERS. */
-   private static final String MAX_CHARACTERS = "{max.characters}";
+	/** The Constant MAX_CHARACTERS. */
+	private static final String MAX_CHARACTERS = "{max.characters}";
 
-   /** The bank. */
-   @NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
-   @Size(max = 50, message = BankAccountForm.MAX_CHARACTERS)
-   private String bank;
+	/** The bank. */
+	@NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = BankAccountForm.MAX_CHARACTERS)
+	private String bank;
 
-   /** The bic. */
-   @Size(max = 11, message = BankAccountForm.MAX_CHARACTERS)
-   private String bic;
+	/** The bic. */
+	@Size(max = 11, message = BankAccountForm.MAX_CHARACTERS)
+	private String bic;
 
-   /** The iban. */
-   @NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
-   @Size(max = 34, message = BankAccountForm.MAX_CHARACTERS)
-   private String iban;
+	/** The iban. */
+	@NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
+	@Size(max = 34, message = BankAccountForm.MAX_CHARACTERS)
+	private String iban;
 
-   /**
-    * Gets the bank.
-    *
-    * @return the bank
-    */
-   public String getBank() {
-      return bank;
-   }
+	@NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
+	private String dateMandate;
 
-   /**
-    * Sets the bank.
-    *
-    * @param bank
-    *           the new bank
-    */
-   public void setBank(String bank) {
-      this.bank = bank;
-   }
+	public String getBank() {
+		return bank;
+	}
 
-   /**
-    * Gets the bic.
-    *
-    * @return the bic
-    */
-   public String getBic() {
-      return bic;
-   }
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
 
-   /**
-    * Sets the bic.
-    *
-    * @param bic
-    *           the new bic
-    */
-   public void setBic(String bic) {
-      this.bic = bic;
-   }
+	public String getBic() {
+		return bic;
+	}
 
-   /**
-    * Gets the iban.
-    *
-    * @return the iban
-    */
-   public String getIban() {
-      return iban;
-   }
+	public void setBic(String bic) {
+		this.bic = bic;
+	}
 
-   /**
-    * Sets the iban.
-    *
-    * @param iban
-    *           the new iban
-    */
-   public void setIban(String iban) {
-      this.iban = iban;
-   }
+	public String getIban() {
+		return iban;
+	}
 
-   /**
-    * Creates the bank account.
-    *
-    * @param account
-    *           the account
-    * @return the bank account
-    */
-   public BankAccount createBankAccount(Account account) {
-      return new BankAccount(account, getBank(), getBic(), getIban());
-   }
+	public void setIban(String iban) {
+		this.iban = iban;
+	}
+
+	public String getDateMandate() {
+		return dateMandate;
+	}
+
+	public void setDateMandate(String dateMandate) {
+		this.dateMandate = dateMandate;
+	}
+
+	/**
+	 * Creates the bank account.
+	 *
+	 * @param account the account
+	 * @return the bank account
+	 */
+	public BankAccount createBankAccount(Account account) {
+		return new BankAccount(account, getBank(), getBic(), getIban(), DisplayDate.format(dateMandate, "yyyy-MM-dd"));
+	}
 
 }

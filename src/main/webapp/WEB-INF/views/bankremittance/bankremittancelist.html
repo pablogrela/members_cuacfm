@@ -27,36 +27,61 @@
 	<div th:replace="fragments/header :: header(active='bankRemittance')">&nbsp;</div>
 
 	<div class="container-fluid">
-		<!-- Form for create bank remittance -->
-		<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{bankRemittanceList}" th:object="${bankRemittanceForm}">
+	
+		<!-- Div of buttons -->
+		<div class="container text-center containerColums">
 
-			<!-- Insert DateCharge -->
-			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateCharge')}? 'has-error'">
-				<label for="dateCharge" class="col-lg-1 control-label" th:text="#{dateCharge}">DateCharge</label>
-				<div class="col-lg-8">
-					<input type="date" class="form-control" id="dateCharge" th:placeholder="#{dateCharge}" th:field="*{dateCharge}" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('dateCharge')}" th:errors="*{dateCharge}">Incorrect dateCharge</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
+			<!-- Form for create bank remittance -->
+			<div class="columLeft-large">
+				<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{bankRemittanceList}" th:object="${bankRemittanceForm}">
+					<fieldset>
+						<!-- Title -->
+						<legend th:text="#{bankRemittance.infoCreateBankRemittance}"></legend>
+
+						<!-- Insert DateCharge -->
+						<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateCharge')}? 'has-error'">
+							<label for="dateCharge" class="col-lg-1 control-label" th:text="#{dateCharge}">DateCharge</label>
+							<div class="col-lg-8">
+								<input type="date" class="form-control" id="dateCharge" th:placeholder="#{dateCharge}" th:field="*{dateCharge}" required="required" />
+								<span class="help-block" th:if="${#fields.hasErrors('dateCharge')}" th:errors="*{dateCharge}">Incorrect dateCharge</span>
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</div>
+
+						<!-- Insert MonthCharge -->
+						<div class="form-inline form-group" th:classappend="${#fields.hasErrors('monthCharge')}? 'has-error'">
+							<label for="dateCharge" class="col-lg-1 control-label" th:text="#{monthCharge}">MonthCharge</label>
+							<div class="col-lg-8">
+								<input type="month" class="form-control" id="monthCharge" th:placeholder="#{monthCharge}" th:field="*{monthCharge}" required="required" />
+								<span class="help-block" th:if="${#fields.hasErrors('monthCharge')}" th:errors="*{monthCharge}">Incorrect monthCharge</span>
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</div>
+
+						<!-- Button Create Bank Remittance -->
+						<div class="form-group">
+							<div class="col-lg-10">
+								<button type="submit" class="btn btn-success btn-lg" th:text="#{bankRemittance.createBankRemittance}">Create</button>
+							</div>
+						</div>
+					</fieldset>
+				</form>
 			</div>
 
-			<!-- Insert MonthCharge -->
-			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('monthCharge')}? 'has-error'">
-				<label for="dateCharge" class="col-lg-1 control-label" th:text="#{monthCharge}">MonthCharge</label>
-				<div class="col-lg-8">
-					<input type="month" class="form-control" id="monthCharge" th:placeholder="#{monthCharge}" th:field="*{monthCharge}" required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('monthCharge')}" th:errors="*{monthCharge}">Incorrect monthCharge</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
+			<!-- Upload bank remittance -->
+			<div class="columRight-large">
+				<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}" 
+					th:action="@{'bankRemittanceList/uploadBankRemittance?'+${_csrf.parameterName}+'='+${_csrf.token}}" method="post" enctype="multipart/form-data">
+					<fieldset>
+						<!-- Title -->
+						<legend th:text="#{bankRemittance.infoUploadBankRemittance}"></legend>
+						<input class="btn btn-file" type="file" id="file" name="file"/>
+						<br></br>
+						<button type="submit" class="btn btn-success btn-lg" th:text="#{bankRemittance.uploadBankRemittance}"></button>
+					</fieldset>
+				</form>
 			</div>
-
-			<!-- Button Create Bank Remittance -->
-			<div class="form-group">
-				<div class="col-lg-10">
-					<button type="submit" class="btn btn-success btn-lg" th:text="#{bankRemittance.createBankRemittance}">Create</button>
-				</div>
-			</div>
-		</form>
+		</div>
 
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<div class="text-center" th:if="${message != null}">
@@ -105,15 +130,13 @@
 							</form>
 						</td>
 
-						
+
 						<td>
-						   <!-- Management bank Remittance -->
+							<!-- Management bank Remittance -->
 							<form th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY}"
 								th:action="@{'bankRemittanceList/management/'+${bankRemittance.id}}" method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-repeat" th:title="#{managementCheck}" style="color: green"></button>
-							</form> <!-- Pay bank Remittance -->
-
-							<!-- Pay bank Remittance -->
+							</form> <!-- Pay bank Remittance --> <!-- Pay bank Remittance -->
 							<form th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"
 								th:action="@{'bankRemittanceList/pay/'+${bankRemittance.id}}" method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-ok-circle" th:title="#{payCheck}" style="color: green"></button>
@@ -127,6 +150,7 @@
 									th:title="#{bankRemittance.infoDownload}"></button>
 							</form>
 						</td>
+
 					</tr>
 				</tbody>
 			</table>
@@ -135,3 +159,4 @@
 	</div>
 </body>
 </html>
+

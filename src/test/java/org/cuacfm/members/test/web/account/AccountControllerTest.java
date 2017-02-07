@@ -174,7 +174,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void dniAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "95716045G", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -182,11 +182,11 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 		accountService.update(user2, false, true);
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("mobile", "12356789")
-				.param("dni", "55555555B").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
+				.param("dni", "95716045G").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02"))
-				//.andExpect(
-				//      content().string(
-				//            containsString("Already existent dni 55555555B, please chose other")))
+				.andExpect(
+				      content().string(
+				            containsString("Already existent dni 95716045G, please choose another")))
 				.andExpect(view().name("account/account"));
 	}
 
@@ -198,21 +198,21 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void loginAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "95716045G", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
 		user2.setInstallments(1);
 		accountService.update(user2, false, true);
 
-		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "dni")
+		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "33535129W")
 				.param("mobile", "12356789").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02").param("onLogin", "true").param("login", "user2").param("onEmail", "true")
 				.param("email", "email@udc.es").param("onPassword", "true").param("password", "1234").param("rePassword", "1234")
 				.param("onInstallments", "true").param("installments", "1"))
-				//.andExpect(
-				//      content().string(
-				//            containsString("Already existent login user2, please chose other")))
+				.andExpect(
+				      content().string(
+				            containsString("Already existent login user2, please choose another")))
 				.andExpect(view().name("account/account"));
 	}
 
@@ -224,7 +224,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void emailAlreadyExists() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "email2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "95716045G", "London", "user2", "email2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -232,12 +232,12 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 		accountService.update(user2, false, true);
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("mobile", "12356789")
-				.param("dni", "dni").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
+				.param("dni", "33535129W").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02").param("onLogin", "true").param("login", "login").param("onEmail", "true")
 				.param("email", "email2@udc.es"))
-				//.andExpect(
-				//      content().string(
-				//            containsString("Already existent email email2@udc.es, please chose other")))
+				.andExpect(
+				      content().string(
+				            containsString("Already existent email email2@udc.es, please choose another")))
 				.andExpect(view().name("account/account"));
 	}
 
@@ -266,7 +266,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "123456789012345678901234567890123532452353245324532453245")
-				.param("mobile", "12356789111111111111111111").param("login", "12345678901234567890123456789012345233333333333333333")
+				.param("dni", "dni").param("mobile", "12356789111111111111111111").param("login", "12345678901234567890123456789012345233333333333333333")
 				.param("email", "1234567890123456789012345678901@example.es").param("password", "12345678901234567890123456789012353252345235")
 				.param("rePassword", "1234567890123456789012345678901").param("onInstallments", "true").param("installments", "1"))
 				.andExpect(content().string(containsString("Maximum 50 characters"))).andExpect(view().name("account/account"));
@@ -305,7 +305,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 				.param("email", "user@udc.es").param("onProgramName", "true").param("programName", "programName").param("onPhone", "true")
 				.param("phone", "12356789").param("onMobile", "true").param("mobile", "12356789").param("onStudent", "true").param("student", "true")
 				.param("onDateBirth", "true").param("dateBirth", "1990-05-02").param("installments", "1"))
-				.andExpect(view().name("redirect:/accountList"));
+				.andExpect(view().name("account/account"));
 	}
 
 	/**
@@ -342,7 +342,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 				.param("dateBirth", "1990-05-02").param("onInstallments", "true").param("installments", "1").param("onAccountType", "true")
 				.param("accountTypeId", "1").param("onMethodPayment", "true").param("methodPaymentId", "1").param("onInstallments", "true")
 				.param("Observations", "Good partner").param("onObservations", "true").param("Role", "ROLE_TRAINER").param("onRole", "true"))
-				.andExpect(view().name("redirect:/accountList"));
+				.andExpect(view().name("account/account"));
 
 	}
 
@@ -377,9 +377,9 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	public void diferentPasswordsTest() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
-		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "dni")
+		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("cp", "cp").param("province", "province").param("mobile", "111111111").param("codeCountry", "EN")
-				.param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "1234").param("rePassword", "1233"))
+				.param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456").param("rePassword", "123333"))
 				.andExpect(content().string(containsString("Passwords are not equal"))).andExpect(view().name("account/account"));
 	}
 
@@ -422,7 +422,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	public void updateAccountSuccesfullNotChangedTest() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
-		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "dni")
+		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("cp", "cp").param("province", "province").param("mobile", "111111111").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02")).andExpect(view().name("redirect:/accountList"));
 	}
@@ -463,6 +463,6 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
 		mockMvc.perform(post("/bankAccount").locale(Locale.ENGLISH).session(defaultSession).param("bank", "Santander").param("bic", "BSCHESMMXXX")
-				.param("iban", "ES7620770024003102575766")).andExpect(view().name("redirect:/account"));
+				.param("iban", "ES7620770024003102575766")).andExpect(view().name("account/account"));
 	}
 }

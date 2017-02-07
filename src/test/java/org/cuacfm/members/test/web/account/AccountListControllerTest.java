@@ -138,7 +138,7 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void postAccountUnsubscribeTest() throws Exception {
-		mockMvc.perform(post("/accountList/accountUnsubscribe/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		mockMvc.perform(post("/accountList/unsubscribe/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession));
 		//		.andExpect(view().name("redirect:/accountList"));
 
 		//User is Unsubscribe
@@ -152,7 +152,7 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void postAccountUnsubscribeAdminTest() throws Exception {
-		mockMvc.perform(post("/accountList/accountUnsubscribe/"+admin.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		mockMvc.perform(post("/accountList/unsubscribe/"+admin.getId()).locale(Locale.ENGLISH).session(defaultSession));
 //		.andExpect(view().name("redirect:/accountList"));
 		
 		// Admin not unsubscribe

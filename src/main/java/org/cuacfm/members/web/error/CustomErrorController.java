@@ -16,6 +16,8 @@
 package org.cuacfm.members.web.error;
 
 import java.text.MessageFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,56 +32,55 @@ import com.google.common.base.Throwables;
 @Controller
 class CustomErrorController {
 
-   /** Instantiates a new custom error controller. */
-   public CustomErrorController() {
-      // Default empty constructor.
-   }
+	private static final Logger LOGGER = Logger.getLogger(CustomErrorController.class.getName());
 
-   /**
-    * Display an error page, as defined in web.xml <code>custom-error</code>
-    * element.
-    *
-    * @param request
-    *           the request
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping("generalError")
-   public String generalError(HttpServletRequest request, Model model) {
-      // retrieve some useful information from the request
-      Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-      Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-      // String servletName = (String)
-      // request.getAttribute("javax.servlet.error.servlet_name")
-      String exceptionMessage = getExceptionMessage(throwable, statusCode);
+	/** Instantiates a new custom error controller. */
+	public CustomErrorController() {
+		// Default empty constructor.
+	}
 
-      String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-      if (requestUri == null) {
-         requestUri = "Unknown";
-      }
+	/**
+	 * Display an error page, as defined in web.xml <code>custom-error</code> element.
+	 *
+	 * @param request the request
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping("generalError")
+	public String generalError(HttpServletRequest request, Model model) {
+		// retrieve some useful information from the request
+		Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+		Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+		// String servletName = (String)
+		// request.getAttribute("javax.servlet.error.servlet_name")
+		String exceptionMessage = getExceptionMessage(throwable, statusCode);
+		LOGGER.log(Level.SEVERE, "Exception occur", exceptionMessage);
 
-      String message = MessageFormat.format("{0} returned for {1} with message {2}", statusCode,
-            requestUri, exceptionMessage);
+		String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
+		if (requestUri == null) {
+			requestUri = "Unknown";
+		}
 
-      model.addAttribute("errorMessage", message);
-      return "error/general";
-   }
+		String message = MessageFormat.format("{0} returned for {1} with message {2}", statusCode, requestUri, exceptionMessage);
 
-   /**
-    * Gets the exception message.
-    *
-    * @param throwable
-    *           the throwable
-    * @param statusCode
-    *           the status code
-    * @return the exception message
-    */
-   private String getExceptionMessage(Throwable throwable, Integer statusCode) {
-      if (throwable != null) {
-         return Throwables.getRootCause(throwable).getMessage();
-      }
-      HttpStatus httpStatus = HttpStatus.valueOf(statusCode);
-      return httpStatus.getReasonPhrase();
-   }
+		model.addAttribute("errorMessage", message);
+		return "error/general";
+	}
+
+	/**
+	 * Gets the exception message.
+	 *
+	 * @param throwable the throwable
+	 * @param statusCode the status code
+	 * @return the exception message
+	 */
+	private String getExceptionMessage(Throwable throwable, Integer statusCode) {
+		LOGGER.log(Level.SEVERE, "Exception occur", throwable);
+		if (throwable != null) {
+			return Throwables.getRootCause(throwable).getMessage();
+		}
+		HttpStatus httpStatus = HttpStatus.valueOf(statusCode);
+
+		return httpStatus.getReasonPhrase();
+	}
 }

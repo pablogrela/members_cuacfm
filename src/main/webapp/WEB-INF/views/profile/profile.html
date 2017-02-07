@@ -259,7 +259,7 @@
 				<div class="col-lg-10">
 					<div class="input-group">
 						<input type="password" name="password" disabled="disabled" class="form-control" id="password" th:placeholder="#{password}"
-							th:field="*{password}" data-minlength="4" maxlength="20" required="required" />
+							th:field="*{password}" data-minlength="6" maxlength="20" required="required" />
 						<span class="input-group-btn">
 							<input type="checkbox" id="onPassword" th:text="#{profile}" name="onPassword"
 								onChange="unlockText2('onPassword', 'visibleRePasswords', 'password', 'rePassword')" data-toggle="toggle" data-onstyle="success"
@@ -278,7 +278,7 @@
 					<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
 					<div class="col-lg-10">
 						<input type="password" name="rePassword" disabled="disabled" class="form-control" id="rePassword" th:placeholder="#{rePassword}"
-							th:field="*{rePassword}" data-minlength="4" data-dependent-validation="password" maxlength="20" required="required" />
+							th:field="*{rePassword}" data-minlength="6" data-dependent-validation="password" maxlength="20" required="required" />
 						<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
 						<div class="ws-errorbox" hidden=""></div>
 					</div>

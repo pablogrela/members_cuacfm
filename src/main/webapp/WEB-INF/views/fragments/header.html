@@ -27,7 +27,7 @@
 	<!-- <div class="navbar navbar-inverse navbar-fixed-top"-->
 
 	<!-- mobile head -->
-	<div class="navbar top" th:fragment="header">
+	<div class="container-fluid navbar top" th:fragment="header">
 
 		<div th:with="currentUrl=(${#httpServletRequest.requestURI})"></div>
 
@@ -46,8 +46,8 @@
 
 
 		<!-- Menu -->
-		<div class="container-fluid">
-			<div class="container-fluid navbar navbar-inverse">
+		<div>
+			<div class="navbar navbar-inverse">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 						<span class="sr-only">Toggle navigation</span>

@@ -15,6 +15,7 @@
  */
 package org.cuacfm.members.web.account;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -139,7 +140,9 @@ public class AccountController {
 			account = accountService.findById(account.getId());
 			bankAccounts = account.getBankAccounts();
 			model.addAttribute("bankAccounts", bankAccounts);
-			model.addAttribute(new BankAccountForm());
+			BankAccountForm bankAccountForm = new BankAccountForm();
+			bankAccountForm.setDateMandate(DisplayDate.format(new Date(), "yyyy-MM-dd"));
+			model.addAttribute(bankAccountForm);
 			return createProfileForm(model, new ProfileForm());
 		}
 		// If not have account, redirect to accounts

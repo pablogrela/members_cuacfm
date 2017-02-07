@@ -16,9 +16,17 @@
 package org.cuacfm.members.model.bankremittanceservice;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -30,16 +38,22 @@ import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.model.util.CreatePayRoll;
+import org.cuacfm.members.model.util.sepa.BankRemittanceSEPAXML;
+import org.cuacfm.members.model.util.sepa.ReturnBankRemittanceSEPAXML;
+import org.cuacfm.members.model.util.FileUtils;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-/** The Class DirectDebitServiceImpl. */
+/** The Class bankRemittanceService. */
 @Service("bankRemittanceService")
 public class BankRemittanceServiceImpl implements BankRemittanceService {
+
+	private static final Logger LOGGER = Logger.getLogger(BankRemittanceServiceImpl.class.getName());
 
 	@Autowired
 	private MessageSource messageSource;
@@ -53,12 +67,6 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 	@Autowired
 	private AccountService accountService;
 
-	//	@Autowired
-	//	private PayMemberService payMemberService;
-	//
-	//	@Autowired
-	//	private PayProgramService payProgramService;
-
 	@Autowired
 	private EventService eventService;
 
@@ -68,52 +76,18 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 		BankRemittance bankRemittance = new BankRemittance(dateCharge, monthCharge);
 		bankRemittanceRepository.save(bankRemittance);
 
-		// Direct debit of fee member
-		// Map<Account, List<PayMember>> accountPayMembers = payMemberService.getPayMemberNoPayListByDirectDebit(monthCharge);
-
-		// Direct debit of fee program
-		// Map<Account, List<PayProgram>> accountPayPrograms = payProgramService.getPayProgramNoPayListByDirectDebit(monthCharge);
-
 		for (Account account : accountService.getUsersDirectDebit()) {
 			if (account.activeBankAccount() != null && account.getMethodPayment().isDirectDebit()) {
-				
-				// Actuliza el directDebit de cada usuario
+
+				// Actualiza el directDebit de cada usuario
 				DirectDebit directDebit = directDebitService.save(account);
 
 				if (directDebit != null) {
 					directDebit.setBankRemittance(bankRemittance);
-					directDebit.setMandate(account.activeBankAccount().getMandate());
 					directDebit.setSecuence(directDebitService.isRcurOrFRST(account.getId()));
 					directDebit.setMethod(methods.DIRECTDEBIT);
 				}
-
 			}
-			//	if (account.activeBankAccount() != null && (accountPayMembers.get(account) != null || accountPayPrograms.get(account) != null)) {
-			//
-			//	Double price = Double.valueOf(0);
-			//	String concept = "";
-			//	List<PayMember> payMembers = accountPayMembers.get(account);
-			//	if (payMembers != null) {
-			//		for (PayMember payMember : payMembers) {
-			//			price = payMember.getPrice();
-			//			concept = concept + ", " + payMember.getFeeMember().getName();
-			//		}
-			//	}
-			//	List<PayProgram> payPrograms = accountPayPrograms.get(account);
-			//	if (payPrograms != null) {
-			//		for (PayProgram payProgram : payPrograms) {
-			//				price = price + payProgram.getPrice();
-			//				concept = concept + ", " + payProgram.getFeeProgram().getName() + " [" + payProgram.getProgram().getName() + "]";
-			//		}
-			//	}
-			//	concept = concept.substring(1, concept.length());
-			//	if (concept.length() > 140) {
-			//		concept = concept.substring(0, 140);
-			//	}
-			//	DirectDebit directDebit = new DirectDebit(account, bankRemittance, payMembers, payPrograms, price, concept,
-			//		account.activeBankAccount().getMandate(), directDebitService.isRcurOrFRST(account.getId()));
-			//		directDebitService.save(directDebit);
-			//	}
 		}
 		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
 		eventService.save("bankRemittance.successCreate", null, 2, arguments);
@@ -126,14 +100,6 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 		return bankRemittanceRepository.update(bankRemittance);
 	}
 
-	/**
-	 * Update state bank remittance.
-	 *
-	 * @param bankRemittance the bank remittance
-	 * @param state the state
-	 * @param method the method
-	 * @throws ExistTransactionIdException the exist transaction id exception
-	 */
 	private void updateStateBankRemittance(BankRemittance bankRemittance, states state, methods method) throws ExistTransactionIdException {
 		bankRemittance.setState(state);
 		bankRemittanceRepository.update(bankRemittance);
@@ -169,21 +135,49 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 	}
 
 	@Override
-	public ResponseEntity<byte[]> createTxtBankRemittance(Long bankRemittanceId) {
+	public ResponseEntity<byte[]> generateXML(Long bankRemittanceId) {
+
+		LOGGER.info(LOGGER.getName() + "generateXML");
 
 		BankRemittance bankRemittance = bankRemittanceRepository.findById(bankRemittanceId);
 		Date date = new Date();
-		String file = messageSource.getMessage("fileBankRemittance", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date) + ".txt";
 
-		//String path = System.getProperty("user.dir") + "/" + file
-		String path = messageSource.getMessage("path", null, Locale.getDefault()) + file;
+		FileUtils.createFolderIfNoExist(messageSource.getMessage("pathBankRemittance", null, Locale.getDefault()));
+		String fileXML = messageSource.getMessage("fileBankRemittance", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date) + ".xml";
+		String pathXML = messageSource.getMessage("pathBankRemittance", null, Locale.getDefault()) + fileXML;
 
 		try {
-			new CreatePayRoll(path, messageSource, bankRemittance, directDebitService.findAllByBankRemittanceId(bankRemittanceId));
-		} catch (IOException e) {
-			e.getMessage();
+			new BankRemittanceSEPAXML(pathXML, messageSource, bankRemittance, directDebitService.findAllByBankRemittanceId(bankRemittanceId));
+		} catch (IOException | JAXBException | DatatypeConfigurationException e) {
+			LOGGER.info("Logger Name: " + LOGGER.getName() + e.getMessage());
+			LOGGER.log(Level.SEVERE, "Exception occur", e.getStackTrace());
 		}
 
-		return CreatePayRoll.viewTxt(path, file);
+		return BankRemittanceSEPAXML.downloadFile(pathXML, fileXML, MediaType.TEXT_XML);
 	}
+
+	@Override
+	public String processXML(MultipartFile file) {
+
+		LOGGER.info(LOGGER.getName() + "processXML");
+
+		try {
+			byte[] bytes = file.getBytes();
+			FileUtils.createFolderIfNoExist(messageSource.getMessage("pathReturnBankRemittance", null, Locale.getDefault()));
+			Path pathXML = Paths.get(messageSource.getMessage("pathReturnBankRemittance", null, Locale.getDefault()) + file.getOriginalFilename());
+			Files.write(pathXML, bytes);
+			new ReturnBankRemittanceSEPAXML(pathXML.toString());
+
+		} catch (Exception e) {
+			LOGGER.info("Logger Name: " + LOGGER.getName() + e.getMessage());
+			LOGGER.log(Level.SEVERE, "Exception occur", e.getStackTrace());
+			Object[] arguments = {};
+			eventService.save("bankRemittance.failUpload", null, 2, arguments);
+			return "bankRemittance.failUpload";
+		}
+		Object[] arguments = { file.getOriginalFilename() };
+		eventService.save("bankRemittance.successUpload", null, 2, arguments);
+		return "bankRemittance.successUpload";
+	}
+
 }

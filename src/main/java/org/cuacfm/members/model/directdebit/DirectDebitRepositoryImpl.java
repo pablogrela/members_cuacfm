@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,10 +125,11 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 
 	@Override
 	public String isRcurOrFRST(Long accountId) {
-		List<DirectDebit> directDebits = entityManager.createQuery("select d from DirectDebit d where d.account.id = :id", DirectDebit.class)
-				.setParameter("id", accountId).getResultList();
+		// Si tienes pagos ese usario y son con remesada bancara y ya han sido cobrados
+		List<DirectDebit> directDebits = entityManager.createQuery("select d from DirectDebit d where d.account.id = :id and d.state = :state and d.method = :method", DirectDebit.class)
+				.setParameter("id", accountId).setParameter("state", states.PAY).setParameter("method", methods.DIRECTDEBIT).getResultList();
 		if (directDebits.isEmpty()) {
-			return "FSRT";
+			return "FRST";
 		}
 		return "RCUR";
 	}

@@ -53,13 +53,9 @@ public class HomeController {
 
 	@Autowired
 	private AccountService accountService;
-
+	
+	// The email of configuration
 	private String email;
-
-	//	@Autowired
-	//	private PasswordEncoder passwordEncoder;
-
-	//	private Account account;
 
 	/**
 	 * Email.
@@ -82,11 +78,6 @@ public class HomeController {
 		if (principal != null) {
 			email = configurationService.getConfiguration().getEmail();
 			model.addAttribute("email", email);
-			//			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			//			account = accountService.findByLogin(auth.getName());			
-			//			account.setPassword(passwordEncoder.encode(account.getPassword()));
-			//			model.addAttribute("account", account);
-
 			return HOMESIGNEDIN;
 		} else {
 			return HOMENOTSIGNEDIN;

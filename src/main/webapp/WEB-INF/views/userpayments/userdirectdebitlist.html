@@ -78,7 +78,7 @@
 							<input type='hidden' name='amount' value="{{directDebit.price}}" />
 							<input type='hidden' name='page_style' value='primary' />
 							<input type='hidden' name='no_shipping' value='1' />
-							<input type='hidden' name='return'
+							<input type='hidden' name='return' th:if="${_csrf != null}"
 								th:value=" @{${#httpServletRequest.scheme}} + '://' + @{${#httpServletRequest.serverName}}  + ':' + @{${#httpServletRequest.serverPort}} 
 										+ '/members/userPayments/directDebitList/paypal/' + '{{directDebit.id}}' + '?' + ${_csrf.parameterName} + '=' + ${_csrf.token}" />
 							<input type='hidden' name='rm' value='2' />

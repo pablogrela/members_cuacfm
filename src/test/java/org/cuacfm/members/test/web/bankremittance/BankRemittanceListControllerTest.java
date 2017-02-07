@@ -115,7 +115,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 		account.setMethodPayment(methodPayment);
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 
-		BankAccount bankAccount = new BankAccount(account, "Banco", "BSCHESMMXXX", "ES7620770024003102575766");
+		BankAccount bankAccount = new BankAccount(account, "Banco", "BSCHESMMXXX", "ES7620770024003102575766", new Date());
 		accountService.saveBankAccount(bankAccount);
 		bankAccounts.add(bankAccount);
 		account.setBankAccounts(bankAccounts);
@@ -127,7 +127,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 		accountService.save(account2);
 		account2.setMethodPayment(methodPayment);
 		List<BankAccount> bankAccounts2 = new ArrayList<BankAccount>();
-		BankAccount bankAccount2 = new BankAccount(account2, "Banco", "BSCHESMMXXX", "ES7620770024003102575766");
+		BankAccount bankAccount2 = new BankAccount(account2, "Banco", "BSCHESMMXXX", "ES7620770024003102575766", new Date());
 		accountService.saveBankAccount(bankAccount2);
 		bankAccounts2.add(bankAccount2);
 		account2.setBankAccounts(bankAccounts2);
@@ -143,7 +143,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 		account3.setAccountType(accountType);
 
 		List<BankAccount> bankAccounts3 = new ArrayList<BankAccount>();
-		BankAccount bankAccount3 = new BankAccount(account3, "Banco", "BSCHESMMXXX", "ES7620770024003102575766");
+		BankAccount bankAccount3 = new BankAccount(account3, "Banco", "BSCHESMMXXX", "ES7620770024003102575766", new Date());
 		accountService.saveBankAccount(bankAccount3);
 		bankAccounts3.add(bankAccount3);
 		account3.setBankAccounts(bankAccounts3);

@@ -100,7 +100,7 @@ public class ProgramForm {
 	 * Instantiates a new program form.
 	 */
 	public ProgramForm() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

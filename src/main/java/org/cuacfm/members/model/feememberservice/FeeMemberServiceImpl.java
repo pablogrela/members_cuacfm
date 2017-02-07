@@ -122,7 +122,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 		Double discount = (feeMember.getPrice() * percent) / 100;
 		Double price = feeMember.getPrice() - discount;
 		price = price / account.getInstallments();
-		Double amount = Double.valueOf(0);
+		Double amount;
 
 		// Create installments
 		// Si se añade en diciembre no paga

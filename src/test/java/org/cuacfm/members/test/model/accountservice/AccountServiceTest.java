@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
@@ -459,7 +460,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       accountService.save(user);
 
       BankAccount bankAccount = new BankAccount(user, "Santander", "BSCHESMMXXX",
-            "ES7620770024003102575766");
+            "ES7620770024003102575766", new Date());
       accountService.saveBankAccount(bankAccount);
 
       bankAccount.getIban();
@@ -476,7 +477,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       
       // New BankAccount
       BankAccount bankAccount2 = new BankAccount(user, "La Caixa", "BSCHESMMXXX",
-            "ES7620770024003102575766");
+            "ES7620770024003102575766", new Date());
       accountService.saveBankAccount(bankAccount2);
       bankAccountSearched = accountService.activeBankAccountByAccountId(user.getId());
       assertEquals(bankAccount2.getId(), bankAccountSearched.getId());

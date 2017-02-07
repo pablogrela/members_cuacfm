@@ -122,8 +122,12 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addUser", "addUser").param("Login",
 				account.getId() + ": " + account.getName())).andExpect(view().name("program/programcreate"));
 
+		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addAccountPayer", "addAccountPayer").param("AccountPayerName",
+				account.getId() + ": " + account.getName())).andExpect(view().name("program/programcreate"));
+		
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("create", "create")
-				.param("name", "Program").param("periodicity", "1").param("description", "Very interesting2").param("duration", "1"))
+				.param("name", "Program").param("periodicity", "1").param("description", "Very interesting2").param("duration", "1").param("programTypeId", "1")
+				.param("programThematicId", "1").param("programCategoryId", "1").param("programLanguageId", "1"))
 				.andExpect(view().name("redirect:/programList"));
 	}
 
@@ -146,8 +150,12 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(get("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("program/programcreate")).andExpect(content().string(containsString("<title>Create program</title>")));
 
+		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addAccountPayer", "addAccountPayer").param("AccountPayerName",
+				account.getId() + ": " + account.getName())).andExpect(view().name("program/programcreate"));
+		
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("create", "create")
-				.param("name", "Program").param("periodicity", "1").param("description", "Very interesting2").param("duration", "1"))
+				.param("name", "Program").param("periodicity", "1").param("description", "Very interesting2").param("duration", "1").param("programTypeId", "1")
+				.param("programThematicId", "1").param("programCategoryId", "1").param("programLanguageId", "1"))
 				.andExpect(content()
 						.string(containsString("The program with the name " + program.getName() + " already exists, please choose another.")))
 				.andExpect(view().name("program/programcreate"));

@@ -58,7 +58,7 @@ public class UserAuthenticationIntegrationTest extends WebSecurityConfigurationA
     	Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
     	accountService.save(demoUser);
     	
-        final String username = "user@udc.es";
+        final String username = "user";
         ResultMatcher matcher = new ResultMatcher() {
             public void match(MvcResult mvcResult) throws Exception {
                 HttpSession session = mvcResult.getRequest().getSession();
@@ -66,7 +66,7 @@ public class UserAuthenticationIntegrationTest extends WebSecurityConfigurationA
                 Assert.assertEquals(securityContext.getAuthentication().getName(), username);
             }
         };
-        mockMvc.perform(post("/authenticate").param("username", username).param("password", "demo"))
+        mockMvc.perform(post("/authenticate").param("username", "user@udc.es").param("password", "demo"))
                 .andExpect(redirectedUrl("/"))
                 .andExpect(matcher);
     }

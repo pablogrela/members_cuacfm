@@ -33,6 +33,7 @@ import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.CreatePdf;
+import org.cuacfm.members.model.util.FileUtils;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -77,16 +78,11 @@ public class PayProgramServiceImpl implements PayProgramService {
 		return payProgramRepository.update(payProgram);
 	}
 
-	/**
-	 * Removes the.
-	 *
-	 * @param payProgram the pay program
-	 * @return the pay program
-	 */
-	public void remove(PayProgram payProgram){
+	@Override
+	public void remove(PayProgram payProgram) {
 		payProgramRepository.remove(payProgram);
 	}
-	
+
 	@Override
 	public void pay(PayProgram payProgram) {
 		payProgram.setState(states.PAY);
@@ -148,7 +144,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 	public List<PayProgram> findNoPayListByAccountId(Long accountId) {
 		return payProgramRepository.findNoPayListByAccountId(accountId);
 	}
-	
+
 	@Override
 	public Map<Account, List<PayProgram>> getPayProgramNoPayListByDirectDebit(Date monthCharge) {
 		return payProgramRepository.getPayProgramNoPayListByDirectDebit(monthCharge);
@@ -168,7 +164,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 	public List<PayProgram> getPayProgramListByAccountId(Long accountId) {
 
 		Account account = accountService.findById(accountId);
-		List<PayProgram> payProgramsResult = new ArrayList<PayProgram>();
+		List<PayProgram> payProgramsResult = new ArrayList<>();
 		if (account.getPrograms() == null) {
 			return payProgramsResult;
 		}
@@ -192,8 +188,8 @@ public class PayProgramServiceImpl implements PayProgramService {
 		String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date)
 				+ ".pdf";
 
-		//String path = System.getProperty("user.dir") + "/" + fileNameFeeProgram
-		String path = messageSource.getMessage("path", null, Locale.getDefault()) + fileNameFeeProgram;
+		FileUtils.createFolderIfNoExist(messageSource.getMessage("pathFeeProgram", null, Locale.getDefault()));
+		String path = messageSource.getMessage("pathFeeProgram", null, Locale.getDefault()) + fileNameFeeProgram;
 
 		String title;
 		if (option.equals(Constants.PAY)) {

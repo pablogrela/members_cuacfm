@@ -33,32 +33,28 @@ public class BankAccount implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/** The id. */
 	@Id
 	@GeneratedValue
 	private Long id;
 
-	/** The account. */
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "accountId")
 	private Account account;
 
-	/** The bank. */
 	private String bank;
 
-	/** The bic. */
 	private String bic;
 
-	/** The iban. */
 	private String iban;
 
-	/** The mandate. */
+	/** Identificador unico, para cada cuenta de cada usuario. */
 	private String mandate;
 
-	/** The date created. */
+	/** Fecha en la que se firma el pdf del mandato. */
+	private Date dateMandate;
+
 	private Date dateCreated;
 
-	/** The active. */
 	private boolean active;
 
 	/**
@@ -76,102 +72,61 @@ public class BankAccount implements Serializable {
 	 * @param bic the bic
 	 * @param iban the iban
 	 */
-	public BankAccount(Account account, String bank, String bic, String iban) {
+	public BankAccount(Account account, String bank, String bic, String iban, Date dateMandate) {
 		super();
 		this.account = account;
 		this.bank = bank;
 		this.bic = bic;
 		this.iban = iban;
+		this.dateMandate = dateMandate;
 		this.dateCreated = new Date();
 		this.active = true;
 	}
 
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * Gets the account.
-	 *
-	 * @return the account
-	 */
 	public Account getAccount() {
 		return account;
 	}
 
-	/**
-	 * Gets the bank.
-	 *
-	 * @return the bank
-	 */
 	public String getBank() {
 		return bank;
 	}
 
-	/**
-	 * Gets the bic.
-	 *
-	 * @return the bic
-	 */
 	public String getBic() {
 		return bic;
 	}
 
-	/**
-	 * Gets the iban.
-	 *
-	 * @return the iban
-	 */
 	public String getIban() {
 		return iban;
 	}
 
-	/**
-	 * Gets the mandate.
-	 *
-	 * @return the mandate
-	 */
 	public String getMandate() {
 		return mandate;
 	}
 
-	/**
-	 * Sets the mandate.
-	 *
-	 * @param mandate the new mandate
-	 */
 	public void setMandate(String mandate) {
 		this.mandate = mandate;
 	}
 
-	/**
-	 * Gets the date created.
-	 *
-	 * @return the date created
-	 */
+	public Date getDateMandate() {
+		return dateMandate;
+	}
+
+	public void setDateMandate(Date dateMandate) {
+		this.dateMandate = dateMandate;
+	}
+
 	public Date getDateCreated() {
 		return dateCreated;
 	}
 
-	/**
-	 * Checks if is active.
-	 *
-	 * @return true, if is active
-	 */
 	public boolean isActive() {
 		return active;
 	}
 
-	/**
-	 * Sets the active.
-	 *
-	 * @param active the new active
-	 */
 	public void setActive(boolean active) {
 		this.active = active;
 	}
@@ -179,7 +134,7 @@ public class BankAccount implements Serializable {
 	@Override
 	public String toString() {
 		return "BankAccount [id=" + id + ", account=" + account + ", bank=" + bank + ", bic=" + bic + ", iban=" + iban + ", mandate=" + mandate
-				+ ", dateCreated=" + dateCreated + ", active=" + active + "]";
+				+ ", dateMandate=" + dateMandate + ", dateCreated=" + dateCreated + ", active=" + active + "]";
 	}
 
 }

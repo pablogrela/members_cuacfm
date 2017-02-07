@@ -21,6 +21,7 @@ import java.util.List;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 /** The Interface BankRemittanceService. */
 public interface BankRemittanceService {
@@ -75,10 +76,18 @@ public interface BankRemittanceService {
 	public List<BankRemittance> getBankRemittanceList();
 
 	/**
-	 * create Txt Bank Remittance.
+	 * generate XML Bank Remittance.
 	 *
 	 * @param bankRemittanceId the bank remittance id
 	 * @return the response entity
 	 */
-	public ResponseEntity<byte[]> createTxtBankRemittance(Long bankRemittanceId);
+	public ResponseEntity<byte[]> generateXML(Long bankRemittanceId);
+
+	/**
+	 * Process XML.
+	 *
+	 * @param path the path
+	 * @return the string
+	 */
+	public String processXML(MultipartFile path);
 }

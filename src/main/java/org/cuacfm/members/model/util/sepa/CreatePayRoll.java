@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cuacfm.members.model.util;
+package org.cuacfm.members.model.util.sepa;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -318,7 +318,7 @@ public class CreatePayRoll {
       debtor = debtor + debtorId;
 
       // field 05: Referencia única del mandato (AT-01), 35 ch.
-      String debtorMandate = directDebit.getMandate();
+      String debtorMandate = directDebit.getAccount().activeBankAccount().getMandate();
       debtorMandate = String.format("%1$-35s", debtorMandate);
       debtor = debtor + debtorMandate;
 

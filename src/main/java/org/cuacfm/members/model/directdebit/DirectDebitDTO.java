@@ -33,7 +33,7 @@ public class DirectDebitDTO {
 	private Date datePay;
 	private states state;
 	private methods method;
-	private String mandate;
+	private String returnReason;
 	private String secuence;
 	private String idPayer;
 	private String idTxn;
@@ -44,8 +44,24 @@ public class DirectDebitDTO {
 		// Default empty constructor.
 	}
 
+	/**
+	 * Instantiates a new direct debit DTO.
+	 *
+	 * @param id the id
+	 * @param account the account
+	 * @param concept the concept
+	 * @param price the price
+	 * @param dateUpdate the date update
+	 * @param datePay the date pay
+	 * @param state the state
+	 * @param method the method
+	 * @param secuence the secuence
+	 * @param idPayer the id payer
+	 * @param idTxn the id txn
+	 * @param emailPayer the email payer
+	 */
 	public DirectDebitDTO(String id, AccountDTO account, String concept, Double price, Date dateUpdate, Date datePay, states state, methods method,
-			String mandate, String secuence, String idPayer, String idTxn, String emailPayer) {
+			String secuence, String idPayer, String idTxn, String emailPayer) {
 		super();
 		this.id = id;
 		this.account = account;
@@ -55,7 +71,6 @@ public class DirectDebitDTO {
 		this.datePay = datePay;
 		this.state = state;
 		this.method = method;
-		this.mandate = mandate;
 		this.secuence = secuence;
 		this.idPayer = idPayer;
 		this.idTxn = idTxn;
@@ -134,12 +149,12 @@ public class DirectDebitDTO {
 		this.method = method;
 	}
 
-	public String getMandate() {
-		return mandate;
+	public String getReturnReason() {
+		return returnReason;
 	}
 
-	public void setMandate(String mandate) {
-		this.mandate = mandate;
+	public void setReturnReason(String returnReason) {
+		this.returnReason = returnReason;
 	}
 
 	public String getSecuence() {

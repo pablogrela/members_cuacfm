@@ -262,7 +262,7 @@
 						<div class="col-lg-10">
 							<div class="input-group">
 								<input type="password" name="password" disabled="disabled" class="form-control" id="password" th:placeholder="#{password}"
-									th:field="*{password}" data-minlength="4" maxlength="20" required="required" />
+									th:field="*{password}" data-minlength="6" maxlength="20" required="required" />
 								<span class="input-group-btn">
 									<input type="checkbox" id="onPassword" th:text="#{profile}" name="onPassword"
 										onChange="unlockText2('onPassword', 'visibleRePasswords', 'password', 'rePassword')" data-toggle="toggle" data-onstyle="success"
@@ -281,7 +281,7 @@
 							<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
 							<div class="col-lg-10">
 								<input type="password" name="rePassword" disabled="disabled" class="form-control" id="rePassword" th:placeholder="#{rePassword}"
-									th:field="*{rePassword}" data-minlength="4" data-dependent-validation="password" maxlength="20" required="required" />
+									th:field="*{rePassword}" data-minlength="6" data-dependent-validation="password" maxlength="20" required="required" />
 								<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
 								<div class="ws-errorbox" hidden=""></div>
 							</div>
@@ -423,7 +423,7 @@
 
 					<legend th:text="#{account.infoBankAccount}">BankAccount</legend>
 
-					<!-- Edit bank, with a checkbox to enable field bank -->
+					<!-- Bank -->
 					<div class="form-group" th:classappend="${#fields.hasErrors('bank')}? 'has-error'">
 						<label for="bank" class="col-lg-2 control-label" th:text="#{bank}">bank</label>
 						<div class="col-lg-10">
@@ -433,7 +433,7 @@
 						</div>
 					</div>
 
-					<!-- Edit bic, with a checkbox to enable field bic -->
+					<!-- Bic -->
 					<div class="form-group" th:classappend="${#fields.hasErrors('bic')}? 'has-error'">
 						<label for="bic" class="col-lg-2 control-label" th:text="#{bic}">bic</label>
 						<div class="col-lg-10">
@@ -445,13 +445,24 @@
 					</div>
 
 
-					<!-- Edit iban, with a checkbox to enable field iban -->
+					<!-- Iban -->
 					<div class="form-group" th:classappend="${#fields.hasErrors('iban')}? 'has-error'">
 						<label for="iban" class="col-lg-2 control-label" th:text="#{iban}">iban</label>
 						<div class="col-lg-10">
 							<input type="text" name="iban" class="form-control" id="iban" th:placeholder="#{iban}" th:field="*{iban}" data-minlength="24" maxlength="34"
 								pattern="^([A-Z]){2}([0-9]{22,32})?$" th:title="#{ibanPattern}" required="required" />
 							<span class="help-block" th:if="${#fields.hasErrors('iban')}" th:errors="*{iban}">Incorrect iban</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+
+					<!-- DateMandate -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('dateMandate')}? 'has-error'">
+						<label for="dateMandate" class="col-lg-1 control-label" th:text="#{account.bankAccount.dateMandate}">DateMandate</label>
+						<div class="col-lg-10">
+							<input type="date" class="form-control" id="dateMandate" th:placeholder="#{account.bankAccount.dateMandate}" 
+								th:title="#{account.bankAccount.infoDateMandate}" th:field="*{dateMandate}" required="required" />
+							<span class="help-block" th:if="${#fields.hasErrors('dateMandate')}" th:errors="*{dateMandate}">Incorrect dateMandate</span>
 							<div class="ws-errorbox" hidden=""></div>
 						</div>
 					</div>
@@ -474,18 +485,35 @@
 									<h4 class="modal-title" th:text="#{account.infoBankAccounts}"></h4>
 								</div>
 								<div class="modal-body">
-									<ul th:each="bankAccount : ${bankAccounts}">
+									<div th:each="bankAccount : ${bankAccounts}">
 										<th:block th:if="${bankAccount.active}">
 											<h3 th:text="#{account.activeBankAccount}" style="color: blue">bank</h3>
 										</th:block>
 										<th:block th:if="!${bankAccount.active}">
 											<h3 th:text="#{account.infoBankAccount}" style="color: red">bank</h3>
 										</th:block>
-										<li th:text="${bankAccount.bank}">bank</li>
-										<li th:text="${bankAccount.bic}">bic</li>
-										<li th:text="${bankAccount.iban}">iban</li>
-										<li th:text="${bankAccount.mandate}">mandate</li>
-									</ul>
+										
+										<label th:text="#{bank} + ': ' "></label>
+										<span th:text="${bankAccount.bank}"></span>
+										<br></br>
+										
+										<label th:text="#{bic} + ': ' "></label>
+										<span th:text="${bankAccount.bic}"></span>
+										<br></br>
+										
+										<label th:text="#{iban} + ': ' "></label>
+										<span th:text="${bankAccount.iban}"></span>
+										<br></br>
+										
+										<label th:text="#{account.bankAccount.mandate} + ': ' "></label>
+										<span th:text="${bankAccount.mandate}"></span>
+										<br></br>
+										
+										<label th:text="#{account.bankAccount.dateMandate} + ': ' "></label>
+										<span th:text="${#dates.format(bankAccount.dateMandate, #messages.msg('dateFormat'))}"></span>
+										
+										<br></br>
+									</div>
 									<!-- Show message, if bank accounts is empty -->
 									<h2 class="text-center" th:if="${#lists.isEmpty(bankAccounts)}" th:text="#{account.bankAccount.bankAccountListEmpy}"></h2>
 								</div>

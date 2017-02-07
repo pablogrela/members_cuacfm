@@ -235,7 +235,6 @@ public class DisplayDate {
 		return dateFormat.format(monthOfYear);
 	}
 
-
 	/**
 	 * Format.
 	 *
@@ -247,7 +246,7 @@ public class DisplayDate {
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(format);
 		return dateFormat.format(date);
 	}
-	
+
 	/**
 	 * Format.
 	 *
@@ -259,7 +258,27 @@ public class DisplayDate {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		return dateFormat.format(date);
 	}
-	
+
+	/**
+	 * Format.
+	 *
+	 * @param date the date
+	 * @param format the format
+	 * @return the date
+	 */
+	public static Date format(String date, String format) {
+		Date newDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+
+		try {
+			newDate = dateFormat.parse(date);
+		} catch (ParseException ex) {
+			return null;
+		}
+
+		return newDate;
+	}
+
 	/**
 	 * Month Of Year to string.
 	 *

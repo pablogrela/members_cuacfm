@@ -29,6 +29,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
@@ -43,7 +44,7 @@ public class DirectDebit implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// LA CLAVE SERA ddMMyyy_1, donde uno es el numero de pao creado ese dia
+	// LA CLAVE SERA ddMMyyy_1, donde uno es el numero de pago creado ese dia
 
 	//	@GeneratedValue
 	//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "directDebit_generator")
@@ -81,8 +82,11 @@ public class DirectDebit implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private methods method;
 
-	private String mandate;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "returnReason")
+	private ReturnReason returnReason;
 
+	//FRST(first) o RCUR(Recursive)
 	private String secuence;
 
 	private String idPayer;
@@ -101,6 +105,7 @@ public class DirectDebit implements Serializable {
 	 * Instantiates a new direct debit.
 	 *
 	 * @param account the account
+	 * @param id the id
 	 */
 	public DirectDebit(Account account, String id) {
 		super();
@@ -186,12 +191,12 @@ public class DirectDebit implements Serializable {
 		this.datePay = datePay;
 	}
 
-	public String getMandate() {
-		return mandate;
+	public ReturnReason getReturnReason() {
+		return returnReason;
 	}
 
-	public void setMandate(String mandate) {
-		this.mandate = mandate;
+	public void setReturnReason(ReturnReason returnReason) {
+		this.returnReason = returnReason;
 	}
 
 	public String getSecuence() {
@@ -256,6 +261,7 @@ public class DirectDebit implements Serializable {
 				price = price + payProgram.getPrice();
 			}
 		}
+
 		return price;
 	}
 
@@ -281,6 +287,14 @@ public class DirectDebit implements Serializable {
 
 	public String getConceptShort() {
 		return getConcept().substring(0, 140);
+	}
+
+	@Override
+	public String toString() {
+		return "DirectDebit [id=" + id + ", account=" + account + ", bankRemittance=" + bankRemittance + ", payMembers=" + payMembers
+				+ ", payPrograms=" + payPrograms + ", dateCreate=" + dateCreate + ", dateUpdate=" + dateUpdate + ", datePay=" + datePay + ", state="
+				+ state + ", method=" + method + ", returnReason=" + returnReason + ", secuence=" + secuence + ", idPayer=" + idPayer + ", idTxn="
+				+ idTxn + ", emailPayer=" + emailPayer + "]";
 	}
 
 	/**
@@ -318,4 +332,5 @@ public class DirectDebit implements Serializable {
 	//		//	this.concept = concept + "\n" + payProgram.getFeeProgram().getDescription();
 	//		this.dateUpdate = new Date();
 	//	}
+
 }

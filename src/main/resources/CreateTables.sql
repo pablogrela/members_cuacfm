@@ -21,6 +21,7 @@
 
 
 DROP TABLE IF EXISTS Configuration;
+DROP TABLE IF EXISTS ReturnReason;
 DROP TABLE IF EXISTS DirectDebitPayPrograms;
 DROP TABLE IF EXISTS DirectDebitPayMembers;
 DROP TABLE IF EXISTS DirectDebit;
@@ -126,6 +127,7 @@ CREATE TABLE BankAccount(
     bic VARCHAR(11),
     iban VARCHAR(34) NOT NULL,
     mandate VARCHAR(24) NOT NULL,
+    dateMandate TIMESTAMP NULL,
     dateCreated TIMESTAMP NULL,
     active BOOLEAN,
     CONSTRAINT BankAccountId_PK PRIMARY KEY (id),
@@ -339,9 +341,10 @@ CREATE TABLE DirectDebit(
     state VARCHAR(20) NOT NULL,
     method VARCHAR(20),
     
-    mandate VARCHAR(24) NULL,
+    -- mandate VARCHAR(24) NULL,
     -- secuencia adeudose
     secuence VARCHAR(4) NULL,
+    returnReason VARCHAR(50) NULL,
     
     -- paypal
     idPayer VARCHAR(50),
@@ -384,6 +387,13 @@ CREATE TABLE Event(
     CONSTRAINT EventId_PK PRIMARY KEY (id),
     CONSTRAINT Event_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
 ); 
+
+
+CREATE TABLE ReturnReason (
+    id INT NOT NULL,
+    description VARCHAR(50),
+    CONSTRAINT ReturnReason_PK PRIMARY KEY (id)
+);
 
 
 -- Solo para la base de datos principal, para el test no se debe cargar
@@ -451,3 +461,5 @@ insert into ProgramLanguage values (1, 'Otro', ' Otro');
 insert into ProgramLanguage values (2, 'Español', ' Español');
 insert into ProgramLanguage values (3, 'Gallego', 'Gallego');
 insert into ProgramLanguage values (4, 'Inglés', ' Inglés');
+
+

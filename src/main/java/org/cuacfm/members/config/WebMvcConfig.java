@@ -29,6 +29,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -44,163 +46,165 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @ComponentScan(basePackageClasses = Application.class, includeFilters = @Filter(Controller.class), useDefaultFilters = false)
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
-   /** The Constant MESSAGE_SOURCE. */
-   private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
+	/** The Constant MESSAGE_SOURCE. */
+	private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
 
-   /** The Constant VIEWS. */
-   private static final String VIEWS = "/WEB-INF/views/";
+	/** The Constant VIEWS. */
+	private static final String VIEWS = "/WEB-INF/views/";
 
-   /** The Constant RESOURCES_HANDLER. */
-   private static final String RESOURCES_LOCATION = "/resources/";
+	/** The Constant RESOURCES_HANDLER. */
+	private static final String RESOURCES_LOCATION = "/resources/";
 
-   /** The Constant RESOURCES_LOCATION. */
-   private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
+	/** The Constant RESOURCES_LOCATION. */
+	private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
 
-   /** Instantiates a new web mvc config. */
-   public WebMvcConfig() {
-      // Default empty constructor.
-   }
+	/** Instantiates a new web mvc config. */
+	public WebMvcConfig() {
+		// Default empty constructor.
+	}
 
-   /**
-    * Open entity manager in view filter.
-    *
-    * @return the open entity manager in view filter
-    */
-   @Bean
-   public OpenEntityManagerInViewFilter openEntityManagerInViewFilter() {
-      return new OpenEntityManagerInViewFilter();
-   }
-   
-   // Formateo de las fechas
-   @Override
-   public void addFormatters(FormatterRegistry registry) {
-      DateFormatter dateFormatter = new DateFormatter("HH:mm dd/MM/yyyy");
-      registry.addFormatter(dateFormatter);
-   }
+	// Bean name must be "multipartResolver", by default Spring uses method name as bean name.
+	@Bean
+	public MultipartResolver multipartResolver() {
+		return new CommonsMultipartResolver();
+	}
 
-   /**
-    * RequestMappingHandlerMapping.
-    *
-    * @return RequestMappingHandlerMapping
-    */
-   @Override
-   public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-      RequestMappingHandlerMapping requestMappingHandlerMapping = super
-            .requestMappingHandlerMapping();
-      requestMappingHandlerMapping.setUseSuffixPatternMatch(false);
-      requestMappingHandlerMapping.setUseTrailingSlashMatch(false);
-      return requestMappingHandlerMapping;
-   }
+	/**
+	 * Open entity manager in view filter.
+	 *
+	 * @return the open entity manager in view filter
+	 */
+	@Bean
+	public OpenEntityManagerInViewFilter openEntityManagerInViewFilter() {
+		return new OpenEntityManagerInViewFilter();
+	}
 
-   /**
-    * Message source.
-    *
-    * @return the message source
-    */
-   @Bean(name = "messageSource")
-   public MessageSource messageSource() {
-      ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-      messageSource.setBasename(MESSAGE_SOURCE);
-      messageSource.setCacheSeconds(5);
-      return messageSource;
-   }
+	// Formateo de las fechas
+	@Override
+	public void addFormatters(FormatterRegistry registry) {
+		DateFormatter dateFormatter = new DateFormatter("HH:mm dd/MM/yyyy");
+		registry.addFormatter(dateFormatter);
+	}
 
-   /**
-    * Template resolver.
-    *
-    * @return the template resolver
-    */
-   @Bean
-   public TemplateResolver templateResolver() {
-      TemplateResolver templateResolver = new ServletContextTemplateResolver();
-      templateResolver.setPrefix(VIEWS);
-      templateResolver.setSuffix(".html");
-      templateResolver.setTemplateMode("HTML5");
-      templateResolver.setCacheable(false);
-      return templateResolver;
-   }
+	/**
+	 * RequestMappingHandlerMapping.
+	 *
+	 * @return RequestMappingHandlerMapping
+	 */
+	@Override
+	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+		RequestMappingHandlerMapping requestMappingHandlerMapping = super.requestMappingHandlerMapping();
+		requestMappingHandlerMapping.setUseSuffixPatternMatch(false);
+		requestMappingHandlerMapping.setUseTrailingSlashMatch(false);
+		return requestMappingHandlerMapping;
+	}
 
-   /**
-    * Template engine.
-    *
-    * @return the spring template engine
-    */
-   @Bean
-   public SpringTemplateEngine templateEngine() {
-      SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-      templateEngine.setTemplateResolver(templateResolver());
-      templateEngine.addDialect(new SpringSecurityDialect());
-      return templateEngine;
-   }
+	/**
+	 * Message source.
+	 *
+	 * @return the message source
+	 */
+	@Bean(name = "messageSource")
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename(MESSAGE_SOURCE);
+		messageSource.setCacheSeconds(5);
+		return messageSource;
+	}
 
-   /**
-    * View resolver.
-    *
-    * @return the thymeleaf view resolver
-    */
-   @Bean
-   public ThymeleafViewResolver viewResolver() {
-      ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
-      thymeleafViewResolver.setTemplateEngine(templateEngine());
-      thymeleafViewResolver.setCharacterEncoding("UTF-8");
-      return thymeleafViewResolver;
-   }
+	/**
+	 * Template resolver.
+	 *
+	 * @return the template resolver
+	 */
+	@Bean
+	public TemplateResolver templateResolver() {
+		TemplateResolver templateResolver = new ServletContextTemplateResolver();
+		templateResolver.setPrefix(VIEWS);
+		templateResolver.setSuffix(".html");
+		templateResolver.setTemplateMode("HTML5");
+		templateResolver.setCacheable(false);
+		return templateResolver;
+	}
 
-   /**
-    * Get Validator .
-    *
-    * @return validator
-    */
-   @Override
-   public Validator getValidator() {
-      LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-      validator.setValidationMessageSource(messageSource());
-      return validator;
-   }
+	/**
+	 * Template engine.
+	 *
+	 * @return the spring template engine
+	 */
+	@Bean
+	public SpringTemplateEngine templateEngine() {
+		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+		templateEngine.setTemplateResolver(templateResolver());
+		templateEngine.addDialect(new SpringSecurityDialect());
+		return templateEngine;
+	}
 
-   /**
-    * Get Validator .
-    *
-    * @param registry
-    *           the registry
-    */
-   @Override
-   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-      registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
-   }
+	/**
+	 * View resolver.
+	 *
+	 * @return the thymeleaf view resolver
+	 */
+	@Bean
+	public ThymeleafViewResolver viewResolver() {
+		ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
+		thymeleafViewResolver.setTemplateEngine(templateEngine());
+		thymeleafViewResolver.setCharacterEncoding("UTF-8");
+		return thymeleafViewResolver;
+	}
 
-   /**
-    * Configure Default Server Handling.
-    *
-    * @param configurer
-    *           the configurer
-    * @return DefaultServletHandlerConfigurer configurer
-    */
-   @Override
-   public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-      configurer.enable();
-   }
+	/**
+	 * Get Validator .
+	 *
+	 * @return validator
+	 */
+	@Override
+	public Validator getValidator() {
+		LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+		validator.setValidationMessageSource(messageSource());
+		return validator;
+	}
 
-   /**
-    * Handles favicon.ico requests assuring no <code>404 Not Found</code> error
-    * is returned.
-    */
-   @Controller
-   static class FaviconController {
-      /** Instantiates a new favicon controller. */
+	/**
+	 * Get Validator .
+	 *
+	 * @param registry the registry
+	 */
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(RESOURCES_LOCATION);
+	}
 
-      FaviconController() {
-         // Default empty constructor.
-      }
+	/**
+	 * Configure Default Server Handling.
+	 *
+	 * @param configurer the configurer
+	 * @return DefaultServletHandlerConfigurer configurer
+	 */
+	@Override
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
+	}
 
-      /**
-       * Favicon.
-       *
-       * @return the string
-       */
-      @RequestMapping("favicon.ico")
-      String favicon() {
-         return "forward:/resources/images/favicon.ico";
-      }
-   }
+	/**
+	 * Handles favicon.ico requests assuring no <code>404 Not Found</code> error is returned.
+	 */
+	@Controller
+	static class FaviconController {
+		/** Instantiates a new favicon controller. */
+
+		FaviconController() {
+			// Default empty constructor.
+		}
+
+		/**
+		 * Favicon.
+		 *
+		 * @return the string
+		 */
+		@RequestMapping("favicon.ico")
+		String favicon() {
+			return "forward:/resources/images/favicon.ico";
+		}
+	}
 }

@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.web.support.MessageHelper;
@@ -86,11 +87,13 @@ public class AccountListController {
 
 		Account account = accountService.findById(id);
 
-		accountService.unsubscribe(account);
-		Object[] arguments = { account.getName() };
-		String messageI18n = messageSource.getMessage("account.successUnsubscribe", arguments, Locale.getDefault());
-		MessageHelper.addInfoAttribute(ra, messageI18n);
-		
+		// Only unbuscribe roles no admin
+		if (!account.getRole().equals(roles.ROLE_ADMIN)) {
+			accountService.unsubscribe(account);
+			Object[] arguments = { account.getName() };
+			String messageI18n = messageSource.getMessage("account.successUnsubscribe", arguments, Locale.getDefault());
+			MessageHelper.addInfoAttribute(ra, messageI18n);
+		}
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 

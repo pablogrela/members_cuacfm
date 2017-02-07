@@ -151,7 +151,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 				.param("onEmail", "true").param("email", "user@udc.es").param("onProgramName", "true").param("programName", "programName")
 				.param("onPhone", "true").param("phone", "12356789").param("onMobile", "true").param("mobile", "12356789").param("onStudent", "true")
 				.param("student", "true").param("onDateBirth", "true").param("dateBirth", "1990-05-02").param("onPassword", "true")
-				.param("password", "1234").param("rePassword", "1234")).andExpect(view().name("redirect:/profile"));
+				.param("password", "1234").param("rePassword", "1234")).andExpect(view().name("profile/profile"));
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void diferentPasswordsTest() throws Exception {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
-		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "dni")
+		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("mobile", "12356789").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("mobile", "11111111").param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456")
 				.param("rePassword", "123333")).andExpect(content().string(containsString("Passwords are not equal")))
@@ -307,7 +307,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void updateProfileSuccesfullwithoutLoginTest() throws Exception {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
-		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "dni")
+		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("mobile", "12356789").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("mobile", "111111111").param("dateBirth", "1990-05-02")).andExpect(view().name("redirect:/profile"));
 	}
@@ -322,7 +322,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
 
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("nickName", "nickName")
-				.param("dni", "dni").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
+				.param("dni", "95716045G").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("onLogin", "true").param("login", "login").param("onEmail", "true").param("email", "email2@udc.es").param("phone", "12356789")
 				.param("mobile", "12356789").param("student", "true").param("dateBirth", "1990-05-02").param("onPassword", "true")
 				.param("password", "1234").param("rePassword", "1234").param("installments", "1").param("accountTypeId", "1")
@@ -338,7 +338,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	public void ifnotOnAndBlanckMessageTest() throws Exception {
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("onName", "false").param("name", " ")
 				.param("onLogin", "false").param("login", " ").param("onEmail", "false").param("email", " ").param("onPassword", "false")
-				.param("password", " ").param("onDni", "false").param("dni", "dni").param("onAddress", "false").param("address", "address")
+				.param("password", " ").param("onDni", "false").param("dni", "95716045G").param("onAddress", "false").param("address", "address")
 				.param("onPhone", "false").param("phone", "12356789").param("onMobile", "false").param("mobile", "12356789")
 				.param("onStudent", "false").param("student", "true").param("onDateBirth", "false").param("dateBirth", "1990-05-02"))
 				.andExpect(view().name("profile/profile"));
@@ -352,7 +352,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void ifnotOnAndMessageTest() throws Exception {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
-		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "dni")
+		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN").param("mobile", "111111111")
 				.param("dateBirth", "1990-05-02").param("onName", "false").param("name", "name").param("onLogin", "false").param("login", "login")
 				.param("onEmail", "false").param("email", "email@example.es").param("onPassword", "false").param("password", "1234")
@@ -367,7 +367,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void updateProfileSuccesfullNotChanged() throws Exception {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
-		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "dni")
+		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("mobile", "12356789").param("cp", "cp").param("mobile", "111111111").param("province", "province")
 				.param("codeCountry", "EN").param("dateBirth", "1990-05-02")).andExpect(view().name("redirect:/profile"));
 	}

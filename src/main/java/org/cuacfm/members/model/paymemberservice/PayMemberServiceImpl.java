@@ -31,6 +31,7 @@ import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.CreatePdf;
+import org.cuacfm.members.model.util.FileUtils;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -66,11 +67,6 @@ public class PayMemberServiceImpl implements PayMemberService {
 
 	@Override
 	public PayMember update(PayMember payMember) throws ExistTransactionIdException {
-		//	PayMember paymentExist = payMemberRepository.findByIdTxn(payMember.getIdTxn());
-		//	if ((paymentExist != null) && (paymentExist.getId() != payMember.getId())) {
-		//		throw new ExistTransactionIdException(payMember.getIdTxn());
-		//	}
-
 		Object[] arguments = { payMember.getFeeMember().getName(), payMember.getAccount().getName() };
 		eventService.save("payMember.successModify", null, 2, arguments);
 		return payMemberRepository.update(payMember);
@@ -109,7 +105,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 		payMemberRepository.update(payMember);
 
 		Object[] arguments = { payMember.getFeeMember().getName() };
-		eventService.save("userPayments.successPayPayPal", null, 2, arguments);
+		eventService.save("userPayments.successPayPal", null, 2, arguments);
 	}
 
 	@Override
@@ -132,9 +128,11 @@ public class PayMemberServiceImpl implements PayMemberService {
 		return payMemberRepository.getPayMemberList();
 	}
 
-	public List<PayMember> findNoPayListByAccountId(Long accountId){
+	@Override
+	public List<PayMember> findNoPayListByAccountId(Long accountId) {
 		return payMemberRepository.findNoPayListByAccountId(accountId);
 	}
+
 	@Override
 	public Map<Account, List<PayMember>> getPayMemberNoPayListByDirectDebit(Date monthCharge) {
 		return payMemberRepository.getPayMemberNoPayListByDirectDebit(monthCharge);
@@ -165,8 +163,8 @@ public class PayMemberServiceImpl implements PayMemberService {
 		String fileNameFeeMember = messageSource.getMessage("fileNameFeeMember", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date)
 				+ ".pdf";
 
-		//String path = System.getProperty("user.dir") + "/" + fileNameFeeMember
-		String path = messageSource.getMessage("path", null, Locale.getDefault()) + "/" + fileNameFeeMember;
+		FileUtils.createFolderIfNoExist(messageSource.getMessage("pathFeeMember", null, Locale.getDefault()));
+		String path = messageSource.getMessage("pathFeeMember", null, Locale.getDefault()) + fileNameFeeMember;
 
 		String title;
 		if (option.equals(Constants.PAY)) {

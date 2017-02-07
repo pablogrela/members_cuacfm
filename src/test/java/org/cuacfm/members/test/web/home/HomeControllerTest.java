@@ -25,6 +25,8 @@ import javax.inject.Inject;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.configuration.Configuration;
+import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
@@ -46,6 +48,10 @@ public class HomeControllerTest extends WebSecurityConfigurationAware {
 	/** The account service. */
 	@Inject
 	private AccountService accountService;
+
+	/** The configuration service. */
+	@Inject
+	private ConfigurationService configurationService;
 
 	/**
 	 * Initialize default session.
@@ -77,6 +83,9 @@ public class HomeControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void displayHomeSignedIn() throws Exception {
+		Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666, Double.valueOf(24), Double.valueOf(25), "Rul");
+		configurationService.save(configuration);
+
 		mockMvc.perform(get("/").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("home/homeSignedIn"));
 	}
 
