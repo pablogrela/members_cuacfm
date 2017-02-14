@@ -22,7 +22,7 @@
 <body>
 
 	<div th:fragment="eventImportant">
-		<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star" th:title="#{event.Highlighted}"
+		<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star" th:title="#{event.highlighted}"
 			style="color: yellow" disabled="disabled"></button>
 		<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
 			style="color: red"></button>

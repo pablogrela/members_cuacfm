@@ -38,6 +38,7 @@ import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -208,7 +209,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "33535129W")
 				.param("mobile", "12356789").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02").param("onLogin", "true").param("login", "user2").param("onEmail", "true")
-				.param("email", "email@udc.es").param("onPassword", "true").param("password", "1234").param("rePassword", "1234")
+				.param("email", "email@udc.es").param("onPassword", "true").param("newPassword", "123456").param("rePassword", "123456")
 				.param("onInstallments", "true").param("installments", "1"))
 				.andExpect(
 				      content().string(
@@ -222,6 +223,8 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore
+	// Only the user can change it
 	public void emailAlreadyExists() throws Exception {
 
 		Account user2 = new Account("user2", "95716045G", "London", "user2", "email2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
@@ -247,6 +250,8 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore
+	// Only the user can change it
 	public void incorrectEmailFormat() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
@@ -352,6 +357,8 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore
+	// Only the user can change it
 	public void insuficientCharactersPasswordsTest() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
@@ -374,6 +381,8 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore
+	// Only the user can change it
 	public void diferentPasswordsTest() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
@@ -389,6 +398,8 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore
+	// Only the user can change it
 	public void notOnAndBlanckMessage() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 

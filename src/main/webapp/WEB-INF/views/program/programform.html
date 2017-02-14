@@ -21,6 +21,7 @@
 
 	<div th:fragment="programform">
 
+
 		<!-- Name -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 			<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
@@ -30,6 +31,7 @@
 				<div class="ws-errorbox" hidden=""></div>
 			</div>
 		</div>
+
 
 		<!-- Description -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
@@ -63,10 +65,9 @@
 		</div>
 
 
-
 		<!-- Duration -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
-			<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
+			<label for="duration" class="col-lg-20 control-label" th:text="#{duration}">place</label>
 			<div class="col-lg-10">
 				<div class="col-lg-4-edit">
 					<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
@@ -77,6 +78,7 @@
 				<div class="ws-errorbox" hidden=""></div>
 			</div>
 		</div>
+
 
 		<!-- Program Type, Selected option in droplist -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('programTypeId')}? 'has-error'">
@@ -206,40 +208,86 @@
 
 		<br></br>
 		<!-- Login -->
-		<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+<!-- 		<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'"> -->
 			<!-- Form add user by admin -->
-			<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+<!-- 			<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')"> -->
+<!-- 				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label> -->
 
-				<div class="col-lg-9 text-danger">
-					<input type="text" class="form-control" list="userlist" th:placeholder="#{login}" th:field="*{login}" autocomplete="off" />
+<!-- 				<div class="col-lg-9 text-danger"> -->
+<!-- 					<input type="text" class="form-control" list="userlist" th:placeholder="#{login}" th:field="*{login}" autocomplete="off" /> -->
 
+<!-- 					Datalist is a search by keyword -->
+<!-- 					<datalist id="userlist"> -->
+<!-- 						<option th:each="username : ${usernames}" th:value="${username}" /> -->
+<!-- 					</datalist> -->
+
+<!-- 					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span> -->
+<!-- 					<div class="ws-errorbox" hidden=""></div> -->
+<!-- 				</div> -->
+<!-- 			</th:block> -->
+
+			<!-- Form add user by no admin -->
+<!-- 			<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')"> -->
+<!-- 				<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label> -->
+
+<!-- 				<div class="col-lg-9 text-danger"> -->
+<!-- 					<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{login}" th:title="#{program.infoAddUserByDni}" autocomplete="off" /> -->
+<!-- 					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span> -->
+<!-- 					<div class="ws-errorbox" hidden=""></div> -->
+<!-- 				</div> -->
+<!-- 			</th:block> -->
+
+			<!-- Button Add User to Program-->
+<!-- 			<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign" th:title="#{inscription.addUser}" -->
+<!-- 				style="color: green"></button> -->
+
+<!-- 		</div> -->
+
+
+		
+		<!-- Form to add user by login -->
+		<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+			<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
+			<div class="col-lg-10">
+				<div class="input-group">
+					<input type="text" class="form-control text-danger" list="userlist" th:placeholder="#{login}" th:field="*{login}" autocomplete="off"/>
+					<span class="input-group-btn">
+							<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign" th:title="#{inscription.addUser}" style="color: green"></button>
+					</span>
 					<!-- Datalist is a search by keyword-->
 					<datalist id="userlist">
 						<option th:each="username : ${usernames}" th:value="${username}" />
 					</datalist>
-
-					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
-					<div class="ws-errorbox" hidden=""></div>
 				</div>
-			</th:block>
-
-			<!-- Form add user by no admin -->
-			<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
-				<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
-
-				<div class="col-lg-9 text-danger">
-					<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{login}" th:title="#{program.infoAddUserByDni}" autocomplete="off" />
-					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
-					<div class="ws-errorbox" hidden=""></div>
-				</div>
-			</th:block>
-
-			<!-- Button Add User to Program-->
-			<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign" th:title="#{inscription.addUser}"
-				style="color: green"></button>
-
+				<span class="help-block pull-left" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+				<div class="ws-errorbox pull-left" hidden=""></div>
+			</div>
 		</div>
+
+			
+		<!-- Form to add user by dni -->
+		<div sec:authorize="!hasAnyRole('ROLE_ADMIN')" class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
+			<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
+			<div class="col-lg-10">
+				<div class="input-group">
+					<input type="text" class="form-control text-danger" th:placeholder="#{dni}" th:field="*{login}" autocomplete="off" />
+					<span class="input-group-btn">
+							<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign" th:title="#{program.infoAddUserByDni}" style="color: green"></button>
+					</span>
+					<!-- Datalist is a search by keyword-->
+					<datalist id="userlist">
+						<option th:each="username : ${usernames}" th:value="${username}" />
+					</datalist>
+				</div>
+				<span class="help-block pull-left" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
+				<div class="ws-errorbox pull-left" hidden=""></div>
+			</div>
+		</div>
+
+
+
+
+
 
 		<!-- List of users pertains to program -->
 		<table class="dataTable display table-striped">
@@ -297,10 +345,14 @@
 							</div>
 						</th:block>
 					</th>
-					<!-- Comfirm Account Payer -->
+									
 					<td>
+						<!-- Comfirm Account Payer -->
 						<button th:if="${programForm.accountPayer} == null" type="submit" th:value="*{accountPayerName}" th:name="addAccountPayer"
-							class="btnTable btn-link glyphicon glyphicon-ok" th:title="#{program.infoAddAcountPayer}" style="color: green"></button> <!-- Remove Account Payer -->
+							class="btnTable btn-link glyphicon glyphicon-ok" th:title="#{program.infoAddAcountPayer}" style="color: green">					
+						</button> 
+						
+						<!-- Remove Account Payer -->
 						<button type="submit" th:if="${programForm.accountPayer} != null" th:value="*{accountPayerName}" th:name="removeAccountPayer"
 							class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemoveAccountPayer}" style="color: red"></button>
 					</td>

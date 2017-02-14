@@ -152,28 +152,59 @@
 
 
 					<!-- Edit Email, with a checkbox to enable field email -->
-					<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
-						<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
-						<div class="col-lg-10">
-							<div class="input-group">
-								<input type="email" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}"
-									maxlength="50" required="required" />
-								<span class="input-group-btn">
-									<input type="checkbox" id="onEmail" th:text="#{profile}" name="onEmail" onChange="unlockText('onEmail', 'email')" data-toggle="toggle"
-										data-onstyle="success" data-offstyle="danger" />
-								</span>
-							</div>
-							<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
-							<div class="ws-errorbox" hidden=""></div>
-						</div>
-					</div>
+<!-- 					<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'"> -->
+<!-- 						<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label> -->
+<!-- 						<div class="col-lg-10"> -->
+<!-- 							<div class="input-group"> -->
+<!-- 								<input type="email" name="email" disabled="disabled" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" -->
+<!-- 									maxlength="50" required="required" /> -->
+<!-- 								<span class="input-group-btn"> -->
+<!-- 									<input type="checkbox" id="onEmail" th:text="#{profile}" name="onEmail" onChange="unlockText('onEmail', 'email')" data-toggle="toggle" -->
+<!-- 										data-onstyle="success" data-offstyle="danger" /> -->
+<!-- 								</span> -->
+<!-- 							</div> -->
+<!-- 							<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span> -->
+<!-- 							<div class="ws-errorbox" hidden=""></div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
+					<!-- Edit Password, with a checkbox to enable field password and rePassword-->
+<!-- 					<div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'"> -->
+<!-- 						<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label> -->
+<!-- 						<div class="col-lg-10"> -->
+<!-- 							<div class="input-group"> -->
+<!-- 								<input type="password" name="password" disabled="disabled" class="form-control" id="password" th:placeholder="#{password}" -->
+<!-- 									th:field="*{password}" minlength="6" maxlength="20" required="required" /> -->
+<!-- 								<span class="input-group-btn"> -->
+<!-- 									<input type="checkbox" id="onPassword" th:text="#{profile}" name="onPassword" -->
+<!-- 										onChange="unlockText2('onPassword', 'visibleRePasswords', 'password', 'rePassword')" data-toggle="toggle" data-onstyle="success" -->
+<!-- 										data-offstyle="danger" /> -->
+<!-- 								</span> -->
+<!-- 							</div> -->
+<!-- 							<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span> -->
+<!-- 							<div class="ws-errorbox" hidden=""></div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+
+
+					<!-- Reinsert Password -->
+<!-- 					<div id="visibleRePasswords" style="display: none;"> -->
+<!-- 						<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'"> -->
+<!-- 							<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label> -->
+<!-- 							<div class="col-lg-10"> -->
+<!-- 								<input type="password" name="rePassword" disabled="disabled" class="form-control" id="rePassword" th:placeholder="#{rePassword}" -->
+<!-- 									th:field="*{rePassword}" minlength="6" data-dependent-validation="password" maxlength="20" required="required" /> -->
+<!-- 								<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span> -->
+<!-- 								<div class="ws-errorbox" hidden=""></div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 
 					<!-- Edit phone  -->
 					<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 						<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 						<div class="col-lg-10">
-							<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" data-minlength="6" maxlength="20"
+							<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" minlength="6" maxlength="20"
 								pattern="[0-9]{6,20}" th:title="#{telPattern}" value="" />
 							<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
 							<div class="ws-errorbox" hidden=""></div>
@@ -185,7 +216,7 @@
 					<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 						<label for="mobile" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 						<div class="col-lg-10">
-							<input type="tel" name="mobile" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" data-minlength="6"
+							<input type="tel" name="mobile" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" minlength="6"
 								maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" value="" />
 							<span class="help-block" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
 							<div class="ws-errorbox" hidden=""></div>
@@ -253,38 +284,6 @@
 							<br></br>
 							<span class="help-block" th:if="${#fields.hasErrors('dateBirth')}" th:errors="*{dateBirth}">Incorrect dateBirth</span>
 							<div class="ws-errorbox" hidden=""></div>
-						</div>
-					</div>
-
-					<!-- Edit Password, with a checkbox to enable field password and rePassword-->
-					<div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
-						<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
-						<div class="col-lg-10">
-							<div class="input-group">
-								<input type="password" name="password" disabled="disabled" class="form-control" id="password" th:placeholder="#{password}"
-									th:field="*{password}" data-minlength="6" maxlength="20" required="required" />
-								<span class="input-group-btn">
-									<input type="checkbox" id="onPassword" th:text="#{profile}" name="onPassword"
-										onChange="unlockText2('onPassword', 'visibleRePasswords', 'password', 'rePassword')" data-toggle="toggle" data-onstyle="success"
-										data-offstyle="danger" />
-								</span>
-							</div>
-							<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
-							<div class="ws-errorbox" hidden=""></div>
-						</div>
-					</div>
-
-
-					<!-- Reinsert Password -->
-					<div id="visibleRePasswords" style="display: none;">
-						<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
-							<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
-							<div class="col-lg-10">
-								<input type="password" name="rePassword" disabled="disabled" class="form-control" id="rePassword" th:placeholder="#{rePassword}"
-									th:field="*{rePassword}" data-minlength="6" data-dependent-validation="password" maxlength="20" required="required" />
-								<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
-								<div class="ws-errorbox" hidden=""></div>
-							</div>
 						</div>
 					</div>
 
@@ -405,7 +404,7 @@
 
 			<!-- Button view Bank Accounts-->
 			<div class="form-group text-center">
-				<button type="button" class="btn btn-info btn-lg" th:text="#{account.viewBankAccounts}" th:title="#{account.infoBankAccounts}"
+				<button type="button" class="btn btn-info btn-lg" th:text="#{account.bankAccount.bankAccountList}" th:title="#{account.infoBankAccounts}"
 					onclick="showModal(modal)"></button>
 			</div>
 
@@ -437,7 +436,7 @@
 					<div class="form-group" th:classappend="${#fields.hasErrors('bic')}? 'has-error'">
 						<label for="bic" class="col-lg-2 control-label" th:text="#{bic}">bic</label>
 						<div class="col-lg-10">
-							<input type="text" name="bic" class="form-control" id="bic" th:placeholder="#{bic}" th:field="*{bic}" data-minlength="8" maxlength="11"
+							<input type="text" name="bic" class="form-control" id="bic" th:placeholder="#{bic}" th:field="*{bic}" minlength="8" maxlength="11"
 								pattern="^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$" />
 							<span class="help-block" th:if="${#fields.hasErrors('bic')}" th:errors="*{bic}">Incorrect bic</span>
 							<div class="ws-errorbox" hidden=""></div>
@@ -449,7 +448,7 @@
 					<div class="form-group" th:classappend="${#fields.hasErrors('iban')}? 'has-error'">
 						<label for="iban" class="col-lg-2 control-label" th:text="#{iban}">iban</label>
 						<div class="col-lg-10">
-							<input type="text" name="iban" class="form-control" id="iban" th:placeholder="#{iban}" th:field="*{iban}" data-minlength="24" maxlength="34"
+							<input type="text" name="iban" class="form-control" id="iban" th:placeholder="#{iban}" th:field="*{iban}" minlength="24" maxlength="34"
 								pattern="^([A-Z]){2}([0-9]{22,32})?$" th:title="#{ibanPattern}" required="required" />
 							<span class="help-block" th:if="${#fields.hasErrors('iban')}" th:errors="*{iban}">Incorrect iban</span>
 							<div class="ws-errorbox" hidden=""></div>
@@ -476,7 +475,7 @@
 						</div>
 					</div>
 
-					<!-- Modal Info 	-->
+					<!-- Modal Info -->
 					<div id="modal" class="modal fade">
 						<div class="modal-dialog">
 							<div class="modal-content panel-info">

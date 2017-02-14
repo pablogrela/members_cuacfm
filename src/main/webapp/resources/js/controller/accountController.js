@@ -40,10 +40,12 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 		});
 	}
 
-	function unsubscribe(id) {
+	function unsubscribe(id, email) {
 		AccountService.unsubscribe(id).then(function(data) {
 			$scope.message = data;
 			fetchAllUsers();
+			// Disable
+			// disableUser(email)
 			showModal(modal);
 		}, function(errResponse) {
 			console.error('Error while unsubscribe User');

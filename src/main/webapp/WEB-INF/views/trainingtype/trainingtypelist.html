@@ -48,7 +48,7 @@
 
 		<!-- Show message, if training type list is empty -->
 		<div th:if="${#lists.isEmpty(trainingTypes)}">
-			<h2 class="text-center" th:text="#{trainingType.trainingTypelistEmpty}">List of Training Types</h2>
+			<h2 class="text-center" th:text="#{trainingType.trainingTypeListEmpty}">List of Training Types</h2>
 		</div>
 
 		<fieldset>
@@ -56,7 +56,7 @@
 			<!-- Verify if exits Trainings -->
 			<div th:unless="${#lists.isEmpty(trainingTypes)}">
 
-				<h2 class="text-center" th:text="#{trainingType.trainingTypelist}">List of Training Types</h2>
+				<h2 class="text-center" th:text="#{trainingType.trainingTypeList}">List of Training Types</h2>
 
 				<!-- Table List of Training Types -->
 				<table class="display" id="customTable">

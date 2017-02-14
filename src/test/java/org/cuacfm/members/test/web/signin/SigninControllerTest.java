@@ -34,6 +34,7 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -102,6 +103,8 @@ public class SigninControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
+	@Ignore
+	// Up and Down user only in firebase
 	public void downUserTest() throws Exception {    
 		user.setActive(false);
 		accountService.update(user, false, true);

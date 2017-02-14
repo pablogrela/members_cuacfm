@@ -43,7 +43,7 @@
 
 		<br></br>
 		<!-- Div of buttons -->
-		<div class="container text-center containerColums">
+		<div class="container text-center containerColums-5">
 
 			<!-- Form to add user by login -->
 			<div class="columLeft-large">
@@ -141,16 +141,19 @@
 						</td>
 
 						<td>
-							<!-- Pay payMember --> <object
-								th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
-								class="text-center">
+						
+							<!-- Pay payMember --> 
+							<object th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY} or 
+								${payMember.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}" class="text-center">
 								<form th:action="@{'payMemberList/pay/'+${payMember.id}}" method="post">
 									<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 								</form>
-							</object> <!-- Fill table entry, pay member --> <object
-								th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
-						${payMember.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"></object>
+							</object>
+							
+							<!-- Fill table entry, pay member --> 
+							<object th:if="${payMember.state == T(org.cuacfm.members.model.util.Constants.states).PAY} or
+								${payMember.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}">
+							</object>
 						</td>
 					</tr>
 

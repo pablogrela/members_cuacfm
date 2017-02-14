@@ -62,7 +62,7 @@ public class TrainingServiceImpl implements TrainingService {
 		Object[] arguments = { training.getName() };
 
 		if (training.getDateTraining().before(training.getDateLimit())) {
-			eventService.save("training.dateLimit.message", null, 2, arguments);
+			eventService.save("training.dateLimit.error", null, 2, arguments);
 			throw new DateLimitException(training.getDateLimit(), training.getDateTraining());
 		}
 		// Update dependecy
@@ -79,7 +79,7 @@ public class TrainingServiceImpl implements TrainingService {
 		Object[] arguments = { training.getName() };
 
 		if (training.getDateTraining().before(training.getDateLimit())) {
-			eventService.save("training.dateLimit.message", null, 2, arguments);
+			eventService.save("training.dateLimit.error", null, 2, arguments);
 			throw new DateLimitException(training.getDateLimit(), training.getDateTraining());
 		}
 

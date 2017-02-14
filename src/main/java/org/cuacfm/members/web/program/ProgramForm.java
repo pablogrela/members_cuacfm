@@ -171,15 +171,18 @@ public class ProgramForm {
 	 *
 	 * @param id the id
 	 */
-	public void removeAccount(Long id) {
+	public String removeAccount(Long id) {
 		Account accountToDelete = null;
+		String user = "";
 		for (Account a : accounts) {
 			if (a.getId() == id) {
 				accountToDelete = a;
+				user = a.getName();
 				break;
 			}
 		}
 		accounts.remove(accountToDelete);
+		return user;
 	}
 
 	/**

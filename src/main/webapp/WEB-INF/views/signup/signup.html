@@ -20,7 +20,7 @@
 <head>
 <title th:text="#{signup.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<script th:src="@{/resources/js/libraries/recaptcha.api.js}"></script>
 </head>
 <body onload="validateCheckbox()">
 
@@ -100,7 +100,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
-					<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" data-minlength="6" maxlength="20"
+					<input type="tel" name="phone" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" minlength="6" maxlength="20"
 						pattern="[0-9]{6,20}" th:title="#{telPattern}" />
 					<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
 					<div class="ws-errorbox" hidden=""></div>
@@ -112,7 +112,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="text" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
-					<input type="tel" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" maxlength="20" data-minlength="6"
+					<input type="tel" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" maxlength="20" minlength="6"
 						pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
 					<div class="ws-errorbox" hidden=""></div>
@@ -179,7 +179,7 @@
 			<div class="form-group ws-validate" th:classappend="${#fields.hasErrors('password')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
 				<div class="col-lg-10">
-					<input type="password" class="form-control" id="password" th:placeholder="#{password}" th:field="*{password}" data-minlength="6" maxlength="80"
+					<input type="password" class="form-control" id="password" th:placeholder="#{password}" th:field="*{password}" minlength="6" maxlength="20"
 						required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</span>
 					<div class="ws-errorbox" hidden=""></div>
@@ -191,8 +191,8 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('rePassword')}? 'has-error'">
 				<label for="rePassword" class="col-lg-1 control-label" th:text="#{rePassword}">rePassword</label>
 				<div class="col-lg-10">
-					<input type="password" class="form-control" id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}" data-minlength="6"
-						data-dependent-validation="password" maxlength="80" required="required" />
+					<input type="password" class="form-control" id="rePassword" th:placeholder="#{rePassword}" th:field="*{rePassword}" minlength="6"
+						data-dependent-validation="password" maxlength="20" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}">Incorrect password</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -251,7 +251,7 @@
 
 
 			<!-- Recaptcha, el data-sitekey se debe cambiar el funcion del entorno -->
-			<div class="g-recaptcha form-group" data-sitekey="6LeTZg8UAAAAAHtqK7Hgl0zhcUW8W-Nsr-5SwJah"></div>
+			<div class="form-group container g-recaptcha" data-sitekey="6LeTZg8UAAAAAHtqK7Hgl0zhcUW8W-Nsr-5SwJah"></div>
 			<noscript>
 				<div style="width: 302px; height: 422px;">
 					<div style="width: 302px; height: 422px; position: relative;">
@@ -259,9 +259,7 @@
 							<iframe src="https://www.google.com/recaptcha/api/fallback?k=your_site_key" data-frameborder="0" data-scrolling="no"
 								style="width: 302px; height: 422px; border-style: none;"> </iframe>
 						</div>
-						<div
-							style="width: 300px; height: 60px; border-style: none;
-	/* 				                  bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; */ background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+						<div style="width: 300px; height: 60px; border-style: none; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
 							<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response"
 								style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;"> 
 							        </textarea>
@@ -274,14 +272,10 @@
 				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}"> Incorrect captcha</span>
 			</div>
 
-
-
-
 			<!-- Button SignUp -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-<!-- 				onClick="signup('email', 'password')" -->
-					<button type="submit" class="btn btn-success btn-lg" id="acceptSignup" th:text="#{signup}" >Sign Up</button>
+					<button type="submit" class="btn btn-success btn-lg" id="acceptSignup" th:text="#{signup}">Sign Up</button>
 				</div>
 			</div>
 

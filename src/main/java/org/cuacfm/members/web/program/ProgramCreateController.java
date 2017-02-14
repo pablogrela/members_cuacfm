@@ -122,8 +122,8 @@ public class ProgramCreateController {
 		}
 		try {
 			Program program = programForm.createProgram();
-			programService.save(program);		
-			
+			programService.save(program);
+
 		} catch (UniqueException e) {
 			errors.rejectValue("name", "program.existentName", new Object[] { e.getValue() }, "name");
 			model.addAttribute("usernames", usernames);
@@ -177,8 +177,8 @@ public class ProgramCreateController {
 		usernames.remove(name);
 		programForm.setLogin("");
 		programForm.addAccount(account);
-		
-		MessageHelper.addSuccessAttribute(model, "program.successCreate", programForm.getName());
+
+		MessageHelper.addSuccessAttribute(model, "program.successAddUser", name);
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -193,7 +193,8 @@ public class ProgramCreateController {
 	@RequestMapping(value = "programList/programCreate", method = RequestMethod.POST, params = { "removeUser" })
 	public String removeUser(@RequestParam("removeUser") Long id, @Valid @ModelAttribute ProgramForm programForm, Model model) {
 		model.addAttribute("usernames", usernames);
-		programForm.removeAccount(id);
+		String name = programForm.removeAccount(id);
+		MessageHelper.addSuccessAttribute(model, "program.successRemoveUser", name);
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -225,6 +226,7 @@ public class ProgramCreateController {
 		}
 		programForm.setAccountPayerName(account.getName());
 		programForm.setAccountPayer(account);
+		MessageHelper.addSuccessAttribute(model, "program.successAddAcountPayer", name);
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -238,8 +240,10 @@ public class ProgramCreateController {
 	@RequestMapping(value = "programList/programCreate", method = RequestMethod.POST, params = { "removeAccountPayer" })
 	public String removeAccountPayer(@Valid @ModelAttribute ProgramForm programForm, Model model) {
 		model.addAttribute("usernames", usernames);
+		String name = programForm.getAccountPayerName();
 		programForm.setAccountPayer(null);
 		programForm.setAccountPayerName("");
+		MessageHelper.addSuccessAttribute(model, "program.successRemoveAcountPayer", name);
 		return PROGRAM_VIEW_NAME;
 	}
 }

@@ -35,7 +35,12 @@
 	<div class="form-narrow">
 
 		<form class="form-horizontal ws-validate" method="post" th:action="@{programCreate}" th:object="${programForm}">
-
+			
+			<!-- /* Handle the flash message, The message code is returned from the @Controller */ -->
+			<div class="text-center" th:if="${message != null}">
+				<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+			</div>
+			
 			<!--/* Show general error message when form contains errors */-->
 			<th:block th:if="${#fields.hasErrors('${programForm.*}')}">
 				<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>

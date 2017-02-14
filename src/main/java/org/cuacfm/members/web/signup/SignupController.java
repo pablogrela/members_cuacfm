@@ -45,6 +45,7 @@ import com.aeat.valida.Validador;
 public class SignupController {
 
 	private static final String SIGNUP_VIEW_NAME = "signup/signup";
+	private static final String SIGNUP_FIREBASE_VIEW_NAME = "signup/signupfirebase";
 
 	@Autowired
 	private UserService userService;
@@ -146,7 +147,7 @@ public class SignupController {
 		}
 
 		MessageHelper.addSuccessAttribute(ra, "signup.success");
-		return "redirect:/";
+		return SIGNUP_FIREBASE_VIEW_NAME;
 	}
 
 }

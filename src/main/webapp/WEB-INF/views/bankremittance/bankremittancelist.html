@@ -29,7 +29,7 @@
 	<div class="container-fluid">
 	
 		<!-- Div of buttons -->
-		<div class="container text-center containerColums">
+		<div class="container text-center containerColums-10">
 
 			<!-- Form for create bank remittance -->
 			<div class="columLeft-large">
@@ -135,8 +135,10 @@
 							<!-- Management bank Remittance -->
 							<form th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY}"
 								th:action="@{'bankRemittanceList/management/'+${bankRemittance.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-repeat" th:title="#{managementCheck}" style="color: green"></button>
-							</form> <!-- Pay bank Remittance --> <!-- Pay bank Remittance -->
+								<button class="btnTable btn-link glyphicon glyphicon-repeat" th:title="#{bankRemittance.infoManagement}" style="color: green"></button>
+							</form> 
+							
+							<!-- Pay bank Remittance -->
 							<form th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"
 								th:action="@{'bankRemittanceList/pay/'+${bankRemittance.id}}" method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-ok-circle" th:title="#{payCheck}" style="color: green"></button>

@@ -198,7 +198,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	public void insuficientCharactersPasswords() throws Exception {
 		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("login", "login").param("email", "email@example.es")
 				.param("password", "12").param("rePassword", "12").param("g-recaptcha-response", KEY))
-				.andExpect(content().string(containsString("The password should be to have between 4 and 20 characters.")))
+				.andExpect(content().string(containsString("The password should be to have between 6 and 20 characters.")))
 				.andExpect(view().name("signup/signup"));
 	}
 

@@ -22,12 +22,13 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>0.2.4 - managements, events, payments and bankRemitances XML</version>
+	<version>0.2.5 - managements, events, payments and bankRemitances XML, firebase</version>
 	<inceptionYear>2015</inceptionYear>
 	<name>members</name>
 	<url>https://github.com/pablogrela/members_cuacfm</url>
 	<description>Member management: accounts, trainings, programs, fee members, fee programs, directDebits, bankRemitances, bank accounts, ...
-Management of events of each important action.</description>
+Management of events of each important action.
+Authentication with Firebase</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -376,14 +377,16 @@ Management of events of each important action.</description>
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<path>/</path>
-				</configuration>
-			</plugin>
+			<!-- It's not necesary -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.tomcat.maven</groupId> -->
+			<!-- <artifactId>tomcat7-maven-plugin</artifactId> -->
+			<!-- <version>2.2</version> -->
+			<!-- <configuration> -->
+			<!-- <path>/</path> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

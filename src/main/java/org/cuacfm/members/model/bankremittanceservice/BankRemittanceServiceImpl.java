@@ -119,7 +119,7 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 
 	@Override
 	public String managementBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException {
-		updateStateBankRemittance(bankRemittance, states.MANAGEMENT, methods.NO_PAY);
+		updateStateBankRemittance(bankRemittance, states.MANAGEMENT, methods.DIRECTDEBIT);
 		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
 		return eventService.save("bankRemittance.successManagement", null, 2, arguments);
 	}

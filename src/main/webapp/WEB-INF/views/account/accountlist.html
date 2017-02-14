@@ -108,11 +108,13 @@
 
 					<!-- start If`s active -->
 					<td data-ng-if="account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{active}"></span>
-						<button data-ng-click="ctrl.unsubscribe(account.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
+						<button data-ng-click="ctrl.unsubscribe(account.id, account.email)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
 							th:title="#{account.infoUnsubscribe}" style="color: red"></button></td>
+					
 					<td data-ng-if="!account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{down}"></span>
 						<button data-ng-click="ctrl.subscribe(account.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up" th:title="#{account.infoSubscribe}"
 							style="color: green"></button></td>
+					
 					<!-- Fill table entry -->
 					<td data-ng-if="account.active &amp;&amp; account.role == 'ROLE_ADMIN'"></td>
 					<!-- end If`s active -->

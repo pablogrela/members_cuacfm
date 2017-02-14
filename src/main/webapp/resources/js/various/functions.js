@@ -15,11 +15,14 @@
  */
 
 // Show and evaluate function
+
+
 function showModal(modal) {
 	$(document).ready(function() {
 		$(modal).modal('show');
 	});
 }
+
 
 // Show and evaluate function
 function evaluateModal2(evaluateModal) {
@@ -27,6 +30,7 @@ function evaluateModal2(evaluateModal) {
 		$(evaluateModal).modal('show');
 	});
 }
+
 
 // Show and evaluate function
 function evaluateModal(form, evaluateModal, accept) {
@@ -37,6 +41,7 @@ function evaluateModal(form, evaluateModal, accept) {
 		});
 	});
 }
+
 
 // Change check checkbox
 function switchCheckbox(checkbox1, checkbox2) {
@@ -59,6 +64,7 @@ function validateCheckbox() {
 	}
 }
 
+
 // lock and unlock camp depends on check
 function unlockText(checkbox, camp) {
 	if (document.getElementById(checkbox) != null && document.getElementById(camp) != null) {
@@ -69,6 +75,7 @@ function unlockText(checkbox, camp) {
 		}
 	}
 }
+
 
 // lock and unlock camp depends on check, and visibility div
 function unlockText2(checkbox, divVisible, camp1, camp2) {
@@ -85,13 +92,90 @@ function unlockText2(checkbox, divVisible, camp1, camp2) {
 	}
 }
 
+
+// Unlock Password to validate email and new password
+function unlockPassword() {
+	if (document.getElementById('onEmail') != null && document.getElementById('onPassword') != null) {
+
+		// Password
+		if (document.getElementById('onEmail').checked || document.getElementById('onPassword').checked) {
+			document.getElementById('password').disabled = false;
+			document.getElementById('password').requered = true;
+			document.getElementById('visiblePassword').style.display = 'block';
+		} else {
+			document.getElementById('password').disabled = true;
+			document.getElementById('visiblePassword').style.display = 'none';
+		}
+
+		// Email
+		if (document.getElementById('onEmail').checked) {
+			document.getElementById('email').disabled = false;
+		} else {
+			document.getElementById('email').disabled = true;
+		}
+
+		// Password
+		if (document.getElementById('onPassword').checked) {
+			document.getElementById('newPassword').disabled = false;
+			document.getElementById('rePassword').disabled = false;
+			document.getElementById('visibleRePassword').style.display = 'block';
+		} else {
+			document.getElementById('newPassword').disabled = true;
+			document.getElementById('rePassword').disabled = true;
+			document.getElementById('visibleRePassword').style.display = 'none';
+		}
+	}
+}
+
+
+// Return previous page
+function previousPage() {
+	window.location = document.referrer;
+}
+
+
+// Listener profile modify
+// Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
+$(function() {
+	$('#profileForm').on('submit', function(e) {
+		// Prevent form from submitting (Deshabilita el submit y s ehace manual)
+		e.preventDefault();
+		updateUser($('#profileForm'), 'password', 'email', 'onEmail', 'newPassword', 'onPassword');
+	});
+});
+
+
+// Listener signin modify
+// Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
+$(function() {
+	$('#signinForm').on('submit', function(e) {
+		// Prevent form from submitting (Deshabilita el submit y se hace manual)
+		e.preventDefault();
+		signin($('#signinForm'), 'email', 'password')
+	});
+});
+
+
+// Listener restore password
+// Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
+$(function() {
+	$('#restorePasswordForm').on('submit', function(e) {
+		// Prevent form from submitting (Deshabilita el submit y se hace manual)
+		e.preventDefault();
+		restorePassword($('#restorePasswordForm'), 'email')
+	});
+});
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////// TEST CODE  //////////////////////////////////////////////////////////////////////////////////
+
 // Este codigo esta en pruebas
 $(document).ready(
 		function() {
 
 			/**
-			 * This method will check if the entered value is a valid NIF or NIE
-			 * Number
+			 * This method will check if the entered value is a valid NIF or NIE Number
 			 */
 			$.validator.addMethod("nif_or_nie", function(value, element) {
 				var nifES = $.validator.methods["nifES"];
@@ -141,8 +225,6 @@ $(document).ready(
 					});
 		});
 
-
-
 // Parse.initialize("YOUR_APP_ID");
 // Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
 // //var Parse = require('parse');
@@ -159,66 +241,4 @@ $(document).ready(
 // }, function(err) {
 // console.log(err);
 // });
-
-
-
-function signup(email, password) {
-	var emailValue = document.getElementById(email).value;
-	var passwordValue = document.getElementById(password).value;
-	
-	firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
-		.then(function() {
-//			form.submit()
-			return null;
-		})
-		.catch(function(error) {
-		  // Handle Errors here.
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  console.log(errorCode, errorMessage);
-		  return errorCode;
-		  // ...
-		});
-}
-
-function signin(form, email, password) {
-	var emailValue = document.getElementById(email).value;
-	var passwordValue = document.getElementById(password).value;
-	
-	firebase.auth().signInWithEmailAndPassword(emailValue, passwordValue)
-		.then(function() {
-			form.submit()
-		})
-		.catch(function(error) {
-		  // Handle Errors here.
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  console.log(errorCode, errorMessage);
-//		  alert(error.message);
-
-		  document.getElementById('errorBox').style.display = 'block';
-		  document.getElementById('errorFirebase').innerHTML = errorMessage;
-		  return errorCode;
-		  
-		  // ...
-		});
-}
-
-
-function authenticationValidate(){
-	firebase.auth().onAuthStateChanged(function(user) {
-		if (user) {
-			// User is signed in.
-			alert('autenticado');
-		} else {
-			// No user is signed in.
-			alert('no autenticado');
-			signup('email', 'password');
-		}
-	});
-}
-
-// Return previous page
-function previousPage(){
-	window.location = document.referrer;
-}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////

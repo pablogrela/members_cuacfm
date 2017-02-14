@@ -177,31 +177,32 @@ public class AccountController {
 
 		// Validar DNI
 		Validador validador = new Validador();
-		if (validador.checkNif(profileForm.getDni()) < 0){
+		if (validador.checkNif(profileForm.getDni()) < 0) {
 			errors.rejectValue("dni", "signup.dni.noValid", new Object[] { profileForm.getDni() }, "dni");
 		}
-		
+
 		if (errors.hasErrors()) {
 			model.addAttribute(new BankAccountForm());
 			return createProfileForm(model, profileForm);
 		}
 
-		// Password
 		boolean modifyPassword = false;
-		if (profileForm.isOnPassword()) {
-			// check that the password and rePassword are the same
-			String password = profileForm.getPassword();
-			String rePassword = profileForm.getRePassword();
-			if (!password.equals(rePassword)) {
-				errors.rejectValue("password", "profile.passwordsDontMatch");
-				errors.rejectValue("rePassword", "profile.passwordsDontMatch");
-				model.addAttribute(new BankAccountForm());
-				return createProfileForm(model, profileForm);
-			} else {
-				account.setPassword(password);
-				modifyPassword = true;
-			}
-		}
+		// Password, solo el propio usuario puede cambiarlo
+		// Only the user can change it	
+		//		if (profileForm.isOnPassword()) {
+		//			// check that the password and rePassword are the same
+		//			String password = profileForm.getPassword();
+		//			String rePassword = profileForm.getRePassword();
+		//			if (!password.equals(rePassword)) {
+		//				errors.rejectValue("password", "profile.passwordsDontMatch");
+		//				errors.rejectValue("rePassword", "profile.passwordsDontMatch");
+		//				model.addAttribute(new BankAccountForm());
+		//				return createProfileForm(model, profileForm);
+		//			} else {
+		//				account.setPassword(password);
+		//				modifyPassword = true;
+		//			}
+		//		}
 
 		account.setName(profileForm.getName());
 		account.setNickName(profileForm.getNickName());
@@ -229,11 +230,12 @@ public class AccountController {
 			account.setLogin(login);
 		}
 
-		// Email
-		String email = profileForm.getEmail();
-		if (profileForm.isOnEmail() && email != "") {
-			account.setEmail(email);
-		}
+		// Email, solo el propio usuario puede cambiarlo
+		// Only the user can change it
+		//		String email = profileForm.getEmail();
+		//		if (profileForm.isOnEmail() && email != "") {
+		//			account.setEmail(email);
+		//		}
 
 		// Role
 		if (profileForm.isOnRole()) {

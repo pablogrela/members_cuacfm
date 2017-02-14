@@ -15,30 +15,107 @@
  */
 package org.cuacfm.members.web.signin;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.userservice.UserService;
+import org.cuacfm.members.web.support.MessageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class SigninController. */
 @Controller
 public class SigninController {
 
-   /** The Constant SIGNIN_VIEW_NAME. */
-   private static final String SIGNIN_VIEW_NAME = "signin/signin";
+	private static final String SIGNIN_VIEW_NAME = "signin/signin";
+	private static final String SIGNIN_REDIRECT = "redirect:/signin";
+	private static final String RESTORE_PASSWORD_VIEW_NAME = "signin/restorepassword";
+	private static final Logger LOGGER = Logger.getLogger(SigninController.class.getName());
 
-   /**
-    * Instantiates a new Signin controller.
-    */
-   public SigninController() {
-      // Default empty constructor.
-   }
+	@Autowired
+	private UserService userService;
 
-   /**
-    * Signin.
-    *
-    * @return the string
-    */
-   @RequestMapping(value = "signin")
-   public String signin() {
-      return SIGNIN_VIEW_NAME;
-   }
+	@Autowired
+	private AccountService accountService;
+
+	/**
+	 * Instantiates a new Signin controller.
+	 */
+	public SigninController() {
+		// Default empty constructor.
+	}
+
+	/**
+	 * Signin.
+	 *
+	 * @return the string
+	 */
+	@RequestMapping(value = "signin")
+	public String signin() {
+		return SIGNIN_VIEW_NAME;
+	}
+
+	/**
+	 * Authenticate.
+	 *
+	 * @param error the error
+	 * @param email the email
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "signin", method = RequestMethod.POST)
+	public String authenticate(@RequestParam(value = "error", required = false) String error, @RequestParam("username") String email,
+			RedirectAttributes ra) {
+		String message = "firebase." + error;
+
+		if (error == null) {
+			try {
+				Account account = accountService.findByEmail(email);
+				if (account.isActive()) {
+					userService.signin(account);
+					return "redirect:/";
+				} else {
+					message = "signin.errorUserDisabled";
+				}
+			} catch (Exception e) {
+				LOGGER.log(Level.SEVERE, "Exception occur", e);
+				message = "signin.errorBadCredentials";
+			}
+		}
+
+		MessageHelper.addErrorAttribute(ra, message, "");
+		return SIGNIN_REDIRECT;
+	}
+
+	@RequestMapping(value = "restorePassword")
+	public String restorePassword() {
+		return RESTORE_PASSWORD_VIEW_NAME;
+	}
+
+	/**
+	 * Restore password.
+	 *
+	 * @param error the error
+	 * @param email the email
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "restorePassword", method = RequestMethod.POST)
+	public String sendRestorePassword(@RequestParam(value = "error", required = false) String error, @RequestParam("username") String email,
+			RedirectAttributes ra) {
+
+		if (error == null) {
+			MessageHelper.addInfoAttribute(ra, "signin.successRestorePassword", email);
+			return SIGNIN_REDIRECT;
+		}
+
+		MessageHelper.addErrorAttribute(ra, "firebase." + error, "");
+		return "redirect:/restorePassword";
+	}
 }

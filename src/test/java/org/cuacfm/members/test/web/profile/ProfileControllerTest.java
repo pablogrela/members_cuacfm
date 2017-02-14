@@ -236,7 +236,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void incorrectEmailFormatTest() throws Exception {
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("login", "login")
-				.param("email", "email").param("mobile", "12356789").param("password", "1234").param("rePassword", "1234")
+				.param("email", "email").param("mobile", "12356789").param("password", "123456").param("rePassword", "123456")
 				.param("onInstallments", "true").param("installments", "1"))
 				.andExpect(content().string(containsString("The value must be a valid email!"))).andExpect(view().name("profile/profile"));
 	}
@@ -250,7 +250,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	public void insuficientCharactersPasswordsTest() throws Exception {
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("onPassword", "true").param("password", "12")
 				.param("rePassword", "12").param("mobile", "12356789").param("onInstallments", "true").param("installments", "1"))
-				.andExpect(content().string(containsString("The password should be to have between 4 and 20 characters.")))
+				.andExpect(content().string(containsString("The password should be to have between 6 and 20 characters.")))
 				.andExpect(view().name("profile/profile"));
 	}
 
@@ -264,7 +264,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("mobile", "12356789").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
-				.param("mobile", "11111111").param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456")
+				.param("mobile", "11111111").param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456").param("newPassword", "123456")
 				.param("rePassword", "123333")).andExpect(content().string(containsString("Passwords are not equal")))
 				.andExpect(view().name("profile/profile"));
 	}
@@ -295,7 +295,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(
 				post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("onName", "true").param("name", " ").param("onLogin", "true")
 						.param("login", " ").param("onEmail", "true").param("email", " ").param("mobile", "12356789").param("onPassword", "true")
-						.param("password", " ").param("rePassword", " ").param("onInstallments", "true").param("installments", "1"))
+						.param("newPassword", " ").param("rePassword", " ").param("onInstallments", "true").param("installments", "1"))
 				.andExpect(view().name("profile/profile"));
 	}
 
@@ -325,7 +325,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 				.param("dni", "95716045G").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("onLogin", "true").param("login", "login").param("onEmail", "true").param("email", "email2@udc.es").param("phone", "12356789")
 				.param("mobile", "12356789").param("student", "true").param("dateBirth", "1990-05-02").param("onPassword", "true")
-				.param("password", "1234").param("rePassword", "1234").param("installments", "1").param("accountTypeId", "1")
+				.param("newPassword", "123456").param("rePassword", "123456").param("installments", "1").param("accountTypeId", "1")
 				.param("methodPaymentId", "1")).andExpect(view().name("redirect:/profile"));
 	}
 
@@ -355,8 +355,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN").param("mobile", "111111111")
 				.param("dateBirth", "1990-05-02").param("onName", "false").param("name", "name").param("onLogin", "false").param("login", "login")
-				.param("onEmail", "false").param("email", "email@example.es").param("onPassword", "false").param("password", "1234")
-				.param("rePassword", "1233")).andExpect(view().name("redirect:/profile"));
+				.param("onEmail", "false").param("email", "email@example.es").param("onPassword", "false")).andExpect(view().name("redirect:/profile"));
 	}
 
 	/**

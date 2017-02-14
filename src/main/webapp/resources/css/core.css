@@ -92,7 +92,8 @@ div.scroll {
 }
 
 @media ( max-width : 1200px) {
-	.col-lg-2 {
+/* 	eliminar */
+	.col-lg-22 {
 		float: left;
 		padding-right: 10%;
 	}
@@ -256,11 +257,10 @@ div.scroll {
 }
 
 .form-horizontal .control-label {
-    padding-top: 7px;
-    margin-bottom: 0;
-    text-align: left;
+	padding-top: 7px;
+	margin-bottom: 0;
+	text-align: left;
 }
-
 
 /* Botón metido en las tablas*/
 .btnTable {
@@ -437,6 +437,14 @@ div.scroll {
 }
 
 @media ( min-width : 1281px) {
+	.containerColums-5 {
+		position: relative;
+		left: -5%;
+	}
+	.containerColums-10 {
+		position: relative;
+		left: -10%;
+	}
 	.columLeft {
 		float: right;
 		left: -51%;
@@ -474,6 +482,14 @@ div.scroll {
 }
 
 @media ( min-width : 1025px) {
+	.containerColums-5 {
+		position: relative;
+		left: -5%;
+	}
+	.containerColums-10 {
+		position: relative;
+		left: -10%;
+	}
 	.columLeft {
 		float: right;
 		left: -51%;

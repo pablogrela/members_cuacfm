@@ -86,7 +86,7 @@ public class ProgramEditController {
 			programForm.setName(program.getName());
 			programForm.setDescription(program.getDescription());
 			programForm.setDuration(program.getDuration());
-			programForm.setPeriodicity(program.getPeriodicity());			
+			programForm.setPeriodicity(program.getPeriodicity());
 			programForm.setTwitter(program.getTwitter());
 			programForm.setFacebook(program.getFacebook());
 			programForm.setEmail(program.getEmail());
@@ -103,7 +103,7 @@ public class ProgramEditController {
 				programForm.setProgramThematicId(program.getProgramThematic().getId());
 			}
 			programForm.setProgramCategories(programService.findProgramCategoryList());
-			if (program.getProgramCategory() != null){
+			if (program.getProgramCategory() != null) {
 				programForm.setProgramCategoryId(program.getProgramCategory().getId());
 			}
 			programForm.setProgramTypes(programService.findProgramTypeList());
@@ -146,9 +146,10 @@ public class ProgramEditController {
 		}
 		try {
 			programForm.updateProgram(program);
-//			program.setProgramType(programService.findProgramTypeById(programForm.getProgramTypeId()));
-//			program.setProgramThematic(programService.findProgramThematicById(programForm.getProgramThematicId()));
-//			program.setProgramLanguage(programService.findProgramLanguageById(programForm.getProgramLanguageId()));
+			// Borrar si funciona todo perfecto
+			// program.setProgramType(programService.findProgramTypeById(programForm.getProgramTypeId()));
+			// program.setProgramThematic(programService.findProgramThematicById(programForm.getProgramThematicId()));
+			// program.setProgramLanguage(programService.findProgramLanguageById(programForm.getProgramLanguageId()));
 			programService.update(program);
 		} catch (UniqueException e) {
 			errors.rejectValue("name", "program.existentName", new Object[] { e.getValue() }, "name");
@@ -203,8 +204,8 @@ public class ProgramEditController {
 		usernames.remove(name);
 		programForm.setLogin("");
 		programForm.addAccount(account);
-		
-		MessageHelper.addSuccessAttribute(model, "program.successCreate", programForm.getName());
+
+		MessageHelper.addSuccessAttribute(model, "program.successAddUser", name);
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -219,7 +220,8 @@ public class ProgramEditController {
 	@RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "removeUser" })
 	public String removeUser(@RequestParam("removeUser") Long id, @Valid @ModelAttribute ProgramForm programForm, Model model) {
 		model.addAttribute("usernames", usernames);
-		programForm.removeAccount(id);
+		String name = programForm.removeAccount(id);
+		MessageHelper.addSuccessAttribute(model, "program.successRemoveUser", name);
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -248,11 +250,12 @@ public class ProgramEditController {
 
 		if (account == null) {
 			errors.rejectValue("accountPayerName", "program.noExistUser", new Object[] { name }, "accountPayerName");
-
 			return PROGRAM_VIEW_NAME;
 		}
 		programForm.setAccountPayerName(account.getName());
 		programForm.setAccountPayer(account);
+
+		MessageHelper.addSuccessAttribute(model, "program.successAddAcountPayer", name);
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -266,8 +269,10 @@ public class ProgramEditController {
 	@RequestMapping(value = "programList/programEdit", method = RequestMethod.POST, params = { "removeAccountPayer" })
 	public String removeAccountPayer(@Valid @ModelAttribute ProgramForm programForm, Model model) {
 		model.addAttribute("usernames", usernames);
+		String name = programForm.getAccountPayerName();
 		programForm.setAccountPayer(null);
 		programForm.setAccountPayerName("");
+		MessageHelper.addSuccessAttribute(model, "program.successRemoveAcountPayer", name);
 		return PROGRAM_VIEW_NAME;
 	}
 

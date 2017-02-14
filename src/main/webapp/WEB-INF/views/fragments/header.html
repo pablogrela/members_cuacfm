@@ -39,8 +39,8 @@
 		<!-- Image title with hiperlink at home-->
 		<div class="container">
 			<div class="containerImage">
-				<a href="/" th:href="@{/}"> <img th:src="@{/resources/images/cuacfm.png}" />
-				</a>
+<!-- 				<a href="/" th:href="@{/}"> <img th:src="@{/resources/images/cuacfm.png}" /> -->
+<!-- 				</a> -->
 			</div>
 		</div>
 
@@ -132,10 +132,10 @@
 
 						<!-- Button Fee Program -->
 						<th:block th:if="${active != 'feeProgram'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/feeProgramList}" th:text="#{feeProgram}">feeProgramList</a></li>
+							<li><a href="#" th:href="@{/feeProgramList}" th:text="#{feePrograms}">feeProgramList</a></li>
 						</th:block>
 						<th:block th:if="${active == 'feeProgram'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/feeProgramList}" th:text="#{feeProgram}">feeProgramList</a></li>
+							<li class="active"><a href="#" th:href="@{/feeProgramList}" th:text="#{feePrograms}">feeProgramList</a></li>
 						</th:block>
 
 
@@ -182,7 +182,7 @@
 						<li sec:authorize="!isAuthenticated()"><a href="/signin" id="signin" th:href="@{/signin}" th:text="#{signin}">Sign In</a></li>
 
 						<!-- Button logout -->
-						<li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="$('#form').submit();" th:text="#{logout}">Logout</a>
+						<li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="signOut(this.form);" th:text="#{logout}">Logout</a>
 							<form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form></li>
 
 

@@ -404,7 +404,7 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 
 insert into Account values 
-(1, 'admin', null, '12345678B', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+(1, 'admin', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
 	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', null, null);
 
 
@@ -425,7 +425,7 @@ insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0)
 	
 
 -- Insert Program Type:
-insert into ProgramType values (1, 'Outro', 'Outro');	
+insert into ProgramType values (1, 'Otro', 'Otro');	
 insert into ProgramType values (2, 'Musical', 'Musical');
 insert into ProgramType values (3, 'Informativo', 'Informativo');
 insert into ProgramType values (4, 'Magazine', 'Magazine');
@@ -435,7 +435,7 @@ insert into ProgramType values (7, 'Entrevistas', 'Entrevistas');
 
 
 -- Insert Program Thematic:
-insert into ProgramThematic values (1, 'Outros temas', 'Outros temas');	
+insert into ProgramThematic values (1, 'Otros temas', 'Otros temas');	
 insert into ProgramThematic values (2, 'Sociedade', ' Sociedade');
 insert into ProgramThematic values (3, 'Política', 'Política');
 insert into ProgramThematic values (4, 'Cultura', ' Cultura');
@@ -446,14 +446,15 @@ insert into ProgramThematic values (8, 'Ciencia', 'Ciencia');
 
 
 -- Insert ProgramCategory:
-insert into ProgramCategory values (1, 'Others', ' Others');
-insert into ProgramCategory values (2, 'Política', 'Política');
-insert into ProgramCategory values (3, 'Cultura', ' Cultura');
-insert into ProgramCategory values (4, 'Deportes', 'Deportes');	
-insert into ProgramCategory values (5, 'Humor', 'Humor');	
-insert into ProgramCategory values (6, 'Actualidade', 'Actualidade');	
-insert into ProgramCategory values (7, 'Ciencia', 'Ciencia');	
-insert into ProgramCategory values (8, 'Outros temas', 'Outros temas');	
+-- Examples, use category podcast, search in web
+insert into ProgramCategory values (1, 'Otros', ' Otros');
+insert into ProgramCategory values (2, 'Sociedade', ' Sociedade');
+insert into ProgramCategory values (3, 'Política', 'Política');
+insert into ProgramCategory values (4, 'Cultura', ' Cultura');
+insert into ProgramCategory values (5, 'Deportes', 'Deportes');	
+insert into ProgramCategory values (6, 'Humor', 'Humor');	
+insert into ProgramCategory values (7, 'Actualidade', 'Actualidade');	
+insert into ProgramCategory values (8, 'Ciencia', 'Ciencia');	
 
 
 -- Insert Program Thematic:

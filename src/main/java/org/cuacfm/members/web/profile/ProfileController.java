@@ -37,6 +37,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aeat.valida.Validador;
@@ -158,30 +159,39 @@ public class ProfileController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "profile", method = RequestMethod.POST)
-	public String profile(@Valid @ModelAttribute ProfileForm profileForm, Errors errors, RedirectAttributes ra, Model model) {
+	public String profile(@RequestParam(value = "attribute", required = false) String attribute, @RequestParam(value = "error", required = false) String error,
+			@Valid @ModelAttribute ProfileForm profileForm, Errors errors, RedirectAttributes ra, Model model) {
 
-		// Validar DNI
+		// If there is an error in firebase
+		if (error != null) {
+			errors.rejectValue(attribute, "firebase." + error, new Object[] { attribute }, attribute);
+		}
+
+		// Validate DNI
 		Validador validador = new Validador();
 		if (validador.checkNif(profileForm.getDni()) < 0) {
 			errors.rejectValue("dni", "signup.dni.noValid", new Object[] { profileForm.getDni() }, "dni");
 		}
 
 		if (errors.hasErrors()) {
-			return createProfileForm(model, profileForm);
+			// Return default form
+			//return createProfileForm(model, profileForm);
+			// Return form with wrong data
+			return PROFILE_VIEW_NAME;
 		}
 
-		// Password
+		// Password, no use with firebase
 		boolean modifyPassword = false;
 		if (profileForm.isOnPassword()) {
 			// check that the password and rePassword are the same
-			String password = profileForm.getPassword();
+			String newPassword = profileForm.getNewPassword();
 			String rePassword = profileForm.getRePassword();
-			if (!password.equals(rePassword)) {
-				errors.rejectValue("password", "profile.passwordsDontMatch");
-				errors.rejectValue("rePassword", "profile.passwordsDontMatch");
+			if (!newPassword.equals(rePassword)) {
+				errors.rejectValue("newPassword", "signup.passwordsDontMatch");
+				errors.rejectValue("rePassword", "signup.passwordsDontMatch");
 				return createProfileForm(model, profileForm);
 			} else {
-				account.setPassword(password);
+				account.setPassword(newPassword);
 				modifyPassword = true;
 			}
 		}

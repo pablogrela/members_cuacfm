@@ -101,11 +101,15 @@ public class ProfileForm {
 	private String dateBirth;
 
 	/** The password. */
-	@Size(min = 4, max = 20, message = ProfileForm.INSUFFICIENT_CHARACTERS)
+	@Size(min = 6, max = 20, message = ProfileForm.INSUFFICIENT_CHARACTERS)
 	private String password;
 
 	/** The retry password. */
-	@Size(min = 4, max = 20, message = ProfileForm.INSUFFICIENT_CHARACTERS)
+	@Size(min = 6, max = 20, message = ProfileForm.INSUFFICIENT_CHARACTERS)
+	private String newPassword;
+
+	/** The retry password. */
+	@Size(min = 6, max = 20, message = ProfileForm.INSUFFICIENT_CHARACTERS)
 	private String rePassword;
 
 	/** The accountType List. */
@@ -318,6 +322,14 @@ public class ProfileForm {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 
 	public String getRePassword() {

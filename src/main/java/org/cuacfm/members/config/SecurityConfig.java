@@ -102,7 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity http) throws Exception {
 	   // Se añadio csrf().disable() al http para permitir ajax
-       http.authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup")
+       http.authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/restorePassword")
             .permitAll()
 
             .antMatchers("/userPayments/**")
