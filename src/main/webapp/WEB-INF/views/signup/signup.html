@@ -28,6 +28,11 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header">&nbsp;</div>
 
+	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+	<div class="container-fluid text-center" th:if="${message != null}">
+		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+	</div>
+
 	<!-- Si se añade id="form"  al from valida el dni, pero destroza el resto del formulario -->
 	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/signup}" th:object="${signupForm}">
 
@@ -89,7 +94,9 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
-					<input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50" required="required" />
+					<input th:if="*{!blockEmail}" type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50" required="required" />
+					<input th:if="*{blockEmail}"  type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50" required="required" readonly="readonly"/>
+					<input type="hidden" th:field="*{blockEmail}"/>
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>

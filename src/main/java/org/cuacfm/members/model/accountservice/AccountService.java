@@ -60,11 +60,25 @@ public interface AccountService {
 	public void subscribe(Account account);
 
 	/**
+	 * Order up.
+	 *
+	 * @param account the account
+	 */
+	public void orderUp(Account account);
+
+	/**
 	 * Unsubscribe.
 	 *
 	 * @param account the account
 	 */
 	public void unsubscribe(Account account);
+
+	/**
+	 * Order down.
+	 *
+	 * @param account the account
+	 */
+	public void orderDown(Account account);
 
 	/**
 	 * Find by dni.

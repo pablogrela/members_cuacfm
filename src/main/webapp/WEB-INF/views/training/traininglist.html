@@ -25,8 +25,14 @@
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
-
-	<div class="container-fluid">
+		
+	<!-- If user has role ExUser, its apear message -->
+	<div sec:authorize="hasAnyRole('ROLE_EXUSER')" class="container-fluid">
+		<h2 class="text-center" th:text="#{profile.upToContinue}"></h2>
+		<div th:include="profile/profile :: profileUp"></div>
+	</div>
+	
+	<div sec:authorize="!hasAnyRole('ROLE_EXUSER')" class="container-fluid">
 
 		<!-- Div of buttons -->
 		<div class="container-fluid text-center containerColums">

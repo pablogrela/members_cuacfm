@@ -247,6 +247,7 @@ public class DirectDebit implements Serializable {
 		this.emailPayer = emailPayer;
 	}
 
+	// BigDecimal
 	public Double getPrice() {
 		Double price = (double) 0;
 

@@ -78,6 +78,12 @@ public class HomeController {
 		if (principal != null) {
 			email = configurationService.getConfiguration().getEmail();
 			model.addAttribute("email", email);
+			// TODO prueba de cambio de idioma
+//			Locale.setDefault(new Locale("gl","ES"));
+//			System.setProperty("user.language", "gl");
+//			System.setProperty("user.country", "ES");		
+//			Locale.getDefault();
+			
 			return HOMESIGNEDIN;
 		} else {
 			return HOMENOTSIGNEDIN;

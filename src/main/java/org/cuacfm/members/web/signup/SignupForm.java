@@ -98,6 +98,8 @@ public class SignupForm {
 
 	private String captcha;
 
+	private boolean blockEmail;
+
 	/** Instantiates a new sign up form. */
 	public SignupForm() {
 		// Default empty constructor.
@@ -261,6 +263,14 @@ public class SignupForm {
 
 	public void setCaptcha(String captcha) {
 		this.captcha = captcha;
+	}
+
+	public boolean isBlockEmail() {
+		return blockEmail;
+	}
+
+	public void setBlockEmail(boolean blockEmail) {
+		this.blockEmail = blockEmail;
 	}
 
 	/**

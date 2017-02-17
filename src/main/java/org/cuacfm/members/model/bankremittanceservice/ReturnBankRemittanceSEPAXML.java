@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.cuacfm.members.model.util.sepa;
+package org.cuacfm.members.model.bankremittanceservice;
 
 import java.util.List;
 
@@ -36,10 +36,12 @@ import org.cuacfm.members.model.util.sepa.customerpaymentstatusreport.OriginalPa
 import org.cuacfm.members.model.util.sepa.customerpaymentstatusreport.PaymentTransactionInformation25;
 import org.cuacfm.members.model.util.sepa.customerpaymentstatusreport.StatusReasonInformation8;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Representa un fichero especificado por el CSB19 para la realización de adeudos por domiciliación en soporte magnético.
  */
+@Service("returnBankRemittanceSEPAXML")
 public class ReturnBankRemittanceSEPAXML {
 
 	@Autowired
@@ -55,7 +57,7 @@ public class ReturnBankRemittanceSEPAXML {
 	 * @throws JAXBException the JAXB exception
 	 * @throws ExistTransactionIdException
 	 */
-	public ReturnBankRemittanceSEPAXML(String nameFile) throws Exception {
+	public void load(String nameFile) throws Exception {
 
 		JAXBContext context = JAXBContext.newInstance("org.cuacfm.members.model.util.sepa.customerpaymentstatusreport");
 		Unmarshaller unmarshaller = context.createUnmarshaller();

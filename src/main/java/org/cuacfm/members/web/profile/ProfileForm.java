@@ -157,6 +157,8 @@ public class ProfileForm {
 	/** The on role. */
 	private boolean onRole;
 
+	private boolean active;
+
 	/**
 	 * Instantiates a new profile form.
 	 */
@@ -450,6 +452,14 @@ public class ProfileForm {
 
 	public void setOnRole(boolean onRole) {
 		this.onRole = onRole;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

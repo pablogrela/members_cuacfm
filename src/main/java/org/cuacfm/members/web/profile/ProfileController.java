@@ -130,6 +130,7 @@ public class ProfileController {
 		}
 		profileForm.setMethodPayments(methodPaymentService.getMethodPayments());
 		profileForm.setInstallments(account.getInstallments());
+		profileForm.setActive(account.isActive());
 		model.addAttribute(profileForm);
 		return PROFILE_VIEW_NAME;
 	}
@@ -151,16 +152,46 @@ public class ProfileController {
 	}
 
 	/**
+	 * Order Up.
+	 *
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "profile/up", method = RequestMethod.POST)
+	public String up(RedirectAttributes ra) {
+		accountService.orderUp(account);
+		MessageHelper.addSuccessAttribute(ra, "profile.info.orderUp");
+		return "redirect:/profile";
+	}
+
+	/**
+	 * Order Down.
+	 *
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "profile/down", method = RequestMethod.POST)
+	public String down(RedirectAttributes ra) {
+		accountService.orderDown(account);
+		MessageHelper.addErrorAttribute(ra, "profile.info.orderDown");
+		return "redirect:/profile";
+	}
+
+	/**
 	 * Profile.
 	 *
-	 * @param signupForm the signup form
+	 * @param attribute the attribute
+	 * @param error the error
+	 * @param profileForm the profile form
 	 * @param errors the errors
 	 * @param ra the RedirectAttributes
+	 * @param model the model
 	 * @return the string
 	 */
 	@RequestMapping(value = "profile", method = RequestMethod.POST)
-	public String profile(@RequestParam(value = "attribute", required = false) String attribute, @RequestParam(value = "error", required = false) String error,
-			@Valid @ModelAttribute ProfileForm profileForm, Errors errors, RedirectAttributes ra, Model model) {
+	public String profile(@RequestParam(value = "attribute", required = false) String attribute,
+			@RequestParam(value = "error", required = false) String error, @Valid @ModelAttribute ProfileForm profileForm, Errors errors,
+			RedirectAttributes ra, Model model) {
 
 		// If there is an error in firebase
 		if (error != null) {

@@ -22,7 +22,6 @@ import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
-import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.userservice.UserService;
@@ -53,26 +52,11 @@ public class SignupController {
 	@Autowired
 	private AccountService accountService;
 
-	@Autowired
-	private ConfigurationService configurationService;
-
-	private String descriptionRule;
-
 	/**
 	 * Instantiates a new signup Controller.
 	 */
 	public SignupController() {
 		super();
-	}
-
-	/**
-	 * Description rul.
-	 *
-	 * @return the string
-	 */
-	@ModelAttribute("descriptionRule")
-	public String descriptionRule() {
-		return descriptionRule;
 	}
 
 	/**
@@ -82,10 +66,14 @@ public class SignupController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "signup")
-	public String signup(Model model) {
-		descriptionRule = configurationService.getConfiguration().getDescriptionRule();
-		model.addAttribute("descriptionRule", descriptionRule);
-		model.addAttribute(new SignupForm());
+	public String signup(@RequestParam(value = "email", required = false) String email, Model model) {
+		SignupForm signupForm = new SignupForm();
+		if (email != null) {
+			signupForm.setEmail(email);
+			signupForm.setBlockEmail(true);
+			MessageHelper.addInfoAttribute(model, "signin.infoSignin", "");
+		}
+		model.addAttribute(signupForm);
 		return SIGNUP_VIEW_NAME;
 	}
 
@@ -103,7 +91,7 @@ public class SignupController {
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra,
 			@RequestParam("g-recaptcha-response") String response) throws IOException, ScriptException, NoSuchMethodException {
-
+		
 		// check that the password and rePassword are the same
 		String password = signupForm.getPassword();
 		String rePassword = signupForm.getRePassword();

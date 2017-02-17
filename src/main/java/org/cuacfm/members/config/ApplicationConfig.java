@@ -15,6 +15,9 @@
  */
 package org.cuacfm.members.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.cuacfm.members.Application;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.MessageSource;
@@ -24,9 +27,9 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
 
 /**
  * The Class ApplicationConfig.
@@ -49,23 +52,21 @@ class ApplicationConfig {
 		return messageSource;
 	}
 
-	/**
-	 * Property placeholder configurer.
-	 *
-	 * @return the property placeholder configurer
-	 */
 	@Bean
 	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
 		PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
-		ppc.setLocation(new ClassPathResource("/persistence.properties"));
+		final List<Resource> resourceLst = new ArrayList<>();
+		resourceLst.add(new ClassPathResource("/persistence.properties"));
+		resourceLst.add(new ClassPathResource("/config.properties"));
+		ppc.setLocations(resourceLst.toArray(new Resource[] {}));
 		return ppc;
 	}
 
 	@Bean
-	public CommonsMultipartResolver multipartResolver(){
-	    CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-	    commonsMultipartResolver.setDefaultEncoding("utf-8");
-	    commonsMultipartResolver.setMaxUploadSize(50000000);
-	    return commonsMultipartResolver;
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+		commonsMultipartResolver.setDefaultEncoding("utf-8");
+		commonsMultipartResolver.setMaxUploadSize(50000000);
+		return commonsMultipartResolver;
 	}
 }

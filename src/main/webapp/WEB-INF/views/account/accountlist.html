@@ -41,7 +41,7 @@
 		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
 
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
-		<object data-ng-show="message">
+		<object class="text-center" data-ng-show="message">
 			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 		</object>
@@ -101,9 +101,10 @@
 
 					<!-- start If`s role -->
 					<td data-ng-if="account.role == 'ROLE_ADMIN'"><span th:text="#{roles.ROLE_ADMIN}"> </span></td>
+					<td data-ng-if="account.role == 'ROLE_EXUSER'"><span th:text="#{roles.ROLE_EXUSER}"> </span></td>
+					<td data-ng-if="account.role == 'ROLE_PREREGISTERED'"><span th:text="#{roles.ROLE_PREREGISTERED}"> </span></td>
 					<td data-ng-if="account.role == 'ROLE_TRAINER'"><span th:text="#{roles.ROLE_TRAINER}"> </span></td>
 					<td data-ng-if="account.role == 'ROLE_USER'"><span th:text="#{roles.ROLE_USER}"> </span></td>
-					<td data-ng-if="account.role == 'ROLE_PREREGISTERED'"><span th:text="#{roles.ROLE_PREREGISTERED}"> </span></td>
 					<!-- end If`s role -->
 
 					<!-- start If`s active -->

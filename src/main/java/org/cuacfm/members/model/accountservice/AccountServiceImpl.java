@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.account.AccountRepository;
 import org.cuacfm.members.model.bankaccount.BankAccount;
@@ -137,18 +138,30 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public void subscribe(Account account) {
 		account.setActive(true);
+		account.setRole(roles.ROLE_USER);
 		accountRepository.update(account);
 		eventService.save("account.admin.successSubscribe", account, 3);
 	}
 
 	@Override
+	public void orderUp(Account account) {
+		eventService.save("profile.orderUp", account, 1);
+	}
+	
+	@Override
 	public void unsubscribe(Account account) {
 		account.setActive(false);
+		account.setRole(roles.ROLE_EXUSER);
 		account.setDateDown(new Date());
 		accountRepository.update(account);
 		eventService.save("account.admin.successUnsubscribe", account, 3);
 	}
 
+	@Override
+	public void orderDown(Account account) {
+		eventService.save("profile.orderDown", account, 1);
+	}
+	
 	@Override
 	public Account findByDni(String dni) {
 		return accountRepository.findByDni(dni);

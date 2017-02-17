@@ -17,7 +17,17 @@
 package org.cuacfm.members.model.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * The Class FileUtils.
@@ -56,5 +66,30 @@ public class FileUtils {
 				LOGGER.info("Created directory: " + directoryName);
 			}
 		}
+	}
+	
+	/**
+	 * Download File.
+	 *
+	 * @param path the path
+	 * @param file the file
+	 * @param mediaType the media type
+	 * @return the response entity
+	 */
+	public static ResponseEntity<byte[]> downloadFile(String path, String file, MediaType mediaType) {
+		Path pathAux = Paths.get(path + file);
+		byte[] contents = null;
+		try {
+			contents = Files.readAllBytes(pathAux);
+		} catch (IOException e) {
+			e.getMessage();
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(mediaType);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}").buildAndExpand(file).toUri());
+		headers.add("content-disposition", "attachment; filename=" + file + ";");
+		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
 	}
 }

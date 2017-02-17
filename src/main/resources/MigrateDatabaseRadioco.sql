@@ -23,12 +23,12 @@ FROM bdradioco.auth_user WHERE id>3 and first_name != '';
 
 -- Migrar programas      
 INSERT INTO members.program
-(name, description, periodicity, duration, accountPayer, programType, programThematic, 
+(id, name, description, periodicity, duration, accountPayer, programType, programThematic, 
 ProgramCategory, programLanguage, email, twitter, facebook, podcast, web, active, dateCreate, dateDown)
 
-SELECT name, SUBSTRING(synopsis, 1, 5000),  1, _runtime, null,	7, 8, (select id from members.ProgramCategory where name=p.category),	
+SELECT id, name, SUBSTRING(synopsis, 1, 5000),  1, _runtime, null,	7, 8, (select id from members.ProgramCategory where name=p.category),	
 (case when (language = 'es') then 1 else 2 end) as programLanguage,	'',	'',	'',	'',	'',	
-(case when (end_date is null) then false else true end) as active, start_date, end_date
+(case when (end_date is null) then true else false end) as active, start_date, end_date
 FROM bdradioco.programmes_programme p;
 
 
@@ -39,16 +39,4 @@ INSERT INTO members.userprograms
 
 SELECT id, person_id, programme_id 
 FROM bdradioco.programmes_role p where id<=(select MAX(id) from members.program);
-
-
-        
--- Consultar datos, para visualizar que estan correctos 
-select MAX(id) from members.program;   
-select * from members.ProgramCategory;
-select * from bdradioco.programmes_programme;
-select * from members.program;
-SELECT * FROM bdradioco.auth_user;
-SELECT * FROM members.Account;      
-select * from Account a order by a.active desc;      
-
 		

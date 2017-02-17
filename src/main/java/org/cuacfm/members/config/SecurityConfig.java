@@ -99,6 +99,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     *           http at application
     */
    // Por defecto el csrf esta enable para bloquear posibles ataques.
+   // TODO crear usuario EXUSER, restringir sesiones y alta de programas y habilitar dar de alta es un event en la cuenta(profile) y solictud de baja.
+   // baja abajo.
+   // alta arriba
    @Override
    protected void configure(HttpSecurity http) throws Exception {
 	   // Se añadio csrf().disable() al http para permitir ajax
@@ -106,22 +109,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
 
             .antMatchers("/userPayments/**")
-            .hasAnyRole("TRAINER", "USER", "PREREGISTERED")
+            .hasAnyRole("TRAINER", "USER", "EXUSER", "PREREGISTERED")
 
             .antMatchers("/programList/**")
+            .hasAnyRole("ADMIN", "USER", "EXUSER", "TRAINER")
+
+            .antMatchers("/programList/programCreate")
             .hasAnyRole("ADMIN", "USER", "TRAINER")
-
+            
             .antMatchers("/trainingUserList")
-            .hasAnyRole("USER", "PREREGISTERED")
+            .hasAnyRole("USER", "EXUSER", "PREREGISTERED")
 
+            .antMatchers("/trainingUserList/**")
+            .hasAnyRole("USER", "PREREGISTERED")
+            
             .antMatchers("/trainingList", "/trainingList/trainingView/**")
-            .hasAnyRole("ADMIN", "TRAINER", "USER", "PREREGISTERED")
+            .hasAnyRole("ADMIN", "TRAINER", "USER", "EXUSER", "PREREGISTERED")
 
             .antMatchers("/trainingTypeList/**","/trainingList/**")
             .hasAnyRole("ADMIN", "TRAINER")
 
             .antMatchers("/programList/programDown/**","/programList/programUp/**",
-                  "/payInscriptionList/**", "/feeProgramList/**", "/accountList/**", "/configuration/**", "/bankRemittance/**", "/user/**")
+                  "/payInscriptionList/**", "/feeProgramList/**", "/accountList/**", "/configuration/**", "/bankRemittance/**", "/directDebit/**", "/user/**")
             .hasRole("ADMIN")
             
             // .antMatchers("/**").hasRole("ADMIN")

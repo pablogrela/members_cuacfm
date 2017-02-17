@@ -49,6 +49,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	/** The Constant MESSAGE_SOURCE. */
 	private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
 
+	/** The Constant, contains web.properties */
+	private static final String CONFIG = "/WEB-INF/web";
+
 	/** The Constant VIEWS. */
 	private static final String VIEWS = "/WEB-INF/views/";
 
@@ -107,7 +110,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	@Bean(name = "messageSource")
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename(MESSAGE_SOURCE);
+		messageSource.setBasenames(CONFIG, MESSAGE_SOURCE);
 		messageSource.setCacheSeconds(5);
 		return messageSource;
 	}

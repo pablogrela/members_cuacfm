@@ -47,6 +47,8 @@ public class Account implements Serializable {
 	public enum roles {
 		/** The role user. */
 		ROLE_USER,
+		/** The role user. */
+		ROLE_EXUSER,
 		/** The role admin. */
 		ROLE_ADMIN,
 		/** The role trainer. */

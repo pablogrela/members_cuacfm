@@ -38,11 +38,10 @@ import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.model.util.sepa.BankRemittanceSEPAXML;
-import org.cuacfm.members.model.util.sepa.ReturnBankRemittanceSEPAXML;
 import org.cuacfm.members.model.util.FileUtils;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +54,12 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 
 	private static final Logger LOGGER = Logger.getLogger(BankRemittanceServiceImpl.class.getName());
 
+	@Value("${pathBankRemittance}")
+	private String pathBankRemittance;
+
+	@Value("${pathReturnBankRemittance}")
+	private String pathReturnBankRemittance;
+
 	@Autowired
 	private MessageSource messageSource;
 
@@ -63,6 +68,12 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 
 	@Autowired
 	private BankRemittanceRepository bankRemittanceRepository;
+
+	@Autowired
+	private BankRemittanceSEPAXML bankRemittanceSEPAXML;
+
+	@Autowired
+	private ReturnBankRemittanceSEPAXML returnBankRemittanceSEPAXML;
 
 	@Autowired
 	private AccountService accountService;
@@ -144,16 +155,16 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 
 		FileUtils.createFolderIfNoExist(messageSource.getMessage("pathBankRemittance", null, Locale.getDefault()));
 		String fileXML = messageSource.getMessage("fileBankRemittance", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date) + ".xml";
-		String pathXML = messageSource.getMessage("pathBankRemittance", null, Locale.getDefault()) + fileXML;
 
 		try {
-			new BankRemittanceSEPAXML(pathXML, messageSource, bankRemittance, directDebitService.findAllByBankRemittanceId(bankRemittanceId));
+			bankRemittanceSEPAXML.create(pathBankRemittance + fileXML, bankRemittance,
+					directDebitService.findAllByBankRemittanceId(bankRemittanceId));
 		} catch (IOException | JAXBException | DatatypeConfigurationException e) {
 			LOGGER.info("Logger Name: " + LOGGER.getName() + e.getMessage());
 			LOGGER.log(Level.SEVERE, "Exception occur", e.getStackTrace());
 		}
 
-		return BankRemittanceSEPAXML.downloadFile(pathXML, fileXML, MediaType.TEXT_XML);
+		return FileUtils.downloadFile(pathBankRemittance, fileXML, MediaType.TEXT_XML);
 	}
 
 	@Override
@@ -164,9 +175,9 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 		try {
 			byte[] bytes = file.getBytes();
 			FileUtils.createFolderIfNoExist(messageSource.getMessage("pathReturnBankRemittance", null, Locale.getDefault()));
-			Path pathXML = Paths.get(messageSource.getMessage("pathReturnBankRemittance", null, Locale.getDefault()) + file.getOriginalFilename());
+			Path pathXML = Paths.get(pathReturnBankRemittance + file.getOriginalFilename());
 			Files.write(pathXML, bytes);
-			new ReturnBankRemittanceSEPAXML(pathXML.toString());
+			returnBankRemittanceSEPAXML.load(pathXML.toString());
 
 		} catch (Exception e) {
 			LOGGER.info("Logger Name: " + LOGGER.getName() + e.getMessage());

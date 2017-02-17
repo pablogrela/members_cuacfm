@@ -29,8 +29,20 @@
 
 	<!-- Button view Bank Accounts-->
 	<div class="form-group text-center">
-		<button type="button" class="btn btn-info btn-lg" th:text="#{account.bankAccount.bankAccountListaccount.bankAccount.bankAccountList}" th:title="#{account.infoBankAccounts.profile}"
+		<button type="button" class="btn btn-info btn-lg" th:text="#{account.bankAccount.bankAccountList}" th:title="#{account.infoBankAccounts.profile}"
 			onclick="showModal(modal)"></button>
+	</div>
+
+	<!-- Button Up -->
+	<div th:if="${!profileForm.active}" th:fragment="profileUp" >
+		<form class="form-group text-center" method="post" th:action="@{profile/up}">
+			<button type="submit" class="btn btn-success btn-lg" th:title="#{profile.info.up}" th:text="#{profile.up}"></button>
+		</form>
+	</div>
+
+	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+	<div class="container-fluid text-center" th:if="${message != null}">
+		<div  th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
 	</div>
 
 	<form class="form-narrow form-horizontal ws-validate" id="profileForm" method="post" th:action="@{/profile}" th:object="${profileForm}">
@@ -38,13 +50,6 @@
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${profileForm.*}')}">
 			<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
-		</th:block>
-
-
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
 		</th:block>
 
 		<fieldset>
@@ -155,7 +160,7 @@
 							maxlength="50" required="required" />
 						<span class="input-group-btn" th:title="#{profile.info.email}">
 							<input type="checkbox" id="onEmail" name="onEmail" data-toggle="toggle" data-onstyle="success" data-offstyle="danger"
-								onChange="unlockPassword();"/>
+								onChange="unlockPassword();" />
 						</span>
 					</div>
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
@@ -205,8 +210,8 @@
 						<input type="password" id="newPassword" name="newPassword" disabled="disabled" class="form-control" th:placeholder="#{newPassword}"
 							th:field="*{newPassword}" minlength="6" maxlength="20" required="required" />
 						<span class="input-group-btn" th:title="#{profile.info.newPassword}">
-							<input type="checkbox" id="onPassword" name="onPassword" onChange="unlockPassword();" data-toggle="toggle"
-								data-onstyle="success" data-offstyle="danger" />
+							<input type="checkbox" id="onPassword" name="onPassword" onChange="unlockPassword();" data-toggle="toggle" data-onstyle="success"
+								data-offstyle="danger" />
 						</span>
 					</div>
 					<span class="help-block" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}">Incorrect password</span>
@@ -263,8 +268,8 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('mobile')}? 'has-error'">
 				<label for="tel" class="col-lg-2 control-label" th:text="#{mobile}">mobile</label>
 				<div class="col-lg-10">
-					<input type="tel" name="mobile" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" minlength="6"
-						maxlength="20" pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
+					<input type="tel" name="mobile" class="form-control" id="mobile" th:placeholder="#{mobile}" th:field="*{mobile}" minlength="6" maxlength="20"
+						pattern="[0-9]{6,20}" th:title="#{telPattern}" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('mobile')}" th:errors="*{mobile}">Incorrect mobile</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -422,6 +427,13 @@
 
 		</fieldset>
 	</form>
+
+	<!-- Button Down -->
+	<div th:if="${profileForm.active}" class="form-group text-center">
+		<form method="post" th:action="@{profile/down}">
+			<button type="submit" class="btn btn-danger btn-lg" th:title="#{profile.info.down}" th:text="#{profile.down}"></button>
+		</form>
+	</div>
 
 	<!-- Modal Info -->
 	<div id="modal" class="modal fade">

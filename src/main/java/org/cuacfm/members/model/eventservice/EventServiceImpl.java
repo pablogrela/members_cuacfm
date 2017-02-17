@@ -78,7 +78,7 @@ public class EventServiceImpl implements EventService {
 			adminName = auth.getName();
 		}
 		Object[] arguments = { adminName, account.getName() };
-		save(message, account, 3, arguments);
+		save(message, account, priority, arguments);
 	}
 
 	@Override

@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package org.cuacfm.members.model.util.sepa;
+package org.cuacfm.members.model.bankremittanceservice;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -41,6 +37,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.directdebit.DirectDebit;
+import org.cuacfm.members.model.util.sepa.BankRemittanceUtils;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.AccountIdentification4Choice;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.ActiveOrHistoricCurrencyAndAmount;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.BranchAndFinancialInstitutionIdentification4;
@@ -73,23 +70,47 @@ import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.Remittan
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.SequenceType1Code;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.ServiceLevel8Choice;
 import org.cuacfm.members.web.support.DisplayDate;
-import org.springframework.context.MessageSource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
  * Representa un fichero especificado por el CSB19 para la realización de adeudos por domiciliación en soporte magnético.
  */
+@Service("bankRemittanceServiceSEPAXML")
 public class BankRemittanceSEPAXML {
 
+	@Value("${country}")
+	private String country;
+
+	@Value("${currency}")
+	private String currency;
+
+	@Value("${suffix}")
+	private String suffix;
+
+	@Value("${presenterName}")
+	private String presenterName;
+
+	@Value("${presenterNif}")
+	private String presenterNif;
+
+	@Value("${creditorBIC}")
+	private String creditorBIC;
+
+	@Value("${creditorIBAN}")
+	private String creditorIBAN;
+
+	@Value("${debtorCategory}")
+	private String debtorCategory;
+
+	@Value("${debtorPurpose}")
+	private String debtorPurpose;
+
 	// The max decimals in SEPA
-	private static final int DECIMALS = 5;
-	
+	private static final int DECIMALS = 2;
+	private static final RoundingMode ROUNDING = RoundingMode.HALF_UP;
+
 	private ObjectFactory factory = new ObjectFactory();
-	private MessageSource messageSource;
 	private int totalReceiptsFile;
 	private BigDecimal totalImportFile;
 	private int totalReceiptsDebtor;
@@ -115,10 +136,9 @@ public class BankRemittanceSEPAXML {
 	 * @throws DatatypeConfigurationException the datatype configuration exception
 	 */
 
-	public BankRemittanceSEPAXML(String path, MessageSource messageSource, BankRemittance bankRemittance, List<DirectDebit> directDebits)
+	public void create(String path, BankRemittance bankRemittance, List<DirectDebit> directDebits)
 			throws FileNotFoundException, IOException, JAXBException, DatatypeConfigurationException {
 
-		this.messageSource = messageSource;
 		FileOutputStream file = new FileOutputStream(path);
 
 		JAXBElement<Document> element = factory.createDocument(generateDocument(bankRemittance, directDebits));
@@ -147,7 +167,7 @@ public class BankRemittanceSEPAXML {
 		todayXML.setTimezone(DatatypeConstants.FIELD_UNDEFINED);
 		groupHeader.setCreDtTm(todayXML);
 		groupHeader.setNbOfTxs(Integer.toString(totalReceiptsFile));
-		groupHeader.setCtrlSum(totalImportFile.setScale(DECIMALS, RoundingMode.HALF_UP));
+		groupHeader.setCtrlSum(totalImportFile.setScale(DECIMALS, ROUNDING));
 		groupHeader.setInitgPty(generatePresentadorPartyIdentification());
 
 		return groupHeader;
@@ -161,7 +181,7 @@ public class BankRemittanceSEPAXML {
 	private PartyIdentification32 generatePresentadorPartyIdentification() {
 		GenericOrganisationIdentification1 otherorginfo = factory.createGenericOrganisationIdentification1();
 		// The suffix is necessary for SEPA
-		otherorginfo.setId(BankRemittanceUtils.calculateSEPACreditorID(getValue("country"), getValue("suffix"), getValue("presenterNif")));
+		otherorginfo.setId(BankRemittanceUtils.calculateSEPACreditorID(country, suffix, presenterNif));
 
 		OrganisationIdentificationSchemeName1Choice schemeOrganization = factory.createOrganisationIdentificationSchemeName1Choice();
 		schemeOrganization.setCd("COR1");
@@ -175,7 +195,7 @@ public class BankRemittanceSEPAXML {
 		partyChoicePresenter.setOrgId(organizationPresenter);
 
 		PartyIdentification32 partyIdentification = factory.createPartyIdentification32();
-		partyIdentification.setNm(getValue("presenterName"));
+		partyIdentification.setNm(presenterName);
 		partyIdentification.setId(partyChoicePresenter);
 		return partyIdentification;
 	}
@@ -206,7 +226,7 @@ public class BankRemittanceSEPAXML {
 		GenericPersonIdentification1 otherpersoninfo = factory.createGenericPersonIdentification1();
 
 		// The suffix is necessary for SEPA
-		otherpersoninfo.setId(BankRemittanceUtils.calculateSEPACreditorID(getValue("country"), getValue("suffix"), getValue("presenterNif")));
+		otherpersoninfo.setId(BankRemittanceUtils.calculateSEPACreditorID(country, suffix, presenterNif));
 
 		// field 04: Referencia del adeudo (AT-10), 35 ch.
 		String debtorId = String.valueOf(directDebit.getAccount().getId());
@@ -247,7 +267,7 @@ public class BankRemittanceSEPAXML {
 
 		paymentInstructionsInformation.setPmtMtd(PaymentMethod2Code.DD);
 		paymentInstructionsInformation.setNbOfTxs(Integer.toString(totalReceiptsDebtor));
-		paymentInstructionsInformation.setCtrlSum(totalImportDebtor.setScale(DECIMALS, RoundingMode.HALF_UP));
+		paymentInstructionsInformation.setCtrlSum(totalImportDebtor.setScale(DECIMALS, ROUNDING));
 
 		PaymentTypeInformation20 paymentTypeInformation = factory.createPaymentTypeInformation20();
 
@@ -263,7 +283,7 @@ public class BankRemittanceSEPAXML {
 		paymentTypeInformation.setSeqTp(SequenceType1Code.fromValue(directDebit.getSecuence()));
 
 		CategoryPurpose1Choice categoryPurpose = factory.createCategoryPurpose1Choice();
-		categoryPurpose.setCd(getValue("debtorCategory"));
+		categoryPurpose.setCd(debtorCategory);
 		paymentTypeInformation.setCtgyPurp(categoryPurpose);
 		paymentInstructionsInformation.setPmtTpInf(paymentTypeInformation);
 
@@ -279,13 +299,13 @@ public class BankRemittanceSEPAXML {
 
 		CashAccount16 cashAccount = factory.createCashAccount16();
 		AccountIdentification4Choice accountIdentification = factory.createAccountIdentification4Choice();
-		accountIdentification.setIBAN(getValue("creditorIBAN"));
+		accountIdentification.setIBAN(creditorIBAN);
 		cashAccount.setId(accountIdentification);
 		paymentInstructionsInformation.setCdtrAcct(cashAccount);
 
 		BranchAndFinancialInstitutionIdentification4 financialIdentification = factory.createBranchAndFinancialInstitutionIdentification4();
 		FinancialInstitutionIdentification7 financialId = factory.createFinancialInstitutionIdentification7();
-		financialId.setBIC(getValue("creditorBIC"));
+		financialId.setBIC(creditorBIC);
 		financialIdentification.setFinInstnId(financialId);
 		paymentInstructionsInformation.setCdtrAgt(financialIdentification);
 		paymentInstructionsInformation.setChrgBr(ChargeBearerType1Code.SLEV);
@@ -311,10 +331,10 @@ public class BankRemittanceSEPAXML {
 		directDebitInformation.setPmtId(paymentIdentification);
 
 		ActiveOrHistoricCurrencyAndAmount currencyAndAmount = factory.createActiveOrHistoricCurrencyAndAmount();
-		currencyAndAmount.setCcy(getValue("currencyAndAmount"));
-		BigDecimal importe = new BigDecimal(directDebit.getPrice()).setScale(DECIMALS, RoundingMode.UP);
+		currencyAndAmount.setCcy(currency);
+		BigDecimal importe = new BigDecimal(directDebit.getPrice()).setScale(DECIMALS, ROUNDING);
 		// Antes se dividia por 100 ¿Por que se divide?
-		currencyAndAmount.setValue(importe.divide(new BigDecimal(100)).setScale(DECIMALS, RoundingMode.HALF_UP));
+		currencyAndAmount.setValue(importe.divide(new BigDecimal(100)).setScale(DECIMALS, ROUNDING));
 		directDebitInformation.setInstdAmt(currencyAndAmount);
 
 		DirectDebitTransaction6 directDebitTransaction = factory.createDirectDebitTransaction6();
@@ -355,7 +375,7 @@ public class BankRemittanceSEPAXML {
 		directDebitInformation.setDbtrAcct(cashAccount);
 
 		Purpose2Choice purpose = factory.createPurpose2Choice();
-		purpose.setCd(getValue("debtorPurpose"));
+		purpose.setCd(debtorPurpose);
 		directDebitInformation.setPurp(purpose);
 
 		RemittanceInformation5 informacionConcepto = factory.createRemittanceInformation5();
@@ -396,7 +416,7 @@ public class BankRemittanceSEPAXML {
 
 			totalReceiptsDebtor++;
 			BigDecimal importe = new BigDecimal(directDebit.getPrice());
-			totalImportDebtor = totalImportDebtor.add(importe.divide(new BigDecimal(100)).setScale(DECIMALS, RoundingMode.HALF_UP));
+			totalImportDebtor = totalImportDebtor.add(importe.divide(new BigDecimal(100)).setScale(DECIMALS, ROUNDING));
 
 			// }
 
@@ -404,7 +424,7 @@ public class BankRemittanceSEPAXML {
 			listadoOrdenantesRemesa.add(paymentInstructionsInformation);
 
 			totalReceiptsFile += totalReceiptsDebtor;
-			totalImportFile = totalImportFile.add(totalImportDebtor.setScale(DECIMALS, RoundingMode.HALF_UP));
+			totalImportFile = totalImportFile.add(totalImportDebtor.setScale(DECIMALS, ROUNDING));
 		}
 
 		customerDirectDebitInitiation.setGrpHdr(generateGroupHeader());
@@ -413,41 +433,6 @@ public class BankRemittanceSEPAXML {
 		doc.setCstmrDrctDbtInitn(customerDirectDebitInitiation);
 
 		return doc;
-	}
-
-	/**
-	 * View txt.
-	 *
-	 * @param path the path
-	 * @param file the file
-	 * @param mediaType the media type
-	 * @return the response entity
-	 */
-	public static ResponseEntity<byte[]> downloadFile(String path, String file, MediaType mediaType) {
-		Path pathAux = Paths.get(path);
-		byte[] contents = null;
-		try {
-			contents = Files.readAllBytes(pathAux);
-		} catch (IOException e) {
-			e.getMessage();
-		}
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(mediaType);
-		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}").buildAndExpand(file).toUri());
-		headers.add("content-disposition", "attachment; filename=" + file + ";");
-		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
-	}
-
-	/**
-	 * Gets the value of I18N.
-	 *
-	 * @param code the code
-	 * @return the value
-	 */
-	private String getValue(String code) {
-		return messageSource.getMessage(code, null, Locale.getDefault());
 	}
 
 }
