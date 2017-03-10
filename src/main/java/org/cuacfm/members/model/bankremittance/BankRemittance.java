@@ -59,56 +59,26 @@ public class BankRemittance implements Serializable {
 		this.state = states.NO_PAY;
 	}
 
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * Gets the date debit.
-	 *
-	 * @return the date debit
-	 */
 	public Date getDateDebit() {
 		return dateDebit;
 	}
 
-	/**
-	 * Gets the date charge.
-	 *
-	 * @return the date charge
-	 */
 	public Date getDateCharge() {
 		return dateCharge;
 	}
 
-	/**
-	 * Gets the state.
-	 *
-	 * @return the state
-	 */
 	public states getState() {
 		return state;
 	}
 
-	/**
-	 * Sets the state.
-	 *
-	 * @param state the new state
-	 */
 	public void setState(states state) {
 		this.state = state;
 	}
 
-	/**
-	 * Gets the month charge.
-	 *
-	 * @return the month charge
-	 */
 	public Date getMonthCharge() {
 		return monthCharge;
 	}

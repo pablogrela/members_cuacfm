@@ -22,6 +22,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.cuacfm.members.model.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class ProgramRepositoryImpl implements ProgramRepository {
 
+	private static final Logger logger = LoggerFactory.getLogger(ProgramRepositoryImpl.class);
+	
 	/** The entity manager. */
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -58,6 +63,7 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 		try {
 			return entityManager.createQuery("select a from Program a where a.id = :id", Program.class).setParameter("id", id).getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -68,6 +74,7 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 			return entityManager.createQuery("select a from Program a where a.name = :name", Program.class).setParameter("name", name)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -105,6 +112,18 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 			return entityManager.createQuery("select p from ProgramType p where p.id = :id", ProgramType.class).setParameter("id", id)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public ProgramType findProgramTypeByName(String name) {
+		try {
+			return entityManager.createQuery("select p from ProgramType p where p.name like :name", ProgramType.class).setParameter("name", name)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -120,6 +139,18 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 			return entityManager.createQuery("select p from ProgramThematic p where p.id = :id", ProgramThematic.class).setParameter("id", id)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public ProgramThematic findProgramThematicByName(String name) {
+		try {
+			return entityManager.createQuery("select p from ProgramThematic p where p.name like :name", ProgramThematic.class)
+					.setParameter("name", name).getSingleResult();
+		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -135,6 +166,18 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 			return entityManager.createQuery("select p from ProgramCategory p where p.id = :id", ProgramCategory.class).setParameter("id", id)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public ProgramCategory findProgramCategoryByName(String name) {
+		try {
+			return entityManager.createQuery("select p from ProgramCategory p where p.name like :name", ProgramCategory.class)
+					.setParameter("name", name).getSingleResult();
+		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -150,6 +193,18 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 			return entityManager.createQuery("select p from ProgramLanguage p where p.id = :id", ProgramLanguage.class).setParameter("id", id)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public ProgramLanguage findProgramLanguageByName(String name) {
+		try {
+			return entityManager.createQuery("select p from ProgramLanguage p where p.name like :name", ProgramLanguage.class)
+					.setParameter("name", name).getSingleResult();
+		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}

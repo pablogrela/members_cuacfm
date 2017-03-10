@@ -21,130 +21,110 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.configuration.Configuration;
+import org.cuacfm.members.model.util.Constants;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class ConfigurationForm. */
 public class ConfigurationForm {
 
-   /** The Constant NOT_BLANK_MESSAGE. */
-   private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
+	/** The name. */
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
+	private String name;
 
-   /** The Constant EMAIL_MESSAGE. */
-   private static final String EMAIL_MESSAGE = "{email.message}";
+	/** The email. */
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Email(message = Constants.EMAIL_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
+	private String email;
 
-   /** The Constant MAX_CHARACTERS. */
-   private static final String MAX_CHARACTERS = "{max.characters}";
+	/** The phone. */
+	private int phone;
 
-   /** The name. */
-   @NotBlank(message = ConfigurationForm.NOT_BLANK_MESSAGE)
-   @Size(max = 50, message = ConfigurationForm.MAX_CHARACTERS)
-   private String name;
+	/** The fee member. */
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
+	@Digits(fraction = 2, integer = 5)
+	@DecimalMin("0.00")
+	private Double feeMember;
 
-   /** The email. */
-   @NotBlank(message = ConfigurationForm.NOT_BLANK_MESSAGE)
-   @Email(message = ConfigurationForm.EMAIL_MESSAGE)
-   @Size(max = 50, message = ConfigurationForm.MAX_CHARACTERS)
-   private String email;
+	/** The fee program. */
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
+	@Digits(fraction = 2, integer = 5)
+	@DecimalMin("0.00")
+	private Double feeProgram;
 
-   /** The phone. */
-   private int phone;
+	/** The descriptionRule. */
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 500, message = Constants.MAX_CHARACTERS)
+	private String descriptionRule;
 
-   @NotNull
-   @Digits(fraction = 2, integer = 5)
-   @DecimalMin("0.00")
-   private Double feeMember;
-   
-   @NotNull
-   @Digits(fraction = 2, integer = 5)
-   @DecimalMin("0.00")
-   private Double feeProgram;
-   
-   /** The descriptionRule. */
-   @NotBlank(message = ConfigurationForm.NOT_BLANK_MESSAGE)
-   @Size(max = 500, message = ConfigurationForm.MAX_CHARACTERS)
-   private String descriptionRule;
+	/** Instantiates a new training form. */
+	public ConfigurationForm() {
+		super();
+	}
 
-   /** Instantiates a new training form. */
-   public ConfigurationForm() {
-      // Default empty constructor.
-   }
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   public String getName() {
-      return name;
-   }
+	public String getEmail() {
+		return email;
+	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	public int getPhone() {
+		return phone;
+	}
 
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
 
-   public String getEmail() {
-      return email;
-   }
+	public Double getFeeMember() {
+		return feeMember;
+	}
 
+	public void setFeeMember(Double feeMember) {
+		this.feeMember = feeMember;
+	}
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+	public Double getFeeProgram() {
+		return feeProgram;
+	}
 
+	public void setFeeProgram(Double feeProgram) {
+		this.feeProgram = feeProgram;
+	}
 
-   public int getPhone() {
-      return phone;
-   }
+	public String getDescriptionRule() {
+		return descriptionRule;
+	}
 
+	public void setDescriptionRule(String descriptionRule) {
+		this.descriptionRule = descriptionRule;
+	}
 
-   public void setPhone(int phone) {
-      this.phone = phone;
-   }
-
-
-   public Double getFeeMember() {
-      return feeMember;
-   }
-
-
-   public void setFeeMember(Double feeMember) {
-      this.feeMember = feeMember;
-   }
-
-
-   public Double getFeeProgram() {
-      return feeProgram;
-   }
-
-
-   public void setFeeProgram(Double feeProgram) {
-      this.feeProgram = feeProgram;
-   }
-
-
-   public String getDescriptionRule() {
-      return descriptionRule;
-   }
-
-
-   public void setDescriptionRule(String descriptionRule) {
-      this.descriptionRule = descriptionRule;
-   }
-
-
-   /**
-    * Update account type.
-    *
-    * @param accountType
-    *           the account type
-    * @return the account type
-    */
-   public Configuration updateConfiguration(Configuration configuration) {
-      configuration.setName(getName());
-      configuration.setEmail(getEmail());
-      configuration.setPhone(getPhone());
-      configuration.setFeeMember(getFeeMember());
-      configuration.setFeeProgram(getFeeProgram());
-      configuration.setDescriptionRule(getDescriptionRule());
-      return configuration;
-   }
+	/**
+	 * Update account type.
+	 *
+	 * @param accountType the account type
+	 * @return the account type
+	 */
+	public Configuration updateConfiguration(Configuration configuration) {
+		configuration.setName(getName());
+		configuration.setEmail(getEmail());
+		configuration.setPhone(getPhone());
+		configuration.setFeeMember(getFeeMember());
+		configuration.setFeeProgram(getFeeProgram());
+		configuration.setDescriptionRule(getDescriptionRule());
+		return configuration;
+	}
 }

@@ -46,18 +46,14 @@ import com.aeat.valida.Validador;
 @Controller
 public class ProfileController {
 
-	/** The Constant PROFILE_VIEW_NAME. */
 	private static final String PROFILE_VIEW_NAME = "profile/profile";
 
-	/** The account service. */
 	@Autowired
 	private AccountService accountService;
 
-	/** The account Type service. */
 	@Autowired
 	private AccountTypeService accountTypeService;
 
-	/** The account Method Payment service. */
 	@Autowired
 	private MethodPaymentService methodPaymentService;
 
@@ -65,17 +61,14 @@ public class ProfileController {
 	@Autowired
 	private UserService userService;
 
-	/** The Global variable account. */
 	private Account account = null;
-
-	/** The bank accounts. */
 	private List<BankAccount> bankAccounts;
 
 	/**
 	 * Instantiates a new Profile controller.
 	 */
 	public ProfileController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -97,6 +90,7 @@ public class ProfileController {
 	 */
 	public String createProfileForm(Model model, ProfileForm profileForm) {
 		profileForm.setName(account.getName());
+		profileForm.setSurname(account.getSurname());
 		profileForm.setNickName(account.getNickName());
 		profileForm.setDni(account.getDni());
 		profileForm.setAddress(account.getAddress());
@@ -144,7 +138,6 @@ public class ProfileController {
 	 */
 	@RequestMapping(value = "profile")
 	public String profile(Model model, Principal principal) {
-
 		account = accountService.findByLogin(principal.getName());
 		bankAccounts = account.getBankAccounts();
 		model.addAttribute("bankAccounts", bankAccounts);
@@ -242,6 +235,7 @@ public class ProfileController {
 		}
 
 		account.setName(profileForm.getName());
+		account.setSurname(profileForm.getSurname());
 		account.setNickName(profileForm.getNickName());
 		account.setDni(profileForm.getDni());
 		account.setAddress(profileForm.getAddress());

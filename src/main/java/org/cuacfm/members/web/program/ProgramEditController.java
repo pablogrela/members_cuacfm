@@ -56,7 +56,7 @@ public class ProgramEditController {
 	 * Instantiates a new program edit controller.
 	 */
 	public ProgramEditController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

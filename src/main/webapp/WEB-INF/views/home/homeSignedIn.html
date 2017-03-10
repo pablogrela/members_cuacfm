@@ -46,29 +46,25 @@
 			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
 			<br></br>
 		</div>
-
-
+			
 		<!-- List events -->
-		<div data-ng-show="ctrl.events" data-ng-controller="EventController as ctrl">
-
-			<!-- Welcome message -->
+		<div data-ng-controller="EventController as ctrl">
+			
+			<!-- Welcome message   -->
 			<div data-ng-show="!ctrl.events" class="text-center">
-				<p class="lead" th:text="#{home.welcome}">Welcome</p>
+				<h1 th:text="#{home.welcome}">Welcome</h1>
 				<br></br>
 			</div>
-
 
 			<!-- Button redirect to event list close-->
 			<div data-ng-show="ctrl.events" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
 				<div>
 					<a href="#" class="btn btn-info btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
 				</div>
-				<br></br>
+				<br></br>			
 			</div>
-
-
-			<div data-ng-repeat="event in ctrl.events">
-
+			
+			<div data-ng-show="ctrl.events" data-ng-repeat="event in ctrl.events">
 				<!-- Start messages only admin -->
 				<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
 					<div th:include="home/event :: eventImportant" class="alert alert-danger" data-ng-if="event.priority == 1"></div>
@@ -84,8 +80,8 @@
 					<div th:include="home/event :: eventUser" class="alert alert-info"></div>
 				</th:block>
 				<!-- Finish messages no admin -->
-
 			</div>
+			
 		</div>
 
 	</div>

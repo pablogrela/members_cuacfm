@@ -36,6 +36,7 @@ import org.cuacfm.members.model.util.CreatePdf;
 import org.cuacfm.members.model.util.FileUtils;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,9 @@ public class PayProgramServiceImpl implements PayProgramService {
 
 	@Autowired
 	private EventService eventService;
+
+	@Value("${pathFeeProgram}")
+	private String pathFeeProgram;
 
 	/** Instantiates a new payInscription service. */
 	public PayProgramServiceImpl() {
@@ -188,8 +192,8 @@ public class PayProgramServiceImpl implements PayProgramService {
 		String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date)
 				+ ".pdf";
 
-		FileUtils.createFolderIfNoExist(messageSource.getMessage("pathFeeProgram", null, Locale.getDefault()));
-		String path = messageSource.getMessage("pathFeeProgram", null, Locale.getDefault()) + fileNameFeeProgram;
+		FileUtils.createFolderIfNoExist(pathFeeProgram);
+		String path = pathFeeProgram + fileNameFeeProgram;
 
 		String title;
 		if (option.equals(Constants.PAY)) {

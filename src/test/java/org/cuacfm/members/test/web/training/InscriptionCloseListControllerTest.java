@@ -46,91 +46,88 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
 /** The class ProfileControlTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class InscriptionCloseListControllerTest extends WebSecurityConfigurationAware {
 
-    /** The default session. */
-    private MockHttpSession defaultSession;
+	/** The default session. */
+	private MockHttpSession defaultSession;
 
-    /** The account service. */
+	/** The account service. */
 	@Inject
 	private AccountService accountService;
-	
+
 	/** The training Type service. */
 	@Inject
 	private TrainingTypeService trainingTypeService;
-	
+
 	/** The training service. */
 	@Inject
 	private TrainingService trainingService;
-	
-	
-    /**
-     * Initialize default session.
-     * @throws UniqueException 
-     */
-    @Before
-    public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_TRAINER);
-		accountService.save(trainer);
-        defaultSession = getDefaultSession("trainer@udc.es");
-    }
 
-	
-    /**
-     * Display InscriptionCloseList page without signin in test.
-     *
-     * @throws Exception
-     *             the exception
-     */
-    @Test
-    public void displayInscriptionCloseListViewPageWithoutSiginInTest() throws Exception {
-        mockMvc.perform(get("/trainingList/inscriptioncloseList")).andExpect(
-                redirectedUrl("http://localhost/signin"));
-    }
-    
 	/**
-	 * Send InscriptionCloseList.
+	 * Initialize default session.
+	 * 
+	 * @throws UniqueException
+	 */
+	@Before
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
+		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer",
+				roles.ROLE_TRAINER);
+		accountService.save(trainer);
+		defaultSession = getDefaultSession("trainer@udc.es");
+	}
+
+	/**
+	 * Display InscriptionCloseList page without signin in test.
+	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void displaysInscriptionCloseListTest() throws Exception {    
+	public void displayInscriptionCloseListViewPageWithoutSiginInTest() throws Exception {
+		mockMvc.perform(get("/trainingList/inscriptioncloseList")).andExpect(redirectedUrl("http://localhost/signin"));
+	}
+
+	/**
+	 * Send InscriptionCloseList.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysInscriptionCloseListTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		
+
 		LocalDateTime dateTraining = LocalDateTime.now().plusMonths(10);
-	    Date expiryDate = Date.from(dateTraining.toInstant(ZoneOffset.UTC));
-	    
-		Training training = new Training (trainingType, "training1", expiryDate, expiryDate, 
-				"description", "place", 90, 10);		
+		Date expiryDate = Date.from(dateTraining.toInstant(ZoneOffset.UTC));
+
+		Training training = new Training(trainingType, "training1", expiryDate, expiryDate, "description", "place", 90, 10);
 		trainingService.save(training);
-		Account user = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
+		Account user = new Account("user2", "2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user, training);
-		
-		mockMvc.perform(post("/trainingList/inscriptionCloseList/"+training.getId()).locale(Locale.ENGLISH).session(defaultSession))
-		.andExpect(view().name("redirect:/trainingList/inscriptionCloseList"));
-		
+
+		mockMvc.perform(post("/trainingList/inscriptionCloseList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/trainingList/inscriptionCloseList"));
+
 		mockMvc.perform(get("/trainingList/inscriptionCloseList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("training/inscriptioncloselist"))
 				.andExpect(content().string(containsString("<title>Inscriptions close</title>")));
-	}	
-	
+	}
+
 	/**
 	 * Send redirect TrainingCloseList Because Training Is Null.
+	 * 
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void redirectTrainingCloseListBecauseTrainingIsNullTest() throws Exception {    
-		
-		mockMvc.perform(post("/trainingList/inscriptionCloseList/"+Long.valueOf(0)).locale(Locale.ENGLISH).session(defaultSession))
-		.andExpect(view().name("redirect:/trainingList/inscriptionCloseList"));
-		
+	public void redirectTrainingCloseListBecauseTrainingIsNullTest() throws Exception {
+
+		mockMvc.perform(post("/trainingList/inscriptionCloseList/" + Long.valueOf(0)).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/trainingList/inscriptionCloseList"));
+
 		mockMvc.perform(get("/trainingList/inscriptionCloseList").locale(Locale.ENGLISH).session(defaultSession))
-		.andExpect(view().name("redirect:/trainingList/trainingCloseList"));
+				.andExpect(view().name("redirect:/trainingList/trainingCloseList"));
 	}
 }

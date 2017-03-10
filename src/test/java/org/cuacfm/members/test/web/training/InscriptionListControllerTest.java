@@ -73,7 +73,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account trainer = new Account("trainer", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer",
+		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer",
 				roles.ROLE_TRAINER);
 		accountService.save(trainer);
 		defaultSession = getDefaultSession("trainer@udc.es");
@@ -104,7 +104,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 10);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user, training);
 
@@ -145,7 +145,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 10);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user, training);
 
@@ -186,7 +186,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 10);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user, training);
 		//List<Inscription> inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
@@ -221,7 +221,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 10);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user, training);
 
@@ -245,7 +245,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		Date dateTraining = Date.from(date.toInstant(ZoneOffset.UTC));
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 10);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user, training);
 
@@ -271,7 +271,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 10);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user, training);
 
@@ -301,9 +301,9 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 1);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
-		Account user2 = new Account("user2", "55555555A", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "55555555A", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		trainingService.createInscription(user, training);
 
@@ -327,7 +327,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		Date dateTraining = Date.from(date.toInstant(ZoneOffset.UTC));
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 1);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -350,7 +350,7 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		Date dateTraining = Date.from(date.toInstant(ZoneOffset.UTC));
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 10);
 		trainingService.save(training);
-		Account user = new Account("user", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))

@@ -1,21 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE xml>
-<configuration scan="true" scanPeriod="3 seconds">
-	<contextName>members</contextName>
+<configuration>
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+	<!-- Destination file -->
+		<file>C:/Users/pablo_000/members/members.log</file>
+		<append>true</append>
 		<encoder>
-			<pattern>
-				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %msg%n
-			</pattern>
+			<pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %msg%n</pattern>
 		</encoder>
 	</appender>
 
-	<jmxConfigurator />
-	<!--  Enable put level="WARN" --> 
-	<root level="OFF">
-		<appender-ref ref="STDOUT" />
-	</root>
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%-5relative %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
 
-	<logger name="org.cuacfm.members" level="ALL" />
+	<logger name="jdbc" level="ON" />
+	<!-- Values: INFO, WARN, ERROR -->
+	<logger name="jdbc.sqlonly" level="INFO" additivity="false">
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<!-- Values: INFO, WARN, ERROR -->
+	<root level="WARN">
+		<!-- <appender-ref ref="CONSOLE" /> -->
+		<appender-ref ref="FILE" />
+	</root>
+	
 </configuration>
+
+	<!-- <configuration scan="true" scanPeriod="3 seconds"> -->
+<!-- <contextName>members</contextName> -->
+
+<!-- <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> -->
+<!-- <encoder> -->
+<!-- <pattern> -->
+<!-- %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %msg%n -->
+<!-- </pattern> -->
+<!-- </encoder> -->
+<!-- </appender> -->
+
+<!-- <jmxConfigurator /> -->
+<!-- Enable put level="WARN" -->
+<!-- <root level="INFO"> -->
+<!-- <appender-ref ref="STDOUT" /> -->
+<!-- </root> -->
+
+<!-- <logger name="org.cuacfm.members" level="ALL" /> -->
+<!-- </configuration> -->

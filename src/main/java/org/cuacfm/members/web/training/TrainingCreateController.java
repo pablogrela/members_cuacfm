@@ -50,7 +50,7 @@ public class TrainingCreateController {
 	 * Instantiates a new training Controller.
 	 */
 	public TrainingCreateController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class TrainingCreateController {
 	}
 
 	/**
-	 * Add trainingType at form
+	 * Add trainingType at form.
 	 *
 	 * @param trainingSelectForm the training select form
 	 * @return String to redirect to trainingCreate
@@ -107,9 +107,7 @@ public class TrainingCreateController {
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return String to redirect to trainingList or if fault trainingCreate
-	 * @throws UniqueException
-	 * 
-	 * @throws DateLimitException
+	 * @throws UniqueException the unique exception
 	 */
 	@RequestMapping(value = "trainingList/trainingCreate", method = RequestMethod.POST)
 	public String trainingCreate(@Valid @ModelAttribute TrainingForm trainingForm, Errors errors, RedirectAttributes ra) throws UniqueException {

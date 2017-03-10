@@ -22,12 +22,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /** The Class DisplayDate. */
 public class DisplayDate {
 
+	private static final Logger logger = LoggerFactory.getLogger(DisplayDate.class);
+
 	/** Instantiates a new display date. */
 	protected DisplayDate() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -272,7 +277,30 @@ public class DisplayDate {
 
 		try {
 			newDate = dateFormat.parse(date);
-		} catch (ParseException ex) {
+		} catch (ParseException e) {
+			logger.error("format", e);
+			return null;
+		}
+
+		return newDate;
+	}
+
+	/**
+	 * Format.
+	 *
+	 * @param date the date
+	 * @param format the format
+	 * @param locale the locale
+	 * @return the date
+	 */
+	public static Date format(String date, String format, Locale locale) {
+		Date newDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat(format, locale);
+
+		try {
+			newDate = dateFormat.parse(date);
+		} catch (ParseException e) {
+			logger.error("format", e);
 			return null;
 		}
 

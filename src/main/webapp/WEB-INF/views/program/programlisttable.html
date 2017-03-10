@@ -104,7 +104,7 @@
 
 						<td><span data-ng-bind="program.duration"></span></td>
 
-						<td><table data-ng-repeat="account in program.accounts" data-ng-bind="account.name" th:title="#{account.infoAccounts}"
+						<td><table data-ng-repeat="account in program.accounts" data-ng-bind="account.name + ' ' + account.surname" th:title="#{account.infoAccounts}"
 								data-ng-click="ctrl.infoAccounts(program.accounts)" data-toggle="modal" data-target="#infoAccounts"></table></td>
 
 						<td><span data-ng-bind="program.accountPayer.name" th:title="#{account.infoAccount}" data-ng-click="ctrl.infoAccount(program.accountPayer)"

@@ -26,7 +26,7 @@ public class UniqueListException extends Exception {
 	/**
 	 * Instantiates a new exist transaction id exception.
 	 *
-	 * @param attribute the id txn
+	 * @param messages the messages
 	 */
 	public UniqueListException(List<UniqueException> messages) {
 		super();

@@ -32,78 +32,71 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class InscriptionCloseListController {
 
-   /** The Constant TRAINING_VIEW_NAME. */
-   private static final String TRAINING_VIEW_NAME = "training/inscriptioncloselist";
+	private static final String TRAINING_VIEW_NAME = "training/inscriptioncloselist";
 
-   /** The TrainingService. */
-   @Autowired
-   private TrainingService trainingService;
+	@Autowired
+	private TrainingService trainingService;
 
-   /** The trainingTypes. */
-   private List<Inscription> inscriptions;
+	private List<Inscription> inscriptions;
+	private Training training;
 
-   /** The training. */
-   private Training training;
+	/**
+	 * Instantiates a new inscriptionListController Controller.
+	 */
+	public InscriptionCloseListController() {
+		super();
+	}
 
-   /**
-    * Instantiates a new inscriptionListController Controller.
-    */
-   public InscriptionCloseListController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Add training to view.
+	 *
+	 * @return Training
+	 */
+	@ModelAttribute("training")
+	public Training training() {
+		return training;
+	}
 
-   /**
-    * Add training to view
-    *
-    * @return Training
-    */
-   @ModelAttribute("training")
-   public Training training() {
-      return training;
-   }
+	/**
+	 * Add list of TrainingType for show in form select.
+	 *
+	 * @return the list
+	 */
+	@ModelAttribute("inscriptions")
+	public List<Inscription> inscriptions() {
+		return inscriptions;
+	}
 
-   /**
-    * Add list of TrainingType for show in form select.
-    *
-    * @return the list
-    */
-   @ModelAttribute("inscriptions")
-   public List<Inscription> inscriptions() {
-      return inscriptions;
-   }
+	/**
+	 * Show inscriptionList.
+	 *
+	 * @param model the model
+	 * @return string the view
+	 */
 
-   /**
-    * Show inscriptionList.
-    *
-    * @param model
-    *           the model
-    * @return string the view
-    */
+	@RequestMapping(value = "trainingList/inscriptionCloseList")
+	public String getInscriptionCloseList(Model model) {
+		if (training != null) {
+			inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
+			model.addAttribute("inscriptions", inscriptions);
+			model.addAttribute("training", training);
+			return TRAINING_VIEW_NAME;
+		}
+		// If not have training, redirect to trainingList
+		else {
+			return "redirect:/trainingList/trainingCloseList";
+		}
+	}
 
-   @RequestMapping(value = "trainingList/inscriptionCloseList")
-   public String getInscriptionCloseList(Model model) {
-      if (training != null) {
-         inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
-         model.addAttribute("inscriptions", inscriptions);
-         model.addAttribute("training", training);
-         return TRAINING_VIEW_NAME;
-      }
-      // If not have training, redirect to trainingList
-      else {
-         return "redirect:/trainingList/trainingCloseList";
-      }
-   }
-
-   /**
-    * Charge inscription
-    *
-    * @param model
-    *           the model
-    * @return string the view to redirect inscriptionCloseList
-    */
-   @RequestMapping(value = "trainingList/inscriptionCloseList/{trainingId}", method = RequestMethod.POST)
-   public String postTraining(@PathVariable Long trainingId) {
-      training = trainingService.findById(trainingId);
-      return "redirect:/trainingList/inscriptionCloseList";
-   }
+	/**
+	 * Charge inscription.
+	 *
+	 * @param trainingId the training id
+	 * @return string the view to redirect inscriptionCloseList
+	 */
+	@RequestMapping(value = "trainingList/inscriptionCloseList/{trainingId}", method = RequestMethod.POST)
+	public String postTraining(@PathVariable Long trainingId) {
+		training = trainingService.findById(trainingId);
+		return "redirect:/trainingList/inscriptionCloseList";
+	}
 }

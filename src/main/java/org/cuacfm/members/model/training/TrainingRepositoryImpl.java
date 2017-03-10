@@ -21,6 +21,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class TrainingRepositoryImpl implements TrainingRepository {
 
+	private static final Logger logger = LoggerFactory.getLogger(TrainingRepositoryImpl.class);
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -58,6 +62,7 @@ public class TrainingRepositoryImpl implements TrainingRepository {
 		try {
 			return entityManager.createQuery("select t from Training t where t.id = :id", Training.class).setParameter("id", id).getSingleResult();
 		} catch (NoResultException e) {
+			logger.info("NoResult" + e.getMessage());
 			return null;
 		}
 	}
@@ -68,6 +73,7 @@ public class TrainingRepositoryImpl implements TrainingRepository {
 			return entityManager.createQuery("select t from Training t where t.name = :name", Training.class).setParameter("name", name)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info("NoResult" + e.getMessage());
 			return null;
 		}
 	}

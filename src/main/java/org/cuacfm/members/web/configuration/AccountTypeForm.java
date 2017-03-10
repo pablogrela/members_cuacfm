@@ -20,137 +20,87 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.accounttype.AccountType;
+import org.cuacfm.members.model.util.Constants;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class AccountTypeForm. */
 public class AccountTypeForm {
 
-   /** The Constant NOT_BLANK_MESSAGE. */
-   private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
+	/** The name. */
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
+	private String name;
 
-   /** The Constant MAX_CHARACTERS. */
-   private static final String MAX_CHARACTERS = "{max.characters}";
+	/** The organization. */
+	private boolean organization;
 
-   /** The name. */
-   @NotBlank(message = AccountTypeForm.NOT_BLANK_MESSAGE)
-   @Size(max = 50, message = AccountTypeForm.MAX_CHARACTERS)
-   private String name;
+	/** The description. */
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 500, message = Constants.MAX_CHARACTERS)
+	private String description;
 
-   /** The organization. */
-   private boolean organization;
+	/** The discount. */
+	@Min(0)
+	@Max(100)
+	private int discount;
 
-   /** The description. */
-   @NotBlank(message = AccountTypeForm.NOT_BLANK_MESSAGE)
-   @Size(max = 500, message = AccountTypeForm.MAX_CHARACTERS)
-   private String description;
+	/** Instantiates a new training form. */
+	public AccountTypeForm() {
+		super();
+	}
 
-   /** The discount. */
-   @Min(0)
-   @Max(100)
-   private int discount;
+	public String getName() {
+		return name;
+	}
 
-   /** Instantiates a new training form. */
-   public AccountTypeForm() {
-      // Default empty constructor.
-   }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /**
-    * Get the name.
-    *
-    * @return the name
-    */
-   public String getName() {
-      return name;
-   }
+	public boolean isOrganization() {
+		return organization;
+	}
 
-   /**
-    * Set the name.
-    *
-    * @param name
-    *           String, the new name
-    */
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setOrganization(boolean organization) {
+		this.organization = organization;
+	}
 
-   /**
-    * Checks if is organization.
-    *
-    * @return true, if is organization
-    */
-   public boolean isOrganization() {
-      return organization;
-   }
+	public String getDescription() {
+		return description;
+	}
 
-   /**
-    * Sets the organization.
-    *
-    * @param organization
-    *           the new organization
-    */
-   public void setOrganization(boolean organization) {
-      this.organization = organization;
-   }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-   /**
-    * Get the description..
-    *
-    * @return the description
-    */
-   public String getDescription() {
-      return description;
-   }
+	public int getDiscount() {
+		return discount;
+	}
 
-   /**
-    * Set the description.
-    *
-    * @param description
-    *           String, the new description
-    */
-   public void setDescription(String description) {
-      this.description = description;
-   }
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
 
-   /**
-    * Gets the discount.
-    *
-    * @return the discount
-    */
-   public int getDiscount() {
-      return discount;
-   }
+	/**
+	 * Creates the account type.
+	 *
+	 * @return the account type
+	 */
+	public AccountType createAccountType() {
+		return new AccountType(getName(), isOrganization(), getDescription(), getDiscount());
+	}
 
-   /**
-    * Sets the discount.
-    *
-    * @param discount
-    *           the new discount
-    */
-   public void setDiscount(int discount) {
-      this.discount = discount;
-   }
-
-   /**
-    * Creates the account type.
-    *
-    * @return the account type
-    */
-   public AccountType createAccountType() {
-      return new AccountType(getName(), isOrganization(), getDescription(), getDiscount());
-   }
-
-   /**
-    * Update account type.
-    *
-    * @param accountType
-    *           the account type
-    * @return the account type
-    */
-   public AccountType updateAccountType(AccountType accountType) {
-      accountType.setName(getName());
-      accountType.setOrganization(isOrganization());
-      accountType.setDescription(getDescription());
-      accountType.setDiscount(getDiscount());
-      return accountType;
-   }
+	/**
+	 * Update account type.
+	 *
+	 * @param accountType the account type
+	 * @return the account type
+	 */
+	public AccountType updateAccountType(AccountType accountType) {
+		accountType.setName(getName());
+		accountType.setOrganization(isOrganization());
+		accountType.setDescription(getDescription());
+		accountType.setDiscount(getDiscount());
+		return accountType;
+	}
 }

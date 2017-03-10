@@ -75,10 +75,10 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
 		// Save
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -128,10 +128,10 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
 		// Save
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -179,7 +179,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		List<Account> accounts = new ArrayList<Account>();
 		List<Program> programs = new ArrayList<Program>();
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -189,7 +189,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.save(program);
 		programService.up(program);
 
-		Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -237,10 +237,10 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
 		// Save
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -279,10 +279,10 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
 		// Save
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -321,10 +321,10 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
 		// Save
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -414,10 +414,10 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		assertTrue(feeProgramList.isEmpty());
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 

@@ -21,6 +21,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,63 +31,37 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class BankRemittanceRepositoryImpl implements BankRemittanceRepository {
 
-   /** The entity manager. */
-   @PersistenceContext
-   private EntityManager entityManager;
+	private static final Logger logger = LoggerFactory.getLogger(BankRemittanceRepositoryImpl.class);
 
-   /**
-    * Save.
-    *
-    * @param bankRemittance
-    *           the bank remittance
-    * @return the bank remittance
-    */
-   @Override
-   @Transactional
-   public BankRemittance save(BankRemittance bankRemittance) {
-      entityManager.persist(bankRemittance);
-      return bankRemittance;
-   }
+	@PersistenceContext
+	private EntityManager entityManager;
 
-   /**
-    * Update.
-    *
-    * @param bankRemittance
-    *           the bank remittance
-    * @return the bank remittance
-    */
-   @Override
-   @Transactional
-   public BankRemittance update(BankRemittance bankRemittance) {
-      return entityManager.merge(bankRemittance);
-   }
+	@Override
+	@Transactional
+	public BankRemittance save(BankRemittance bankRemittance) {
+		entityManager.persist(bankRemittance);
+		return bankRemittance;
+	}
 
-   /**
-    * Find by id.
-    *
-    * @param id
-    *           the id
-    * @return the bank remittance
-    */
-   @Override
-   public BankRemittance findById(Long id) {
-      try {
-         return entityManager
-               .createQuery("select d from BankRemittance d where d.id = :id", BankRemittance.class)
-               .setParameter("id", id).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	@Transactional
+	public BankRemittance update(BankRemittance bankRemittance) {
+		return entityManager.merge(bankRemittance);
+	}
 
-   /**
-    * Gets the bank remittance list.
-    *
-    * @return the bank remittance list
-    */
-   @Override
-   public List<BankRemittance> getBankRemittanceList() {
-      return entityManager.createQuery("select d from BankRemittance d",
-            BankRemittance.class).getResultList();
-   }
+	@Override
+	public BankRemittance findById(Long id) {
+		try {
+			return entityManager.createQuery("select d from BankRemittance d where d.id = :id", BankRemittance.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.info("NoResult" + e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public List<BankRemittance> getBankRemittanceList() {
+		return entityManager.createQuery("select d from BankRemittance d", BankRemittance.class).getResultList();
+	}
 }

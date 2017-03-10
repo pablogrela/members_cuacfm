@@ -60,7 +60,7 @@ public class ProgramListController {
 	 * Instantiates a new training Controller.
 	 */
 	public ProgramListController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -95,7 +95,6 @@ public class ProgramListController {
 	 * @param model the model
 	 * @param principal the principal
 	 * @return the programs
-	 * @throws UniqueException the unique exception
 	 */
 	@RequestMapping(value = "programList/")
 	public ResponseEntity<List<ProgramDTO>> getPrograms(Model model, Principal principal) {
@@ -122,7 +121,6 @@ public class ProgramListController {
 	 * @param model the model
 	 * @param principal the principal
 	 * @return the programs close
-	 * @throws UniqueException the unique exception
 	 */
 	@RequestMapping(value = "programList/close/")
 	public ResponseEntity<List<ProgramDTO>> getProgramsClose(Model model, Principal principal) {

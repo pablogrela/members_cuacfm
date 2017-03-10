@@ -24,6 +24,7 @@ public class AccountDTO {
 
 	private Long id;
 	private String name;
+	private String surname;
 	private String nickName;
 	private String dni;
 	private String address;
@@ -76,11 +77,12 @@ public class AccountDTO {
 	 * @param role the role
 	 * @param installments the installments
 	 */
-	public AccountDTO(Long id, String login, String dni, String email, String phone, String mobile, String name, String nickName, String address,
-			boolean active, roles role, int installments, Date dateCreate, Date dateDown) {
+	public AccountDTO(Long id, String login, String dni, String email, String phone, String mobile, String name, String surname, String nickName,
+			String address, boolean active, roles role, int installments, Date dateCreate, Date dateDown) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.surname = surname;
 		this.nickName = nickName;
 		this.dni = dni;
 		this.address = address;
@@ -109,6 +111,14 @@ public class AccountDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getNickName() {

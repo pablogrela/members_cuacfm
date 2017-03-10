@@ -137,7 +137,7 @@ public class BankRemittanceSEPAXML {
 	 */
 
 	public void create(String path, BankRemittance bankRemittance, List<DirectDebit> directDebits)
-			throws FileNotFoundException, IOException, JAXBException, DatatypeConfigurationException {
+			throws IOException, JAXBException, DatatypeConfigurationException {
 
 		FileOutputStream file = new FileOutputStream(path);
 
@@ -209,9 +209,9 @@ public class BankRemittanceSEPAXML {
 	// Cabecera del ordenante, debtors
 	private PartyIdentification32 generateOrdenantePartyIdentification(DirectDebit directDebit) {
 
-		// CuacFM, nombre de cuacfm
+		// Nombre del que paga
 		PartyIdentification32 partyIdentification = factory.createPartyIdentification32();
-		partyIdentification.setNm(directDebit.getAccount().getName());
+		partyIdentification.setNm(directDebit.getAccount().getName() + " " + directDebit.getAccount().getSurname());
 		return partyIdentification;
 	}
 
@@ -365,7 +365,7 @@ public class BankRemittanceSEPAXML {
 		financialIdentification.setFinInstnId(financialId);
 		directDebitInformation.setDbtrAgt(financialIdentification);
 		PartyIdentification32 partyDeudor = factory.createPartyIdentification32();
-		partyDeudor.setNm(directDebit.getAccount().getName());
+		partyDeudor.setNm(directDebit.getAccount().getName() + " " + directDebit.getAccount().getSurname());
 		directDebitInformation.setDbtr(partyDeudor);
 
 		CashAccount16 cashAccount = factory.createCashAccount16();

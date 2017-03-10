@@ -21,8 +21,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Logger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +35,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
  */
 public class FileUtils {
 
-	private static final Logger LOGGER = Logger.getLogger(FileUtils.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
 	/**
 	 * Instantiates a new file utils.
@@ -53,21 +54,21 @@ public class FileUtils {
 
 		// if the directory does not exist, create it
 		if (!theDir.exists()) {
-			LOGGER.info("Creating directory: " + directoryName);
+			logger.info("Creating directory: " + directoryName);
 			boolean result = false;
 
 			try {
 				theDir.mkdirs();
 				result = true;
-			} catch (SecurityException se) {
-				LOGGER.severe("Error creating directory: " + se.getStackTrace());
+			} catch (SecurityException e) {
+				logger.error("createFolderIfNoExist: ", e);
 			}
 			if (result) {
-				LOGGER.info("Created directory: " + directoryName);
+				logger.info("Created directory: " + directoryName);
 			}
 		}
 	}
-	
+
 	/**
 	 * Download File.
 	 *
@@ -82,7 +83,7 @@ public class FileUtils {
 		try {
 			contents = Files.readAllBytes(pathAux);
 		} catch (IOException e) {
-			e.getMessage();
+			logger.error("downloadFile: ", e);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
@@ -91,5 +92,63 @@ public class FileUtils {
 		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}").buildAndExpand(file).toUri());
 		headers.add("content-disposition", "attachment; filename=" + file + ";");
 		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
+	}
+
+	/**
+	 * Split.
+	 *
+	 * @param camp the camp
+	 * @param maxLength the max length
+	 * @return the string
+	 */
+	public static String split(String camp, int maxLength) {
+		if (camp != null && camp.length() > maxLength) {
+			return camp.substring(0, maxLength);
+		} else {
+			return camp;
+		}
+	}
+
+	/**
+	 * Change value, if newValue different of null
+	 *
+	 * @param oldValue the old value
+	 * @param newValue the new value
+	 * @return the string
+	 */
+	public static String changeValue(String oldValue, String newValue) {
+		if (newValue != null && !newValue.isEmpty()) {
+			return newValue;
+		} else {
+			return oldValue;
+		}
+	}
+
+	/**
+	 * Change value, if newValue different of null
+	 *
+	 * @param oldValue the old value
+	 * @param newValue the new value
+	 * @return the object
+	 */
+	public static Object changeValue(Object oldValue, Object newValue) {
+		if (newValue != null) {
+			return newValue;
+		} else {
+			return oldValue;
+		}
+	}
+
+	/**
+	 * Devuelve un on o un N.
+	 *
+	 * @param value the value
+	 * @return String on o N
+	 */
+	public static Boolean getBoolean(String value) {
+		if (value != null) {
+			return "Sí".equalsIgnoreCase(value.trim()) ? true : false;
+		}
+		return null;
 	}
 }

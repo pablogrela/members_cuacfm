@@ -29,7 +29,7 @@ public interface FeeMemberService {
 	 *
 	 * @param payInscription the pay inscription
 	 * @return the pay inscription
-	 * @throws UniqueException
+	 * @throws UniqueException the unique exception
 	 */
 	public FeeMember save(FeeMember payInscription) throws UniqueException;
 
@@ -46,7 +46,7 @@ public interface FeeMemberService {
 	 *
 	 * @param payInscription the pay inscription
 	 * @return the pay inscription
-	 * @throws UniqueException
+	 * @throws UniqueException the unique exception
 	 */
 	public FeeMember update(FeeMember payInscription) throws UniqueException;
 
@@ -80,4 +80,11 @@ public interface FeeMemberService {
 	 * @return List<FeeMember>
 	 */
 	public List<FeeMember> getFeeMemberList();
+
+	/**
+	 * Gets the last fee member.
+	 *
+	 * @return the last fee member
+	 */
+	public FeeMember getLastFeeMember();
 }

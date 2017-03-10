@@ -1,3 +1,4 @@
+ use members;
  -- Creacion de las tablas para usar la aplicación 
 
  -- Para importar la tablas a la base de datos, esta debe existir
@@ -82,6 +83,7 @@ CREATE TABLE AccountType (
 CREATE TABLE Account(
     id INT NOT NULL auto_increment, 
     name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50),
     nickName VARCHAR(50),
     dni VARCHAR(10) NOT NULL,
     address VARCHAR(50) NOT NULL,
@@ -107,6 +109,7 @@ CREATE TABLE Account(
     role VARCHAR(20) NOT NULL,
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateDown TIMESTAMP NULL,
+    token VARCHAR(500),
     -- bankAccountId INT,
     -- activeBankAccount INT,
     CONSTRAINT AccountId_PK PRIMARY KEY (id),
@@ -180,7 +183,7 @@ CREATE TABLE Program(
     accountPayer INT,
     programType INT NOT NULL,
     programThematic INT NOT NULL,
-    programCategory INT NOT NULL,
+    programCategory INT,
     programLanguage INT NOT NULL,   
     email VARCHAR(50),
     twitter VARCHAR(50),
@@ -404,8 +407,8 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 
 insert into Account values 
-(1, 'admin', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', null, null);
+(1, 'admin', '', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', null, null, null);
 
 
 -- Insert Method Payment:
@@ -425,7 +428,7 @@ insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0)
 	
 
 -- Insert Program Type:
-insert into ProgramType values (1, 'Otro', 'Otro');	
+insert into ProgramType values (1, 'Outro', 'Outro');	
 insert into ProgramType values (2, 'Musical', 'Musical');
 insert into ProgramType values (3, 'Informativo', 'Informativo');
 insert into ProgramType values (4, 'Magazine', 'Magazine');
@@ -458,9 +461,9 @@ insert into ProgramCategory values (8, 'Ciencia', 'Ciencia');
 
 
 -- Insert Program Thematic:
-insert into ProgramLanguage values (1, 'Otro', ' Otro');
-insert into ProgramLanguage values (2, 'Español', ' Español');
-insert into ProgramLanguage values (3, 'Gallego', 'Gallego');
+insert into ProgramLanguage values (1, 'Outro', ' Outro');
+insert into ProgramLanguage values (2, 'Castelán', ' Castelán');
+insert into ProgramLanguage values (3, 'Galego', 'Galego');
 insert into ProgramLanguage values (4, 'Inglés', ' Inglés');
 
 

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.event.Event;
 import org.cuacfm.members.model.event.EventDTO;
@@ -113,12 +114,16 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<EventDTO> getDTO(List<Event> events) {
+	public EventDTO getDTO(Event event) {
+		AccountDTO accountDTO = accountService.getAccountDTO(accountService.findById(event.getAccount().getId()));
+		return new EventDTO(event.getId(), accountDTO, event.getDateEvent(), event.getPriority(), event.getDescription());
+	}
+
+	@Override
+	public List<EventDTO> getDTOs(List<Event> events) {
 		List<EventDTO> eventsDTO = new ArrayList<>();
 		for (Event event : events) {
-			EventDTO eventDTO = new EventDTO(event.getId(), event.getAccount().getName(), event.getDateEvent(), event.getPriority(),
-					event.getDescription());
-			eventsDTO.add(eventDTO);
+			eventsDTO.add(getDTO(event));
 		}
 		return eventsDTO;
 	}

@@ -22,6 +22,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,97 +32,57 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AccountTypeRepositoryImpl implements AccountTypeRepository {
 
-   /** The entity manager. */
-   @PersistenceContext
-   private EntityManager entityManager;
+	private static final Logger logger = LoggerFactory.getLogger(AccountTypeRepositoryImpl.class);
 
-   /**
-    * Save.
-    *
-    * @param accountType
-    *           the accountType
-    * @return the account type
-    */
-   @Override
-   @Transactional
-   public AccountType save(AccountType accountType) {
-      entityManager.persist(accountType);
-      return accountType;
-   }
+	@PersistenceContext
+	private EntityManager entityManager;
 
-   /**
-    * Update.
-    *
-    * @param accountType
-    *           the accountType
-    * @return the account type
-    */
-   @Override
-   @Transactional
-   public AccountType update(AccountType accountType) {
-      return entityManager.merge(accountType);
-   }
+	@Override
+	@Transactional
+	public AccountType save(AccountType accountType) {
+		entityManager.persist(accountType);
+		return accountType;
+	}
 
-   /**
-    * Delete.
-    *
-    * @param id
-    *           the id
-    */
-   @Override
-   @Transactional
-   public void delete(Long id) {
-      AccountType accountType = findById(id);
-      if (accountType != null) {
-         entityManager.remove(accountType);
-      }
-   }
+	@Override
+	@Transactional
+	public AccountType update(AccountType accountType) {
+		return entityManager.merge(accountType);
+	}
 
-   /**
-    * Find by id.
-    *
-    * @param id
-    *           the id
-    * @return the account type
-    */
-   @Override
-   public AccountType findById(Long id) {
-      try {
-         return entityManager
-               .createQuery("select a from AccountType a where a.id = :id", AccountType.class)
-               .setParameter("id", id).getSingleResult();
-      } catch (PersistenceException e) {
-         return null;
-      }
-   }
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		AccountType accountType = findById(id);
+		if (accountType != null) {
+			entityManager.remove(accountType);
+		}
+	}
 
-   /**
-    * Find by name.
-    *
-    * @param name
-    *           the name of AccountType
-    * @return AccountType
-    */
-   @Override
-   public AccountType findByName(String name) {
-      try {
-         return entityManager
-               .createQuery("select a from AccountType a where a.name = :name", AccountType.class)
-               .setParameter("name", name).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	public AccountType findById(Long id) {
+		try {
+			return entityManager.createQuery("select a from AccountType a where a.id = :id", AccountType.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (PersistenceException e) {
+			logger.info("NoResult" + e.getMessage());
+			return null;
+		}
+	}
 
-   /**
-    * Gets the account type.
-    *
-    * @return the account type
-    */
-   @Override
-   public List<AccountType> getAccountTypes() {
+	@Override
+	public AccountType findByName(String name) {
+		try {
+			return entityManager.createQuery("select a from AccountType a where a.name = :name", AccountType.class).setParameter("name", name)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.info("NoResult" + e.getMessage());
+			return null;
+		}
+	}
 
-      return entityManager.createQuery("select a from AccountType a", AccountType.class)
-            .getResultList();
-   }
+	@Override
+	public List<AccountType> getAccountTypes() {
+		return entityManager.createQuery("select a from AccountType a", AccountType.class).getResultList();
+	}
 }

@@ -34,7 +34,6 @@ public interface TrainingRepository {
 	 * @param training the training
 	 * @return the training
 	 */
-
 	public Training update(Training training);
 
 	/**

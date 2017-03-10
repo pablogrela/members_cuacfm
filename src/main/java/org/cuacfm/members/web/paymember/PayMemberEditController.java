@@ -50,7 +50,7 @@ public class PayMemberEditController {
 	 * Instantiates a new payMember Controller.
 	 */
 	public PayMemberEditController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class PayMemberEditController {
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return the string
-	 * @throws DateLimitException
+	 * @throws DateLimitException the date limit exception
 	 */
 	@RequestMapping(value = "feeMemberList/payMemberList/payMemberEdit", method = RequestMethod.POST)
 	public String payMember(@Valid @ModelAttribute PayMemberForm payMemberForm, Errors errors, RedirectAttributes ra) throws DateLimitException {
@@ -126,8 +126,7 @@ public class PayMemberEditController {
 	/**
 	 * Modify PayMember by Id.
 	 *
-	 * @param @PathVariable Long id the payMember form
-	 * @param errors the errors
+	 * @param id the id
 	 * @return the string destinity page
 	 */
 	@RequestMapping(value = "feeMemberList/payMemberList/payMemberEdit/{id}", method = RequestMethod.POST)

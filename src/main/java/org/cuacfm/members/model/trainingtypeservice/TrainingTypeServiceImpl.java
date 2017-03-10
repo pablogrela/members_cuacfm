@@ -42,7 +42,7 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
 
 	/** Instantiates a new trainingType service. */
 	public TrainingTypeServiceImpl() {
-		// Default empty constructor.
+		super();
 	}
 
 	@Override

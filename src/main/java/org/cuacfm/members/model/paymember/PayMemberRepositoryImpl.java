@@ -28,6 +28,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 import org.cuacfm.members.model.account.Account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,17 +38,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class PayMemberRepositoryImpl implements PayMemberRepository {
 
-	/** The entity manager. */
+	private static final Logger logger = LoggerFactory.getLogger(PayMemberRepositoryImpl.class);
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/**
-	 * Save.
-	 *
-	 * @param userFeeMember the training type
-	 * @return userFeeMember
-	 * @throws PersistenceException the persistence exception
-	 */
 	@Override
 	@Transactional
 	public PayMember save(PayMember userFeeMember) {
@@ -54,57 +50,33 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 		return userFeeMember;
 	}
 
-	/**
-	 * Update.
-	 *
-	 * @param userFeeMember the training type
-	 * @return userFeeMember
-	 * @throws PersistenceException the persistence exception
-	 */
 	@Override
 	@Transactional
 	public PayMember update(PayMember userFeeMember) {
 		return entityManager.merge(userFeeMember);
 	}
 
-	/**
-	 * Find by id.
-	 *
-	 * @param id the id of userFeeMember
-	 * @return userFeeMember
-	 */
 	@Override
 	public PayMember findById(Long id) {
 		try {
 			return entityManager.createQuery("select a from PayMember a where a.id = :id", PayMember.class).setParameter("id", id).getSingleResult();
 		} catch (PersistenceException e) {
+			logger.info("NoResult" + e.getMessage());
 			return null;
 		}
 	}
 
-	/**
-	 * Find by id txn.
-	 *
-	 * @param idTxn the id txn
-	 * @return the pay member
-	 */
 	@Override
 	public PayMember findByIdTxn(String idTxn) {
 		try {
 			return entityManager.createQuery("select a from PayMember a where a.idTxn = :idTxn", PayMember.class).setParameter("idTxn", idTxn)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info("NoResult" + e.getMessage());
 			return null;
 		}
 	}
 
-	/**
-	 * Find by pay member ids.
-	 *
-	 * @param accountId the account id
-	 * @param feeMemberId the fee member id
-	 * @return List<FeeMember>
-	 */
 	@Override
 	public List<PayMember> findByPayMemberIds(Long accountId, Long feeMemberId) {
 		return entityManager
@@ -112,11 +84,6 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 				.setParameter("accountId", accountId).setParameter("feeMemberId", feeMemberId).getResultList();
 	}
 
-	/**
-	 * Get all userFeeMembers.
-	 *
-	 * @return List<FeeMember>
-	 */
 	@Override
 	public List<PayMember> getPayMemberList() {
 		return entityManager.createQuery("select a from PayMember a order by a.account.login", PayMember.class).getResultList();
@@ -124,17 +91,10 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 
 	@Override
 	public List<PayMember> findNoPayListByAccountId(Long accountId) {
-		return entityManager.createQuery(
-				"select p from PayMember p where p.state <> 'PAY' and p.dateCharge <= :date and p.account.id = :accountId",
+		return entityManager.createQuery("select p from PayMember p where p.state <> 'PAY' and p.dateCharge <= :date and p.account.id = :accountId",
 				PayMember.class).setParameter("date", new Date()).setParameter("accountId", accountId).getResultList();
 	}
 
-	/**
-	 * Gets the pay member no pay list by direct debit.
-	 *
-	 * @param monthCharge the month charge
-	 * @return the pay member no pay list by direct debit
-	 */
 	@Override
 	public Map<Account, List<PayMember>> getPayMemberNoPayListByDirectDebit(Date monthCharge) {
 
@@ -165,37 +125,18 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 		return userPayMembers;
 	}
 
-	/**
-	 * Gets the pay member list by fee member id.
-	 *
-	 * @param feeMemberId the fee member id
-	 * @return the pay member list by fee member id
-	 */
 	@Override
 	public List<PayMember> getPayMemberListByFeeMemberId(Long feeMemberId) {
 		return entityManager.createQuery("select a from PayMember a where a.feeMember.id = :feeMemberId", PayMember.class)
 				.setParameter("feeMemberId", feeMemberId).getResultList();
 	}
 
-	/**
-	 * Gets the pay member list by pay account id.
-	 *
-	 * @param accountId the fee member id
-	 * @return the pay member list by account id
-	 */
 	@Override
 	public List<PayMember> getPayMemberListByAccountId(Long accountId) {
 		return entityManager.createQuery("select a from PayMember a where a.account.id = :accountId", PayMember.class)
 				.setParameter("accountId", accountId).getResultList();
-
 	}
 
-	/**
-	 * Gets the name users by fee member with role=ROLE_USER an active=true.
-	 *
-	 * @param trainingId the fee member id
-	 * @return the name users by fee member
-	 */
 	@Override
 	public List<String> getUsernamesByFeeMember(Long feeMemberId) {
 		// No running Concat(a.name, ' - ', a.nickname)
@@ -205,12 +146,12 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 						+ "where p.feeMember.id = :feeMemberId and p.account.id = c.id) " + "order by a.login", Account.class)
 				.setParameter("feeMemberId", feeMemberId).getResultList();
 
-		List<String> usernames = new ArrayList<String>();
+		List<String> usernames = new ArrayList<>();
 		for (Account account : accounts) {
-			if (account.getNickName() != null) {
-				usernames.add(account.getId() + ": " + account.getName() + " - " + account.getNickName());
+			if (account.getNickName() != null && !account.getNickName().isEmpty()) {
+				usernames.add(account.getId() + ": " + account.getName() + " " + account.getName() + " - " + account.getNickName());
 			} else {
-				usernames.add(account.getId() + ": " + account.getName());
+				usernames.add(account.getId() + ": " + account.getName() + " " + account.getName());
 			}
 		}
 		return usernames;

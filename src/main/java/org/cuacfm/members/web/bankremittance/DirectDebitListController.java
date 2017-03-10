@@ -325,14 +325,13 @@ public class DirectDebitListController {
 	/**
 	 * Direct debit view.
 	 *
-	 * @param model the model
-	 * @param principal the principal
+	 * @param ra the ra
 	 * @return the string
 	 */
 	@RequestMapping(value = "directDebitList/refresh", method = RequestMethod.POST)
 	public String directDebitRefresh(RedirectAttributes ra) {
 		directDebitService.refresh();
-		
+
 		MessageHelper.addErrorAttribute(ra, "directDebit.successRefresh", "");
 		return "redirect:/directDebitList";
 	}

@@ -79,7 +79,7 @@ public class SigninControllerTest extends WebSecurityConfigurationAware {
 		
         
         // Create User
-		user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
+		user = new Account("user", "1", "55555555C", "London", "user", "email1@udc.es", "666666666", "666666666","demo", roles.ROLE_USER);
 		accountService.save(user);
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);

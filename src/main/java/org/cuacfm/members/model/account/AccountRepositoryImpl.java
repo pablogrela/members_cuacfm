@@ -22,6 +22,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.cuacfm.members.model.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -32,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AccountRepositoryImpl implements AccountRepository {
 
+	private static final Logger logger = LoggerFactory.getLogger(AccountRepositoryImpl.class);
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -66,6 +71,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 		try {
 			return entityManager.createQuery("select a from Account a where a.id = :id", Account.class).setParameter("id", id).getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -75,6 +81,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 		try {
 			return entityManager.createQuery("select a from Account a where a.dni = :dni", Account.class).setParameter("dni", dni).getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -85,6 +92,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 			return entityManager.createQuery("select a from Account a where a.email = :email", Account.class).setParameter("email", email)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -95,6 +103,7 @@ public class AccountRepositoryImpl implements AccountRepository {
 			return entityManager.createQuery("select a from Account a where a.login = :login", Account.class).setParameter("login", login)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}

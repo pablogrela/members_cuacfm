@@ -22,47 +22,22 @@ import org.cuacfm.members.model.trainingtype.TrainingType;
 /** The TrainingSelectForm. */
 public class TrainingSelectForm {
 
-   /** The trainingType List. */
-   private List<TrainingType> trainingTypes;
+	private List<TrainingType> trainingTypes;
+	private Long trainingTypeId;
 
-   /** The Global variable trainingTypeId. */
-   private Long trainingTypeId;
+	public List<TrainingType> getTrainingTypes() {
+		return trainingTypes;
+	}
 
-   /**
-    * Gets the training types.
-    *
-    * @return the training types
-    */
-   public List<TrainingType> getTrainingTypes() {
-      return trainingTypes;
-   }
+	public void setTrainingTypes(List<TrainingType> trainingTypes) {
+		this.trainingTypes = trainingTypes;
+	}
 
-   /**
-    * Sets the training types.
-    *
-    * @param trainingTypes
-    *           the new training types
-    */
-   public void setTrainingTypes(List<TrainingType> trainingTypes) {
-      this.trainingTypes = trainingTypes;
-   }
+	public Long getTrainingTypeId() {
+		return trainingTypeId;
+	}
 
-   /**
-    * Gets the training type id.
-    *
-    * @return the training type id
-    */
-   public Long getTrainingTypeId() {
-      return trainingTypeId;
-   }
-
-   /**
-    * Sets the training type id.
-    *
-    * @param trainingTypeId
-    *           the new training type id
-    */
-   public void setTrainingTypeId(Long trainingTypeId) {
-      this.trainingTypeId = trainingTypeId;
-   }
+	public void setTrainingTypeId(Long trainingTypeId) {
+		this.trainingTypeId = trainingTypeId;
+	}
 }

@@ -25,68 +25,68 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
+import org.cuacfm.members.model.util.Constants;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class ProfileForm. */
 public class ProfileForm {
 
-	private static final String EMAIL_MESSAGE = "{email.message}";
-	private static final String INSUFFICIENT_CHARACTERS = "{insuficient.characters}";
-	private static final String MAX_CHARACTERS = "{max.characters}";
-	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
-
 	/** The name. */
-	@NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
-	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String name;
 
+	/** The surname. */
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
+	private String surname;
+
 	/** The nickName. */
-	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String nickName;
 
 	/** The dni. */
-	@NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
-	@Size(max = 10, message = ProfileForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 10, message = Constants.MAX_CHARACTERS)
 	private String dni;
 
 	/** The address. */
-	@NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
-	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String address;
 
 	/** The cp. */
-	@Size(max = 10, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 10, message = Constants.MAX_CHARACTERS)
 	private String cp;
 
 	/** The province. */
-	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String province;
 
 	/** The code country. */
-	@Size(max = 2, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 2, message = Constants.MAX_CHARACTERS)
 	private String codeCountry;
 
 	/** The login. */
-	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String login;
 
 	/** The email. */
-	@Email(message = ProfileForm.EMAIL_MESSAGE)
-	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
+	@Email(message = Constants.EMAIL_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String email;
 
 	/** The phone. */
-	@Size(max = 20, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 20, message = Constants.MAX_CHARACTERS)
 	private String phone;
 
 	/** The mobile. */
-	@NotBlank(message = ProfileForm.NOT_BLANK_MESSAGE)
-	@Size(max = 20, message = ProfileForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 20, message = Constants.MAX_CHARACTERS)
 	private String mobile;
 
 	/** The program name. */
-	@Size(max = 50, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String programName;
 
 	private boolean student;
@@ -101,15 +101,15 @@ public class ProfileForm {
 	private String dateBirth;
 
 	/** The password. */
-	@Size(min = 6, max = 20, message = ProfileForm.INSUFFICIENT_CHARACTERS)
+	@Size(min = 6, max = 20, message = Constants.INSUFFICIENT_CHARACTERS)
 	private String password;
 
 	/** The retry password. */
-	@Size(min = 6, max = 20, message = ProfileForm.INSUFFICIENT_CHARACTERS)
+	@Size(min = 6, max = 20, message = Constants.INSUFFICIENT_CHARACTERS)
 	private String newPassword;
 
 	/** The retry password. */
-	@Size(min = 6, max = 20, message = ProfileForm.INSUFFICIENT_CHARACTERS)
+	@Size(min = 6, max = 20, message = Constants.INSUFFICIENT_CHARACTERS)
 	private String rePassword;
 
 	/** The accountType List. */
@@ -130,13 +130,13 @@ public class ProfileForm {
 	private int installments;
 
 	/** The observations. */
-	@Size(max = 500, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 500, message = Constants.MAX_CHARACTERS)
 	private String observations;
 
-	@Size(max = 500, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 500, message = Constants.MAX_CHARACTERS)
 	private String personality;
 
-	@Size(max = 500, message = ProfileForm.MAX_CHARACTERS)
+	@Size(max = 500, message = Constants.MAX_CHARACTERS)
 	private String knowledge;
 
 	/** The roles. */
@@ -163,7 +163,7 @@ public class ProfileForm {
 	 * Instantiates a new profile form.
 	 */
 	public ProfileForm() {
-		// Default empty constructor.
+		super();
 	}
 
 	public String getName() {
@@ -172,6 +172,14 @@ public class ProfileForm {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getNickName() {

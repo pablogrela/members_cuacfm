@@ -32,7 +32,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 
+	public static final String REDIRECT_HOME = "redirect:/";
 	private static final String HOMESIGNEDIN = "home/homeSignedIn";
 	private static final String HOMENOTSIGNEDIN = "home/homeNotSignedIn";
 	private static final String EVENTLISTCLOSE = "home/eventlistclose";
@@ -53,37 +53,18 @@ public class HomeController {
 
 	@Autowired
 	private AccountService accountService;
-	
-	// The email of configuration
-	private String email;
-
-	/**
-	 * Email.
-	 *
-	 * @return the string
-	 */
-	@ModelAttribute("email")
-	public String email() {
-		return email;
-	}
 
 	/**
 	 * Index.
 	 *
+	 * @param model the model
 	 * @param principal the principal
 	 * @return the string
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model, Principal principal) {
 		if (principal != null) {
-			email = configurationService.getConfiguration().getEmail();
-			model.addAttribute("email", email);
-			// TODO prueba de cambio de idioma
-//			Locale.setDefault(new Locale("gl","ES"));
-//			System.setProperty("user.language", "gl");
-//			System.setProperty("user.country", "ES");		
-//			Locale.getDefault();
-			
+			model.addAttribute("email", configurationService.getConfiguration().getEmail());
 			return HOMESIGNEDIN;
 		} else {
 			return HOMENOTSIGNEDIN;
@@ -113,10 +94,10 @@ public class HomeController {
 		List<EventDTO> eventsDTO;
 
 		if (auth.getAuthorities().toString().contains(roles.ROLE_ADMIN.toString())) {
-			eventsDTO = eventService.getDTO(eventService.findAllOpen());
+			eventsDTO = eventService.getDTOs(eventService.findAllOpen());
 		} else {
 			Account account = accountService.findByLogin(auth.getName());
-			eventsDTO = eventService.getDTO(eventService.findAllByAccountId(account.getId()));
+			eventsDTO = eventService.getDTOs(eventService.findAllByAccountId(account.getId()));
 		}
 		if (eventsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -136,7 +117,7 @@ public class HomeController {
 		List<EventDTO> eventsDTO = null;
 
 		if (auth.getAuthorities().toString().contains(roles.ROLE_ADMIN.toString())) {
-			eventsDTO = eventService.getDTO(eventService.findAllClose());
+			eventsDTO = eventService.getDTOs(eventService.findAllClose());
 		}
 		if (eventsDTO == null || eventsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -159,8 +140,7 @@ public class HomeController {
 		}
 
 		eventService.highlight(event, 1);
-		EventDTO eventDTO = new EventDTO(event.getId(), event.getAccount().getName(), event.getDateEvent(), event.getPriority(),
-				event.getDescription());
+		EventDTO eventDTO = eventService.getDTO(event);
 		return new ResponseEntity<>(eventDTO, HttpStatus.OK);
 	}
 
@@ -179,8 +159,7 @@ public class HomeController {
 		}
 
 		eventService.highlight(event, 0);
-		EventDTO eventDTO = new EventDTO(event.getId(), event.getAccount().getName(), event.getDateEvent(), event.getPriority(),
-				event.getDescription());
+		EventDTO eventDTO = eventService.getDTO(event);
 		return new ResponseEntity<>(eventDTO, HttpStatus.OK);
 	}
 }

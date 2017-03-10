@@ -22,6 +22,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,96 +32,57 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class MethodPaymentRepositoryImpl implements MethodPaymentRepository {
 
-   /** The entity manager. */
-   @PersistenceContext
-   private EntityManager entityManager;
+	private static final Logger logger = LoggerFactory.getLogger(MethodPaymentRepositoryImpl.class);
 
-   /**
-    * Save.
-    *
-    * @param methodPayment
-    *           the method payment
-    * @return the method payment
-    */
-   @Override
-   @Transactional
-   public MethodPayment save(MethodPayment methodPayment) {
-      entityManager.persist(methodPayment);
-      return methodPayment;
-   }
+	@PersistenceContext
+	private EntityManager entityManager;
 
-   /**
-    * Update.
-    *
-    * @param methodPayment
-    *           the method payment
-    * @return the method payment
-    */
-   @Override
-   @Transactional
-   public MethodPayment update(MethodPayment methodPayment) {
-      return entityManager.merge(methodPayment);
-   }
+	@Override
+	@Transactional
+	public MethodPayment save(MethodPayment methodPayment) {
+		entityManager.persist(methodPayment);
+		return methodPayment;
+	}
 
-   /**
-    * Delete.
-    *
-    * @param id
-    *           the id
-    */
-   @Override
-   @Transactional
-   public void delete(Long id) {
-      MethodPayment methodPayment = findById(id);
-      if (methodPayment != null) {
-         entityManager.remove(methodPayment);
-      }
-   }
+	@Override
+	@Transactional
+	public MethodPayment update(MethodPayment methodPayment) {
+		return entityManager.merge(methodPayment);
+	}
 
-   /**
-    * Find by id.
-    *
-    * @param id
-    *           the id
-    * @return the method payment
-    */
-   @Override
-   public MethodPayment findById(Long id) {
-      try {
-         return entityManager
-               .createQuery("select a from MethodPayment a where a.id = :id", MethodPayment.class)
-               .setParameter("id", id).getSingleResult();
-      } catch (PersistenceException e) {
-         return null;
-      }
-   }
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		MethodPayment methodPayment = findById(id);
+		if (methodPayment != null) {
+			entityManager.remove(methodPayment);
+		}
+	}
 
-   /**
-    * Find by name.
-    *
-    * @param name
-    *           the name of MethodPayment
-    * @return MethodPayment
-    */
-   @Override
-   public MethodPayment findByName(String name) {
-      try {
-         return entityManager
-               .createQuery("select a from MethodPayment a where a.name = :name",
-                     MethodPayment.class).setParameter("name", name).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	public MethodPayment findById(Long id) {
+		try {
+			return entityManager.createQuery("select a from MethodPayment a where a.id = :id", MethodPayment.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (PersistenceException e) {
+			logger.info("NoResult" + e.getMessage());
+			return null;
+		}
+	}
 
-   /**
-    * Gets the method payments.
-    *
-    * @return the method payments
-    */
-   @Override
-   public List<MethodPayment> getMethodPayments() {
-      return entityManager.createQuery("select a from MethodPayment a", MethodPayment.class)
-            .getResultList();
-   }
+	@Override
+	public MethodPayment findByName(String name) {
+		try {
+			return entityManager.createQuery("select a from MethodPayment a where a.name = :name", MethodPayment.class).setParameter("name", name)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.info("NoResult" + e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public List<MethodPayment> getMethodPayments() {
+		return entityManager.createQuery("select a from MethodPayment a", MethodPayment.class).getResultList();
+	}
 }

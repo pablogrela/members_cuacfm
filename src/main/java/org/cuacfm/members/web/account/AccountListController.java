@@ -48,7 +48,8 @@ public class AccountListController {
 	@Autowired
 	private MessageSource messageSource; 
 	
-	private static final String ACCOUNT_VIEW_NAME = "account/accountlist";
+	public static final String ACCOUNT_VIEW_NAME = "account/accountlist";
+	public static final String REDIRECT_ACCOUNT = "redirect:/accountList";
 
 	/**
 	 * Gets the accounts.
@@ -90,7 +91,7 @@ public class AccountListController {
 		// Only unbuscribe roles no admin
 		if (!account.getRole().equals(roles.ROLE_ADMIN)) {
 			accountService.unsubscribe(account);
-			Object[] arguments = { account.getName() };
+			Object[] arguments = { account.getName() + " " + account.getSurname() };
 			String messageI18n = messageSource.getMessage("account.successUnsubscribe", arguments, Locale.getDefault());
 			MessageHelper.addInfoAttribute(ra, messageI18n);
 		}
@@ -109,7 +110,7 @@ public class AccountListController {
 		Account account = accountService.findById(id);
 		accountService.subscribe(account);
 		
-		Object[] arguments = { account.getName() };
+		Object[] arguments = { account.getName() + " " + account.getSurname()};
 		String messageI18n = messageSource.getMessage("account.successSubscribe", arguments, Locale.getDefault());
 		MessageHelper.addInfoAttribute(ra, messageI18n);
 		

@@ -66,10 +66,10 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 		// Create payments of programs
 		for (Program program : programService.getProgramListActive()) {
 			// Duration in minutes, fee in hours, it is necessary convert price to minutes
-			Double price = (feeProgram.getPrice() / 60) * program.getDuration() * program.getPeriodicity() ;
+			Double price = (feeProgram.getPrice() / 60) * program.getDuration() * program.getPeriodicity();
 			PayProgram payProgram = new PayProgram(program, feeProgram, price);
 			payProgramService.save(payProgram);
-			if (program.getAccountPayer() != null){
+			if (program.getAccountPayer() != null) {
 				directDebitService.save(program.getAccountPayer());
 			}
 		}

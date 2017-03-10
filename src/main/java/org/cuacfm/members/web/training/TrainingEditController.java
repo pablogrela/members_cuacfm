@@ -47,7 +47,7 @@ public class TrainingEditController {
 	 * Instantiates a new training Controller.
 	 */
 	public TrainingEditController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -99,7 +99,6 @@ public class TrainingEditController {
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return the string
-	 * @throws DateLimitException
 	 */
 
 	@RequestMapping(value = "trainingList/trainingEdit", method = RequestMethod.POST)
@@ -142,7 +141,7 @@ public class TrainingEditController {
 	/**
 	 * Modify Training by Id.
 	 *
-	 * @param @PathVariable Long id the training form
+	 * @param id the id
 	 * @return the string destinity page
 	 */
 	@RequestMapping(value = "trainingList/trainingEdit/{id}", method = RequestMethod.POST)

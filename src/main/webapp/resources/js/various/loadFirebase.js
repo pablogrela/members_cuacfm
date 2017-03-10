@@ -33,53 +33,85 @@ firebase.initializeApp(config);
 
 
 // Create a hidden input element, and append it to the form:
-function addHidden(theForm, key, value) {
+function addHidden(form, key, value) {
     var input = document.createElement('input');
     input.type = 'hidden';
     input.name = key;
     input.value = value;
-    theForm.append(input);
+    form.append(input);
 }
 
 
+//Automatic call in html
+function signupFirebaseManual(form, email, password) {
+	var emailValue = document.getElementById(email).value;
+	var passwordValue = document.getElementById(password).value;
+	
+	// Create Account in Firebase
+	firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
+		.then(function() {
+			form.unbind().submit();
+		})
+		.catch(function(error) {
+			addHidden(form, 'error', error.code);
+			form.unbind().submit();
+		});
+}
+
 // Register user in Firebase
-// Automatic call in html
 function signupFirebase() {
 	var emailValue = document.getElementById('email').value;
 	var passwordValue = document.getElementById('password').value;
 	
-	firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
-		.then(function() {
-			// Redirect to home
-			window.location.href="/members/"
-		})
-		.catch(function(error) {
-		  // Handle Errors here.
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  //console.log(errorCode, errorMessage);
-		  return errorCode;
+	var user = firebase.auth().currentUser;
+	
+	// Link user to another provider (Google, Facebook, etc)
+	if (user) {
+		
+		// Get credential
+		var credential = firebase.auth.EmailAuthProvider.credential(emailValue, passwordValue);
+		
+		// Link
+		user.link(credential).then(function(user) {
+			  // console.log("Account linking success", user);
+			  // Redirect to home
+			  window.location.href="/members/"
+			}, function(error) {
+			  console.log("Account linking error", error);		
+			  addHidden(form, 'error', error.code);
+			  // Redirect to home
+			  window.location.href="/members/"
 		});
+
+			
+	// Register User
+	} else {
+		// Create Account in Firebase
+		firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
+			.then(function() {
+				// Redirect to home
+				// console.log("correct");
+				window.location.href="/members/"
+			})
+			.catch(function(error) {
+				// console.log(error.code, error.message);
+				addHidden(form, 'error', error.code);
+				window.location.href="/members/"
+			});
+	}
 }
 
 
-// Register user in Firebase with parameters
-function signup(form, email, password) {
-	var emailValue = document.getElementById(email).value;
-	var passwordValue = document.getElementById(password).value;
-	
-	firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
-		.then(function() {
-			// Redirect to home
-			window.location.href="/members/"
-			// form.submit()
-		})
-		.catch(function(error) {
-		  // Handle Errors here.
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  return errorCode;
-		});
+// Send idToken to Form
+function sendTokenToForm(form){
+	var user = firebase.auth().currentUser;		    
+    user.getToken(/* forceRefresh */ true).then(function(idToken) {
+		  	addHidden(form, 'token', idToken);
+		  	form.submit();
+		}).catch(function(error) {
+			addHidden(form, 'error', error.code);
+	    	form.submit();
+		});	
 }
 
 
@@ -89,8 +121,8 @@ function signin(form, email, password) {
 	var passwordValue = document.getElementById(password).value;
 	
 	firebase.auth().signInWithEmailAndPassword(emailValue, passwordValue)
-		.then(function() {
-			form.unbind().submit();
+		.then(function() {   
+			sendTokenToForm(form.unbind());
 		})
 		.catch(function(error) {
 		  addHidden(form, 'error', error.code);
@@ -99,70 +131,22 @@ function signin(form, email, password) {
 }
 
 
-// Authentication user in Firebase with Google
-// No se usa
-function signinGoogle(form, email, password) {
-	// Using a redirect.
-	firebase.auth().getRedirectResult().then(function(result) {
-	  if (result.credential) {
-	    // This gives you a Google Access Token.
-	    var token = result.credential.accessToken;
-	    // form.submit();
-	  }
-	  var user = result.user;
-	});
-
-	// Start a sign in process for an unauthenticated user.
-	var provider = new firebase.auth.GoogleAuthProvider().then(function() {
-		firebase.auth().onAuthStateChanged(function(user) {
-			if (user) {
-				document.getElementById('email').value = user.email;
-			}
-			form.submit();
-		});
-	}, function(error) {
-		addHidden(form, 'error', error.code);
-		form.submit();
-	});
-	
-	provider.addScope('profile');
-	provider.addScope('email');
-	firebase.auth().signInWithRedirect(provider);	
-}
-
-
 // Authentication user in Firebase using PopUp with Google
+// Si da error redirigir para registrarse
 function signinGooglePopup(form) {
 	// Using a popup.
 	var provider = new firebase.auth.GoogleAuthProvider();
 	provider.addScope('profile');
 	provider.addScope('email');
 	firebase.auth().signInWithPopup(provider).then(function(result) {
-		 // This gives you a Google Access Token.
-		 // var token = result.credential.accessToken;
-		 
-		 // The signed-in user info.
-		 var user = result.user;
-		 document.getElementById('email').value = user.email;
-		 form.submit();
+		 document.getElementById('email').value = result.user.email;
+		 sendTokenToForm(form);
 	})	
 	.catch(function(error) {
 		 form.submit();
 	});
 }
 
-// Validate if a user is authenticated
-function authenticationValidate(){
-	firebase.auth().onAuthStateChanged(function(user) {
-		if (user) {
-			// User is signed in.
-			alert('autenticado');
-		} else {
-			// No user is signed in.
-			alert('no autenticado');
-		}
-	});
-}
 
 // signOut Firebase and Members
 function signOut() {
@@ -173,30 +157,6 @@ function signOut() {
 	});
 }
 
-// Update Email
-function updateEmail(form, email) {
-	var user = firebase.auth().currentUser;
-	
-	user.updateEmail(email).then(function() {
-		form.submit();
-	}, function(error) {
-		addHidden(form, 'error', error.code);
-		form.submit();
-	});
-}
-
-
-// Update password
-function updatePassword(form, password) {
-	var user = firebase.auth().currentUser;
-	
-	user.updatePassword(password).then(function() {
-		form.submit();
-	}, function(error) {
-		addHidden(form, 'error', error.code);
-		form.submit();
-	});
-}
 
 // Update password and email to user
 function updateUser(form, password, email, onEmail, newPassword, onPassword) {
@@ -251,7 +211,7 @@ function updateUser(form, password, email, onEmail, newPassword, onPassword) {
 	}
 }
 
-// Restore password
+// Restore password, send email with link, to restore password
 function restorePassword(form, email) {
 	var emailValue = document.getElementById(email).value;
 	var auth = firebase.auth();
@@ -264,6 +224,139 @@ function restorePassword(form, email) {
 	        form.unbind().submit();
 		});
 }
+
+// Reset password
+function resetPassword(form, password, oobCode) {
+	 var newPassword = document.getElementById(password).value;
+	 var actionCode = document.getElementById(oobCode).value;	  
+	  
+	  // Verify the password reset code is valid.
+	 firebase.auth().verifyPasswordResetCode(actionCode).then(function(email) {
+		 
+		    // Save the new password.
+		    firebase.auth().confirmPasswordReset(actionCode, newPassword).then(function(resp) {
+		      // Password reset has been confirmed and new password updated.
+		    	firebase.auth().signInWithEmailAndPassword(email, newPassword)
+				.then(function() {   
+					addHidden(form, 'username', email);
+					sendTokenToForm(form.unbind());
+				})
+				.catch(function(error) {
+				  addHidden(form, 'error', error.code);
+				  sendTokenToForm(form.unbind());
+				});
+		    	
+		    }).catch(function(error) {
+		      // Error occurred during confirmation. The code might have expired or the
+		      // password is too weak.
+				addHidden(form, 'error', error.code);
+				sendTokenToForm(form.unbind());
+		    });
+		    
+		  }).catch(function(error) {
+		    // Invalid or expired action code. Ask user to try to reset the password
+		    // again.
+				addHidden(form, 'error', error.code);
+				sendTokenToForm(form.unbind());
+		  });
+}
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////// OTHERS METHODS FIREBASE //////////////////////////////////////////////////////////////////////
+// ///////////// De momento no se usan ///////////////////////////////////////////////////////////////////////
+
+// Update Email
+function updateEmail(form, email) {
+	var user = firebase.auth().currentUser;
+	
+	user.updateEmail(email).then(function() {
+		form.unbind().submit();
+	}, function(error) {
+		addHidden(form, 'error', error.code);
+		form.unbind().submit();
+	});
+}
+
+
+// Update password
+function updatePassword(form, password) {
+	var user = firebase.auth().currentUser;
+	
+	user.updatePassword(password).then(function() {
+		form.unbind().submit();
+	}, function(error) {
+		addHidden(form, 'error', error.code);
+		form.unbind().submit();
+	});
+}
+
+
+// Authentication user in Firebase with Google
+// No se usa
+function signinGoogle(form, email, password) {
+	// Using a redirect.
+	firebase.auth().getRedirectResult().then(function(result) {
+	  if (result.credential) {
+	    // This gives you a Google Access Token.
+	    var token = result.credential.accessToken;
+	    // form.submit();
+	  }
+	  var user = result.user;
+	});
+
+	// Start a sign in process for an unauthenticated user.
+	var provider = new firebase.auth.GoogleAuthProvider().then(function() {
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				document.getElementById('email').value = user.email;
+			}
+			form.submit();
+		});
+	}, function(error) {
+		addHidden(form, 'error', error.code);
+		form.submit();
+	});
+	
+	provider.addScope('profile');
+	provider.addScope('email');
+	firebase.auth().signInWithRedirect(provider);	
+}
+
+// Register user in Firebase with parameters
+function signup(form, email, password) {
+	var emailValue = document.getElementById(email).value;
+	var passwordValue = document.getElementById(password).value;
+	
+	firebase.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
+		.then(function() {
+			// Redirect to home
+			window.location.href="/members/"
+			// form.submit()
+		})
+		.catch(function(error) {
+		  // Handle Errors here.
+		  var errorCode = error.code;
+		  var errorMessage = error.message;
+		  return errorCode;
+		});
+}
+
+
+// Validate if a user is authenticated
+function authenticationValidate(){
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			// User is signed in.
+			alert('autenticado');
+		} else {
+			// No user is signed in.
+			alert('no autenticado');
+		}
+	});
+}
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////

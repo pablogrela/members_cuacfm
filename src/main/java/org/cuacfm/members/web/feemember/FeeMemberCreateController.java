@@ -40,18 +40,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class FeeMemberCreateController {
 
-	/** The Constant FEEMEMBER_VIEW_NAME. */
 	private static final String FEEMEMBER_VIEW_NAME = "feemember/feemembercreate";
 
-	/** The message source. */
 	@Autowired
 	private MessageSource messageSource;
 
-	/** The ConfigurationService. */
 	@Autowired
 	private ConfigurationService configurationService;
 
-	/** The fee member service. */
 	@Autowired
 	private FeeMemberService feeMemberService;
 
@@ -59,7 +55,7 @@ public class FeeMemberCreateController {
 	 * Instantiates a new fee member Controller.
 	 */
 	public FeeMemberCreateController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

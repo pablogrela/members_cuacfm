@@ -134,6 +134,8 @@ function previousPage() {
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////// LISTENERS  //////////////////////////////////////////////////////////////////////////////////
 // Listener profile modify
 // Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
 $(function() {
@@ -165,6 +167,29 @@ $(function() {
 		restorePassword($('#restorePasswordForm'), 'email')
 	});
 });
+
+
+//Listener reset password
+//Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
+$(function() {
+	$('#resetPasswordForm').on('submit', function(e) {
+		// Prevent form from submitting (Deshabilita el submit y se hace manual)
+		e.preventDefault();
+		resetPassword($('#resetPasswordForm'), 'password', 'oobCode')
+	});
+});
+
+
+//Listener reset password
+//Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
+$(function() {
+	$('#signupFirebaseManualForm').on('submit', function(e) {
+		// Prevent form from submitting (Deshabilita el submit y se hace manual)
+		e.preventDefault();
+		signupFirebaseManual($('#signupFirebaseManualForm'), 'email', 'password')
+	});
+});
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

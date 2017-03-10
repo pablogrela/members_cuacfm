@@ -32,6 +32,8 @@ import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.web.support.DisplayDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -59,9 +61,7 @@ import com.lowagie.text.pdf.PdfWriter;
 @Service("payProgramServicees")
 public class CreatePdf {
 
-	private static final String ALL = "ALL";
-	private static final String NOPAY = "NOPAY";
-	private static final String PAY = "PAY";
+	private static final Logger logger = LoggerFactory.getLogger(CreatePdf.class);
 
 	/**
 	 * View pdf.
@@ -76,7 +76,7 @@ public class CreatePdf {
 		try {
 			contents = Files.readAllBytes(path2);
 		} catch (IOException e) {
-			e.getMessage();
+			logger.error("viewPdf", e);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
@@ -84,7 +84,7 @@ public class CreatePdf {
 		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}").buildAndExpand(file).toUri());
 		headers.add("content-disposition", "attachment; filename=" + file + ";");
-		return new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
 	}
 
 	/** The Class HeaderFooter. */
@@ -159,7 +159,7 @@ public class CreatePdf {
 			writer.close(); // Cerramos writer
 
 		} catch (FileNotFoundException | DocumentException e) {
-			e.getMessage();
+			logger.error("viewPdf", e);
 		}
 	}
 
@@ -178,14 +178,14 @@ public class CreatePdf {
 		Double collectPrice = Double.valueOf(0);
 		float[] values = new float[] { 170, 95, 180, 120, 65, 70, 70 };
 
-		if (!type.equals(ALL)) {
+		if (!type.equals(Constants.ALL)) {
 			table = new PdfPTable(6);
 			values = new float[] { 180, 80, 180, 120, 70, 70 };
 		}
 		try {
 			table.setWidths(values);
 		} catch (DocumentException e) {
-			e.getMessage();
+			logger.error("viewPdf", e);
 		}
 		table.setWidthPercentage(100);
 		table.setSpacingBefore(0f);
@@ -202,7 +202,7 @@ public class CreatePdf {
 			table.addCell(messageSource.getMessage("programName", null, Locale.getDefault()));
 			table.addCell(messageSource.getMessage("installment", null, Locale.getDefault()));
 			table.addCell(messageSource.getMessage("price", null, Locale.getDefault()));
-			if (type.equals(ALL)) {
+			if (type.equals(Constants.ALL)) {
 				table.addCell(messageSource.getMessage("hasPay", null, Locale.getDefault()));
 			}
 		}
@@ -216,12 +216,12 @@ public class CreatePdf {
 			table.getDefaultCell().setBackgroundColor(null);
 			if (u.getInstallments() > 1) {
 				table.getDefaultCell().setBackgroundColor(Color.YELLOW);
-			} else if ((type.equals(ALL)) && (!u.getState().equals(states.PAY))) {
+			} else if ((type.equals(Constants.ALL)) && (!u.getState().equals(states.PAY))) {
 				table.getDefaultCell().setBackgroundColor(Color.RED);
 			}
 
-			if ((type.equals(ALL)) || (type.equals(NOPAY) && !u.getState().equals(states.PAY))
-					|| (type.equals(PAY) && u.getState().equals(states.PAY))) {
+			if ((type.equals(Constants.ALL)) || (type.equals(Constants.NOPAY) && !u.getState().equals(states.PAY))
+					|| (type.equals(Constants.PAY) && u.getState().equals(states.PAY))) {
 				table.addCell(u.getAccount().getName());
 				table.addCell(String.valueOf(u.getAccount().getMobile()));
 				table.addCell(u.getAccount().getEmail());
@@ -232,11 +232,11 @@ public class CreatePdf {
 				table.addCell(String.valueOf(u.getPrice()));
 
 				// Pay or no Pay
-				if ((type.equals(ALL)) && (u.getState().equals(states.PAY))) {
+				if ((type.equals(Constants.ALL)) && (u.getState().equals(states.PAY))) {
 					collectPrice = collectPrice + u.getPrice();
 					table.addCell(String.valueOf(u.getPrice()));
 					// table.addCell(messageSource.getMessage("hasPay", null,
-				} else if ((type.equals(ALL)) && (!u.getState().equals(states.PAY))) {
+				} else if ((type.equals(Constants.ALL)) && (!u.getState().equals(states.PAY))) {
 					table.addCell(String.valueOf(0));
 					// table.addCell(messageSource.getMessage("hasNoPay", null,
 				}
@@ -251,7 +251,7 @@ public class CreatePdf {
 		table.addCell(" ");
 		table.addCell(" ");
 		table.addCell(String.valueOf(totalPrice));
-		if (type.equals(ALL)) {
+		if (type.equals(Constants.ALL)) {
 			table.addCell(String.valueOf(collectPrice));
 		}
 		return table;
@@ -272,14 +272,14 @@ public class CreatePdf {
 		Double collectPrice = Double.valueOf(0);
 		float[] values = new float[] { 120, 170, 95, 180, 70, 70 };
 
-		if (!type.equals(ALL)) {
+		if (!type.equals(Constants.ALL)) {
 			table = new PdfPTable(5);
 			values = new float[] { 120, 180, 80, 180, 70 };
 		}
 		try {
 			table.setWidths(values);
 		} catch (DocumentException e) {
-			e.getMessage();
+			logger.error("viewPdf", e);
 		}
 		table.setWidthPercentage(100);
 		table.setSpacingBefore(0f);
@@ -295,7 +295,7 @@ public class CreatePdf {
 			table.addCell(messageSource.getMessage("phone", null, Locale.getDefault()));
 			table.addCell(messageSource.getMessage("email", null, Locale.getDefault()));
 			table.addCell(messageSource.getMessage("price", null, Locale.getDefault()));
-			if (type.equals(ALL)) {
+			if (type.equals(Constants.ALL)) {
 				table.addCell(messageSource.getMessage("hasPay", null, Locale.getDefault()));
 			}
 		}
@@ -308,12 +308,12 @@ public class CreatePdf {
 
 			table.getDefaultCell().setBackgroundColor(null);
 
-			if ((type.equals(ALL)) && (!p.getState().equals(states.PAY))) {
+			if ((type.equals(Constants.ALL)) && (!p.getState().equals(states.PAY))) {
 				table.getDefaultCell().setBackgroundColor(Color.RED);
 			}
 
-			if ((type.equals(ALL)) || (type.equals(NOPAY) && !p.getState().equals(states.PAY))
-					|| (type.equals(PAY) && p.getState().equals(states.PAY))) {
+			if ((type.equals(Constants.ALL)) || (type.equals(Constants.NOPAY) && !p.getState().equals(states.PAY))
+					|| (type.equals(Constants.PAY) && p.getState().equals(states.PAY))) {
 				table.addCell(p.getProgram().getName());
 				table.addCell(" ");
 				table.addCell(" ");
@@ -322,11 +322,11 @@ public class CreatePdf {
 				table.addCell(String.valueOf(p.getPrice()));
 
 				// Pay or no Pay
-				if ((type.equals(ALL)) && (p.getState().equals(states.PAY))) {
+				if ((type.equals(Constants.ALL)) && (p.getState().equals(states.PAY))) {
 					collectPrice = collectPrice + p.getPrice();
 					table.addCell(String.valueOf(p.getPrice()));
 					// table.addCell(messageSource.getMessage("hasPay", null,
-				} else if ((type.equals(ALL)) && (!p.getState().equals(states.PAY))) {
+				} else if ((type.equals(Constants.ALL)) && (!p.getState().equals(states.PAY))) {
 					table.addCell(String.valueOf(0));
 					// table.addCell(messageSource.getMessage("hasNoPay", null,
 				}
@@ -336,7 +336,7 @@ public class CreatePdf {
 					table.addCell(String.valueOf(u.getMobile()));
 					table.addCell(u.getEmail());
 					table.addCell(" ");
-					if (type.equals(ALL)) {
+					if (type.equals(Constants.ALL)) {
 						table.addCell(" ");
 					}
 				}
@@ -350,7 +350,7 @@ public class CreatePdf {
 		table.addCell(" ");
 		table.addCell(" ");
 		table.addCell(String.valueOf(totalPrice));
-		if (type.equals(ALL)) {
+		if (type.equals(Constants.ALL)) {
 			table.addCell(String.valueOf(collectPrice));
 		}
 		return table;

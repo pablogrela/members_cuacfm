@@ -20,14 +20,12 @@
 <head>
 <title th:text="#{signup.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
-<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body onload="signupFirebase()">
 
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header">&nbsp;</div>
-
 
 
 	<form class="container ws-validate" method="get" th:action="@{/}" th:object="${signupForm}">

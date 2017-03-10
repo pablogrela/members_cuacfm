@@ -18,16 +18,21 @@ package org.cuacfm.members.model.util;
 /** The Class Constants. */
 public class Constants {
 
+	public static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
+	public static final String EMAIL_MESSAGE = "{email.message}";
+	public static final String INSUFFICIENT_CHARACTERS = "{insuficient.characters}";
+	public static final String MAX_CHARACTERS = "{max.characters}";
+
+	public static final String ALL = "ALL";
 	public static final String NOPAY = "NOPAY";
 	public static final String PAY = "PAY";
+
 	public static final String ERRORIDEXCEPTION = "userPayments.errorIdException";
 	public static final String SUCCESSPAYPAL = "userPayments.successPayPal";
 	public static final String ERRORPAYPAL = "userPayments.errorPayPal";
 	
-	/** Instantiates a new Constants. */
-	protected Constants() {
-		// Default empty constructor.
-	}
+	public static final String NO_RESULT = "NoResult";
+
 
 	/**
 	 * The Enum states.
@@ -45,7 +50,7 @@ public class Constants {
 
 		/** The return bill. */
 		RETURN_BILL,
-		
+
 		/** Cancel. */
 		CANCEL
 	}
@@ -66,7 +71,7 @@ public class Constants {
 
 		/** The cash. */
 		CASH,
-		
+
 		/** The bank deposit. */
 		BANK_DEPOSIT
 

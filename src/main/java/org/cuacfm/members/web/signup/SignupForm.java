@@ -19,41 +19,41 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
+import org.cuacfm.members.model.util.Constants;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class SignupForm. */
 public class SignupForm {
 
-	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
-	private static final String EMAIL_MESSAGE = "{email.message}";
-	private static final String INSUFFICIENT_CHARACTERS = "{insuficient.characters}";
-	private static final String MAX_CHARACTERS = "{max.characters}";
-
 	/** The name. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String name;
 
+	/** The surname. */
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
+	private String surname;
+
 	/** The login. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String login;
 
 	/** The dni. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 10, message = SignupForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 10, message = Constants.MAX_CHARACTERS)
 	private String dni;
 
 	/** The address. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String address;
 
 	/** The email. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Email(message = SignupForm.EMAIL_MESSAGE)
-	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Email(message = Constants.EMAIL_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String email;
 
 	private boolean student;
@@ -65,35 +65,35 @@ public class SignupForm {
 	private boolean emitProgramFalse;
 
 	/** The phone. */
-	@Size(max = 20, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 20, message = Constants.MAX_CHARACTERS)
 	private String phone;
 
 	/** The mobile. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(max = 20, message = SignupForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 20, message = Constants.MAX_CHARACTERS)
 	private String mobile;
 
 	/** The rule. */
 	private boolean rule;
 
 	/** The program name. */
-	@Size(max = 50, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String programName;
 
 	/** The password. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(min = 6, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(min = 6, max = 80, message = Constants.INSUFFICIENT_CHARACTERS)
 	private String password;
 
 	/** The retry password. */
-	@NotBlank(message = SignupForm.NOT_BLANK_MESSAGE)
-	@Size(min = 6, max = 80, message = SignupForm.INSUFFICIENT_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(min = 6, max = 80, message = Constants.INSUFFICIENT_CHARACTERS)
 	private String rePassword;
 
-	@Size(max = 500, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 500, message = Constants.MAX_CHARACTERS)
 	private String personality;
 
-	@Size(max = 500, message = SignupForm.MAX_CHARACTERS)
+	@Size(max = 500, message = Constants.MAX_CHARACTERS)
 	private String knowledge;
 
 	private String captcha;
@@ -119,6 +119,14 @@ public class SignupForm {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getAddress() {
@@ -279,7 +287,7 @@ public class SignupForm {
 	 * @return the account
 	 */
 	public Account createAccount() {
-		return new Account(getName(), getDni(), getAddress(), getLogin(), getEmail(), getPhone(), getMobile(), getPassword(),
-				roles.ROLE_PREREGISTERED, programName, studentTrue, emitProgramTrue, personality, knowledge);
+		return new Account(getName(), getSurname(), getDni(), getAddress(), getLogin(), getEmail(), getPhone(), getMobile(), getPassword(),
+				roles.ROLE_PREREGISTERED, getProgramName(), isStudentTrue(), isEmitProgramTrue(), getPersonality(), getKnowledge());
 	}
 }

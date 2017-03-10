@@ -42,8 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       // Default empty constructor.
    }
 
-   // No sirve para nada, ni el @EnableGlobalMethodSecurity(securedEnabled =
-   // true)
+   // No sirve para nada, ni el @EnableGlobalMethodSecurity(securedEnabled = true)
    @Bean
    @Override
    public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -99,13 +98,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     *           http at application
     */
    // Por defecto el csrf esta enable para bloquear posibles ataques.
-   // TODO crear usuario EXUSER, restringir sesiones y alta de programas y habilitar dar de alta es un event en la cuenta(profile) y solictud de baja.
-   // baja abajo.
-   // alta arriba
    @Override
    protected void configure(HttpSecurity http) throws Exception {
 	   // Se añadio csrf().disable() al http para permitir ajax
-       http.authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/restorePassword")
+       http.authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signup/**", "/signin/**")
             .permitAll()
 
             .antMatchers("/userPayments/**")
@@ -132,8 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/programList/programDown/**","/programList/programUp/**",
                   "/payInscriptionList/**", "/feeProgramList/**", "/accountList/**", "/configuration/**", "/bankRemittance/**", "/directDebit/**", "/user/**")
             .hasRole("ADMIN")
-            
-            // .antMatchers("/**").hasRole("ADMIN")
+
             .anyRequest().authenticated().and().formLogin().loginPage("/signin").permitAll()
             .failureUrl("/signin?error=1").loginProcessingUrl("/authenticate").and().logout()
             .logoutUrl("/logout").permitAll().logoutSuccessUrl("/signin?logout").and().rememberMe()

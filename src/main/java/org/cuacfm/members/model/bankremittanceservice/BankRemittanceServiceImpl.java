@@ -22,8 +22,6 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -40,6 +38,8 @@ import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.FileUtils;
 import org.cuacfm.members.web.support.DisplayDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -52,7 +52,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service("bankRemittanceService")
 public class BankRemittanceServiceImpl implements BankRemittanceService {
 
-	private static final Logger LOGGER = Logger.getLogger(BankRemittanceServiceImpl.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(BankRemittanceService.class);
 
 	@Value("${pathBankRemittance}")
 	private String pathBankRemittance;
@@ -111,6 +111,14 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 		return bankRemittanceRepository.update(bankRemittance);
 	}
 
+	/**
+	 * Update state bank remittance.
+	 *
+	 * @param bankRemittance the bank remittance
+	 * @param state the state
+	 * @param method the method
+	 * @throws ExistTransactionIdException the exist transaction id exception
+	 */
 	private void updateStateBankRemittance(BankRemittance bankRemittance, states state, methods method) throws ExistTransactionIdException {
 		bankRemittance.setState(state);
 		bankRemittanceRepository.update(bankRemittance);
@@ -147,21 +155,19 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 
 	@Override
 	public ResponseEntity<byte[]> generateXML(Long bankRemittanceId) {
-
-		LOGGER.info(LOGGER.getName() + "generateXML");
+		logger.info("generateXML");
 
 		BankRemittance bankRemittance = bankRemittanceRepository.findById(bankRemittanceId);
-		Date date = new Date();
 
-		FileUtils.createFolderIfNoExist(messageSource.getMessage("pathBankRemittance", null, Locale.getDefault()));
-		String fileXML = messageSource.getMessage("fileBankRemittance", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date) + ".xml";
+		FileUtils.createFolderIfNoExist(pathBankRemittance);
+		String fileXML = messageSource.getMessage("fileBankRemittance", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(new Date())
+				+ ".xml";
 
 		try {
 			bankRemittanceSEPAXML.create(pathBankRemittance + fileXML, bankRemittance,
 					directDebitService.findAllByBankRemittanceId(bankRemittanceId));
 		} catch (IOException | JAXBException | DatatypeConfigurationException e) {
-			LOGGER.info("Logger Name: " + LOGGER.getName() + e.getMessage());
-			LOGGER.log(Level.SEVERE, "Exception occur", e.getStackTrace());
+			logger.error("processXML: ", e);
 		}
 
 		return FileUtils.downloadFile(pathBankRemittance, fileXML, MediaType.TEXT_XML);
@@ -169,19 +175,19 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 
 	@Override
 	public String processXML(MultipartFile file) {
-
-		LOGGER.info(LOGGER.getName() + "processXML");
+		logger.info("processXML");
 
 		try {
 			byte[] bytes = file.getBytes();
-			FileUtils.createFolderIfNoExist(messageSource.getMessage("pathReturnBankRemittance", null, Locale.getDefault()));
-			Path pathXML = Paths.get(pathReturnBankRemittance + file.getOriginalFilename());
+			FileUtils.createFolderIfNoExist(pathReturnBankRemittance);
+			
+			String[] originalFilename = file.getOriginalFilename().split(".xml");
+			Path pathXML = Paths.get(pathReturnBankRemittance + originalFilename[0] + DisplayDate.dateTimeToStringSp(new Date()) + ".xml");
 			Files.write(pathXML, bytes);
 			returnBankRemittanceSEPAXML.load(pathXML.toString());
 
 		} catch (Exception e) {
-			LOGGER.info("Logger Name: " + LOGGER.getName() + e.getMessage());
-			LOGGER.log(Level.SEVERE, "Exception occur", e.getStackTrace());
+			logger.error("processXML: ", e);
 			Object[] arguments = {};
 			eventService.save("bankRemittance.failUpload", null, 2, arguments);
 			return "bankRemittance.failUpload";

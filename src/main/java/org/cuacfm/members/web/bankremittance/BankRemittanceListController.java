@@ -135,8 +135,7 @@ public class BankRemittanceListController {
 	public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes ra) {
 
 		if (file.isEmpty()) {
-			MessageHelper.addSuccessAttribute(ra, "bankRemittance.noFileUpload", "");
-			ra.addFlashAttribute("message", "Please select a file to upload");
+			MessageHelper.addErrorAttribute(ra, "noFileUpload", "");
 			return REDIRECT_BANKREMITTANCE;
 		}
 

@@ -17,55 +17,54 @@ package org.cuacfm.members.model.trainingtype;
 
 import java.util.List;
 
+/**
+ * The Interface TrainingTypeRepository.
+ */
 public interface TrainingTypeRepository {
-   /**
-    * Save.
-    *
-    * @param training
-    *           the trainingType
-    * @return trainingType
-    */
-   public TrainingType save(TrainingType trainingType);
 
-   /**
-    * Update.
-    *
-    * @param trainingType
-    *           the trainingType
-    * @return trainingType
-    */
-   public TrainingType update(TrainingType trainingType);
+	/**
+	 * Save.
+	 *
+	 * @param trainingType the training type
+	 * @return trainingType
+	 */
+	public TrainingType save(TrainingType trainingType);
 
-   /**
-    * Delete.
-    *
-    * @param trainingType
-    *           the trainingType
-    */
-   public void delete(Long id);
+	/**
+	 * Update.
+	 *
+	 * @param trainingType the trainingType
+	 * @return trainingType
+	 */
+	public TrainingType update(TrainingType trainingType);
 
-   /**
-    * Find by id.
-    *
-    * @param id
-    *           the id of trainingType
-    * @return the trainingType
-    */
-   public TrainingType findById(Long id);
+	/**
+	 * Delete.
+	 *
+	 * @param id the id
+	 */
+	public void delete(Long id);
 
-   /**
-    * Find by login.
-    *
-    * @param name
-    *           the name of trainingType
-    * @return TrainingType
-    */
-   public TrainingType findByName(String name);
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id of trainingType
+	 * @return the trainingType
+	 */
+	public TrainingType findById(Long id);
 
-   /**
-    * Get all trainingTypes.
-    *
-    * @return List<TrainingType>
-    */
-   public List<TrainingType> getTrainingTypeList();
+	/**
+	 * Find by login.
+	 *
+	 * @param name the name of trainingType
+	 * @return TrainingType
+	 */
+	public TrainingType findByName(String name);
+
+	/**
+	 * Get all trainingTypes.
+	 *
+	 * @return List<TrainingType>
+	 */
+	public List<TrainingType> getTrainingTypeList();
 }

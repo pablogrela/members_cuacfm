@@ -21,8 +21,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 
+import org.cuacfm.members.model.util.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,104 +33,60 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class FeeProgramRepositoryImpl implements FeeProgramRepository {
 
-   /** The entity manager. */
-   @PersistenceContext
-   private EntityManager entityManager;
+	private static final Logger logger = LoggerFactory.getLogger(FeeProgramRepositoryImpl.class);
 
-   /**
-    * Save.
-    *
-    * @param feeProgram
-    *           the feeProgram
-    * @return feeProgram
-    * @throws PersistenceException
-    *            the persistence exception
-    */
-   @Override
-   @Transactional
-   public FeeProgram save(FeeProgram feeProgram) {
-      entityManager.persist(feeProgram);
-      return feeProgram;
-   }
+	@PersistenceContext
+	private EntityManager entityManager;
 
-   /**
-    * Update.
-    *
-    * @param feeProgram
-    *           the fee program
-    * @return feeProgram
-    * @throws PersistenceException
-    *            the persistence exception
-    */
-   @Override
-   @Transactional
-   public FeeProgram update(FeeProgram feeProgram) {
-      return entityManager.merge(feeProgram);
-   }
+	@Override
+	@Transactional
+	public FeeProgram save(FeeProgram feeProgram) {
+		entityManager.persist(feeProgram);
+		return feeProgram;
+	}
 
-   /**
-    * Find by id.
-    *
-    * @param id
-    *           the id of feeProgram
-    * @return feeProgram
-    */
-   @Override
-   public FeeProgram findById(Long id) {
-      try {
-         return entityManager
-               .createQuery("select a from FeeProgram a where a.id = :id", FeeProgram.class)
-               .setParameter("id", id).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	@Transactional
+	public FeeProgram update(FeeProgram feeProgram) {
+		return entityManager.merge(feeProgram);
+	}
 
-   /**
-    * Find by name.
-    *
-    * @param name
-    *           the name of feeProgram
-    * @return FeeProgram
-    */
-   @Override
-   public FeeProgram findByName(String name) {
-      try {
-         return entityManager
-               .createQuery("select a from FeeProgram a where a.name = :name", FeeProgram.class)
-               .setParameter("name", name).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	public FeeProgram findById(Long id) {
+		try {
+			return entityManager.createQuery("select a from FeeProgram a where a.id = :id", FeeProgram.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
+			return null;
+		}
+	}
 
-   /**
-    * Find by date.
-    *
-    * @param Date
-    *           the date
-    * @return the fee program
-    */
-   @Override
-   public FeeProgram findByDate(Date date) {
-      try {
-         return entityManager
-               .createQuery(
-                     "select a from FeeProgram a where month(a.date) = month(:date) and year(a.date) = year(:date)",
-                     FeeProgram.class).setParameter("date", date).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	public FeeProgram findByName(String name) {
+		try {
+			return entityManager.createQuery("select a from FeeProgram a where a.name = :name", FeeProgram.class).setParameter("name", name)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
+			return null;
+		}
+	}
 
-   /**
-    * Get all feePrograms.
-    *
-    * @return List<FeeProgram>
-    */
-   @Override
-   public List<FeeProgram> getFeeProgramList() {
-      return entityManager.createQuery("select a from FeeProgram a order by a.name",
-            FeeProgram.class).getResultList();
-   }
+	@Override
+	public FeeProgram findByDate(Date date) {
+		try {
+			return entityManager
+					.createQuery("select a from FeeProgram a where month(a.date) = month(:date) and year(a.date) = year(:date)", FeeProgram.class)
+					.setParameter("date", date).getSingleResult();
+		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public List<FeeProgram> getFeeProgramList() {
+		return entityManager.createQuery("select a from FeeProgram a order by a.name", FeeProgram.class).getResultList();
+	}
 }

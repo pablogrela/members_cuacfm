@@ -44,7 +44,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 
 	@Autowired
 	private AccountService accountService;
-	
+
 	@Autowired
 	private DirectDebitService directDebitService;
 
@@ -188,5 +188,10 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 	@Override
 	public List<FeeMember> getFeeMemberList() {
 		return feeMemberRepository.getFeeMemberList();
+	}
+
+	@Override
+	public FeeMember getLastFeeMember() {
+		return feeMemberRepository.getLastFeeMember();
 	}
 }

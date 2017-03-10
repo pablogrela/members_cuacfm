@@ -51,7 +51,7 @@ public class PayProgramListController {
 
 	/** Instantiates a new training Controller. */
 	public PayProgramListController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

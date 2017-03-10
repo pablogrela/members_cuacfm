@@ -16,11 +16,11 @@
 package org.cuacfm.members.web.error;
 
 import java.text.MessageFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,15 +28,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.common.base.Throwables;
 
-/** The Class CustomErrorController */
+/** The Class CustomErrorController. */
 @Controller
 class CustomErrorController {
 
-	private static final Logger LOGGER = Logger.getLogger(CustomErrorController.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(CustomErrorController.class);
 
 	/** Instantiates a new custom error controller. */
 	public CustomErrorController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -54,7 +54,6 @@ class CustomErrorController {
 		// String servletName = (String)
 		// request.getAttribute("javax.servlet.error.servlet_name")
 		String exceptionMessage = getExceptionMessage(throwable, statusCode);
-		LOGGER.log(Level.SEVERE, "Exception occur", exceptionMessage);
 
 		String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
 		if (requestUri == null) {
@@ -62,8 +61,11 @@ class CustomErrorController {
 		}
 
 		String message = MessageFormat.format("{0} returned for {1} with message {2}", statusCode, requestUri, exceptionMessage);
-
 		model.addAttribute("errorMessage", message);
+
+		logger.error("generalError: ", throwable);
+
+		// If you do not want to display the error on the screen, put return null
 		return "error/general";
 	}
 
@@ -75,12 +77,10 @@ class CustomErrorController {
 	 * @return the exception message
 	 */
 	private String getExceptionMessage(Throwable throwable, Integer statusCode) {
-		LOGGER.log(Level.SEVERE, "Exception occur", throwable);
 		if (throwable != null) {
 			return Throwables.getRootCause(throwable).getMessage();
 		}
 		HttpStatus httpStatus = HttpStatus.valueOf(statusCode);
-
 		return httpStatus.getReasonPhrase();
 	}
 }

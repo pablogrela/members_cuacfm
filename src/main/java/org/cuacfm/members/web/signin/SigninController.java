@@ -15,34 +15,58 @@
  */
 package org.cuacfm.members.web.signin;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.userservice.UserService;
+import org.cuacfm.members.web.home.HomeController;
 import org.cuacfm.members.web.support.MessageHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseCredentials;
+import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.internal.NonNull;
+import com.google.firebase.tasks.OnFailureListener;
+import com.google.firebase.tasks.OnSuccessListener;
+
 /** The Class SigninController. */
 @Controller
 public class SigninController {
 
-	private static final String SIGNIN_VIEW_NAME = "signin/signin";
-	private static final String SIGNIN_REDIRECT = "redirect:/signin";
-	private static final String RESTORE_PASSWORD_VIEW_NAME = "signin/restorepassword";
-	private static final Logger LOGGER = Logger.getLogger(SigninController.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(SigninController.class);
+
+	public static final String SIGNIN_VIEW_NAME = "signin/signin";
+	public static final String SIGNIN_REDIRECT = "redirect:/signin";
+	public static final String RESTORE_PASSWORD_VIEW_NAME = "signin/restorepassword";
+	public static final String RESET_PASSWORD_VIEW_NAME = "signin/resetpassword";
+	public static final String BADCREDENTIALS = "signin.errorBadCredentials";
+
+	// Variables Thread Firebase
+	private String message;
 
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private AccountService accountService;
+
+	@Value("${urlFirebase}")
+	private String urlFirebase;
 
 	/**
 	 * Instantiates a new Signin controller.
@@ -55,45 +79,130 @@ public class SigninController {
 	 * Signin.
 	 *
 	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@RequestMapping(value = "signin")
-	public String signin() {
+	public String signin() throws IOException {
 		return SIGNIN_VIEW_NAME;
 	}
 
 	/**
 	 * Authenticate.
 	 *
+	 * @param token the token
 	 * @param error the error
 	 * @param email the email
 	 * @param ra the ra
 	 * @return the string
 	 */
 	@RequestMapping(value = "signin", method = RequestMethod.POST)
-	public String authenticate(@RequestParam(value = "error", required = false) String error, @RequestParam("username") String email,
-			RedirectAttributes ra) {
-		String message = "firebase." + error;
+	public synchronized String signin(@RequestParam(value = "token", required = false) String token,
+			@RequestParam(value = "error", required = false) String error, @RequestParam("username") String email, RedirectAttributes ra) {
 
-		if (error == null) {
+		if (error != null) {
+			message = "firebase." + error;
+		} else {
+			message = null;
+
+			// Check if the user exists, si no existe en los miembros se redirige un signup
+			Account account = accountService.findByEmail(email);
+			if (account == null) {
+				return "redirect:/signup?email=" + email;
+			}
+
+			// Validate Token
 			try {
-				Account account = accountService.findByEmail(email);
-				if (account.isActive()) {
+				getAuthFirebase().verifyIdToken(token).addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
+					@Override
+					public void onSuccess(FirebaseToken decodedToken) {
+						if (!decodedToken.getEmail().equals(email)) {
+							message = BADCREDENTIALS;
+						}
+					}
+				}).addOnFailureListener(new OnFailureListener() {
+					@Override
+					public void onFailure(@NonNull Exception e) {
+						logger.error("signin.verifyIdToken: ", e);
+						message = BADCREDENTIALS;
+					}
+				});
+
+				// If an error occurs during authentication to firebase it is not authenticated
+				if (message == null) {
+
+					// TODO prueba de cambio de idioma					
+					// response.addCookie(new Cookie("lang", "gl"));
+					// response.setHeader("Content-Language", "gl");
+
+					// Locale.setDefault(new Locale("gl","ES"));
+					// System.setProperty("user.language", "gl");
+					// System.setProperty("user.country", "ES");		
+					// Locale.getDefault();
+
+					// Token remember-me, se podria re-implementar
+					// O hacer la redireccion a /authenticate
+					// TokenBasedRememberMeServices a = new TokenBasedRememberMeServices("remember-me-key", userService);
+					// return "redirect:/authenticate?username="+email+"?password="+"123456";
+
 					userService.signin(account);
-					return "redirect:/";
-				} else {
-					message = "signin.errorUserDisabled";
+					return HomeController.REDIRECT_HOME;
 				}
 			} catch (Exception e) {
-				LOGGER.log(Level.SEVERE, "Exception occur", e);
-				message = "signin.errorBadCredentials";
+				logger.error("signin: ", e);
+				message = BADCREDENTIALS;
 			}
 		}
 
 		MessageHelper.addErrorAttribute(ra, message, "");
 		return SIGNIN_REDIRECT;
+
 	}
 
-	@RequestMapping(value = "restorePassword")
+	/**
+	 * Reset Password.
+	 *
+	 * @param mode the mode
+	 * @param oobCode the oob code
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "signin/resetPassword")
+	public String resetPassword(@RequestParam(value = "mode", required = false) String mode,
+			@RequestParam(value = "oobCode", required = false) String oobCode, Model model) {
+		model.addAttribute("oobCode", oobCode);
+		return RESET_PASSWORD_VIEW_NAME;
+	}
+
+	/**
+	 * Reset password.
+	 *
+	 * @param token the token
+	 * @param error the error
+	 * @param email the email
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "signin/resetPassword", method = RequestMethod.POST)
+	public String resetPassword(@RequestParam(value = "token", required = false) String token,
+			@RequestParam(value = "error", required = false) String error, @RequestParam(value = "username", required = false) String email,
+			RedirectAttributes ra) {
+
+		if (error != null) {
+			message = "firebase." + error;
+			MessageHelper.addErrorAttribute(ra, message, "password");
+			return "redirect:/signin/resetPassword";
+		}
+
+		// If everything is correct, the signin is made
+		return signin(token, error, email, ra);
+	}
+
+	/**
+	 * Restore password.
+	 *
+	 * @return the string
+	 */
+	@RequestMapping(value = "signin/restorePassword")
 	public String restorePassword() {
 		return RESTORE_PASSWORD_VIEW_NAME;
 	}
@@ -106,7 +215,7 @@ public class SigninController {
 	 * @param ra the ra
 	 * @return the string
 	 */
-	@RequestMapping(value = "restorePassword", method = RequestMethod.POST)
+	@RequestMapping(value = "signin/restorePassword", method = RequestMethod.POST)
 	public String sendRestorePassword(@RequestParam(value = "error", required = false) String error, @RequestParam("username") String email,
 			RedirectAttributes ra) {
 
@@ -117,5 +226,29 @@ public class SigninController {
 
 		MessageHelper.addErrorAttribute(ra, "firebase." + error, "");
 		return "redirect:/restorePassword";
+	}
+
+	/**
+	 * Gets the auth firebase.
+	 *
+	 * @return the auth firebase
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	private FirebaseAuth getAuthFirebase() throws IOException {
+		// Inicializar Firebase
+		URL path = getClass().getResource("/members-firebase-adminsdk.json");
+		FileInputStream serviceAccount = new FileInputStream(path.getPath());
+		FirebaseOptions options = new FirebaseOptions.Builder().setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
+				.setDatabaseUrl(urlFirebase).build();
+		serviceAccount.close();
+
+		// Inicialize FirebaseApp
+		FirebaseApp app;
+		if (FirebaseApp.getApps().isEmpty()) {
+			app = FirebaseApp.initializeApp(options, "members");
+		} else {
+			app = FirebaseApp.getInstance("members");
+		}
+		return FirebaseAuth.getInstance(app);
 	}
 }

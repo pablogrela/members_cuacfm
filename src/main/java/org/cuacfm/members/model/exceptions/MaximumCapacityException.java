@@ -19,28 +19,27 @@ package org.cuacfm.members.model.exceptions;
 @SuppressWarnings("serial")
 public class MaximumCapacityException extends Exception {
 
-   /** The max places. */
-   private final int maxPlaces;
+	/** The max places. */
+	private final int maxPlaces;
 
-   /**
-    * Instantiates a new maximum capacity exception.
-    *
-    * @param maxPlaces
-    *           the max places
-    */
-   public MaximumCapacityException(int maxPlaces) {
-      super("The capacity of the training is " + maxPlaces + " and already full.");
+	/**
+	 * Instantiates a new maximum capacity exception.
+	 *
+	 * @param maxPlaces the max places
+	 */
+	public MaximumCapacityException(int maxPlaces) {
+		super("The capacity of the training is " + maxPlaces + " and already full.");
 
-      this.maxPlaces = maxPlaces;
-   }
+		this.maxPlaces = maxPlaces;
+	}
 
-   /**
-    * Gets the max places.
-    *
-    * @return the max places
-    */
-   public int getMaxPlaces() {
-      return maxPlaces;
-   }
+	/**
+	 * Gets the max places.
+	 *
+	 * @return the max places
+	 */
+	public int getMaxPlaces() {
+		return maxPlaces;
+	}
 
 }

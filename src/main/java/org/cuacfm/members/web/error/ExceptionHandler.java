@@ -26,7 +26,7 @@ class ExceptionHandler {
 
    /** Instantiates a new exception handler. */
    public ExceptionHandler() {
-      // Default empty constructor.
+      super();
    }
 
    /**

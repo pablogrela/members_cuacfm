@@ -15,6 +15,9 @@
  */
 package org.cuacfm.members.model.programservice;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,12 +35,23 @@ import org.cuacfm.members.model.program.ProgramLanguage;
 import org.cuacfm.members.model.program.ProgramRepository;
 import org.cuacfm.members.model.program.ProgramThematic;
 import org.cuacfm.members.model.program.ProgramType;
+import org.cuacfm.members.model.util.FileUtils;
+import org.cuacfm.members.web.support.DisplayDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /** The Class ProgramServiceImpl. */
 @Service("programService")
 public class ProgramServiceImpl implements ProgramService {
+
+	private static final Logger logger = LoggerFactory.getLogger(ProgramServiceImpl.class);
+
+	@Value("${pathJsonToProgram}")
+	private String pathJsonToProgram;
 
 	@Autowired
 	private AccountService accountService;
@@ -50,6 +64,9 @@ public class ProgramServiceImpl implements ProgramService {
 
 	@Autowired
 	private EventService eventService;
+
+	@Autowired
+	private JsonToProgram jsonToProgram;
 
 	/** Instantiates a new program service. */
 	public ProgramServiceImpl() {
@@ -125,12 +142,12 @@ public class ProgramServiceImpl implements ProgramService {
 	public List<Program> getProgramListClose() {
 		return programRepository.getProgramListClose();
 	}
-	
+
 	@Override
-	public List<Program> getProgramListActiveWhitoutPays(Date month){
+	public List<Program> getProgramListActiveWhitoutPays(Date month) {
 		return programRepository.getProgramListActiveWhitoutPays(month);
 	}
-	
+
 	@Override
 	public void up(Program program) {
 		program.setActive(true);
@@ -163,10 +180,15 @@ public class ProgramServiceImpl implements ProgramService {
 	@Override
 	public ProgramDTO getProgramDTO(Program program) {
 
+		String programCategoryName = null;
+		if (program.getProgramCategory() != null) {
+			programCategoryName = program.getProgramCategory().getName();
+		}
+		
 		ProgramDTO programDTO = new ProgramDTO(program.getId(), program.getName(), program.getDescription(), program.getPeriodicity(),
 				program.getDuration(), accountService.getAccountsDTO(program.getAccounts()), accountService.getAccountDTO(program.getAccountPayer()),
 				program.getProgramType().getName(), program.getProgramThematic().getName(), program.getProgramLanguage().getName(),
-				program.getProgramCategory().getName(), program.getEmail(), program.getTwitter(), program.getFacebook(), program.getPodcast(),
+				programCategoryName, program.getEmail(), program.getTwitter(), program.getFacebook(), program.getPodcast(),
 				program.getWeb(), program.isActive(), program.getDateCreate(), program.getDateDown());
 		return programDTO;
 	}
@@ -182,6 +204,11 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+	public ProgramType findProgramTypeByName(String name) {
+		return programRepository.findProgramTypeByName(name);
+	}
+
+	@Override
 	public List<ProgramThematic> findProgramThematicList() {
 		return programRepository.findProgramThematicList();
 	}
@@ -189,6 +216,11 @@ public class ProgramServiceImpl implements ProgramService {
 	@Override
 	public ProgramThematic findProgramThematicById(int id) {
 		return programRepository.findProgramThematicById(id);
+	}
+
+	@Override
+	public ProgramThematic findProgramThematicByName(String name) {
+		return programRepository.findProgramThematicByName(name);
 	}
 
 	@Override
@@ -202,6 +234,11 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+	public ProgramCategory findProgramCategoryByName(String name) {
+		return programRepository.findProgramCategoryByName(name);
+	}
+
+	@Override
 	public List<ProgramLanguage> findProgramLanguageList() {
 		return programRepository.findProgramLanguageList();
 	}
@@ -209,6 +246,35 @@ public class ProgramServiceImpl implements ProgramService {
 	@Override
 	public ProgramLanguage findProgramLanguageById(int id) {
 		return programRepository.findProgramLanguageById(id);
+	}
+
+	@Override
+	public ProgramLanguage findProgramLanguageByName(String name) {
+		return programRepository.findProgramLanguageByName(name);
+	}
+
+	@Override
+	public String processJson(MultipartFile file) {
+		logger.info("processJson");
+
+		try {
+			byte[] bytes = file.getBytes();
+			FileUtils.createFolderIfNoExist(pathJsonToProgram);
+
+			String[] originalFilename = file.getOriginalFilename().split(".json");
+			Path pathJson = Paths.get(pathJsonToProgram + originalFilename[0] + DisplayDate.dateTimeToStringSp(new Date()) + ".json");
+			Files.write(pathJson, bytes);
+			jsonToProgram.parser(pathJson.toString());
+
+		} catch (Exception e) {
+			logger.error("processJson: ", e);
+			Object[] arguments = {};
+			eventService.save("program.failUpload", null, 2, arguments);
+			return "program.failUpload";
+		}
+		Object[] arguments = { file.getOriginalFilename() };
+		eventService.save("program.successUpload", null, 2, arguments);
+		return "program.successUpload";
 	}
 
 }

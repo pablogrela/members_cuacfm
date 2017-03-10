@@ -79,7 +79,7 @@ public interface PayMemberRepository {
 	 * @return the list
 	 */
 	public List<PayMember> findNoPayListByAccountId(Long accountId);
-	
+
 	/**
 	 * Gets the pay member no pay list by direct debit.
 	 *
@@ -107,7 +107,7 @@ public interface PayMemberRepository {
 	/**
 	 * Gets the name users by fee member with role=ROLE_USER an active=true.
 	 *
-	 * @param trainingId the fee member id
+	 * @param feeMemberId the fee member id
 	 * @return the name users by fee member
 	 */
 	public List<String> getUsernamesByFeeMember(Long feeMemberId);

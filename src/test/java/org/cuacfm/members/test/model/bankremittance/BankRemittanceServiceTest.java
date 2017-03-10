@@ -98,7 +98,7 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 
 		// Create User
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user1", "11111111C", "London", "user11", "user1@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user1", "1", "11111111C", "London", "user11", "user1@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 		accountService.save(account);
 		account.setMethodPayment(methodPayment);
@@ -109,7 +109,7 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 		accountService.update(account, false, true);
 		accounts.add(account);
 
-		Account account2 = new Account("user2", "12222222C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "12222222C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		account2.setMethodPayment(methodPayment);
 		List<BankAccount> bankAccounts2 = new ArrayList<BankAccount>();
@@ -120,11 +120,11 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 		accountService.update(account, false, true);
 		accounts.add(account2);
 
-		Account account3 = new Account("user3", "33333333C", "London", "user3", "user3@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account3 = new Account("user3", "3", "33333333C", "London", "user3", "user3@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account3);
 		accounts.add(account3);
 
-		Account account4 = new Account("user4", "444444444C", "London", "user4", "user4@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account4 = new Account("user4", "4", "444444444C", "London", "user4", "user4@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account4);
 		account4.setMethodPayment(methodPayment2);
 		List<BankAccount> bankAccounts4 = new ArrayList<BankAccount>();
@@ -133,7 +133,7 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 		accountService.update(account4, false, true);
 		accounts.add(account4);
 
-		Account account5 = new Account("user5", "55555555C", "London", "user5", "user5@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account5 = new Account("user5", "5", "55555555C", "London", "user5", "user5@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account5);
 		account5.setMethodPayment(methodPayment);
 		BankAccount bankAccount3 = new BankAccount(account5, "La CAIXA", "BSCHESMMXXX", "ES7620770024003102575766", new Date());
@@ -144,7 +144,7 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 		accountService.update(account5, false, true);
 		accounts.add(account5);
 
-		Account account6 = new Account("user6", "66666666C", "London", "user6", "user6@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account6 = new Account("user6", "6", "66666666C", "London", "user6", "user6@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account6);
 		account6.setMethodPayment(methodPayment);
 		BankAccount bankAccount4 = new BankAccount(account6, "La CAIXA", "BSCHESMMXXX", "ES7620770024003102575766", new Date());

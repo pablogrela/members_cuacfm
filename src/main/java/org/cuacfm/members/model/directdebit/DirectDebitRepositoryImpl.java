@@ -21,8 +21,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 
+	private static final Logger logger = LoggerFactory.getLogger(DirectDebitRepositoryImpl.class);
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -59,6 +64,7 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 			return entityManager.createQuery("select d from DirectDebit d where d.id = :id", DirectDebit.class).setParameter("id", id)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -73,6 +79,7 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 				return "_0";
 			}
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return "_0";
 		}
 	}
@@ -119,6 +126,7 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 			return entityManager.createQuery("select d from DirectDebit d where d.account.id = :accountId and d.state = :state", DirectDebit.class)
 					.setParameter("accountId", accountId).setParameter("state", states.NO_PAY).getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}
@@ -146,6 +154,7 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 			return entityManager.createQuery("select d from DirectDebit d where d.idTxn = :idTxn", DirectDebit.class).setParameter("idTxn", idTxn)
 					.getSingleResult();
 		} catch (NoResultException e) {
+			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
 		}
 	}

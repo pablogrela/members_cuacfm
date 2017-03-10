@@ -28,159 +28,85 @@ import javax.persistence.Id;
 @Entity
 public class FeeProgram implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	/** The id. */
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String name;
+	private Double price;
 
-   /** The name. */
-   private String name;
+	@Column(unique = true)
+	private Date date;
+	private Date dateLimit;
+	private String description;
 
-   /** The duration. */
-   private Double price;
+	/**
+	 * Instantiates a new pay inscription.
+	 */
+	public FeeProgram() {
+		// Default empty constructor.
+	}
 
-   /** The date. */
-   @Column(unique = true)
-   private Date date;
+	/**
+	 * Instantiates a new pay inscription.
+	 *
+	 * @param name the name
+	 * @param price the price
+	 * @param date the date
+	 * @param dateLimit the date limit
+	 * @param description the description
+	 */
+	public FeeProgram(String name, Double price, Date date, Date dateLimit, String description) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.date = date;
+		this.dateLimit = dateLimit;
+		this.description = description;
+	}
 
-   /** The dateLimit. */
-   private Date dateLimit;
+	public Long getId() {
+		return id;
+	}
 
-   /** The description. */
-   private String description;
+	public String getName() {
+		return name;
+	}
 
-   /**
-    * Instantiates a new pay inscription.
-    */
-   public FeeProgram() {
-      // Default empty constructor.
-   }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /**
-    * Instantiates a new pay inscription.
-    *
-    * @param name
-    *           the name
-    * @param price
-    *           the price
-    * @param date
-    *           the date
-    * @param dateLimit
-    *           the date limit
-    * @param description
-    *           the description
-    */
-   public FeeProgram(String name, Double price, Date date, Date dateLimit, String description) {
-      super();
-      this.name = name;
-      this.price = price;
-      this.date = date;
-      this.dateLimit = dateLimit;
-      this.description = description;
-   }
+	public Double getPrice() {
+		return price;
+	}
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
-   /**
-    * Gets the name.
-    *
-    * @return the name
-    */
-   public String getName() {
-      return name;
-   }
+	public Date getDate() {
+		return date;
+	}
 
-   /**
-    * Sets the name.
-    *
-    * @param name
-    *           the new name
-    */
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
-   /**
-    * Gets the price.
-    *
-    * @return the price
-    */
-   public Double getPrice() {
-      return price;
-   }
+	public Date getDateLimit() {
+		return dateLimit;
+	}
 
-   /**
-    * Sets the price.
-    *
-    * @param price
-    *           the new price
-    */
-   public void setPrice(Double price) {
-      this.price = price;
-   }
+	public void setDateLimit(Date dateLimit) {
+		this.dateLimit = dateLimit;
+	}
 
-   /**
-    * Gets the date.
-    *
-    * @return the date
-    */
-   public Date getDate() {
-      return date;
-   }
+	public String getDescription() {
+		return description;
+	}
 
-   /**
-    * Sets the date.
-    *
-    * @param date
-    *           the new date
-    */
-   public void setDate(Date date) {
-      this.date = date;
-   }
-
-   /**
-    * Gets the date limit.
-    *
-    * @return the date limit
-    */
-   public Date getDateLimit() {
-      return dateLimit;
-   }
-
-   /**
-    * Sets the date limit.
-    *
-    * @param dateLimit
-    *           the new date limit
-    */
-   public void setDateLimit(Date dateLimit) {
-      this.dateLimit = dateLimit;
-   }
-
-   /**
-    * Gets the description.
-    *
-    * @return the description
-    */
-   public String getDescription() {
-      return description;
-   }
-
-   /**
-    * Sets the description.
-    *
-    * @param description
-    *           the new description
-    */
-   public void setDescription(String description) {
-      this.description = description;
-   }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

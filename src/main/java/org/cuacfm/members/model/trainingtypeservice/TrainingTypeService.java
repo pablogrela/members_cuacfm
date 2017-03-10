@@ -25,65 +25,61 @@ import org.cuacfm.members.model.trainingtype.TrainingType;
 /** The Class TrainingTypeService. */
 public interface TrainingTypeService {
 
-   /**
-    * Save an training into database.
-    *
-    * @param trainingType
-    *           the training
-    * @return TrainingType
-    * @throws UniqueException
-    */
-   public TrainingType save(TrainingType trainingType) throws UniqueException;
+	/**
+	 * Save an training into database.
+	 *
+	 * @param trainingType the training
+	 * @return TrainingType
+	 * @throws UniqueException the unique exception
+	 */
+	public TrainingType save(TrainingType trainingType) throws UniqueException;
 
-   /**
-    * Update TrainingType
-    *
-    * @param trainingType
-    *           the trainingType
-    * @return TrainingType
-    * @throws UniqueException
-    */
-   public TrainingType update(TrainingType trainingType) throws UniqueException;
+	/**
+	 * Update TrainingType.
+	 *
+	 * @param trainingType the trainingType
+	 * @return TrainingType
+	 * @throws UniqueException the unique exception
+	 */
+	public TrainingType update(TrainingType trainingType) throws UniqueException;
 
-   /**
-    * Delete.
-    *
-    * @param trainingType
-    *           the trainingType
-    * @return TrainingType
-    * @throws ExistTrainingsException
-    */
-   public void delete(TrainingType trainingType) throws ExistTrainingsException;
+	/**
+	 * Delete.
+	 *
+	 * @param trainingType the trainingType
+	 * @return TrainingType
+	 * @throws ExistTrainingsException the exist trainings exception
+	 */
+	public void delete(TrainingType trainingType) throws ExistTrainingsException;
 
-   /**
-    * Find by Name the trainingType
-    *
-    * @param id
-    *           the id
-    * @return TrainingType
-    */
-   public TrainingType findByName(String name);
+	/**
+	 * Find by Name the trainingType.
+	 *
+	 * @param name the name
+	 * @return TrainingType
+	 */
+	public TrainingType findByName(String name);
 
-   /**
-    * Find by id returns trainingType which has this identifier.
-    *
-    * @param id
-    *           the id
-    * @return trainingType
-    */
-   public TrainingType findById(Long id);
+	/**
+	 * Find by id returns trainingType which has this identifier.
+	 *
+	 * @param id the id
+	 * @return trainingType
+	 */
+	public TrainingType findById(Long id);
 
-   /**
-    * Get all trainingTypes.
-    *
-    * @return List<TrainingType>
-    */
-   public List<TrainingType> getTrainingTypeList();
+	/**
+	 * Get all trainingTypes.
+	 *
+	 * @return List<TrainingType>
+	 */
+	public List<TrainingType> getTrainingTypeList();
 
-   /**
-    * Get all trainings by trainingTypeId.
-    *
-    * @return List<Training>
-    */
-   public List<Training> getTrainingListByTrainingTypeId(Long trainingTypeId);
+	/**
+	 * Get all trainings by trainingTypeId.
+	 *
+	 * @param trainingTypeId the training type id
+	 * @return List<Training>
+	 */
+	public List<Training> getTrainingListByTrainingTypeId(Long trainingTypeId);
 }

@@ -21,13 +21,13 @@
 <title th:text="#{signin.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
-<!-- <body onload="authenticationValidate()"> -->
 <body>
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header">&nbsp;</div>
 
 	<!-- th:action="@{/authenticate} -->
+	<!-- @{/authenticate}, mandar atributos -->
 	<form class="form-narrow form-horizontal ws-validate" id="signinForm" method="post" th:action="@{/signin}">
 
 
@@ -66,15 +66,16 @@
 			<!-- Button Restore password -->
 			<div th:if="${message != null} and ${#strings.toLowerCase(message.type)} == 'danger'" class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<a th:href="@{/restorePassword}" th:text="#{signin.password}" th:title="#{signin.infoRestorePassword}"> Restore password</a>
+					<a th:href="@{/signin/restorePassword}" th:text="#{signin.rememberPassword}" th:title="#{signin.infoRestorePassword}"> Restore password</a>
 				</div>
 			</div>
 			
 			<!-- Password -->
-			<div class="form-group">
+			<div class="form-group ws-validate">
 				<label for="password" class="col-lg-2 control-label" th:text="#{password}">Password</label>
 				<div class="col-lg-10">
-					<input type="password" class="form-control" id="password" th:placeholder="#{password}" name="password" />
+					<input type="password" class="form-control" id="password" th:placeholder="#{password}" minlength="6" maxlength="20" required="required" />
+					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
@@ -93,11 +94,7 @@
 			<!-- Button SignIn -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<!-- With firebase -->
 					<button type="submit" class="btn btn-default" th:text="#{signin}" id="acceptSignin">Sign In</button>
-					<!-- Without firebase -->
-<!-- 					<button type="button" class="btn btn-default" th:text="#{signin}" id="acceptSignin" onClick="signin(this.form, 'email', 'password')" th:title="#{signin.infoEmail}">Sign -->
-<!-- 						In</button> -->
 					<button type="button" class="btn btn-danger" th:text="#{signin.google}" id="acceptSignin" onClick="signinGooglePopup(this.form, 'email', 'password')" th:title="#{signin.infoGoogle}">Sign
 						In</button>
 				</div>
@@ -110,8 +107,6 @@
 					<a th:href="@{/signup}" th:text="#{signup}">Sign Up</a>
 				</div>
 			</div>
-
-
 
 		</fieldset>
 	</form>

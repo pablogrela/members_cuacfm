@@ -99,7 +99,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	@Ignore
 	// Falla el validar el recaptcha
 	public void dniAlreadyExists() throws Exception {
-		Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account demoUser = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountServiceMock.save(demoUser);
 
 		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "55555555C").param("address", "London")
@@ -119,7 +119,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	@Ignore
 	// Falla el validar el recaptcha
 	public void emailAlreadyExists() throws Exception {
-		Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account demoUser = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountServiceMock.save(demoUser);
 
 		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111F").param("address", "London")
@@ -163,7 +163,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	@Ignore
 	// Falla el validar el recaptcha
 	public void loginAlreadyExist() throws Exception {
-		Account demoUser = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account demoUser = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 
 		accountServiceMock.save(demoUser);
 		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111F").param("address", "London")

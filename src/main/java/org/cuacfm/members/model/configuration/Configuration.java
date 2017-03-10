@@ -24,182 +24,97 @@ import javax.persistence.Id;
 @Entity
 public class Configuration implements java.io.Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String name;
+	private String email;
+	private int phone;
+	private Double feeMember;
+	private Double feeProgram;
+	private String descriptionRule;
 
-   /** The name. */
-   private String name;
+	/** Instantiates a new account type. */
+	protected Configuration() {
+		// Default empty constructor.
+	}
 
-   /** The Email. */
-   private String email;
+	/**
+	 * Instantiates a new configuration.
+	 *
+	 * @param name the name
+	 * @param email the email
+	 * @param phone the phone
+	 * @param feeMember the fee member
+	 * @param feeProgram the fee program
+	 * @param descriptionRule the description rul
+	 */
+	public Configuration(String name, String email, int phone, Double feeMember, Double feeProgram, String descriptionRule) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.feeMember = feeMember;
+		this.feeProgram = feeProgram;
+		this.descriptionRule = descriptionRule;
+	}
 
-   /** The phone. */
-   private int phone;
+	public Long getId() {
+		return id;
+	}
 
-   /** The fee member. */
-   private Double feeMember;
+	public String getName() {
+		return name;
+	}
 
-   /** The fee program. */
-   private Double feeProgram;
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /** The description. */
-   private String descriptionRule;
+	public String getEmail() {
+		return email;
+	}
 
-   /** Instantiates a new account type. */
-   protected Configuration() {
-      // Default empty constructor.
-   }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-   /**
-    * Instantiates a new configuration.
-    *
-    * @param name
-    *           the name
-    * @param email
-    *           the email
-    * @param phone
-    *           the phone
-    * @param feeMember
-    *           the fee member
-    * @param feeProgram
-    *           the fee program
-    * @param descriptionRule
-    *           the description rul
-    */
-   public Configuration(String name, String email, int phone, Double feeMember, Double feeProgram,
-         String descriptionRule) {
-      super();
-      this.name = name;
-      this.email = email;
-      this.phone = phone;
-      this.feeMember = feeMember;
-      this.feeProgram = feeProgram;
-      this.descriptionRule = descriptionRule;
-   }
+	public int getPhone() {
+		return phone;
+	}
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
 
-   /**
-    * Gets the name.
-    *
-    * @return the name
-    */
-   public String getName() {
-      return name;
-   }
+	public Double getFeeMember() {
+		return feeMember;
+	}
 
-   /**
-    * Sets the name.
-    *
-    * @param name
-    *           the new name
-    */
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setFeeMember(Double feeMember) {
+		this.feeMember = feeMember;
+	}
 
-   /**
-    * Gets the email.
-    *
-    * @return the email
-    */
-   public String getEmail() {
-      return email;
-   }
+	public Double getFeeProgram() {
+		return feeProgram;
+	}
 
-   /**
-    * Sets the email.
-    *
-    * @param email
-    *           the new email
-    */
-   public void setEmail(String email) {
-      this.email = email;
-   }
+	public void setFeeProgram(Double feeProgram) {
+		this.feeProgram = feeProgram;
+	}
 
-   /**
-    * Gets the phone.
-    *
-    * @return the phone
-    */
-   public int getPhone() {
-      return phone;
-   }
+	public String getDescriptionRule() {
+		return descriptionRule;
+	}
 
-   /**
-    * Sets the phone.
-    *
-    * @param phone
-    *           the new phone
-    */
-   public void setPhone(int phone) {
-      this.phone = phone;
-   }
+	public void setDescriptionRule(String descriptionRule) {
+		this.descriptionRule = descriptionRule;
+	}
 
-   /**
-    * Gets the fee member.
-    *
-    * @return the fee member
-    */
-   public Double getFeeMember() {
-      return feeMember;
-   }
-
-   /**
-    * Sets the fee member.
-    *
-    * @param feeMember
-    *           the new fee member
-    */
-   public void setFeeMember(Double feeMember) {
-      this.feeMember = feeMember;
-   }
-
-   /**
-    * Gets the fee program.
-    *
-    * @return the fee program
-    */
-   public Double getFeeProgram() {
-      return feeProgram;
-   }
-
-   /**
-    * Sets the fee program.
-    *
-    * @param feeProgram
-    *           the new fee program
-    */
-   public void setFeeProgram(Double feeProgram) {
-      this.feeProgram = feeProgram;
-   }
-
-   /**
-    * Gets the description rule.
-    *
-    * @return the description rule
-    */
-   public String getDescriptionRule() {
-      return descriptionRule;
-   }
-
-   /**
-    * Sets the description rule.
-    *
-    * @param descriptionRule
-    *           the new description rule
-    */
-   public void setDescriptionRule(String descriptionRule) {
-      this.descriptionRule = descriptionRule;
-   }
+	@Override
+	public String toString() {
+		return "Configuration [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", feeMember=" + feeMember + ", feeProgram="
+				+ feeProgram + ", descriptionRule=" + descriptionRule + "]";
+	}
 
 }

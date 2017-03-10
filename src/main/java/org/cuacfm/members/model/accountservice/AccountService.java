@@ -21,6 +21,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.exceptions.UniqueListException;
+import org.springframework.web.multipart.MultipartFile;
 
 /** The Class AccountService. */
 public interface AccountService {
@@ -51,6 +52,14 @@ public interface AccountService {
 	 * @param account the account
 	 */
 	public void delete(Account account);
+
+	/**
+	 * Removes the token.
+	 *
+	 * @param account the account
+	 * @return the account
+	 */
+	public void removeToken(Account account);
 
 	/**
 	 * Subscribe Account.
@@ -187,4 +196,12 @@ public interface AccountService {
 	 * @return the bank account
 	 */
 	public BankAccount activeBankAccountByAccountId(Long accountId);
+
+	/**
+	 * Process json.
+	 *
+	 * @param file the file
+	 * @return the string
+	 */
+	public String processJson(MultipartFile file);
 }

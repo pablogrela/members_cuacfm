@@ -33,63 +33,53 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class MethodPaymentCreateController {
 
-   /** The Constant METHODPAYMENT_VIEW_NAME. */
-   private static final String METHODPAYMENT_VIEW_NAME = "configuration/methodpaymentcreate";
+	private static final String METHODPAYMENT_VIEW_NAME = "configuration/methodpaymentcreate";
 
-   /** The methodPaymentService. */
-   @Autowired
-   private MethodPaymentService methodPaymentService;
+	@Autowired
+	private MethodPaymentService methodPaymentService;
 
-   /**
-    * Instantiates a new methodPayment Controller.
-    */
-   public MethodPaymentCreateController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Instantiates a new methodPayment Controller.
+	 */
+	public MethodPaymentCreateController() {
+		super();
+	}
 
-   /**
-    * Get page methodPaymentCreate.
-    *
-    * @param model
-    *           the model
-    * @return String to view to methodPaymentCreate
-    */
-   @RequestMapping(value = "configuration/methodPaymentCreate")
-   public String methodPayment(Model model) {
-      model.addAttribute(new MethodPaymentForm());
-      return METHODPAYMENT_VIEW_NAME;
-   }
+	/**
+	 * Get page methodPaymentCreate.
+	 *
+	 * @param model the model
+	 * @return String to view to methodPaymentCreate
+	 */
+	@RequestMapping(value = "configuration/methodPaymentCreate")
+	public String methodPayment(Model model) {
+		model.addAttribute(new MethodPaymentForm());
+		return METHODPAYMENT_VIEW_NAME;
+	}
 
-   /**
-    * Post to create a new methodPayment.
-    *
-    * @param methodPaymentForm
-    *           the methodPayment form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @return String to redirect to configuration or if fault
-    *         methodPaymentCreate
-    * 
-    */
-   @RequestMapping(value = "configuration/methodPaymentCreate", method = RequestMethod.POST)
-   public String methodPaymentCreate(@Valid @ModelAttribute MethodPaymentForm methodPaymentForm,
-         Errors errors, RedirectAttributes ra) {
+	/**
+	 * Post to create a new methodPayment.
+	 *
+	 * @param methodPaymentForm the methodPayment form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @return String to redirect to configuration or if fault methodPaymentCreate
+	 * 
+	 */
+	@RequestMapping(value = "configuration/methodPaymentCreate", method = RequestMethod.POST)
+	public String methodPaymentCreate(@Valid @ModelAttribute MethodPaymentForm methodPaymentForm, Errors errors, RedirectAttributes ra) {
 
-      if (errors.hasErrors()) {
-         return METHODPAYMENT_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return METHODPAYMENT_VIEW_NAME;
+		}
 
-      try {
-         methodPaymentService.save(methodPaymentForm.createMethodPayment());
-      } catch (UniqueException e) {
-         errors.rejectValue("name", "methodPayment.existentName", new Object[] { e.getValue() },
-               "name");
-         return METHODPAYMENT_VIEW_NAME;
-      }
-      MessageHelper.addSuccessAttribute(ra, "methodPayment.successCreate",
-            methodPaymentForm.getName());
-      return "redirect:/configuration";
-   }
+		try {
+			methodPaymentService.save(methodPaymentForm.createMethodPayment());
+		} catch (UniqueException e) {
+			errors.rejectValue("name", "methodPayment.existentName", new Object[] { e.getValue() }, "name");
+			return METHODPAYMENT_VIEW_NAME;
+		}
+		MessageHelper.addSuccessAttribute(ra, "methodPayment.successCreate", methodPaymentForm.getName());
+		return "redirect:/configuration";
+	}
 }

@@ -45,7 +45,7 @@ public class TrainingTypeListController {
 	 * Instantiates a new training Controller.
 	 */
 	public TrainingTypeListController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -76,8 +76,7 @@ public class TrainingTypeListController {
 	/**
 	 * Delete TrainingType by Id.
 	 *
-	 * @param @PathVariable Long id
-	 * 
+	 * @param id the id
 	 * @param ra the redirect atributes
 	 * @return the string destinity page
 	 */

@@ -19,10 +19,10 @@ package org.cuacfm.members.model.exceptions;
 @SuppressWarnings("serial")
 public class ExistInscriptionsException extends Exception {
 
-   /**
-    * Instantiates a new exist inscriptions exception.
-    */
-   public ExistInscriptionsException() {
-      super("Exist Inscriptions in this training.");
-   }
+	/**
+	 * Instantiates a new exist inscriptions exception.
+	 */
+	public ExistInscriptionsException() {
+		super("Exist Inscriptions in this training.");
+	}
 }

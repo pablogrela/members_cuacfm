@@ -45,7 +45,7 @@ public class Event implements Serializable {
 
 	@JsonIgnore
 	@PrimaryKeyJoinColumn
-	@JsonManagedReference 
+	@JsonManagedReference
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "accountId")
 	private Account account;

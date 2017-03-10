@@ -36,7 +36,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
  */
 @Configuration
 @ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({ Controller.class, Configuration.class }))
-class ApplicationConfig {
+public class ApplicationConfig {
 
 	private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
 

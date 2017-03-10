@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
@@ -28,7 +27,6 @@ import org.cuacfm.members.model.directdebit.DirectDebit;
 import org.cuacfm.members.model.directdebit.ReturnReason;
 import org.cuacfm.members.model.directdebit.ReturnReasonRepository;
 import org.cuacfm.members.model.directdebitservice.DirectDebitService;
-import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.sepa.customerpaymentstatusreport.Document;
@@ -54,8 +52,7 @@ public class ReturnBankRemittanceSEPAXML {
 	 * Constructor de clase.
 	 *
 	 * @param nameFile the name file
-	 * @throws JAXBException the JAXB exception
-	 * @throws ExistTransactionIdException
+	 * @throws Exception the exception
 	 */
 	public void load(String nameFile) throws Exception {
 
@@ -69,7 +66,7 @@ public class ReturnBankRemittanceSEPAXML {
 	 * Escribe las domiciliaciones y clientes a los que representa en el fichero con path nombreFichero en el formato especificado por el CSB19.
 	 *
 	 * @param document the document
-	 * @throws ExistTransactionIdException
+	 * @throws Exception the exception
 	 */
 	private void parse(Document document) throws Exception {
 

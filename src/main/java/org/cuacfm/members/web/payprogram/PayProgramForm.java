@@ -30,9 +30,6 @@ import org.cuacfm.members.web.support.DisplayDate;
 /** The Class PayProgramForm. */
 public class PayProgramForm {
 
-	/** The Constant MAX_CHARACTERS. */
-	private static final String MAX_CHARACTERS = "{max.characters}";
-
 	/** The price. */
 	@Digits(fraction = 2, integer = 2)
 	@DecimalMin("0.00")
@@ -51,32 +48,32 @@ public class PayProgramForm {
 	private List<methods> methodList;
 
 	/** The account Payer. */
-	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String accountPayer;
 
 	/** The id payer. */
-	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String idPayer;
 
 	/** The id txn. */
-	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String idTxn;
 
 	/** The email payer. */
-	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String emailPayer;
 
 	/** The status pay. */
-	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String statusPay;
 
 	/** The date pay. */
-	@Size(max = 50, message = PayProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String datePay;
 
 	/** Instantiates a new user pay inscription form. */
 	public PayProgramForm() {
-		// Default empty constructor.
+		super();
 	}
 
 	public Double getPrice() {

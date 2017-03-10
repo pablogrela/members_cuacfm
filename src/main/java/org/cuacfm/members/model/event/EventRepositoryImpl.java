@@ -21,6 +21,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.cuacfm.members.model.bankremittance.BankRemittanceRepositoryImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class EventRepositoryImpl implements EventRepository {
 
+	private static final Logger logger = LoggerFactory.getLogger(BankRemittanceRepositoryImpl.class);
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -52,6 +57,7 @@ public class EventRepositoryImpl implements EventRepository {
 		try {
 			return entityManager.createQuery("select e from Event e where e.id = :id", Event.class).setParameter("id", id).getSingleResult();
 		} catch (NoResultException e) {
+			logger.info("NoResult" + e.getMessage());
 			return null;
 		}
 	}
@@ -64,14 +70,16 @@ public class EventRepositoryImpl implements EventRepository {
 
 	@Override
 	public List<Event> findAllOpen() {
-		return entityManager.createQuery("select e from Event e where e.priority!=0 order by e.priority, e.dateEvent desc", Event.class).getResultList();
+		return entityManager.createQuery("select e from Event e where e.priority!=0 order by e.priority, e.dateEvent desc", Event.class)
+				.getResultList();
 	}
-	
+
 	@Override
 	public List<Event> findAllClose() {
-		return entityManager.createQuery("select e from Event e where e.priority=0 order by e.priority, e.dateEvent desc", Event.class).getResultList();
+		return entityManager.createQuery("select e from Event e where e.priority=0 order by e.priority, e.dateEvent desc", Event.class)
+				.getResultList();
 	}
-	
+
 	@Override
 	public List<Event> findAll() {
 		return entityManager.createQuery("select e from Event e order by e.priority, e.dateEvent desc", Event.class).getResultList();

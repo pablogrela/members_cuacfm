@@ -56,6 +56,15 @@
 				</div>
 			</div>
 
+			<!-- Surname -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('surname')}? 'has-error'">
+				<label for="surname" class="col-lg-2 control-label" th:text="#{surname}">surname</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" id="surname" th:placeholder="#{surname}" th:field="*{surname}" maxlength="50" />
+					<span class="help-block ws-errorbox" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Incorrect surname</span>
+					<div class="ws-errorbox" hidden=""></div>
+				</div>
+			</div>
 
 			<!-- Dni, se pone otro form para las validaciones del dni -->
 			<div class="form-group has-feedback" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">

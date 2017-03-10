@@ -99,7 +99,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
+		Account admin = new Account("admin", "", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
 		defaultSession = getDefaultSession("admin@udc.es");
 
@@ -108,7 +108,8 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 
 		// Create User
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user1", "11111111C", "London", "user11", "user1@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user1", "1", "11111111C", "London", "user11", "user1@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account);
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 		BankAccount bankAccount = new BankAccount(account, "Banco", "BSCHESMMXXX", "ES7620770024003102575766", new Date());
@@ -119,7 +120,8 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		accountService.update(account, false, true);
 		accounts.add(account);
 
-		Account account2 = new Account("user2", "12222222C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "12222222C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		account2.setMethodPayment(methodPayment);
 		List<BankAccount> bankAccounts2 = new ArrayList<BankAccount>();
@@ -130,7 +132,8 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		accountService.update(account2, false, true);
 		accounts.add(account2);
 
-		Account account3 = new Account("user3", "33333333C", "London", "user3", "user3@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account3 = new Account("user3", "3", "33333333C", "London", "user3", "user3@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account3);
 
 		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
@@ -138,16 +141,16 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		feeMemberService.save(feeMember);
 
 		Program program = new Program("Program", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
-				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1),
-				"", "", "", "", "");
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "",
+				"", "", "", "");
 		programService.save(program);
 		programService.up(program);
 		program.setAccountPayer(account);
 		programService.update(program);
 
-		Program program2 = new Program("Program2", "Very interesting", Float.valueOf(1), 9, new ArrayList<Account>(), account, programService.findProgramTypeById(1),
-				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1),
-				"", "", "", "", "");
+		Program program2 = new Program("Program2", "Very interesting", Float.valueOf(1), 9, new ArrayList<Account>(), account,
+				programService.findProgramTypeById(1), programService.findProgramThematicById(1), programService.findProgramCategoryById(1),
+				programService.findProgramLanguageById(1), "", "", "", "", "");
 		programService.save(program2);
 		programService.up(program2);
 		program2.setAccountPayer(account2);
@@ -156,8 +159,8 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		List<Account> accounts2 = new ArrayList<Account>();
 		accounts2.add(account3);
 		Program program3 = new Program("Program3", "Very interesting", Float.valueOf(1), 9, accounts2, account, programService.findProgramTypeById(1),
-				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1),
-				"", "", "", "", "");
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "",
+				"", "", "", "");
 		programService.save(program3);
 		programService.up(program3);
 		program3.setAccountPayer(account2);
@@ -182,6 +185,11 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		mockMvc.perform(get("/bankremittance/directDebitList")).andExpect(redirectedUrl("http://localhost/signin"));
 	}
 
+	/**
+	 * Displays bank remittance because bank remittance is null test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void displaysBankRemittanceBecauseBankRemittanceIsNullTest() throws Exception {
 
@@ -189,6 +197,11 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 				.andExpect(view().name("bankremittance/bankremittancelist"));
 	}
 
+	/**
+	 * Displays direct debit test.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test
 	public void displaysDirectDebitTest() throws Exception {
 
@@ -227,7 +240,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
 
 		mockMvc.perform(post("/directDebitList/returnBill/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
-				//.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));
+		//.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));
 		assertTrue(directDebit.getState().equals(states.RETURN_BILL));
 
 		Date date = DisplayDate.stringToMonthOfYear("2015-04");
@@ -239,7 +252,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		DirectDebit directDebit2 = directDebitService.findAllByBankRemittanceId(bankRemittance2.getId()).get(0);
 
 		mockMvc.perform(post("/directDebitList/returnBill/" + directDebit2.getId()).locale(Locale.ENGLISH).session(defaultSession));
-				//.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));
+		//.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));
 		assertTrue(directDebit.getState().equals(states.RETURN_BILL));
 	}
 }

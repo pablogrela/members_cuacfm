@@ -83,6 +83,7 @@ CREATE TABLE AccountType (
 CREATE TABLE Account(
     id INT NOT NULL auto_increment, 
     name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50),
     nickName VARCHAR(50),
     dni VARCHAR(10) NOT NULL,
     address VARCHAR(50) NOT NULL,
@@ -108,6 +109,7 @@ CREATE TABLE Account(
     role VARCHAR(20) NOT NULL,
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateDown TIMESTAMP NULL,
+    token VARCHAR(500),
     -- bankAccountId INT,
     -- activeBankAccount INT,
     CONSTRAINT AccountId_PK PRIMARY KEY (id),

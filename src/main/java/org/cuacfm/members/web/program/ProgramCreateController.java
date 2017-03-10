@@ -57,7 +57,7 @@ public class ProgramCreateController {
 	 * Instantiates a new programController.
 	 */
 	public ProgramCreateController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

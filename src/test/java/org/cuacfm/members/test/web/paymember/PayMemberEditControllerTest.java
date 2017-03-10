@@ -104,7 +104,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
 		methodPayment = new MethodPayment("cash", false, "cash");
 		methodPaymentService.save(methodPayment);
 
-		Account admin = new Account("admin", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
+		Account admin = new Account("admin", "", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
 		admin.setAccountType(accountType);
 		admin.setMethodPayment(methodPayment);
@@ -113,14 +113,14 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
 		defaultSession = getDefaultSession("admin@udc.es");
 
 		// Create User
-		user = new Account("user", "55555555C", "London", "user", "email1@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		user = new Account("user", "1", "55555555C", "London", "user", "email1@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
 		user.setInstallments(1);
 		accountService.update(user, false, true);
 
-		Account account = new Account("user2", "255555555C", "London", "user2", "email2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user2", "2", "255555555C", "London", "user2", "email2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		// Create Payment

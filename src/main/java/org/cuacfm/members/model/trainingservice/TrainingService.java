@@ -122,8 +122,8 @@ public interface TrainingService {
 	/**
 	 * Unsubscribe Inscription.
 	 *
-	 * @param accountId the account id
-	 * @param trainingId the training id
+	 * @param account the account
+	 * @param training the training
 	 * @return the inscription
 	 * @throws UnsubscribeException the unsubscribe exception
 	 */

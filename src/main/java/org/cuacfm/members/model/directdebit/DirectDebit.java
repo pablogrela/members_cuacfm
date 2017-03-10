@@ -98,7 +98,7 @@ public class DirectDebit implements Serializable {
 
 	/** Instantiates a direct debit. */
 	protected DirectDebit() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -114,30 +114,6 @@ public class DirectDebit implements Serializable {
 		this.state = states.NO_PAY;
 		this.id = id;
 	}
-
-	/**
-	 * Instantiates a new direct debit.
-	 *
-	 * @param account the account
-	 * @param bankRemittance the bank remittance
-	 * @param payMembers the pay members
-	 * @param payPrograms the pay programs
-	 * @param price the price
-	 * @param concept the concept
-	 * @param mandate the mandate
-	 * @param secuence the secuence
-	 */
-	//	public DirectDebit(Account account, BankRemittance bankRemittance, List<PayMember> payMembers, List<PayProgram> payPrograms, Double price,
-	//			String concept, String mandate, String secuence) {
-	//		super();
-	//		this.account = account;
-	//		this.bankRemittance = bankRemittance;
-	//		this.payMembers = payMembers;
-	//		this.payPrograms = payPrograms;
-	//		this.mandate = mandate;
-	//		this.secuence = secuence;
-	//		this.state = states.NO_PAY;
-	//	}
 
 	public String getId() {
 		return id;
@@ -297,41 +273,4 @@ public class DirectDebit implements Serializable {
 				+ state + ", method=" + method + ", returnReason=" + returnReason + ", secuence=" + secuence + ", idPayer=" + idPayer + ", idTxn="
 				+ idTxn + ", emailPayer=" + emailPayer + "]";
 	}
-
-	/**
-	 * Adds the pay member.
-	 *
-	 * @param payMember the pay member
-	 */
-	//	public void addPayMember(PayMember payMember) {
-	//		if (payMember == null) {
-	//			return;
-	//		}
-	//		if (this.payMembers == null) {
-	//			this.payMembers = new ArrayList<PayMember>();
-	//		}
-	//		this.payMembers.add(payMember);
-	//		//	this.price = price + payMember.getPrice();
-	//		//	this.concept = concept + "\n" + payMember.getFeeMember().getDescription();
-	//		this.dateUpdate = new Date();
-	//	}
-
-	/**
-	 * Adds the pay program.
-	 *
-	 * @param payProgram the pay program
-	 */
-	//	public void addPayProgram(PayProgram payProgram) {
-	//		if (payProgram == null) {
-	//			return;
-	//		}
-	//		if (this.payPrograms == null) {
-	//			this.payPrograms = new ArrayList<PayProgram>();
-	//		}
-	//		this.payPrograms.add(payProgram);
-	//		//	this.price = price + payProgram.getPrice();
-	//		//	this.concept = concept + "\n" + payProgram.getFeeProgram().getDescription();
-	//		this.dateUpdate = new Date();
-	//	}
-
 }

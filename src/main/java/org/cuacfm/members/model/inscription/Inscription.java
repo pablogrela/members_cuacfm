@@ -32,154 +32,90 @@ import org.cuacfm.members.model.training.Training;
 @Entity
 public class Inscription implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-   /** The account. */
-   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-   @JoinColumn(name = "accountId")
-   private Account account;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "accountId")
+	private Account account;
 
-   /** The training. */
-   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-   @JoinColumn(name = "trainingId")
-   private Training training;
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(name = "trainingId")
+	private Training training;
 
-   /** The attend. */
-   private boolean attend;
+	private boolean attend;
+	private String note;
+	private boolean pass;
+	private boolean unsubscribe;
 
-   /** The note. */
-   private String note;
+	/**
+	 * Instantiates a new inscription.
+	 */
+	public Inscription() {
+		super();
+	}
 
-   /** The pass. */
-   private boolean pass;
+	/**
+	 * Instantiates a new inscription.
+	 *
+	 * @param account the account
+	 * @param training the training
+	 */
+	public Inscription(Account account, Training training) {
+		super();
+		this.account = account;
+		this.training = training;
+	}
 
-   /** The unsubscribe. */
-   private boolean unsubscribe;
+	public Long getId() {
+		return id;
+	}
 
-   /**
-    * Instantiates a new inscription.
-    */
-   public Inscription() {
-      // Default empty constructor.
-   }
+	public Account getAccount() {
+		return account;
+	}
 
-   /**
-    * Instantiates a new training.
-    *
-    * @param account
-    *           Account
-    * @param training
-    *           Training
-    */
-   public Inscription(Account account, Training training) {
-      super();
-      this.account = account;
-      this.training = training;
-   }
+	public Training getTraining() {
+		return training;
+	}
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	public boolean isAttend() {
+		return attend;
+	}
 
-   /**
-    * Get the Account.
-    *
-    * @return Account, account of Inscription
-    */
-   public Account getAccount() {
-      return account;
-   }
+	public void setAttend(boolean attend) {
+		this.attend = attend;
+	}
 
-   /**
-    * Get the Account.
-    *
-    * @return training, training of Inscription
-    */
-   public Training getTraining() {
-      return training;
-   }
+	public String getNote() {
+		return note;
+	}
 
-   /**
-    * Get the Attend.
-    *
-    * @return boolean isAttend
-    */
-   public boolean isAttend() {
-      return attend;
-   }
+	public void setNote(String note) {
+		this.note = note;
+	}
 
-   /**
-    * Set the attend.
-    *
-    * @param attend
-    *           boolean
-    */
-   public void setAttend(boolean attend) {
-      this.attend = attend;
-   }
+	public boolean isPass() {
+		return pass;
+	}
 
-   /**
-    * Set the note.
-    *
-    * @return String, the new note
-    */
-   public String getNote() {
-      return note;
-   }
+	public void setPass(boolean pass) {
+		this.pass = pass;
+	}
 
-   /**
-    * Set the note.
-    *
-    * @param note
-    *           String
-    */
-   public void setNote(String note) {
-      this.note = note;
-   }
+	public boolean isUnsubscribe() {
+		return unsubscribe;
+	}
 
-   /**
-    * Get the pass.
-    *
-    * @return boolean isPass
-    */
-   public boolean isPass() {
-      return pass;
-   }
+	public void setUnsubscribe(boolean unsubscribe) {
+		this.unsubscribe = unsubscribe;
+	}
 
-   /**
-    * Set the pass.
-    *
-    * @param pass
-    *           boolean
-    */
-   public void setPass(boolean pass) {
-      this.pass = pass;
-   }
+	@Override
+	public String toString() {
+		return "Inscription [id=" + id + ", account=" + account + ", training=" + training + ", attend=" + attend + ", note=" + note + ", pass="
+				+ pass + ", unsubscribe=" + unsubscribe + "]";
+	}
 
-   /**
-    * Get the Unsubscribe.
-    *
-    * @return boolean isUnsubscribe
-    */
-   public boolean isUnsubscribe() {
-      return unsubscribe;
-   }
-
-   /**
-    * Set the Unsubscribe.
-    *
-    * @param unsubscribe
-    *           boolean
-    */
-   public void setUnsubscribe(boolean unsubscribe) {
-      this.unsubscribe = unsubscribe;
-   }
 }

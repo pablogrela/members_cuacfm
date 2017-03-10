@@ -75,7 +75,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void saveProgramTest() throws UniqueException, UniqueListException {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -100,10 +100,10 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void saveAndFindUsersProgramTest() throws UniqueException, UniqueListException {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -136,7 +136,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	public void saveProgramUniqueExceptionTest() throws UniqueException, UniqueListException {
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -156,7 +156,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void updateProgramTest() throws UniqueException, UniqueListException {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -201,7 +201,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	public void UpdateProgramUniqueExceptionTest() throws UniqueException, UniqueListException {
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -231,7 +231,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	public void upAndDownProgramTest() throws UniqueException, UniqueListException {
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -260,7 +260,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	public void deleteProgramTest() throws UniqueException, UniqueListException, ExistPaymentsException {
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -288,7 +288,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	public void deleteProgramPaymentsExceptionTest() throws UniqueException, UniqueListException, ExistPaymentsException {
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -316,7 +316,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	public void payProgramTest() throws UniqueException, UniqueListException {
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -354,7 +354,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	public void payPalProgramTest() throws UniqueException, UniqueListException, ExistTransactionIdException {
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 
@@ -394,7 +394,7 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 	public void existTransactionIdExceptionTest() throws UniqueException, UniqueListException, ExistTransactionIdException {
 
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 

@@ -81,7 +81,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Before
 	public void initializeDefaultSession() throws Exception {
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 
 		accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -127,7 +127,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void displaysAccount2FormTest() throws Exception {
 
-		Account user2 = new Account("user2", "11111111D", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2",  "11111111D", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession)).andExpect(model().attributeExists("profileForm"))
@@ -162,7 +162,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void postloginAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -187,7 +187,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void postDniAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -211,7 +211,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void postemailAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "55555555B", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);

@@ -42,7 +42,7 @@ public class TrainingTypeCreateController {
 	 * Instantiates a new trainingTypeController.
 	 */
 	public TrainingTypeCreateController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

@@ -19,12 +19,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
+import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,31 +36,32 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class ConfigurationController. */
 @Controller
 public class ConfigurationController {
 
-   /** The Constant CONFIGURATION_VIEW_NAME. */
    private static final String CONFIGURATION_VIEW_NAME = "configuration/configuration";
-
-   /** The Constant REDIRECT_CONFIGURATION. */
    private static final String REDIRECT_CONFIGURATION = "redirect:/configuration";
 
-   /** The ConfigurationService. */
    @Autowired
    private ConfigurationService configurationService;
 
-   /** The AccountTypeService. */
    @Autowired
    private AccountTypeService accountTypeService;
 
-   /** The MethodPaymentService. */
    @Autowired
    private MethodPaymentService methodPaymentService;
 
-   /** The configuration. */
+   @Autowired
+   private AccountService accountService;
+   
+   @Autowired
+   private ProgramService programService;
+   
    private Configuration configuration;
 
    /**
@@ -171,4 +174,46 @@ public class ConfigurationController {
       MessageHelper.addInfoAttribute(ra, "methodPayment.successDelete", name);
       return REDIRECT_CONFIGURATION;
    }
+   
+	/**
+	 * Single file upload.
+	 *
+	 * @param file the file
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "accountList/uploadJson", method = RequestMethod.POST)
+	public String singleFileUploadAccounts(@RequestParam("file") MultipartFile file, RedirectAttributes ra) {
+
+		if (file.isEmpty()) {
+			MessageHelper.addErrorAttribute(ra, "noFileUpload", "");
+			return REDIRECT_CONFIGURATION;
+		}
+
+		String result = accountService.processJson(file);
+
+		MessageHelper.addInfoAttribute(ra, result, "");
+		return REDIRECT_CONFIGURATION;
+	}
+	
+	/**
+	 * Single file upload.
+	 *
+	 * @param file the file
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "programList/uploadJson", method = RequestMethod.POST)
+	public String singleFileUploadPrograms(@RequestParam("file") MultipartFile file, RedirectAttributes ra) {
+
+		if (file.isEmpty()) {
+			MessageHelper.addErrorAttribute(ra, "noFileUpload", "");
+			return REDIRECT_CONFIGURATION;
+		}
+
+		String result = programService.processJson(file);
+
+		MessageHelper.addInfoAttribute(ra, result, "");
+		return REDIRECT_CONFIGURATION;
+	}
 }

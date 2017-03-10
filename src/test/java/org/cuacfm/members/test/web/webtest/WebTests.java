@@ -84,12 +84,12 @@ public class WebTests extends WebSecurityConfigurationAware {
    @Before
    public void getDriver() throws UniqueException, UniqueListException {
       // Create Admin
-      Account admin = new Account("admin", "55555555D", "London", "admin", "admin@udc.es",
+      Account admin = new Account("admin", "", "55555555D", "London", "admin", "admin@udc.es",
             "666666666", "666666666", "1234", roles.ROLE_ADMIN);
       accountService.save(admin);
 
       // Create User
-      Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666",
+      Account user = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666",
             "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 

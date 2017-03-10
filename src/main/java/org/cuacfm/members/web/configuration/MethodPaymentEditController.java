@@ -35,88 +35,76 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class MethodPaymentEditController {
 
-   /** The Constant METHODPAYMENT_VIEW_NAME. */
-   private static final String METHODPAYMENT_VIEW_NAME = "configuration/methodpaymentedit";
+	private static final String METHODPAYMENT_VIEW_NAME = "configuration/methodpaymentedit";
 
-   /** The methodPaymentService. */
-   @Autowired
-   private MethodPaymentService methodPaymentService;
+	@Autowired
+	private MethodPaymentService methodPaymentService;
 
-   /** The Global variable methodPayment Type. */
-   private MethodPayment methodPayment;
+	private MethodPayment methodPayment;
 
-   /** Instantiates a new methodPayment Controller. */
-   public MethodPaymentEditController() {
-      // Default empty constructor.
-   }
+	/** Instantiates a new methodPayment Controller. */
+	public MethodPaymentEditController() {
+		super();
+	}
 
-   /**
-    * Get page methodPaymentEdit.
-    *
-    * @param model
-    *           the model
-    * @return String to view to methodPaymentEdit
-    */
-   @RequestMapping(value = "configuration/methodPaymentEdit")
-   public String methodPayment(Model model) {
-      if (methodPayment != null) {
-         MethodPaymentForm methodPaymentForm = new MethodPaymentForm();
-         methodPaymentForm.setName(methodPayment.getName());
-         methodPaymentForm.setDirectDebit(methodPayment.isDirectDebit());
-         methodPaymentForm.setDescription(methodPayment.getDescription());
-         model.addAttribute(methodPaymentForm);
-         return METHODPAYMENT_VIEW_NAME;
-      }
-      // If not have methodPayment, redirect to configuration
-      else {
-         return "redirect:/configuration";
-      }
-   }
+	/**
+	 * Get page methodPaymentEdit.
+	 *
+	 * @param model the model
+	 * @return String to view to methodPaymentEdit
+	 */
+	@RequestMapping(value = "configuration/methodPaymentEdit")
+	public String methodPayment(Model model) {
+		if (methodPayment != null) {
+			MethodPaymentForm methodPaymentForm = new MethodPaymentForm();
+			methodPaymentForm.setName(methodPayment.getName());
+			methodPaymentForm.setDirectDebit(methodPayment.isDirectDebit());
+			methodPaymentForm.setDescription(methodPayment.getDescription());
+			model.addAttribute(methodPaymentForm);
+			return METHODPAYMENT_VIEW_NAME;
+		}
+		// If not have methodPayment, redirect to configuration
+		else {
+			return "redirect:/configuration";
+		}
+	}
 
-   /**
-    * Post to create a new methodPayment.
-    *
-    * @param methodPaymentForm
-    *           the methodPayment form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @return String to redirect to methodPaymentList or if fault
-    *         methodPaymentEdit
-    * 
-    */
-   @RequestMapping(value = "configuration/methodPaymentEdit", method = RequestMethod.POST)
-   public String methodPaymentEdit(@Valid @ModelAttribute MethodPaymentForm methodPaymentForm,
-         Errors errors, RedirectAttributes ra) {
+	/**
+	 * Post to create a new methodPayment.
+	 *
+	 * @param methodPaymentForm the methodPayment form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @return String to redirect to methodPaymentList or if fault methodPaymentEdit
+	 * 
+	 */
+	@RequestMapping(value = "configuration/methodPaymentEdit", method = RequestMethod.POST)
+	public String methodPaymentEdit(@Valid @ModelAttribute MethodPaymentForm methodPaymentForm, Errors errors, RedirectAttributes ra) {
 
-      if (errors.hasErrors()) {
-         return METHODPAYMENT_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return METHODPAYMENT_VIEW_NAME;
+		}
 
-      try {
-         methodPaymentService.update(methodPaymentForm.updateMethodPayment(methodPayment));
-      } catch (UniqueException e) {
-         errors.rejectValue("name", "methodPayment.existentName", new Object[] { e.getValue() },
-               "name");
-         return METHODPAYMENT_VIEW_NAME;
-      }
-      MessageHelper.addWarningAttribute(ra, "methodPayment.successModify",
-            methodPaymentForm.getName());
-      return "redirect:/configuration";
-   }
+		try {
+			methodPaymentService.update(methodPaymentForm.updateMethodPayment(methodPayment));
+		} catch (UniqueException e) {
+			errors.rejectValue("name", "methodPayment.existentName", new Object[] { e.getValue() }, "name");
+			return METHODPAYMENT_VIEW_NAME;
+		}
+		MessageHelper.addWarningAttribute(ra, "methodPayment.successModify", methodPaymentForm.getName());
+		return "redirect:/configuration";
+	}
 
-   /**
-    * Charge method payment.
-    *
-    * @param id
-    *           the id
-    * @return the string
-    */
-   @RequestMapping(value = "configuration/methodPaymentEdit/{id}", method = RequestMethod.POST)
-   public String chargeMethodPayment(@PathVariable Long id) {
+	/**
+	 * Charge method payment.
+	 *
+	 * @param id the id
+	 * @return the string
+	 */
+	@RequestMapping(value = "configuration/methodPaymentEdit/{id}", method = RequestMethod.POST)
+	public String chargeMethodPayment(@PathVariable Long id) {
 
-      methodPayment = methodPaymentService.findById(id);
-      return "redirect:/configuration/methodPaymentEdit";
-   }
+		methodPayment = methodPaymentService.findById(id);
+		return "redirect:/configuration/methodPaymentEdit";
+	}
 }

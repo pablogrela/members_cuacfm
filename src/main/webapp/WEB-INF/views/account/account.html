@@ -26,10 +26,8 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='account')">&nbsp;</div>
 
-
 	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 	<div class="container-fluid text-center" th:if="${message != null}">
-		<br></br>
 		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 	</div>
 
@@ -68,6 +66,16 @@
 						</div>
 					</div>
 
+					<!-- Edit Surname -->
+					<div class="form-group" th:classappend="${#fields.hasErrors('surname')}? 'has-error'">
+						<label for="surname" class="col-lg-2 control-label" th:text="#{surname}">surname</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="surname" th:placeholder="#{surname}" th:field="*{surname}" maxlength="50" />
+							<span class="help-block ws-errorbox" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Incorrect surname</span>
+							<div class="ws-errorbox" hidden=""></div>
+						</div>
+					</div>
+			
 					<!-- Edit NickName -->
 					<div class="form-group" th:classappend="${#fields.hasErrors('nickName')}? 'has-error'">
 						<label for="nickName" class="col-lg-2 control-label" th:text="#{nickName}">NickName</label>
@@ -389,7 +397,7 @@
 					<div>
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
-								<button type="submit" class="btn btn-success btn-lg" th:text="#{profile}">Sign Up</button>
+								<button type="submit" class="btn btn-success btn-lg" th:text="#{account.edit}"></button>
 							</div>
 						</div>
 					</div>
@@ -400,7 +408,7 @@
 
 
 		<!-- Div banck accounts -->
-		<div class=" columRight-big">
+		<div class="columRight-big">
 
 			<!-- Button view Bank Accounts-->
 			<div class="form-group text-center">
@@ -459,7 +467,7 @@
 					<div class="form-group" th:classappend="${#fields.hasErrors('dateMandate')}? 'has-error'">
 						<label for="dateMandate" class="col-lg-1 control-label" th:text="#{account.bankAccount.dateMandate}">DateMandate</label>
 						<div class="col-lg-10">
-							<input type="date" class="form-control" id="dateMandate" th:placeholder="#{account.bankAccount.dateMandate}" 
+							<input type="date" class="form-control" id="dateMandate" th:placeholder="#{account.bankAccount.dateMandate}"
 								th:title="#{account.bankAccount.infoDateMandate}" th:field="*{dateMandate}" required="required" />
 							<span class="help-block" th:if="${#fields.hasErrors('dateMandate')}" th:errors="*{dateMandate}">Incorrect dateMandate</span>
 							<div class="ws-errorbox" hidden=""></div>
@@ -491,26 +499,26 @@
 										<th:block th:if="!${bankAccount.active}">
 											<h3 th:text="#{account.infoBankAccount}" style="color: red">bank</h3>
 										</th:block>
-										
+
 										<label th:text="#{bank} + ': ' "></label>
 										<span th:text="${bankAccount.bank}"></span>
 										<br></br>
-										
+
 										<label th:text="#{bic} + ': ' "></label>
 										<span th:text="${bankAccount.bic}"></span>
 										<br></br>
-										
+
 										<label th:text="#{iban} + ': ' "></label>
 										<span th:text="${bankAccount.iban}"></span>
 										<br></br>
-										
+
 										<label th:text="#{account.bankAccount.mandate} + ': ' "></label>
 										<span th:text="${bankAccount.mandate}"></span>
 										<br></br>
-										
+
 										<label th:text="#{account.bankAccount.dateMandate} + ': ' "></label>
 										<span th:text="${#dates.format(bankAccount.dateMandate, #messages.msg('dateFormat'))}"></span>
-										
+
 										<br></br>
 									</div>
 									<!-- Show message, if bank accounts is empty -->
@@ -524,6 +532,50 @@
 					</div>
 				</fieldset>
 			</form>
+			<br></br>
+
+
+			<!-- Div fee members -->
+			<div>
+				<h2 class="text-center" th:text="#{feesMemberName}">List of User Pay Inscriptions</h2>
+				<br></br>
+				
+				<div th:if="${#lists.isEmpty(payMembers)}" class="form-group text-center">
+					<form method="post" th:action="@{account/addFeeMember}">
+						<button type="submit" class="btn btn-success btn-lg" th:text="#{account.addFeeMember}" th:title="#{account.infoAddFeeMember}"></button>
+					</form>
+				</div>
+
+				<!-- Table of feeMembers -->
+				<div th:unless="${#lists.isEmpty(payMembers)}">
+
+
+					<!-- Table List of pay members-->
+					<table class="display" id="customTable">
+						<thead class="table-bordered">
+							<tr>
+								<th th:text="#{year}">Year</th>
+								<th th:text="#{price}">Price</th>
+								<th th:text="#{state}" th:title="#{infoState}">State</th>
+								<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
+								<th th:text="#{payMember.installment}">Installment</th>
+							</tr>
+						</thead>
+						<tbody class="table-bordered">
+
+							<!-- Table entry -->
+							<tr th:each="payMember : ${payMembers}">
+								<td th:text="${payMember.feeMember.year}">2015</td>
+								<td th:text="${payMember.price}">price</td>
+								<td th:text="#{${'states.' + payMember.state}}">State</td>
+								<td th:if="${payMember.method == null}"></td>
+								<td th:if="${payMember.method != null}" th:text="#{${'methods.' + payMember.method}}">Method</td>
+								<td th:text="${payMember.installment} + #{of} + ${payMember.installments}">installment of installments</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

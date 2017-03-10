@@ -27,184 +27,94 @@ import javax.persistence.Id;
 @Entity
 public class FeeMember implements Serializable {
 
-   /** The id. */
-   @Id
-   @GeneratedValue
-   private Long id;
+	/** The id. */
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String name;
+	private int year;
+	private Double price;
+	private Date dateLimit1;
+	private Date dateLimit2;
+	private String description;
 
-   /** The name. */
-   private String name;
+	/**
+	 * Instantiates a new fee member.
+	 */
+	public FeeMember() {
+		super();
+	}
 
-   /** The year. */
-   private int year;
+	/**
+	 * Instantiates a new fee member.
+	 *
+	 * @param name the name
+	 * @param year the year
+	 * @param price the price
+	 * @param dateLimit1 the date limit1
+	 * @param dateLimit2 the date limit2
+	 * @param description the description
+	 */
+	public FeeMember(String name, int year, Double price, Date dateLimit1, Date dateLimit2, String description) {
+		super();
+		this.name = name;
+		this.year = year;
+		this.price = price;
+		this.dateLimit1 = dateLimit1;
+		this.dateLimit2 = dateLimit2;
+		this.description = description;
+	}
 
-   /** The duration. */
-   private Double price;
+	public Long getId() {
+		return id;
+	}
 
-   /** The dateLimit1. */
-   private Date dateLimit1;
+	public String getName() {
+		return name;
+	}
 
-   /** The dateLimit2. */
-   private Date dateLimit2;
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /** The description. */
-   private String description;
+	public int getYear() {
+		return year;
+	}
 
-   /**
-    * Instantiates a new fee member.
-    */
-   public FeeMember() {
-      // Default empty constructor.
-   }
+	public void setYear(int year) {
+		this.year = year;
+	}
 
-   /**
-    * Instantiates a new fee member.
-    *
-    * @param name
-    *           the name
-    * @param year
-    *           the year
-    * @param price
-    *           the price
-    * @param dateLimit1
-    *           the date limit1
-    * @param dateLimit2
-    *           the date limit2
-    * @param description
-    *           the description
-    */
-   public FeeMember(String name, int year, Double price, Date dateLimit1, Date dateLimit2,
-         String description) {
-      super();
-      this.name = name;
-      this.year = year;
-      this.price = price;
-      this.dateLimit1 = dateLimit1;
-      this.dateLimit2 = dateLimit2;
-      this.description = description;
-   }
+	public Double getPrice() {
+		return price;
+	}
 
-   /**
-    * Gets the id.
-    *
-    * @return the id
-    */
-   public Long getId() {
-      return id;
-   }
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
-   /**
-    * Gets the name.
-    *
-    * @return the name
-    */
-   public String getName() {
-      return name;
-   }
+	public Date getDateLimit1() {
+		return dateLimit1;
+	}
 
-   /**
-    * Sets the name.
-    *
-    * @param name
-    *           the new name
-    */
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setDateLimit1(Date dateLimit1) {
+		this.dateLimit1 = dateLimit1;
+	}
 
-   /**
-    * Gets the year.
-    *
-    * @return the year
-    */
-   public int getYear() {
-      return year;
-   }
+	public Date getDateLimit2() {
+		return dateLimit2;
+	}
 
-   /**
-    * Sets the year.
-    *
-    * @param year
-    *           the new year
-    */
-   public void setYear(int year) {
-      this.year = year;
-   }
+	public void setDateLimit2(Date dateLimit2) {
+		this.dateLimit2 = dateLimit2;
+	}
 
-   /**
-    * Gets the price.
-    *
-    * @return the price
-    */
-   public Double getPrice() {
-      return price;
-   }
+	public String getDescription() {
+		return description;
+	}
 
-   /**
-    * Sets the price.
-    *
-    * @param price
-    *           the new price
-    */
-   public void setPrice(Double price) {
-      this.price = price;
-   }
-
-   /**
-    * Gets the date limit1.
-    *
-    * @return the date limit1
-    */
-   public Date getDateLimit1() {
-      return dateLimit1;
-   }
-
-   /**
-    * Sets the date limit1.
-    *
-    * @param dateLimit1
-    *           the new date limit1
-    */
-   public void setDateLimit1(Date dateLimit1) {
-      this.dateLimit1 = dateLimit1;
-   }
-
-   /**
-    * Gets the date limit2.
-    *
-    * @return the date limit2
-    */
-   public Date getDateLimit2() {
-      return dateLimit2;
-   }
-
-   /**
-    * Sets the date limit2.
-    *
-    * @param dateLimit2
-    *           the new date limit2
-    */
-   public void setDateLimit2(Date dateLimit2) {
-      this.dateLimit2 = dateLimit2;
-   }
-
-   /**
-    * Gets the description.
-    *
-    * @return the description
-    */
-   public String getDescription() {
-      return description;
-   }
-
-   /**
-    * Sets the description.
-    *
-    * @param description
-    *           the new description
-    */
-   public void setDescription(String description) {
-      this.description = description;
-   }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

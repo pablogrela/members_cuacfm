@@ -107,6 +107,14 @@ public interface ProgramRepository {
 	public ProgramType findProgramTypeById(int id);
 
 	/**
+	 * Find program type by name.
+	 *
+	 * @param name the name
+	 * @return the program type
+	 */
+	public ProgramType findProgramTypeByName(String name);
+
+	/**
 	 * Find program thematic list.
 	 *
 	 * @return the list
@@ -120,6 +128,14 @@ public interface ProgramRepository {
 	 * @return the program thematic
 	 */
 	public ProgramThematic findProgramThematicById(int id);
+
+	/**
+	 * Find program thematic by name.
+	 *
+	 * @param name the name
+	 * @return the program thematic
+	 */
+	public ProgramThematic findProgramThematicByName(String name);
 
 	/**
 	 * Find program category list.
@@ -137,6 +153,14 @@ public interface ProgramRepository {
 	public ProgramCategory findProgramCategoryById(int id);
 
 	/**
+	 * Find program category by name.
+	 *
+	 * @param name the name
+	 * @return the program category
+	 */
+	public ProgramCategory findProgramCategoryByName(String name);
+
+	/**
 	 * Find program language list.
 	 *
 	 * @return the list
@@ -150,4 +174,12 @@ public interface ProgramRepository {
 	 * @return the program language
 	 */
 	public ProgramLanguage findProgramLanguageById(int id);
+
+	/**
+	 * Find program language by name.
+	 *
+	 * @param name the name
+	 * @return the program language
+	 */
+	public ProgramLanguage findProgramLanguageByName(String name);
 }

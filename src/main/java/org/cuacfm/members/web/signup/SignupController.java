@@ -25,6 +25,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.userservice.UserService;
+import org.cuacfm.members.web.signin.SigninController;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.cuacfm.members.web.support.VerifyRecaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class SignupController {
 
 	private static final String SIGNUP_VIEW_NAME = "signup/signup";
 	private static final String SIGNUP_FIREBASE_VIEW_NAME = "signup/signupfirebase";
+	private static final String SIGNUP_FIREBASE_MANUAL_VIEW_NAME = "signup/signupfirebasemanual";
 
 	@Autowired
 	private UserService userService;
@@ -62,6 +64,7 @@ public class SignupController {
 	/**
 	 * Signup.
 	 *
+	 * @param email the email
 	 * @param model the model
 	 * @return the string
 	 */
@@ -83,15 +86,16 @@ public class SignupController {
 	 * @param signupForm the signup form
 	 * @param errors the errors
 	 * @param ra the ra
+	 * @param response the response
 	 * @return the string
-	 * @throws IOException
-	 * @throws ScriptException
-	 * @throws NoSuchMethodException
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ScriptException the script exception
+	 * @throws NoSuchMethodException the no such method exception
 	 */
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra,
 			@RequestParam("g-recaptcha-response") String response) throws IOException, ScriptException, NoSuchMethodException {
-		
+
 		// check that the password and rePassword are the same
 		String password = signupForm.getPassword();
 		String rePassword = signupForm.getRePassword();
@@ -138,4 +142,69 @@ public class SignupController {
 		return SIGNUP_FIREBASE_VIEW_NAME;
 	}
 
+	/**
+	 * Signup firebase manual.
+	 *
+	 * @param email the email
+	 * @param token the token
+	 * @param model the model
+	 * @return the string
+	 */
+	// El token se genera en el migrate
+	@RequestMapping(value = "signup/signupFirebaseManual")
+	public String signupFirebaseManual(@RequestParam(value = "email", required = false) String email,
+			@RequestParam(value = "token", required = false) String token, Model model) {
+
+		if (email == null || token == null) {
+			return SigninController.SIGNIN_REDIRECT;
+		}
+
+		// If you are already registered you are redirected to signin
+		Account account = accountService.findByEmail(email);
+		if (account.getToken() == null || !account.getToken().equals(token)) {
+			return SigninController.SIGNIN_REDIRECT;
+		}
+
+		model.addAttribute("email", email);
+		model.addAttribute("token", token);
+		return SIGNUP_FIREBASE_MANUAL_VIEW_NAME;
+	}
+
+	/**
+	 * Signup firebase manual.
+	 *
+	 * @param error the error
+	 * @param email the email
+	 * @param token the token
+	 * @param model the model
+	 * @param ra the ra
+	 * @return the string
+	 * @throws UniqueListException the unique list exception
+	 */
+	@RequestMapping(value = "signup/signupFirebaseManual", method = RequestMethod.POST)
+	public String signupFirebaseManual(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "username", required = false) String email, @RequestParam(value = "token", required = false) String token,
+			Model model, RedirectAttributes ra) throws UniqueListException {
+
+		if (error != null && error.contains("auth/email-already-in-use")) {
+			return SigninController.SIGNIN_REDIRECT;
+		}
+
+		if (error != null || email == null || token == null) {
+			MessageHelper.addErrorAttribute(ra, "firebase." + error, "password");
+			return "redirect:/signup/signupFirebaseManual?email=" + email + "&token=" + token;
+		}
+
+		Account account = accountService.findByEmail(email);
+		if (account == null) {
+			MessageHelper.addErrorAttribute(ra, "firebase.undefined", "password");
+			return "redirect:/signup/signupFirebaseManual?email=" + email + "&token=" + token;
+		}
+
+		accountService.removeToken(account);
+		userService.signin(account);
+
+		MessageHelper.addWarningAttribute(ra, "profile.reviewData", "");
+		return "redirect:/profile";
+	}
 }

@@ -53,7 +53,7 @@ public class PayProgramEditController {
 
 	/** Instantiates a new payProgram Controller. */
 	public PayProgramEditController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

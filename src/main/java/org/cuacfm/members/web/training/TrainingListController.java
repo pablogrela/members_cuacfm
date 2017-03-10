@@ -43,10 +43,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class TrainingListController {
 
-	/** The Constant TRAINING_VIEW_NAME. */
 	private static final String TRAINING_VIEW_NAME = "training/traininglist";
-
-	/** The Constant REDIRECT_TRAINING. */
 	private static final String REDIRECT_TRAINING = "redirect:/trainingList";
 
 	@Autowired
@@ -59,16 +56,14 @@ public class TrainingListController {
 	private TrainingService trainingService;
 
 	private List<Training> trainings;
-
 	private List<Long> trainingAccountIds;
-
 	private List<Long> trainingUnsubscribeIds;
 
 	/**
 	 * Instantiates a new training Controller.
 	 */
 	public TrainingListController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -135,11 +130,10 @@ public class TrainingListController {
 	/**
 	 * Delete Training by Id.
 	 *
-	 * @param @PathVariable Long id
-	 * 
 	 * @param ra the redirect atributes
+	 * @param id the id
 	 * @return the string destinity page to page trainingList
-	 * @throws UniqueException
+	 * @throws UniqueException the unique exception
 	 */
 	@RequestMapping(value = "trainingList/trainingDelete/{id}", method = RequestMethod.POST)
 	public String remove(RedirectAttributes ra, @PathVariable Long id) throws UniqueException {
@@ -157,9 +151,9 @@ public class TrainingListController {
 	/**
 	 * Join account to training by trainingId.
 	 *
-	 * @param @PathVariable Long trainingId
-	 * 
+	 * @param trainingId the training id
 	 * @param ra the redirect atributes
+	 * @param principal the principal
 	 * @return the string destinity page to page trainingList
 	 */
 	@RequestMapping(value = "trainingUserList/trainingJoin/{trainingId}", method = RequestMethod.POST)
@@ -185,8 +179,7 @@ public class TrainingListController {
 	/**
 	 * Remove join account to training by trainingId.
 	 *
-	 * @param @PathVariable Long trainingId
-	 * 
+	 * @param trainingId the training id
 	 * @param ra the redirect atributes
 	 * @param principal Principal
 	 * @return the string destinity page to page trainingList

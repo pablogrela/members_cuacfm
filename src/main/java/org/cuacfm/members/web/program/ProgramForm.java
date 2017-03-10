@@ -28,26 +28,24 @@ import org.cuacfm.members.model.program.ProgramCategory;
 import org.cuacfm.members.model.program.ProgramLanguage;
 import org.cuacfm.members.model.program.ProgramThematic;
 import org.cuacfm.members.model.program.ProgramType;
+import org.cuacfm.members.model.util.Constants;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class ProgramForm. */
 public class ProgramForm {
 
-	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
-	private static final String MAX_CHARACTERS = "{max.characters}";
-
 	/** The name. */
-	@NotBlank(message = ProgramForm.NOT_BLANK_MESSAGE)
-	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String name;
 
 	/** The description. */
-	@NotBlank(message = ProgramForm.NOT_BLANK_MESSAGE)
-	@Size(max = 5000, message = ProgramForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 5000, message = Constants.MAX_CHARACTERS)
 	private String description;
 
 	/** The duration. */
-	@NotNull
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
 	@Min(0)
 	private int duration;
 
@@ -56,19 +54,19 @@ public class ProgramForm {
 	@Min(0)
 	private Float periodicity;
 
-	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String email;
 
-	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String twitter;
 
-	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String facebook;
 
-	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String podcast;
 
-	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String web;
 
 	private List<Account> accounts;
@@ -77,23 +75,23 @@ public class ProgramForm {
 
 	private Account accountPayer;
 
-	@Size(max = 50, message = ProgramForm.MAX_CHARACTERS)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String accountPayerName;
 
 	private List<ProgramType> programTypes;
-	@NotNull(message = ProgramForm.NOT_BLANK_MESSAGE)
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
 	private Integer programTypeId;
 
 	private List<ProgramThematic> programThematics;
-	@NotNull(message = ProgramForm.NOT_BLANK_MESSAGE)
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
 	private Integer programThematicId;
 
 	private List<ProgramCategory> programCategories;
-	@NotNull(message = ProgramForm.NOT_BLANK_MESSAGE)
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
 	private Integer programCategoryId;
 
 	private List<ProgramLanguage> programLanguages;
-	@NotNull(message = ProgramForm.NOT_BLANK_MESSAGE)
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
 	private Integer programLanguageId;
 
 	/**
@@ -103,56 +101,26 @@ public class ProgramForm {
 		super();
 	}
 
-	/**
-	 * Get the name.
-	 *
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * Set the name.
-	 *
-	 * @param name String, the new name
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * Gets the periodicity.
-	 *
-	 * @return the periodicity
-	 */
 	public Float getPeriodicity() {
 		return periodicity;
 	}
 
-	/**
-	 * Sets the periodicity.
-	 *
-	 * @param periodicity the new periodicity
-	 */
 	public void setPeriodicity(Float periodicity) {
 		this.periodicity = periodicity;
 	}
 
-	/**
-	 * Gets the accounts.
-	 *
-	 * @return the accounts
-	 */
 	public List<Account> getAccounts() {
 		return accounts;
 	}
 
-	/**
-	 * Sets the accounts.
-	 *
-	 * @param accounts the new accounts
-	 */
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
@@ -170,6 +138,7 @@ public class ProgramForm {
 	 * Removes the account.
 	 *
 	 * @param id the id
+	 * @return the string
 	 */
 	public String removeAccount(Long id) {
 		Account accountToDelete = null;
@@ -185,92 +154,42 @@ public class ProgramForm {
 		return user;
 	}
 
-	/**
-	 * Get the description..
-	 *
-	 * @return the description
-	 */
 	public String getDescription() {
 		return description;
 	}
 
-	/**
-	 * Set the description.
-	 *
-	 * @param description String, the new description
-	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	/**
-	 * Gets the duration.
-	 *
-	 * @return the duration
-	 */
 	public int getDuration() {
 		return duration;
 	}
 
-	/**
-	 * Sets the duration.
-	 *
-	 * @param duration the new duration
-	 */
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 
-	/**
-	 * Gets the login.
-	 *
-	 * @return the login
-	 */
 	public String getLogin() {
 		return login;
 	}
 
-	/**
-	 * Sets the login.
-	 *
-	 * @param login the new login
-	 */
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
-	/**
-	 * Gets the account payer.
-	 *
-	 * @return the account payer
-	 */
 	public Account getAccountPayer() {
 		return accountPayer;
 	}
 
-	/**
-	 * Sets the account payer.
-	 *
-	 * @param accountPayer the new account payer
-	 */
 	public void setAccountPayer(Account accountPayer) {
 		this.accountPayer = accountPayer;
 	}
 
-	/**
-	 * Gets the account payer name.
-	 *
-	 * @return the account payer name
-	 */
 	public String getAccountPayerName() {
 		return accountPayerName;
 	}
 
-	/**
-	 * Sets the account payer name.
-	 *
-	 * @param accountPayerName the new account payer name
-	 */
 	public void setAccountPayerName(String accountPayerName) {
 		this.accountPayerName = accountPayerName;
 	}

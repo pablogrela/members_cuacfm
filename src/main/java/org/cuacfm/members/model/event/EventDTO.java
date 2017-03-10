@@ -17,10 +17,15 @@ package org.cuacfm.members.model.event;
 
 import java.util.Date;
 
+import org.cuacfm.members.model.account.AccountDTO;
+
+/**
+ * The Class EventDTO.
+ */
 public class EventDTO {
 
 	private Long id;
-	private String account;
+	private AccountDTO account;
 	private Date dateEvent;
 	private int priority;
 	private String description;
@@ -29,21 +34,22 @@ public class EventDTO {
 	 * Instantiates a new event.
 	 */
 	protected EventDTO() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
 	 * Instantiates a new event.
 	 *
-	 * @param account the account
+	 * @param id the id
+	 * @param accountDTO the account DTO
 	 * @param dateEvent the date event
 	 * @param priority the priority
 	 * @param description the description
 	 */
-	public EventDTO(Long id, String account, Date dateEvent, int priority, String description) {
+	public EventDTO(Long id, AccountDTO accountDTO, Date dateEvent, int priority, String description) {
 		super();
 		this.id = id;
-		this.account = account;
+		this.account = accountDTO;
 		this.dateEvent = dateEvent;
 		this.priority = priority;
 		this.description = description;
@@ -57,11 +63,11 @@ public class EventDTO {
 		this.id = id;
 	}
 
-	public String getAccount() {
+	public AccountDTO getAccount() {
 		return account;
 	}
 
-	public void setAccount(String account) {
+	public void setAccount(AccountDTO account) {
 		this.account = account;
 	}
 
@@ -71,7 +77,6 @@ public class EventDTO {
 
 	public void setDateEvent(Date dateEvent) {
 		this.dateEvent = dateEvent;
-
 	}
 
 	public int getPriority() {
@@ -92,7 +97,6 @@ public class EventDTO {
 
 	@Override
 	public String toString() {
-
 		return "EventDTO [id=" + id + ", account=" + account + ", dateEvent=" + dateEvent + ", priority=" + priority + ", description=" + description
 				+ "]";
 	}

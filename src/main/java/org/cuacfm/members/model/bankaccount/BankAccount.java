@@ -71,6 +71,7 @@ public class BankAccount implements Serializable {
 	 * @param bank the bank
 	 * @param bic the bic
 	 * @param iban the iban
+	 * @param dateMandate the date mandate
 	 */
 	public BankAccount(Account account, String bank, String bic, String iban, Date dateMandate) {
 		super();

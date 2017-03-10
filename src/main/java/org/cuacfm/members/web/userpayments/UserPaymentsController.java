@@ -52,7 +52,7 @@ public class UserPaymentsController {
 
 	private static final String USERPAYMENTS_VIEW_NAME = "userpayments/userpayments";
 	private static final String REDIRECT_USERPAYMENTS = "redirect:/userPayments";
-	
+
 	@Autowired
 	private ConfigurationService configurationService;
 
@@ -79,7 +79,7 @@ public class UserPaymentsController {
 	 * Instantiates a new user payments controller.
 	 */
 	public UserPaymentsController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -216,7 +216,8 @@ public class UserPaymentsController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "userPayments/directDebitList/markBankDeposit/{directDebitId}", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, ?>> directDebitByMarkBankDeposit(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
+	public ResponseEntity<Map<String, ?>> directDebitByMarkBankDeposit(@PathVariable String directDebitId, Principal principal,
+			RedirectAttributes ra) {
 
 		Account account = accountService.findByLogin(principal.getName());
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
@@ -244,7 +245,8 @@ public class UserPaymentsController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "userPayments/directDebitList/cancelBankDeposit/{directDebitId}", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, ?>> directDebitByCancelBankDeposit(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
+	public ResponseEntity<Map<String, ?>> directDebitByCancelBankDeposit(@PathVariable String directDebitId, Principal principal,
+			RedirectAttributes ra) {
 
 		Account account = accountService.findByLogin(principal.getName());
 		DirectDebit directDebit = directDebitService.findById(directDebitId);

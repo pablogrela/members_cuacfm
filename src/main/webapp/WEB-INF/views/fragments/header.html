@@ -39,8 +39,8 @@
 		<!-- Image title with hiperlink at home-->
 		<div class="container">
 			<div class="containerImage">
-<!-- 				<a href="/" th:href="@{/}"> <img th:src="@{/resources/images/cuacfm.png}" /> -->
-<!-- 				</a> -->
+				<a href="/" th:href="@{/}"> <img th:src="@{/resources/images/cuacfm.png}" />
+				</a>
 			</div>
 		</div>
 
@@ -71,10 +71,10 @@
 
 
 						<!-- Button Trainings of User -->
-						<th:block th:if="${active != 'trainingUserList'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
+						<th:block th:if="${active != 'trainingUserList'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
 							<li><a href="#" th:href="@{/trainingUserList}" th:text="#{training.trainingUserList}">trainingUser</a></li>
 						</th:block>
-						<th:block th:if="${active == 'trainingUserList'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
+						<th:block th:if="${active == 'trainingUserList'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
 							<li class="active"><a href="#" th:href="@{/trainingUserList}" th:text="#{training.trainingUserList}">trainingUser</a></li>
 						</th:block>
 

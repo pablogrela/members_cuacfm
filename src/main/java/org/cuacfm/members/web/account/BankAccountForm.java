@@ -19,33 +19,29 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.bankaccount.BankAccount;
+import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class BankAccountForm. */
 public class BankAccountForm {
 
-	/** The Constant NOT_BLANK_MESSAGE. */
-	private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
-
-	/** The Constant MAX_CHARACTERS. */
-	private static final String MAX_CHARACTERS = "{max.characters}";
-
 	/** The bank. */
-	@NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
-	@Size(max = 50, message = BankAccountForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String bank;
 
 	/** The bic. */
-	@Size(max = 11, message = BankAccountForm.MAX_CHARACTERS)
+	@Size(max = 11, message = Constants.MAX_CHARACTERS)
 	private String bic;
 
 	/** The iban. */
-	@NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
-	@Size(max = 34, message = BankAccountForm.MAX_CHARACTERS)
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
+	@Size(max = 34, message = Constants.MAX_CHARACTERS)
 	private String iban;
 
-	@NotBlank(message = BankAccountForm.NOT_BLANK_MESSAGE)
+	/** The date mandate. */
+	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
 	private String dateMandate;
 
 	public String getBank() {

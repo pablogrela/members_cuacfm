@@ -54,7 +54,7 @@ public class FeeProgramCreateController {
 	 * Instantiates a new feeProgramController.
 	 */
 	public FeeProgramCreateController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class FeeProgramCreateController {
 	/**
 	 * Training.
 	 *
-	 * @param trainingForm the training form
+	 * @param feeProgramForm the fee program form
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return the string

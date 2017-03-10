@@ -70,29 +70,14 @@ public class Message implements Serializable {
 		this.args = args;
 	}
 
-	/**
-	 * Gets the message.
-	 *
-	 * @return the message
-	 */
 	public String getMessage() {
 		return message;
 	}
 
-	/**
-	 * Gets the type.
-	 *
-	 * @return the type
-	 */
 	public Type getType() {
 		return type;
 	}
 
-	/**
-	 * Gets the args.
-	 *
-	 * @return the args
-	 */
 	public Object[] getArgs() {
 		return args.clone();
 	}

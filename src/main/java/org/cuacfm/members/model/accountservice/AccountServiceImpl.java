@@ -15,6 +15,9 @@
  */
 package org.cuacfm.members.model.accountservice;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,16 +31,27 @@ import org.cuacfm.members.model.bankaccount.BankAccountRepository;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
+import org.cuacfm.members.model.util.FileUtils;
+import org.cuacfm.members.web.support.DisplayDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /** The Class AccountService. */
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
+	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
+
+	@Value("${pathJsonToAccount}")
+	private String pathJsonToAccount;
+	
 	@Autowired
 	private AccountRepository accountRepository;
 
@@ -49,6 +63,9 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JsonToAccount jsonToAccount;
 
 	public AccountServiceImpl() {
 		// Default empty constructor.
@@ -135,6 +152,14 @@ public class AccountServiceImpl implements AccountService {
 		accountRepository.delete(account);
 	}
 
+	@Override
+	public void removeToken(Account account){
+		account.setToken(null);
+		accountRepository.update(account);
+		Object[] arguments = { account.getName() + ' ' + account.getSurname() };
+		eventService.save("account.admin.successFirebase", account, 2, arguments);
+	}
+	
 	@Override
 	public void subscribe(Account account) {
 		account.setActive(true);
@@ -223,7 +248,7 @@ public class AccountServiceImpl implements AccountService {
 
 		if (account != null) {
 			accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getPhone(),
-					account.getMobile(), account.getName(), account.getNickName(), account.getAddress(), account.isActive(), account.getRole(),
+					account.getMobile(), account.getName(), account.getSurname(),account.getNickName(), account.getAddress(), account.isActive(), account.getRole(),
 					account.getInstallments(), account.getDateCreate(), account.getDateDown());
 
 			if (account.getAccountType() != null) {
@@ -284,8 +309,31 @@ public class AccountServiceImpl implements AccountService {
 	 */
 	@Override
 	public BankAccount activeBankAccountByAccountId(Long accountId) {
-		//		eventRepository.save(new Event(bankAccount.getAccount(), new Date(), 3, "prueba"));
+		// eventRepository.save(new Event(bankAccount.getAccount(), new Date(), 3, "prueba"));
 		return bankAccountRepository.activeBankAccountByAccountId(accountId);
 	}
 
+	@Override
+	public String processJson(MultipartFile file) {
+		logger.info("processJson");
+
+		try {
+			byte[] bytes = file.getBytes();
+			FileUtils.createFolderIfNoExist(pathJsonToAccount);
+			
+			String[] originalFilename = file.getOriginalFilename().split(".json");
+			Path pathJson = Paths.get(pathJsonToAccount + originalFilename[0] + DisplayDate.dateTimeToStringSp(new Date()) + ".json");
+			Files.write(pathJson, bytes);
+			jsonToAccount.parser(pathJson.toString());
+
+		} catch (Exception e) {
+			logger.error("processJson: ", e);
+			Object[] arguments = {};
+			eventService.save("account.failUpload", null, 2, arguments);
+			return "account.failUpload";
+		}
+		Object[] arguments = { file.getOriginalFilename() };
+		eventService.save("account.successUpload", null, 2, arguments);
+		return "account.successUpload";
+	}
 }

@@ -22,16 +22,13 @@ import org.cuacfm.members.model.inscription.Inscription;
 /** The InscriptionsForm. */
 public class InscriptionsForm {
 
-   /** The Inscription List. */
-   private List<Inscription> inscriptions;
+	private List<Inscription> inscriptions;
 
-   /** The getInscriptions. */
-   public List<Inscription> getInscriptions() {
-      return inscriptions;
-   }
+	public List<Inscription> getInscriptions() {
+		return inscriptions;
+	}
 
-   /** The setInscriptions. */
-   public void setInscriptions(List<Inscription> inscriptions) {
-      this.inscriptions = inscriptions;
-   }
+	public void setInscriptions(List<Inscription> inscriptions) {
+		this.inscriptions = inscriptions;
+	}
 }

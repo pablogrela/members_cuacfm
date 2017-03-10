@@ -66,7 +66,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account admin = new Account("admin", "55555555A", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
+		Account admin = new Account("admin", "", "55555555A", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
 		accountService.save(admin);
 		defaultSession = getDefaultSession("admin@udc.es");
 	}
@@ -100,7 +100,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void displaysUserProgramCreateTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		defaultSession = getDefaultSession("user@udc.es");
 
@@ -116,7 +116,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void programCreateTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addUser", "addUser").param("Login",
@@ -139,7 +139,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void nameAlreadExistTest() throws Exception {
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
 		Program program = new Program("Program", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
@@ -196,7 +196,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void addUserBynNiTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addUser", "addUser").param("Login",
@@ -211,7 +211,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void removeUserTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addUser", "addUser").param("Login",
@@ -240,9 +240,9 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void addUserRepeatedTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
-		Account account2 = new Account("user2", "255555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "255555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account2);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addUser", "addUser").param("Login",
@@ -268,7 +268,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void accountPayerDniTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addAccountPayer", "accountPayer")
@@ -283,7 +283,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void accountPayerDniNoFoundTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addAccountPayer", "accountPayer")
@@ -298,7 +298,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void accountPayerIdDniTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addAccountPayer", "accountPayer")
@@ -308,7 +308,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void removeAccountPayerIdDniTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addAccountPayer", "accountPayer")
@@ -325,7 +325,7 @@ public class ProgramCreateControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void accountPayerIdNullDniTest() throws Exception {
 
-		Account account = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 
 		mockMvc.perform(post("/programList/programCreate").locale(Locale.ENGLISH).session(defaultSession).param("addAccountPayer", "accountPayer")

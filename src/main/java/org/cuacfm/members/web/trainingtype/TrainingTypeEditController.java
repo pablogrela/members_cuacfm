@@ -47,7 +47,7 @@ public class TrainingTypeEditController {
 	 * Instantiates a new training Controller.
 	 */
 	public TrainingTypeEditController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class TrainingTypeEditController {
 	/**
 	 * Training.
 	 *
-	 * @param trainingFormType the training type form
+	 * @param trainingTypeForm the training type form
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return the string
@@ -116,9 +116,7 @@ public class TrainingTypeEditController {
 	/**
 	 * Modify TrainingType by Id.
 	 *
-	 * @param @PathVariable Long id
-	 * 
-	 * @param errors the errors
+	 * @param id the id
 	 * @return the string destinity page
 	 */
 	@RequestMapping(value = "trainingTypeList/trainingTypeEdit/{id}", method = RequestMethod.POST)

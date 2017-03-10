@@ -45,7 +45,7 @@ public class VerifyRecaptcha {
 	/**
 	 * Verify.
 	 *
-	 * @param g-recaptcha-response the g recaptcha response
+	 * @param gRecaptchaResponse the g recaptcha response
 	 * @return true, if successful
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */

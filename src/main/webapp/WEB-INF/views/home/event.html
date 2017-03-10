@@ -26,7 +26,11 @@
 			style="color: yellow" disabled="disabled"></button>
 		<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
 			style="color: red"></button>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
+		<form class="btnTable" action="{{'account/' + event.account.id}} " method="post">
+			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
+			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
+		</form>
+		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ', ' + event.description"></span>
 	</div>
 
 	<div th:fragment="eventNormal">
@@ -34,7 +38,11 @@
 			th:title="#{event.infoHighlight}" style="color: grey"></button>
 		<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
 			style="color: red"></button>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
+		<form class="btnTable" action="{{'account/' + event.account.id}} " method="post">
+			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
+			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
+		</form>
+		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ', ' + event.description"></span>
 	</div>
 
 	<div th:fragment="eventUser">
@@ -44,7 +52,11 @@
 	<div th:fragment="eventClose">
 		<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
 			th:title="#{event.infoHighlight}" style="color: white"></button>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account + ', ' + event.description"></span>
+		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ', ' + event.description"></span>
+		<form class="btnTable" action="{{'account/' + event.account.id}} " method="post">
+			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
+			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
+		</form>
 	</div>
 
 </body>

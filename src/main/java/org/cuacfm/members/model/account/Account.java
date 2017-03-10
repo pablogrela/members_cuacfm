@@ -62,6 +62,8 @@ public class Account implements Serializable {
 	private Long id;
 
 	private String name;
+	
+	private String surname;
 
 	private String nickName;
 
@@ -127,8 +129,11 @@ public class Account implements Serializable {
 	private roles role;
 
 	private Date dateCreate;
-	
+
 	private Date dateDown;
+
+	// Temporal value, to register user in Firebase
+	private String token;
 
 	/** Instantiates a new account. */
 	public Account() {
@@ -148,9 +153,10 @@ public class Account implements Serializable {
 	 * @param password the password
 	 * @param role the role
 	 */
-	public Account(String name, String dni, String address, String login, String email, String phone, String mobile, String password, roles role) {
+	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password, roles role) {
 		super();
 		this.name = name;
+		this.surname = surname;
 		this.dni = dni;
 		this.address = address;
 		this.login = login;
@@ -182,10 +188,11 @@ public class Account implements Serializable {
 	 * @param personality the personality
 	 * @param knowledge the knowledge
 	 */
-	public Account(String name, String dni, String address, String login, String email, String phone, String mobile, String password, roles role,
+	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password, roles role,
 			String programName, boolean student, boolean emitProgram, String personality, String knowledge) {
 		super();
 		this.name = name;
+		this.surname = surname;
 		this.dni = dni;
 		this.address = address;
 		this.login = login;
@@ -213,6 +220,14 @@ public class Account implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getNickName() {
@@ -442,9 +457,17 @@ public class Account implements Serializable {
 		this.dateDown = dateDown;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", name=" + name + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address + ", cp=" + cp
+		return "Account [id=" + id + ", name=" + name + ", surname=" + surname + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address + ", cp=" + cp
 				+ ", province=" + province + ", codeCountry=" + codeCountry + ", login=" + login + ", email=" + email + ", phone=" + phone
 				+ ", mobile=" + mobile + ", password=" + password + ", methodPayment=" + methodPayment + ", accountType=" + accountType
 				+ ", programs=" + programs + ", bankAccounts=" + bankAccounts + ", installments=" + installments + ", active=" + active + ", student="

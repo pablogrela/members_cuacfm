@@ -36,112 +36,97 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class FeeMemberEditController {
 
-   /** The Constant FEEMEMBER_VIEW_NAME. */
-   private static final String FEEMEMBER_VIEW_NAME = "feemember/feememberedit";
+	private static final String FEEMEMBER_VIEW_NAME = "feemember/feememberedit";
 
-   /** The fee member service. */
-   @Autowired
-   private FeeMemberService feeMemberService;
+	@Autowired
+	private FeeMemberService feeMemberService;
 
-   /** The Global variable fee member. */
-   private FeeMember feeMember;
+	private FeeMember feeMember;
 
-   /**
-    * Instantiates a fee member Controller.
-    */
-   public FeeMemberEditController() {
-      // Default empty constructor.
-   }
+	/**
+	 * Instantiates a fee member Controller.
+	 */
+	public FeeMemberEditController() {
+		super();
+	}
 
-   /**
-    * FeeMember.
-    *
-    * @return FeeMember
-    */
-   @ModelAttribute("feeMember")
-   public FeeMember feeMember() {
-      return feeMember;
-   }
+	/**
+	 * FeeMember.
+	 *
+	 * @return FeeMember
+	 */
+	@ModelAttribute("feeMember")
+	public FeeMember feeMember() {
+		return feeMember;
+	}
 
-   /**
-    * Training.
-    *
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "feeMemberList/feeMemberEdit")
-   public String feeMember(Model model) {
+	/**
+	 * Training.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeMemberList/feeMemberEdit")
+	public String feeMember(Model model) {
 
-      if (feeMember != null) {
-         FeeMemberForm feeMemberForm = new FeeMemberForm();
-         feeMemberForm.setName(feeMember.getName());
-         feeMemberForm.setYear(feeMember.getYear());
-         feeMemberForm.setPrice(feeMember.getPrice());
-         feeMemberForm.setDescription(feeMember.getDescription());
-         feeMemberForm.setDateLimit1(DisplayDate.monthOfYearToString(feeMember
-               .getDateLimit1()));
-         feeMemberForm.setDateLimit2(DisplayDate.monthOfYearToString(feeMember
-               .getDateLimit2()));
-         model.addAttribute(feeMember);
-         model.addAttribute(feeMemberForm);
-         return FEEMEMBER_VIEW_NAME;
-      }
-      // If not have feeMember, redirect to feeMemberList
-      else {
-         return "redirect:/feeMemberList";
-      }
-   }
+		if (feeMember != null) {
+			FeeMemberForm feeMemberForm = new FeeMemberForm();
+			feeMemberForm.setName(feeMember.getName());
+			feeMemberForm.setYear(feeMember.getYear());
+			feeMemberForm.setPrice(feeMember.getPrice());
+			feeMemberForm.setDescription(feeMember.getDescription());
+			feeMemberForm.setDateLimit1(DisplayDate.monthOfYearToString(feeMember.getDateLimit1()));
+			feeMemberForm.setDateLimit2(DisplayDate.monthOfYearToString(feeMember.getDateLimit2()));
+			model.addAttribute(feeMember);
+			model.addAttribute(feeMemberForm);
+			return FEEMEMBER_VIEW_NAME;
+		}
+		// If not have feeMember, redirect to feeMemberList
+		else {
+			return "redirect:/feeMemberList";
+		}
+	}
 
-   /**
-    * Training.
-    *
-    * @param feeMemberForm
-    *           the fee member form
-    * @param errors
-    *           the errors
-    * @param ra
-    *           the ra
-    * @param model
-    *           the model
-    * @return the string
-    */
-   @RequestMapping(value = "feeMemberList/feeMemberEdit", method = RequestMethod.POST)
-   public String feeMember(@Valid @ModelAttribute FeeMemberForm feeMemberForm,
-         Errors errors, RedirectAttributes ra) {
+	/**
+	 * Training.
+	 *
+	 * @param feeMemberForm the fee member form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeMemberList/feeMemberEdit", method = RequestMethod.POST)
+	public String feeMember(@Valid @ModelAttribute FeeMemberForm feeMemberForm, Errors errors, RedirectAttributes ra) {
 
-      if (errors.hasErrors()) {
-         return FEEMEMBER_VIEW_NAME;
-      }
+		if (errors.hasErrors()) {
+			return FEEMEMBER_VIEW_NAME;
+		}
 
-      try {
-         feeMemberService.update(feeMemberForm.updateFeeMember(feeMember));
-         // It is verified that there is not exist year of feeMember in
-         // other feeMember
-      } catch (UniqueException e) {
-         errors.rejectValue("year", "feeMember.yearException",
-               new Object[] { feeMemberForm.getYear() }, "year");
-         return FEEMEMBER_VIEW_NAME;
-      }
+		try {
+			feeMemberService.update(feeMemberForm.updateFeeMember(feeMember));
+			// It is verified that there is not exist year of feeMember in
+			// other feeMember
+		} catch (UniqueException e) {
+			errors.rejectValue("year", "feeMember.yearException", new Object[] { feeMemberForm.getYear() }, "year");
+			return FEEMEMBER_VIEW_NAME;
+		}
 
-      MessageHelper.addWarningAttribute(ra, "feeMember.successModify",
-            feeMemberForm.getName());
-      return "redirect:/feeMemberList";
-   }
+		MessageHelper.addWarningAttribute(ra, "feeMember.successModify", feeMemberForm.getName());
+		return "redirect:/feeMemberList";
+	}
 
-   /**
-    * Modify FeeMember by Id.
-    *
-    * @param id
-    *           the id
-    * @param ra
-    *           the redirect atributes
-    * @return the string destinity page
-    */
-   @RequestMapping(value = "feeMemberList/feeMemberEdit/{id}", method = RequestMethod.POST)
-   public String modifyFeeMember(@PathVariable Long id) {
+	/**
+	 * Modify FeeMember by Id.
+	 *
+	 * @param id the id
+	 * @param ra the redirect atributes
+	 * @return the string destinity page
+	 */
+	@RequestMapping(value = "feeMemberList/feeMemberEdit/{id}", method = RequestMethod.POST)
+	public String modifyFeeMember(@PathVariable Long id) {
 
-      feeMember = feeMemberService.findById(id);
-      return "redirect:/feeMemberList/feeMemberEdit";
-   }
+		feeMember = feeMemberService.findById(id);
+		return "redirect:/feeMemberList/feeMemberEdit";
+	}
 }

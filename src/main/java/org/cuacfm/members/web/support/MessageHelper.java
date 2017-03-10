@@ -26,7 +26,7 @@ public final class MessageHelper {
 	 * Instantiates a new message helper.
 	 */
 	protected MessageHelper() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

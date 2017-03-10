@@ -22,6 +22,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,96 +34,57 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class TrainingTypeRepositoryImpl implements TrainingTypeRepository {
 
-   /** The entity manager. */
-   @PersistenceContext
-   private EntityManager entityManager;
+	private static final Logger logger = LoggerFactory.getLogger(TrainingTypeRepositoryImpl.class);
 
-   /**
-    * Save.
-    *
-    * @param trainingType
-    *           the trainingType
-    * @return trainingType
-    */
-   @Override
-   @Transactional
-   public TrainingType save(TrainingType trainingType) {
-      entityManager.persist(trainingType);
-      return trainingType;
-   }
+	@PersistenceContext
+	private EntityManager entityManager;
 
-   /**
-    * Update.
-    *
-    * @param training
-    *           the trainingType
-    * @return trainingType
-    */
-   @Override
-   @Transactional
-   public TrainingType update(TrainingType trainingType) {
-      return entityManager.merge(trainingType);
-   }
+	@Override
+	@Transactional
+	public TrainingType save(TrainingType trainingType) {
+		entityManager.persist(trainingType);
+		return trainingType;
+	}
 
-   /**
-    * Delete.
-    *
-    * @param trainingType
-    *           the trainingType
-    */
-   @Override
-   @Transactional
-   public void delete(Long id) {
-      TrainingType trainingType = findById(id);
-      if (trainingType != null) {
-         entityManager.remove(trainingType);
-      }
-   }
+	@Override
+	@Transactional
+	public TrainingType update(TrainingType trainingType) {
+		return entityManager.merge(trainingType);
+	}
 
-   /**
-    * Find by id.
-    *
-    * @param id
-    *           the id of trainingType
-    * @return trainingType
-    */
-   @Override
-   public TrainingType findById(Long id) {
-      try {
-         return entityManager
-               .createQuery("select a from TrainingType a where a.id = :id", TrainingType.class)
-               .setParameter("id", id).getSingleResult();
-      } catch (PersistenceException e) {
-         return null;
-      }
-   }
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		TrainingType trainingType = findById(id);
+		if (trainingType != null) {
+			entityManager.remove(trainingType);
+		}
+	}
 
-   /**
-    * Find by name.
-    *
-    * @param name
-    *           the name of trainingType
-    * @return TrainingType
-    */
-   @Override
-   public TrainingType findByName(String name) {
-      try {
-         return entityManager
-               .createQuery("select a from TrainingType a where a.name = :name", TrainingType.class)
-               .setParameter("name", name).getSingleResult();
-      } catch (NoResultException e) {
-         return null;
-      }
-   }
+	@Override
+	public TrainingType findById(Long id) {
+		try {
+			return entityManager.createQuery("select a from TrainingType a where a.id = :id", TrainingType.class).setParameter("id", id)
+					.getSingleResult();
+		} catch (PersistenceException e) {
+			logger.info("NoResult" + e.getMessage());
+			return null;
+		}
+	}
 
-   /**
-    * Get all trainingTypes.
-    *
-    * @return List<TrainingType>
-    */
-   @Override
-   public List<TrainingType> getTrainingTypeList() {
-      return entityManager.createQuery("select a from TrainingType a order by a.name",
-            TrainingType.class).getResultList();
-   }
+	@Override
+	public TrainingType findByName(String name) {
+		try {
+			return entityManager.createQuery("select a from TrainingType a where a.name = :name", TrainingType.class).setParameter("name", name)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			logger.info("NoResult" + e.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public List<TrainingType> getTrainingTypeList() {
+		return entityManager.createQuery("select a from TrainingType a order by a.name", TrainingType.class).getResultList();
+	}
 }

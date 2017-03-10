@@ -60,7 +60,7 @@ public class HomeControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account user = new Account("user", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER, "", true,
+		Account user = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER, "", true,
 				true, "", "");
 		accountService.save(user);
 		defaultSession = getDefaultSession("user@udc.es");

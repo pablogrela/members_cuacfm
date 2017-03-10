@@ -106,5 +106,13 @@ public interface EventService {
 	 * @param events the events
 	 * @return the list
 	 */
-	public List<EventDTO> getDTO(List<Event> events);
+	public List<EventDTO> getDTOs(List<Event> events);
+
+	/**
+	 * Gets the dto.
+	 *
+	 * @param event the event
+	 * @return the dto
+	 */
+	public EventDTO getDTO(Event event);
 }

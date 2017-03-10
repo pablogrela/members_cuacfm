@@ -28,7 +28,10 @@ import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
+import org.cuacfm.members.model.feemember.FeeMember;
+import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
+import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.web.profile.ProfileForm;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
@@ -59,6 +62,12 @@ public class AccountController {
 	@Autowired
 	private MethodPaymentService methodPaymentService;
 
+	@Autowired
+	private PayMemberService payMemberService;
+
+	@Autowired
+	private FeeMemberService feeMemberService;
+
 	private List<BankAccount> bankAccounts;
 	private Account account;
 
@@ -88,6 +97,7 @@ public class AccountController {
 	 */
 	public String createProfileForm(Model model, ProfileForm profileForm) {
 		profileForm.setName(account.getName());
+		profileForm.setSurname(account.getSurname());
 		profileForm.setNickName(account.getNickName());
 		profileForm.setDni(account.getDni());
 		profileForm.setAddress(account.getAddress());
@@ -125,6 +135,9 @@ public class AccountController {
 		profileForm.setRole(String.valueOf(account.getRole()));
 		profileForm.setRoles(java.util.Arrays.asList(roles.values()));
 		model.addAttribute(profileForm);
+
+		model.addAttribute("payMembers", payMemberService.getPayMemberListByAccountId(account.getId()));
+
 		return ACCOUNT_VIEW_NAME;
 	}
 
@@ -205,6 +218,7 @@ public class AccountController {
 		//		}
 
 		account.setName(profileForm.getName());
+		account.setSurname(profileForm.getSurname());
 		account.setNickName(profileForm.getNickName());
 		account.setDni(profileForm.getDni());
 		account.setAddress(profileForm.getAddress());
@@ -277,14 +291,36 @@ public class AccountController {
 			return createProfileForm(model, new ProfileForm());
 		}
 
-		IBANCheckDigit IbanCheckDigit = new IBANCheckDigit();
-		if (!IbanCheckDigit.isValid(bankAccountForm.getIban())) {
+		IBANCheckDigit ibanCheckDigit = new IBANCheckDigit();
+		if (!ibanCheckDigit.isValid(bankAccountForm.getIban())) {
 			errors.rejectValue("iban", "account.errorIban", new Object[] { bankAccountForm.getIban() }, "iban");
 			return createProfileForm(model, new ProfileForm());
 		}
 
 		accountService.saveBankAccount(bankAccountForm.createBankAccount(account));
 		MessageHelper.addWarningAttribute(ra, "account.successCreateBankAccount", bankAccountForm.getBank());
+		return "redirect:/account";
+	}
+
+	/**
+	 * Adds the user to pay member list.
+	 *
+	 * @param profileForm the profile form
+	 * @param errors the errors
+	 * @param ra the ra
+	 * @param model the model
+	 * @return the string
+	 */
+	@RequestMapping(value = "account/addFeeMember", method = RequestMethod.POST)
+	public String addUserToPayMemberList(@Valid @ModelAttribute ProfileForm profileForm, Errors errors, RedirectAttributes ra, Model model) {
+
+		FeeMember feeMember = feeMemberService.getLastFeeMember();
+		if (feeMember != null) {
+			feeMemberService.savePayMember(account, feeMember);
+			MessageHelper.addSuccessAttribute(ra, "account.successAddFeeMember", feeMember.getName());
+		} else {
+			MessageHelper.addErrorAttribute(ra, "account.errorAddFeeMember", "");
+		}
 		return "redirect:/account";
 	}
 }

@@ -41,11 +41,11 @@ public class UserService implements UserDetailsService {
 	 * Instantiates a new user service.
 	 */
 	public UserService() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
-	 * Load user in the system by login.
+	 * Load user in the system by email.
 	 *
 	 * @param email the email
 	 * @param account the account
