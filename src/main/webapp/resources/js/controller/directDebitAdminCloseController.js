@@ -19,7 +19,7 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 	$scope.sortReverse = false;
 	$scope.totalItems = 0;
 	$scope.currentPage = 1;
-	$scope.numPerPage = 20;
+	$scope.numPerPage = 200;
 	$scope.directDebits = [];
 	$scope.account = '';
 	$scope.message = '';

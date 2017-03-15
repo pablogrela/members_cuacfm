@@ -95,7 +95,7 @@
 					<!-- Table entry -->
 					<tr th:each="payProgram : ${payPrograms}">
 						<td th:text="${payProgram.program.name}">name</td>
-						<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
+						<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' ' + ${account.surname} + ', '"></span></td>
 						<td th:text="${payProgram.price}">price</td>
 						<td th:text="#{${'states.' + payProgram.state}}">State</td>
 						<td th:if="${payProgram.method == null}"></td>

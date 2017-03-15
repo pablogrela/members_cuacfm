@@ -78,7 +78,7 @@ public class EventServiceImpl implements EventService {
 		if (auth != null) {
 			adminName = auth.getName();
 		}
-		Object[] arguments = { adminName, account.getName() };
+		Object[] arguments = { adminName, account.getName() + " " + account.getSurname() };
 		save(message, account, priority, arguments);
 	}
 

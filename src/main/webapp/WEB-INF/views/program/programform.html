@@ -299,7 +299,7 @@
 			</thead>
 			<tbody class="table-bordered">
 				<tr th:each="account : ${programForm.accounts}">
-					<td th:text="${account.name}"></td>
+					<td th:text="${account.name} + ' ' + ${account.surname}"></td>
 					<!-- Delete User to Program -->
 					<td>
 						<button type="submit" th:value="${account.id}" th:name="removeUser" class="btnTable btn-link glyphicon glyphicon-remove-sign"
@@ -335,8 +335,10 @@
 								<span class="help-block" th:if="${#fields.hasErrors('accountPayerName')}" th:errors="*{accountPayerName}"> Incorrect accountPayerName</span>
 								<div class="ws-errorbox" hidden=""></div>
 							</div>
-						</th:block> <!-- Form add account payer by no admin --> <th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
-							<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
+						</th:block> 
+						<!-- Form add account payer by no admin --> 
+						<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+							<!-- <label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label> -->
 							<div class="col-lg-9 text-danger">
 								<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}"
 									autocomplete="off" />

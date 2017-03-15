@@ -334,7 +334,7 @@ public class BankRemittanceSEPAXML {
 		currencyAndAmount.setCcy(currency);
 		BigDecimal importe = new BigDecimal(directDebit.getPrice()).setScale(DECIMALS, ROUNDING);
 		// Antes se dividia por 100 ¿Por que se divide?
-		currencyAndAmount.setValue(importe.divide(new BigDecimal(100)).setScale(DECIMALS, ROUNDING));
+		currencyAndAmount.setValue(importe.setScale(DECIMALS, ROUNDING));
 		directDebitInformation.setInstdAmt(currencyAndAmount);
 
 		DirectDebitTransaction6 directDebitTransaction = factory.createDirectDebitTransaction6();
@@ -416,7 +416,7 @@ public class BankRemittanceSEPAXML {
 
 			totalReceiptsDebtor++;
 			BigDecimal importe = new BigDecimal(directDebit.getPrice());
-			totalImportDebtor = totalImportDebtor.add(importe.divide(new BigDecimal(100)).setScale(DECIMALS, ROUNDING));
+			totalImportDebtor = totalImportDebtor.add(importe.setScale(DECIMALS, ROUNDING));
 
 			// }
 

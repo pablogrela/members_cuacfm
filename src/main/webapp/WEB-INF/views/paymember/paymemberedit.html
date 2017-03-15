@@ -33,7 +33,7 @@
 	<br></br>
 
 
-	<h1 class="text-center" th:text="*{payMember.account.name}">Account Name</h1>
+	<h1 class="text-center" th:text="*{payMember.account.name + ' ' + payMember.account.surname}">Account Name</h1>
 
 
 	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payMemberEdit}" th:object="${payMemberForm}">

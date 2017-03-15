@@ -86,12 +86,12 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 
 	@Override
 	public List<Program> getProgramListActive() {
-		return entityManager.createQuery("select p from Program p where p.active = true order by p.name", Program.class).getResultList();
+		return entityManager.createQuery("select p from Program p where p.active = true or (p.active = false and p.dateDown is null) order by p.name", Program.class).getResultList();
 	}
 
 	@Override
 	public List<Program> getProgramListClose() {
-		return entityManager.createQuery("select p from Program p where p.active = false order by p.name", Program.class).getResultList();
+		return entityManager.createQuery("select p from Program p where p.active = false and p.dateDown is not null order by p.name", Program.class).getResultList();
 	}
 
 	@Override

@@ -50,8 +50,8 @@
 		<!-- List events -->
 		<div data-ng-controller="EventController as ctrl">
 			
-			<!-- Welcome message   -->
-			<div data-ng-show="!ctrl.events" class="text-center">
+			<!-- Welcome message -->
+			<div data-ng-if="ctrl.events.length &lt; 3" class="text-center">
 				<h1 th:text="#{home.welcome}">Welcome</h1>
 				<br></br>
 			</div>

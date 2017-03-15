@@ -89,7 +89,7 @@ public class ProgramCreateController {
 		if (account.getRole() != roles.ROLE_ADMIN) {
 			programForm.addAccount(account);
 			programForm.setAccountPayer(account);
-			programForm.setAccountPayerName(account.getName());
+			programForm.setAccountPayerName(account.getName() + " " + account.getSurname());
 		}
 		programForm.setProgramThematics(programService.findProgramThematicList());
 		programForm.setProgramTypes(programService.findProgramTypeList());
@@ -224,7 +224,7 @@ public class ProgramCreateController {
 			errors.rejectValue("accountPayerName", "program.noExistUser", new Object[] { name }, "accountPayerName");
 			return PROGRAM_VIEW_NAME;
 		}
-		programForm.setAccountPayerName(account.getName());
+		programForm.setAccountPayerName(account.getName() + " " + account.getSurname());
 		programForm.setAccountPayer(account);
 		MessageHelper.addSuccessAttribute(model, "program.successAddAcountPayer", name);
 		return PROGRAM_VIEW_NAME;

@@ -149,9 +149,9 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 		List<String> usernames = new ArrayList<>();
 		for (Account account : accounts) {
 			if (account.getNickName() != null && !account.getNickName().isEmpty()) {
-				usernames.add(account.getId() + ": " + account.getName() + " " + account.getName() + " - " + account.getNickName());
+				usernames.add(account.getId() + ": " + account.getName() + " " + account.getSurname() + " - " + account.getNickName());
 			} else {
-				usernames.add(account.getId() + ": " + account.getName() + " " + account.getName());
+				usernames.add(account.getId() + ": " + account.getName() + " " + account.getSurname());
 			}
 		}
 		return usernames;

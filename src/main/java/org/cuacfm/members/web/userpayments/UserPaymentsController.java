@@ -325,7 +325,7 @@ public class UserPaymentsController {
 		// Verified if account is equals to account of userPayAccount
 		if (payProgram.getProgram().getAccounts().contains(account)) {
 			try {
-				payProgramService.payPayPal(payProgram, account.getName(), idTxn, idPayer, emailPayer, statusPay, datePay);
+				payProgramService.payPayPal(payProgram, account.getName() + " " + account.getSurname(), idTxn, idPayer, emailPayer, statusPay, datePay);
 				MessageHelper.addSuccessAttribute(ra, Constants.SUCCESSPAYPAL, payProgram.getProgram().getName());
 			} catch (ExistTransactionIdException e) {
 				MessageHelper.addErrorAttribute(ra, Constants.ERRORPAYPAL, payProgram.getProgram().getName());

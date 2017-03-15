@@ -86,9 +86,9 @@ public class PayProgramEditController {
 	public String getPayProgram(Model model) {
 
 		if (payProgram != null) {
-			usernames = new ArrayList<String>();
+			usernames = new ArrayList<>();
 			for (Account account : payProgram.getProgram().getAccounts()) {
-				usernames.add(account.getName());
+				usernames.add(account.getName() + " " + account.getSurname());
 			}
 			model.addAttribute("usernames", usernames);
 

@@ -123,7 +123,7 @@
 
 					<!-- Table entry -->
 					<tr th:each="payMember : ${payMembers}" id="payMembers">
-						<td id="payMemberName" th:text="${payMember.account.name}">name</td>
+						<td id="payMemberName" th:text="${payMember.account.name} + ' ' + ${payMember.account.surname}">name</td>
 						<td th:text="${payMember.account.mobile}">mobile</td>
 						<td id="payMemberPrice" th:text="${payMember.price}">price</td>
 						<td th:text="#{${'states.' + payMember.state}}">State</td>

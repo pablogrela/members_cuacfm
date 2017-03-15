@@ -252,4 +252,13 @@ public class ProgramDTO {
 		this.dateDown = dateDown;
 	}
 
+	@Override
+	public String toString() {
+		return "ProgramDTO [id=" + id + ", name=" + name + ", description=" + description + ", periodicity=" + periodicity + ", duration=" + duration
+				+ ", accounts=" + accounts + ", accountPayer=" + accountPayer + ", programType=" + programType + ", programThematic="
+				+ programThematic + ", programLanguage=" + programLanguage + ", programCategory=" + programCategory + ", email=" + email
+				+ ", twitter=" + twitter + ", facebook=" + facebook + ", podcast=" + podcast + ", web=" + web + ", active=" + active + ", dateCreate="
+				+ dateCreate + ", dateDown=" + dateDown + "]";
+	}
+
 }

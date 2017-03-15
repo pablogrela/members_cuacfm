@@ -252,7 +252,7 @@ public class ProgramEditController {
 			errors.rejectValue("accountPayerName", "program.noExistUser", new Object[] { name }, "accountPayerName");
 			return PROGRAM_VIEW_NAME;
 		}
-		programForm.setAccountPayerName(account.getName());
+		programForm.setAccountPayerName(account.getName() + " " + account.getSurname());
 		programForm.setAccountPayer(account);
 
 		MessageHelper.addSuccessAttribute(model, "program.successAddAcountPayer", name);

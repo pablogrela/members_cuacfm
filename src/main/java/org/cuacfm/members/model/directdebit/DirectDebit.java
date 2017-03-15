@@ -243,7 +243,7 @@ public class DirectDebit implements Serializable {
 	}
 
 	public String getConcept() {
-		String concept = account.getName() + ": ";
+		String concept = account.getName() + " " + account.getSurname() + ": ";
 
 		if (getPayMembers() != null) {
 			for (PayMember payMember : getPayMembers()) {

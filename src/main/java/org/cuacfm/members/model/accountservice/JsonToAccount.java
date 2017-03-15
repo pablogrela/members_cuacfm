@@ -94,6 +94,11 @@ public class JsonToAccount {
 			String knowledge = FileUtils.split((String) jsonObjectRow.get("knowledge"), MAX_AREA);
 			String personality = FileUtils.split((String) jsonObjectRow.get("personality"), MAX_AREA);
 
+			// If email not valid, continue with next user
+			if (email == null || email.isEmpty()){
+				continue;
+			}
+			
 			try {
 				Account accountAux = accountService.findByEmail(email);
 				if (accountAux != null) {

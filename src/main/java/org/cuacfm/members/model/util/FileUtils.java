@@ -102,10 +102,11 @@ public class FileUtils {
 	 * @return the string
 	 */
 	public static String split(String camp, int maxLength) {
-		if (camp != null && camp.length() > maxLength) {
-			return camp.substring(0, maxLength);
+		String campAux = camp;
+		if (campAux != null && campAux.length() > maxLength) {
+			return campAux.trim().substring(0, maxLength);
 		} else {
-			return camp;
+			return campAux;
 		}
 	}
 
@@ -118,9 +119,9 @@ public class FileUtils {
 	 */
 	public static String changeValue(String oldValue, String newValue) {
 		if (newValue != null && !newValue.isEmpty()) {
-			return newValue;
+			return newValue.trim();
 		} else {
-			return oldValue;
+			return oldValue.trim();
 		}
 	}
 

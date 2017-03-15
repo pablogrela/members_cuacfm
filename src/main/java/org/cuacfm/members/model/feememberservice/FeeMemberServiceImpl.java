@@ -152,7 +152,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 			}
 		}
 
-		Object[] arguments = { account.getName(), feeMember.getName() };
+		Object[] arguments = { account.getName() + " " + account.getSurname(), feeMember.getName() };
 		eventService.save("payMember.admin.successJoin", null, 2, arguments);
 	}
 

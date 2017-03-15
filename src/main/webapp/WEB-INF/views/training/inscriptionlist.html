@@ -121,7 +121,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						<!--<td> <input type="hidden" th:field="*{inscriptions[__${stat.index}__].account}" /> </td>-->
 						<!--<td> <input type="hidden" th:field="*{inscriptions[__${stat.index}__].training}" /> </td>-->
 
-						<td th:text="${inscription.account.name}">name</td>
+						<td th:text="${inscription.account.name} + ' ' + ${inscription.account.surname}">name</td>
 
 						<td ><input 
 							th:field="*{inscriptions[__${stat.index}__].attend}"

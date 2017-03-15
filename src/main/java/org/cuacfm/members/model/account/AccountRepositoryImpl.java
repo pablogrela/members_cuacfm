@@ -142,9 +142,9 @@ public class AccountRepositoryImpl implements AccountRepository {
 		List<String> usernames = new ArrayList<>();
 		for (Account account : accounts) {
 			if (account.getNickName() != null) {
-				usernames.add(account.getId() + ": " + account.getName() + " - " + account.getNickName());
+				usernames.add(account.getId() + ": " + account.getName() + " " + account.getSurname() + " - " + account.getNickName());
 			} else {
-				usernames.add(account.getId() + ": " + account.getName());
+				usernames.add(account.getId() + ": " + account.getName() + " " + account.getSurname());
 			}
 		}
 		return usernames;

@@ -33,12 +33,16 @@ import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.web.support.DisplayDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /** The Class DirectDebitRepositoryImpl. */
 @Service("directDebitService")
 public class DirectDebitServiceImpl implements DirectDebitService {
+
+	private static final Logger logger = LoggerFactory.getLogger(DirectDebitServiceImpl.class);
 
 	@Autowired
 	private AccountService accountService;
@@ -78,7 +82,11 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 
 		// if price is 0, it is not create directDebit
 		if (directDebit.getPrice() == 0) {
-			directDebitRepository.remove(directDebit);
+			try {
+				directDebitRepository.remove(directDebit);
+			} catch (Exception e) {
+				logger.error("save: ", e);
+			}
 			return null;
 		}
 

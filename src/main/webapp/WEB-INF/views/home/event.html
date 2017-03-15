@@ -30,7 +30,7 @@
 			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
 			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 		</form>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ', ' + event.description"></span>
+		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname + ', ' + event.description"></span>
 	</div>
 
 	<div th:fragment="eventNormal">
@@ -42,7 +42,7 @@
 			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
 			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 		</form>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ', ' + event.description"></span>
+		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname + ', ' + event.description"></span>
 	</div>
 
 	<div th:fragment="eventUser">
@@ -51,12 +51,12 @@
 
 	<div th:fragment="eventClose">
 		<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
-			th:title="#{event.infoHighlight}" style="color: white"></button>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ', ' + event.description"></span>
+			th:title="#{event.infoHighlight}" style="color: white"></button>	
 		<form class="btnTable" action="{{'account/' + event.account.id}} " method="post">
 			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
 			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 		</form>
+		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname + ', ' + event.description"></span>
 	</div>
 
 </body>
