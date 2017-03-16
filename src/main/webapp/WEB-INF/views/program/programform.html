@@ -207,43 +207,6 @@
 		<h3 class="text-center" th:text="#{members}">List of Programs Empty</h3>
 
 		<br></br>
-		<!-- Login -->
-<!-- 		<div class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'"> -->
-			<!-- Form add user by admin -->
-<!-- 			<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')"> -->
-<!-- 				<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label> -->
-
-<!-- 				<div class="col-lg-9 text-danger"> -->
-<!-- 					<input type="text" class="form-control" list="userlist" th:placeholder="#{login}" th:field="*{login}" autocomplete="off" /> -->
-
-<!-- 					Datalist is a search by keyword -->
-<!-- 					<datalist id="userlist"> -->
-<!-- 						<option th:each="username : ${usernames}" th:value="${username}" /> -->
-<!-- 					</datalist> -->
-
-<!-- 					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span> -->
-<!-- 					<div class="ws-errorbox" hidden=""></div> -->
-<!-- 				</div> -->
-<!-- 			</th:block> -->
-
-			<!-- Form add user by no admin -->
-<!-- 			<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')"> -->
-<!-- 				<label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label> -->
-
-<!-- 				<div class="col-lg-9 text-danger"> -->
-<!-- 					<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{login}" th:title="#{program.infoAddUserByDni}" autocomplete="off" /> -->
-<!-- 					<span class="help-block" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span> -->
-<!-- 					<div class="ws-errorbox" hidden=""></div> -->
-<!-- 				</div> -->
-<!-- 			</th:block> -->
-
-			<!-- Button Add User to Program-->
-<!-- 			<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign" th:title="#{inscription.addUser}" -->
-<!-- 				style="color: green"></button> -->
-
-<!-- 		</div> -->
-
-
 		
 		<!-- Form to add user by login -->
 		<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
@@ -285,10 +248,6 @@
 		</div>
 
 
-
-
-
-
 		<!-- List of users pertains to program -->
 		<table class="dataTable display table-striped">
 			<thead class="table-bordered">
@@ -322,11 +281,13 @@
 			<tbody class="table-bordered">
 				<tr>
 					<th th:classappend="${#fields.hasErrors('accountPayerName')}? 'has-error'">
-						<!-- Form add account payer by admin --> <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						
+						<!-- Form add account payer by admin --> 
+						<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
 							<div class="col-lg-9 text-danger">
-								<input type="text" class="form-control" list="userlist" th:placeholder="#{program.acountPayer}" th:field="*{accountPayerName}"
-									autocomplete="off" />
-
+								<input th:if="*{accountPayer} == null" type="text" class="form-control" list="userlist" th:placeholder="#{program.acountPayer}" th:field="*{accountPayerName}" autocomplete="off"/>
+								<input th:if="*{accountPayer} != null" type="text" class="form-control" th:field="*{accountPayerName}" readonly="readonly" />
+									
 								<!-- Datalist is a search by keyword-->
 								<datalist id="userlist">
 									<option th:each="username : ${usernames}" th:value="${username}" />
@@ -336,12 +297,13 @@
 								<div class="ws-errorbox" hidden=""></div>
 							</div>
 						</th:block> 
+						
 						<!-- Form add account payer by no admin --> 
 						<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
-							<!-- <label for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label> -->
+							<label th:if="*{accountPayer} == null" for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
 							<div class="col-lg-9 text-danger">
-								<input type="text" class="form-control" th:placeholder="#{dni}" th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}"
-									autocomplete="off" />
+								<input th:if="*{accountPayer} == null" type="text" class="form-control" th:placeholder="#{dni}" th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}" autocomplete="off" />
+								<input th:if="*{accountPayer} != null" type="text" class="form-control"  th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}" readonly="readonly" />
 								<span class="help-block" th:if="${#fields.hasErrors('accountPayerName')}" th:errors="*{accountPayerName}"> Incorrect accountPayerName</span>
 								<div class="ws-errorbox" hidden=""></div>
 							</div>

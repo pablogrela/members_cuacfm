@@ -15,5 +15,5 @@
  */
 'use strict';
 
-var membersApp = angular.module('membersApp', ['ui.bootstrap', 'ngResource'  ]);
+var membersApp = angular.module('membersApp', ['ui.bootstrap', 'ngResource','angularUtils.directives.dirPagination'  ]);
 

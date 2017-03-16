@@ -51,9 +51,9 @@
 			<table class="dataTable display table-striped">
 				<thead>
 					<tr>
-						<th><a href="#" data-ng-click="sortType = 'account.name'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
-									data-ng-show="sortType == 'account.name' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-									data-ng-show="sortType == 'account.name' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+						<th><a href="#" data-ng-click="sortType = 'account.name+account.surname'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
+									data-ng-show="sortType == 'account.name+account.surname' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
+									data-ng-show="sortType == 'account.name+account.surname' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
 						</a></th>
 						<td><a href="#" data-ng-click="sortType = 'id'; sortReverse = !sortReverse"> <span th:text="#{concept}">concept</span> <span
 									data-ng-show="sortType == 'id' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
@@ -82,7 +82,7 @@
 
 				<tbody>
 					<!-- Table entry -->
-					<tr data-ng-repeat="directDebit in directDebits | orderBy:sortType:sortReverse | filter:search | filter:paginate">
+					<tr pagination-id="paginate" dir-paginate="directDebit in directDebits | orderBy:sortType:sortReverse:localeSensitiveComparator | filter:search | itemsPerPage:numPerPage">
 						<td><span th:title="#{account.infoAccount}" data-ng-bind="directDebit.account.name + ' ' + directDebit.account.surname" data-ng-click="ctrl.infoAccount(directDebit.account)"
 								data-toggle="modal" data-target="#infoAccount"></span></td>
 
@@ -150,11 +150,7 @@
 					</tr>
 				</tbody>
 			</table>
-
-			<div data-uib-pagination="uib-pagination" data-total-items="totalItems" data-ng-model="currentPage" data-ng-change="pageChanged()"
-				data-items-per-page="numPerPage" class="pagination-sm pull-right" data-boundary-links="true" data-previous-text="&lsaquo;"
-				data-next-text="&rsaquo;" data-first-text="&laquo;" data-last-text="&raquo;"></div>
-
+			<dir-pagination-controls pagination-id="paginate" class="pagination-sm pull-right" boundary-links="true" auto-hide="false"></dir-pagination-controls>
 		</div>
 	</div>
 

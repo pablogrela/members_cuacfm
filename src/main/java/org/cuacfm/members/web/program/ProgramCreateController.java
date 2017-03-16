@@ -178,7 +178,7 @@ public class ProgramCreateController {
 		programForm.setLogin("");
 		programForm.addAccount(account);
 
-		MessageHelper.addSuccessAttribute(model, "program.successAddUser", name);
+		MessageHelper.addSuccessAttribute(model, "program.successAddUser", account.getName() + ' ' + account.getSurname());
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -226,7 +226,7 @@ public class ProgramCreateController {
 		}
 		programForm.setAccountPayerName(account.getName() + " " + account.getSurname());
 		programForm.setAccountPayer(account);
-		MessageHelper.addSuccessAttribute(model, "program.successAddAcountPayer", name);
+		MessageHelper.addSuccessAttribute(model, "program.successAddAcountPayer", programForm.getAccountPayerName());
 		return PROGRAM_VIEW_NAME;
 	}
 

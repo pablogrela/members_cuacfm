@@ -17,9 +17,7 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 	$scope.sortType = '';
 	$scope.search = '';
 	$scope.sortReverse = false;
-	$scope.totalItems = 0;
-	$scope.currentPage = 1;
-	$scope.numPerPage = 200;
+	$scope.numPerPage = 20;
 	$scope.account = '';
 	$scope.accounts = [];
 	$scope.message = '';
@@ -34,7 +32,6 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 	function fetchAllUsers() {
 		AccountService.fetchAllUsers().then(function(data) {
 			$scope.accounts = data;
-			$scope.totalItems = $scope.accounts.length;
 		}, function(errResponse) {
 			console.error('Error while fetching Users');
 		});
@@ -62,16 +59,18 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 		});
 	}
 
-	$scope.paginate = function(value) {
-		var begin, end, index;
-		begin = ($scope.currentPage - 1) * $scope.numPerPage;
-		end = begin + $scope.numPerPage;
-		index = $scope.accounts.indexOf(value);
-		return (begin <= index && index < end);
-	};
-	
 	function infoAccount(aux) {
 		$scope.account = aux;
 	}
 
+	$scope.localeSensitiveComparator = function(v1, v2) {
+		// If we don't get strings, just compare by index
+		if (v1.type !== 'string' || v2.type !== 'string') {
+			return (v1.index < v2.index) ? -1 : 1;
+		}
+
+		// Compare strings alphabetically, taking locale into account
+		return v1.value.localeCompare(v2.value);
+	};
+    
 } ]);

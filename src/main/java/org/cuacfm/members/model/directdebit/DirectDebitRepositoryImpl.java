@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(DirectDebitRepositoryImpl.class);
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -55,7 +55,11 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 	@Override
 	@Transactional
 	public void remove(DirectDebit directDebit) {
-		entityManager.remove(directDebit);
+		try {
+			entityManager.remove(directDebit);
+		} catch (Exception e) {
+			logger.error("save: ", e);
+		}
 	}
 
 	@Override
@@ -134,7 +138,8 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 	@Override
 	public String isRcurOrFRST(Long accountId) {
 		// Si tienes pagos ese usario y son con remesada bancara y ya han sido cobrados
-		List<DirectDebit> directDebits = entityManager.createQuery("select d from DirectDebit d where d.account.id = :id and d.state = :state and d.method = :method", DirectDebit.class)
+		List<DirectDebit> directDebits = entityManager
+				.createQuery("select d from DirectDebit d where d.account.id = :id and d.state = :state and d.method = :method", DirectDebit.class)
 				.setParameter("id", accountId).setParameter("state", states.PAY).setParameter("method", methods.DIRECTDEBIT).getResultList();
 		if (directDebits.isEmpty()) {
 			return "FRST";
