@@ -333,6 +333,13 @@ CREATE TABLE BankRemittance(
 );  
 
 
+CREATE TABLE ReturnReason (
+    id VARCHAR(50) NOT NULL,
+    description VARCHAR(500),
+    CONSTRAINT ReturnReason_PK PRIMARY KEY (id)
+);
+
+
 CREATE TABLE DirectDebit(
    -- id referencia adeudo
     id VARCHAR(20) NOT NULL, 
@@ -347,7 +354,7 @@ CREATE TABLE DirectDebit(
     -- mandate VARCHAR(24) NULL,
     -- secuencia adeudose
     secuence VARCHAR(4) NULL,
-    returnReason VARCHAR(50) NULL,
+    returnReasonId VARCHAR(50),
     
     -- paypal
     idPayer VARCHAR(50),
@@ -357,8 +364,9 @@ CREATE TABLE DirectDebit(
     CONSTRAINT DirectDebitId_PK PRIMARY KEY (id),
     CONSTRAINT DirectDebit_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
     CONSTRAINT DirectDebit_BankRemittance_FK FOREIGN KEY (bankRemittanceId) REFERENCES BankRemittance(id),
+    CONSTRAINT DirectDebit_ReturnReason_FK FOREIGN KEY (returnReasonId) REFERENCES ReturnReason(id),
     CONSTRAINT IdTxnUniqueKey UNIQUE (idTxn)
-); 
+);  
 
 
 CREATE TABLE DirectDebitPayPrograms(
@@ -390,12 +398,6 @@ CREATE TABLE Event(
     CONSTRAINT EventId_PK PRIMARY KEY (id),
     CONSTRAINT Event_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
 ); 
-
-CREATE TABLE ReturnReason (
-    id INT NOT NULL,
-    description VARCHAR(50),
-    CONSTRAINT ReturnReason_PK PRIMARY KEY (id)
-);
 
 
 -- Insert Program Type:

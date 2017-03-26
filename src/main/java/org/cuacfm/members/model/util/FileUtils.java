@@ -18,6 +18,7 @@ package org.cuacfm.members.model.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -111,7 +112,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * Change value, if newValue different of null
+	 * Change value, if newValue different of null.
 	 *
 	 * @param oldValue the old value
 	 * @param newValue the new value
@@ -126,7 +127,7 @@ public class FileUtils {
 	}
 
 	/**
-	 * Change value, if newValue different of null
+	 * Change value, if newValue different of null.
 	 *
 	 * @param oldValue the old value
 	 * @param newValue the new value
@@ -151,5 +152,15 @@ public class FileUtils {
 			return "Sí".equalsIgnoreCase(value.trim()) ? true : false;
 		}
 		return null;
+	}
+
+	/**
+	 * Gets the file.
+	 *
+	 * @param path the path
+	 * @return the file
+	 */
+	public static InputStream getFile(String path) {
+		return FileUtils.class.getClassLoader().getResourceAsStream(path);
 	}
 }

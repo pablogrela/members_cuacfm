@@ -93,7 +93,7 @@ public class JsonToProgram {
 			String description = FileUtils.split((String) jsonObjectRow.get("description"), MAX_AREA);
 			description = description + "\n" + FileUtils.split((String) jsonObjectRow.get("hour"), MAX_AREA);
 			Float periodicity = (Float) jsonObjectRow.get("periodicity");
-			Integer duration = (Integer) jsonObjectRow.get("periodicity");
+			Integer duration = (Integer) jsonObjectRow.get("duration");
 
 			// Conseguir los miembros, mejor sacar la relacion de programName, dentro de accounts.json
 			// String members = FileUtils.split((String) jsonObjectRow.get("accounts"), MAX_CHARACTERS);
@@ -120,8 +120,6 @@ public class JsonToProgram {
 			String web = FileUtils.split((String) jsonObjectRow.get("web"), MAX_CHARACTERS).trim();
 
 			Boolean active = FileUtils.getBoolean((String) jsonObjectRow.get("active"));
-			// String mobile = FileUtils.split((String) jsonObjectRow.get("mobile"), MAX_NUMBER);
-
 			String accountPayerName = FileUtils.split((String) jsonObjectRow.get("accountPayer"), MAX_CHARACTERS);
 			Account accountPayer = accountService.findByEmail(accountPayerName);
 
@@ -151,7 +149,7 @@ public class JsonToProgram {
 
 				} else {
 					// Default values, if property is null
-					periodicity = (Float) FileUtils.changeValue((float) 0.0, periodicity);
+					periodicity = (Float) FileUtils.changeValue((float) 1.0, periodicity);
 					duration = (Integer) FileUtils.changeValue(60, duration);
 					active = (Boolean) FileUtils.changeValue(true, active);
 

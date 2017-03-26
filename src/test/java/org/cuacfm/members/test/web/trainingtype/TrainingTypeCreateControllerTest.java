@@ -155,7 +155,6 @@ public class TrainingTypeCreateControllerTest extends WebSecurityConfigurationAw
 
 		mockMvc.perform(post("/trainingTypeList/trainingTypeCreate").locale(Locale.ENGLISH).session(defaultSession)
 				.param("name", "1111111111111111111111111111111111111111111111111111111").param("required", "false")
-				.param("description", "111111111111111111111111111111111111111111111111")
 				.param("place", "111111111111111111111111111111111111111111111111111111").param("duration", "90"))
 				.andExpect(content().string(containsString("Maximum 50 characters"))).andExpect(view().name("trainingtype/trainingtypecreate"));
 

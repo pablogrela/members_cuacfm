@@ -25,6 +25,8 @@ import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.event.Event;
 import org.cuacfm.members.model.event.EventDTO;
 import org.cuacfm.members.model.eventservice.EventService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +42,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
 	public static final String REDIRECT_HOME = "redirect:/";
 	private static final String HOMESIGNEDIN = "home/homeSignedIn";
 	private static final String HOMENOTSIGNEDIN = "home/homeNotSignedIn";
@@ -64,6 +68,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model, Principal principal) {
 		if (principal != null) {
+			logger.info("entro");
 			model.addAttribute("email", configurationService.getConfiguration().getEmail());
 			return HOMESIGNEDIN;
 		} else {

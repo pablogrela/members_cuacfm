@@ -16,12 +16,15 @@
 package org.cuacfm.members.config;
 
 import org.cuacfm.members.Application;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
@@ -46,11 +49,10 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @ComponentScan(basePackageClasses = Application.class, includeFilters = @Filter(Controller.class), useDefaultFilters = false)
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
-	/** The Constant MESSAGE_SOURCE. */
-	private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
+	private static final Logger logger = LoggerFactory.getLogger(WebMvcConfig.class);
 
-	/** The Constant, contains web.properties */
-	private static final String CONFIG = "/WEB-INF/web";
+	@Autowired
+	private MessageSource messageSource;
 
 	/** The Constant VIEWS. */
 	private static final String VIEWS = "/WEB-INF/views/";
@@ -102,17 +104,15 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		return requestMappingHandlerMapping;
 	}
 
-	/**
-	 * Message source.
-	 *
-	 * @return the message source
-	 */
-	@Bean(name = "messageSource")
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasenames(CONFIG, MESSAGE_SOURCE);
-		messageSource.setCacheSeconds(5);
-		return messageSource;
+	@Bean(name = "properties")
+	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
+		PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
+		try {
+			ppc.setProperties(ApplicationConfig.getProperties());
+		} catch (Exception e) {
+			logger.error("PropertyPlaceholderConfigurer ", e);
+		}
+		return ppc;
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	@Override
 	public Validator getValidator() {
 		LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-		validator.setValidationMessageSource(messageSource());
+		validator.setValidationMessageSource(messageSource);
 		return validator;
 	}
 

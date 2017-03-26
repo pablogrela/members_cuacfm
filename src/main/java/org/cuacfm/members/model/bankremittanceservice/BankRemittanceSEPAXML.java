@@ -16,7 +16,6 @@
 
 package org.cuacfm.members.model.bankremittanceservice;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -127,15 +126,12 @@ public class BankRemittanceSEPAXML {
 	 * Instantiates a new Bank Remittance SEPAXML.
 	 *
 	 * @param path the path
-	 * @param messageSource the message source
 	 * @param bankRemittance the bank remittance
 	 * @param directDebits the direct debits
-	 * @throws FileNotFoundException the file not found exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws JAXBException the JAXB exception
 	 * @throws DatatypeConfigurationException the datatype configuration exception
 	 */
-
 	public void create(String path, BankRemittance bankRemittance, List<DirectDebit> directDebits)
 			throws IOException, JAXBException, DatatypeConfigurationException {
 

@@ -49,7 +49,7 @@ public class JsonToAccount {
 	private static final int MAX_DNI = 10;
 	private static final int MAX_NUMBER = 20;
 
-	@Value("${formAccounts}")
+	@Value("${path}${${formAccounts}")
 	private String formAccounts;
 
 	@Autowired

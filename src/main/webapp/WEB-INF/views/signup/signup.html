@@ -267,26 +267,12 @@
 
 
 			<!-- Recaptcha, el data-sitekey se debe cambiar el funcion del entorno -->
-			<div class="form-group container g-recaptcha" data-sitekey="6LeTZg8UAAAAAHtqK7Hgl0zhcUW8W-Nsr-5SwJah"></div>
-			<noscript>
-				<div style="width: 302px; height: 422px;">
-					<div style="width: 302px; height: 422px; position: relative;">
-						<div style="width: 302px; height: 422px; position: absolute;">
-							<iframe src="https://www.google.com/recaptcha/api/fallback?k=your_site_key" data-frameborder="0" data-scrolling="no"
-								style="width: 302px; height: 422px; border-style: none;"> </iframe>
-						</div>
-						<div style="width: 300px; height: 60px; border-style: none; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
-							<textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response"
-								style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;"> 
-							        </textarea>
-						</div>
-					</div>
-				</div>
-			</noscript>
-
-			<div class="form-group" th:classappend="${#fields.hasErrors('captcha')}? 'has-error'">
+			<!-- Remove row, row-center, and col-centered, to move recaptcha to left -->
+			<div class="form-group row row-centered" th:classappend="${#fields.hasErrors('captcha')}? 'has-error'">
+				<div class="col-centered g-recaptcha" th:attr="data-sitekey=${recaptcha}"></div>
 				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}"> Incorrect captcha</span>
 			</div>
+
 
 			<!-- Button SignUp -->
 			<div class="form-group">
@@ -294,6 +280,7 @@
 					<button type="submit" class="btn btn-success btn-lg" id="acceptSignup" th:text="#{signup}">Sign Up</button>
 				</div>
 			</div>
+
 
 			<!-- Button SignIn -->
 			<div class="form-group">
@@ -303,6 +290,7 @@
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
 
 		</fieldset>
 	</form>

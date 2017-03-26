@@ -9,6 +9,8 @@ CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
 
 // Crear database:
 create database members;
+
+
 // Importar Tablas:
 mysql -u root -p members < CreateTables.sql
  

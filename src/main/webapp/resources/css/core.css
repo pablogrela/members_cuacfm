@@ -20,6 +20,19 @@ body {
 	/* 	background-color: #f5f5f5; 	grey */
 }
 
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
 /* Contendor de bootstrap que abarca toda la pantalla */
 .container-fluid {
 	padding-left: 50px;

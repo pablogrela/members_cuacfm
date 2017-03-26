@@ -54,10 +54,10 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 
 	private static final Logger logger = LoggerFactory.getLogger(BankRemittanceService.class);
 
-	@Value("${pathBankRemittance}")
+	@Value("${path}${pathBankRemittance}")
 	private String pathBankRemittance;
 
-	@Value("${pathReturnBankRemittance}")
+	@Value("${path}${pathReturnBankRemittance}")
 	private String pathReturnBankRemittance;
 
 	@Autowired

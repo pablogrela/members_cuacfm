@@ -23,17 +23,19 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * The Class VerifyRecaptcha.
  */
 public class VerifyRecaptcha {
 
-	/** The Constant url. */
-	public static final String URL = "https://www.google.com/recaptcha/api/siteverify";
+	@Value("${recaptcha.url}")
+	private String url;
 
-	/** The Constant secret. */
 	//	La clave secreta se debe cambiar el funcion del entorno
-	public static final String SECRET = "6LeTZg8UAAAAAD2nWjiLQaEDB-zvdXxZtpbGnvO8";
+	@Value("${recaptcha.secre}")
+	private String secret;
 
 	/**
 	 * Instantiates a new verify recaptcha.
@@ -55,12 +57,12 @@ public class VerifyRecaptcha {
 		}
 
 		try {
-			URL obj = new URL(URL);
+			URL obj = new URL(new VerifyRecaptcha().url);
 			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
 			// add request header
 			con.setRequestMethod("POST");
-			String postParams = "secret=" + SECRET + "&response=" + gRecaptchaResponse;
+			String postParams = "secret=" + new VerifyRecaptcha().secret + "&response=" + gRecaptchaResponse;
 
 			// Send post request
 			con.setDoOutput(true);

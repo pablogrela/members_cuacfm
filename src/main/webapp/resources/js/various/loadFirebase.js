@@ -15,21 +15,11 @@
  */
 
 /* ========================================================================
- * Initialize Firebase
- * ========================================================================
-
+ *  Initialize Firebase
  * ======================================================================== */
 
-// Properties that must be changed according to mail where firebase is created
-var config = {
-	apiKey : "AIzaSyCEHGNNH4tMx3wTJcIBCRA0Mv2Y7RPBSdA",
-	authDomain : "members-b4393.firebaseapp.com",
-	databaseURL : "https://members-b4393.firebaseio.com",
-	storageBucket : "members-b4393.appspot.com",
-	messagingSenderId : "187088115583"
-};
-firebase.initializeApp(config);
-
+//Load configuration
+$.getScript("resources/js/various/initializeFirebase.js");
 
 
 // Create a hidden input element, and append it to the form:

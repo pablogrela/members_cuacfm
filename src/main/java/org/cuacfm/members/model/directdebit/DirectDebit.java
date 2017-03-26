@@ -83,7 +83,7 @@ public class DirectDebit implements Serializable {
 	private methods method;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "returnReason")
+	@JoinColumn(name = "returnReasonId")
 	private ReturnReason returnReason;
 
 	//FRST(first) o RCUR(Recursive)

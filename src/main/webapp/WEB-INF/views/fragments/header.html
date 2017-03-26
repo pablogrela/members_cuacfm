@@ -19,7 +19,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
-
 </head>
 <body>
 
@@ -35,6 +34,12 @@
 			<input type="hidden" id="csrf.parameterName" th:value="${_csrf.parameterName}" />
 			<input type="hidden" id="csrf.token" th:value="${_csrf.token}" />
 		</th:block>
+		
+		<input type="hidden" id="firebase.web.apiKey" th:value="#{firebase.web.apiKey}" />
+		<input type="hidden" id="firebase.web.authDomain" th:value="#{firebase.web.authDomain}" />
+		<input type="hidden" id="firebase.web.databaseURL" th:value="#{firebase.web.databaseURL}" />
+		<input type="hidden" id="firebase.web.storageBucket" th:value="#{firebase.web.storageBucket}" />
+		<input type="hidden" id="firebase.web.messagingSenderId" th:value="#{firebase.web.messagingSenderId}" />
 
 		<!-- Image title with hiperlink at home-->
 		<div class="container">

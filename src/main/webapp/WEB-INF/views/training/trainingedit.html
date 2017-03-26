@@ -87,7 +87,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
 				<div class="col-lg-10">
-					<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" rows="5" cols="40" required="required">
+					<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" maxlength="500" rows="5" cols="40" required="required">
             	Description</textarea>
 					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
 					<div class="ws-errorbox" hidden=""></div>

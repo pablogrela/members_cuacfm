@@ -15,9 +15,7 @@
  */
 package org.cuacfm.members.web.signin;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -36,9 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseCredentials;
 import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.internal.NonNull;
 import com.google.firebase.tasks.OnFailureListener;
@@ -56,6 +52,12 @@ public class SigninController {
 	public static final String RESET_PASSWORD_VIEW_NAME = "signin/resetpassword";
 	public static final String BADCREDENTIALS = "signin.errorBadCredentials";
 
+	@Value("${pathConfig}")
+	private String pathConfig;
+
+	@Value("${configFirebase}")
+	private String configFirebase;
+
 	// Variables Thread Firebase
 	private String message;
 
@@ -64,9 +66,6 @@ public class SigninController {
 
 	@Autowired
 	private AccountService accountService;
-
-	@Value("${urlFirebase}")
-	private String urlFirebase;
 
 	/**
 	 * Instantiates a new Signin controller.
@@ -112,7 +111,8 @@ public class SigninController {
 
 			// Validate Token
 			try {
-				getAuthFirebase().verifyIdToken(token).addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
+				FirebaseApp app = FirebaseApp.getInstance("members");
+				FirebaseAuth.getInstance(app).verifyIdToken(token).addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
 					@Override
 					public void onSuccess(FirebaseToken decodedToken) {
 						if (!decodedToken.getEmail().equals(email)) {
@@ -226,29 +226,5 @@ public class SigninController {
 
 		MessageHelper.addErrorAttribute(ra, "firebase." + error, "");
 		return "redirect:/restorePassword";
-	}
-
-	/**
-	 * Gets the auth firebase.
-	 *
-	 * @return the auth firebase
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	private FirebaseAuth getAuthFirebase() throws IOException {
-		// Inicializar Firebase
-		URL path = getClass().getResource("/members-firebase-adminsdk.json");
-		FileInputStream serviceAccount = new FileInputStream(path.getPath());
-		FirebaseOptions options = new FirebaseOptions.Builder().setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
-				.setDatabaseUrl(urlFirebase).build();
-		serviceAccount.close();
-
-		// Inicialize FirebaseApp
-		FirebaseApp app;
-		if (FirebaseApp.getApps().isEmpty()) {
-			app = FirebaseApp.initializeApp(options, "members");
-		} else {
-			app = FirebaseApp.getInstance("members");
-		}
-		return FirebaseAuth.getInstance(app);
 	}
 }

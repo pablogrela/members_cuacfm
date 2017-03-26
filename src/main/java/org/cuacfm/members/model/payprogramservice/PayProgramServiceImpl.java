@@ -62,7 +62,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 	@Autowired
 	private EventService eventService;
 
-	@Value("${pathFeeProgram}")
+	@Value("${path}${pathFeeProgram}")
 	private String pathFeeProgram;
 
 	/** Instantiates a new payInscription service. */

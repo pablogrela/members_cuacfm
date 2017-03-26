@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
 
 	private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-	@Value("${pathJsonToAccount}")
+	@Value("${path}${pathJsonToAccount}")
 	private String pathJsonToAccount;
 	
 	@Autowired

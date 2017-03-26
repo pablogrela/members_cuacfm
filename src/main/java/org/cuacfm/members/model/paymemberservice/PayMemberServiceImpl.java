@@ -57,7 +57,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 	@Autowired
 	private EventService eventService;
 
-	@Value("${pathFeeMember}")
+	@Value("${path}${pathFeeMember}")
 	private String pathFeeMember;
 
 	/**

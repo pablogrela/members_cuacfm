@@ -48,18 +48,12 @@ limitations under the License.
 
 ## Firebase
 - Configure web to connect to firebase, in the file **loadFirebase.js**
-	apiKey : "AIzaSyCEHGNNH5tMx3wTJcIBCRA0Mv2Y7RPBSdB",
-	authDomain : "members.firebaseapp.com",
-	databaseURL : "https://members.firebaseio.com",
-	storageBucket : "members.appspot.com",
-	messagingSenderId : "187088115584"
+	Get values in web configuration on the firebase console
 	
 - Configure java to connect to firebase, in the file **members-firebase-adminsdk.json**
 	Get the json file on the firebase console inside the java sdk admin
-	Change **urlFirebase** int config.properties (example)
-		https://members-b4393.firebaseio.com
 
-- Edit action url on firebase 
+- Edit action url on firebase console
 	Configure this variable in console Firebase (Authentication -> Email templates -> Edit -> Action URL)
 	- Example for localhost:
 		http://localhost:8080/members/signin/resetPassword
@@ -71,9 +65,24 @@ limitations under the License.
 
 
 ## Configurations
-- The **persistence.properties** file contains all the variables needed for database connection
-- The **persistenceTest.properties** file contains all the variables needed for database Test connection
-- The **config.properties** file contains all the necessary variables for the backend part(paths, bankRemittance)
-- The **web.properties** file contains all the necessary variables for the frontend part (paypal, footert)
+The configuration is fully customizable.
+If you change the **pathConfig** property inside **config.properties**, it will search if there is that path and each of the necessary files, if they are not found there will be searched within the war.
+If **config.properties** exists in the indicated path, all that exists in the original **config.properties** will be overwritten with the value of the external **config.properties**.
+
+The necessary files for configuration are the following:
+
+- The **bankRemittance.properties** file contains all the necessary variables for bank remittances.
+- The **config.properties** file contains all the necessary variables for the backend part(paths, bankRemittance).
+- The **firebaseWeb.properties** ile contains the configuration of Firebase´s web.
+- The **hibernate.properties** file contains all the variables needed for database connection.
+- The **hibernateTest.properties** file contains all the variables needed for database test connection.
+- The **log4.properties** file contains the configuration of the logs hibernate.
 - The **logback.xml** file contains the configuration of the logs. Change the variable **<file>C** to change the destination file of the logs, example:
- 	<file>C:/Users/pablo/members/members.log</file>
+ 	<file>/var/lib/cuacfm-members/logs/members.log</file>
+- The **messages.properties** file contains the messages of view application, by default use inside messages.
+	- The messages of angular, datables or another javascript is not customizable, outside war.
+- The **paypal.properties** file contains all the necessary variables for paypal.
+- The **recaptcha.properties** file contains all the necessary variables for recaptcha.
+
+- The **members-firebase-adminsdk.json** file contains the configuration of Firebase´s backend.
+
