@@ -43,7 +43,7 @@
 					sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
 
 					<!-- DropList Box -->
-					<select onchange="this.form.submit()" class="btn btn-success btn-lg" th:field="*{trainingTypeId}">
+					<select onchange="this.form.submit()" class="btn btn-orange btn-lg" th:field="*{trainingTypeId}">
 
 						<!-- Default option in droplist -->
 						<option th:value="0" th:text="#{training.createNewTraining}" style="display: none;">Create New Training</option>
@@ -58,7 +58,7 @@
 			
 			<!-- Button redirect to Training List Close-->
 			<div class="columRight" sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
-				<a class="btn btn-info btn-lg" th:href="@{/trainingList/trainingCloseList}" th:text="#{training.viewTrainingClose}">View Training Close</a>
+				<a class="btn btn-primary btn-lg" th:href="@{/trainingList/trainingCloseList}" th:text="#{training.viewTrainingClose}">View Training Close</a>
 			</div>
 		</div>
 

@@ -69,11 +69,10 @@
 		<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
 			<label for="duration" class="col-lg-20 control-label" th:text="#{duration}">place</label>
 			<div class="col-lg-10">
-				<div class="col-lg-4-edit">
+				<div class="input-group col-lg-4-edit">
 					<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
+					<span class="input-group-addon" th:text="#{minutes}">minutes</span>
 				</div>
-				<span class="col-lg-2-right control-label" th:text="#{minutes}">minutes</span>
-				<br></br>
 				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}"> Incorrect duration</span>
 				<div class="ws-errorbox" hidden=""></div>
 			</div>
@@ -205,7 +204,6 @@
 		<br></br>
 
 		<h3 class="text-center" th:text="#{members}">List of Programs Empty</h3>
-
 		<br></br>
 		
 		<!-- Form to add user by login -->
@@ -322,9 +320,9 @@
 					</td>
 				</tr>
 			</tbody>
-		</table>
+		</table>	
+		<br></br>	
 	</div>
-
 
 </body>
 </html>

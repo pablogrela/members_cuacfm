@@ -267,9 +267,9 @@
 
 
 			<!-- Recaptcha, el data-sitekey se debe cambiar el funcion del entorno -->
-			<!-- Remove row, row-center, and col-centered, to move recaptcha to left -->
-			<div class="form-group row row-centered" th:classappend="${#fields.hasErrors('captcha')}? 'has-error'">
-				<div class="col-centered g-recaptcha" th:attr="data-sitekey=${recaptcha}"></div>
+			<!-- Remove primary div (row, row-center) second div (col-centered) to move recaptcha to left -->
+			<div class="form-group" th:classappend="${#fields.hasErrors('captcha')}? 'has-error'">
+				<div class="col-lg-20 control-label g-recaptcha" th:attr="data-sitekey=${recaptcha}"></div>
 				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('captcha')}" th:errors="*{captcha}"> Incorrect captcha</span>
 			</div>
 
@@ -277,7 +277,7 @@
 			<!-- Button SignUp -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-success btn-lg" id="acceptSignup" th:text="#{signup}">Sign Up</button>
+					<button type="submit" class="btn btn-orange btn-lg" id="acceptSignup" th:text="#{signup}">Sign Up</button>
 				</div>
 			</div>
 

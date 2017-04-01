@@ -26,9 +26,10 @@ public class DirectDebitDTO {
 
 	private String id;
 	private AccountDTO account;
-	private Long bankRemittance;
+	private Date bankRemittance;
 	private String concept;
 	private Double price;
+	private Date dateCreate;
 	private Date dateUpdate;
 	private Date datePay;
 	private states state;
@@ -60,13 +61,14 @@ public class DirectDebitDTO {
 	 * @param idTxn the id txn
 	 * @param emailPayer the email payer
 	 */
-	public DirectDebitDTO(String id, AccountDTO account, String concept, Double price, Date dateUpdate, Date datePay, states state, methods method,
-			String secuence, String idPayer, String idTxn, String emailPayer) {
+	public DirectDebitDTO(String id, AccountDTO account, String concept, Double price, Date dateCreate, Date dateUpdate, Date datePay, states state,
+			methods method, String secuence, String idPayer, String idTxn, String emailPayer) {
 		super();
 		this.id = id;
 		this.account = account;
 		this.concept = concept;
 		this.price = price;
+		this.dateCreate = dateCreate;
 		this.dateUpdate = dateUpdate;
 		this.datePay = datePay;
 		this.state = state;
@@ -93,11 +95,11 @@ public class DirectDebitDTO {
 		this.account = account;
 	}
 
-	public Long getBankRemittance() {
+	public Date getBankRemittance() {
 		return bankRemittance;
 	}
 
-	public void setBankRemittance(Long bankRemittance) {
+	public void setBankRemittance(Date bankRemittance) {
 		this.bankRemittance = bankRemittance;
 	}
 
@@ -115,6 +117,14 @@ public class DirectDebitDTO {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Date getDateCreate() {
+		return dateCreate;
+	}
+
+	public void setDateCreate(Date dateCreate) {
+		this.dateCreate = dateCreate;
 	}
 
 	public Date getDateUpdate() {

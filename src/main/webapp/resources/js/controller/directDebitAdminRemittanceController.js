@@ -18,7 +18,8 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 	$scope.search = '';
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
-	$scope.directDebits = [];
+	$scope.directDebit = '';
+	$scope.directDebits = '';
 	$scope.account = '';
 	$scope.message = '';
 
@@ -30,6 +31,7 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 	self.returnBill = returnBill;
 	self.cash = cash;
 	self.infoAccount = infoAccount;
+	self.infoDirectDebit = infoDirectDebit;
 
 	fetchAllDirectDebitsRemittance();
 
@@ -37,7 +39,7 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 		DirectDebitAdminService.fetchAllDirectDebitsRemittance().then(function(data) {
 			$scope.directDebits = data;
 		}, function(errResponse) {
-			console.error('Error while fetch directDebits');
+			console.error('Error while fetch directDebits', errResponse);
 		});
 	}
 
@@ -47,7 +49,7 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 			fetchAllDirectDebitsRemittance();
 			showModal(modal);
 		}, function(errResponse) {
-			console.error('Error while mark BankDeposit directDebit');
+			console.error('Error while mark BankDeposit directDebit', errResponse);
 		});
 	}
 
@@ -57,7 +59,7 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 			fetchAllDirectDebitsRemittance();
 			showModal(modal);
 		}, function(errResponse) {
-			console.error('Error while cancel BankDeposit directDebit');
+			console.error('Error while cancel BankDeposit directDebit', errResponse);
 		});
 	}
 
@@ -67,7 +69,7 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 			fetchAllDirectDebitsRemittance();
 			showModal(modal);
 		}, function(errResponse) {
-			console.error('Error while pay BankDeposit directDebit');
+			console.error('Error while pay BankDeposit directDebit', errResponse);
 		});
 	}
 
@@ -77,7 +79,7 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 			fetchAllDirectDebitsRemittance();
 			showModal(modal);
 		}, function(errResponse) {
-			console.error('Error while cancel directDebit');
+			console.error('Error while cancel directDebit', errResponse);
 		});
 	}
 
@@ -87,7 +89,7 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 			fetchAllDirectDebitsRemittance();
 			showModal(modal);
 		}, function(errResponse) {
-			console.error('Error while returnBill directDebit');
+			console.error('Error while returnBill directDebit', errResponse);
 		});
 	}
 
@@ -97,7 +99,7 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 			fetchAllDirectDebitsRemittance();
 			showModal(modal);
 		}, function(errResponse) {
-			console.error('Error while returnBill directDebit');
+			console.error('Error while returnBill directDebit', errResponse);
 		});
 	}
 
@@ -105,6 +107,10 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 		$scope.account = aux;
 	}
 
+	function infoDirectDebit(aux) {
+		$scope.directDebit = aux;
+	}
+	
 	$scope.localeSensitiveComparator = function(v1, v2) {
 		// If we don't get strings, just compare by index
 		if (v1.type !== 'string' || v2.type !== 'string') {

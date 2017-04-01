@@ -18,7 +18,8 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 	$scope.search = '';
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
-	$scope.directDebits = [];
+	$scope.directDebit = '';
+	$scope.directDebits = '';
 	$scope.account = '';
 	$scope.message = '';
 
@@ -30,14 +31,15 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 	self.returnBill = returnBill;
 	self.cash = cash;
 	self.infoAccount = infoAccount;
+	self.infoDirectDebit = infoDirectDebit;
 
 	fetchAllDirectDebitsClose();
 
 	function fetchAllDirectDebitsClose() {
 		DirectDebitAdminService.fetchAllDirectDebitsClose().then(function(data) {
 			$scope.directDebits = data;
-		}, function(errResponse) {
-			console.error('Error while fetch directDebits');
+		}, function(errorResponse) {
+			console.error('Error while fetch directDebits', errorResponse);
 		});
 	}
 
@@ -46,8 +48,8 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 			$scope.message = data;
 			fetchAllDirectDebitsClose();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while mark BankDeposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while mark BankDeposit directDebit', errorResponse);
 		});
 	}
 
@@ -56,8 +58,8 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 			$scope.message = data;
 			fetchAllDirectDebitsClose();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while cancel BankDeposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while cancel BankDeposit directDebit', errorResponse);
 		});
 	}
 
@@ -66,8 +68,8 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 			$scope.message = data;
 			fetchAllDirectDebitsClose();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while pay BankDeposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while pay BankDeposit directDebit', errorResponse);
 		});
 	}
 
@@ -76,8 +78,8 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 			$scope.message = data;
 			fetchAllDirectDebitsClose();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while cancel directDebit');
+		}, function(errorResponse) {
+			console.error('Error while cancel directDebit', errorResponse);
 		});
 	}
 
@@ -86,8 +88,8 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 			$scope.message = data;
 			fetchAllDirectDebitsClose();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while returnBill directDebit');
+		}, function(errorResponse) {
+			console.error('Error while returnBill directDebit', errorResponse);
 		});
 	}
 
@@ -96,8 +98,8 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 			$scope.message = data;
 			fetchAllDirectDebitsClose();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while returnBill directDebit');
+		}, function(errorResponse) {
+			console.error('Error while returnBill directDebit', errorResponse);
 		});
 	}
 
@@ -105,6 +107,10 @@ membersApp.controller('DirectDebitAdminCloseController', [ '$scope', 'DirectDebi
 		$scope.account = aux;
 	}
 
+	function infoDirectDebit(aux) {
+		$scope.directDebit = aux;
+	}
+	
 	$scope.localeSensitiveComparator = function(v1, v2) {
 		// If we don't get strings, just compare by index
 		if (v1.type !== 'string' || v2.type !== 'string') {

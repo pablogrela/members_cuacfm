@@ -27,18 +27,18 @@ public interface PayMemberRepository {
 	/**
 	 * Save.
 	 *
-	 * @param userFeeMember the fee member
+	 * @param payMember the pay member
 	 * @return the pay member
 	 */
-	public PayMember save(PayMember userFeeMember);
+	public PayMember save(PayMember payMember);
 
 	/**
 	 * Update.
 	 *
-	 * @param userFeeMember the fee member
+	 * @param payMember the pay member
 	 * @return the pay member
 	 */
-	public PayMember update(PayMember userFeeMember);
+	public PayMember update(PayMember payMember);
 
 	/**
 	 * Find by id.

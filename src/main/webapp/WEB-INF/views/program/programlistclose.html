@@ -32,10 +32,10 @@
 
 		<!-- Button redirect to directDebit list close-->
 		<div class="text-center">
-			<a href="#" class="btn btn-info btn-lg" th:href="@{/programList}" th:text="#{program.viewProgramList}"></a> 
+			<a href="#" class="btn btn-primary btn-lg" th:href="@{/programList}" th:text="#{program.viewProgramList}"></a> 
 		</div>
 
-		<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
+		<div data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
 			<div th:include="program/programlisttable :: programlisttable(#{program.programListClose}, #{program.programListCloseEmpty})"></div>
 		</div>
 

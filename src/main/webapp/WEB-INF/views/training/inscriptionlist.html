@@ -31,7 +31,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
 	<!-- Button redirect to Training List Open-->
 	<div class="text-center">
-		<a class="btn btn-info btn-lg" th:href="@{/trainingList}"
+		<a class="btn btn-primary btn-lg" th:href="@{/trainingList}"
 			th:text="#{training.backTrainingOpen}">View Training Open</a>
 	</div>
 	
@@ -68,7 +68,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 				<!-- Button Add User to Training-->
 				<div class="form-group">
 					<div class="text-center">
-						<button type="submit" class="btn btn-success btn-lg"
+						<button type="submit" class="btn btn-orange btn-lg"
 							th:text="#{inscription.addUser}">Add User</button>
 					</div>
 				</div>
@@ -76,17 +76,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		</form>
 	</div>
 
-	<!-- Message Info -->
-	<div class="container text-center ">
-		<!-- /* Handle the flash message */-->
-		<th:block th:if="${message != null}">
-			<!-- /* The message code is returned from the @Controller */ -->
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-						message=#{${message.message}(${message.args[0]})})">&nbsp;
-			</div>
-		</th:block>
+	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+	<div class="container-fluid text-center" th:if="${message != null}">
+		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 	</div>
-		
+
 	<!-- Show message, if inscription list is empty -->
 	<div th:if="${#lists.isEmpty(inscriptionsForm.inscriptions)}">
 		<h2 class="text-center"
@@ -95,7 +89,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	</div>
 	
 	<!-- Verify if exits Inscriptions -->
-	<div class="container" th:unless="${#lists.isEmpty(inscriptionsForm.inscriptions)}">
+	<div class="container-fluid" th:unless="${#lists.isEmpty(inscriptionsForm.inscriptions)}">
 
 		<!-- Tittle -->
 		<h2 class="text-center"
@@ -161,7 +155,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			<!-- Button Confirm, confirm the list of inscription -->
 			<div class="text-center">
 				<button 
-					type="submit" class="btn btn-success btn-lg"
+					type="submit" class="btn btn-orange btn-lg"
 					th:name="submit"
 					th:value="save" 
 					th:text="#{inscription.confirm}"
@@ -186,7 +180,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	                <p th:text="#{inscription.infoModalClose}">Message</p>
 	            </div>
 	            <div class="modal-footer">
-	                <button type="button" class="btn btn-success" th:text="#{accept}" id="accept" name="accept">Accept</button>
+	                <button type="button" class="btn btn-orange" th:text="#{accept}" id="accept" name="accept">Accept</button>
 	                <button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
 	            </div>
 	        </div>

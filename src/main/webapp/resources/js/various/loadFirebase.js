@@ -19,8 +19,7 @@
  * ======================================================================== */
 
 //Load configuration
-$.getScript("resources/js/various/initializeFirebase.js");
-
+$.getScript("/members/resources/js/various/initializeFirebase.js");
 
 // Create a hidden input element, and append it to the form:
 function addHidden(form, key, value) {

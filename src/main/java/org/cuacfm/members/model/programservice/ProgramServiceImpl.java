@@ -50,7 +50,7 @@ public class ProgramServiceImpl implements ProgramService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProgramServiceImpl.class);
 
-	@Value("${pathJsonToProgram}")
+	@Value("${path}${pathJsonToProgram}")
 	private String pathJsonToProgram;
 
 	@Autowired

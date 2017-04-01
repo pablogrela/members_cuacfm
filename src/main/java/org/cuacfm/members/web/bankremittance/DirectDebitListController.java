@@ -28,6 +28,7 @@ import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.web.support.MessageHelper;
+import org.eclipse.jetty.util.log.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -214,7 +215,8 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> cancelBankDeposit(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-
+		Log.getLogger("\n\n todo aaa");
+		
 		try {
 			String message = directDebitService.cancelBankDeposit(directDebit, null);
 			MessageHelper.addWarningAttribute(ra, message);
@@ -227,6 +229,31 @@ public class DirectDebitListController {
 	}
 
 	/**
+	 * Confirm bank deposit.
+	 *
+	 * @param directDebitId the direct debit id
+	 * @param principal the principal
+	 * @param ra the ra
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "directDebitList/confirmBankDeposit/{directDebitId}", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> confirmBankDeposit(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
+
+		DirectDebit directDebit = directDebitService.findById(directDebitId);
+
+		try {
+			String message = directDebitService.confirmBankDeposit(directDebit, null);
+			MessageHelper.addWarningAttribute(ra, message);
+		} catch (ExistTransactionIdException e) {
+			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
+			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
+			MessageHelper.addErrorAttribute(ra, messageI18n);
+			
+		}
+		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
+	}
+
+	/**
 	 * Pay bank deposit.
 	 *
 	 * @param directDebitId the direct debit id
@@ -234,13 +261,13 @@ public class DirectDebitListController {
 	 * @param ra the ra
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "directDebitList/payBankDeposit/{directDebitId}", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, ?>> payBankDeposit(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
+	@RequestMapping(value = "directDebitList/confirmPaypal/{directDebitId}", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> confirmPaypal(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
 
 		try {
-			String message = directDebitService.payBankDeposit(directDebit, null);
+			String message = directDebitService.confirmPaypal(directDebit, null);
 			MessageHelper.addWarningAttribute(ra, message);
 		} catch (ExistTransactionIdException e) {
 			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
@@ -249,7 +276,7 @@ public class DirectDebitListController {
 		}
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
-
+	
 	/**
 	 * Direct debit by cancel.
 	 *

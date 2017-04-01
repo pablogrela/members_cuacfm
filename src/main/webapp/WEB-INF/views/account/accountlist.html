@@ -53,36 +53,36 @@
 			<thead>
 				<tr>
 					<td><a href="#" data-ng-click="sortType = 'name+surname'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
-								data-ng-show="sortType == 'name+surname' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-								data-ng-show="sortType == 'name+surname' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+								data-ng-show="sortType == 'name+surname' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+								data-ng-show="sortType == 'name+surname' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt"></span>
 					</a></td>
 					<td><a href="#" data-ng-click="sortType = 'mobile'; sortReverse = !sortReverse"> <span th:text="#{mobile}">mobile</span> <span
-								data-ng-show="sortType == 'mobile' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-								data-ng-show="sortType == 'mobile' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+								data-ng-show="sortType == 'mobile' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+								data-ng-show="sortType == 'mobile' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
 					<td><a href="#" data-ng-click="sortType = 'email'; sortReverse = !sortReverse"> <span th:text="#{email}">email</span> <span
-								data-ng-show="sortType == 'email' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-								data-ng-show="sortType == 'email' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+								data-ng-show="sortType == 'email' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+								data-ng-show="sortType == 'email' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
 					<td><a href="#" data-ng-click="sortType = 'methodPayment'; sortReverse = !sortReverse"> <span th:text="#{methodPayment}">methodPayment</span>
-							<span data-ng-show="sortType == 'methodPayment' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-								data-ng-show="sortType == 'methodPayment' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+							<span data-ng-show="sortType == 'methodPayment' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+								data-ng-show="sortType == 'methodPayment' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
 					<td><a href="#" data-ng-click="sortType = 'accountType'; sortReverse = !sortReverse"> <span th:text="#{accountType}">accountType</span>
-							<span data-ng-show="sortType == 'accountType' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-								data-ng-show="sortType == 'accountType' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+							<span data-ng-show="sortType == 'accountType' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+								data-ng-show="sortType == 'accountType' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
 					<td><a href="#" data-ng-click="sortType = 'installments'; sortReverse = !sortReverse"> <span th:text="#{installments}">installments</span>
-							<span data-ng-show="sortType == 'installments' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-								data-ng-show="sortType == 'installments' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+							<span data-ng-show="sortType == 'installments' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+								data-ng-show="sortType == 'installments' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
 					<td><a href="#" data-ng-click="sortType = 'role'; sortReverse = !sortReverse"> <span th:text="#{role}">role</span> <span
-								data-ng-show="sortType == 'role' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-								data-ng-show="sortType == 'role' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+								data-ng-show="sortType == 'role' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+								data-ng-show="sortType == 'role' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
 					<td><a href="#" data-ng-click="sortType = 'active'; sortReverse = !sortReverse"> <span th:text="#{state}">state</span> <span
-								data-ng-show="sortType == 'active' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-								data-ng-show="sortType == 'active' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+								data-ng-show="sortType == 'active' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+								data-ng-show="sortType == 'active' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
 					<th class="no-sort"></th>
 				</tr>
@@ -108,7 +108,7 @@
 
 					<!-- start If`s active -->
 					<td data-ng-if="account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{active}"></span>
-						<button data-ng-click="ctrl.unsubscribe(account.id, account.email)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
+						<button data-ng-click="ctrl.unsubscribe(account.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
 							th:title="#{account.infoUnsubscribe}" style="color: red"></button></td>
 					
 					<td data-ng-if="!account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{down}"></span>

@@ -28,7 +28,7 @@
 
 	<!-- Button redirect to Program List-->
 	<div class="text-center">
-		<a href="#" class="btn btn-info btn-lg" th:href="@{/feeMemberList}" th:text="#{feeMember.backFeeMemberList}"> </a>
+		<a href="#" class="btn btn-primary btn-lg" th:href="@{/feeMemberList}" th:text="#{feeMember.backFeeMemberList}"> </a>
 	</div>
 	<br></br>
 
@@ -64,7 +64,6 @@
 					<div class="col-lg-3-edit">
 						<input type="number" class="form-control" id="year" th:placeholder="#{year}" th:field="*{year}" min="2015" required="required" />
 					</div>
-					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Incorrect year</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -75,11 +74,10 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
 				<label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
 				<div class="col-lg-10">
-					<div class="col-lg-3-edit">
+					<div class="input-group col-lg-4-edit">
 						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0.01" required="required" />
+						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
-					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
-					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"> Incorrect price</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -122,7 +120,7 @@
 			<!-- Button Create FeeMember -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-success btn-lg" id="create" th:text="#{feeMember.create}">Create</button>
+					<button type="submit" class="btn btn-orange btn-lg" id="create" th:text="#{feeMember.create}">Create</button>
 				</div>
 			</div>
 

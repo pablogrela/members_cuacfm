@@ -22,16 +22,23 @@ table.dataTable {
 	width: 100%;
 	margin: 0 auto;
 	clear: both;
+	/* 	color de letra en el cuerpo */
 	color: black;
 	/* Delete, no border*/
+	
 	/*border-collapse: separate;*/
-	/* Grey Color, gris claro, borde de tabla*/ border : 2px solid #ddd;
+	/* Grey Color, gris claro, borde de tabla*/ 
+	/* border : 2px solid #ddd; */
+	
 	/* Grey Color, gris oscuro, borde de tabla*/
 	/*border: 2px solid #9A9A99;*/
+	
 	/* black Color, negro, borde de tabla*/
-	/*border: 2px solid #000000;*/
+	border: 2px solid #000000;
+	
 	border-spacing: 0;
 	border: 2px solid #ddd
+	
 	/*
    * Header and footer styles
    */
@@ -42,18 +49,24 @@ table.dataTable {
 
 /* Color enlaces cabecera */
 table.dataTable thead a {
-	color: black;
+	color: white;
 	font-weight: bold;
 }
 
+/* Color entrada cabecera, el que no es enlace */
 table.dataTable thead th, table.dataTable tfoot th {
+	color: white;
 	font-weight: bold;
 }
 
 table.dataTable thead th, table.dataTable thead td {
 	padding: 10px 18px;
-	/* Color de fondo de la cabecera*/
-	background-color: #82CAFA; /*azul*/
+	/* color de fondo de la cabecera*/
+	/* 	background-color: #82CAFA; azul */
+	/* 	background-color: #447AD4; azul de color resalton */
+	/* 	background-color: #447AD4; azul oscuro, cuacfm */
+	background-color: #337ab7; /*azul oscuro, primary de bootstrap*/
+	
 	/* black Color, negro, borde bajo de cabecera*/
 	border-bottom: 1px solid #111111;
 }
@@ -69,6 +82,7 @@ table.dataTable tfoot th, table.dataTable tfoot td {
 
 table.dataTable thead .sorting, table.dataTable thead .sorting_asc,
 	table.dataTable thead .sorting_desc {
+	/* 	elemento ordenable */
 	cursor: pointer;
 	*cursor: hand;
 }
@@ -95,7 +109,7 @@ table.dataTable thead .sorting_asc_disabled {
 table.dataTable thead .sorting_desc_disabled {
   background-image: url("../images/sort_desc_disabled.png");
 }
-*/
+ */
 table.dataTable tbody tr {
 	background-color: white;
 }

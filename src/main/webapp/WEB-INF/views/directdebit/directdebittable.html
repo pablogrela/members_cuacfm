@@ -21,11 +21,12 @@
 </head>
 <body>
 
-	<!-- Fragment user direct debit -->
+	<!-- Fragment user directDebit -->
 	<div data-ng-show="directDebits" th:fragment="directdebittable(tittle, tittleEmpty)">
 
 		<!-- Show info account -->
 		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
+		<div th:replace="fragments/alert :: infoDirectDebit">&nbsp;</div>
 
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<object data-ng-show="message">
@@ -52,29 +53,29 @@
 				<thead>
 					<tr>
 						<th><a href="#" data-ng-click="sortType = 'account.name+account.surname'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
-									data-ng-show="sortType == 'account.name+account.surname' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-									data-ng-show="sortType == 'account.name+account.surname' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+									data-ng-show="sortType == 'account.name+account.surname' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'account.name+account.surname' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></th>
 						<td><a href="#" data-ng-click="sortType = 'id'; sortReverse = !sortReverse"> <span th:text="#{concept}">concept</span> <span
-									data-ng-show="sortType == 'id' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-									data-ng-show="sortType == 'id' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+									data-ng-show="sortType == 'id' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'id' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>
 						<td><a href="#" data-ng-click="sortType = 'concept'; sortReverse = !sortReverse"> <span th:text="#{description}">description</span> <span
-									data-ng-show="sortType == 'concept' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-									data-ng-show="sortType == 'concept' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+									data-ng-show="sortType == 'concept' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'concept' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>
 						<td><a href="#" data-ng-click="sortType = 'price'; sortReverse = !sortReverse"> <span th:text="#{price}">price</span> <span
-									data-ng-show="sortType == 'price' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-									data-ng-show="sortType == 'price' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+									data-ng-show="sortType == 'price' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'price' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>
 						<td th:title="#{infoState}"><a href="#" data-ng-click="sortType = 'state'; sortReverse = !sortReverse"> <span th:text="#{state}">state</span>
-								<span data-ng-show="sortType == 'state' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
-									data-ng-show="sortType == 'state' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>
+								<span data-ng-show="sortType == 'state' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'state' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>
 						<td th:title="#{infoMethodPayment}"><a href="#" data-ng-click="sortType = 'method'; sortReverse = !sortReverse"> <span
 									th:text="#{methodPayment}">methodPayment</span> <span data-ng-show="sortType == 'method' &amp;&amp; !sortReverse"
-									class="glyphicon glyphicon-triangle-bottom"></span> <span data-ng-show="sortType == 'method' &amp;&amp; sortReverse"
-									class="glyphicon glyphicon-triangle-top"></span>
+									class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span data-ng-show="sortType == 'method' &amp;&amp; sortReverse"
+									class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>
 						<td></td>
 					</tr>
@@ -86,7 +87,9 @@
 						<td><span th:title="#{account.infoAccount}" data-ng-bind="directDebit.account.name + ' ' + directDebit.account.surname" data-ng-click="ctrl.infoAccount(directDebit.account)"
 								data-toggle="modal" data-target="#infoAccount"></span></td>
 
-						<td><span data-ng-bind="directDebit.id"></span></td>
+						<td><span th:title="#{directDebit.infoDirectDebit}" data-ng-bind="directDebit.id" data-ng-click="ctrl.infoDirectDebit(directDebit)"
+								data-toggle="modal" data-target="#infoDirectDebit"></span></td>
+
 						<td><span data-ng-bind="directDebit.concept"></span></td>
 						<td><span data-ng-bind="directDebit.price"></span></td>
 
@@ -108,7 +111,6 @@
 						<td data-ng-if="directDebit.method == 'DIRECTDEBIT'"><span th:text="#{methods.DIRECTDEBIT}"> </span></td>
 						<!-- end If`s state -->
 
-
 						<td class="text-center">
 						
 							<!-- Mark bank deposit --> 
@@ -125,8 +127,14 @@
 							
 							<!-- Confirm pay bank deposit --> 
 							<object data-ng-if="directDebit.state == 'MANAGEMENT' &amp;&amp; directDebit.method == 'BANK_DEPOSIT'">
-								<button data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+								<button data-ng-click="ctrl.confirmBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
 									th:title="#{directDebit.infoBankDeposit.pay}" style="color: green"></button>
+							</object> 
+							
+							<!-- Confirm pay by paypal --> 
+							<object data-ng-if="directDebit.state == 'MANAGEMENT' &amp;&amp; directDebit.method == 'PAYPAL'">
+								<input type="image" data-ng-click="ctrl.confirmPaypal(directDebit.id)" th:src="@{/resources/images/paypal.png}" 
+									th:title="#{payPaypal.confirm}" />
 							</object> 
 							
 							<!-- Pay Cash --> 
@@ -141,7 +149,8 @@
 									th:title="#{directDebit.infoReturnBill}" style="color: red"></button>
 							</object> 
 							
-							<!-- Cancel --> <object data-ng-if="(directDebit.state == 'NO_PAY' || directDebit.state != 'CANCEL')  ">
+							<!-- Cancel --> 
+							<object data-ng-if="(directDebit.state == 'NO_PAY' || directDebit.state != 'CANCEL')  ">
 								<button data-ng-click="ctrl.cancel(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-ban-circle"
 									th:title="#{directDebit.infoCancel}" style="color: red"></button>
 							</object>

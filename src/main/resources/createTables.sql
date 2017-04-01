@@ -22,10 +22,10 @@
 
 
 DROP TABLE IF EXISTS Configuration;
-DROP TABLE IF EXISTS ReturnReason;
 DROP TABLE IF EXISTS DirectDebitPayPrograms;
 DROP TABLE IF EXISTS DirectDebitPayMembers;
 DROP TABLE IF EXISTS DirectDebit;
+DROP TABLE IF EXISTS ReturnReason;
 DROP TABLE IF EXISTS BankRemittance;
 DROP TABLE IF EXISTS PayProgram;
 DROP TABLE IF EXISTS FeeProgram;

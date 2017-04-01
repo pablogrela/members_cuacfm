@@ -26,6 +26,12 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='configuration')">&nbsp;</div>
 
+	<!-- Button redirect to Program List-->
+	<div class="text-center">
+		<a href="#" class="btn btn-primary btn-lg" th:href="@{/configuration}" th:text="#{configuration.backConfiguration}"> </a>
+	</div>
+	<br></br>
+	
 	<form class="form-narrow form-horizontal ws-validate" method="post"
 		th:action="@{accountTypeEdit}" th:object="${accountTypeForm}">
 
@@ -89,7 +95,7 @@
 			<!-- Button Edit AccountType -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-success btn-lg" th:text="#{accountType.modify}">Modify</button>
+					<button type="submit" class="btn btn-orange btn-lg" th:text="#{accountType.modify}">Modify</button>
 				</div>
 			</div>
 		</fieldset>

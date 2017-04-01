@@ -29,6 +29,8 @@ import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.program.ProgramDTO;
 import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.web.support.MessageHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -44,6 +46,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class ProgramListController {
 
+	private static final Logger logger = LoggerFactory.getLogger(ProgramListController.class);
 	private static final String PROGRAM_VIEW_NAME = "program/programlist";
 	private static final String PROGRAM_CLOSE_VIEW_NAME = "program/programlistclose";
 
@@ -163,6 +166,7 @@ public class ProgramListController {
 				MessageHelper.addSuccessAttribute(ra, messageSource.getMessage("program.successDelete", arguments, Locale.getDefault()));
 
 			} catch (ExistPaymentsException e) {
+				logger.error("payMember", e);
 				Object[] arguments = { program.getName() };
 				MessageHelper.addErrorAttribute(ra, messageSource.getMessage("program.existPayments", arguments, Locale.getDefault()));
 			}

@@ -28,7 +28,7 @@
 
 	<!-- Button redirect to fee program list-->
 	<div class="text-center">
-		<input type="button" class="btn btn-info btn-lg" th:value="#{payProgram.backPayProgramList}" onclick="previousPage()" />
+		<input type="button" class="btn btn-primary btn-lg" th:value="#{payProgram.backPayProgramList}" onclick="previousPage()" />
 	</div>
 	<br></br>
 
@@ -134,9 +134,9 @@
 
 			<!-- Edit DatePay -->
 			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('datePay')}? 'has-error'">
-				<label for="datePay" class="col-lg-1 control-label" th:text="#{payProgram.datePay}">Date PayProgram</label>
+				<label for="datePay" class="col-lg-1 control-label" th:text="#{datePay}">Date PayProgram</label>
 				<div class="col-lg-10">
-					<input type="datetime" class="form-control" id="datePay" th:placeholder="#{payProgram.datePay}" th:field="*{datePay}" />
+					<input type="datetime" class="form-control" id="datePay" th:placeholder="#{datePay}" th:field="*{datePay}" />
 					<span class="help-block" th:if="${#fields.hasErrors('datePay')}" th:errors="*{datePay}">Incorrect datePay</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -146,7 +146,7 @@
 			<!-- Button Edit  -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-success btn-lg" th:text="#{payProgram.modify}">Create</button>
+					<button type="submit" class="btn btn-orange btn-lg" th:text="#{payProgram.modify}">Create</button>
 				</div>
 			</div>
 

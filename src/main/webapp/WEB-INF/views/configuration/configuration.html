@@ -83,38 +83,41 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('feeMember')}? 'has-error'">
 				<label for="feeMember" class="col-lg-1 control-label" th:text="#{feeMember}">feeMember</label>
 				<div class="col-lg-10">
-					<div class="col-lg-3-edit">
+					<div class="input-group col-lg-4-edit">
 						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}"
 							step="0.01" min="0.01" required="required" />
+						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
-					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
-					<br></br>
-					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeMember')}" th:errors="*{feeMember}">
-						Incorrect feeMember</span>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeMember')}" th:errors="*{feeMember}"> Incorrect feeMember</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
+
+
 
 			<!-- Edit Fee Program -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('feeProgram')}? 'has-error'">
 				<label for="feeProgram" class="col-lg-1 control-label" th:text="#{feeProgram}">feeProgram</label>
 				<div class="col-lg-10">
-					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}"
-							step="0.01" min="0.01" required="required" />
+					<div class="input-group col-lg-4-edit">
+						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}" step="0.01" min="0.01"
+							required="required"></input>
+						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
-					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
-					<br></br>
-					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeProgram')}" th:errors="*{feeProgram}">
-						Incorrect feeProgram</span>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeProgram')}" th:errors="*{feeProgram}"> Incorrect feeProgram</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
+
+
+
+
 			<!-- Edit descriptionRule -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('descriptionRule')}? 'has-error'">
-				<label for="descriptionRule" class="col-lg-2 control-label" th:text="#{descriptionRule}">descriptionRule</label>
-				<div class="col-lg-10">
+				<label for="descriptionRule" class="col-lg-20" th:text="#{descriptionRule}">descriptionRule</label>
+				<div class="col-lg-20">
 					<textarea class="form-control" id="descriptionRule" th:placeholder="#{descriptionRule}" th:field="*{descriptionRule}"
 						rows="5" cols="40" maxlength="500" required="required">
             	Description</textarea>
@@ -127,16 +130,19 @@
 			<!-- Button Edit Configuration -->
 			<div class="form-group">
 				<div class="text-center">
-					<button type="submit" class="btn btn-success btn-lg" th:text="#{configuration.modify}">Modify</button>
+					<button type="submit" class="btn btn-orange btn-lg" th:text="#{configuration.modify}">Modify</button>
 				</div>
 			</div>
 		</fieldset>
 	</form>
 
 
+	<br></br>
+	<h2 class="text-center" th:text="#{accountType.accountTypes}">List of Account Types Inscriptions</h2>
+		
 	<!-- Button Create New Account Type -->
 	<div class="text-center">
-		<a href="#" class="btn btn-success btn-lg" th:href="@{/configuration/accountTypeCreate}"
+		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/accountTypeCreate}"
 			th:text="#{accountType.create}">Create New Account Type </a>
 	</div>
 
@@ -148,8 +154,6 @@
 
 	<!-- Verify if exits accountTypes -->
 	<div class="container" th:unless="${#lists.isEmpty(accountTypes)}">
-
-		<h2 class="text-center" th:text="#{accountType.accountTypes}">List of Account Types Inscriptions</h2>
 
 		<!-- Table List of Training Types -->
 		<table class="display" id="customTable">
@@ -191,11 +195,12 @@
 
 
 
-
+	<br></br>
+	<h2 class="text-center" th:text="#{methodPayment.methodPayments}">List of MethodPayments</h2>
 
 	<!-- Button Create New Method Payment -->
 	<div class="text-center">
-		<a href="#" class="btn btn-success btn-lg" th:href="@{/configuration/methodPaymentCreate}"
+		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/methodPaymentCreate}"
 			th:text="#{methodPayment.create}">Create Method Payment </a>
 	</div>
 
@@ -206,8 +211,6 @@
 
 	<!-- Verify if exits methodPayments -->
 	<div class="container" th:unless="${#lists.isEmpty(methodPayments)}">
-
-		<h2 class="text-center" th:text="#{methodPayment.methodPayments}">List of MethodPayments</h2>
 
 		<!-- Table List of Training Types -->
 		<table class="display" id="customTable2">
@@ -284,34 +287,39 @@
 			</div>
 		</div>
 	</div>
-	
-	<br></br>
-	<!-- Upload json accounts-->
-	<div class="">
-		<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}"
-			th:action="@{'accountList/uploadJson?'+${_csrf.parameterName}+'='+${_csrf.token}}" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<!-- Title -->
-				<legend th:text="#{account.infoUploadAccountsJson}"></legend>
-				<input class="btn btn-file" type="file" id="file" name="file" />
-				<br></br>
-				<button type="submit" class="btn btn-success" th:text="#{account.uploadAccountsJson}"></button>
-			</fieldset>
-		</form>
-	</div>
 
-	<!-- Upload json programs-->
-	<div class="">
-		<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}"
-			th:action="@{'programList/uploadJson?'+${_csrf.parameterName}+'='+${_csrf.token}}" method="post" enctype="multipart/form-data">
-			<fieldset>
-				<!-- Title -->
-				<legend th:text="#{program.infoUploadProgramsJson}"></legend>
-				<input class="btn btn-file" type="file" id="file" name="file" />
-				<br></br>
-				<button type="submit" class="btn btn-success" th:text="#{program.uploadProgramsJson}"></button>
-			</fieldset>
-		</form>
+	<!-- Upload migrations -->
+	<br></br>
+	<h3 class="text-center" th:text="#{configuration.uploadDatabase}"></h3>
+	<br></br>
+	<div class="container-fluid text-center containerColums">
+		<!-- Upload json accounts-->
+		<div class="columLeft">
+			<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}"
+				th:action="@{'accountList/uploadJson?'+${_csrf.parameterName}+'='+${_csrf.token}}" method="post" enctype="multipart/form-data">
+				<fieldset>
+					<!-- Title -->
+					<legend th:text="#{account.infoUploadAccountsJson}"></legend>
+					<input class="btn btn-file" type="file" id="file" name="file" />
+					<br></br>
+					<button type="submit" class="btn btn-orange" th:text="#{account.uploadAccountsJson}"></button>
+				</fieldset>
+			</form>
+		</div>
+	
+		<!-- Upload json programs-->
+		<div class="columRight">
+			<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}"
+				th:action="@{'programList/uploadJson?'+${_csrf.parameterName}+'='+${_csrf.token}}" method="post" enctype="multipart/form-data">
+				<fieldset>
+					<!-- Title -->
+					<legend th:text="#{program.infoUploadProgramsJson}"></legend>
+					<input class="btn btn-file" type="file" id="file" name="file" />
+					<br></br>
+					<button type="submit" class="btn btn-orange" th:text="#{program.uploadProgramsJson}"></button>
+				</fieldset>
+			</form>
+		</div>
 	</div>
 	
 </body>

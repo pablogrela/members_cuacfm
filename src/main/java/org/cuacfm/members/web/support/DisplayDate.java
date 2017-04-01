@@ -294,17 +294,18 @@ public class DisplayDate {
 	 * @return the date
 	 */
 	public static Date format(String date, String format, Locale locale) {
-		Date newDate = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat(format, locale);
+		if (date != null && !date.isEmpty()) {
+			Date newDate = new Date();
+			SimpleDateFormat dateFormat = new SimpleDateFormat(format, locale);
 
-		try {
-			newDate = dateFormat.parse(date);
-		} catch (ParseException e) {
-			logger.error("format", e);
-			return null;
+			try {
+				newDate = dateFormat.parse(date);
+				return newDate;
+			} catch (ParseException e) {
+				logger.error("format", e);
+			}
 		}
-
-		return newDate;
+		return null;
 	}
 
 	/**

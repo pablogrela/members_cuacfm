@@ -25,14 +25,12 @@
 	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
 		<div class="text-center">
-			<p class="lead" th:text="#{home.notsigin}">Welcome to the Spring MVC Quickstart application!
-				Get started quickly by signing up.</p>
+			<p class="lead" th:text="#{home.notsigin}">Welcome</p>
 			<p>
-				<a href="/signup" th:href="@{/signup}" class="btn btn-success btn-lg" th:text="#{signup}">Sign
-					Up</a>
+				<a href="/signup" th:href="@{/signup}" class="btn btn-orange btn-lg" th:text="#{signup}">Sign Up</a>
 			</p>
 		</div>
-		<div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
+		<!-- <div th:replace="fragments/footer :: footer">&copy; 2013 CuacFM</div> -->
 	</div>
 </body>
 </html>

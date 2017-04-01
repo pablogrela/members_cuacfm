@@ -26,20 +26,20 @@ membersApp.controller('EventController', [ '$scope', '$rootScope', 'EventService
 	function fetchAllEvents() {
 		EventService.fetchAllEvents().then(function(d) {
 			self.events = d;
-		}, function(errResponse) {
-			console.error('Error while fetching Events');
+		}, function(errorResponse) {
+			console.error('Error while fetching Events', errorResponse);
 		});
 	}
 
 	function highlight(id) {
-		EventService.highlight(id).then(fetchAllEvents, function(errResponse) {
-			console.error('Error while highlight Event');
+		EventService.highlight(id).then(fetchAllEvents, function(errorResponse) {
+			console.error('Error while highlight Event', errorResponse);
 		});
 	}
 
 	function remove(id) {
-		EventService.remove(id).then(fetchAllEvents, function(errResponse) {
-			console.error('Error while highlight Event');
+		EventService.remove(id).then(fetchAllEvents, function(errorResponse) {
+			console.error('Error while highlight Event', errorResponse);
 		});
 	}
 

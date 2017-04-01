@@ -15,9 +15,10 @@
  */
 
 /* ========================================================================
- * Initialize Firebase
+ *  Initialize Firebase
  * ======================================================================== */
 
+//Load configuration
 var apiKey = document.getElementById("firebase.web.apiKey").value;
 var authDomain = document.getElementById("firebase.web.authDomain").value;
 var databaseURL = document.getElementById("firebase.web.databaseURL").value;
@@ -30,7 +31,8 @@ var config = {
 	authDomain : authDomain,
 	databaseURL : databaseURL,
 	storageBucket : storageBucket,
-	messagingSenderId : storageBucket
+	messagingSenderId : messagingSenderId
 };
 firebase.initializeApp(config);
+
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////

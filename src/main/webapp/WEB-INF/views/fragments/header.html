@@ -42,8 +42,8 @@
 		<input type="hidden" id="firebase.web.messagingSenderId" th:value="#{firebase.web.messagingSenderId}" />
 
 		<!-- Image title with hiperlink at home-->
-		<div class="container">
-			<div class="containerImage">
+		<div class="container-fluid">
+			<div class="text-center containerImage">
 				<a href="/" th:href="@{/}"> <img th:src="@{/resources/images/cuacfm.png}" />
 				</a>
 			</div>
@@ -192,9 +192,11 @@
 
 
 						<!-- Message Login, welcome -->
-						<li sec:authorize="isAuthenticated()"><th:block th:if="${active != 'Profile'}">
+						<li sec:authorize="isAuthenticated()">
+							<th:block th:if="${active != 'profile'}">
 								<li><a href="/profile" th:href="@{/profile}" id="nameAuthenticated" sec:authentication="name">Name</a></li>
-							</th:block> <th:block th:if="${active == 'Profile'}">
+							</th:block> 
+							<th:block th:if="${active == 'profile'}">
 								<li class="active"><a href="/profile" id="nameAuthenticated" th:href="@{/profile}" sec:authentication="name">Name</a></li>
 							</th:block></li>
 					</ul>

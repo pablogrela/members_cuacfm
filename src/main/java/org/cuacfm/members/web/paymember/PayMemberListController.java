@@ -179,7 +179,7 @@ public class PayMemberListController {
 		PayMember payMember = payMemberService.findById(payMemberId);
 		payMemberService.pay(payMember);
 
-		MessageHelper.addSuccessAttribute(ra, "payMember.successPay", payMember.getAccount().getName());
+		MessageHelper.addSuccessAttribute(ra, "payMember.successPay", payMember.getInstallment(), payMember.getAccount().getName());
 		return REDIRECT_PAYMEMBER;
 	}
 

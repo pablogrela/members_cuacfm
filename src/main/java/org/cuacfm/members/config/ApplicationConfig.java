@@ -41,7 +41,6 @@ import com.google.firebase.auth.FirebaseCredentials;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
-import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
 
 /**
@@ -190,7 +189,7 @@ public class ApplicationConfig {
 	 * @param atribute the atribute
 	 */
 	private static void changeLogBack(String pathConfig, String atribute) {
-		// assume SLF4J is bound to logback in the current environment
+		// Assume SLF4J is bound to logback in the current environment
 		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 
 		try {
@@ -198,15 +197,13 @@ public class ApplicationConfig {
 			if (config.exists()) {
 				JoranConfigurator configurator = new JoranConfigurator();
 				configurator.setContext(context);
-				// Call context.reset() to clear any previous configuration, e.g. default 
-				// configuration. For multi-step configuration, omit calling context.reset().
+				// Call context.reset() to clear any previous configuration, e.g. default
 				context.reset();
 				configurator.doConfigure(config);
 			}
-		} catch (JoranException je) {
-			// StatusPrinter will handle this
+		} catch (Exception e) {
+			logger.error("changeLogBack " + atribute, e);
 		}
-
 		StatusPrinter.printInCaseOfErrorsOrWarnings(context);
 	}
 

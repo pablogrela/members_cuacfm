@@ -19,7 +19,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="#{feeProgram.titleEdit}"></title>
-<link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
 <body>
@@ -29,7 +28,7 @@
 
 	<!-- Button redirect to fee program list-->
 	<div class="text-center">
-		<a href="#" class="btn btn-info btn-lg" th:href="@{/feeProgramList}" th:text="#{feeMember.backFeeProgramList}"> </a>
+		<a href="#" class="btn btn-primary btn-lg" th:href="@{/feeProgramList}" th:text="#{feeMember.backFeeProgramList}"> </a>
 	</div>
 	<br></br>
 
@@ -60,11 +59,10 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
 				<label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
 				<div class="col-lg-10">
-					<div class="col-lg-3-edit">
+					<div class="input-group col-lg-4-edit">
 						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0.01" required="required" />
+						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
-					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
-					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"> Incorrect price</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -107,7 +105,7 @@
 			<!-- Button Edit FeeProgram -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-success btn-lg" th:text="#{feeProgram.modify}">Create</button>
+					<button type="submit" class="btn btn-orange btn-lg" th:text="#{feeProgram.modify}">Create</button>
 				</div>
 			</div>
 

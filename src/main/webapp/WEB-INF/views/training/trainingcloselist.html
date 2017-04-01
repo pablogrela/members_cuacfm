@@ -31,7 +31,7 @@
 
 		<!-- Button redirect to Training List Open-->
 		<div class="text-center">
-			<a class="btn btn-info btn-lg" th:href="@{/trainingList}" th:text="#{training.viewTrainingOpen}">View Training Open</a>
+			<a class="btn btn-primary btn-lg" th:href="@{/trainingList}" th:text="#{training.viewTrainingOpen}">View Training Open</a>
 		</div>
 
 		<br></br>
@@ -39,7 +39,7 @@
 		<div class="text-center scroll">
 			<div class="btn-group" th:each="year : ${years}">
 				<form method="post" th:action="@{trainingCloseList}">
-					<button class="btn btn-info btn-lg" th:name="year" th:value="${year}" th:title="#{infoYears}" th:text="${year}"></button>
+					<button class="btn btn-primary btn-lg" th:name="year" th:value="${year}" th:title="#{infoYears}" th:text="${year}"></button>
 				</form>
 			</div>
 		</div>

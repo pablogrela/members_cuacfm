@@ -24,7 +24,8 @@ angular.module('membersApp').factory('DirectDebitAdminService', [ '$http', '$q',
 		fetchAllDirectDebits : fetchAllDirectDebits,
 		fetchAllDirectDebitsClose : fetchAllDirectDebitsClose,
 		fetchAllDirectDebitsRemittance : fetchAllDirectDebitsRemittance,
-		payBankDeposit : payBankDeposit,
+		confirmPaypal : confirmPaypal,
+		confirmBankDeposit : confirmBankDeposit,
 		markBankDeposit : markBankDeposit,
 		cancelBankDeposit : cancelBankDeposit,
 		cancel : cancel,
@@ -95,13 +96,25 @@ angular.module('membersApp').factory('DirectDebitAdminService', [ '$http', '$q',
 		return deferred.promise;
 	}
 	
-	function payBankDeposit(id) {
+	function confirmBankDeposit(id) {
 		var deferred = $q.defer();
-		var url = REST_SERVICE_URI + 'payBankDeposit/' + id + csrf;
+		var url = REST_SERVICE_URI + 'confirmBankDeposit/' + id + csrf;
 		$http.post(url).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
-			console.error('Error while pay bankDeposit directDebit');
+			console.error('Error while confirm BankDeposit directDebit');
+			deferred.reject(errResponse);
+		});
+		return deferred.promise;
+	}
+	
+	function confirmPaypal(id) {
+		var deferred = $q.defer();
+		var url = REST_SERVICE_URI + 'confirmPaypal/' + id + csrf;
+		$http.post(url).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(errResponse) {
+			console.error('Error while pay confirm Paypal directDebit');
 			deferred.reject(errResponse);
 		});
 		return deferred.promise;

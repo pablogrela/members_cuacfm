@@ -122,7 +122,7 @@ public class FileUtils {
 		if (newValue != null && !newValue.isEmpty()) {
 			return newValue.trim();
 		} else {
-			return oldValue.trim();
+			return oldValue;
 		}
 	}
 
@@ -148,12 +148,38 @@ public class FileUtils {
 	 * @return String on o N
 	 */
 	public static Boolean getBoolean(String value) {
-		if (value != null) {
-			return "Sí".equalsIgnoreCase(value.trim()) ? true : false;
+		if (value != null && !value.isEmpty()) {
+			return "Si".equalsIgnoreCase(value.trim()) ? true : false;
 		}
 		return null;
 	}
 
+	/**
+	 * Gets the float.
+	 *
+	 * @param value the value
+	 * @return the float
+	 */
+	public static Float getFloat(String value) {
+		if (value != null && !value.isEmpty()) {
+			return Float.valueOf(value);
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets the integer.
+	 *
+	 * @param value the value
+	 * @return the integer
+	 */
+	public static Integer getInteger(String value) {
+		if (value != null && !value.isEmpty()) {
+			return Integer.valueOf(value);
+		}
+		return null;
+	}
+	
 	/**
 	 * Gets the file.
 	 *

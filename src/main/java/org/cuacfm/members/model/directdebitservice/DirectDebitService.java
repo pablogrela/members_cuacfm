@@ -170,14 +170,24 @@ public interface DirectDebitService {
 	public String cancelBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
 
 	/**
-	 * Payl bank deposit.
+	 * Confirm bankDeposit.
 	 *
 	 * @param directDebit the direct debit
 	 * @param account the account
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String payBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String confirmBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+
+	/**
+	 * Confirm pay by paypal.
+	 *
+	 * @param directDebit the direct debit
+	 * @param account the account
+	 * @return the string
+	 * @throws ExistTransactionIdException the exist transaction id exception
+	 */
+	public String confirmPaypal(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
 
 	/**
 	 * Cash.

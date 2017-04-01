@@ -26,9 +26,8 @@ membersApp.controller('DirectDebitOpenController', [ '$scope', '$rootScope', 'Di
 	function fetchAllDirectDebitsOpen() {
 		DirectDebitService.fetchAllDirectDebitsOpen().then(function(data) {
 			$scope.directDebits = data;
-			$scope.totalItems = $scope.directDebits.length;
-		}, function(errResponse) {
-			console.error('Error while fetch directDebits');
+		}, function(errorResponse) {
+			console.error('Error while fetch directDebits', errorResponse);
 		});
 	}
 
@@ -39,8 +38,8 @@ membersApp.controller('DirectDebitOpenController', [ '$scope', '$rootScope', 'Di
 			showModal(modal);
 			//Refresh events
 			$rootScope.$emit("fetchAllEvents", {});
-		}, function(errResponse) {
-			console.error('Error while mark Bank Deposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while mark Bank Deposit directDebit', errorResponse);
 		});
 	}
 
@@ -51,8 +50,8 @@ membersApp.controller('DirectDebitOpenController', [ '$scope', '$rootScope', 'Di
 			showModal(modal);
 			//Refresh events
 			$rootScope.$emit("fetchAllEvents", {});			
-		}, function(errResponse) {
-			console.error('Error while cancel Bank Deposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while cancel Bank Deposit directDebit', errorResponse);
 		});
 	}
 

@@ -32,20 +32,18 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 	function fetchAllUsers() {
 		AccountService.fetchAllUsers().then(function(data) {
 			$scope.accounts = data;
-		}, function(errResponse) {
-			console.error('Error while fetching Users');
+		}, function(errorResponse) {
+			console.error('Error while fetching Users', errorResponse);
 		});
 	}
 
-	function unsubscribe(id, email) {
+	function unsubscribe(id) {
 		AccountService.unsubscribe(id).then(function(data) {
 			$scope.message = data;
 			fetchAllUsers();
-			// Disable
-			// disableUser(email)
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while unsubscribe User');
+		}, function(errorResponse) {
+			console.error('Error while unsubscribe User', errorResponse);
 		});
 	}
 
@@ -54,8 +52,8 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 			$scope.message = data;
 			fetchAllUsers();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while subscribe User');
+		}, function(errorResponse) {
+			console.error('Error while subscribe User', errorResponse);
 		});
 	}
 

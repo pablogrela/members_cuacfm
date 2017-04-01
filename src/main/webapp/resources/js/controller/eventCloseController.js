@@ -25,14 +25,14 @@ angular.module('membersApp').controller('EventController', [ '$scope', 'EventSer
 	function fetchAllEventsClose() {
 		EventService.fetchAllEventsClose().then(function(d) {
 			self.eventsClose = d;
-		}, function(errResponse) {
-			console.error('Error while fetching Events');
+		}, function(errorResponse) {
+			console.error('Error while fetching Events', errorResponse);
 		});
 	}
 
 	function highlight(id) {
-		EventService.highlight(id).then(fetchAllEventsClose, function(errResponse) {
-			console.error('Error while highlight Event');
+		EventService.highlight(id).then(fetchAllEventsClose, function(errorResponse) {
+			console.error('Error while highlight Event', errorResponse);
 		});
 	}
 

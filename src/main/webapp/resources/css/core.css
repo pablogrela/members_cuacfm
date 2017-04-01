@@ -320,19 +320,25 @@ div.scroll {
 
 /****************************** navbar ***************************************/
 .navbar-inverse {
-	background-color: #82CAFA /*azul*/
+/* 	fondo de barra */
+/* 	background-color: #82CAFA azul */
+/*  background-color: #FFFFFF blanco */
+	background-color: #FFD801 /*naranja*/
 }
 
 .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>li>a:hover,
 	.navbar-inverse .navbar-nav>li>a:focus {
-	background-color: #000000 /*negro*/
+/* 	caja de enlace para seleccionar */
+/* 	background-color: #000000 negro */
+ 	background-color: #FFD801; /*naranja*/
 }
 
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.open>a,
 	.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,
 	.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,
 	.navbar-inverse .navbar-nav>.open>a:focus {
-	background-color: #FFD801 /*naranja*/
+	/* 	caja de enlace selecionado, al estar del mismo color que el fondo no se ve */
+	background-color: #FFD801; /*naranja*/
 }
 
 .dropdown-menu {
@@ -364,22 +370,33 @@ div.scroll {
 }
 
 .navbar-inverse .navbar-nav>li>a {
+/* 	caja de enlace para seleccionar */
+/* 	color: #000000 negro */
 	color: #000000 /*negro*/
 }
 
 .navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus
 	{
-	color: #FFFFFF
+/* 	nuevo enlace para seleccionar */
+	color: #FFFFFF;
+	font-size: large;
+	font-weight: bold;
 }
 
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.open>a,
 	.navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus
 	{
-	color: #000000 /*negro*/
+/* 	enlace selecionado del menu*/
+/* 	color: #000000 negro */
+/* color: #FC7303; naranja oscuro */
+	color: #FF0000; /*rojo*/
+	font-size: large;
+	font-weight: bold;
 }
 
 .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus
 	{
+/* 	Si se seleciona un ennlace ya seleccionado */
 	color: #FFFFFF
 }
 
@@ -408,7 +425,13 @@ div.scroll {
 }
 /****************************** navbar ***************************************/
 
+
+
 /****************************** logo ***************************************/
+.containerImage {
+	padding: 10px;
+}
+
 /* Imagen adaptable a mobil*/
 @media ( max-width : 768px) {
 	.containerImage {
@@ -423,6 +446,8 @@ div.scroll {
 	}
 }
 /****************************** logo ***************************************/
+
+
 
 /****************************** columns ***************************************/
 /* Pantalla grande */
@@ -765,3 +790,46 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
+
+.btn-orange { 
+  color: #ffffff; 
+  background-color: #F08109; 
+  border-color: #40190E; 
+} 
+ 
+ 
+/*  start, BUTON ORANGE */
+/* customize buttons in http://blog.koalite.com/bbg/ */
+.btn-orange {
+	color: #FFFFFF;
+	background-color: #F08109;
+	border-color: #B56006;
+}
+
+.btn-orange:hover, .btn-orange:focus, .btn-orange:active, .btn-orange.active,
+	.open .dropdown-toggle.btn-orange {
+	color: #FFFFFF;
+	background-color: #F04B09;
+	border-color: #B56006;
+}
+
+.btn-orange:active, .btn-orange.active, .open .dropdown-toggle.btn-orange
+	{
+	background-image: none;
+}
+
+.btn-orange.disabled, .btn-orange[disabled], fieldset[disabled] .btn-orange,
+	.btn-orange.disabled:hover, .btn-orange[disabled]:hover, fieldset[disabled] .btn-orange:hover,
+	.btn-orange.disabled:focus, .btn-orange[disabled]:focus, fieldset[disabled] .btn-orange:focus,
+	.btn-orange.disabled:active, .btn-orange[disabled]:active, fieldset[disabled] .btn-orange:active,
+	.btn-orange.disabled.active, .btn-orange[disabled].active, fieldset[disabled] .btn-orange.active
+	{
+	background-color: #F08109;
+	border-color: #B56006;
+}
+
+.btn-orange .badge {
+	color: #F08109;
+	background-color: #FFFFFF;
+}
+/*  end, BUTON ORANGE */

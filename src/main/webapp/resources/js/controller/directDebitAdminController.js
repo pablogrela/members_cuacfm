@@ -18,26 +18,29 @@ membersApp.controller('DirectDebitAdminController', [ '$scope', 'DirectDebitAdmi
 	$scope.search = '';
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
+	$scope.directDebit = '';
 	$scope.directDebits = '';
 	$scope.account = '';
 	$scope.message = '';
 
 	var self = this;
-	self.payBankDeposit = payBankDeposit;
+	self.confirmPaypal = confirmPaypal;
+	self.confirmBankDeposit = confirmBankDeposit;
 	self.markBankDeposit = markBankDeposit;
 	self.cancelBankDeposit = cancelBankDeposit;
 	self.cancel = cancel;
 	self.returnBill = returnBill;
 	self.cash = cash;
 	self.infoAccount = infoAccount;
+	self.infoDirectDebit = infoDirectDebit;
 
 	fetchAllDirectDebits();
 
 	function fetchAllDirectDebits() {
 		DirectDebitAdminService.fetchAllDirectDebits().then(function(data) {
 			$scope.directDebits = data;
-		}, function(errResponse) {
-			console.error('Error while fetch directDebits');
+		}, function(errorResponse) {
+			console.error('Error while fetch directDebits', errorResponse);
 		});
 	}
 
@@ -46,8 +49,8 @@ membersApp.controller('DirectDebitAdminController', [ '$scope', 'DirectDebitAdmi
 			$scope.message = data;
 			fetchAllDirectDebits();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while mark BankDeposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while mark BankDeposit directDebit', errorResponse);
 		});
 	}
 
@@ -56,28 +59,38 @@ membersApp.controller('DirectDebitAdminController', [ '$scope', 'DirectDebitAdmi
 			$scope.message = data;
 			fetchAllDirectDebits();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while cancel BankDeposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while cancel BankDeposit directDebit', errorResponse);
 		});
 	}
 
-	function payBankDeposit(id) {
-		DirectDebitAdminService.payBankDeposit(id).then(function(data) {
+	function confirmBankDeposit(id) {
+		DirectDebitAdminService.confirmBankDeposit(id).then(function(data) {
 			$scope.message = data;
 			fetchAllDirectDebits();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while pay BankDeposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while confirm BankDeposit of directDebit', errorResponse);
 		});
 	}
 
+	function confirmPaypal(id) {
+		DirectDebitAdminService.confirmPaypal(id).then(function(data) {
+			$scope.message = data;
+			fetchAllDirectDebits();
+			showModal(modal);
+		}, function(errorResponse) {
+			console.error('Error while confirm Paypal directDebit', errorResponse);
+		});
+	}
+	
 	function cancel(id) {
 		DirectDebitAdminService.cancel(id).then(function(data) {
 			$scope.message = data;
 			fetchAllDirectDebits();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while cancel directDebit');
+		}, function(errorResponse) {
+			console.error('Error while cancel directDebit', errorResponse);
 		});
 	}
 
@@ -86,8 +99,8 @@ membersApp.controller('DirectDebitAdminController', [ '$scope', 'DirectDebitAdmi
 			$scope.message = data;
 			fetchAllDirectDebits();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while returnBill directDebit');
+		}, function(errorResponse) {
+			console.error('Error while returnBill directDebit', errorResponse);
 		});
 	}
 
@@ -96,13 +109,17 @@ membersApp.controller('DirectDebitAdminController', [ '$scope', 'DirectDebitAdmi
 			$scope.message = data;
 			fetchAllDirectDebits();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while returnBill directDebit');
+		}, function(errorResponse) {
+			console.error('Error while returnBill directDebit', errorResponse);
 		});
 	}
 
 	function infoAccount(aux) {
 		$scope.account = aux;
+	}
+	
+	function infoDirectDebit(aux) {
+		$scope.directDebit = aux;
 	}
 
 	$scope.localeSensitiveComparator = function(v1, v2) {

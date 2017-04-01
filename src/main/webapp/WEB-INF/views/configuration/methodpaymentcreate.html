@@ -26,6 +26,12 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='configuration')">&nbsp;</div>
 
+	<!-- Button redirect to Program List-->
+	<div class="text-center">
+		<a href="#" class="btn btn-primary btn-lg" th:href="@{/configuration}" th:text="#{configuration.backConfiguration}"> </a>
+	</div>
+	<br></br>
+	
 	<form class="form-narrow form-horizontal ws-validate" method="post"
 		th:action="@{methodPaymentCreate}" th:object="${methodPaymentForm}">
 
@@ -74,7 +80,7 @@
 			<!-- Button Create Training -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-success btn-lg" th:text="#{methodPayment.create}">Create</button>
+					<button type="submit" class="btn btn-orange btn-lg" th:text="#{methodPayment.create}">Create</button>
 				</div>
 			</div>
 		</fieldset>

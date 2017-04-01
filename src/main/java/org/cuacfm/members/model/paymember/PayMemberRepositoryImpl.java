@@ -45,15 +45,15 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 
 	@Override
 	@Transactional
-	public PayMember save(PayMember userFeeMember) {
-		entityManager.persist(userFeeMember);
-		return userFeeMember;
+	public PayMember save(PayMember payMember) {
+		entityManager.persist(payMember);
+		return payMember;
 	}
 
 	@Override
 	@Transactional
-	public PayMember update(PayMember userFeeMember) {
-		return entityManager.merge(userFeeMember);
+	public PayMember update(PayMember payMember) {
+		return entityManager.merge(payMember);
 	}
 
 	@Override

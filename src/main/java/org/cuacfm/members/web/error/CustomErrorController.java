@@ -63,8 +63,6 @@ class CustomErrorController {
 		String message = MessageFormat.format("{0} returned for {1} with message {2}", statusCode, requestUri, exceptionMessage);
 		model.addAttribute("errorMessage", message);
 
-		logger.error("generalError: ", throwable);
-
 		// If you do not want to display the error on the screen, put return null
 		return "error/general";
 	}
@@ -78,6 +76,7 @@ class CustomErrorController {
 	 */
 	private String getExceptionMessage(Throwable throwable, Integer statusCode) {
 		if (throwable != null) {
+			logger.error("generalError: ", throwable);
 			return Throwables.getRootCause(throwable).getMessage();
 		}
 		HttpStatus httpStatus = HttpStatus.valueOf(statusCode);

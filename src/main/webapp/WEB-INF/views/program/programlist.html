@@ -36,23 +36,23 @@
 			<!-- Button Create New Program -->
 			<div class="columLeft">
 				<div>
-					<a href="#" class="btn btn-success btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}"></a>
+					<a href="#" class="btn btn-orange btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}"></a>
 				</div>
 				<br></br>
 			</div>
 
 			<!-- Button redirect to directDebit list close-->
 			<div class="columRight">
-				<a href="#" class="btn btn-info btn-lg" th:href="@{/programList/close}" th:text="#{program.viewProgramListClose}"></a> <br></br>
+				<a href="#" class="btn btn-primary btn-lg" th:href="@{/programList/close}" th:text="#{program.viewProgramListClose}"></a> <br></br>
 			</div>
 		</div>
 
 		<!-- Button Create New Program -->
 		<div sec:authorize="hasAnyRole('ROLE_USER')" class="text-center">
-			<a href="#" class="btn btn-success btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}"></a>
+			<a href="#" class="btn btn-orange btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}"></a>
 		</div>
 
-		<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
+		<div data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
 			<div th:include="program/programlisttable :: programlisttable(#{program.programList}, #{program.programListEmpty})"></div>
 		</div>
 	</div>

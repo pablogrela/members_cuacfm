@@ -40,7 +40,7 @@
 
 			<!-- Button redirect to Account List-->
 			<div class="text-center">
-				<a href="#" class="btn btn-info btn-lg" th:href="@{/accountList}" th:text="#{account.backAccountList}"> </a>
+				<a href="#" class="btn btn-primary btn-lg" th:href="@{/accountList}" th:text="#{account.backAccountList}"> </a>
 			</div>
 			<br></br>
 
@@ -397,7 +397,7 @@
 					<div>
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
-								<button type="submit" class="btn btn-success btn-lg" th:text="#{account.edit}"></button>
+								<button type="submit" class="btn btn-orange btn-lg" th:text="#{account.edit}"></button>
 							</div>
 						</div>
 					</div>
@@ -412,7 +412,7 @@
 
 			<!-- Button view Bank Accounts-->
 			<div class="form-group text-center">
-				<button type="button" class="btn btn-info btn-lg" th:text="#{account.bankAccount.bankAccountList}" th:title="#{account.infoBankAccounts}"
+				<button type="button" class="btn btn-primary btn-lg" th:text="#{account.bankAccount.bankAccountList}" th:title="#{account.infoBankAccounts}"
 					onclick="showModal(modal)"></button>
 			</div>
 
@@ -478,7 +478,7 @@
 					<div>
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
-								<button type="submit" class="btn btn-success btn-lg" th:text="#{account.createNewBankAccount}">createNewBankAccount</button>
+								<button type="submit" class="btn btn-orange btn-lg" th:text="#{account.createNewBankAccount}">createNewBankAccount</button>
 							</div>
 						</div>
 					</div>
@@ -486,8 +486,8 @@
 					<!-- Modal Info -->
 					<div id="modal" class="modal fade">
 						<div class="modal-dialog">
-							<div class="modal-content panel-info">
-								<div class="modal-header modal-header-info">
+							<div class="modal-content panel-primary">
+								<div class="modal-header modal-header-primary">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 									<h4 class="modal-title" th:text="#{account.infoBankAccounts}"></h4>
 								</div>
@@ -525,7 +525,7 @@
 									<h2 class="text-center" th:if="${#lists.isEmpty(bankAccounts)}" th:text="#{account.bankAccount.bankAccountListEmpy}"></h2>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-info" th:text="#{accept}" data-dismiss="modal">Accept</button>
+									<button type="button" class="btn btn-primary" th:text="#{accept}" data-dismiss="modal">Accept</button>
 								</div>
 							</div>
 						</div>
@@ -542,7 +542,7 @@
 				
 				<div th:if="${#lists.isEmpty(payMembers)}" class="form-group text-center">
 					<form method="post" th:action="@{account/addFeeMember}">
-						<button type="submit" class="btn btn-success btn-lg" th:text="#{account.addFeeMember}" th:title="#{account.infoAddFeeMember}"></button>
+						<button type="submit" class="btn btn-orange btn-lg" th:text="#{account.addFeeMember}" th:title="#{account.infoAddFeeMember}"></button>
 					</form>
 				</div>
 

@@ -25,6 +25,8 @@ import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +41,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class PayMemberEditController {
 
+	private static final Logger logger = LoggerFactory.getLogger(PayMemberEditController.class);
 	private static final String PAYMEMBER_VIEW_NAME = "paymember/paymemberedit";
 
 	@Autowired
@@ -115,11 +118,12 @@ public class PayMemberEditController {
 		try {
 			payMemberService.update(payMemberForm.updatePayMember(payMember));
 		} catch (ExistTransactionIdException e) {
-			errors.rejectValue("idTxn", "existIdTxn.message", new Object[] { e.getIdTxn() }, "idTxn");
+			logger.error("payMember", e);
+			errors.rejectValue("idTxn", "existIdTxn.message", new Object[] { e.getIdTxn() }, "idTxn");	
 			return PAYMEMBER_VIEW_NAME;
 		}
 
-		MessageHelper.addSuccessAttribute(ra, "payMember.successModify", payMemberForm.getInstallment());
+		MessageHelper.addSuccessAttribute(ra, "payMember.successModify", payMemberForm.getInstallment(), payMember.getAccount().getName());
 		return "redirect:/feeMemberList/payMemberList";
 	}
 

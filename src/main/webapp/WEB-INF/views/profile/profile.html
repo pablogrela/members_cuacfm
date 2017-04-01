@@ -29,14 +29,14 @@
 
 	<!-- Button view Bank Accounts-->
 	<div class="form-group text-center">
-		<button type="button" class="btn btn-info btn-lg" th:text="#{account.bankAccount.bankAccountList}" th:title="#{account.infoBankAccounts.profile}"
+		<button type="button" class="btn btn-primary btn-lg" th:text="#{account.bankAccount.bankAccountList}" th:title="#{account.infoBankAccounts.profile}"
 			onclick="showModal(modal)"></button>
 	</div>
 
 	<!-- Button Up -->
 	<div th:if="${!profileForm.active}" th:fragment="profileUp" >
 		<form class="form-group text-center" method="post" th:action="@{profile/up}">
-			<button type="submit" class="btn btn-success btn-lg" th:title="#{profile.info.up}" th:text="#{profile.up}"></button>
+			<button type="submit" class="btn btn-orange btn-lg" th:title="#{profile.info.up}" th:text="#{profile.up}"></button>
 		</form>
 	</div>
 
@@ -428,9 +428,9 @@
 			<div id="visibleModify">
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-10">
-						<!-- <button type="button" class="btn btn-success btn-lg" th:text="#{edit}" -->
+						<!-- <button type="button" class="btn btn-orange btn-lg" th:text="#{edit}" -->
 						<!-- onClick="updateUser(this.form, 'password', 'email', 'onEmail', 'newPassword', 'onPassword')">Sign Up</button> -->
-						<button type="submit" class="btn btn-success btn-lg" th:text="#{edit}">Sign Up</button>
+						<button type="submit" class="btn btn-orange btn-lg" th:text="#{edit}">Sign Up</button>
 					</div>
 				</div>
 			</div>
@@ -448,8 +448,8 @@
 	<!-- Modal Info -->
 	<div id="modal" class="modal fade">
 		<div class="modal-dialog">
-			<div class="modal-content panel-info">
-				<div class="modal-header modal-header-info">
+			<div class="modal-content panel-primary">
+				<div class="modal-header modal-header-primary">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" th:text="#{account.infoBankAccounts}">Confirmation</h4>
 				</div>
@@ -470,7 +470,7 @@
 					<h2 class="text-center" th:if="${#lists.isEmpty(bankAccounts)}" th:text="#{account.bankAccount.bankAccountListEmpy}"></h2>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-info" th:text="#{accept}" data-dismiss="modal">Accept</button>
+					<button type="button" class="btn btn-primary" th:text="#{accept}" data-dismiss="modal">Accept</button>
 				</div>
 			</div>
 		</div>

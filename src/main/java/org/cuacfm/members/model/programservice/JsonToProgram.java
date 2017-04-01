@@ -92,8 +92,8 @@ public class JsonToProgram {
 			String name = FileUtils.split((String) jsonObjectRow.get("name"), MAX_CHARACTERS);
 			String description = FileUtils.split((String) jsonObjectRow.get("description"), MAX_AREA);
 			description = description + "\n" + FileUtils.split((String) jsonObjectRow.get("hour"), MAX_AREA);
-			Float periodicity = (Float) jsonObjectRow.get("periodicity");
-			Integer duration = (Integer) jsonObjectRow.get("duration");
+			Float periodicity = FileUtils.getFloat((String) jsonObjectRow.get("periodicity"));
+			Integer duration = FileUtils.getInteger((String) jsonObjectRow.get("duration"));
 
 			// Conseguir los miembros, mejor sacar la relacion de programName, dentro de accounts.json
 			// String members = FileUtils.split((String) jsonObjectRow.get("accounts"), MAX_CHARACTERS);
@@ -143,7 +143,7 @@ public class JsonToProgram {
 					programAux.setPodcast(FileUtils.changeValue(programAux.getPodcast(), podcast));
 					programAux.setWeb(FileUtils.changeValue(programAux.getWeb(), web));
 					programAux.setDateCreate((Date) FileUtils.changeValue(programAux.getDateCreate(), dateCreate));
-					programAux.setActive(active);
+					programAux.setActive((Boolean) FileUtils.changeValue(programAux.isActive(), active));
 					programAux.setAccountPayer(accountPayer);
 					programService.update(programAux);
 
@@ -151,14 +151,17 @@ public class JsonToProgram {
 					// Default values, if property is null
 					periodicity = (Float) FileUtils.changeValue((float) 1.0, periodicity);
 					duration = (Integer) FileUtils.changeValue(60, duration);
-					active = (Boolean) FileUtils.changeValue(true, active);
+					programCategory = (ProgramCategory) FileUtils.changeValue(programCategory, programService.findProgramCategoryById(1));
+					programThematic = (ProgramThematic) FileUtils.changeValue(programThematic, programService.findProgramThematicById(1));
+					programLanguage = (ProgramLanguage) FileUtils.changeValue(programLanguage, programService.findProgramLanguageById(1));
+					programType = (ProgramType) FileUtils.changeValue(programType, programService.findProgramTypeById(1));
 
 					Program program = new Program(name, description, periodicity, duration, accounts, accountPayer, programType, programThematic,
 							programCategory, programLanguage, email, twitter, facebook, podcast, web);
 					programService.save(program);
 					program.setDateCreate((Date) FileUtils.changeValue(program.getDateCreate(), dateCreate));
-					program.setActive(active);
-					programService.update(programAux);
+					program.setActive((Boolean) FileUtils.changeValue(true, active));
+					programService.update(program);
 				}
 			} catch (Exception e) {
 				logger.error("parser, error program: " + name + " - ", e);

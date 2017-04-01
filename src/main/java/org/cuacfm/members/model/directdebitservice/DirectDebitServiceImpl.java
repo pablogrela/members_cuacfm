@@ -89,7 +89,6 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 
 	@Override
 	public String refresh() {
-
 		for (Account account : accountService.getAccounts()) {
 			save(account);
 		}
@@ -129,9 +128,6 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	@Override
 	public void updateDirectDebit(DirectDebit directDebit, states state, methods method, Date datePay) throws ExistTransactionIdException {
 		directDebit.setState(state);
-		if (method == null) {
-			method = directDebit.getMethod();
-		}
 		directDebit.setMethod(method);
 		directDebit.setDateUpdate(new Date());
 		directDebit.setDatePay(datePay);
@@ -168,7 +164,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		List<DirectDebitDTO> directDebitsDTO = new ArrayList<>();
 		for (DirectDebit directDebit : directDebits) {
 			DirectDebitDTO directDebitDTO = new DirectDebitDTO(directDebit.getId(), accountService.getAccountDTO(directDebit.getAccount()),
-					directDebit.getConcept(), directDebit.getPrice(), directDebit.getDateUpdate(), directDebit.getDatePay(), directDebit.getState(),
+					directDebit.getConcept(), directDebit.getPrice(), directDebit.getDateCreate(), directDebit.getDateUpdate(), directDebit.getDatePay(), directDebit.getState(),
 					directDebit.getMethod(), directDebit.getSecuence(), directDebit.getIdPayer(), directDebit.getIdTxn(),
 					directDebit.getEmailPayer());
 
@@ -176,7 +172,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 				directDebitDTO.setReturnReason(directDebit.getReturnReason().getDescription());
 			}
 			if (directDebit.getBankRemittance() != null) {
-				directDebitDTO.setBankRemittance(directDebit.getBankRemittance().getId());
+				directDebitDTO.setBankRemittance(directDebit.getBankRemittance().getMonthCharge());
 			}
 			directDebitsDTO.add(directDebitDTO);
 		}
@@ -226,15 +222,25 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public String payBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String confirmBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		if (directDebit.getMethod().equals(methods.BANK_DEPOSIT) || directDebit.getState().equals(states.MANAGEMENT)) {
-			updateDirectDebit(directDebit, states.PAY, null, null);
+			updateDirectDebit(directDebit, states.PAY, methods.BANK_DEPOSIT,  new Date());
 			Object[] arguments = { directDebit.getConcept() };
-			return eventService.save("directDebit.successBankDeposit.cancel", account, 2, arguments);
+			return eventService.save("directDebit.successBankDeposit.pay", account, 2, arguments);
 		}
 		return null;
 	}
 
+	@Override
+	public String confirmPaypal(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+		if (directDebit.getMethod().equals(methods.PAYPAL) || directDebit.getState().equals(states.MANAGEMENT)) {
+			updateDirectDebit(directDebit, states.PAY, methods.PAYPAL,  new Date());
+			Object[] arguments = { directDebit.getConcept() };
+			return eventService.save("directDebit.successPayPal.pay", account, 2, arguments);
+		}
+		return null;
+	}
+	
 	@Override
 	public String cash(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		if (directDebit.getState().equals(states.NO_PAY) || directDebit.getState().equals(states.RETURN_BILL)) {

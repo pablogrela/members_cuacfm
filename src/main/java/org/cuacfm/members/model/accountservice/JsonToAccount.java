@@ -49,7 +49,7 @@ public class JsonToAccount {
 	private static final int MAX_DNI = 10;
 	private static final int MAX_NUMBER = 20;
 
-	@Value("${path}${${formAccounts}")
+	@Value("${formAccounts}")
 	private String formAccounts;
 
 	@Autowired
@@ -75,14 +75,37 @@ public class JsonToAccount {
 		while (iterator.hasNext()) {
 			JSONObject jsonObjectRow = iterator.next();
 
+			String email = FileUtils.split((String) jsonObjectRow.get("email"), MAX_CHARACTERS);
+			// If email not valid, continue with next user
+			if (email == null || email.isEmpty()) {
+				continue;
+			}
+
 			String dateString = FileUtils.split((String) jsonObjectRow.get("dateCreate"), MAX_CHARACTERS);
-			String[] dateConvert = dateString.split("GMT");
-			Date dateCreate = DisplayDate.format(dateConvert[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+			Date dateCreate;
+			if (dateString != null && !dateString.isEmpty()) {
+				String[] dateConvert = dateString.split("GMT");
+				dateCreate = DisplayDate.format(dateConvert[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+			} else {
+				dateCreate = new Date();
+			}
+			dateString = FileUtils.split((String) jsonObjectRow.get("dateDown"), MAX_CHARACTERS);
+			Date dateDown = null;
+			if (dateString != null && !dateString.isEmpty()) {
+				String[] dateConvert2 = dateString.split("GMT");
+				dateDown = DisplayDate.format(dateConvert2[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+			}
+			dateString = FileUtils.split((String) jsonObjectRow.get("dateBirth"), MAX_CHARACTERS);
+			Date dateBirth = null;
+			if (dateString != null && !dateString.isEmpty()) {
+				String[] dateConvert2 = dateString.split("GMT");
+				dateBirth = DisplayDate.format(dateConvert2[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+			}
 
 			String name = FileUtils.split((String) jsonObjectRow.get("name"), MAX_CHARACTERS);
 			String surname = FileUtils.split((String) jsonObjectRow.get("surname"), MAX_CHARACTERS);
+			String nickName = FileUtils.split((String) jsonObjectRow.get("nickName"), MAX_CHARACTERS);
 			String dni = FileUtils.split((String) jsonObjectRow.get("dni"), MAX_DNI).toUpperCase();
-			String email = FileUtils.split((String) jsonObjectRow.get("email"), MAX_CHARACTERS);
 			String mobile = FileUtils.split((String) jsonObjectRow.get("mobile"), MAX_NUMBER);
 			String phone = FileUtils.split((String) jsonObjectRow.get("phone"), MAX_NUMBER);
 			String password = FileUtils.split((String) jsonObjectRow.get("password"), MAX_NUMBER);
@@ -94,16 +117,17 @@ public class JsonToAccount {
 			String knowledge = FileUtils.split((String) jsonObjectRow.get("knowledge"), MAX_AREA);
 			String personality = FileUtils.split((String) jsonObjectRow.get("personality"), MAX_AREA);
 
-			// If email not valid, continue with next user
-			if (email == null || email.isEmpty()){
-				continue;
-			}
-			
+			String cp = FileUtils.split((String) jsonObjectRow.get("cp"), MAX_CHARACTERS);
+			String province = FileUtils.split((String) jsonObjectRow.get("province"), MAX_CHARACTERS);
+			String codeCountry = FileUtils.split((String) jsonObjectRow.get("codeCountry"), MAX_CHARACTERS);
+			Boolean active = FileUtils.getBoolean((String) jsonObjectRow.get("active"));
+
 			try {
 				Account accountAux = accountService.findByEmail(email);
 				if (accountAux != null) {
 					accountAux.setName(FileUtils.changeValue(accountAux.getName(), name));
 					accountAux.setSurname(FileUtils.changeValue(accountAux.getSurname(), surname));
+					accountAux.setNickName(FileUtils.changeValue(accountAux.getNickName(), nickName));
 					accountAux.setDni(FileUtils.changeValue(accountAux.getDni(), dni));
 					accountAux.setAddress(FileUtils.changeValue(accountAux.getAddress(), address));
 					accountAux.setLogin(FileUtils.changeValue(accountAux.getLogin(), login));
@@ -117,6 +141,13 @@ public class JsonToAccount {
 					accountAux.setPersonality(FileUtils.changeValue(accountAux.getPersonality(), personality));
 					accountAux.setKnowledge(FileUtils.changeValue(accountAux.getKnowledge(), knowledge));
 					accountAux.setDateCreate((Date) FileUtils.changeValue(accountAux.getDateCreate(), dateCreate));
+
+					accountAux.setCp(FileUtils.changeValue(accountAux.getCp(), cp));
+					accountAux.setProvince(FileUtils.changeValue(accountAux.getProvince(), province));
+					accountAux.setCodeCountry(FileUtils.changeValue(accountAux.getCodeCountry(), codeCountry));
+					accountAux.setActive((Boolean) FileUtils.changeValue(accountAux.isActive(), active));
+					accountAux.setDateDown((Date) FileUtils.changeValue(accountAux.getDateDown(), dateDown));
+					accountAux.setDateBirth((Date) FileUtils.changeValue(accountAux.getDateBirth(), dateBirth));
 					accountService.update(accountAux, false, false);
 
 				} else {
@@ -124,12 +155,22 @@ public class JsonToAccount {
 					password = FileUtils.changeValue("123456", password);
 					emitProgram = (Boolean) FileUtils.changeValue(emitProgram, false);
 					student = (Boolean) FileUtils.changeValue(student, false);
+					active = (Boolean) FileUtils.changeValue(true, active);
 
 					Account account = new Account(name, surname, dni, address, login, email, phone, mobile, password, roles.ROLE_USER, programName,
 							student, emitProgram, personality, knowledge);
 					accountService.save(account);
+
+					account.setCp(cp);
+					account.setProvince(province);
+					account.setCodeCountry(codeCountry);
+					account.setActive((Boolean) FileUtils.changeValue(true, active));
 					account.setDateCreate((Date) FileUtils.changeValue(account.getDateCreate(), dateCreate));
-					accountService.update(accountAux, false, false);
+					account.setDateDown(dateDown);
+					account.setDateBirth(dateBirth);
+					account.setNickName(nickName);
+					account.setToken(dni + "_cuacfm");
+					accountService.update(account, false, false);
 				}
 			} catch (Exception e) {
 				// 47384273H, dni repetido

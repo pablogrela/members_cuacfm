@@ -30,8 +30,8 @@ membersApp.controller('DirectDebitController', [ '$scope', 'DirectDebitService',
 	function fetchAllDirectDebits() {
 		DirectDebitService.fetchAllDirectDebits().then(function(data) {
 			$scope.directDebits = data;
-		}, function(errResponse) {
-			console.error('Error while fetch directDebits');
+		}, function(errorResponse) {
+			console.error('Error while fetch directDebits', errorResponse);
 		});
 	}
 
@@ -40,8 +40,8 @@ membersApp.controller('DirectDebitController', [ '$scope', 'DirectDebitService',
 			$scope.message = data;
 			fetchAllDirectDebits();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while mark BankDeposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while mark BankDeposit directDebit', errorResponse);
 		});
 	}
 
@@ -50,8 +50,8 @@ membersApp.controller('DirectDebitController', [ '$scope', 'DirectDebitService',
 			$scope.message = data;
 			fetchAllDirectDebits();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while cancel BankDeposit directDebit');
+		}, function(errorResponse) {
+			console.error('Error while cancel BankDeposit directDebit', errorResponse);
 		});
 	}
 	

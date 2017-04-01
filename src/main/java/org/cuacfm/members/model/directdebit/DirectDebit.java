@@ -96,13 +96,13 @@ public class DirectDebit implements Serializable {
 
 	private String emailPayer;
 
-	/** Instantiates a direct debit. */
+	/** Instantiates a directDebit. */
 	protected DirectDebit() {
 		super();
 	}
 
 	/**
-	 * Instantiates a new direct debit.
+	 * Instantiates a new directDebit.
 	 *
 	 * @param account the account
 	 * @param id the id

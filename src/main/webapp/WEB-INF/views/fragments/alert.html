@@ -46,8 +46,8 @@
 	<!-- Modal Info Accounts -->
 	<div th:fragment="infoAccount" id="infoAccount" class="modal fade">
 		<div class="modal-dialog">
-			<div class="modal-content panel-info">
-				<div class="modal-header modal-header-info">
+			<div class="modal-content panel-primary">
+				<div class="modal-header modal-header-primary">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" data-ng-bind="account.name + ' ' + account.surname"></h4>
 				</div>
@@ -100,8 +100,8 @@
 	<!-- Modal Info -->
 	<div th:fragment="infoAccounts" id="infoAccounts" class="modal fade">
 		<div class="modal-dialog">
-			<div class="modal-content panel-info">
-				<div class="modal-header modal-header-info">
+			<div class="modal-content panel-primary">
+				<div class="modal-header modal-header-primary">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" th:text="#{members}"></h4>
 				</div>
@@ -116,8 +116,8 @@
 	<!-- Modal Info Program -->
 	<div th:fragment="infoProgram" id="infoProgram" class="modal fade">
 		<div class="modal-dialog">
-			<div class="modal-content panel-info">
-				<div class="modal-header modal-header-info">
+			<div class="modal-content panel-primary">
+				<div class="modal-header modal-header-primary">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" data-ng-bind="program.name"></h4>
 				</div>
@@ -176,10 +176,91 @@
 	</div>
 
 
+	<!-- Modal Info Program -->
+	<div th:fragment="infoDirectDebit" id="infoDirectDebit" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header modal-header-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" data-ng-bind="directDebit.id"></h4>
+				</div>
+				<div class="modal-body">
+					<label th:text="#{payProgram.accountPayer} + ': ' "></label>
+					<span data-ng-bind="directDebit.account.name + ' ' + directDebit.account.surname"></span>
+					<br></br>
+					<label th:text="#{concept} + ': ' "></label>
+					<span data-ng-bind="directDebit.id"></span>
+					<br></br>
+					<label th:text="#{price} + ': ' "></label>
+					<span data-ng-bind="directDebit.price"></span>
+					<br></br>
+					<label th:text="#{description} + ': ' "></label>
+					<span data-ng-bind="directDebit.concept"></span>
+					<br></br>
+
+					<label th:text="#{state} + ': ' "></label>
+					<span data-ng-if="!directDebit.state"> </span>
+					<span data-ng-if="directDebit.state == 'NO_PAY'" th:text="#{states.NO_PAY}"> </span>
+					<span data-ng-if="directDebit.state == 'MANAGEMENT'" th:text="#{states.MANAGEMENT}"> </span>
+					<span data-ng-if="directDebit.state == 'PAY'" th:text="#{states.PAY}"> </span>
+					<span data-ng-if="directDebit.state == 'RETURN_BILL'" th:text="#{states.RETURN_BILL}"> </span>
+					<span data-ng-if="directDebit.state == 'CANCEL'" th:text="#{states.CANCEL}"> </span>
+					<br></br>
+
+					<label th:text="#{methodPayment} + ': ' "></label>
+					<span data-ng-if="!directDebit.method"></span>
+					<span data-ng-if="directDebit.method == 'BANK_DEPOSIT'" th:text="#{methods.BANK_DEPOSIT}"> </span>
+					<span data-ng-if="directDebit.method == 'CASH'" th:text="#{methods.CASH}"> </span>
+					<span data-ng-if="directDebit.method == 'NO_PAY'" th:text="#{methods.NO_PAY}"> </span>
+					<span data-ng-if="directDebit.method == 'PAYPAL'" th:text="#{methods.PAYPAL}"> </span>
+					<span data-ng-if="directDebit.method == 'DIRECTDEBIT'" th:text="#{methods.DIRECTDEBIT}"> </span>
+					<br></br>
+
+					<label th:text="#{dateCreate} + ': ' "></label>
+					<span data-ng-bind="directDebit.dateCreate | date : 'short'"></span>
+					<br></br>
+					<label th:text="#{dateUpdate} + ': ' "></label>
+					<span data-ng-bind="directDebit.dateUpdate | date : 'short'"></span>
+					<br></br>
+					<label th:text="#{datePay} + ': ' "></label>
+					<span data-ng-bind="directDebit.datePay | date : 'short'"></span>
+					<br></br>
+
+					<!-- BANK REMITTANCE -->
+					<br></br>
+					<h3 th:text="#{methods.DIRECTDEBIT}" style="color: blue"></h3>
+					<label th:text="#{monthCharge} + ': ' "></label>
+					<span data-ng-bind="directDebit.bankRemittance"></span>
+					<br></br>
+					<label th:text="#{directDebit.secuence} + ': ' "></label>
+					<span data-ng-bind="directDebit.secuence"></span>
+					<br></br>
+					<label th:text="#{directDebit.returnReason} + ': ' "></label>
+					<span data-ng-bind="directDebit.returnReason"></span>
+					<br></br>
+
+					<!-- Paypal -->
+					<br></br>
+					<h3 th:text="#{methods.PAYPAL}" style="color: blue"></h3>
+					<label th:text="#{payMember.idPayer} + ': ' "></label>
+					<span data-ng-bind="directDebit.idPayer"></span>
+					<br></br>
+					<label th:text="#{payMember.idTxn} + ': ' "></label>
+					<span data-ng-bind="directDebit.idPayer"></span>
+					<br></br>
+					<label th:text="#{payMember.emailPayer} + ': ' "></label>
+					<span data-ng-bind="directDebit.idPayer"></span>
+					<br></br>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Modal Info Delete -->
 	<div th:fragment="infoDelete" id="infoDelete" class="modal fade">
 		<div class="modal-dialog">
-			<div class="modal-content panel-info">
+			<div class="modal-content panel-primary">
 				<div class="modal-header modal-header-danger">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title" data-ng-bind="program.name"></h4>

@@ -21,7 +21,7 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 	$scope.account = '';
 	$scope.accounts = '';
 	$scope.program = '';
-	$scope.programs = [];
+	$scope.programs = '';
 	$scope.message = '';
 
 	var self = this;
@@ -38,8 +38,8 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 	function fetchAllPrograms() {
 		ProgramService.fetchAllPrograms().then(function(data) {
 			$scope.programs = data;
-		}, function(errResponse) {
-			console.error('Error while fetching Users');
+		}, function(errorResponse) {
+			console.error('Error while fetching Users', errorResponse);
 		});
 	}
 
@@ -48,8 +48,8 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 			$scope.message = data;
 			fetchAllPrograms();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while Up program');
+		}, function(errorResponse) {
+			console.error('Error while Up program', errorResponse);
 		});
 	}
 
@@ -58,8 +58,8 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 			$scope.message = data;
 			fetchAllPrograms();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while Down Program');
+		}, function(errorResponse) {
+			console.error('Error while Down Program', errorResponse);
 		});
 	}
 
@@ -68,8 +68,8 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 			$scope.message = data;
 			fetchAllPrograms();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while Delete Program');
+		}, function(errorResponse) {
+			console.error('Error while Delete Program', errorResponse);
 		});
 	}
 
@@ -78,8 +78,8 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 			$scope.message = data;
 			fetchAllPrograms();
 			showModal(modal);
-		}, function(errResponse) {
-			console.error('Error while Delete Program');
+		}, function(errorResponse) {
+			console.error('Error while Delete Program', errorResponse);
 		});
 	};
 
