@@ -2,17 +2,21 @@
 
 Web application based on Java 8
 
+<br><br>
+
 ## Motivation
 
 **Support** user maintenance, programs and payments from a community radio
 
 
-
+<br><br>
 
 ## Installation
 
 You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 
+
+<br><br>
 
 ### Example creation configuration of MySQL
 
@@ -43,16 +47,40 @@ You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 ##### Import script to create tables without data
 	mysql -u root -p members < createTables.sql
 
-#### Generate war using with eclipse or maven
+
+### Generate war using with eclipse or maven
 	mvn install
 
-#### Deploy application
+
+
+<br><br>
+
+### Deploy application
    Put war in webapps inside tomcat´s home and start tomcat with bin/startup.sh(linux) or bin/startup.bat(windows)
 
 
 
+<br><br>
+
+### Maven goals
+
+##### Usar install con skip test por si falla algun test
+	install -skip test
+
+##### To run the site, which shows the information of the dependencies and licenses
+	site
+To view: within the target enter the site and open the index
+
+##### To run the coverage where the code coverage is displayed
+	cobertura:cobertura
+To view: within the target enter the site / coverage and open the index
+	
+##### To run mycilla and add the licenses to files that do not have it
+	license:format
 
 
+
+<br><br>
 
 ## Configurations
 
@@ -79,6 +107,9 @@ The necessary files for configuration are the following:
 
 - The **members-firebase-adminsdk.json** file contains the configuration of Firebase´s backend.
 
+
+
+<br><br>
 
 ### Firebase
 
@@ -113,6 +144,8 @@ The necessary files for configuration are the following:
 	- Configure another email templates, for example reset password, verify email or change email. You can also change the domain.
 
 
+<br><br>
+
 ### Recaptcha
 
 - Access to Recaptcha in:
@@ -126,6 +159,7 @@ The necessary files for configuration are the following:
 
 
 
+<br><br>
 
 ## Some screenshots
 ### **Home no sign in**
@@ -148,13 +182,14 @@ The necessary files for configuration are the following:
 
 
 
+<br><br>
 
 ## Contributors
 
 Any help is welcome
 
 
-
+<br><br>
 
 ## License Apache
  
@@ -171,6 +206,9 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+ 
+ 
+<br><br>
  
 ## Author
 **Pablo Grela** - *Initial work* - [pablogrela](https://github.com/pablogrela)
