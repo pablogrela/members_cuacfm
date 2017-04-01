@@ -14,38 +14,37 @@ Web application based on Java 8
 You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 
 
-#### Example creation configuration of mysql
+### Example creation configuration of MySQL
 
-###### Access root, password: root, toor, or the one indicated when MySQL was installed
-mysql -u root -p
+##### Access root, password: root, toor, or the one indicated when MySQL was installed
+	mysql -u root -p
 
-###### Create user
-CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
+##### Create user
+	CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
 
-###### Create database
-create database members;
+##### Create database
+	create database members;
 
-###### Create test database:
-create database membersTest;
+##### Create test database:
+	create database membersTest;
 
-###### Give the user access to the database:
-GRANT ALL PRIVILEGES ON members.* to 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
+##### Give the user access to the database:
+	GRANT ALL PRIVILEGES ON members.* to 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
 
-###### Give the user access to the test database:
-GRANT ALL PRIVILEGES ON membersTest.* to 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
+##### Give the user access to the test database:
+	GRANT ALL PRIVILEGES ON membersTest.* to 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
 
-###### Import script to create tables and basic data
-mysql -u root -p members < createTables.sql
+##### Import script to create tables and basic data
+	mysql -u root -p members < createTables.sql
 
-###### Import script to create example data
-mysql -u root -p members < createDataBase.sql
+##### Import script to create example data
+	mysql -u root -p members < createDataBase.sql
  
-###### Import script to create tables without data
-mysql -u root -p members < createTables.sql
+##### Import script to create tables without data
+	mysql -u root -p members < createTables.sql
 
-
-#### Generate war use with eclipse or maven
-mvn install
+#### Generate war using with eclipse or maven
+	mvn install
 
 #### Deploy application
 put war in webapps inside tomcat´s home and start tomcat with bin/startup.sh(linux) or bin/startup.bat(windows)
@@ -55,7 +54,7 @@ put war in webapps inside tomcat´s home and start tomcat with bin/startup.sh(li
 
 
 
-### Configurations
+## Configurations
 
 The configuration is fully customizable.
 
