@@ -48,6 +48,9 @@ You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 	mysql -u root -p members < createTables.sql
 
 
+
+<br><br>
+
 ### Generate war using with eclipse or maven
 	mvn install
 
