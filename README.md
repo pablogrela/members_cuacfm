@@ -44,8 +44,8 @@ You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 ##### Import script to create example data
 	mysql -u root -p members < createDataBase.sql
  
-##### Import script to create tables without data
-	mysql -u root -p members < createTables.sql
+##### Import script to create tables without data (test)
+	mysql -u root -p membersTest < createTablesTest.sql
 
 
 
@@ -67,16 +67,16 @@ You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 
 ### Maven goals
 
-##### Usar install con skip test por si falla algun test
+##### Use install with skip test in case a test fails
 	install -skip test
 
 ##### To run the site, which shows the information of the dependencies and licenses
 	site
-To view: within the target enter the site and open the index
+- To view: within the target enter the site and open the index
 
 ##### To run the coverage where the code coverage is displayed
 	cobertura:cobertura
-To view: within the target enter the site / coverage and open the index
+- To view: within the target enter the site / coverage and open the index
 	
 ##### To run mycilla and add the licenses to files that do not have it
 	license:format
