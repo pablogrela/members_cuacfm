@@ -47,7 +47,7 @@ You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 	mvn install
 
 #### Deploy application
-put war in webapps inside tomcat´s home and start tomcat with bin/startup.sh(linux) or bin/startup.bat(windows)
+   Put war in webapps inside tomcat´s home and start tomcat with bin/startup.sh(linux) or bin/startup.bat(windows)
 
 
 
@@ -129,7 +129,7 @@ The necessary files for configuration are the following:
 
 ## Some screenshots
 ### **Home no sign in**
-![Alt text](https://cloud.githubusercontent.com/assets/11063006/24579440/07dde01c-16f6-11e7-8a47-b6477f21f9b5.png "Home no sign in*")
+![Alt text](https://cloud.githubusercontent.com/assets/11063006/24579440/07dde01c-16f6-11e7-8a47-b6477f21f9b5.png "Home no sign in")
 
 ### **Sign in**
 ![Alt text](https://cloud.githubusercontent.com/assets/11063006/24579433/fb21ff20-16f5-11e7-94d5-a6b17fe159ae.png "Sign in")
