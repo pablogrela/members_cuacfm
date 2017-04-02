@@ -59,12 +59,12 @@
 
 	        <!-- Insert DirectDebit -->
 	        <div class="form-group">
-	            <label for="directDebit" class="col-lg-2-edit control-label" th:text="#{methodPayment.directDebit}">directDebit</label>
+	            <label for="directDebit" class="col-lg-2" th:text="#{methodPayment.directDebit}">directDebit</label>
 	            <div class="col-lg-2">
-	                <input type="checkbox" class="form-control-edit" id="directDebit" name="directDebit" th:title="#{methodPayment.infoDirectDebit}"/>            
+	                <input type="checkbox" class="form-check-input" id="directDebit" name="directDebit" th:field="*{directDebit}"  th:title="#{methodPayment.infoDirectDebit}"/>            
 	            </div>
 	        </div>
-	        
+			
 			<!-- Insert Description -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>

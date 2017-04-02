@@ -28,23 +28,21 @@
 
 
 	<!-- Alert in modal popup -->
-	<div th:fragment="alertModal (type, message)">
-		<div id="modal" class="modal fade">
-			<div class="modal-dialog">
-				<div class="modal-header" th:classappend="'modal-header-' + ${type}">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" th:text="#{advice}">Confirmation</h4>
-				</div>
-				<div class="modal-body alert alert-dismissable" th:classappend="'alert-' + ${type}">
-					<span th:text="${message}">Test</span>
-				</div>
+	<div th:fragment="alertModal (type, message)" id="modal" class="modal fade mobile">
+		<div class="modal-dialog">
+			<div class="modal-header" th:classappend="'modal-header-' + ${type}">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" th:text="#{advice}">Confirmation</h4>
+			</div>
+			<div class="modal-body alert alert-dismissable" th:classappend="'alert-' + ${type}">
+				<span th:text="${message}">Test</span>
 			</div>
 		</div>
 	</div>
 
 
 	<!-- Modal Info Accounts -->
-	<div th:fragment="infoAccount" id="infoAccount" class="modal fade">
+	<div th:fragment="infoAccount" id="infoAccount" class="modal fade mobile">
 		<div class="modal-dialog">
 			<div class="modal-content panel-primary">
 				<div class="modal-header modal-header-primary">
@@ -98,7 +96,7 @@
 
 
 	<!-- Modal Info -->
-	<div th:fragment="infoAccounts" id="infoAccounts" class="modal fade">
+	<div th:fragment="infoAccounts" id="infoAccounts" class="modal fade mobile">
 		<div class="modal-dialog">
 			<div class="modal-content panel-primary">
 				<div class="modal-header modal-header-primary">
@@ -114,7 +112,7 @@
 
 
 	<!-- Modal Info Program -->
-	<div th:fragment="infoProgram" id="infoProgram" class="modal fade">
+	<div th:fragment="infoProgram" id="infoProgram" class="modal fade mobile">
 		<div class="modal-dialog">
 			<div class="modal-content panel-primary">
 				<div class="modal-header modal-header-primary">
@@ -177,7 +175,7 @@
 
 
 	<!-- Modal Info Program -->
-	<div th:fragment="infoDirectDebit" id="infoDirectDebit" class="modal fade">
+	<div th:fragment="infoDirectDebit" id="infoDirectDebit" class="modal fade mobile">
 		<div class="modal-dialog">
 			<div class="modal-content panel-primary">
 				<div class="modal-header modal-header-primary">
@@ -258,7 +256,7 @@
 	</div>
 
 	<!-- Modal Info Delete -->
-	<div th:fragment="infoDelete" id="infoDelete" class="modal fade">
+	<div th:fragment="infoDelete" id="infoDelete" class="modal fade mobile">
 		<div class="modal-dialog">
 			<div class="modal-content panel-primary">
 				<div class="modal-header modal-header-danger">

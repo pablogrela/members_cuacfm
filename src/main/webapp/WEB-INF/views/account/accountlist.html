@@ -27,7 +27,7 @@
 
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='account')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='accounts')">&nbsp;</div>
 
 	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 	<div class="container-fluid text-center" th:if="${message != null}">
@@ -49,7 +49,7 @@
 
 		<div th:include="fragments/sortColumn :: search"></div>
 
-		<table class="dataTable display table-striped">
+		<table class="dataTable display table-striped wrap">
 			<thead>
 				<tr>
 					<td><a href="#" data-ng-click="sortType = 'name+surname'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
@@ -72,10 +72,10 @@
 							<span data-ng-show="sortType == 'accountType' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 								data-ng-show="sortType == 'accountType' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
-					<td><a href="#" data-ng-click="sortType = 'installments'; sortReverse = !sortReverse"> <span th:text="#{installments}">installments</span>
-							<span data-ng-show="sortType == 'installments' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
-								data-ng-show="sortType == 'installments' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
-					</a></td>
+<!-- 					<td><a href="#" data-ng-click="sortType = 'installments'; sortReverse = !sortReverse"> <span th:text="#{installments}">installments</span> -->
+<!-- 							<span data-ng-show="sortType == 'installments' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span -->
+<!-- 								data-ng-show="sortType == 'installments' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span> -->
+<!-- 					</a></td> -->
 					<td><a href="#" data-ng-click="sortType = 'role'; sortReverse = !sortReverse"> <span th:text="#{role}">role</span> <span
 								data-ng-show="sortType == 'role' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 								data-ng-show="sortType == 'role' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
@@ -96,7 +96,7 @@
 					<td><span data-ng-bind="account.email"></span></td>
 					<td><span data-ng-bind="account.methodPayment"></span></td>
 					<td><span data-ng-bind="account.accountType"></span></td>
-					<td><span data-ng-bind="account.installments"></span></td>
+<!-- 					<td><span data-ng-bind="account.installments"></span></td> -->
 
 					<!-- start If`s role -->
 					<td data-ng-if="account.role == 'ROLE_ADMIN'"><span th:text="#{roles.ROLE_ADMIN}"> </span></td>
@@ -108,12 +108,12 @@
 
 					<!-- start If`s active -->
 					<td data-ng-if="account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{active}"></span>
-						<button data-ng-click="ctrl.unsubscribe(account.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
+						<button data-ng-click="ctrl.unsubscribe(account.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down pull-right"
 							th:title="#{account.infoUnsubscribe}" style="color: red"></button></td>
 					
 					<td data-ng-if="!account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{down}"></span>
-						<button data-ng-click="ctrl.subscribe(account.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up" th:title="#{account.infoSubscribe}"
-							style="color: green"></button></td>
+						<button data-ng-click="ctrl.subscribe(account.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up pull-right" 
+							th:title="#{account.infoSubscribe}" style="color: green"></button></td>
 					
 					<!-- Fill table entry -->
 					<td data-ng-if="account.active &amp;&amp; account.role == 'ROLE_ADMIN'"></td>

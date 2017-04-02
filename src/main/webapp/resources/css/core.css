@@ -22,21 +22,16 @@ body {
 
 /* centered columns styles */
 .row-centered {
-    text-align:center;
-}
-.col-centered {
-    display:inline-block;
-    float:none;
-    /* reset the text-align */
-    text-align:left;
-    /* inline-block space fix */
-    margin-right:-4px;
+	text-align: center;
 }
 
-/* Contendor de bootstrap que abarca toda la pantalla */
-.container-fluid {
-	padding-left: 50px;
-	padding-right: 50px;
+.col-centered {
+	display: inline-block;
+	float: none;
+	/* reset the text-align */
+	text-align: left;
+	/* inline-block space fix */
+	margin-right: -4px;
 }
 
 /* start modal center vetical */
@@ -84,28 +79,152 @@ body {
 	background-color: #808080;
 }
 
-.form-narrow {
-	max-width: 550px;
-	padding: 19px 29px 29px;
-	margin: 0 auto 20px;
-	background-color: #fff;
-	border: 1px solid #e5e5e5;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-}
-
 /* vertical scroll */
 div.scroll {
 	overflow-x: scroll;
 	white-space: nowrap;
 }
 
+/***************************************************************************/
+/********************  mobile               ********************************/
+/***************************************************************************/
+@media ( max-width : 768px) {
+	.containerImage {
+		/* 	zoom: 50%; */
+	}
+
+	/* zoom in mobile */
+	.mobile {
+		zoom: 200%;
+	}
+	.mobile-search {
+		zoom: 110%;
+	}
+
+	/* formularios */
+	.form-narrow {
+		zoom: 200%;
+		max-width: 365px;
+		padding: 9px 9px 9px;
+		margin: 0 auto 20px;
+		background-color: #fff;
+		border: 1px solid #e5e5e5;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+		-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	}
+
+	/* 	elementos de la cabecera */
+	.navbar-nav {
+		/* 	font-size: large; */
+		zoom: 200%;
+	}
+	
+	.alert {
+		zoom: 200%;
+	}
+	
+	.btn-lg {
+/* 		zoom: 150%; */
+		font-size: 200%;
+	}
+	
+	/* button navbar */
+	.navbar-inverse .navbar-toggle {
+		border-color: transparent;
+	}
+	.navbar-header {
+		/* 	fondo de barra */
+		background-color: #FFD801; /*blanco*/
+		border-color: #FFFFFF;
+	}
+	.navbar-inverse {
+		/* fondo de barra */
+		background-color: #FFD801; /* naranja */
+		border-color: #FFFFFF;
+	}
+	.navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>li>a:hover,
+		.navbar-inverse .navbar-nav>li>a:focus {
+		/* 	caja de enlace para seleccionar */
+		/* 	background-color: #000000 negro */
+		background-color: #FFD801; /*naranja*/
+	}
+	.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.open>a,
+		.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,
+		.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,
+		.navbar-inverse .navbar-nav>.open>a:focus {
+		/* 	caja de enlace selecionado, al estar del mismo color que el fondo no se ve */
+		background-color: #FFD801; /*naranja*/
+	}
+}
+/***************************************************************************/
+
+/***************************************************************************/
+/********************  no mobile            ********************************/
+/***************************************************************************/
+@media ( min-width :768px ) {
+	/* 	Caja principal de la aplicacion */
+	.container-fluid {
+		padding-left: 50px;
+		padding-right: 50px;
+	}
+
+	/* formularios */
+	.form-narrow {
+		max-width: 550px;
+		padding: 19px 29px 29px;
+		margin: 0 auto 20px;
+		background-color: #fff;
+		border: 1px solid #e5e5e5;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+		-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	}
+	.btn-form {
+		zoom: 130%;
+	}
+	.navbar-inverse {
+		/* 	fondo de barra */
+		/* 	background-color: #82CAFA azul */
+		/*  background-color: #FFFFFF blanco */
+		background-color: #FFD801 /*naranja*/
+	}
+	.navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>li>a:hover,
+		.navbar-inverse .navbar-nav>li>a:focus {
+		/* 	caja de enlace para seleccionar */
+		/* 	background-color: #000000 negro */
+		background-color: #FFD801; /*naranja*/
+	}
+	.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.open>a,
+		.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,
+		.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,
+		.navbar-inverse .navbar-nav>.open>a:focus {
+		/* 	caja de enlace selecionado, al estar del mismo color que el fondo no se ve */
+		background-color: #FFD801; /*naranja*/
+	}
+}
+
+@media ( min-width : 768px) and (max-width: 1200px) {
+	/* Imagen adaptable a media pantalla*/
+	.containerImage {
+		zoom: 75%;
+	}
+}
+/***************************************************************************/
+
+/****************************** logo ***************************************/
+.containerImage {
+	padding: 10px;
+}
+	
 @media ( max-width : 1200px) {
-/* 	eliminar */
+	/* 	eliminar */
 	.col-lg-22 {
 		float: left;
 		padding-right: 10%;
@@ -319,26 +438,8 @@ div.scroll {
 /*****************************************************************************/
 
 /****************************** navbar ***************************************/
-.navbar-inverse {
-/* 	fondo de barra */
-/* 	background-color: #82CAFA azul */
-/*  background-color: #FFFFFF blanco */
-	background-color: #FFD801 /*naranja*/
-}
-
-.navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>li>a:hover,
-	.navbar-inverse .navbar-nav>li>a:focus {
-/* 	caja de enlace para seleccionar */
-/* 	background-color: #000000 negro */
- 	background-color: #FFD801; /*naranja*/
-}
-
-.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.open>a,
-	.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,
-	.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,
-	.navbar-inverse .navbar-nav>.open>a:focus {
-	/* 	caja de enlace selecionado, al estar del mismo color que el fondo no se ve */
-	background-color: #FFD801; /*naranja*/
+.navbar {
+	margin-bottom: 10px;
 }
 
 .dropdown-menu {
@@ -357,12 +458,19 @@ div.scroll {
 	background-image: none;
 }
 
+
 .navbar-inverse {
 	border-color: #080808
 }
 
+/* menu */
 .navbar-inverse .navbar-brand {
-	color: #999999
+	color: #FFFFFF
+}
+
+/* menu activo */
+.navbar-inverse .navbar-brand-active {
+	color: #FF0000
 }
 
 .navbar-inverse .navbar-brand:hover {
@@ -370,14 +478,14 @@ div.scroll {
 }
 
 .navbar-inverse .navbar-nav>li>a {
-/* 	caja de enlace para seleccionar */
-/* 	color: #000000 negro */
+	/* 	caja de enlace para seleccionar */
+	/* 	color: #000000 negro */
 	color: #000000 /*negro*/
 }
 
 .navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus
 	{
-/* 	nuevo enlace para seleccionar */
+	/* 	nuevo enlace para seleccionar */
 	color: #FFFFFF;
 	font-size: large;
 	font-weight: bold;
@@ -386,9 +494,9 @@ div.scroll {
 .navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.open>a,
 	.navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus
 	{
-/* 	enlace selecionado del menu*/
-/* 	color: #000000 negro */
-/* color: #FC7303; naranja oscuro */
+	/* 	enlace selecionado del menu*/
+	/* 	color: #000000 negro */
+	/* color: #FC7303; naranja oscuro */
 	color: #FF0000; /*rojo*/
 	font-size: large;
 	font-weight: bold;
@@ -396,7 +504,7 @@ div.scroll {
 
 .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus
 	{
-/* 	Si se seleciona un ennlace ya seleccionado */
+	/* 	Si se seleciona un ennlace ya seleccionado */
 	color: #FFFFFF
 }
 
@@ -425,30 +533,6 @@ div.scroll {
 }
 /****************************** navbar ***************************************/
 
-
-
-/****************************** logo ***************************************/
-.containerImage {
-	padding: 10px;
-}
-
-/* Imagen adaptable a mobil*/
-@media ( max-width : 768px) {
-	.containerImage {
-		zoom: 50%;
-	}
-}
-
-/* Imagen adaptable a media pantalla*/
-@media ( min-width : 768px) and (max-width: 1200px) {
-	.containerImage {
-		zoom: 75%;
-	}
-}
-/****************************** logo ***************************************/
-
-
-
 /****************************** columns ***************************************/
 /* Pantalla grande */
 @media ( min-width :320px) {
@@ -474,7 +558,7 @@ div.scroll {
 @media ( min-width :1281px) { /* hi-res laptops and desktops */
 }
 
-@media ( min-width : 1281px) {
+@media ( min-width : 1200px) {
 	.containerColums-5 {
 		position: relative;
 		left: -5%;
@@ -517,6 +601,9 @@ div.scroll {
 		max-width: 600px;
 		min-width: 600px;
 	}
+	.containerColums-14 {
+		left: -5%;
+	}
 }
 
 @media ( min-width : 1025px) {
@@ -548,9 +635,13 @@ div.scroll {
 		left: 61%;
 		position: relative;
 	}
+	.containerColums-14 {
+		position: relative;
+		left: -5%;
+	}
 }
 
-@media ( min-width : 961px) {
+@media ( min-width : 768px) {
 	.columLeft {
 		float: right;
 		left: -51%;
@@ -561,9 +652,23 @@ div.scroll {
 		left: 51%;
 		position: relative;
 	}
+	.columLeft-form {
+		float: right;
+		left: -51%;
+		position: relative;
+	}
+	.columRight-form {
+		float: left;
+		left: 51%;
+		position: relative;
+	}
+	.containerColums-14 {
+		position: relative;
+		left: -5%;
+	}
 }
 
-@media ( min-width :641px) {
+@media ( max-width :768px) {
 	.columLeft {
 		float: right;
 		left: -51%;
@@ -574,7 +679,13 @@ div.scroll {
 		left: 51%;
 		position: relative;
 	}
+	.containerColums-14 {
+		position: relative;
+		left: -14%;
+	}
 }
+
+
 /****************************** columns ***************************************/
 .tooltip {
 	display: inline;
@@ -791,13 +902,12 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
 	border-top-right-radius: 5px;
 }
 
-.btn-orange { 
-  color: #ffffff; 
-  background-color: #F08109; 
-  border-color: #40190E; 
-} 
- 
- 
+.btn-orange {
+	color: #ffffff;
+	background-color: #F08109;
+	border-color: #40190E;
+}
+
 /*  start, BUTON ORANGE */
 /* customize buttons in http://blog.koalite.com/bbg/ */
 .btn-orange {

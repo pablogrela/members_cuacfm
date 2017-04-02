@@ -112,15 +112,22 @@
 
 
 						<!-- Down Program -->
-						<td data-ng-if="program.active"><span th:text="#{active}"></span>
-							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.programDown(program.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
-								th:title="#{program.infoDown}" style="color: red"></button></td>
+						<td data-ng-if="program.active">
+							<span th:text="#{active}"></span>
+							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.programDown(program.id)" 
+								class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down pull-right" th:title="#{program.infoDown}" style="color: red">
+							</button>
+						</td>
 
 
 						<!-- Up Program -->
-						<td data-ng-if="!program.active"><span th:text="#{down}"></span>
-							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.programUp(program.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up" th:title="#{program.infoUp}"
-								style="color: green"></button></td>
+						<td data-ng-if="!program.active">
+							<span th:text="#{down}"></span>
+							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.programUp(program.id)" 
+								class="btnTable btn-link glyphicon  glyphicon-chevron-up pull-right"
+								 th:title="#{program.infoUp}" style="color: green">
+							</button>
+						</td>
 
 
 						<td>

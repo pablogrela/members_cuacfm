@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='bankRemittance')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='bankRemittances')">&nbsp;</div>
 
 	<div class="container-fluid">
 	
@@ -61,7 +61,7 @@
 						<!-- Button Create Bank Remittance -->
 						<div class="form-group">
 							<div class="col-lg-10">
-								<button type="submit" class="btn btn-orange btn-lg" th:text="#{bankRemittance.createBankRemittance}">Create</button>
+								<button type="submit" class="btn btn-orange btn-form" th:text="#{bankRemittance.createBankRemittance}">Create</button>
 							</div>
 						</div>
 					</fieldset>
@@ -77,7 +77,7 @@
 						<legend th:text="#{bankRemittance.infoUploadBankRemittance}"></legend>
 						<input class="btn btn-file" type="file" id="file" name="file"/>
 						<br></br>
-						<button type="submit" class="btn btn-orange btn-lg" th:text="#{bankRemittance.uploadBankRemittance}"></button>
+						<button type="submit" class="btn btn-orange btn-form" th:text="#{bankRemittance.uploadBankRemittance}"></button>
 					</fieldset>
 				</form>
 			</div>

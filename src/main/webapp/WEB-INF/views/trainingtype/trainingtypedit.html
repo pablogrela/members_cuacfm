@@ -60,11 +60,9 @@
 
 			<!-- Insert Required -->
 			<div class="form-group">
-				<label for="required" class="col-lg-2 control-label" th:text="#{trainingType.required}">Required</label>
-				<div class="col-lg-2-bigCheck">
-					<input type="checkbox" class="form-control-edit" th:checked="${trainingType.required}" id="trainingType.required" name="required"
-						th:title="#{trainingType.infoRequired}" />
-					<div class="ws-errorbox" hidden=""></div>
+				<label for="required" class="col-lg-2" th:text="#{trainingType.required}">Required</label>
+				<div class="col-lg-2">
+					<input type="checkbox" class="form-check-input" id="required" name="required" th:title="#{trainingType.infoRequired}" />
 				</div>
 			</div>
 
@@ -97,7 +95,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
 				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
 				<div class="col-lg-10">
-					<div class="input-group col-lg-4-edit">
+					<div class="input-group col-lg-5">
 						<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
 						<span class="input-group-addon" th:text="#{minutes}">minutes</span>
 					</div>
@@ -110,7 +108,7 @@
 			<!-- Button Edit Training -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-orange btn-lg" th:text="#{trainingType.modify}">Create</button>
+					<button type="submit" class="btn btn-orange btn-form" th:text="#{trainingType.modify}">Create</button>
 				</div>
 			</div>
 

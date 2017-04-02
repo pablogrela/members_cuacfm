@@ -26,7 +26,7 @@
 
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='signup')">&nbsp;</div>
 
 	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 	<div class="container-fluid text-center" th:if="${message != null}">
@@ -277,7 +277,7 @@
 			<!-- Button SignUp -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-orange btn-lg" id="acceptSignup" th:text="#{signup}">Sign Up</button>
+					<button type="submit" class="btn btn-orange btn-form" id="acceptSignup" th:text="#{signup}">Sign Up</button>
 				</div>
 			</div>
 

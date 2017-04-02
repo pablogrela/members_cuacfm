@@ -43,8 +43,11 @@
 
 		<fieldset>
 
+
 			<!-- Message help-->
 			<legend th:text="#{configuration.info}">Info</legend>
+
+
 
 			<!-- Edit Name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
@@ -57,6 +60,8 @@
 				</div>
 			</div>
 
+
+
 			<!-- Edit Email -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
@@ -68,6 +73,8 @@
 				</div>
 			</div>
 
+
+
 			<!-- Edit phone -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
@@ -78,6 +85,8 @@
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
+
 
 			<!-- Edit Fee Member -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('feeMember')}? 'has-error'">
@@ -92,7 +101,6 @@
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-
 
 
 
@@ -112,8 +120,6 @@
 
 
 
-
-
 			<!-- Edit descriptionRule -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('descriptionRule')}? 'has-error'">
 				<label for="descriptionRule" class="col-lg-20" th:text="#{descriptionRule}">descriptionRule</label>
@@ -127,14 +133,16 @@
 				</div>
 			</div>
 
+
 			<!-- Button Edit Configuration -->
 			<div class="form-group">
 				<div class="text-center">
-					<button type="submit" class="btn btn-orange btn-lg" th:text="#{configuration.modify}">Modify</button>
+					<button type="submit" class="btn btn-orange btn-form" th:text="#{configuration.modify}">Modify</button>
 				</div>
 			</div>
 		</fieldset>
 	</form>
+
 
 
 	<br></br>
@@ -153,7 +161,7 @@
 	</th:block>
 
 	<!-- Verify if exits accountTypes -->
-	<div class="container" th:unless="${#lists.isEmpty(accountTypes)}">
+	<div class="container-fluid" th:unless="${#lists.isEmpty(accountTypes)}">
 
 		<!-- Table List of Training Types -->
 		<table class="display" id="customTable">
@@ -210,7 +218,7 @@
 	</th:block>
 
 	<!-- Verify if exits methodPayments -->
-	<div class="container" th:unless="${#lists.isEmpty(methodPayments)}">
+	<div class="container-fluid" th:unless="${#lists.isEmpty(methodPayments)}">
 
 		<!-- Table List of Training Types -->
 		<table class="display" id="customTable2">
@@ -288,13 +296,16 @@
 		</div>
 	</div>
 
+
+<!-- 	TODO revisar -->
 	<!-- Upload migrations -->
 	<br></br>
 	<h3 class="text-center" th:text="#{configuration.uploadDatabase}"></h3>
 	<br></br>
 	<div class="container-fluid text-center containerColums">
+		
 		<!-- Upload json accounts-->
-		<div class="columLeft">
+		<div class="columLeft-form">
 			<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}"
 				th:action="@{'accountList/uploadJson?'+${_csrf.parameterName}+'='+${_csrf.token}}" method="post" enctype="multipart/form-data">
 				<fieldset>
@@ -308,7 +319,7 @@
 		</div>
 	
 		<!-- Upload json programs-->
-		<div class="columRight">
+		<div class="columRight-form">
 			<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}"
 				th:action="@{'programList/uploadJson?'+${_csrf.parameterName}+'='+${_csrf.token}}" method="post" enctype="multipart/form-data">
 				<fieldset>

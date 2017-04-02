@@ -145,7 +145,6 @@
 				programLanguageId</div>
 			<div class="col-lg-20 ws-errorbox" hidden=""></div>
 		</div>
-		<br></br>
 
 
 		<!-- Email -->
@@ -201,11 +200,11 @@
 				<div class="ws-errorbox" hidden=""></div>
 			</div>
 		</div>
-		<br></br>
 
+
+		<!-- Members -->
 		<h3 class="text-center" th:text="#{members}">List of Programs Empty</h3>
-		<br></br>
-		
+				
 		<!-- Form to add user by login -->
 		<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 			<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
@@ -282,7 +281,7 @@
 						
 						<!-- Form add account payer by admin --> 
 						<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<div class="col-lg-9 text-danger">
+							<div class="col-lg-10 text-danger">
 								<input th:if="*{accountPayer} == null" type="text" class="form-control" list="userlist" th:placeholder="#{program.acountPayer}" th:field="*{accountPayerName}" autocomplete="off"/>
 								<input th:if="*{accountPayer} != null" type="text" class="form-control" th:field="*{accountPayerName}" readonly="readonly" />
 									
@@ -299,7 +298,7 @@
 						<!-- Form add account payer by no admin --> 
 						<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
 							<label th:if="*{accountPayer} == null" for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
-							<div class="col-lg-9 text-danger">
+							<div class="col-lg-10 text-danger">
 								<input th:if="*{accountPayer} == null" type="text" class="form-control" th:placeholder="#{dni}" th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}" autocomplete="off" />
 								<input th:if="*{accountPayer} != null" type="text" class="form-control"  th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}" readonly="readonly" />
 								<span class="help-block" th:if="${#fields.hasErrors('accountPayerName')}" th:errors="*{accountPayerName}"> Incorrect accountPayerName</span>

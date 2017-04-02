@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='trainings')">&nbsp;</div>
 		
 	<!-- If user has role ExUser, its apear message -->
 	<div sec:authorize="hasAnyRole('ROLE_EXUSER')" class="container-fluid">

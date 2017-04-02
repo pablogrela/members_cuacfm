@@ -59,9 +59,9 @@
 
 	        <!-- Insert DirectDebit -->
 	        <div class="form-group">
-	            <label for="directDebit" class="col-lg-2-edit control-label" th:text="#{methodPayment.directDebit}">directDebit</label>
+	            <label for="directDebit" class="col-lg-2" th:text="#{methodPayment.directDebit}">directDebit</label>
 	            <div class="col-lg-2">
-	                <input type="checkbox" class="form-control-edit" id="directDebit" name="directDebit" th:title="#{methodPayment.infoDirectDebit}"/>            
+	                <input type="checkbox" class="form-check-input" id="directDebit"  th:field="*{directDebit}" name="directDebit" th:title="#{methodPayment.infoDirectDebit}"/>            
 	            </div>
 	        </div>
 	        

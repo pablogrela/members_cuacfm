@@ -59,9 +59,9 @@
 
 	        <!-- Insert Organization -->
 	        <div class="form-group">
-	            <label for="organization" class="col-lg-2-edit control-label" th:text="#{accountType.organization}">Organization</label>
+	            <label for="organization" class="col-lg-2" th:text="#{accountType.organization}">Organization</label>
 	            <div class="col-lg-2">
-	                <input type="checkbox" class="form-control-edit" id="organization" name="organization" th:title="#{accountType.infoOrganization}"/>            
+	                <input type="checkbox" class="form-check-input" id="organization" name="organization" th:field="*{organization}" th:title="#{accountType.infoOrganization}"/>            
 	            </div>
 	        </div>
         

@@ -22,7 +22,10 @@
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
 <body>
+
+	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header"></div>
+	
 	<div class="container">
 		<div class="text-center">
 			<p class="lead" th:text="#{home.notsigin}">Welcome</p>
