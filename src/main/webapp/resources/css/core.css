@@ -128,8 +128,12 @@ div.scroll {
 	}
 	
 	.btn-lg {
-/* 		zoom: 150%; */
+	/* 	zoom: 150%; */
 		font-size: 200%;
+	}
+	
+	.zoom-middle {
+		zoom: 50%;
 	}
 	
 	/* button navbar */
