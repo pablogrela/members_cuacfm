@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='payInscription')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='feePrograms')">&nbsp;</div>
 
 	<!-- Button redirect to fee program list-->
 	<div class="text-center">
@@ -33,6 +33,8 @@
 	<br></br>
 
 	<h1 class="text-center" th:text="*{payProgram.program.name}">Account Name</h1>
+	<br></br>
+	
 
 	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payProgramEdit}" th:object="${payProgramForm}">
 
@@ -43,23 +45,28 @@
 
 		<fieldset>
 
+
+
 			<!-- Message help-->
 			<legend th:text="#{payProgram.infoEdit}">Edit PayProgram</legend>
 
-			<!-- Edit Price -->
+
+
+			<!-- Edit price -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
-				<label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
+				<label for="feeMember" class="col-lg-1 control-label" th:text="#{price}">price</label>
 				<div class="col-lg-10">
-					<div class="col-lg-3-edit">
+					<div class="input-group col-lg-4-edit">
 						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0.01" required="required" />
+						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
-					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
-					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"> Incorrect price</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-
+			
+			
+			
 			<!-- State, Selected option in droplist, with a checkbox to enable field state -->
 			<div class="form-group">
 				<label for="state" class="col-lg-2 control-label" th:text="#{state}">state</label>
@@ -70,6 +77,8 @@
 				</div>
 			</div>
 
+
+
 			<!-- Method, Selected option in droplist, with a checkbox to enable field method -->
 			<div class="form-group">
 				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">method</label>
@@ -79,6 +88,8 @@
 					</select>
 				</div>
 			</div>
+
+
 
 			<!-- Edit AccountPayer -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('accountPayer')}? 'has-error'">
@@ -94,6 +105,9 @@
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
+
+
 
 			<!-- Edit IdTxn -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('idTxn')}? 'has-error'">
@@ -146,9 +160,11 @@
 			<!-- Button Edit  -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-orange btn-lg" th:text="#{payProgram.modify}">Create</button>
+					<button type="submit" class="btn btn-orange btn-form" th:text="#{payProgram.modify}">Create</button>
 				</div>
 			</div>
+
+
 
 		</fieldset>
 	</form>

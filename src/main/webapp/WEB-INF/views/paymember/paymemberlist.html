@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='feeMember')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='feeMembers')">&nbsp;</div>
 
 	<!-- Button redirect to fee member list-->
 	<div class="text-center">
@@ -73,7 +73,7 @@
 									</datalist>
 								</div>
 								<span class="help-block pull-left" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
-								<div class="ws-errorbox pull-left" hidden=""></div>
+								<span class="ws-errorbox pull-left" hidden=""></span>
 							</div>
 						</div>
 					</fieldset>
@@ -96,7 +96,7 @@
 							<button class="btn btn-primary" th:name="createPdf" th:value="PAY" th:title="#{feeMember.infoPayList}" th:text="#{feeMember.printPayList}"></button>
 						</div>
 					</fieldset>
-				</form>
+				</form>			
 			</div>
 		</div>
 

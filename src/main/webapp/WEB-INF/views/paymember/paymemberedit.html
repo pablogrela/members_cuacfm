@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='feeMember')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='feeMembers')">&nbsp;</div>
 
 	<!-- Button redirect to fee member list-->
 	<div class="text-center">
@@ -34,7 +34,7 @@
 
 
 	<h1 class="text-center" th:text="*{payMember.account.name + ' ' + payMember.account.surname}">Account Name</h1>
-
+	<br></br>
 
 	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{payMemberEdit}" th:object="${payMemberForm}">
 
@@ -45,22 +45,26 @@
 
 		<fieldset>
 
+
 			<!-- Message help-->
 			<legend th:text="#{payMember.infoEdit}">Edit PayMember</legend>
 
-			<!-- Edit Price -->
+
+
+			<!-- Edit price -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('price')}? 'has-error'">
-				<label for="price" class="col-lg-2 control-label" th:text="#{price}">place</label>
+				<label for="feeMember" class="col-lg-1 control-label" th:text="#{price}">price</label>
 				<div class="col-lg-10">
-					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0" required="required" />
+					<div class="input-group col-lg-4-edit">
+						<input type="number" class="form-control" id="price" th:placeholder="#{price}" th:field="*{price}" step="0.01" min="0.01" required="required" />
+						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
-					<span class="col-lg-2-right control-label" th:text="#{currency}">currency</span>
-					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"> Incorrect price</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+			
+			
 
 			<!-- Edit installment -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('installment')}? 'has-error'">
@@ -70,11 +74,12 @@
 						<input type="number" class="form-control" id="installment" th:placeholder="#{payMember.installment}" th:field="*{installment}" min="1" max="12"
 							required="required" />
 					</div>
-					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('installment')}" th:errors="*{installment}">Incorrect installment</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
+
 
 			<!-- Edit installments -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('installments')}? 'has-error'">
@@ -84,11 +89,12 @@
 						<input type="number" class="form-control" id="installments" th:placeholder="#{payMember.installments}" th:field="*{installments}" min="1"
 							max="12" required="required" />
 					</div>
-					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('installments')}" th:errors="*{installments}">Incorrect installments</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
+
 
 			<!-- State, Selected option in droplist, with a checkbox to enable field state -->
 			<div class="form-group">
@@ -100,6 +106,8 @@
 				</div>
 			</div>
 
+
+
 			<!-- Method, Selected option in droplist, with a checkbox to enable field method -->
 			<div class="form-group">
 				<label for="methodPayment" class="col-lg-1 control-label" th:text="#{methodPayment}">method</label>
@@ -109,6 +117,8 @@
 					</select>
 				</div>
 			</div>
+
+
 
 			<!-- Edit IdTxn -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('idTxn')}? 'has-error'">
@@ -146,6 +156,7 @@
 			</div>
 
 
+
 			<!-- Edit DatePay -->
 			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('datePay')}? 'has-error'">
 				<label for="datePay" class="col-lg-1 control-label" th:text="#{datePay}">Date PayMember</label>
@@ -157,12 +168,15 @@
 			</div>
 
 
+
 			<!-- Button Edit  -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-orange btn-lg" th:text="#{payMember.modify}">Create</button>
+					<button type="submit" class="btn btn-orange btn-form" th:text="#{payMember.modify}">Edit</button>
 				</div>
 			</div>
+
+
 
 		</fieldset>
 	</form>

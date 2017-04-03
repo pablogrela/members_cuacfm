@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='trainings')">&nbsp;</div>
 
 	<!-- Button redirect to Program List-->
 	<div class="text-center">
@@ -79,8 +79,7 @@
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
 				<div class="col-lg-10">
 					<textarea readonly="readonly" disabled="disabled" th:text="${training.description}"
-						class="form-control" rows="5" cols="40">
-            	Description</textarea>
+						class="form-control" rows="5" cols="40"> Description</textarea>
 				</div>
 			</div>
 
@@ -92,20 +91,23 @@
 					<span th:text="${training.place}" class="form-control"></span>
 				</div>
 			</div>
-
-
+			
+			
 			<!-- View Duration -->
-			<div class="form-group">
-				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">duration</label>
-				<div class="col-lg-3">
-					<span th:text="${training.duration}" class="form-control"></span>
+			<div class="form-group" >
+				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
+				<div class="col-lg-10">
+					<div class="input-group col-lg-6-edit">
+						<span class="form-control" th:text="${training.duration}" ></span>
+						<span class="input-group-addon" th:text="#{minutes}">minutes</span>
+					</div>
 				</div>
 			</div>
 
 
 			<!-- View countPlaces -->
 			<div class="form-group">
-				<label for="countPlaces" class="col-lg-2 control-label" th:text="#{training.countPlaces}">countPlaces</label>
+				<label for="countPlaces" class="col-lg-2" th:text="#{training.countPlaces}">countPlaces</label>
 				<div class="col-lg-3">
 					<span th:text="${training.countPlaces}" class="form-control"></span>
 				</div>
@@ -114,7 +116,7 @@
 
 			<!-- View maxPlaces -->
 			<div class="form-group">
-				<label for="maxPlaces" class="col-lg-2 control-label" th:text="#{training.maxPlaces}">maxPlaces</label>
+				<label for="maxPlaces" class="col-lg-2" th:text="#{training.maxPlaces}">maxPlaces</label>
 				<div class="col-lg-3">
 					<span th:text="${training.maxPlaces}" class="form-control"></span>
 				</div>
@@ -123,10 +125,9 @@
 
 			<!-- View Close -->
 			<div class="form-group">
-				<label for="close" class="col-lg-2-edit control-label" th:text="#{close}">Required</label>
+				<label for="close" class="col-lg-2" th:text="#{close}">Required</label>
 				<div class="col-lg-2">
-					<input type="checkbox" onClick="return false" class="form-control-edit"
-						th:checked="${training.close}" th:title="#{training.infoClose}" />
+					<input type="checkbox" onClick="return false" class="form-check-input" th:checked="${training.close}" th:title="#{training.infoClose}" />
 				</div>
 			</div>
 

@@ -255,7 +255,13 @@ div.scroll {
 		position: relative;
 		min-height: 1px;
 		padding-right: 15px;
-		width: 35%;
+		width: 30%;
+	}
+	.col-lg-6-edit {
+		position: relative;
+		min-height: 1px;
+		padding-right: 15px;
+		width: 40%;
 	}
 	.col-lg-9 {
 		width: 75%;
@@ -361,6 +367,12 @@ div.scroll {
 		min-height: 1px;
 		padding-right: 15px;
 		width: 35%;
+	}
+	.col-lg-6-edit {
+		position: relative;
+		min-height: 1px;
+		padding-right: 15px;
+		width: 40%;
 	}
 	.col-lg-10-edit {
 		position: relative;

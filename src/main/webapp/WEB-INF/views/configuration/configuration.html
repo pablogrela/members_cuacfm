@@ -93,8 +93,7 @@
 				<label for="feeMember" class="col-lg-1 control-label" th:text="#{feeMember}">feeMember</label>
 				<div class="col-lg-10">
 					<div class="input-group col-lg-4-edit">
-						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}"
-							step="0.01" min="0.01" required="required" />
+						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}" step="0.01" min="0.01" required="required" />
 						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeMember')}" th:errors="*{feeMember}"> Incorrect feeMember</span>
@@ -109,8 +108,7 @@
 				<label for="feeProgram" class="col-lg-1 control-label" th:text="#{feeProgram}">feeProgram</label>
 				<div class="col-lg-10">
 					<div class="input-group col-lg-4-edit">
-						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}" step="0.01" min="0.01"
-							required="required"></input>
+						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}" step="0.01" min="0.01" required="required"></input>
 						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeProgram')}" th:errors="*{feeProgram}"> Incorrect feeProgram</span>

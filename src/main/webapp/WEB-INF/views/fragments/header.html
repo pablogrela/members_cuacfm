@@ -112,16 +112,16 @@
 
 
 						<!-- Button Program -->
-						<th:block th:if="${active != 'program'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<th:block th:if="${active != 'programs'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
 							<li><a href="#" th:href="@{/programList}" th:text="#{programs}">program list</a></li>
 						</th:block>
-						<th:block th:if="${active == 'program'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<th:block th:if="${active == 'programs'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
 							<li class="active"><a href="#" th:href="@{/programList}" th:text="#{programs}">program list</a></li>
 						</th:block>
-						<th:block th:if="${active != 'program'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
+						<th:block th:if="${active != 'programs'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
 							<li><a href="#" th:href="@{/programList}" th:text="#{program.userPrograms}">user programs list</a></li>
 						</th:block>
-						<th:block th:if="${active == 'program'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
+						<th:block th:if="${active == 'programs'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
 							<li class="active"><a href="#" th:href="@{/programList}" th:text="#{program.userPrograms}">user programs list</a></li>
 						</th:block>
 

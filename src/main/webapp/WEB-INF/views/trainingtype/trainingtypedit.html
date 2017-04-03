@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='trainingType')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='trainingTypes')">&nbsp;</div>
 
 	<!-- Button redirect to training type list-->
 	<div class="text-center">
@@ -62,7 +62,7 @@
 			<div class="form-group">
 				<label for="required" class="col-lg-2" th:text="#{trainingType.required}">Required</label>
 				<div class="col-lg-2">
-					<input type="checkbox" class="form-check-input" id="required" name="required" th:title="#{trainingType.infoRequired}" />
+					<input type="checkbox" class="form-check-input" id="required" name="required" th:field="*{required}" th:title="#{trainingType.infoRequired}" />
 				</div>
 			</div>
 
@@ -91,11 +91,12 @@
 			</div>
 
 
+
 			<!-- Edit Duration -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
 				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
 				<div class="col-lg-10">
-					<div class="input-group col-lg-5">
+					<div class="input-group col-lg-6-edit">
 						<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
 						<span class="input-group-addon" th:text="#{minutes}">minutes</span>
 					</div>

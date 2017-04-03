@@ -369,8 +369,7 @@
 						<label for="observations" class="col-lg-20" th:text="#{observations}">Observations</label>
 						<div class="col-lg-20">
 							<textarea class="form-control" name="observations" id="observations" th:placeholder="#{observations}" th:field="*{observations}" rows="5"
-								cols="40">
-            	Observations</textarea>
+								cols="40">Observations</textarea>
 							<span class="help-block" th:if="${#fields.hasErrors('observations')}" th:errors="*{observations}">Incorrect observations</span>
 							<div class="ws-errorbox" hidden=""></div>
 						</div>

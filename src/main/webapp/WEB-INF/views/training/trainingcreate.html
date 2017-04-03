@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='trainings')">&nbsp;</div>
 
 	<!-- Button redirect to Program List-->
 	<div class="text-center">
@@ -110,7 +110,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
 				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
 				<div class="col-lg-10">
-					<div class="input-group col-lg-5">
+					<div class="input-group col-lg-6-edit">
 						<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
 						<span class="input-group-addon" th:text="#{minutes}">minutes</span>
 					</div>

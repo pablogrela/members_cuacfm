@@ -136,7 +136,7 @@
 								class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemove}" style="color: red"></button> 
 								
 							<!-- Modify program -->
-							<form action="{{'programList/programEdit/' + program.id}} " method="post">
+							<form action="{{'/members/programList/programEdit/' + program.id}} " method="post">
 								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
 								<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 							</form>
