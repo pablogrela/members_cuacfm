@@ -16,7 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <body>
 
 
@@ -272,6 +272,165 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+
+	<!-- Modal Info Incidence -->
+	<div th:fragment="infoIncidence" id="infoIncidence" class="modal fade mobile">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header modal-header-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" data-ng-bind="incidence.program.name + ' : '  + (incidence.dateCreate | date : 'short')"></h4>
+				</div>
+				<div class="modal-body">
+					<label th:text="#{dateCreate} + ': ' "></label>
+					<span data-ng-bind="incidence.dateCreate | date : 'short'"></span>
+					<br></br>
+					<label th:text="#{program} + ': ' "></label>
+					<span data-ng-bind="incidence.program.name"></span>
+					<br></br>
+					<label th:text="#{account} + ': ' "></label>
+					<span data-ng-bind="incidence.account.name + ' ' + incidence.account.surname"></span>
+					<br></br>
+					<label th:text="#{incidence.dirt} + ': ' "></label>
+					<span data-ng-bind="incidence.dirt"></span>
+					<br></br>
+					<label th:text="#{incidence.tidy} + ': ' "></label>
+					<span data-ng-bind="incidence.tidy"></span>
+					<br></br>
+					<label th:text="#{incidence.configuration} + ': ' "></label>
+					<span data-ng-bind="incidence.configuration"></span>
+					<br></br>
+					<label th:text="#{incidence.openDoor} + ': ' "></label>
+					<span data-ng-if="incidence.openDoor" th:text="#{true}"></span>
+					<span data-ng-if="!incidence.openDoor" th:text="#{false}"></span>
+					<br></br>
+					<label th:text="#{incidence.viewMembers} + ': ' "></label>
+					<span data-ng-if="incidence.viewMembers" th:text="#{true}"></span>
+					<span data-ng-if="!incidence.viewMembers" th:text="#{false}"></span>
+					<br></br>
+					<label th:text="#{description} + ': ' "></label>
+					<span data-ng-bind="incidence.description"></span>
+					<br></br>
+					<label th:text="#{dateDown} + ': ' "></label>
+					<span data-ng-bind="incidence.dateRevision | date : 'short'"></span>
+					<br></br>
+					<label th:text="#{active} + ': ' "></label>
+					<span data-ng-if="incidence.active" th:text="#{true}"></span>
+					<span data-ng-if="!incidence.active" th:text="#{false}"></span>
+					<br></br>
+					<label th:text="#{incidence.answer} + ': ' "></label>
+					<span data-ng-bind="incidence.answer"></span>
+					<br></br>
+					<label th:text="#{incidence.photos.view} + ': ' "></label>
+					<span data-ng-if="incidence.files.length == 0" th:text="#{incidence.photos.false}"></span>
+					<!-- Carrousel -->
+					<div data-ng-if="incidence.files.length > 0">
+						<div th:replace="fragments/alert :: carousel-incidences">&nbsp;</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Answer Incidence -->
+	<div th:fragment="infoIncidenceAnswer" id="infoIncidenceAnswer" class="modal fade mobile">
+		<div class="modal-dialog">
+			<div class="modal-content panel-primary">
+				<div class="modal-header modal-header-primary">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" data-ng-bind="incidence.program.name + ' : '  + (incidence.dateCreate | date : 'short')"></h4>
+				</div>
+				<div class="modal-body">
+					<label th:text="#{dateCreate} + ': ' "></label>
+					<span data-ng-bind="incidence.dateCreate | date : 'short'"></span>
+					<br></br>
+					<label th:text="#{program} + ': ' "></label>
+					<span data-ng-bind="incidence.program.name"></span>
+					<br></br>
+					<label th:text="#{account} + ': ' "></label>
+					<span data-ng-bind="incidence.account.name + ' ' + incidence.account.surname"></span>
+					<br></br>
+					<label th:text="#{incidence.dirt} + ': ' "></label>
+					<span data-ng-bind="incidence.dirt"></span>
+					<br></br>
+					<label th:text="#{incidence.tidy} + ': ' "></label>
+					<span data-ng-bind="incidence.tidy"></span>
+					<br></br>
+					<label th:text="#{incidence.configuration} + ': ' "></label>
+					<span data-ng-bind="incidence.configuration"></span>
+					<br></br>
+					<label th:text="#{incidence.openDoor} + ': ' "></label>
+					<span data-ng-if="incidence.openDoor" th:text="#{true}"></span>
+					<span data-ng-if="!incidence.openDoor" th:text="#{false}"></span>
+					<br></br>
+					<label th:text="#{incidence.viewMembers} + ': ' "></label>
+					<span data-ng-if="incidence.viewMembers" th:text="#{true}"></span>
+					<span data-ng-if="!incidence.viewMembers" th:text="#{false}"></span>
+					<br></br>
+					<label th:text="#{description} + ': ' "></label>
+					<span data-ng-bind="incidence.description"></span>
+					<br></br>
+					<label th:text="#{dateDown} + ': ' "></label>
+					<span data-ng-bind="incidence.dateRevision | date : 'short'"></span>
+					<br></br>
+					<label th:text="#{active} + ': ' "></label>
+					<span data-ng-if="incidence.active" th:text="#{true}"></span>
+					<span data-ng-if="!incidence.active" th:text="#{false}"></span>
+					<br></br>
+					<label th:text="#{incidence.answer} + ': ' "></label>
+					<textarea class="form-control" data-ng-model="incidence.answer" th:placeholder="#{incidence.answer.info}" rows="10" cols="40" maxlength="500"></textarea>
+<!-- 					<br></br> -->
+<!-- 					<div class="form-group"> -->
+<!-- 						<div class="col-lg-10"> -->
+<!-- 							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.incidenceAnswer(incidence.id, incidence.answer)" class="btn btn-orange btn-form" -->
+<!-- 								th:title="#{incidence.answer.info}" th:text="#{incidence.answer}"></button> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+					<br></br>
+				</div>
+				<div class="modal-footer">
+					<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.incidenceAnswer(incidence.id, incidence.answer)" class="btn btn-orange btn-form"
+								th:title="#{incidence.answer.info}" th:text="#{incidence.answer}"></button>
+					<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Carousel incidences -->
+	<div th:fragment="carousel-incidences" id="carousel-incidences" class="carousel slide" data-ride="carousel">
+
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li id="data-slide-0" data-target="#carousel-incidences" data-slide-to="0" class="active"></li>
+			<li id="data-slide-1" data-target="#carousel-incidences" data-slide-to="{{$index}}" data-ng-repeat="file in incidence.files"
+				data-ng-if="$index > 0"></li>
+		</ol>
+
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner" role="listbox">
+			<div id="image-index-0" class="item active">
+				<img class="img-responsive image-zoom" data-ng-src="{{'/members/imageIncidence/' + incidence.id  + '?imageName=' + incidence.files[0]}}"
+					onclick="toggleFullscreen(this);" />
+				<!-- <div class="carousel-caption">0</div> -->
+			</div>
+			<div id="image-index-1" class="item" data-ng-repeat="file in incidence.files" data-ng-if="$index > 0">
+				<img class="img-responsive image-zoom" data-ng-src="{{'/members/imageIncidence/' + incidence.id  + '?imageName=' + file}}"
+					onclick="toggleFullscreen(this);" />
+				<!-- <div class="carousel-caption"  data-ng-bind="$index"></div> -->
+			</div>
+		</div>
+
+		<!-- Controls -->
+		<a class="left carousel-control" href="#carousel-incidences" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"
+				aria-hidden="true"></span> <span class="sr-only">Previous</span>
+		</a> <a class="right carousel-control" href="#carousel-incidences" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"
+				aria-hidden="true"></span> <span class="sr-only">Next</span>
+		</a>
 	</div>
 
 </body>

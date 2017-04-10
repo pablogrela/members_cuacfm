@@ -1,0 +1,100 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{incidence.titleEdit}"></title>
+<object th:include="fragments/head :: head" th:remove="tag"></object>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='incidences')">&nbsp;</div>
+
+	<!-- Button redirect to Incidence List-->
+	<div class="text-center">
+		<a href="#" class="btn btn-primary btn-lg" th:href="@{/incidenceList}" th:text="#{incidence.list.back}"> </a>
+	</div>
+	<br></br>
+	
+	<div class="form-narrow">
+
+		<form class="form-horizontal ws-validate" method="post" th:action="@{incidenceEdit?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${incidenceForm}" enctype="multipart/form-data">
+
+			<!-- /* Handle the flash message, The message code is returned from the @Controller */ -->
+			<div class="text-center" th:if="${message != null}">
+				<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+			</div>
+			
+			<!--/* Show general error message when form contains errors */-->
+			<th:block th:if="${#fields.hasErrors('${incidenceForm.*}')}">
+				<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
+			</th:block>
+		
+			<fieldset>
+
+				<!-- Message help-->
+				<legend th:text="#{incidence.edit.info}">Edit Incidence</legend>
+
+				<!-- Load form -->
+				<div th:replace="incidence/incidenceform :: incidenceform">&nbsp;</div>
+
+				<!-- Button Edit Incidence -->
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="submit" th:name="edit" th:value="edi" class="btn btn-orange btn-form" th:text="#{incidence.edit}">Edit</button>
+					</div>
+				</div>
+
+			</fieldset>
+
+		</form>
+
+
+		<form class="form-horizontal ws-validate" method="post" th:action="@{'incidenceCreate?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${incidenceForm}" enctype="multipart/form-data">
+			
+			<!-- /* Handle the flash message, The message code is returned from the @Controller */ -->
+			<div class="text-center" th:if="${message != null}">
+				<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+			</div>
+			
+			<!--/* Show general error message when form contains errors */-->
+			<th:block th:if="${#fields.hasErrors('${incidenceForm.*}')}">
+				<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
+			</th:block>
+
+			<fieldset>
+
+				<!-- Message help-->
+				<legend th:text="#{incidence.create.info}">Create Incidence</legend>
+
+				<!-- Load form -->
+				<div th:replace="incidence/incidenceform :: incidenceform">&nbsp;</div>
+
+				<!-- Button Create Account -->
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="submit" th:name="create" th:value="create" class="btn btn-orange btn-form" th:text="#{incidence.create}">Create</button>
+					</div>
+				</div>
+
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>

@@ -46,7 +46,7 @@ public class TrainingTypeForm {
 
 	/** The duration. */
 	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
-	@Min(0)
+	@Min(1)
 	private int duration;
 
 	/** Instantiates a new training form. */

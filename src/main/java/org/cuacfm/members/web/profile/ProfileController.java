@@ -102,16 +102,9 @@ public class ProfileController {
 		profileForm.setPhone(account.getPhone());
 		profileForm.setMobile(account.getMobile());
 		profileForm.setProgramName(account.getProgramName());
-		if (account.isStudent()) {
-			profileForm.setStudentTrue(true);
-		} else {
-			profileForm.setStudentFalse(true);
-		}
-		if (account.isEmitProgram()) {
-			profileForm.setEmitProgramTrue(true);
-		} else {
-			profileForm.setEmitProgramFalse(true);
-		}
+		profileForm.setStudent(account.isStudent());
+		profileForm.setEmitProgram(account.isEmitProgram());
+		profileForm.setPersonality(account.getPersonality());
 		profileForm.setPersonality(account.getPersonality());
 		profileForm.setKnowledge(account.getKnowledge());
 		profileForm.setDateBirth(DisplayDate.dateToString(account.getDateBirth()));
@@ -245,8 +238,8 @@ public class ProfileController {
 		account.setPhone(profileForm.getPhone());
 		account.setMobile(profileForm.getMobile());
 		account.setProgramName(profileForm.getProgramName());
-		account.setStudent(profileForm.isStudentTrue());
-		account.setEmitProgram(profileForm.isEmitProgramTrue());
+		account.setStudent(profileForm.getStudent());
+		account.setEmitProgram(profileForm.getEmitProgram());
 		account.setDateBirth(DisplayDate.stringToDate2(profileForm.getDateBirth()));
 		account.setPersonality(profileForm.getPersonality());
 		account.setKnowledge(profileForm.getKnowledge());

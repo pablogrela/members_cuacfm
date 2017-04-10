@@ -19,8 +19,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import org.cuacfm.members.Application;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +31,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-import org.cuacfm.members.Application;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * The Class JPAConfig.
@@ -105,6 +105,10 @@ class JpaConfig implements TransactionManagementConfigurer {
 
       Properties jpaProperties = new Properties();
       jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
+      
+      // This property resolve org.hibernate.lazyinitializationexception 
+      // Another solution is change @PersistenceContext to @PersistenceContext(type = PersistenceContextType.EXTENDED) in class repository  
+      jpaProperties.put("hibernate.enable_lazy_load_no_trans", true);
 
       // Comentado por que no se utiliza
       // jpaProperties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, hbm2ddlAuto)

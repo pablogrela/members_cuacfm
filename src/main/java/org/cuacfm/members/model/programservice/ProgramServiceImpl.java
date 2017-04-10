@@ -119,8 +119,8 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
-	public Program findByName(String login) {
-		return programRepository.findByName(login);
+	public Program findByName(String name) {
+		return programRepository.findByName(name);
 	}
 
 	@Override
@@ -136,6 +136,11 @@ public class ProgramServiceImpl implements ProgramService {
 	@Override
 	public List<Program> getProgramListActive() {
 		return programRepository.getProgramListActive();
+	}
+
+	@Override
+	public List<Program> getProgramListActiveByUser(Account account) {
+		return programRepository.getProgramListActiveByUser(account);
 	}
 
 	@Override
@@ -184,12 +189,12 @@ public class ProgramServiceImpl implements ProgramService {
 		if (program.getProgramCategory() != null) {
 			programCategoryName = program.getProgramCategory().getName();
 		}
-		
+
 		ProgramDTO programDTO = new ProgramDTO(program.getId(), program.getName(), program.getDescription(), program.getPeriodicity(),
 				program.getDuration(), accountService.getAccountsDTO(program.getAccounts()), accountService.getAccountDTO(program.getAccountPayer()),
 				program.getProgramType().getName(), program.getProgramThematic().getName(), program.getProgramLanguage().getName(),
-				programCategoryName, program.getEmail(), program.getTwitter(), program.getFacebook(), program.getPodcast(),
-				program.getWeb(), program.isActive(), program.getDateCreate(), program.getDateDown());
+				programCategoryName, program.getEmail(), program.getTwitter(), program.getFacebook(), program.getPodcast(), program.getWeb(),
+				program.isActive(), program.getDateCreate(), program.getDateDown());
 		return programDTO;
 	}
 
@@ -258,11 +263,10 @@ public class ProgramServiceImpl implements ProgramService {
 		logger.info("processJson");
 
 		try {
-			byte[] bytes = file.getBytes();
 			FileUtils.createFolderIfNoExist(pathJsonToProgram);
-
 			String[] originalFilename = file.getOriginalFilename().split(".json");
 			Path pathJson = Paths.get(pathJsonToProgram + originalFilename[0] + DisplayDate.dateTimeToStringSp(new Date()) + ".json");
+			byte[] bytes = file.getBytes();
 			Files.write(pathJson, bytes);
 			jsonToProgram.parser(pathJson.toString());
 

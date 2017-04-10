@@ -189,7 +189,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 		List<PayProgram> payPrograms = payProgramRepository.getPayProgramListByFeeProgramId(feeProgramId);
 
 		Date date = new Date();
-		String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date)
+		String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null, Locale.getDefault()) + "_" + DisplayDate.dateTimeToStringSp(date)
 				+ ".pdf";
 
 		FileUtils.createFolderIfNoExist(pathFeeProgram);
@@ -202,7 +202,6 @@ public class PayProgramServiceImpl implements PayProgramService {
 			title = feeProgram.getName() + " - " + messageSource.getMessage("feeProgram.printNoPayList", null, Locale.getDefault());
 		} else {
 			title = feeProgram.getName() + " - " + messageSource.getMessage("feeProgram.printAllList", null, Locale.getDefault());
-
 		}
 		CreatePdf pdf = new CreatePdf();
 		PdfPTable table = pdf.createTablePayPrograms(messageSource, option, payPrograms);

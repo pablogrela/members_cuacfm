@@ -175,7 +175,7 @@ public class DisplayDate {
 	public static String dateTimeToStringSp(Date dateTime) {
 		String stringDateTime = "";
 		if (dateTime != null) {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("_yyyy_MM_dd__HH_mm_ss");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 			stringDateTime = dateFormat.format(dateTime);
 		}
 		return stringDateTime;

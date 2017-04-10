@@ -87,6 +87,23 @@ public class CreatePdf {
 		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
 	}
 
+	public static ResponseEntity<byte[]> getImage(String path, String file, MediaType mediaType) {
+		Path path2 = Paths.get(path);
+		byte[] contents = null;
+		try {
+			contents = Files.readAllBytes(path2);
+		} catch (IOException e) {
+			logger.error("getImage", e);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(mediaType);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}").buildAndExpand(file).toUri());
+		headers.add("content-disposition", "attachment; filename=" + file + ";");
+		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
+	}
+	
 	/** The Class HeaderFooter. */
 	class HeaderFooter extends PdfPageEventHelper {
 

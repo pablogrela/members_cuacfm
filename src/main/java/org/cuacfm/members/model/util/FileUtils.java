@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +98,42 @@ public class FileUtils {
 	}
 
 	/**
+	 * List files for folder.
+	 *
+	 * @param folder the folder
+	 * @return the list
+	 */
+	public static List<File> listFilesForFolder(final File folder) {
+		List<File> files = new ArrayList<>();
+		for (final File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) {
+				listFilesForFolder(fileEntry);
+			} else {
+				files.add(fileEntry);
+			}
+		}
+		return files;
+	}
+
+	/**
+	 * List files for folder to list string.
+	 *
+	 * @param folder the folder
+	 * @return the list
+	 */
+	public static List<String> listFilesForFolderToListString(final File folder) {
+		List<String> files = new ArrayList<>();
+		for (final File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) {
+				listFilesForFolderToListString(fileEntry);
+			} else {
+				files.add(fileEntry.getName());
+			}
+		}
+		return files;
+	}
+
+	/**
 	 * Split.
 	 *
 	 * @param camp the camp
@@ -166,7 +204,7 @@ public class FileUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets the integer.
 	 *
@@ -179,7 +217,7 @@ public class FileUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets the file.
 	 *

@@ -22,7 +22,7 @@
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 <script th:src="@{/resources/js/libraries/recaptcha.api.js}"></script>
 </head>
-<body onload="validateCheckbox()">
+<body>
 
 
 	<!-- Generic Header -->
@@ -43,8 +43,10 @@
 
 		<fieldset>
 
+
 			<!-- Message help-->
 			<legend th:text="#{signup.info}">Please Sign Up</legend>
+
 
 			<!-- Name -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
@@ -56,6 +58,7 @@
 				</div>
 			</div>
 
+
 			<!-- Surname -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('surname')}? 'has-error'">
 				<label for="surname" class="col-lg-2 control-label" th:text="#{surname}">surname</label>
@@ -65,6 +68,7 @@
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
 
 			<!-- Dni, se pone otro form para las validaciones del dni -->
 			<div class="form-group has-feedback" th:classappend="${#fields.hasErrors('dni')}? 'has-error'">
@@ -103,9 +107,11 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
-					<input th:if="*{!blockEmail}" type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50" required="required" />
-					<input th:if="*{blockEmail}"  type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50" required="required" readonly="readonly"/>
-					<input type="hidden" th:field="*{blockEmail}"/>
+					<input th:if="*{!blockEmail}" type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50"
+						required="required" />
+					<input th:if="*{blockEmail}" type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50"
+						required="required" readonly="readonly" />
+					<input type="hidden" th:field="*{blockEmail}" />
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -137,20 +143,18 @@
 
 
 			<!-- Student -->
-			<div class="form-group" data-onload="validateCheckbox('studentFalse', 'studentTrue')" th:classappend="${#fields.hasErrors('student')}? 'has-error'">
+			<div class="form-group" th:classappend="${#fields.hasErrors('student')}? 'has-error'">
 				<label class="col-lg-20 control-label" th:text="#{student.coruna}"></label>
 				<div class="col-lg-10 control">
 					<label for="text" class="col-lg-1"></label>
-					<span class="col-lg-3">
-						<input type="checkbox" name="student" value="true" id="studentTrue" th:field="*{studentTrue}" th:title="#{signup.infoStudent}"
-							onClick="switchCheckbox('studentTrue', 'studentFalse')" required="required" />
-						<span th:text="#{true}"></span>
-					</span>
-					<span class="col-lg-3 ">
-						<input type="checkbox" name="student" value="false" id="studentFalse" th:field="*{studentFalse}" th:title="#{signup.infoStudent}"
-							onClick="switchCheckbox('studentFalse', 'studentTrue')" />
-						<span th:text="#{false}"></span>
-					</span>
+					<label class="radio-inline">
+						<input type="radio" name="student" id="student" th:field="*{student}" th:value="true" th:text="#{true}" th:title="#{signup.infoStudent}"
+							required="required" />
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="student" id="student" th:field="*{student}" th:value="false" th:text="#{false}" th:title="#{signup.infoStudent}"
+							required="required" />
+					</label>
 					<div class="help-block" th:if="${#fields.hasErrors('student')}" th:errors="*{student}"></div>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -162,20 +166,17 @@
 				<label class="col-lg-20 control-label" th:text="#{emitProgram.info}"></label>
 				<div class="col-lg-10 control">
 					<label for="text" class="col-lg-1"></label>
-					<span class="col-lg-3">
-						<input type="checkbox" name="emitProgram" value="true" id="emitProgramTrue" th:field="*{emitProgramTrue}" th:title="#{signup.infoEmitProgram}"
-							onClick="switchCheckbox('emitProgramTrue', 'emitProgramFalse')" required="required" />
-						<span th:text="#{true}"></span>
-					</span>
-					<span class="col-lg-3 ">
-						<input type="checkbox" name="emitProgram" value="false" id="emitProgramFalse" th:field="*{emitProgramFalse}"
-							th:title="#{signup.infoEmitProgram}" onClick="switchCheckbox('emitProgramFalse', 'emitProgramTrue')" />
-						<span th:text="#{false}"></span>
-					</span>
+					<label class="radio-inline">
+						<input type="radio" name="emitProgram" id="emitProgram" th:field="*{emitProgram}" th:value="true" th:text="#{true}"
+							th:title="#{signup.infoEmitProgram}" required="required" />
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="emitProgram" id="emitProgram" th:field="*{emitProgram}" th:value="false" th:text="#{false}"
+							th:title="#{signup.infoEmitProgram}" required="required" />
+					</label>
 					<div class="help-block" th:if="${#fields.hasErrors('emitProgram')}" th:errors="*{emitProgram}"></div>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
-
 			</div>
 
 
@@ -240,8 +241,7 @@
 				</div>
 				<div class="col-lg-20">
 					<textarea class="form-control" name="observations" id="knowledge" th:placeholder="#{account.knowledge}" th:field="*{knowledge}" rows="5"
-						cols="40">
-            	Observations</textarea>
+						cols="40">Observations</textarea>
 					<span class="help-block" th:if="${#fields.hasErrors('knowledge')}" th:errors="*{knowledge}">Incorrect knowledge</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>

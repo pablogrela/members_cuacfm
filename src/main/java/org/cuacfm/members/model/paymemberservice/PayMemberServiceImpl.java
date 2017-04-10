@@ -167,7 +167,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 		List<PayMember> payMembers = payMemberRepository.getPayMemberListByFeeMemberId(feeMemberId);
 
 		Date date = new Date();
-		String fileNameFeeMember = messageSource.getMessage("fileNameFeeMember", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date)
+		String fileNameFeeMember = messageSource.getMessage("fileNameFeeMember", null, Locale.getDefault()) + "_" + DisplayDate.dateTimeToStringSp(date)
 				+ ".pdf";
 
 		FileUtils.createFolderIfNoExist(pathFeeMember);
@@ -180,7 +180,6 @@ public class PayMemberServiceImpl implements PayMemberService {
 			title = feeMember.getName() + " - " + messageSource.getMessage("feeMember.printNoPayList", null, Locale.getDefault());
 		} else {
 			title = feeMember.getName() + " - " + messageSource.getMessage("feeMember.printAllList", null, Locale.getDefault());
-
 		}
 		CreatePdf pdf = new CreatePdf();
 		PdfPTable table = pdf.createTablePayMembers(messageSource, option, payMembers);

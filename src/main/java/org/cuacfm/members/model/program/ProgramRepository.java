@@ -18,6 +18,8 @@ package org.cuacfm.members.model.program;
 import java.util.Date;
 import java.util.List;
 
+import org.cuacfm.members.model.account.Account;
+
 /**
  * The Interface ProgramRepository.
  */
@@ -76,6 +78,14 @@ public interface ProgramRepository {
 	 */
 	public List<Program> getProgramListActive();
 
+	/**
+	 * Gets the program list active by user.
+	 *
+	 * @param account the account
+	 * @return the program list active by user
+	 */
+	public List<Program> getProgramListActiveByUser(Account account);
+	
 	/**
 	 * Gets the program list close.
 	 *

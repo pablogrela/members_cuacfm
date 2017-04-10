@@ -98,6 +98,14 @@ public interface ProgramService {
 	public List<Program> getProgramListActive();
 
 	/**
+	 * Gets the program list active by user.
+	 *
+	 * @param account the account
+	 * @return the program list active by user
+	 */
+	public List<Program> getProgramListActiveByUser(Account account);
+
+	/**
 	 * Gets the program list close.
 	 *
 	 * @return the program list close
