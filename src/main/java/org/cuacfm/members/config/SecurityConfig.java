@@ -104,28 +104,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
        http.authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signup/**", "/signin/**")
             .permitAll()
 
+            .antMatchers("/trainingUserList")
+            .hasAnyRole("USER", "EXUSER", "PREREGISTERED")
+            
+            .antMatchers("/trainingUserList/**")
+            .hasAnyRole("USER", "PREREGISTERED")
+            
             .antMatchers("/userPayments/**")
             .hasAnyRole("TRAINER", "USER", "EXUSER", "PREREGISTERED")
 
-            .antMatchers("/programList/**")
-            .hasAnyRole("ADMIN", "USER", "EXUSER", "TRAINER")
-
-            .antMatchers("/programList/programCreate, /programList/**, /incidenceList/**")
-            .hasAnyRole("ADMIN", "USER", "TRAINER")
+            .antMatchers("/programList", "/programList/", "/programList/programEdit/**", "/incidenceList")
+            .hasAnyRole("ADMIN", "TRAINER", "USER", "EXUSER")
             
-            .antMatchers("/trainingUserList")
-            .hasAnyRole("USER", "EXUSER", "PREREGISTERED")
-
-            .antMatchers("/trainingUserList/**")
-            .hasAnyRole("USER", "PREREGISTERED")
+            .antMatchers("/programList/**", "/incidenceList/**")
+            .hasAnyRole("ADMIN", "TRAINER", "USER")
             
             .antMatchers("/trainingList", "/trainingList/trainingView/**")
             .hasAnyRole("ADMIN", "TRAINER", "USER", "EXUSER", "PREREGISTERED")
 
-            .antMatchers("/trainingTypeList/**","/trainingList/**")
+            .antMatchers("/trainingTypeList/**", "/trainingList/**")
             .hasAnyRole("ADMIN", "TRAINER")
 
-            .antMatchers("/programList/programDown/**","/programList/programUp/**",
+            .antMatchers("/programList/programDown/**" ,"/programList/programUp/**",
                   "/payInscriptionList/**", "/feeProgramList/**", "/accountList/**", "/configuration/**", "/bankRemittance/**", "/directDebit/**", "/user/**")
             .hasRole("ADMIN")
 

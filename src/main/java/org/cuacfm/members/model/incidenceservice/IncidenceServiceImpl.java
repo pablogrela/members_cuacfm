@@ -163,7 +163,7 @@ public class IncidenceServiceImpl implements IncidenceService {
 		incidenceRepository.update(incidence);
 
 		Object[] arguments = { incidence.getProgram().getName() };
-		eventService.save("incidence.up.sucess", null, 3, arguments);
+		eventService.save("incidence.up.success", null, 3, arguments);
 	}
 
 	@Override
@@ -173,7 +173,7 @@ public class IncidenceServiceImpl implements IncidenceService {
 		incidenceRepository.update(incidence);
 
 		Object[] arguments = { incidence.getProgram().getName() };
-		eventService.save("incidence.down.sucess", null, 3, arguments);
+		eventService.save("incidence.down.success", null, 3, arguments);
 	}
 
 	@Override

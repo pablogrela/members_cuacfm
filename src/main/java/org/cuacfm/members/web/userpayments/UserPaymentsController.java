@@ -45,11 +45,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /** The Class UserPaymentsController. */
 @Controller
 public class UserPaymentsController {
 
+	private static final Logger logger = LoggerFactory.getLogger(UserPaymentsController.class);
 	private static final String USERPAYMENTS_VIEW_NAME = "userpayments/userpayments";
 	private static final String REDIRECT_USERPAYMENTS = "redirect:/userPayments";
 
@@ -200,6 +202,7 @@ public class UserPaymentsController {
 				directDebitService.paypal(directDebit, account, idTxn, idPayer, emailPayer, statusPay, datePay);
 				MessageHelper.addSuccessAttribute(ra, Constants.SUCCESSPAYPAL, directDebit.getConcept());
 			} catch (ExistTransactionIdException e) {
+				logger.warn("directDebitByPayPal - ExistTransactionIdException", e);
 				MessageHelper.addErrorAttribute(ra, Constants.ERRORPAYPAL, directDebit.getConcept(), e.getIdTxn());
 			}
 		}
@@ -228,6 +231,7 @@ public class UserPaymentsController {
 				String message = directDebitService.markBankDeposit(directDebit, account);
 				MessageHelper.addSuccessAttribute(ra, message);
 			} catch (ExistTransactionIdException e) {
+				logger.warn("directDebitByMarkBankDeposit - ExistTransactionIdException", e);
 				Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
 				String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
 				MessageHelper.addErrorAttribute(ra, messageI18n);
@@ -257,6 +261,7 @@ public class UserPaymentsController {
 				String message = directDebitService.cancelBankDeposit(directDebit, account);
 				MessageHelper.addWarningAttribute(ra, message);
 			} catch (ExistTransactionIdException e) {
+				logger.warn("directDebitByCancelBankDeposit - ExistTransactionIdException", e);
 				Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
 				String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
 				MessageHelper.addErrorAttribute(ra, messageI18n);
@@ -295,6 +300,7 @@ public class UserPaymentsController {
 				payMemberService.payPayPal(payMember, idTxn, idPayer, emailPayer, statusPay, datePay);
 				MessageHelper.addSuccessAttribute(ra, Constants.SUCCESSPAYPAL, payMember.getFeeMember().getName());
 			} catch (ExistTransactionIdException e) {
+				logger.warn("payMemberByPayPal - ExistTransactionIdException", e);
 				MessageHelper.addErrorAttribute(ra, Constants.ERRORPAYPAL, payMember.getFeeMember().getName(), e.getIdTxn());
 			}
 		}
@@ -328,6 +334,7 @@ public class UserPaymentsController {
 				payProgramService.payPayPal(payProgram, account.getName() + " " + account.getSurname(), idTxn, idPayer, emailPayer, statusPay, datePay);
 				MessageHelper.addSuccessAttribute(ra, Constants.SUCCESSPAYPAL, payProgram.getProgram().getName());
 			} catch (ExistTransactionIdException e) {
+				logger.warn("payProgramByPayPal - ExistTransactionIdException", e);
 				MessageHelper.addErrorAttribute(ra, Constants.ERRORPAYPAL, payProgram.getProgram().getName());
 			}
 		}

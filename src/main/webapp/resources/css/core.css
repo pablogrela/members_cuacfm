@@ -248,7 +248,7 @@ div.scroll {
 		box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
 	}
 	.btn-form {
-		zoom: 130%;
+		font-size: 130%;
 	}
 	.navbar-inverse {
 		/* 	fondo de barra */

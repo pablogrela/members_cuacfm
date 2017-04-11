@@ -36,7 +36,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -76,7 +75,7 @@ public class ProgramListController {
 	 */
 
 	@RequestMapping(value = "programList")
-	public String getprogramListView(Model model, Principal principal) throws UniqueException {
+	public String getprogramListView() throws UniqueException {
 		return PROGRAM_VIEW_NAME;
 	}
 
@@ -88,7 +87,7 @@ public class ProgramListController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "programList/close")
-	public String getprogramListCloseView(Model model, Principal principal) {
+	public String getprogramListCloseView() {
 		return PROGRAM_CLOSE_VIEW_NAME;
 	}
 
@@ -100,7 +99,7 @@ public class ProgramListController {
 	 * @return the programs
 	 */
 	@RequestMapping(value = "programList/")
-	public ResponseEntity<List<ProgramDTO>> getPrograms(Model model, Principal principal) {
+	public ResponseEntity<List<ProgramDTO>> getPrograms(Principal principal) {
 
 		Account account = accountService.findByLogin(principal.getName());
 
@@ -126,7 +125,7 @@ public class ProgramListController {
 	 * @return the programs close
 	 */
 	@RequestMapping(value = "programList/close/")
-	public ResponseEntity<List<ProgramDTO>> getProgramsClose(Model model, Principal principal) {
+	public ResponseEntity<List<ProgramDTO>> getProgramsClose(Principal principal) {
 
 		Account account = accountService.findByLogin(principal.getName());
 

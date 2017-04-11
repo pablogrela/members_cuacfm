@@ -36,7 +36,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -71,38 +70,33 @@ public class IncidenceListController {
 	/**
 	 * Show Incidence List.
 	 *
-	 * @param model the model
-	 * @param principal the principal
 	 * @return the string the view
 	 * @throws UniqueException the unique exception
 	 */
 
 	@RequestMapping(value = "incidenceList")
-	public String getincidenceListView(Model model, Principal principal) throws UniqueException {
+	public String getincidenceListView() throws UniqueException {
 		return PROGRAM_VIEW_NAME;
 	}
 
 	/**
-	 * Direct debit view.
+	 * Gets the incidence list close view.
 	 *
-	 * @param model the model
-	 * @param principal the principal
-	 * @return the string
+	 * @return the incidence list close view
 	 */
 	@RequestMapping(value = "incidenceList/close")
-	public String getincidenceListCloseView(Model model, Principal principal) {
+	public String getincidenceListCloseView() {
 		return PROGRAM_CLOSE_VIEW_NAME;
 	}
 
 	/**
 	 * Gets the incidences.
 	 *
-	 * @param model the model
 	 * @param principal the principal
 	 * @return the incidences
 	 */
 	@RequestMapping(value = "incidenceList/")
-	public ResponseEntity<List<IncidenceDTO>> getIncidences(Model model, Principal principal) {
+	public ResponseEntity<List<IncidenceDTO>> getIncidences(Principal principal) {
 
 		Account account = accountService.findByLogin(principal.getName());
 
@@ -123,12 +117,11 @@ public class IncidenceListController {
 	/**
 	 * Gets the incidences close.
 	 *
-	 * @param model the model
 	 * @param principal the principal
 	 * @return the incidences close
 	 */
 	@RequestMapping(value = "incidenceList/close/")
-	public ResponseEntity<List<IncidenceDTO>> getIncidencesClose(Model model, Principal principal) {
+	public ResponseEntity<List<IncidenceDTO>> getIncidencesClose(Principal principal) {
 
 		Account account = accountService.findByLogin(principal.getName());
 
@@ -169,6 +162,7 @@ public class IncidenceListController {
 	 * Incidence asnwer.
 	 *
 	 * @param id the id
+	 * @param answer the answer
 	 * @param ra the ra
 	 * @return the response entity
 	 */

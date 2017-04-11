@@ -184,7 +184,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("mobile", "12356789")
 				.param("dni", "95716045G").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
-				.param("dateBirth", "1990-05-02"))
+				.param("dateBirth", "1990-05-02").param("student", "true").param("emitProgram", "true"))
 				.andExpect(
 				      content().string(
 				            containsString("Already existent dni 95716045G, please choose another")))
@@ -210,7 +210,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 				.param("mobile", "12356789").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02").param("onLogin", "true").param("login", "user2").param("onEmail", "true")
 				.param("email", "email@udc.es").param("onPassword", "true").param("newPassword", "123456").param("rePassword", "123456")
-				.param("onInstallments", "true").param("installments", "1"))
+				.param("onInstallments", "true").param("installments", "1").param("student", "true").param("emitProgram", "true"))
 				.andExpect(
 				      content().string(
 				            containsString("Already existent login user2, please choose another")))
@@ -435,7 +435,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("cp", "cp").param("province", "province").param("mobile", "111111111").param("codeCountry", "EN")
-				.param("dateBirth", "1990-05-02")).andExpect(view().name("redirect:/accountList"));
+				.param("dateBirth", "1990-05-02").param("student", "true").param("emitProgram", "true")).andExpect(view().name("redirect:/accountList"));
 	}
 
 	/**
