@@ -32,8 +32,8 @@ import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.profile.ProfileForm;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -113,7 +113,7 @@ public class AccountController {
 		profileForm.setEmitProgram(account.isEmitProgram());
 		profileForm.setPersonality(account.getPersonality());
 		profileForm.setKnowledge(account.getKnowledge());
-		profileForm.setDateBirth(DisplayDate.dateToString(account.getDateBirth()));
+		profileForm.setDateBirth(DateUtils.format(account.getDateBirth(), DateUtils.FORMAT_DATE));
 		if (account.getAccountType() != null) {
 			profileForm.setAccountTypeId(account.getAccountType().getId());
 		}
@@ -146,7 +146,7 @@ public class AccountController {
 			bankAccounts = account.getBankAccounts();
 			model.addAttribute("bankAccounts", bankAccounts);
 			BankAccountForm bankAccountForm = new BankAccountForm();
-			bankAccountForm.setDateMandate(DisplayDate.format(new Date(), "yyyy-MM-dd"));
+			bankAccountForm.setDateMandate(DateUtils.format(new Date(), "yyyy-MM-dd"));
 			model.addAttribute(bankAccountForm);
 			return createProfileForm(model, new ProfileForm());
 		}
@@ -222,7 +222,7 @@ public class AccountController {
 		account.setProgramName(profileForm.getProgramName());
 		account.setStudent(profileForm.getStudent());
 		account.setEmitProgram(profileForm.getEmitProgram());
-		account.setDateBirth(DisplayDate.stringToDate2(profileForm.getDateBirth()));
+		account.setDateBirth(DateUtils.format(profileForm.getDateBirth(), DateUtils.FORMAT_DATE));
 		account.setPersonality(profileForm.getPersonality());
 		account.setKnowledge(profileForm.getKnowledge());
 		account.setAccountType(accountTypeService.findById(profileForm.getAccountTypeId()));

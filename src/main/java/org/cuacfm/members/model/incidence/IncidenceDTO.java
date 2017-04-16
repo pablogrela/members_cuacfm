@@ -48,6 +48,24 @@ public class IncidenceDTO {
 		super();
 	}
 
+	/**
+	 * Instantiates a new incidence DTO.
+	 *
+	 * @param id the id
+	 * @param account the account
+	 * @param program the program
+	 * @param dirt the dirt
+	 * @param tidy the tidy
+	 * @param configuration the configuration
+	 * @param openDoor the open door
+	 * @param viewMembers the view members
+	 * @param description the description
+	 * @param files the files
+	 * @param answer the answer
+	 * @param dateCreate the date create
+	 * @param dateRevision the date revision
+	 * @param active the active
+	 */
 	public IncidenceDTO(Long id, AccountDTO account, ProgramDTO program, int dirt, int tidy, int configuration, boolean openDoor, boolean viewMembers,
 			String description, List<String> files, String answer, Date dateCreate, Date dateRevision, boolean active) {
 		super();

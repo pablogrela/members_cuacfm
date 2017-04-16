@@ -28,7 +28,7 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.userservice.UserService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -107,7 +107,7 @@ public class ProfileController {
 		profileForm.setPersonality(account.getPersonality());
 		profileForm.setPersonality(account.getPersonality());
 		profileForm.setKnowledge(account.getKnowledge());
-		profileForm.setDateBirth(DisplayDate.dateToString(account.getDateBirth()));
+		profileForm.setDateBirth(DateUtils.format(account.getDateBirth(), DateUtils.FORMAT_DATE));
 		if (account.getAccountType() != null) {
 			profileForm.setAccountTypeId(account.getAccountType().getId());
 		}
@@ -240,7 +240,7 @@ public class ProfileController {
 		account.setProgramName(profileForm.getProgramName());
 		account.setStudent(profileForm.getStudent());
 		account.setEmitProgram(profileForm.getEmitProgram());
-		account.setDateBirth(DisplayDate.stringToDate2(profileForm.getDateBirth()));
+		account.setDateBirth(DateUtils.format(profileForm.getDateBirth(), DateUtils.FORMAT_DATE));
 		account.setPersonality(profileForm.getPersonality());
 		account.setKnowledge(profileForm.getKnowledge());
 

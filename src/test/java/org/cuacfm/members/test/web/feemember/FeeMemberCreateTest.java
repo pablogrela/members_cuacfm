@@ -35,8 +35,8 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -179,7 +179,7 @@ public class FeeMemberCreateTest extends WebSecurityConfigurationAware {
    public void yearAlreadyExistFeeMemberCreateTest() throws Exception {
       // Create Payment
       feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20),
-            DisplayDate.stringToDate2("2015-04-05"), DisplayDate.stringToDate2("2015-07-05"),
+            DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE), DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE),
             "pay of 2015");
       feeMemberService.save(feeMember);
 

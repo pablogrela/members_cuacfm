@@ -30,8 +30,8 @@ import org.cuacfm.members.model.incidence.Incidence;
 import org.cuacfm.members.model.incidence.IncidenceDTO;
 import org.cuacfm.members.model.incidence.IncidenceRepository;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +77,7 @@ public class IncidenceServiceImpl implements IncidenceService {
 		// Create files in path
 		try {
 			if (filesMultipart != null && filesMultipart.length > 0 && filesMultipart[0].getSize() > 0) {
-				String date = DisplayDate.dateTimeToStringSp(new Date());
+				String date = DateUtils.format(new Date(), DateUtils.FORMAT_FILE);
 				String finalPath = pathIncidences + incidence.getProgram().getName() + "/" + date + "/";
 				FileUtils.createFolderIfNoExist(finalPath);
 				incidence.setFile(finalPath);
@@ -184,7 +184,7 @@ public class IncidenceServiceImpl implements IncidenceService {
 		Object[] arguments = { incidence.getProgram().getName() };
 		eventService.save("incidence.answer.admin", incidence.getAccount(), 2, arguments);
 	}
-	
+
 	@Override
 	public List<IncidenceDTO> getIncidencesDTO(List<Incidence> incidences) {
 
@@ -197,11 +197,25 @@ public class IncidenceServiceImpl implements IncidenceService {
 
 	@Override
 	public IncidenceDTO getIncidenceDTO(Incidence incidence) {
-		IncidenceDTO incidenceDTO = new IncidenceDTO(incidence.getId(), accountService.getAccountDTO(incidence.getAccount()),
-				programService.getProgramDTO(incidence.getProgram()), incidence.getDirt(), incidence.getTidy(), incidence.getConfiguration(),
-				incidence.isOpenDoor(), incidence.isViewMembers(), incidence.getDescription(), incidence.getFiles(), incidence.getAnswer(),
-				incidence.getDateCreate(), incidence.getDateRevision(), incidence.isActive());
+		IncidenceDTO incidenceDTO = null;
+		
+		if (incidence != null) {
+			incidenceDTO = new IncidenceDTO(incidence.getId(), accountService.getAccountDTO(incidence.getAccount()),
+					programService.getProgramDTO(incidence.getProgram()), incidence.getDirt(), incidence.getTidy(), incidence.getConfiguration(),
+					incidence.isOpenDoor(), incidence.isViewMembers(), incidence.getDescription(), incidence.getFiles(), incidence.getAnswer(),
+					incidence.getDateCreate(), incidence.getDateRevision(), incidence.isActive());
+		}
 		return incidenceDTO;
+	}
+
+	@Override
+	public Incidence getIncidence(IncidenceDTO incidenceDTO, Account account) {
+		if (account == null) {
+			account = accountService.findByEmail(incidenceDTO.getAccount().getEmail());
+		}
+		
+		return new Incidence(account, programService.findByName(incidenceDTO.getProgram().getName()), incidenceDTO.getDirt(), incidenceDTO.getTidy(),
+				incidenceDTO.getConfiguration(), incidenceDTO.isOpenDoor(), incidenceDTO.isViewMembers(), incidenceDTO.getDescription());
 	}
 
 }

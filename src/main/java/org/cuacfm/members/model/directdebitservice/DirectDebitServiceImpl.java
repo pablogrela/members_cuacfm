@@ -18,6 +18,7 @@ package org.cuacfm.members.model.directdebitservice;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -30,9 +31,9 @@ import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,7 +70,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		// If no exists open directDebit, its create a new
 		if (directDebit == null) {
 			String[] idRevious = directDebitRepository.findLastId().split("_");
-			String date = DisplayDate.format(new Date(), "ddMMyyyy");
+			String date = DateUtils.format(new Date(), "ddMMyyyy");
 			String idNew = date + "_" + String.format("%03d", Integer.parseInt(idRevious[1]) + 1);
 			directDebit = new DirectDebit(account, idNew);
 		}
@@ -267,7 +268,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 			directDebit.setState(states.MANAGEMENT);
 
 			if (statusPay.contains("Completed")) {
-				directDebit.setDatePay(DisplayDate.stringPaypalToDate(datePay));
+				directDebit.setDatePay(DateUtils.format(datePay, DateUtils.FORMAT_PAYPAL, Locale.US));
 				directDebit.setState(states.PAY);
 			}
 

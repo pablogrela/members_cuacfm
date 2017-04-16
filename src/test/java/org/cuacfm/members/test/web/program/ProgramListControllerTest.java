@@ -41,8 +41,8 @@ import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -228,7 +228,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 				"", "", "", "");
 		programService.save(program);
 		programService.up(program);
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 

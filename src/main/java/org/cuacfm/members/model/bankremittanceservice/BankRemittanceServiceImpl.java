@@ -36,8 +36,8 @@ import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,13 +100,13 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 				}
 			}
 		}
-		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
+		Object[] arguments = { DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE) };
 		eventService.save("bankRemittance.successCreate", null, 2, arguments);
 	}
 
 	@Override
 	public BankRemittance update(BankRemittance bankRemittance) {
-		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
+		Object[] arguments = { DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE) };
 		eventService.save("bankRemittance.successManagement", null, 2, arguments);
 		return bankRemittanceRepository.update(bankRemittance);
 	}
@@ -132,14 +132,14 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 	@Override
 	public String payBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException {
 		updateStateBankRemittance(bankRemittance, states.PAY, methods.DIRECTDEBIT);
-		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
+		Object[] arguments = { DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE) };
 		return eventService.save("bankRemittance.successPay", null, 2, arguments);
 	}
 
 	@Override
 	public String managementBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException {
 		updateStateBankRemittance(bankRemittance, states.MANAGEMENT, methods.DIRECTDEBIT);
-		Object[] arguments = { DisplayDate.dateToString(bankRemittance.getDateCharge()) };
+		Object[] arguments = { DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE) };
 		return eventService.save("bankRemittance.successManagement", null, 2, arguments);
 	}
 
@@ -160,8 +160,8 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 		BankRemittance bankRemittance = bankRemittanceRepository.findById(bankRemittanceId);
 
 		FileUtils.createFolderIfNoExist(pathBankRemittance);
-		String fileXML = messageSource.getMessage("fileBankRemittance", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(new Date())
-				+ ".xml";
+		String fileXML = messageSource.getMessage("fileBankRemittance", null, Locale.getDefault())
+				+ DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".xml";
 
 		try {
 			bankRemittanceSEPAXML.create(pathBankRemittance + fileXML, bankRemittance,
@@ -180,9 +180,10 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 		try {
 			byte[] bytes = file.getBytes();
 			FileUtils.createFolderIfNoExist(pathReturnBankRemittance);
-			
+
 			String[] originalFilename = file.getOriginalFilename().split(".xml");
-			Path pathXML = Paths.get(pathReturnBankRemittance + originalFilename[0] + DisplayDate.dateTimeToStringSp(new Date()) + ".xml");
+			Path pathXML = Paths
+					.get(pathReturnBankRemittance + originalFilename[0] + DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".xml");
 			Files.write(pathXML, bytes);
 			returnBankRemittanceSEPAXML.load(pathXML.toString());
 

@@ -31,8 +31,8 @@ import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -162,7 +162,7 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 
 		// Create training
 		Training training = new Training(trainingType, "training1",
-				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), DateUtils.stringToDate("10:30,2015-12-05"),
 				"description", "place", 90, 10);
 		trainingService.save(training);
 
@@ -283,7 +283,7 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 
 		// Create training
 		Training training = new Training(trainingType, "training1",
-				DisplayDate.stringToDate("10:30,2015-12-05"), DisplayDate.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), DateUtils.stringToDate("10:30,2015-12-05"),
 				"description", "place", 90, 10);
 		trainingService.save(training);
 

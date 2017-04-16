@@ -35,8 +35,8 @@ import org.cuacfm.members.model.program.ProgramLanguage;
 import org.cuacfm.members.model.program.ProgramRepository;
 import org.cuacfm.members.model.program.ProgramThematic;
 import org.cuacfm.members.model.program.ProgramType;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -265,7 +265,7 @@ public class ProgramServiceImpl implements ProgramService {
 		try {
 			FileUtils.createFolderIfNoExist(pathJsonToProgram);
 			String[] originalFilename = file.getOriginalFilename().split(".json");
-			Path pathJson = Paths.get(pathJsonToProgram + originalFilename[0] + DisplayDate.dateTimeToStringSp(new Date()) + ".json");
+			Path pathJson = Paths.get(pathJsonToProgram + originalFilename[0] + DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".json");
 			byte[] bytes = file.getBytes();
 			Files.write(pathJson, bytes);
 			jsonToProgram.parser(pathJson.toString());

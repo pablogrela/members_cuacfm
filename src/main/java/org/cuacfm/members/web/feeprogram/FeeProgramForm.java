@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.util.Constants;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class FeeProgramForm. */
@@ -103,8 +103,8 @@ public class FeeProgramForm {
 	 * @return FeeProgram
 	 */
 	public FeeProgram createFeeProgram() {
-		return new FeeProgram(getName(), getPrice(), DisplayDate.stringToMonthOfYear(getDate()), DisplayDate.stringToMonthOfYear(getDateLimit()),
-				getDescription());
+		return new FeeProgram(getName(), getPrice(), DateUtils.format(getDate(), DateUtils.FORMAT_MONTH_YEAR),
+				DateUtils.format(getDateLimit(), DateUtils.FORMAT_MONTH_YEAR), getDescription());
 	}
 
 	/**
@@ -116,8 +116,8 @@ public class FeeProgramForm {
 	public FeeProgram updateFeeProgram(FeeProgram feeProgram) {
 		feeProgram.setName(getName());
 		feeProgram.setPrice(getPrice());
-		feeProgram.setDate(DisplayDate.stringToMonthOfYear(getDate()));
-		feeProgram.setDateLimit(DisplayDate.stringToMonthOfYear(getDateLimit()));
+		feeProgram.setDate(DateUtils.format(getDate(), DateUtils.FORMAT_MONTH_YEAR));
+		feeProgram.setDateLimit(DateUtils.format(getDateLimit(), DateUtils.FORMAT_MONTH_YEAR));
 		feeProgram.setDescription(getDescription());
 		return feeProgram;
 	}

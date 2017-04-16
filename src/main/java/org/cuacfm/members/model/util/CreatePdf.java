@@ -31,7 +31,6 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -58,7 +57,7 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /** The Class CreatePdf. */
-@Service("payProgramServicees")
+@Service("payProgramServices")
 public class CreatePdf {
 
 	private static final Logger logger = LoggerFactory.getLogger(CreatePdf.class);
@@ -118,7 +117,7 @@ public class CreatePdf {
 			ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, headers[0], document.left() + 80, document.bottom() - 20, 0);
 
 			Date day = new Date();
-			headers[1] = new Phrase(DisplayDate.dateTimeToString(day));
+			headers[1] = new Phrase(DateUtils.format(day, DateUtils.FORMAT_DISPLAY));
 			ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, headers[1], (document.right() - document.left()) / 2 + document.leftMargin(),
 					document.bottom() - 20, 0);
 

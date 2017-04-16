@@ -39,8 +39,8 @@ import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -122,7 +122,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate(dateTraining), DateUtils.stringToDate(dateTraining),
 				"description", "place", 90, 10);
 		trainingService.save(training);
 
@@ -140,7 +140,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate(dateTraining), DateUtils.stringToDate(dateTraining),
 				"description", "place", 90, 10);
 		trainingService.save(training);
 
@@ -183,7 +183,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate(dateTraining), DateUtils.stringToDate(dateTraining),
 				"description", "place", 90, 10);
 		trainingService.save(training);
 
@@ -201,7 +201,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate(dateTraining), DateUtils.stringToDate(dateTraining),
 				"description", "place", 90, 10);
 		trainingService.save(training);
 
@@ -262,7 +262,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-01-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate(dateTraining), DateUtils.stringToDate(dateTraining),
 				"description", "place", 90, 1);
 		trainingService.save(training);
 
@@ -304,7 +304,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate(dateTraining), DateUtils.stringToDate(dateTraining),
 				"description", "place", 90, 10);
 		trainingService.save(training);
 

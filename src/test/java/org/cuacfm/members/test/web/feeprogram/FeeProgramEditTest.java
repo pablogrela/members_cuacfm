@@ -32,8 +32,8 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,7 +73,7 @@ public class FeeProgramEditTest extends WebSecurityConfigurationAware {
 		defaultSession = getDefaultSession("admin@udc.es");
 
 		// Create Payment
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 	}
@@ -182,7 +182,7 @@ public class FeeProgramEditTest extends WebSecurityConfigurationAware {
 	@Test
 	public void postAlreadyExistFeeProgramEditTest() throws Exception {
 
-		Date date = DisplayDate.stringToMonthOfYear("2015-10");
+		Date date = DateUtils.format("2015-10", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram2 = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram2);
 

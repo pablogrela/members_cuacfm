@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.bankremittanceservice.BankRemittanceService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +92,8 @@ public class BankRemittanceListController {
 		BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
 		bankRemittanceService.managementBankRemittance(bankRemittance);
 
-		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successManagement", DisplayDate.dateToString(bankRemittance.getDateCharge()));
+		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successManagement",
+				DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE));
 		return REDIRECT_BANKREMITTANCE;
 	}
 
@@ -109,7 +110,8 @@ public class BankRemittanceListController {
 		BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
 		bankRemittanceService.payBankRemittance(bankRemittance);
 
-		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successPay", DisplayDate.dateToString(bankRemittance.getDateCharge()));
+		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successPay",
+				DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE));
 		return REDIRECT_BANKREMITTANCE;
 	}
 
@@ -155,8 +157,8 @@ public class BankRemittanceListController {
 	@RequestMapping(value = "bankRemittanceList", method = RequestMethod.POST)
 	public String createBankRemittance(@Valid @ModelAttribute BankRemittanceForm bankRemittanceForm, RedirectAttributes ra) {
 
-		bankRemittanceService.createBankRemittance(DisplayDate.stringToDate2(bankRemittanceForm.getDateCharge()),
-				DisplayDate.stringToMonthOfYear(bankRemittanceForm.getMonthCharge()));
+		bankRemittanceService.createBankRemittance(DateUtils.format(bankRemittanceForm.getDateCharge(), DateUtils.FORMAT_DATE),
+				DateUtils.format(bankRemittanceForm.getMonthCharge(), DateUtils.FORMAT_MONTH_YEAR));
 		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successCreate", bankRemittanceForm.getDateCharge());
 		return REDIRECT_BANKREMITTANCE;
 	}

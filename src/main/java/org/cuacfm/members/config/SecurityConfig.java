@@ -100,8 +100,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    // Por defecto el csrf esta enable para bloquear posibles ataques.
    @Override
    protected void configure(HttpSecurity http) throws Exception {
-	   // Se añadio csrf().disable() al http para permitir ajax
-       http.authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signup/**", "/signin/**")
+	   // csrf().ignoringAntMatchers() ignora la validacion de csrf para las peticiones de la api
+	   // csrf().disable() deshabilita la validacion crsf para todo
+       http.csrf().ignoringAntMatchers("/api/**").and().
+       authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signup", "/logout/**", "/signin/**", "/api/**")
             .permitAll()
 
             .antMatchers("/trainingUserList")

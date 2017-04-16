@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.util.Constants;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class BankAccountForm. */
@@ -83,7 +83,7 @@ public class BankAccountForm {
 	 * @return the bank account
 	 */
 	public BankAccount createBankAccount(Account account) {
-		return new BankAccount(account, getBank(), getBic(), getIban(), DisplayDate.format(dateMandate, "yyyy-MM-dd"));
+		return new BankAccount(account, getBank(), getBic(), getIban(), DateUtils.format(dateMandate, "yyyy-MM-dd"));
 	}
 
 }

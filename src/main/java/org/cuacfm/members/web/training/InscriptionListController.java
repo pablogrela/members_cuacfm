@@ -28,7 +28,7 @@ import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.inscription.Inscription;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -247,7 +247,7 @@ public class InscriptionListController {
 
 		} catch (DateLimitExpirationException e) {
 			MessageHelper.addErrorAttribute(ra, "training.dateLimitExpirationException", e.getTrainingName(),
-					DisplayDate.dateTimeToString(e.getDateLimit()));
+					DateUtils.format(e.getDateLimit(), DateUtils.FORMAT_DISPLAY));
 		}
 
 		return REDIRECT_TRAINING;

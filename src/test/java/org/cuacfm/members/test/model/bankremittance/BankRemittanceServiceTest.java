@@ -42,9 +42,9 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -156,8 +156,8 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 		accountService.update(account6, false, true);
 		accounts.add(account6);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-01"),
-				DisplayDate.stringToDate2("2015-07-01"), "pay of 2016");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-01", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-01", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.save(feeMember);
 
 		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
@@ -181,7 +181,7 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program3);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 	}
@@ -244,7 +244,7 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void findDirectDebit() throws Exception {
 
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-01-01", DateUtils.FORMAT_DATE));
 		BankRemittance bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
 		bankRemittanceService.update(bankRemittance);
 		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
@@ -265,7 +265,7 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void findBankRemittance() throws Exception {
 
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-01-01", DateUtils.FORMAT_DATE));
 		BankRemittance bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
 
 		// Not Null
@@ -283,7 +283,7 @@ public class BankRemittanceServiceTest extends WebSecurityConfigurationAware {
 	@Test
 	public void bankRemittance() throws Exception {
 
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-01-01", DateUtils.FORMAT_DATE));
 		BankRemittance bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
 		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
 		//bankRemittanceService.updateDirectDebit(directDebit);

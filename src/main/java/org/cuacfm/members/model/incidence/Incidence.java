@@ -67,6 +67,18 @@ public class Incidence implements Serializable {
 		super();
 	}
 
+	/**
+	 * Instantiates a new incidence.
+	 *
+	 * @param account the account
+	 * @param program the program
+	 * @param dirt the dirt
+	 * @param tidy the tidy
+	 * @param configuration the configuration
+	 * @param openDoor the open door
+	 * @param viewMembers the view members
+	 * @param description the description
+	 */
 	public Incidence(Account account, Program program, int dirt, int tidy, int configuration, boolean openDoor, boolean viewMembers,
 			String description) {
 		super();

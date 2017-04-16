@@ -15,6 +15,8 @@
  */
 package org.cuacfm.members.web.signin;
 
+import static org.cuacfm.members.model.util.FirebaseUtils.getEmailOfToken;
+
 import java.io.IOException;
 
 import org.cuacfm.members.model.account.Account;
@@ -22,8 +24,6 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.userservice.UserService;
 import org.cuacfm.members.web.home.HomeController;
 import org.cuacfm.members.web.support.MessageHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -33,18 +33,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseToken;
-import com.google.firebase.internal.NonNull;
-import com.google.firebase.tasks.OnFailureListener;
-import com.google.firebase.tasks.OnSuccessListener;
-
 /** The Class SigninController. */
 @Controller
 public class SigninController {
 
-	private static final Logger logger = LoggerFactory.getLogger(SigninController.class);
+	//private static final Logger logger = LoggerFactory.getLogger(SigninController.class);
 
 	public static final String SIGNIN_VIEW_NAME = "signin/signin";
 	public static final String SIGNIN_REDIRECT = "redirect:/signin";
@@ -57,9 +50,6 @@ public class SigninController {
 
 	@Value("${configFirebase}")
 	private String configFirebase;
-
-	// Variables Thread Firebase
-	private String message;
 
 	@Autowired
 	private UserService userService;
@@ -95,14 +85,14 @@ public class SigninController {
 	 * @return the string
 	 */
 	@RequestMapping(value = "signin", method = RequestMethod.POST)
-	public synchronized String signin(@RequestParam(value = "token", required = false) String token,
-			@RequestParam(value = "error", required = false) String error, @RequestParam("username") String email, RedirectAttributes ra) {
+	public String signin(@RequestParam(value = "token", required = false) String token, @RequestParam(value = "error", required = false) String error,
+			@RequestParam("username") String email, RedirectAttributes ra) {
 
+		String message;
 		if (error != null) {
 			message = "firebase." + error;
 		} else {
-			message = null;
-
+			
 			// Check if the user exists, si no existe en los miembros se redirige un signup
 			Account account = accountService.findByEmail(email);
 			if (account == null) {
@@ -110,47 +100,27 @@ public class SigninController {
 			}
 
 			// Validate Token
-			try {
-				FirebaseApp app = FirebaseApp.getInstance("members");
-				FirebaseAuth.getInstance(app).verifyIdToken(token).addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
-					@Override
-					public void onSuccess(FirebaseToken decodedToken) {
-						if (!decodedToken.getEmail().equals(email)) {
-							message = BADCREDENTIALS;
-						}
-					}
-				}).addOnFailureListener(new OnFailureListener() {
-					@Override
-					public void onFailure(@NonNull Exception e) {
-						logger.error("signin.verifyIdToken: ", e);
-						message = BADCREDENTIALS;
-					}
-				});
+			String emailVerified = getEmailOfToken(token);
+			if (emailVerified != null && emailVerified.equals(email)) {
 
-				// If an error occurs during authentication to firebase it is not authenticated
-				if (message == null) {
+				// TODO prueba de cambio de idioma					
+				// response.addCookie(new Cookie("lang", "gl"));
+				// response.setHeader("Content-Language", "gl");
 
-					// TODO prueba de cambio de idioma					
-					// response.addCookie(new Cookie("lang", "gl"));
-					// response.setHeader("Content-Language", "gl");
+				// Locale.setDefault(new Locale("gl","ES"));
+				// System.setProperty("user.language", "gl");
+				// System.setProperty("user.country", "ES");		
+				// Locale.getDefault();
 
-					// Locale.setDefault(new Locale("gl","ES"));
-					// System.setProperty("user.language", "gl");
-					// System.setProperty("user.country", "ES");		
-					// Locale.getDefault();
+				// Token remember-me, se podria re-implementar
+				// O hacer la redireccion a /authenticate
+				// TokenBasedRememberMeServices a = new TokenBasedRememberMeServices("remember-me-key", userService);
+				// return "redirect:/authenticate?username="+email+"?password="+"123456";
 
-					// Token remember-me, se podria re-implementar
-					// O hacer la redireccion a /authenticate
-					// TokenBasedRememberMeServices a = new TokenBasedRememberMeServices("remember-me-key", userService);
-					// return "redirect:/authenticate?username="+email+"?password="+"123456";
-
-					userService.signin(account);
-					return HomeController.REDIRECT_HOME;
-				}
-			} catch (Exception e) {
-				logger.error("signin: ", e);
-				message = BADCREDENTIALS;
+				userService.signin(account);
+				return HomeController.REDIRECT_HOME;
 			}
+			message = BADCREDENTIALS;
 		}
 
 		MessageHelper.addErrorAttribute(ra, message, "");
@@ -188,7 +158,7 @@ public class SigninController {
 			RedirectAttributes ra) {
 
 		if (error != null) {
-			message = "firebase." + error;
+			String message = "firebase." + error;
 			MessageHelper.addErrorAttribute(ra, message, "password");
 			return "redirect:/signin/resetPassword";
 		}

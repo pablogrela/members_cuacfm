@@ -31,8 +31,8 @@ import org.cuacfm.members.model.bankaccount.BankAccountRepository;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -322,7 +322,7 @@ public class AccountServiceImpl implements AccountService {
 			FileUtils.createFolderIfNoExist(pathJsonToAccount);
 			
 			String[] originalFilename = file.getOriginalFilename().split(".json");
-			Path pathJson = Paths.get(pathJsonToAccount + originalFilename[0] + DisplayDate.dateTimeToStringSp(new Date()) + ".json");
+			Path pathJson = Paths.get(pathJsonToAccount + originalFilename[0] + DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".json");
 			Files.write(pathJson, bytes);
 			jsonToAccount.parser(pathJson.toString());
 

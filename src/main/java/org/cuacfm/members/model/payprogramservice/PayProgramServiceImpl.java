@@ -33,8 +33,8 @@ import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.CreatePdf;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -111,7 +111,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 		payProgram.setIdTxn(idTxn);
 		payProgram.setEmailPayer(emailPayer);
 		payProgram.setIdPayer(idPayer);
-		payProgram.setDatePay(DisplayDate.stringPaypalToDate(datePay));
+		payProgram.setDatePay(DateUtils.format(datePay, DateUtils.FORMAT_PAYPAL, Locale.US));
 		payProgram.setState(states.MANAGEMENT);
 		payProgram.setMethod(methods.NO_PAY);
 		if (statusPay.contains("Completed")) {
@@ -188,9 +188,8 @@ public class PayProgramServiceImpl implements PayProgramService {
 		FeeProgram feeProgram = feeProgramRepository.findById(feeProgramId);
 		List<PayProgram> payPrograms = payProgramRepository.getPayProgramListByFeeProgramId(feeProgramId);
 
-		Date date = new Date();
-		String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null, Locale.getDefault()) + "_" + DisplayDate.dateTimeToStringSp(date)
-				+ ".pdf";
+		String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null, Locale.getDefault()) + "_"
+				+ DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".pdf";
 
 		FileUtils.createFolderIfNoExist(pathFeeProgram);
 		String path = pathFeeProgram + fileNameFeeProgram;

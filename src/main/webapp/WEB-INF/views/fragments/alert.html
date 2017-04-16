@@ -313,7 +313,7 @@
 					<label th:text="#{description} + ': ' "></label>
 					<span data-ng-bind="incidence.description"></span>
 					<br></br>
-					<label th:text="#{dateDown} + ': ' "></label>
+					<label th:text="#{incidence.dateRevision} + ': ' "></label>
 					<span data-ng-bind="incidence.dateRevision | date : 'short'"></span>
 					<br></br>
 					<label th:text="#{active} + ': ' "></label>
@@ -372,7 +372,7 @@
 					<label th:text="#{description} + ': ' "></label>
 					<span data-ng-bind="incidence.description"></span>
 					<br></br>
-					<label th:text="#{dateDown} + ': ' "></label>
+					<label th:text="#{incidence.dateRevision} + ': ' "></label>
 					<span data-ng-bind="incidence.dateRevision | date : 'short'"></span>
 					<br></br>
 					<label th:text="#{active} + ': ' "></label>
@@ -414,12 +414,12 @@
 		<!-- Wrapper for slides -->
 		<div class="carousel-inner" role="listbox">
 			<div id="image-index-0" class="item active">
-				<img class="img-responsive image-zoom" data-ng-src="{{'/members/imageIncidence/' + incidence.id  + '?imageName=' + incidence.files[0]}}"
+				<img class="img-responsive image-zoom" data-ng-src="{{'/members/incidenceList/image/' + incidence.id  + '?imageName=' + incidence.files[0]}}"
 					onclick="toggleFullscreen(this);" />
 				<!-- <div class="carousel-caption">0</div> -->
 			</div>
 			<div id="image-index-1" class="item" data-ng-repeat="file in incidence.files" data-ng-if="$index > 0">
-				<img class="img-responsive image-zoom" data-ng-src="{{'/members/imageIncidence/' + incidence.id  + '?imageName=' + file}}"
+				<img class="img-responsive image-zoom" data-ng-src="{{'/members/incidenceList/image/' + incidence.id  + '?imageName=' + file}}"
 					onclick="toggleFullscreen(this);" />
 				<!-- <div class="carousel-caption"  data-ng-bind="$index"></div> -->
 			</div>

@@ -15,6 +15,8 @@
  */
 package org.cuacfm.members.web.program;
 
+import static org.cuacfm.members.model.util.FirebaseUtils.getEmailOfToken;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +41,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.google.gson.Gson;
 
 /** The Class ProgramListController. */
 @Controller
@@ -68,8 +73,6 @@ public class ProgramListController {
 	/**
 	 * Show Program List.
 	 *
-	 * @param model the model
-	 * @param principal the principal
 	 * @return the string the view
 	 * @throws UniqueException the unique exception
 	 */
@@ -82,8 +85,6 @@ public class ProgramListController {
 	/**
 	 * Direct debit view.
 	 *
-	 * @param model the model
-	 * @param principal the principal
 	 * @return the string
 	 */
 	@RequestMapping(value = "programList/close")
@@ -94,7 +95,6 @@ public class ProgramListController {
 	/**
 	 * Gets the programs.
 	 *
-	 * @param model the model
 	 * @param principal the principal
 	 * @return the programs
 	 */
@@ -120,7 +120,6 @@ public class ProgramListController {
 	/**
 	 * Gets the programs close.
 	 *
-	 * @param model the model
 	 * @param principal the principal
 	 * @return the programs close
 	 */
@@ -209,5 +208,28 @@ public class ProgramListController {
 		MessageHelper.addInfoAttribute(ra, messageSource.getMessage("program.successUp", arguments, Locale.getDefault()));
 
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
+	}
+
+	/**
+	 * Gets the programs API.
+	 *
+	 * @param token the token
+	 * @return the programs API
+	 */
+	@RequestMapping(value = "api/programList/")
+	public ResponseEntity<String> getProgramsAPI(@RequestParam(value = "token") String token) {
+
+		// Validate Token and retrieve email
+		String email = getEmailOfToken(token);
+
+		if (email != null) {
+			Account account = accountService.findByEmail(email);
+			List<ProgramDTO> programsDTO = programService.getProgramsDTO(programService.getProgramListActiveByUser(account));
+			String programsJson = new Gson().toJson(programsDTO);
+			// Return with data "{ \"data\": " + programsJson + " }" instead of incidencesJson
+			return new ResponseEntity<>(programsJson, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}
 	}
 }

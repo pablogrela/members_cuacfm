@@ -31,8 +31,8 @@ import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.CreatePdf;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -102,7 +102,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 		payMember.setIdTxn(idTxn);
 		payMember.setEmailPayer(emailPayer);
 		payMember.setIdPayer(idPayer);
-		payMember.setDatePay(DisplayDate.stringPaypalToDate(datePay));
+		payMember.setDatePay(DateUtils.format(datePay, DateUtils.FORMAT_PAYPAL, Locale.US));
 		payMember.setMethod(methods.NO_PAY);
 		payMember.setState(states.MANAGEMENT);
 		if (statusPay.contains("Completed")) {
@@ -166,9 +166,8 @@ public class PayMemberServiceImpl implements PayMemberService {
 		FeeMember feeMember = feeMemberRepository.findById(feeMemberId);
 		List<PayMember> payMembers = payMemberRepository.getPayMemberListByFeeMemberId(feeMemberId);
 
-		Date date = new Date();
-		String fileNameFeeMember = messageSource.getMessage("fileNameFeeMember", null, Locale.getDefault()) + "_" + DisplayDate.dateTimeToStringSp(date)
-				+ ".pdf";
+		String fileNameFeeMember = messageSource.getMessage("fileNameFeeMember", null, Locale.getDefault()) + "_"
+				+ DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".pdf";
 
 		FileUtils.createFolderIfNoExist(pathFeeMember);
 		String path = pathFeeMember + fileNameFeeMember;

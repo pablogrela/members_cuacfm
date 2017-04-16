@@ -33,8 +33,8 @@ import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +75,8 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 	public void saveFeeMemberTest() throws UniqueException, UniqueListException {
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// findById
@@ -107,8 +107,8 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 		accountService.save(user2);
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// findById
@@ -127,11 +127,11 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 	public void saveFeeMemberExceptionTest() throws UniqueException, UniqueListException {
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
-		FeeMember feeMember2 = new FeeMember("pay of 2016", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
-				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		FeeMember feeMember2 = new FeeMember("pay of 2016", 2015, Double.valueOf(20), DateUtils.format("2016-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2016-07-05", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.save(feeMember2);
 
 		// findById
@@ -148,8 +148,8 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 	public void savePayMemberTest() throws UniqueException, UniqueListException {
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);
@@ -222,8 +222,8 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 	public void UpdateFeeMemberTest() throws UniqueException, UniqueListException {
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// Update
@@ -241,8 +241,8 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(feeMember.getPrice(), feeMemberSearch.getPrice());
 		assertEquals(feeMember.getDescription(), feeMemberSearch.getDescription());
 
-		FeeMember feeMember2 = new FeeMember("pay of 2018", 2018, Double.valueOf(20), DisplayDate.stringToDate2("2018-04-05"),
-				DisplayDate.stringToDate2("2018-07-05"), "pay of 2018");
+		FeeMember feeMember2 = new FeeMember("pay of 2018", 2018, Double.valueOf(20), DateUtils.format("2018-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2018-07-05", DateUtils.FORMAT_DATE), "pay of 2018");
 		feeMemberService.update(feeMember2);
 	}
 
@@ -255,16 +255,16 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 	public void UpdateFeeMemberExceptionTest() throws UniqueException, UniqueListException {
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
-		FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
-				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DateUtils.format("2016-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2016-07-05", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.save(feeMember2);
 
 		// Update
-		FeeMember feeMember3 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
-				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		FeeMember feeMember3 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DateUtils.format("2016-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2016-07-05", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.update(feeMember3);
 	}
 
@@ -277,8 +277,8 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 	public void findByNameTest() throws UniqueException, UniqueListException {
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// findByName
@@ -298,8 +298,8 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 	public void findByYearTest() throws UniqueException, UniqueListException {
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// findByName
@@ -321,11 +321,11 @@ public class FeeMemberServiceTest extends WebSecurityConfigurationAware {
 		assertTrue(feeMemberList.isEmpty());
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
-		FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
-				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DateUtils.format("2016-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2016-07-05", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.save(feeMember2);
 
 		// getFeeMemberList

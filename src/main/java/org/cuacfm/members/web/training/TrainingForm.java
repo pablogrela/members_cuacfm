@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.util.Constants;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class TrainingForm. */
@@ -180,8 +180,8 @@ public class TrainingForm {
 	 * @return the training
 	 */
 	public Training createTraining(TrainingType trainingType) {
-		return new Training(trainingType, getName(), DisplayDate.stringToDate(timeTraining + "," + dateTraining),
-				DisplayDate.stringToDate(timeLimit + "," + dateLimit), getDescription(), getPlace(), getDuration(), getMaxPlaces());
+		return new Training(trainingType, getName(), DateUtils.stringToDate(timeTraining + "," + dateTraining),
+				DateUtils.stringToDate(timeLimit + "," + dateLimit), getDescription(), getPlace(), getDuration(), getMaxPlaces());
 	}
 
 }

@@ -144,4 +144,13 @@ public interface IncidenceService {
 	 * @return the incidence DTO
 	 */
 	public IncidenceDTO getIncidenceDTO(Incidence incidence);
+
+	/**
+	 * Gets the incidence.
+	 *
+	 * @param incidenceDTO the incidence DTO
+	 * @param email the email
+	 * @return the incidence
+	 */
+	public Incidence getIncidence(IncidenceDTO incidenceDTO, Account account);
 }
