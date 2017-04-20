@@ -24,12 +24,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.cuacfm.members.model.account.Account;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * The Class Event.
@@ -43,9 +39,6 @@ public class Event implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@JsonIgnore
-	@PrimaryKeyJoinColumn
-	@JsonManagedReference
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "accountId")
 	private Account account;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cuacfm.members.model.incidence;
+package org.cuacfm.members.model.report;
 
 import java.util.List;
 
@@ -28,12 +28,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-/** The Class IncidenceRepositoryImpl. */
+/** The Class ReportRepositoryImpl. */
 @Repository
 @Transactional(readOnly = true)
-public class IncidenceRepositoryImpl implements IncidenceRepository {
+public class ReportRepositoryImpl implements ReportRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(IncidenceRepositoryImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ReportRepositoryImpl.class);
 
 	/** The entity manager. */
 	@PersistenceContext
@@ -41,27 +41,27 @@ public class IncidenceRepositoryImpl implements IncidenceRepository {
 
 	@Override
 	@Transactional
-	public Incidence save(Incidence incidence) {
-		entityManager.persist(incidence);
-		return incidence;
+	public Report save(Report report) {
+		entityManager.persist(report);
+		return report;
 	}
 
 	@Override
 	@Transactional
-	public Incidence update(Incidence incidence) {
-		return entityManager.merge(incidence);
+	public Report update(Report report) {
+		return entityManager.merge(report);
 	}
 
 	@Override
 	@Transactional
-	public void delete(Incidence incidence) {
-		entityManager.remove(incidence);
+	public void delete(Report report) {
+		entityManager.remove(report);
 	}
 
 	@Override
-	public Incidence findById(Long id) {
+	public Report findById(Long id) {
 		try {
-			return entityManager.createQuery("select a from Incidence a where a.id = :id", Incidence.class).setParameter("id", id).getSingleResult();
+			return entityManager.createQuery("select a from Report a where a.id = :id", Report.class).setParameter("id", id).getSingleResult();
 		} catch (NoResultException e) {
 			logger.info(Constants.NO_RESULT + e.getMessage());
 			return null;
@@ -69,9 +69,9 @@ public class IncidenceRepositoryImpl implements IncidenceRepository {
 	}
 
 	@Override
-	public Incidence findByName(String name) {
+	public Report findByName(String name) {
 		try {
-			return entityManager.createQuery("select a from Incidence a where a.name = :name", Incidence.class).setParameter("name", name)
+			return entityManager.createQuery("select a from Report a where a.name = :name", Report.class).setParameter("name", name)
 					.getSingleResult();
 		} catch (NoResultException e) {
 			logger.info(Constants.NO_RESULT + e.getMessage());
@@ -80,25 +80,25 @@ public class IncidenceRepositoryImpl implements IncidenceRepository {
 	}
 
 	@Override
-	public List<Incidence> getIncidenceList() {
-		return entityManager.createQuery("select p from Incidence p order by p.name", Incidence.class).getResultList();
+	public List<Report> getReportList() {
+		return entityManager.createQuery("select p from Report p order by p.name", Report.class).getResultList();
 	}
 
 	@Override
-	public List<Incidence> getIncidenceListActive() {
-		return entityManager.createQuery("select p from Incidence p where p.active = true order by p.dateCreate desc", Incidence.class)
+	public List<Report> getReportListActive() {
+		return entityManager.createQuery("select p from Report p where p.active = true order by p.dateCreate desc", Report.class)
 				.getResultList();
 	}
 
 	@Override
-	public List<Incidence> getIncidenceListByUser(Account account) {
-		return entityManager.createQuery("select p from Incidence p where p.account.id = :accountId order by p.dateCreate desc", Incidence.class)
+	public List<Report> getReportListByUser(Account account) {
+		return entityManager.createQuery("select p from Report p where p.account.id = :accountId order by p.dateCreate desc", Report.class)
 				.setParameter("accountId", account.getId()).getResultList();
 	}
 
 	@Override
-	public List<Incidence> getIncidenceListClose() {
-		return entityManager.createQuery("select p from Incidence p where p.active = false order by p.dateCreate desc", Incidence.class)
+	public List<Report> getReportListClose() {
+		return entityManager.createQuery("select p from Report p where p.active = false order by p.dateCreate desc", Report.class)
 				.getResultList();
 	}
 }

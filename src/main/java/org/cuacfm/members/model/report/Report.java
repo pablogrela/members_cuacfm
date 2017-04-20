@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cuacfm.members.model.incidence;
+package org.cuacfm.members.model.report;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,9 +31,9 @@ import javax.persistence.OneToOne;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.program.Program;
 
-/** The Class Incidence. */
+/** The Class Report. */
 @Entity
-public class Incidence implements Serializable {
+public class Report implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,6 +54,7 @@ public class Incidence implements Serializable {
 	private int configuration;
 	private boolean openDoor;
 	private boolean viewMembers;
+	private String location;
 	private String description;
 	private String file;
 	private String files;
@@ -62,13 +63,13 @@ public class Incidence implements Serializable {
 	private Date dateRevision;
 	private boolean active;
 
-	/** Instantiates a new incidence. */
-	public Incidence() {
+	/** Instantiates a new report. */
+	public Report() {
 		super();
 	}
 
 	/**
-	 * Instantiates a new incidence.
+	 * Instantiates a new report.
 	 *
 	 * @param account the account
 	 * @param program the program
@@ -79,7 +80,7 @@ public class Incidence implements Serializable {
 	 * @param viewMembers the view members
 	 * @param description the description
 	 */
-	public Incidence(Account account, Program program, int dirt, int tidy, int configuration, boolean openDoor, boolean viewMembers,
+	public Report(Account account, Program program, int dirt, int tidy, int configuration, boolean openDoor, boolean viewMembers, String location,
 			String description) {
 		super();
 		this.account = account;
@@ -89,9 +90,11 @@ public class Incidence implements Serializable {
 		this.configuration = configuration;
 		this.openDoor = openDoor;
 		this.viewMembers = viewMembers;
+		this.location = location;
 		this.description = description;
 		this.dateCreate = new Date();
-		this.active = true;
+		// by default is no active
+		this.active = false;
 	}
 
 	public Long getId() {
@@ -158,6 +161,14 @@ public class Incidence implements Serializable {
 		this.viewMembers = viewMembers;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -221,7 +232,7 @@ public class Incidence implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Incidence [id=" + id + ", account=" + account + ", program=" + program + ", dirt=" + dirt + ", tidy=" + tidy + ", configuration="
+		return "Report [id=" + id + ", account=" + account + ", program=" + program + ", dirt=" + dirt + ", tidy=" + tidy + ", configuration="
 				+ configuration + ", openDoor=" + openDoor + ", viewMembers=" + viewMembers + ", description=" + description + ", file=" + file
 				+ ", files=" + files + ", answer=" + answer + ", dateCreate=" + dateCreate + ", dateRevision=" + dateRevision + ", active=" + active
 				+ "]";

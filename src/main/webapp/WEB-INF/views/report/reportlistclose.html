@@ -18,25 +18,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="#{incidence.list.close.title}"></title>
+<title th:text="#{report.list.close.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
-<script th:src="@{/resources/js/service/incidenceService.js}"></script>
-<script th:src="@{/resources/js/controller/incidenceCloseController.js}"></script>
+<script th:src="@{/resources/js/service/reportService.js}"></script>
+<script th:src="@{/resources/js/controller/reportCloseController.js}"></script>
 </head>
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='incidences')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='reports')">&nbsp;</div>
 
 	<div class="container-fluid">
 
 		<!-- Button redirect to directDebit list close-->
 		<div class="text-center">
-			<a href="#" class="btn btn-primary btn-lg" th:href="@{/incidenceList}" th:text="#{incidence.list.view}"></a> 
+			<a href="#" class="btn btn-primary btn-lg" th:href="@{/reportList}" th:text="#{report.list.view}"></a> 
 		</div>
 
-		<div data-ng-app="membersApp" data-ng-controller="IncidenceController as ctrl">
-			<div th:include="incidence/incidencelisttable :: incidencelisttable(#{incidence.list.close}, #{incidence.list.close})"></div>
+		<div data-ng-app="membersApp" data-ng-controller="ReportController as ctrl">
+			<div th:include="report/reportlisttable :: reportlisttable(#{report.list.close}, #{report.list.close})"></div>
 		</div>
 
 	</div>

@@ -45,16 +45,7 @@ public class Account implements Serializable {
 
 	/** The Enum roles. */
 	public enum roles {
-		/** The role user. */
-		ROLE_USER,
-		/** The role user. */
-		ROLE_EXUSER,
-		/** The role admin. */
-		ROLE_ADMIN,
-		/** The role trainer. */
-		ROLE_TRAINER,
-		/** The role prescription. */
-		ROLE_PREREGISTERED
+		ROLE_USER, ROLE_EXUSER, ROLE_ADMIN, ROLE_TRAINER, ROLE_PREREGISTERED
 	}
 
 	@Id
@@ -62,7 +53,7 @@ public class Account implements Serializable {
 	private Long id;
 
 	private String name;
-	
+
 	private String surname;
 
 	private String nickName;
@@ -153,7 +144,8 @@ public class Account implements Serializable {
 	 * @param password the password
 	 * @param role the role
 	 */
-	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password, roles role) {
+	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password,
+			roles role) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -188,8 +180,8 @@ public class Account implements Serializable {
 	 * @param personality the personality
 	 * @param knowledge the knowledge
 	 */
-	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password, roles role,
-			String programName, boolean student, boolean emitProgram, String personality, String knowledge) {
+	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password,
+			roles role, String programName, boolean student, boolean emitProgram, String personality, String knowledge) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -467,9 +459,9 @@ public class Account implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", name=" + name + ", surname=" + surname + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address + ", cp=" + cp
-				+ ", province=" + province + ", codeCountry=" + codeCountry + ", login=" + login + ", email=" + email + ", phone=" + phone
-				+ ", mobile=" + mobile + ", password=" + password + ", methodPayment=" + methodPayment + ", accountType=" + accountType
+		return "Account [id=" + id + ", name=" + name + ", surname=" + surname + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address
+				+ ", cp=" + cp + ", province=" + province + ", codeCountry=" + codeCountry + ", login=" + login + ", email=" + email + ", phone="
+				+ phone + ", mobile=" + mobile + ", password=" + password + ", methodPayment=" + methodPayment + ", accountType=" + accountType
 				+ ", programs=" + programs + ", bankAccounts=" + bankAccounts + ", installments=" + installments + ", active=" + active + ", student="
 				+ student + ", emitProgram=" + emitProgram + ", dateBirth=" + dateBirth + ", observations=" + observations + ", personality="
 				+ personality + ", knowledge=" + knowledge + ", programName=" + programName + ", role=" + role + ", dateCreate=" + dateCreate

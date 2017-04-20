@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cuacfm.members.web.incidence;
+package org.cuacfm.members.web.report;
 
 import java.util.List;
 
@@ -23,13 +23,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.incidence.Incidence;
 import org.cuacfm.members.model.program.Program;
+import org.cuacfm.members.model.report.Report;
 import org.cuacfm.members.model.util.Constants;
 import org.springframework.web.multipart.MultipartFile;
 
-/** The Class IncidenceForm. */
-public class IncidenceForm {
+/** The Class ReportForm. */
+public class ReportForm {
 
 	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
 	private Long programId;
@@ -52,14 +52,16 @@ public class IncidenceForm {
 
 	private MultipartFile[] photos;
 
-	/** The description. */
+	@Size(max = 500, message = Constants.MAX_CHARACTERS)
+	private String location;
+
 	@Size(max = 500, message = Constants.MAX_CHARACTERS)
 	private String description;
 
 	/**
-	 * Instantiates a new incidence form.
+	 * Instantiates a new report form.
 	 */
-	public IncidenceForm() {
+	public ReportForm() {
 		super();
 	}
 
@@ -128,6 +130,14 @@ public class IncidenceForm {
 		this.viewMembers = viewMembers;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -145,31 +155,32 @@ public class IncidenceForm {
 	}
 
 	/**
-	 * Creates the incidence.
+	 * Creates the report.
 	 *
-	 * @return the incidence
+	 * @return the report
 	 */
-	public Incidence createIncidence(Account account) {
-		return new Incidence(account, getProgram(), getDirt(), getTidy(), getConfiguration(), getOpenDoor(), getViewMembers(), getDescription());
+	public Report createReport(Account account) {
+		return new Report(account, getProgram(), getDirt(), getTidy(), getConfiguration(), getOpenDoor(), getViewMembers(), getLocation(),
+				getDescription());
 	}
 
 	/**
-	 * Update incidence.
+	 * Update report.
 	 *
-	 * @param incidence the incidence
-	 * @return the incidence
+	 * @param report the report
+	 * @return the report
 	 */
-	public Incidence updateIncidence(Incidence incidence) {
-		//		incidence.setName(getName());
-		//		incidence.setDescription(getDescription());
-		//		incidence.setPeriodicity(getPeriodicity());
-		//		incidence.setDuration(getDuration());
-		//		incidence.setEmail(email);
-		//		incidence.setTwitter(twitter);
-		//		incidence.setFacebook(facebook);
-		//		incidence.setPodcast(podcast);
-		//		incidence.setWeb(web);
+	public Report updateReport(Report report) {
+		//		report.setName(getName());
+		//		report.setDescription(getDescription());
+		//		report.setPeriodicity(getPeriodicity());
+		//		report.setDuration(getDuration());
+		//		report.setEmail(email);
+		//		report.setTwitter(twitter);
+		//		report.setFacebook(facebook);
+		//		report.setPodcast(podcast);
+		//		report.setWeb(web);
 
-		return incidence;
+		return report;
 	}
 }

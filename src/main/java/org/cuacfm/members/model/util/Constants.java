@@ -30,9 +30,8 @@ public class Constants {
 	public static final String ERRORIDEXCEPTION = "userPayments.errorIdException";
 	public static final String SUCCESSPAYPAL = "userPayments.successPayPal";
 	public static final String ERRORPAYPAL = "userPayments.errorPayPal";
-	
-	public static final String NO_RESULT = "NoResult";
 
+	public static final String NO_RESULT = "NoResult";
 
 	/**
 	 * The Enum states.
@@ -75,5 +74,23 @@ public class Constants {
 		/** The bank deposit. */
 		BANK_DEPOSIT
 
+	}
+
+	/**
+	 * The Enum leves.
+	 */
+	public enum levels {
+
+		DISABLE(0), CRITICAL(1), LOW(2), MEDIUM(3), GOOD(4), HIGH(5);
+
+		private int value;
+
+		levels(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
 	}
 }

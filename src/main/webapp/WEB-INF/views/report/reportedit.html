@@ -18,23 +18,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="#{incidence.titleEdit}"></title>
+<title th:text="#{report.titleEdit}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='incidences')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='reports')">&nbsp;</div>
 
-	<!-- Button redirect to Incidence List-->
+	<!-- Button redirect to Report List-->
 	<div class="text-center">
-		<a href="#" class="btn btn-primary btn-lg" th:href="@{/incidenceList}" th:text="#{incidence.list.back}"> </a>
+		<a href="#" class="btn btn-primary btn-lg" th:href="@{/reportList}" th:text="#{report.list.back}"> </a>
 	</div>
 	<br></br>
 	
 	<div class="form-narrow">
 
-		<form class="form-horizontal ws-validate" method="post" th:action="@{incidenceEdit?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${incidenceForm}" enctype="multipart/form-data">
+		<form class="form-horizontal ws-validate" method="post" th:action="@{reportEdit?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${reportForm}" enctype="multipart/form-data">
 
 			<!-- /* Handle the flash message, The message code is returned from the @Controller */ -->
 			<div class="text-center" th:if="${message != null}">
@@ -42,22 +42,22 @@
 			</div>
 			
 			<!--/* Show general error message when form contains errors */-->
-			<th:block th:if="${#fields.hasErrors('${incidenceForm.*}')}">
+			<th:block th:if="${#fields.hasErrors('${reportForm.*}')}">
 				<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
 			</th:block>
 		
 			<fieldset>
 
 				<!-- Message help-->
-				<legend th:text="#{incidence.edit.info}">Edit Incidence</legend>
+				<legend th:text="#{report.edit.info}">Edit Report</legend>
 
 				<!-- Load form -->
-				<div th:replace="incidence/incidenceform :: incidenceform">&nbsp;</div>
+				<div th:replace="report/reportform :: reportform">&nbsp;</div>
 
-				<!-- Button Edit Incidence -->
+				<!-- Button Edit Report -->
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-10">
-						<button type="submit" th:name="edit" th:value="edi" class="btn btn-orange btn-form" th:text="#{incidence.edit}">Edit</button>
+						<button type="submit" th:name="edit" th:value="edi" class="btn btn-orange btn-form" th:text="#{report.edit}">Edit</button>
 					</div>
 				</div>
 
@@ -66,7 +66,7 @@
 		</form>
 
 
-		<form class="form-horizontal ws-validate" method="post" th:action="@{'incidenceCreate?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${incidenceForm}" enctype="multipart/form-data">
+		<form class="form-horizontal ws-validate" method="post" th:action="@{'reportCreate?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${reportForm}" enctype="multipart/form-data">
 			
 			<!-- /* Handle the flash message, The message code is returned from the @Controller */ -->
 			<div class="text-center" th:if="${message != null}">
@@ -74,22 +74,22 @@
 			</div>
 			
 			<!--/* Show general error message when form contains errors */-->
-			<th:block th:if="${#fields.hasErrors('${incidenceForm.*}')}">
+			<th:block th:if="${#fields.hasErrors('${reportForm.*}')}">
 				<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
 			</th:block>
 
 			<fieldset>
 
 				<!-- Message help-->
-				<legend th:text="#{incidence.create.info}">Create Incidence</legend>
+				<legend th:text="#{report.create.info}">Create Report</legend>
 
 				<!-- Load form -->
-				<div th:replace="incidence/incidenceform :: incidenceform">&nbsp;</div>
+				<div th:replace="report/reportform :: reportform">&nbsp;</div>
 
 				<!-- Button Create Account -->
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-10">
-						<button type="submit" th:name="create" th:value="create" class="btn btn-orange btn-form" th:text="#{incidence.create}">Create</button>
+						<button type="submit" th:name="create" th:value="create" class="btn btn-orange btn-form" th:text="#{report.create}">Create</button>
 					</div>
 				</div>
 

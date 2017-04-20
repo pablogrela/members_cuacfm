@@ -115,10 +115,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/userPayments/**")
             .hasAnyRole("TRAINER", "USER", "EXUSER", "PREREGISTERED")
 
-            .antMatchers("/programList", "/programList/", "/programList/programEdit/**", "/incidenceList")
+            .antMatchers("/programList", "/programList/", "/programList/programEdit/**", "/reportList")
             .hasAnyRole("ADMIN", "TRAINER", "USER", "EXUSER")
             
-            .antMatchers("/programList/**", "/incidenceList/**")
+            .antMatchers("/programList/**", "/reportList/**")
             .hasAnyRole("ADMIN", "TRAINER", "USER")
             
             .antMatchers("/trainingList", "/trainingList/trainingView/**")

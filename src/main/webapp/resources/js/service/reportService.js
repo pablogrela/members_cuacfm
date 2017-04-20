@@ -15,75 +15,75 @@
  */
 'use strict';
 
-angular.module('membersApp').factory('IncidenceService', [ '$http', '$q', function($http, $q) {
+angular.module('membersApp').factory('ReportService', [ '$http', '$q', function($http, $q) {
 
-	var REST_SERVICE_URI = '/members/incidenceList/';
+	var REST_SERVICE_URI = '/members/reportList/';
 	var csrf = '?' + document.getElementById("csrf.parameterName").value + '=' + document.getElementById("csrf.token").value;
 
 	var factory = {
-		fetchAllIncidences : fetchAllIncidences,
-		fetchAllIncidencesClose : fetchAllIncidencesClose,
-		incidenceUp : incidenceUp,
-		incidenceDown : incidenceDown,
-		incidenceAnswer : incidenceAnswer,
+		fetchAllReports : fetchAllReports,
+		fetchAllReportsClose : fetchAllReportsClose,
+		reportUp : reportUp,
+		reportDown : reportDown,
+		reportAnswer : reportAnswer,
 	};
 
 	return factory;
 
-	function fetchAllIncidences() {
+	function fetchAllReports() {
 		var deferred = $q.defer();
 		$http.get(REST_SERVICE_URI + csrf).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
-			console.error('Error while fetching Incidences');
+			console.error('Error while fetching Reports');
 			deferred.reject(errResponse);
 		});
 		return deferred.promise;
 	}
 
-	function fetchAllIncidencesClose() {
+	function fetchAllReportsClose() {
 		var deferred = $q.defer();
 		$http.get(REST_SERVICE_URI + "close/" + csrf).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
-			console.error('Error while fetching Incidences Close');
+			console.error('Error while fetching Reports Close');
 			deferred.reject(errResponse);
 		});
 		return deferred.promise;
 	}
 	
-	function incidenceUp(id) {
+	function reportUp(id) {
 		var deferred = $q.defer();
-		var url = REST_SERVICE_URI + 'incidenceUp/' + id + csrf;
+		var url = REST_SERVICE_URI + 'reportUp/' + id + csrf;
 		$http.post(url).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
-			console.error('Error while up incidence');
+			console.error('Error while up report');
 			deferred.reject(errResponse);
 		});
 		return deferred.promise;
 	}
 
-	function incidenceDown(id) {
+	function reportDown(id) {
 		var deferred = $q.defer();
-		var url = REST_SERVICE_URI + 'incidenceDown/' + id + csrf;
+		var url = REST_SERVICE_URI + 'reportDown/' + id + csrf;
 		$http.post(url).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
-			console.error('Error while down incidence');
+			console.error('Error while down report');
 			deferred.reject(errResponse);
 		});
 		return deferred.promise;
 	}
 
-	function incidenceAnswer(id, answer) {
+	function reportAnswer(id, answer) {
 		var deferred = $q.defer();
 		answer =  "&answer=" + answer;
-		var url = REST_SERVICE_URI + 'incidenceAnswer/' + id  + csrf + answer;
+		var url = REST_SERVICE_URI + 'reportAnswer/' + id  + csrf + answer;
 		$http.post(url).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
-			console.error('Error while answer incidence');
+			console.error('Error while answer report');
 			deferred.reject(errResponse);
 		});
 		return deferred.promise;

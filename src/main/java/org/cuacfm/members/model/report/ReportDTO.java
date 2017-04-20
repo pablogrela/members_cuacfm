@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cuacfm.members.model.incidence;
+package org.cuacfm.members.model.report;
 
 import java.util.Date;
 import java.util.List;
@@ -22,9 +22,9 @@ import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.program.ProgramDTO;
 
 /**
- * The Class IncidenceDTO.
+ * The Class ReportDTO.
  */
-public class IncidenceDTO {
+public class ReportDTO {
 
 	private Long id;
 	private AccountDTO account;
@@ -34,6 +34,7 @@ public class IncidenceDTO {
 	private int configuration;
 	private boolean openDoor;
 	private boolean viewMembers;
+	private String location;
 	private String description;
 	private List<String> files;
 	private String answer;
@@ -44,12 +45,12 @@ public class IncidenceDTO {
 	/**
 	 * Instantiates a new program DTO.
 	 */
-	public IncidenceDTO() {
+	public ReportDTO() {
 		super();
 	}
 
 	/**
-	 * Instantiates a new incidence DTO.
+	 * Instantiates a new report DTO.
 	 *
 	 * @param id the id
 	 * @param account the account
@@ -66,8 +67,8 @@ public class IncidenceDTO {
 	 * @param dateRevision the date revision
 	 * @param active the active
 	 */
-	public IncidenceDTO(Long id, AccountDTO account, ProgramDTO program, int dirt, int tidy, int configuration, boolean openDoor, boolean viewMembers,
-			String description, List<String> files, String answer, Date dateCreate, Date dateRevision, boolean active) {
+	public ReportDTO(Long id, AccountDTO account, ProgramDTO program, int dirt, int tidy, int configuration, boolean openDoor, boolean viewMembers,
+			String location, String description, List<String> files, String answer, Date dateCreate, Date dateRevision, boolean active) {
 		super();
 		this.id = id;
 		this.account = account;
@@ -77,6 +78,7 @@ public class IncidenceDTO {
 		this.configuration = configuration;
 		this.openDoor = openDoor;
 		this.viewMembers = viewMembers;
+		this.location = location;
 		this.description = description;
 		this.answer = answer;
 		this.dateCreate = dateCreate;
@@ -151,6 +153,14 @@ public class IncidenceDTO {
 		this.viewMembers = viewMembers;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -201,9 +211,10 @@ public class IncidenceDTO {
 
 	@Override
 	public String toString() {
-		return "IncidenceDTO [id=" + id + ", account=" + account + ", program=" + program + ", dirt=" + dirt + ", tidy=" + tidy + ", configuration="
-				+ configuration + ", openDoor=" + openDoor + ", viewMembers=" + viewMembers + ", description=" + description + ", files=" + files
-				+ ", answer=" + answer + ", dateCreate=" + dateCreate + ", dateRevision=" + dateRevision + ", active=" + active + "]";
+		return "ReportDTO [id=" + id + ", account=" + account + ", program=" + program + ", dirt=" + dirt + ", tidy=" + tidy + ", configuration="
+				+ configuration + ", openDoor=" + openDoor + ", viewMembers=" + viewMembers + ", location=" + location + ", description="
+				+ description + ", files=" + files + ", answer=" + answer + ", dateCreate=" + dateCreate + ", dateRevision=" + dateRevision
+				+ ", active=" + active + "]";
 	}
 
 }

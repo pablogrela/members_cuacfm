@@ -18,15 +18,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="#{incidence.list.title}"></title>
+<title th:text="#{report.list.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
-<script th:src="@{/resources/js/service/incidenceService.js}"></script>
-<script th:src="@{/resources/js/controller/incidenceController.js}"></script>
+<script th:src="@{/resources/js/service/reportService.js}"></script>
+<script th:src="@{/resources/js/controller/reportController.js}"></script>
 </head>
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='incidences')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='reports')">&nbsp;</div>
 
 
 	<!-- If user has role ExUser, its apear message -->
@@ -40,27 +40,27 @@
 		<!-- Div of buttons -->
 		<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="container-fluid text-center containerColums">
 
-			<!-- Button Create New Incidence -->
+			<!-- Button Create New Report -->
 			<div class="columLeft">
 				<div>
-					<a href="#" class="btn btn-orange btn-lg" th:href="@{/incidenceList/incidenceCreate}" th:text="#{incidence.create.new}"></a>
+					<a href="#" class="btn btn-orange btn-lg" th:href="@{/reportList/reportCreate}" th:text="#{report.create.new}"></a>
 				</div>
 				<br></br>
 			</div>
 
 			<!-- Button redirect to directDebit list close-->
 			<div class="columRight">
-				<a href="#" class="btn btn-primary btn-lg" th:href="@{/incidenceList/close}" th:text="#{incidence.list.close.view}"></a> <br></br>
+				<a href="#" class="btn btn-primary btn-lg" th:href="@{/reportList/close}" th:text="#{report.list.close.view}"></a> <br></br>
 			</div>
 		</div>
 
-		<!-- Button Create New Incidence -->
+		<!-- Button Create New Report -->
 		<div sec:authorize="!hasAnyRole('ROLE_ADMIN')" class="text-center">
-			<a href="#" class="btn btn-orange btn-lg" th:href="@{/incidenceList/incidenceCreate}" th:text="#{incidence.create.new}"></a>
+			<a href="#" class="btn btn-orange btn-lg" th:href="@{/reportList/reportCreate}" th:text="#{report.create.new}"></a>
 		</div>
 
-		<div data-ng-app="membersApp" data-ng-controller="IncidenceController as ctrl">
-			<div th:include="incidence/incidencelisttable :: incidencelisttable(#{incidence.list}, #{incidence.list.empty})"></div>
+		<div data-ng-app="membersApp" data-ng-controller="ReportController as ctrl">
+			<div th:include="report/reportlisttable :: reportlisttable(#{report.list}, #{report.list.empty})"></div>
 		</div>
 	</div>
 </body>

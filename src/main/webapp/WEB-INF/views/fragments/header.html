@@ -141,18 +141,18 @@
 								</th:block>
 
 
-								<!-- Button Incidences -->
-								<th:block th:if="${active != 'incidences'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-									<li><a href="#" th:href="@{/incidenceList}" th:text="#{incidences}">program list</a></li>
+								<!-- Button Reports -->
+								<th:block th:if="${active != 'reports'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/reportList}" th:text="#{reports}">program list</a></li>
 								</th:block>
-								<th:block th:if="${active == 'incidences'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-									<li class="active"><a href="#" th:href="@{/incidenceList}" th:text="#{incidences}">incidence list</a></li>
+								<th:block th:if="${active == 'reports'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/reportList}" th:text="#{reports}">report list</a></li>
 								</th:block>
-								<th:block th:if="${active != 'incidences'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
-									<li><a href="#" th:href="@{/incidenceList}" th:text="#{incidence.list.user}">user incidence list</a></li>
+								<th:block th:if="${active != 'reports'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
+									<li><a href="#" th:href="@{/reportList}" th:text="#{report.list.user}">user report list</a></li>
 								</th:block>
-								<th:block th:if="${active == 'incidences'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
-									<li class="active"><a href="#" th:href="@{/incidenceList}" th:text="#{incidence.list.user}">user incidence list</a></li>
+								<th:block th:if="${active == 'reports'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
+									<li class="active"><a href="#" th:href="@{/reportList}" th:text="#{report.list.user}">user report list</a></li>
 								</th:block>
 
 

@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cuacfm.members.web.incidence;
+package org.cuacfm.members.web.report;
 
 import static org.cuacfm.members.model.util.FirebaseUtils.getEmailOfToken;
 
+import java.lang.reflect.Type;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,11 +27,11 @@ import javax.validation.Valid;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
-import org.cuacfm.members.model.incidence.Incidence;
-import org.cuacfm.members.model.incidence.IncidenceDTO;
-import org.cuacfm.members.model.incidenceservice.IncidenceService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.report.Report;
+import org.cuacfm.members.model.report.ReportDTO;
+import org.cuacfm.members.model.reportservice.ReportService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,18 +47,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-/** The Class IncidenceCreateController. */
+/** The Class ReportCreateController. */
 @Controller
-public class IncidenceCreateController {
+public class ReportCreateController {
 
-	private static final String INCIDENCE_VIEW_NAME = "incidence/incidencecreate";
+	private static final String INCIDENCE_VIEW_NAME = "report/reportcreate";
 
 	@Value("${maxFiles}")
 	private int maxFiles;
 
 	@Autowired
-	private IncidenceService incidenceService;
+	private ReportService reportService;
 
 	@Autowired
 	private AccountService accountService;
@@ -64,36 +67,36 @@ public class IncidenceCreateController {
 	@Autowired
 	private ProgramService programService;
 
-	private IncidenceForm incidenceForm;
+	private ReportForm reportForm;
 
 	/**
-	 * Instantiates a new incidenceController.
+	 * Instantiates a new reportController.
 	 */
-	public IncidenceCreateController() {
+	public ReportCreateController() {
 		super();
 	}
 
 	/**
-	 * Incidence form.
+	 * Report form.
 	 *
-	 * @return the incidence form
+	 * @return the report form
 	 */
-	@ModelAttribute("incidenceForm")
-	public IncidenceForm incidenceForm() {
-		return incidenceForm;
+	@ModelAttribute("reportForm")
+	public ReportForm reportForm() {
+		return reportForm;
 	}
 
 	/**
-	 * Incidence.
+	 * Report.
 	 *
 	 * @param model the model
 	 * @param principal the principal
 	 * @return the string
 	 */
-	@RequestMapping(value = "incidenceList/incidenceCreate")
-	public String incidence(Model model, Principal principal) {
+	@RequestMapping(value = "reportList/reportCreate")
+	public String report(Model model, Principal principal) {
 
-		incidenceForm = new IncidenceForm();
+		reportForm = new ReportForm();
 		Account account = accountService.findByLogin(principal.getName());
 
 		List<Program> programs;
@@ -102,31 +105,31 @@ public class IncidenceCreateController {
 		} else {
 			programs = programService.getProgramListActiveByUser(account);
 			if (programs.size() == 1) {
-				incidenceForm.setProgramId(programs.get(0).getId());
+				reportForm.setProgramId(programs.get(0).getId());
 			}
 		}
-		incidenceForm.setPrograms(programs);
-		model.addAttribute(incidenceForm);
+		reportForm.setPrograms(programs);
+		model.addAttribute(reportForm);
 		return INCIDENCE_VIEW_NAME;
 	}
 
 	/**
-	 * Incidence.
+	 * Report.
 	 *
-	 * @param incidenceForm the incidence form
+	 * @param reportForm the report form
 	 * @param principal the principal
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @param model the model
 	 * @return the string
 	 */
-	@RequestMapping(value = "incidenceList/incidenceCreate", method = RequestMethod.POST, params = { "create" })
-	public String createIncidence(@Valid @ModelAttribute IncidenceForm incidenceForm, Principal principal, Errors errors, RedirectAttributes ra,
+	@RequestMapping(value = "reportList/reportCreate", method = RequestMethod.POST, params = { "create" })
+	public String createReport(@Valid @ModelAttribute ReportForm reportForm, Principal principal, Errors errors, RedirectAttributes ra,
 			Model model) {
 
 		//Validate max files
-		if (incidenceForm.getPhotos() != null && incidenceForm.getPhotos().length > maxFiles) {
-			errors.rejectValue("photos", "incidence.photos.error.max", new Object[] { maxFiles }, "photos");
+		if (reportForm.getPhotos() != null && reportForm.getPhotos().length > maxFiles) {
+			errors.rejectValue("photos", "report.photos.error.max", new Object[] { maxFiles }, "photos");
 		}
 
 		if (errors.hasErrors()) {
@@ -135,43 +138,48 @@ public class IncidenceCreateController {
 
 		try {
 			Account account = accountService.findByLogin(principal.getName());
-			Incidence incidence = incidenceForm.createIncidence(account);
-			incidenceService.save(incidence, incidenceForm.getPhotos());
+			Report report = reportForm.createReport(account);
+			reportService.save(report, reportForm.getPhotos());
 
 		} catch (Exception e) {
-			errors.rejectValue("program", "incidence.create.error", new Object[] { e }, "program");
+			errors.rejectValue("program", "report.create.error", new Object[] { e }, "program");
 			return INCIDENCE_VIEW_NAME;
 		}
 
-		MessageHelper.addSuccessAttribute(ra, "incidence.create.success", incidenceForm.getProgram().getName());
-		return "redirect:/incidenceList";
+		MessageHelper.addSuccessAttribute(ra, "report.create.success", reportForm.getProgram().getName());
+		return "redirect:/reportList";
 	}
 
 	/**
-	 * Creates the incidence API.
+	 * Creates the report API.
 	 *
 	 * @param token the token
-	 * @param incidenceJson the incidence json
+	 * @param reportJson the report json
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "api/incidenceList/incidenceCreate", method = RequestMethod.POST)
-	public ResponseEntity<String> createIncidenceAPI(@RequestParam(value = "token") String token,
-			@RequestParam(value = "incidenceJson") String incidenceJson) {
+	@RequestMapping(value = "api/reportList/reportCreate", method = RequestMethod.POST)
+	public ResponseEntity<String> createReportAPI(@RequestParam(value = "token") String token,
+			@RequestParam(value = "reportJson") String reportJson, @RequestParam(value = "photos") String photos) {
 
 		// Validate Token and retrieve email
 		String email = getEmailOfToken(token);
 
 		if (email != null) {
+			Type listType = new TypeToken<ArrayList<byte[]>>() {
+			}.getType();
+			List<byte[]> photosAux = new Gson().fromJson(photos, listType);
+
 			Account account = accountService.findByEmail(email);
-			IncidenceDTO incidenceDTO = new Gson().fromJson(incidenceJson, IncidenceDTO.class);
+			ReportDTO reportDTO = new Gson().fromJson(reportJson, ReportDTO.class);
 
-			Incidence incidence = incidenceService.getIncidence(incidenceDTO, account);
-			incidence = incidenceService.save(incidence, null);
+			Report report = reportService.getReport(reportDTO, account);
+			report = reportService.save(report, photosAux);
 
-			IncidenceDTO newIncidenceDTO = incidenceService.getIncidenceDTO(incidence);
-			String newIncidenceJson = new Gson().toJson(newIncidenceDTO);
-			return new ResponseEntity<>(newIncidenceJson, HttpStatus.CREATED);
+			ReportDTO newReportDTO = reportService.getReportDTO(report);
+			String newReportJson = new Gson().toJson(newReportDTO);
+			return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
 		}
+		
 		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 	}
 }

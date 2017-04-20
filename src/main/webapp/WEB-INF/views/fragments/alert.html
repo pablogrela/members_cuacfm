@@ -275,124 +275,132 @@
 	</div>
 
 
-	<!-- Modal Info Incidence -->
-	<div th:fragment="infoIncidence" id="infoIncidence" class="modal fade mobile">
+	<!-- Modal Info Report -->
+	<div th:fragment="infoReport" id="infoReport" class="modal fade mobile">
 		<div class="modal-dialog">
 			<div class="modal-content panel-primary">
 				<div class="modal-header modal-header-primary">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" data-ng-bind="incidence.program.name + ' : '  + (incidence.dateCreate | date : 'short')"></h4>
+					<h4 class="modal-title" data-ng-bind="report.program.name + ' : '  + (report.dateCreate | date : 'short')"></h4>
 				</div>
 				<div class="modal-body">
 					<label th:text="#{dateCreate} + ': ' "></label>
-					<span data-ng-bind="incidence.dateCreate | date : 'short'"></span>
+					<span data-ng-bind="report.dateCreate | date : 'short'"></span>
 					<br></br>
 					<label th:text="#{program} + ': ' "></label>
-					<span data-ng-bind="incidence.program.name"></span>
+					<span data-ng-bind="report.program.name"></span>
 					<br></br>
 					<label th:text="#{account} + ': ' "></label>
-					<span data-ng-bind="incidence.account.name + ' ' + incidence.account.surname"></span>
+					<span data-ng-bind="report.account.name + ' ' + report.account.surname"></span>
 					<br></br>
-					<label th:text="#{incidence.dirt} + ': ' "></label>
-					<span data-ng-bind="incidence.dirt"></span>
+					<label th:text="#{report.dirt} + ': ' "></label>
+					<span data-ng-bind="report.dirt"></span>
 					<br></br>
-					<label th:text="#{incidence.tidy} + ': ' "></label>
-					<span data-ng-bind="incidence.tidy"></span>
+					<label th:text="#{report.tidy} + ': ' "></label>
+					<span data-ng-bind="report.tidy"></span>
 					<br></br>
-					<label th:text="#{incidence.configuration} + ': ' "></label>
-					<span data-ng-bind="incidence.configuration"></span>
+					<label th:text="#{report.configuration} + ': ' "></label>
+					<span data-ng-bind="report.configuration"></span>
 					<br></br>
-					<label th:text="#{incidence.openDoor} + ': ' "></label>
-					<span data-ng-if="incidence.openDoor" th:text="#{true}"></span>
-					<span data-ng-if="!incidence.openDoor" th:text="#{false}"></span>
+					<label th:text="#{report.openDoor} + ': ' "></label>
+					<span data-ng-if="report.openDoor" th:text="#{true}"></span>
+					<span data-ng-if="!report.openDoor" th:text="#{false}"></span>
 					<br></br>
-					<label th:text="#{incidence.viewMembers} + ': ' "></label>
-					<span data-ng-if="incidence.viewMembers" th:text="#{true}"></span>
-					<span data-ng-if="!incidence.viewMembers" th:text="#{false}"></span>
+					<label th:text="#{report.viewMembers} + ': ' "></label>
+					<span data-ng-if="report.viewMembers" th:text="#{true}"></span>
+					<span data-ng-if="!report.viewMembers" th:text="#{false}"></span>
+					<br></br>
+					<label th:text="#{location} + ': ' "></label>
+					<span data-ng-bind="report.location"></span>
 					<br></br>
 					<label th:text="#{description} + ': ' "></label>
-					<span data-ng-bind="incidence.description"></span>
-					<br></br>
-					<label th:text="#{incidence.dateRevision} + ': ' "></label>
-					<span data-ng-bind="incidence.dateRevision | date : 'short'"></span>
+<!-- 					<span data-ng-bind="report.description"></span> -->
+<!-- 					<br></br> -->
+					<pre data-ng-bind="report.description"></pre>
+					<label th:text="#{report.dateRevision} + ': ' "></label>
+					<span data-ng-bind="report.dateRevision | date : 'short'"></span>
 					<br></br>
 					<label th:text="#{active} + ': ' "></label>
-					<span data-ng-if="incidence.active" th:text="#{true}"></span>
-					<span data-ng-if="!incidence.active" th:text="#{false}"></span>
+					<span data-ng-if="report.active" th:text="#{true}"></span>
+					<span data-ng-if="!report.active" th:text="#{false}"></span>
 					<br></br>
-					<label th:text="#{incidence.answer} + ': ' "></label>
-					<span data-ng-bind="incidence.answer"></span>
+					<label th:text="#{report.answer} + ': ' "></label>
+					<span data-ng-bind="report.answer"></span>
 					<br></br>
-					<label th:text="#{incidence.photos.view} + ': ' "></label>
-					<span data-ng-if="incidence.files.length == 0" th:text="#{incidence.photos.false}"></span>
+					<label th:text="#{report.photos.view} + ': ' "></label>
+					<span data-ng-if="report.files.length == 0" th:text="#{report.photos.false}"></span>
 					<!-- Carrousel -->
-					<div data-ng-if="incidence.files.length > 0">
-						<div th:replace="fragments/alert :: carousel-incidences">&nbsp;</div>
+					<div data-ng-if="report.files.length > 0">
+						<div th:replace="fragments/alert :: carousel-reports">&nbsp;</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- Modal Answer Incidence -->
-	<div th:fragment="infoIncidenceAnswer" id="infoIncidenceAnswer" class="modal fade mobile">
+	<!-- Modal Answer Report -->
+	<div th:fragment="infoReportAnswer" id="infoReportAnswer" class="modal fade mobile">
 		<div class="modal-dialog">
 			<div class="modal-content panel-primary">
 				<div class="modal-header modal-header-primary">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" data-ng-bind="incidence.program.name + ' : '  + (incidence.dateCreate | date : 'short')"></h4>
+					<h4 class="modal-title" data-ng-bind="report.program.name + ' : '  + (report.dateCreate | date : 'short')"></h4>
 				</div>
 				<div class="modal-body">
 					<label th:text="#{dateCreate} + ': ' "></label>
-					<span data-ng-bind="incidence.dateCreate | date : 'short'"></span>
+					<span data-ng-bind="report.dateCreate | date : 'short'"></span>
 					<br></br>
 					<label th:text="#{program} + ': ' "></label>
-					<span data-ng-bind="incidence.program.name"></span>
+					<span data-ng-bind="report.program.name"></span>
 					<br></br>
 					<label th:text="#{account} + ': ' "></label>
-					<span data-ng-bind="incidence.account.name + ' ' + incidence.account.surname"></span>
+					<span data-ng-bind="report.account.name + ' ' + report.account.surname"></span>
 					<br></br>
-					<label th:text="#{incidence.dirt} + ': ' "></label>
-					<span data-ng-bind="incidence.dirt"></span>
+					<label th:text="#{report.dirt} + ': ' "></label>
+					<span data-ng-bind="report.dirt"></span>
 					<br></br>
-					<label th:text="#{incidence.tidy} + ': ' "></label>
-					<span data-ng-bind="incidence.tidy"></span>
+					<label th:text="#{report.tidy} + ': ' "></label>
+					<span data-ng-bind="report.tidy"></span>
 					<br></br>
-					<label th:text="#{incidence.configuration} + ': ' "></label>
-					<span data-ng-bind="incidence.configuration"></span>
+					<label th:text="#{report.configuration} + ': ' "></label>
+					<span data-ng-bind="report.configuration"></span>
 					<br></br>
-					<label th:text="#{incidence.openDoor} + ': ' "></label>
-					<span data-ng-if="incidence.openDoor" th:text="#{true}"></span>
-					<span data-ng-if="!incidence.openDoor" th:text="#{false}"></span>
+					<label th:text="#{report.openDoor} + ': ' "></label>
+					<span data-ng-if="report.openDoor" th:text="#{true}"></span>
+					<span data-ng-if="!report.openDoor" th:text="#{false}"></span>
 					<br></br>
-					<label th:text="#{incidence.viewMembers} + ': ' "></label>
-					<span data-ng-if="incidence.viewMembers" th:text="#{true}"></span>
-					<span data-ng-if="!incidence.viewMembers" th:text="#{false}"></span>
+					<label th:text="#{report.viewMembers} + ': ' "></label>
+					<span data-ng-if="report.viewMembers" th:text="#{true}"></span>
+					<span data-ng-if="!report.viewMembers" th:text="#{false}"></span>
+					<br></br>
+					<label th:text="#{location} + ': ' "></label>
+					<span data-ng-bind="report.location"></span>
 					<br></br>
 					<label th:text="#{description} + ': ' "></label>
-					<span data-ng-bind="incidence.description"></span>
-					<br></br>
-					<label th:text="#{incidence.dateRevision} + ': ' "></label>
-					<span data-ng-bind="incidence.dateRevision | date : 'short'"></span>
+<!-- 					<span data-ng-bind="report.description"></span> -->
+<!-- 					<br></br> -->
+					<pre data-ng-bind="report.description"></pre>
+					<label th:text="#{report.dateRevision} + ': ' "></label>
+					<span data-ng-bind="report.dateRevision | date : 'short'"></span>
 					<br></br>
 					<label th:text="#{active} + ': ' "></label>
-					<span data-ng-if="incidence.active" th:text="#{true}"></span>
-					<span data-ng-if="!incidence.active" th:text="#{false}"></span>
+					<span data-ng-if="report.active" th:text="#{true}"></span>
+					<span data-ng-if="!report.active" th:text="#{false}"></span>
 					<br></br>
-					<label th:text="#{incidence.answer} + ': ' "></label>
-					<textarea class="form-control" data-ng-model="incidence.answer" th:placeholder="#{incidence.answer.info}" rows="10" cols="40" maxlength="500"></textarea>
+					<label th:text="#{report.answer} + ': ' "></label>
+					<textarea class="form-control" data-ng-model="report.answer" th:placeholder="#{report.answer.info}" rows="10" cols="40" maxlength="500"></textarea>
 <!-- 					<br></br> -->
 <!-- 					<div class="form-group"> -->
 <!-- 						<div class="col-lg-10"> -->
-<!-- 							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.incidenceAnswer(incidence.id, incidence.answer)" class="btn btn-orange btn-form" -->
-<!-- 								th:title="#{incidence.answer.info}" th:text="#{incidence.answer}"></button> -->
+<!-- 							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.reportAnswer(report.id, report.answer)" class="btn btn-orange btn-form" -->
+<!-- 								th:title="#{report.answer.info}" th:text="#{report.answer}"></button> -->
 <!-- 						</div> -->
 <!-- 					</div> -->
 					<br></br>
 				</div>
 				<div class="modal-footer">
-					<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.incidenceAnswer(incidence.id, incidence.answer)" class="btn btn-orange btn-form"
-								th:title="#{incidence.answer.info}" th:text="#{incidence.answer}"></button>
+					<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.reportAnswer(report.id, report.answer)" class="btn btn-orange btn-form"
+								th:title="#{report.answer.info}" th:text="#{report.answer}"></button>
 					<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
 				</div>
 			</div>
@@ -400,13 +408,13 @@
 	</div>
 
 
-	<!-- Carousel incidences -->
-	<div th:fragment="carousel-incidences" id="carousel-incidences" class="carousel slide" data-ride="carousel">
+	<!-- Carousel reports -->
+	<div th:fragment="carousel-reports" id="carousel-reports" class="carousel slide" data-ride="carousel">
 
 		<!-- Indicators -->
 		<ol class="carousel-indicators">
-			<li id="data-slide-0" data-target="#carousel-incidences" data-slide-to="0" class="active"></li>
-			<li id="data-slide-1" data-target="#carousel-incidences" data-slide-to="{{$index}}" data-ng-repeat="file in incidence.files"
+			<li id="data-slide-0" data-target="#carousel-reports" data-slide-to="0" class="active"></li>
+			<li id="data-slide-1" data-target="#carousel-reports" data-slide-to="{{$index}}" data-ng-repeat="file in report.files"
 				data-ng-if="$index > 0"></li>
 		</ol>
 
@@ -414,21 +422,21 @@
 		<!-- Wrapper for slides -->
 		<div class="carousel-inner" role="listbox">
 			<div id="image-index-0" class="item active">
-				<img class="img-responsive image-zoom" data-ng-src="{{'/members/incidenceList/image/' + incidence.id  + '?imageName=' + incidence.files[0]}}"
+				<img class="img-responsive image-zoom" data-ng-src="{{'/members/reportList/image/' + report.id  + '?imageName=' + report.files[0]}}"
 					onclick="toggleFullscreen(this);" />
 				<!-- <div class="carousel-caption">0</div> -->
 			</div>
-			<div id="image-index-1" class="item" data-ng-repeat="file in incidence.files" data-ng-if="$index > 0">
-				<img class="img-responsive image-zoom" data-ng-src="{{'/members/incidenceList/image/' + incidence.id  + '?imageName=' + file}}"
+			<div id="image-index-1" class="item" data-ng-repeat="file in report.files" data-ng-if="$index > 0">
+				<img class="img-responsive image-zoom" data-ng-src="{{'/members/reportList/image/' + report.id  + '?imageName=' + file}}"
 					onclick="toggleFullscreen(this);" />
 				<!-- <div class="carousel-caption"  data-ng-bind="$index"></div> -->
 			</div>
 		</div>
 
 		<!-- Controls -->
-		<a class="left carousel-control" href="#carousel-incidences" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"
+		<a class="left carousel-control" href="#carousel-reports" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"
 				aria-hidden="true"></span> <span class="sr-only">Previous</span>
-		</a> <a class="right carousel-control" href="#carousel-incidences" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"
+		</a> <a class="right carousel-control" href="#carousel-reports" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"
 				aria-hidden="true"></span> <span class="sr-only">Next</span>
 		</a>
 	</div>

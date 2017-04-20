@@ -13,56 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-membersApp.controller('IncidenceController', [ '$scope', 'IncidenceService', function($scope, IncidenceService) {
+membersApp.controller('ReportController', [ '$scope', 'ReportService', function($scope, ReportService) {
 	$scope.sortType = '';
 	$scope.search = '';
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
 	$scope.account = '';
 	$scope.accounts = '';
-	$scope.incidence = '';
-	$scope.incidences = '';
-	$scope.program = '';
+	$scope.report = '';
+	$scope.reports = '';
 	$scope.message = '';
 
 	var self = this;
-	self.incidenceDown = incidenceDown;
+	self.reportUp = reportUp;
+	self.infoDelete = infoDelete;
 	self.infoAccount = infoAccount;
 	self.infoAccounts = infoAccounts;
 	self.infoProgram = infoProgram;
-	self.infoIncidence = infoIncidence;
-	self.incidenceAnswer = incidenceAnswer;
-	self.infoIncidenceAnswer = infoIncidenceAnswer;
+	self.infoReport = infoReport;
 
-	fetchAllIncidences();
+	fetchAllReportsClose();
 
-	function fetchAllIncidences() {
-		IncidenceService.fetchAllIncidences().then(function(data) {
-			$scope.incidences = data;
+	function fetchAllReportsClose() {
+		ReportService.fetchAllReportsClose().then(function(data) {
+			$scope.reports = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
 	}
 
-	function incidenceDown(id) {
-		IncidenceService.incidenceDown(id).then(function(data) {
+	function reportUp(id) {
+		ReportService.reportUp(id).then(function(data) {
 			$scope.message = data;
-			fetchAllIncidences();
+			fetchAllReportsClose();
 			showModal(modal);
 		}, function(errorResponse) {
-			console.error('Error while Down Incidence', errorResponse);
-		});
-	}
-
-	function incidenceAnswer(id, answer) {
-		IncidenceService.incidenceAnswer(id, answer).then(function(data) {
-			$scope.message = data;
-			fetchAllIncidences();
-			showModal(modal);
-			// Close modal incidence
-			$('#close').click();
-		}, function(errorResponse) {
-			console.error('Error while answer Incidence', errorResponse);
+			console.error('Error while Up Report', errorResponse);
 		});
 	}
 
@@ -76,16 +62,6 @@ membersApp.controller('IncidenceController', [ '$scope', 'IncidenceService', fun
 		return v1.value.localeCompare(v2.value);
 	};
 
-	function infoIncidence(aux) {
-		// Reset carousel to first image
-		// $('#carousel-incidences').carousel(0);
-		$('#data-slide-0').attr('class', 'active');
-		$('#data-slide-1').attr('class', '');
-		$('#image-index-0').attr('class', 'item active');
-		$('#image-index-1').attr('class', 'item');
-		$scope.incidence = aux;
-	}
-
 	function infoAccount(aux) {
 		$scope.account = aux;
 	}
@@ -94,12 +70,18 @@ membersApp.controller('IncidenceController', [ '$scope', 'IncidenceService', fun
 		$scope.accounts = aux;
 	}
 
-	function infoProgram(aux) {
-		$scope.program = aux;
+	function infoReport(aux) {
+		// Reset carousel to first image
+		//$('#carousel-reports').carousel(0);
+		$('#data-slide-0').attr('class', 'active');
+		$('#data-slide-1').attr('class', '');
+		$('#image-index-0').attr('class', 'item active');
+		$('#image-index-1').attr('class', 'item');
+		$scope.report = aux;
 	}
 
-	function infoIncidenceAnswer(aux) {
-		$scope.incidence = aux;
+	function infoProgram(aux) {
+		$scope.program = aux;
 	}
 
 } ]);

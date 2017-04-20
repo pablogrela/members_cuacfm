@@ -19,7 +19,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <body>
 
-	<div th:fragment="incidenceform">
+	<div th:fragment="reportform">
 
 		<!-- Program, Selected option in droplist -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('programId')}? 'has-error'">
@@ -27,7 +27,7 @@
 			<div class="col-lg-10 col-lg-6-edit">
 				<select class="form-control" id="program" name="programId" th:field="*{programId}" required="required">
 					<option th:if="${programId == null}" th:value="''"></option>
-					<option th:field="*{programId}" th:each="program : ${incidenceForm.programs}" th:value="${program.id}" th:text="${program.name}">program</option>
+					<option th:field="*{programId}" th:each="program : ${reportForm.programs}" th:value="${program.id}" th:text="${program.name}">program</option>
 				</select>
 			</div>
 			<div class="col-lg-20 ws-errorbox help-block with-errors" th:if="${#fields.hasErrors('programId')}" th:errors="*{programId}">Incorrect
@@ -38,13 +38,13 @@
 
 		<br />
 		<!-- Info Station -->
-		<span class="text-center" th:text="#{incidence.station.info}">Info Station</span>
+		<span class="text-center" th:text="#{report.station.info}">Info Station</span>
 		<hr />
 
 
 		<!-- Dirt -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('dirt')}? 'has-error'">
-			<label for="dirt" class="col-lg-20 control-label" th:text="#{incidence.dirt}">dirt</label>
+			<label for="dirt" class="col-lg-20 control-label" th:text="#{report.dirt}">dirt</label>
 			<div class="col-lg-10">
 				<label th:each="i : ${#numbers.sequence( 1, 5)}" class="radio-inline">
 					<input type="radio" name="dirt" id="dirt" th:value="${i}" th:text="${i}" th:field="*{dirt}"  required="required" />
@@ -58,7 +58,7 @@
 
 		<!-- Tidy -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('tidy')}? 'has-error'">
-			<label for="tidy" class="col-lg-20 control-label" th:text="#{incidence.tidy}">dirt</label>
+			<label for="tidy" class="col-lg-20 control-label" th:text="#{report.tidy}">dirt</label>
 			<div class="col-lg-10">
 				<label th:each="i : ${#numbers.sequence( 1, 5)}" class="radio-inline">
 					<input type="radio" name="tidy" id="tidy" th:value="${i}" th:text="${i}" th:field="*{tidy}" required="required" />
@@ -71,7 +71,7 @@
 
 		<!-- Configuration -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('configuration')}? 'has-error'">
-			<label for="configuration" class="col-lg-20 control-label" th:text="#{incidence.configuration}">configuration</label>
+			<label for="configuration" class="col-lg-20 control-label" th:text="#{report.configuration}">configuration</label>
 			<div class="col-lg-10">
 				<label th:each="i : ${#numbers.sequence( 1, 5)}" class="radio-inline">
 					<input type="radio" name="configuration" id="configuration" th:value="${i}" th:text="${i}"  th:field="*{configuration}" required="required" />
@@ -88,7 +88,7 @@
 		<!-- openDoor -->
 		<div class="form-group" data-onload="validateCheckbox('openDoorFalse', 'openDoorTrue')"
 			th:classappend="${#fields.hasErrors('openDoor')}? 'has-error'">
-			<label class="col-lg-20 control-label" th:text="#{incidence.openDoor}"></label>
+			<label class="col-lg-20 control-label" th:text="#{report.openDoor}"></label>
 			<div class="col-lg-10 control">
 				<label for="text" class="col-lg-1"></label>				
 				<label class="radio-inline">
@@ -105,7 +105,7 @@
 
 		<!-- viewMembers -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('viewMembers')}? 'has-error'">
-			<label class="col-lg-20 control-label" th:text="#{incidence.viewMembers}"></label>
+			<label class="col-lg-20 control-label" th:text="#{report.viewMembers}"></label>
 			<div class="col-lg-10 control">
 				<label for="text" class="col-lg-1"></label>
 				<label class="radio-inline">
@@ -120,11 +120,22 @@
 		</div>
 
 
+		<!-- Insert Place -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('location')}? 'has-error'">
+			<label for="location" class="col-lg-2 control-label" th:text="#{location}">location</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control" id="place" th:placeholder="#{place}" th:field="*{location}" maxlength="50" required="required" />
+				<span class="help-block" th:if="${#fields.hasErrors('location')}" th:errors="*{place}">Incorrect location</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+			
+			
 		<!-- Description -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
 			<label for="description" class="col-lg-20 control-label" th:text="#{description}">Description</label>
 			<div class="col-lg-20">
-				<textarea class="form-control" id="description" th:placeholder="#{incidence.description}" th:field="*{description}" rows="10" cols="40"
+				<textarea class="form-control" id="description" th:placeholder="#{report.description}" th:field="*{description}" rows="10" cols="40"
 					maxlength="500">Description</textarea>
 				<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
 				<div class="ws-errorbox" hidden=""></div>
@@ -134,10 +145,10 @@
 
 		<!-- Photos -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('photos')}? 'has-error'">
-			<label for="file" class="col-lg-20 control-label" th:text="#{incidence.photos}"></label>
+			<label for="file" class="col-lg-20 control-label" th:text="#{report.photos}"></label>
 			<br></br>
 			<div class="col-lg-20">
-				<span class="col-lg-20" th:text="#{incidence.photos.info}"></span>
+				<span class="col-lg-20" th:text="#{report.photos.info}"></span>
 			</div>
 			<div class="col-lg-20">
 				<input type="file" class="form-control" id="photos" name="photos" accept="image/*;capture=camera" multiple="multiple" 
@@ -146,10 +157,7 @@
 				<div class="ws-errorbox" hidden=""></div>
 			</div>
 		</div>
-
-<!-- 	   <div class="form-group"> -->
-<!--             <input id="file" type="file" multiple="multiple" class="file" data-overwrite-initial="false" data-min-file-count="2" />     -->
-<!-- 		</div> -->
+		
 
 	</div>
 

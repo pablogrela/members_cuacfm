@@ -16,6 +16,8 @@
 
 package org.cuacfm.members.model.util;
 
+import static org.apache.commons.io.FileUtils.forceMkdir;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,22 +55,10 @@ public class FileUtils {
 	 * @param directoryName the directory name
 	 */
 	public static void createFolderIfNoExist(String directoryName) {
-		File theDir = new File(directoryName);
-
-		// if the directory does not exist, create it
-		if (!theDir.exists()) {
-			logger.info("Creating directory: " + directoryName);
-			boolean result = false;
-
-			try {
-				theDir.mkdirs();
-				result = true;
-			} catch (SecurityException e) {
-				logger.error("createFolderIfNoExist: ", e);
-			}
-			if (result) {
-				logger.info("Created directory: " + directoryName);
-			}
+		try {
+			forceMkdir(new File(directoryName));
+		} catch (IOException e) {
+			logger.error("createFolderIfNoExist: ", e);
 		}
 	}
 

@@ -13,34 +13,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-membersApp.controller('IncidenceController', [ '$scope', 'IncidenceService', function($scope, IncidenceService) {
+membersApp.controller('ReportController', [ '$scope', 'ReportService', function($scope, ReportService) {
 	$scope.sortType = '';
 	$scope.search = '';
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
 	$scope.account = '';
 	$scope.accounts = '';
-	$scope.incidence = '';
-	$scope.incidences = '';
+	$scope.report = '';
+	$scope.reports = '';
+	$scope.program = '';
 	$scope.message = '';
 
 	var self = this;
-	self.infoDelete = infoDelete;
+	self.reportDown = reportDown;
 	self.infoAccount = infoAccount;
 	self.infoAccounts = infoAccounts;
 	self.infoProgram = infoProgram;
-	self.infoIncidence = infoIncidence;
+	self.infoReport = infoReport;
+	self.reportAnswer = reportAnswer;
+	self.infoReportAnswer = infoReportAnswer;
 
-	fetchAllIncidencesClose();
+	fetchAllReports();
 
-	function fetchAllIncidencesClose() {
-		IncidenceService.fetchAllIncidencesClose().then(function(data) {
-			$scope.incidences = data;
+	function fetchAllReports() {
+		ReportService.fetchAllReports().then(function(data) {
+			$scope.reports = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
 	}
 
+	function reportDown(id) {
+		ReportService.reportDown(id).then(function(data) {
+			$scope.message = data;
+			fetchAllReports();
+			showModal(modal);
+		}, function(errorResponse) {
+			console.error('Error while Down Report', errorResponse);
+		});
+	}
+
+	function reportAnswer(id, answer) {
+		ReportService.reportAnswer(id, answer).then(function(data) {
+			$scope.message = data;
+			fetchAllReports();
+			//showModal(modal);
+			// Close modal report
+			$('#close').click();
+		}, function(errorResponse) {
+			console.error('Error while answer Report', errorResponse);
+		});
+	}
 
 	$scope.localeSensitiveComparator = function(v1, v2) {
 		// If we don't get strings, just compare by index
@@ -52,6 +76,16 @@ membersApp.controller('IncidenceController', [ '$scope', 'IncidenceService', fun
 		return v1.value.localeCompare(v2.value);
 	};
 
+	function infoReport(aux) {
+		// Reset carousel to first image
+		// $('#carousel-reports').carousel(0);
+		$('#data-slide-0').attr('class', 'active');
+		$('#data-slide-1').attr('class', '');
+		$('#image-index-0').attr('class', 'item active');
+		$('#image-index-1').attr('class', 'item');
+		$scope.report = aux;
+	}
+
 	function infoAccount(aux) {
 		$scope.account = aux;
 	}
@@ -60,18 +94,12 @@ membersApp.controller('IncidenceController', [ '$scope', 'IncidenceService', fun
 		$scope.accounts = aux;
 	}
 
-	function infoIncidence(aux) {
-		// Reset carousel to first image
-		//$('#carousel-incidences').carousel(0);
-		$('#data-slide-0').attr('class', 'active');
-		$('#data-slide-1').attr('class', '');
-		$('#image-index-0').attr('class', 'item active');
-		$('#image-index-1').attr('class', 'item');
-		$scope.incidence = aux;
-	}
-
 	function infoProgram(aux) {
 		$scope.program = aux;
+	}
+
+	function infoReportAnswer(aux) {
+		$scope.report = aux;
 	}
 
 } ]);

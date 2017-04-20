@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS FeeMember;
 DROP TABLE IF EXISTS Inscription;
 DROP TABLE IF EXISTS Training;
 DROP TABLE IF EXISTS TrainingType;
-DROP TABLE IF EXISTS Incidence;
+DROP TABLE IF EXISTS Report;
 DROP TABLE IF EXISTS Program;
 DROP TABLE IF EXISTS ProgramType;
 DROP TABLE IF EXISTS ProgramThematic;
@@ -239,7 +239,7 @@ CREATE TABLE UserPrograms(
 );	
 	
 
-CREATE TABLE Incidence(
+CREATE TABLE Report(
     id BIGINT NOT NULL auto_increment,
     account INT NOT NULL,
     program INT NOT NULL,
@@ -248,6 +248,7 @@ CREATE TABLE Incidence(
     configuration TINYINT NOT NULL, 
     openDoor BOOLEAN NOT NULL, 
     viewMembers BOOLEAN NOT NULL, 
+    location VARCHAR(50),
     description VARCHAR(500),
     file VARCHAR(100),
     files VARCHAR(500),
@@ -255,9 +256,9 @@ CREATE TABLE Incidence(
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateRevision TIMESTAMP NULL,
     active BOOLEAN NOT NULL, 
-    CONSTRAINT Incidence_PK PRIMARY KEY (id),
-    CONSTRAINT Incidence_AccountId_FK FOREIGN KEY (account) REFERENCES Account(id),
-    CONSTRAINT Incidence_ProgramId_FK FOREIGN KEY (program) REFERENCES Program(id)
+    CONSTRAINT Report_PK PRIMARY KEY (id),
+    CONSTRAINT Report_AccountId_FK FOREIGN KEY (account) REFERENCES Account(id),
+    CONSTRAINT Report_ProgramId_FK FOREIGN KEY (program) REFERENCES Program(id)
 ); 
 
 

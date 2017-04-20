@@ -28,7 +28,6 @@ import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.web.support.MessageHelper;
-import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,7 +207,6 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> cancelBankDeposit(@PathVariable String directDebitId, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-		Log.getLogger("\n\n todo aaa");
 		
 		try {
 			String message = directDebitService.cancelBankDeposit(directDebit, null);
