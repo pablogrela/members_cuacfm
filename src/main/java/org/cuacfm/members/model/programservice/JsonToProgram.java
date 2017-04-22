@@ -32,8 +32,8 @@ import org.cuacfm.members.model.program.ProgramCategory;
 import org.cuacfm.members.model.program.ProgramLanguage;
 import org.cuacfm.members.model.program.ProgramThematic;
 import org.cuacfm.members.model.program.ProgramType;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -87,7 +87,7 @@ public class JsonToProgram {
 
 			String dateString = FileUtils.split((String) jsonObjectRow.get("dateCreate"), MAX_CHARACTERS);
 			String[] dateConvert = dateString.split("GMT");
-			Date dateCreate = DisplayDate.format(dateConvert[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+			Date dateCreate = DateUtils.format(dateConvert[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
 
 			String name = FileUtils.split((String) jsonObjectRow.get("name"), MAX_CHARACTERS);
 			String description = FileUtils.split((String) jsonObjectRow.get("description"), MAX_AREA);

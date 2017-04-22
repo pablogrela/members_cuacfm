@@ -30,7 +30,9 @@
 			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
 			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 		</form>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname + ', ' + event.description"></span>
+		<b data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname"></b>
+		<br></br>
+		<span data-ng-bind="event.description"></span>
 	</div>
 
 	<div th:fragment="eventNormal">
@@ -42,7 +44,9 @@
 			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
 			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 		</form>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname + ', ' + event.description"></span>
+		<b data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname"></b>
+		<br></br>
+		<span data-ng-bind="event.description"></span>
 	</div>
 
 	<div th:fragment="eventUser">

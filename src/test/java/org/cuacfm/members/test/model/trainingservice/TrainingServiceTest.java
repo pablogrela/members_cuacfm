@@ -40,8 +40,8 @@ import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +83,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingTypeService.save(trainingType2);
 
 		// Save
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		Training trainingSearch;
@@ -117,8 +117,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingTypeService.save(trainingType);
 
 		// Save
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-13-05"), "description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-13-05"), "description", "place", 90, 10);
 		trainingService.save(training);
 	}
 
@@ -135,8 +135,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingTypeService.save(trainingType);
 
 		// Save
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-13-05"), "description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-13-05"), "description", "place", 90, 10);
 		Date value = new Date();
 		try {
 			trainingService.save(training);
@@ -159,8 +159,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		int size = trainingService.getTrainingList().size();
@@ -174,8 +174,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		training.setDescription("new Description");
 		training.setMaxPlaces(20);
 		training.setPlace("new place");
-		training.setDateLimit(DisplayDate.stringToDate("10:30,2015-20-05"));
-		training.setDateTraining(DisplayDate.stringToDate("10:30,2015-20-05"));
+		training.setDateLimit(DateUtils.stringToDate("10:30,2015-20-05"));
+		training.setDateTraining(DateUtils.stringToDate("10:30,2015-20-05"));
 		training.setDuration(120);
 		Training trainingUpdate = trainingService.update(training);
 
@@ -192,8 +192,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(trainingUpdate.getDateTraining(), training.getDateTraining());
 		assertEquals(trainingUpdate.getDuration(), training.getDuration());
 
-		Training training2 = new Training(trainingType, "training2", DisplayDate.stringToDate("10:30,2015-12-06"),
-				DisplayDate.stringToDate("10:30,2015-12-06"), "description", "place", 90, 10);
+		Training training2 = new Training(trainingType, "training2", DateUtils.stringToDate("10:30,2015-12-06"),
+				DateUtils.stringToDate("10:30,2015-12-06"), "description", "place", 90, 10);
 		trainingService.update(training2);
 	}
 
@@ -210,13 +210,13 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		// Update Training
-		training.setDateLimit(DisplayDate.stringToDate("10:40,2015-13-06"));
-		training.setDateTraining(DisplayDate.stringToDate("10:30,2015-12-05"));
+		training.setDateLimit(DateUtils.stringToDate("10:40,2015-13-06"));
+		training.setDateTraining(DateUtils.stringToDate("10:30,2015-12-05"));
 		trainingService.update(training);
 	}
 
@@ -284,8 +284,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType2 = new TrainingType("Filming", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
 
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
 
 		trainingService.save(training);
 
@@ -320,12 +320,12 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
 		trainingService.save(training);
 
-		Training training2 = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
+		Training training2 = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
 		trainingService.save(training2);
 
 		// Assert
@@ -393,8 +393,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		trainingTypeService.save(trainingType);
 
 		// Save
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-01-01"), "description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-01-01"), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		// Join
@@ -757,13 +757,13 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType2 = new TrainingType("Filming", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
 
-		Training trainingClose = new Training(trainingType, "trainingClose", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
+		Training trainingClose = new Training(trainingType, "trainingClose", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
 		trainingClose.setClose(true);
 		trainingService.save(trainingClose);
 
-		Training trainingOpen = new Training(trainingType, "trainingOpen", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
+		Training trainingOpen = new Training(trainingType, "trainingOpen", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 10);
 		trainingService.save(trainingOpen);
 
 		// it have 2 trainings into database
@@ -797,8 +797,8 @@ public class TrainingServiceTest extends WebSecurityConfigurationAware {
 		TrainingType trainingType2 = new TrainingType("Filming", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
 
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate("10:30,2015-12-05"),
-				DisplayDate.stringToDate("10:30,2015-12-05"), "description", "place", 90, 1);
+		Training training = new Training(trainingType, "training1", DateUtils.stringToDate("10:30,2015-12-05"),
+				DateUtils.stringToDate("10:30,2015-12-05"), "description", "place", 90, 1);
 		trainingService.save(training);
 
 		Account user = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);

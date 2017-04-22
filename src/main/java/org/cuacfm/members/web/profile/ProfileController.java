@@ -28,7 +28,7 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.userservice.UserService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,7 +57,6 @@ public class ProfileController {
 	@Autowired
 	private MethodPaymentService methodPaymentService;
 
-	/** The user service. */
 	@Autowired
 	private UserService userService;
 
@@ -102,19 +101,12 @@ public class ProfileController {
 		profileForm.setPhone(account.getPhone());
 		profileForm.setMobile(account.getMobile());
 		profileForm.setProgramName(account.getProgramName());
-		if (account.isStudent()) {
-			profileForm.setStudentTrue(true);
-		} else {
-			profileForm.setStudentFalse(true);
-		}
-		if (account.isEmitProgram()) {
-			profileForm.setEmitProgramTrue(true);
-		} else {
-			profileForm.setEmitProgramFalse(true);
-		}
+		profileForm.setStudent(account.isStudent());
+		profileForm.setEmitProgram(account.isEmitProgram());
+		profileForm.setPersonality(account.getPersonality());
 		profileForm.setPersonality(account.getPersonality());
 		profileForm.setKnowledge(account.getKnowledge());
-		profileForm.setDateBirth(DisplayDate.dateToString(account.getDateBirth()));
+		profileForm.setDateBirth(DateUtils.format(account.getDateBirth(), DateUtils.FORMAT_DATE));
 		if (account.getAccountType() != null) {
 			profileForm.setAccountTypeId(account.getAccountType().getId());
 		}
@@ -245,9 +237,9 @@ public class ProfileController {
 		account.setPhone(profileForm.getPhone());
 		account.setMobile(profileForm.getMobile());
 		account.setProgramName(profileForm.getProgramName());
-		account.setStudent(profileForm.isStudentTrue());
-		account.setEmitProgram(profileForm.isEmitProgramTrue());
-		account.setDateBirth(DisplayDate.stringToDate2(profileForm.getDateBirth()));
+		account.setStudent(profileForm.getStudent());
+		account.setEmitProgram(profileForm.getEmitProgram());
+		account.setDateBirth(DateUtils.format(profileForm.getDateBirth(), DateUtils.FORMAT_DATE));
 		account.setPersonality(profileForm.getPersonality());
 		account.setKnowledge(profileForm.getKnowledge());
 

@@ -17,7 +17,7 @@ package org.cuacfm.members.model.exceptions;
 
 import java.util.Date;
 
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 
 /** The Class DateLimitException. */
 @SuppressWarnings("serial")
@@ -36,8 +36,8 @@ public class DateLimitException extends Exception {
 	 * @param dateTraining the date training
 	 */
 	public DateLimitException(Date dateLimit, Date dateTraining) {
-		super("The date limit " + DisplayDate.dateTimeToString(dateLimit) + " should be after or equals to date "
-				+ DisplayDate.dateTimeToString(dateTraining));
+		super("The date limit " + DateUtils.format(dateLimit, DateUtils.FORMAT_DISPLAY) + " should be after or equals to date "
+				+ DateUtils.format(dateTraining, DateUtils.FORMAT_DISPLAY));
 
 		this.dateLimit = dateLimit;
 		this.dateTraining = dateTraining;

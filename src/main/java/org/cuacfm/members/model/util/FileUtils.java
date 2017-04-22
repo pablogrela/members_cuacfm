@@ -16,12 +16,16 @@
 
 package org.cuacfm.members.model.util;
 
+import static org.apache.commons.io.FileUtils.forceMkdir;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,22 +55,10 @@ public class FileUtils {
 	 * @param directoryName the directory name
 	 */
 	public static void createFolderIfNoExist(String directoryName) {
-		File theDir = new File(directoryName);
-
-		// if the directory does not exist, create it
-		if (!theDir.exists()) {
-			logger.info("Creating directory: " + directoryName);
-			boolean result = false;
-
-			try {
-				theDir.mkdirs();
-				result = true;
-			} catch (SecurityException e) {
-				logger.error("createFolderIfNoExist: ", e);
-			}
-			if (result) {
-				logger.info("Created directory: " + directoryName);
-			}
+		try {
+			forceMkdir(new File(directoryName));
+		} catch (IOException e) {
+			logger.error("createFolderIfNoExist: ", e);
 		}
 	}
 
@@ -93,6 +85,42 @@ public class FileUtils {
 		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}").buildAndExpand(file).toUri());
 		headers.add("content-disposition", "attachment; filename=" + file + ";");
 		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
+	}
+
+	/**
+	 * List files for folder.
+	 *
+	 * @param folder the folder
+	 * @return the list
+	 */
+	public static List<File> listFilesForFolder(final File folder) {
+		List<File> files = new ArrayList<>();
+		for (final File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) {
+				listFilesForFolder(fileEntry);
+			} else {
+				files.add(fileEntry);
+			}
+		}
+		return files;
+	}
+
+	/**
+	 * List files for folder to list string.
+	 *
+	 * @param folder the folder
+	 * @return the list
+	 */
+	public static List<String> listFilesForFolderToListString(final File folder) {
+		List<String> files = new ArrayList<>();
+		for (final File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) {
+				listFilesForFolderToListString(fileEntry);
+			} else {
+				files.add(fileEntry.getName());
+			}
+		}
+		return files;
 	}
 
 	/**
@@ -166,7 +194,7 @@ public class FileUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets the integer.
 	 *
@@ -179,7 +207,7 @@ public class FileUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets the file.
 	 *

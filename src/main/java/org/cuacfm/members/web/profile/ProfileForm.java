@@ -89,13 +89,8 @@ public class ProfileForm {
 	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String programName;
 
-	private boolean student;
-	private boolean studentTrue;
-	private boolean studentFalse;
-
-	private boolean emitProgram;
-	private boolean emitProgramTrue;
-	private boolean emitProgramFalse;
+	private Boolean student;
+	private Boolean emitProgram;
 
 	/** The date birth. */
 	private String dateBirth;
@@ -144,6 +139,9 @@ public class ProfileForm {
 
 	/** The role. */
 	private String role;
+
+	private boolean permissionReport;
+	private boolean permissionTrainer;
 
 	/** The on login. */
 	private boolean onLogin;
@@ -270,52 +268,20 @@ public class ProfileForm {
 		this.programName = programName;
 	}
 
-	public boolean isStudent() {
+	public Boolean getStudent() {
 		return student;
 	}
 
-	public void setStudent(boolean student) {
+	public void setStudent(Boolean student) {
 		this.student = student;
 	}
 
-	public boolean isStudentTrue() {
-		return studentTrue;
-	}
-
-	public void setStudentTrue(boolean studentTrue) {
-		this.studentTrue = studentTrue;
-	}
-
-	public boolean isStudentFalse() {
-		return studentFalse;
-	}
-
-	public void setStudentFalse(boolean studentFalse) {
-		this.studentFalse = studentFalse;
-	}
-
-	public boolean isEmitProgram() {
+	public Boolean getEmitProgram() {
 		return emitProgram;
 	}
 
-	public void setEmitProgram(boolean emitProgram) {
+	public void setEmitProgram(Boolean emitProgram) {
 		this.emitProgram = emitProgram;
-	}
-
-	public boolean isEmitProgramTrue() {
-		return emitProgramTrue;
-	}
-
-	public void setEmitProgramTrue(boolean emitProgramTrue) {
-		this.emitProgramTrue = emitProgramTrue;
-	}
-
-	public boolean isEmitProgramFalse() {
-		return emitProgramFalse;
-	}
-
-	public void setEmitProgramFalse(boolean emitProgramFalse) {
-		this.emitProgramFalse = emitProgramFalse;
 	}
 
 	public String getDateBirth() {
@@ -428,6 +394,22 @@ public class ProfileForm {
 
 	public void setKnowledge(String knowledge) {
 		this.knowledge = knowledge;
+	}
+
+	public boolean isPermissionReport() {
+		return permissionReport;
+	}
+
+	public void setPermissionReport(boolean permissionReport) {
+		this.permissionReport = permissionReport;
+	}
+
+	public boolean isPermissionTrainer() {
+		return permissionTrainer;
+	}
+
+	public void setPermissionTrainer(boolean permissionTrainer) {
+		this.permissionTrainer = permissionTrainer;
 	}
 
 	public boolean isOnLogin() {

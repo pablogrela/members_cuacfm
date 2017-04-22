@@ -84,13 +84,10 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 	};
 
 	$scope.localeSensitiveComparator = function(v1, v2) {
-		// If we don't get strings, just compare by index
-		if (v1.type !== 'string' || v2.type !== 'string') {
-			return (v1.index < v2.index) ? -1 : 1;
+		if (v1.type == 'string' || v2.type == 'string') {
+			return v1.value.localeCompare(v2.value);
 		}
-
-		// Compare strings alphabetically, taking locale into account
-		return v1.value.localeCompare(v2.value);
+		return (v1.value < v2.value) ? -1 : 1;
 	};
 	
 	function infoAccount(aux) {

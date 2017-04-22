@@ -34,9 +34,9 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +78,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -89,7 +90,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -131,7 +132,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -142,7 +144,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -189,7 +191,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.save(program);
 		programService.up(program);
 
-		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -214,7 +217,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program3);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -240,7 +243,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -257,7 +261,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program2);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -282,7 +286,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -299,7 +304,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program2);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -324,7 +329,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -341,7 +347,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program2);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -385,7 +391,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 	//		programService.up(program2);
 	//
 	//		// Save
-	//		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+	//		Date date = DisplayDate.format("2015-12");
 	//		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 	//		feeProgramService.save(feeProgram);
 	//
@@ -417,7 +423,8 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "25555555C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -434,7 +441,7 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program2);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 

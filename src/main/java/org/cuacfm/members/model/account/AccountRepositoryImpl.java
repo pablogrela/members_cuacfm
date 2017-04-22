@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountRepositoryImpl implements AccountRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(AccountRepositoryImpl.class);
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
 

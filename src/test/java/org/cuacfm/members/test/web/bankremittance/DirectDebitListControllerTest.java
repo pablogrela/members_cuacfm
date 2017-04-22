@@ -44,9 +44,9 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -136,8 +136,8 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 				roles.ROLE_USER);
 		accountService.save(account3);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		Program program = new Program("Program", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
@@ -167,11 +167,11 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		programService.update(program3);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-01");
+		Date date = DateUtils.format("2015-01", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-01-01", DateUtils.FORMAT_DATE));
 		bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
 	}
 
@@ -243,10 +243,10 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		//.andExpect(view().name("redirect:/bankRemittanceList/directDebitList"));
 		assertTrue(directDebit.getState().equals(states.RETURN_BILL));
 
-		Date date = DisplayDate.stringToMonthOfYear("2015-04");
+		Date date = DateUtils.format("2015-04", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("nameee", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-04-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-04-01", DateUtils.FORMAT_DATE));
 
 		BankRemittance bankRemittance2 = bankRemittanceService.getBankRemittanceList().get(1);
 		DirectDebit directDebit2 = directDebitService.findAllByBankRemittanceId(bankRemittance2.getId()).get(0);

@@ -30,11 +30,12 @@ import org.cuacfm.members.model.feeprogram.FeeProgramRepository;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogram.PayProgramRepository;
 import org.cuacfm.members.model.util.Constants;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.CreatePdf;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -78,7 +79,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 	@Override
 	public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException {
 		Object[] arguments = { payProgram.getFeeProgram().getName(), payProgram.getProgram().getName() };
-		eventService.save("payProgram.successModify.event", null, 2, arguments);
+		eventService.save("payProgram.successModify.event", null, levels.MEDIUM, arguments);
 		return payProgramRepository.update(payProgram);
 	}
 
@@ -95,7 +96,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 		payProgramRepository.update(payProgram);
 
 		Object[] arguments = { payProgram.getFeeProgram().getName() };
-		eventService.save("payProgram.successPay", null, 2, arguments);
+		eventService.save("payProgram.successPay", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -111,7 +112,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 		payProgram.setIdTxn(idTxn);
 		payProgram.setEmailPayer(emailPayer);
 		payProgram.setIdPayer(idPayer);
-		payProgram.setDatePay(DisplayDate.stringPaypalToDate(datePay));
+		payProgram.setDatePay(DateUtils.format(datePay, DateUtils.FORMAT_PAYPAL, Locale.US));
 		payProgram.setState(states.MANAGEMENT);
 		payProgram.setMethod(methods.NO_PAY);
 		if (statusPay.contains("Completed")) {
@@ -121,7 +122,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 		payProgramRepository.update(payProgram);
 
 		Object[] arguments = { payProgram.getFeeProgram().getName() };
-		eventService.save("payProgram.successModify", null, 2, arguments);
+		eventService.save("payProgram.successModify", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -188,9 +189,8 @@ public class PayProgramServiceImpl implements PayProgramService {
 		FeeProgram feeProgram = feeProgramRepository.findById(feeProgramId);
 		List<PayProgram> payPrograms = payProgramRepository.getPayProgramListByFeeProgramId(feeProgramId);
 
-		Date date = new Date();
-		String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date)
-				+ ".pdf";
+		String fileNameFeeProgram = messageSource.getMessage("fileNameFeeProgram", null, Locale.getDefault()) + "_"
+				+ DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".pdf";
 
 		FileUtils.createFolderIfNoExist(pathFeeProgram);
 		String path = pathFeeProgram + fileNameFeeProgram;
@@ -202,7 +202,6 @@ public class PayProgramServiceImpl implements PayProgramService {
 			title = feeProgram.getName() + " - " + messageSource.getMessage("feeProgram.printNoPayList", null, Locale.getDefault());
 		} else {
 			title = feeProgram.getName() + " - " + messageSource.getMessage("feeProgram.printAllList", null, Locale.getDefault());
-
 		}
 		CreatePdf pdf = new CreatePdf();
 		PdfPTable table = pdf.createTablePayPrograms(messageSource, option, payPrograms);

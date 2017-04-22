@@ -1,25 +1,49 @@
+--
+-- Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+--
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+--         http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+ 
+-- INFO English
+-- 	Creating the tables to use the application
+-- 	To import the tables to the database, it must exist
+-- 	Can be done by command line or with the workbench
+ 
+
+-- INFO Español
+-- 	Creacion de las tablas para usar la aplicación 
+-- 	Para importar la tablas a la base de datos, esta debe existir
+-- 	Se puede hacer por linea de comandos o con el workbench
+ 
+
+-- Workbench 
+-- 	Se accede a Data Import / Import From Disk / Import from Sel-container File
+--     Seleccionar el fichero createTables.sql
+--     Seleccionar el target schema members
+--     Seleccionar la modalidad de carga Dump Structure, Dump Data o ambas.
+--         Para members selecionar la modalidad Dump Structure and Data 
+--         Para membersTest seleccionar la modalidad Dump Structure only
+ 
+-- Terminal
+-- 	Import MYSQL:
+-- 		mysql -u root -p members < createTables.sql
+ 
+--	Export MYSQL:
+-- 		mysqldump -u root -p members > createTables.sql
+
+ 
  use members;
- -- Creacion de las tablas para usar la aplicación 
-
- -- Para importar la tablas a la base de datos, esta debe existir
- -- Se puede hacer por linea de comandos o con el workbench
- 
- -- Por Workbench 
- -- 	Se accede a Data Import / Import From Disk / Import from Sel-container File
- --     Seleccionar el fichero CreateTables.sql
- --     Seleccionar el target schema members
- --     Seleccionar la modalidad de carga Dump Structure, Dump Data o ambas.
- --         Para members selecionar la modalidad Dump Structure and Data
- --         Para membersTest seleccionar la modalidad Dump Structure only
- 
- -- Por terminal
- -- 	Import MYSQL:
- -- 	mysql -u root -p members < CreateTables.sql
- 
- --		Export MYSQL:
- -- 	mysqldump -u root -p members > CreateTables.sql
-
-
 
 DROP TABLE IF EXISTS Configuration;
 DROP TABLE IF EXISTS DirectDebitPayPrograms;
@@ -35,6 +59,7 @@ DROP TABLE IF EXISTS FeeMember;
 DROP TABLE IF EXISTS Inscription;
 DROP TABLE IF EXISTS Training;
 DROP TABLE IF EXISTS TrainingType;
+DROP TABLE IF EXISTS Report;
 DROP TABLE IF EXISTS Program;
 DROP TABLE IF EXISTS ProgramType;
 DROP TABLE IF EXISTS ProgramThematic;
@@ -107,6 +132,7 @@ CREATE TABLE Account(
     knowledge VARCHAR(500),   
     programName VARCHAR(50),
     role VARCHAR(20) NOT NULL,
+    permissions VARCHAR(100),
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateDown TIMESTAMP NULL,
     token VARCHAR(500),
@@ -212,6 +238,29 @@ CREATE TABLE UserPrograms(
     CONSTRAINT UserPrograms_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
     CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId, programId)
 );	
+	
+
+CREATE TABLE Report(
+    id BIGINT NOT NULL auto_increment,
+    account INT NOT NULL,
+    program INT NOT NULL,
+    dirt TINYINT NOT NULL, 
+    tidy TINYINT NOT NULL, 
+    configuration TINYINT NOT NULL, 
+    openDoor BOOLEAN NOT NULL, 
+    viewMembers BOOLEAN NOT NULL, 
+    location VARCHAR(50),
+    description VARCHAR(500),
+    file VARCHAR(100),
+    files VARCHAR(500),
+    answer VARCHAR(5000),	
+    dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    dateRevision TIMESTAMP NULL,
+    active BOOLEAN NOT NULL, 
+    CONSTRAINT Report_PK PRIMARY KEY (id),
+    CONSTRAINT Report_AccountId_FK FOREIGN KEY (account) REFERENCES Account(id),
+    CONSTRAINT Report_ProgramId_FK FOREIGN KEY (program) REFERENCES Program(id)
+); 
 
 
 CREATE TABLE TrainingType(
@@ -409,7 +458,7 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 insert into Account values 
 (1, 'admin', '', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', null, null, null);
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_TRAINER', null, null, null);
 
 
 -- Insert Method Payment:

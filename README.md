@@ -159,7 +159,25 @@ The necessary files for configuration are the following:
 	
 - Copy **Secret key** and **Site key** and put this values in **recaptcha.properties**
 
+<br><br>
 
+
+### API
+
+An API has been created to be used by another application through a REST service, in principle it is used by the radicom-android application
+
+In all cases a firebase validation token is necessary, which is only possible if the user is registered in the application of the members and in the client application, and in case of being wrong, the server will return a 403 message of forbidden.
+
+##### The functions implemented as public are the following:
+- **/members /api/incidenceList/**
+	Recovers user issues
+	- **/members/api/incidenceList/incidenceCreate**
+		Create a new incidence
+	- **/members/api/incidenceList/image**
+		Recover the image of an incident
+
+- **/members/api/programList/** 
+Recovers user programs
 
 
 <br><br>

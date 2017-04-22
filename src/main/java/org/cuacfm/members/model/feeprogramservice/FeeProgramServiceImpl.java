@@ -27,6 +27,7 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.states;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,7 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 		}
 
 		Object[] arguments = { feeProgram.getName() };
-		eventService.save("feeProgram.successCreate", null, 2, arguments);
+		eventService.save("feeProgram.successCreate", null, levels.HIGH, arguments);
 		return feeProgram;
 	}
 
@@ -88,7 +89,7 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 		}
 
 		Object[] arguments = { feeProgram.getName() };
-		eventService.save("feeProgram.successModify", null, 2, arguments);
+		eventService.save("feeProgram.successModify", null, levels.HIGH, arguments);
 		return feeProgramRepository.update(feeProgram);
 	}
 
@@ -111,7 +112,7 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 		}
 
 		Object[] arguments = { feeProgram.getName() };
-		eventService.save("feeProgram.successRefresh", null, 2, arguments);
+		eventService.save("feeProgram.successRefresh", null, levels.HIGH, arguments);
 		return feeProgram;
 	}
 

@@ -17,7 +17,10 @@
 
 angular.module('membersApp').controller('EventController', [ '$scope', 'EventService', function($scope, EventService) {
 	var self = this;
-	self.eventsClose = [];
+	self.eventsClose;
+	self.eventsOriginal;
+	self.isLastMonth = true;
+	$scope.enableLastMonth = true;
 	self.highlight = highlight;
 
 	fetchAllEventsClose();
@@ -25,6 +28,7 @@ angular.module('membersApp').controller('EventController', [ '$scope', 'EventSer
 	function fetchAllEventsClose() {
 		EventService.fetchAllEventsClose().then(function(d) {
 			self.eventsClose = d;
+			self.eventsOriginal = d;
 		}, function(errorResponse) {
 			console.error('Error while fetching Events', errorResponse);
 		});
@@ -34,6 +38,24 @@ angular.module('membersApp').controller('EventController', [ '$scope', 'EventSer
 		EventService.highlight(id).then(fetchAllEventsClose, function(errorResponse) {
 			console.error('Error while highlight Event', errorResponse);
 		});
+	}
+	
+	$scope.last_month = function() {
+		if (self.isLastMonth) {
+			var newEvents = [];
+			var newDate = new Date();
+			var lastMonth = newDate.setMonth(newDate.getMonth() - 1)
+			for (var i = 0; i < self.events.length; i++) {
+				var event = self.events[i];
+				if (event.dateEvent > lastMonth) {
+					newEvents.push(event);
+				}
+			}
+			self.events = newEvents;
+		} else {
+			self.events = self.eventsOriginal;
+		}
+		self.isLastMonth = !self.isLastMonth;
 	}
 
 } ]);

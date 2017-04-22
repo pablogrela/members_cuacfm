@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import org.cuacfm.members.model.exceptions.DateLimitException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,10 +72,10 @@ public class TrainingEditController {
 		if (training != null) {
 			TrainingForm trainingForm = new TrainingForm();
 			trainingForm.setName(training.getName());
-			trainingForm.setTimeLimit(DisplayDate.timeToString(training.getDateLimit()));
-			trainingForm.setDateLimit(DisplayDate.dateToString(training.getDateLimit()));
-			trainingForm.setTimeTraining(DisplayDate.timeToString(training.getDateTraining()));
-			trainingForm.setDateTraining(DisplayDate.dateToString(training.getDateTraining()));
+			trainingForm.setTimeLimit(DateUtils.format(training.getDateLimit(), DateUtils.FORMAT_TIME));
+			trainingForm.setDateLimit(DateUtils.format(training.getDateLimit(), DateUtils.FORMAT_DATE));
+			trainingForm.setTimeTraining(DateUtils.format(training.getDateTraining(), DateUtils.FORMAT_TIME));
+			trainingForm.setDateTraining(DateUtils.format(training.getDateTraining(), DateUtils.FORMAT_DATE));
 			trainingForm.setDescription(training.getDescription());
 			trainingForm.setPlace(training.getPlace());
 			trainingForm.setDuration(training.getDuration());
@@ -118,8 +118,8 @@ public class TrainingEditController {
 		String timeTraining = trainingForm.getTimeTraining();
 		String dateTraining = trainingForm.getDateTraining();
 		training.setName(trainingForm.getName());
-		training.setDateLimit(DisplayDate.stringToDate(timeLimit + "," + dateLimit));
-		training.setDateTraining(DisplayDate.stringToDate(timeTraining + "," + dateTraining));
+		training.setDateLimit(DateUtils.stringToDate(timeLimit + "," + dateLimit));
+		training.setDateTraining(DateUtils.stringToDate(timeTraining + "," + dateTraining));
 		training.setDescription(trainingForm.getDescription());
 		training.setPlace(trainingForm.getPlace());
 		training.setDuration(trainingForm.getDuration());

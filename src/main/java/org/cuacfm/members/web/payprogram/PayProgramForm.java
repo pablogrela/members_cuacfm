@@ -23,9 +23,9 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.util.Constants;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.web.support.DisplayDate;
 
 /** The Class PayProgramForm. */
 public class PayProgramForm {
@@ -191,7 +191,7 @@ public class PayProgramForm {
 			payProgram.setIdPayer(getIdPayer());
 		}
 		if (getDatePay() != "") {
-			payProgram.setDatePay(DisplayDate.stringToDateTime(getDatePay()));
+			payProgram.setDatePay(DateUtils.format(getDatePay(), DateUtils.FORMAT_DISPLAY));
 		}
 		return payProgram;
 	}

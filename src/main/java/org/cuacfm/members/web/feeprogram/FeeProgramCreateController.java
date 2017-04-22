@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -67,9 +67,9 @@ public class FeeProgramCreateController {
 	public String training(Model model) {
 		FeeProgramForm feeProgramForm = new FeeProgramForm();
 
-		String month = DisplayDate.format(LocalDateTime.now(), "yyyy-MM");
-		String monthDisplay = DisplayDate.format(LocalDateTime.now(), "MMMM yyyy");
-		String monthLimit = DisplayDate.format(LocalDateTime.now().plusMonths(2), "yyyy-MM");
+		String month = DateUtils.format(LocalDateTime.now(), "yyyy-MM");
+		String monthDisplay = DateUtils.format(LocalDateTime.now(), "MMMM yyyy");
+		String monthLimit = DateUtils.format(LocalDateTime.now().plusMonths(2), "yyyy-MM");
 		String feeProgramFile = messageSource.getMessage("feeProgramName", null, Locale.getDefault());
 
 		feeProgramForm.setName(feeProgramFile + " " + monthDisplay);

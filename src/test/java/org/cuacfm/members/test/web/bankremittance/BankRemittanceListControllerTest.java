@@ -47,9 +47,9 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -150,8 +150,8 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 
 		accountService.update(account3, false, true);
 
-		FeeMember feeMember = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
-				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		FeeMember feeMember = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DateUtils.format("2016-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2016-07-05", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.save(feeMember);
 
 		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
@@ -177,7 +177,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 		programService.update(program3);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-01");
+		Date date = DateUtils.format("2015-01", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 	}
@@ -225,17 +225,17 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 	@Test
 	public void payBankRemittanceTest() throws Exception {
 
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-01-01", DateUtils.FORMAT_DATE));
 		BankRemittance bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
 
 		mockMvc.perform(post("/bankRemittanceList/pay/" + bankRemittance.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/bankRemittanceList"));
 		assertTrue(bankRemittance.getState().equals(states.PAY));
 
-		Date date = DisplayDate.stringToMonthOfYear("2015-04");
+		Date date = DateUtils.format("2015-04", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-04-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-04-01", DateUtils.FORMAT_DATE));
 
 		BankRemittance bankRemittance2 = bankRemittanceService.getBankRemittanceList().get(1);
 
@@ -247,17 +247,17 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 	@Test
 	public void managementBankRemittanceTest() throws Exception {
 
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-01-01", DateUtils.FORMAT_DATE));
 		BankRemittance bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
 
 		mockMvc.perform(post("/bankRemittanceList/management/" + bankRemittance.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/bankRemittanceList"));
 		assertTrue(bankRemittance.getState().equals(states.MANAGEMENT));
 
-		Date date = DisplayDate.stringToMonthOfYear("2015-04");
+		Date date = DateUtils.format("2015-04", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-04-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-04-01", DateUtils.FORMAT_DATE));
 
 		BankRemittance bankRemittance2 = bankRemittanceService.getBankRemittanceList().get(1);
 
@@ -274,7 +274,7 @@ public class BankRemittanceListControllerTest extends WebSecurityConfigurationAw
 	@Test
 	public void downloadBankRemittanceTest() throws Exception {
 
-		bankRemittanceService.createBankRemittance(new Date(), DisplayDate.stringToDate2("2015-01-01"));
+		bankRemittanceService.createBankRemittance(new Date(), DateUtils.format("2015-01-01", DateUtils.FORMAT_DATE));
 		BankRemittance bankRemittance = bankRemittanceService.getBankRemittanceList().get(0);
 
 		mockMvc.perform(post("/bankRemittanceList/downloadBankRemittance/" + bankRemittance.getId()).locale(Locale.ENGLISH).session(defaultSession));

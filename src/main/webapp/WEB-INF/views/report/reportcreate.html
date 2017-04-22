@@ -1,0 +1,68 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{report.create.title}"></title>
+<object th:include="fragments/head :: head" th:remove="tag"></object>
+</head>
+<body onload="loadInputPhotos()">
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active=${report})">&nbsp;</div>
+
+	<!-- Button redirect to Report List-->
+	<div class="text-center">
+		<a href="#" class="btn btn-primary btn-lg" th:href="@{/reportList}" th:text="#{report.list.back}"> </a>
+	</div>
+	<br></br>
+
+	<div class="form-narrow">
+
+		<form class="form-horizontal ws-validate" method="post" th:action="@{${reportCreate}+'?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${reportForm}" enctype="multipart/form-data">
+			
+			<!-- /* Handle the flash message, The message code is returned from the @Controller */ -->
+			<div class="text-center" th:if="${message != null}">
+				<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+			</div>
+			
+			<!--/* Show general error message when form contains errors */-->
+			<th:block th:if="${#fields.hasErrors('${reportForm.*}')}">
+				<div th:replace="fragments/alert :: alert (type='danger', message=#{form.error})">Alert</div>
+			</th:block>
+
+			<fieldset>
+
+				<!-- Message help-->
+				<legend th:text="#{report.create.info}">Create Report</legend>
+
+				<!-- Load form -->
+				<div th:replace="report/reportform :: reportform">&nbsp;</div>
+
+				<!-- Button Create Account -->
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="submit" th:name="create" th:value="create" class="btn btn-orange btn-form" th:text="#{report.create}">Create</button>
+					</div>
+				</div>
+				
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>

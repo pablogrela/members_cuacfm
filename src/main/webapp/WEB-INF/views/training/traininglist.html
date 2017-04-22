@@ -40,7 +40,7 @@
 			<!-- Form for droplist -->
 			<div class="columLeft">
 				<form method="post" th:action="@{trainingList/trainingLoad}" th:object="${trainingSelectForm}"
-					sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
+					sec:authorize="hasAnyRole('ROLE_TRAINER')">
 
 					<!-- DropList Box -->
 					<select onchange="this.form.submit()" class="btn btn-orange btn-lg" th:field="*{trainingTypeId}">
@@ -57,7 +57,7 @@
 			</div>
 			
 			<!-- Button redirect to Training List Close-->
-			<div class="columRight" sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
+			<div class="columRight" sec:authorize="hasAnyRole('ROLE_TRAINER')">
 				<a class="btn btn-primary btn-lg" th:href="@{/trainingList/trainingCloseList}" th:text="#{training.viewTrainingClose}">View Training Close</a>
 			</div>
 		</div>
@@ -90,11 +90,10 @@
 						<th th:text="#{training.countPlaces}">Place</th>
 						<th th:text="#{training.maxPlaces}">Place</th>
 						<th class="no-sort"></th>
-						<th class="no-sort"></th>
-						<th:block sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
-							<th class="no-sort"></th>
-							<th class="no-sort"></th>
-						</th:block>
+						<th sec:authorize="hasAnyRole('ROLE_TRAINER')" class="no-sort"></th>
+						<th sec:authorize="hasAnyRole('ROLE_TRAINER')" class="no-sort"></th>
+						<th sec:authorize="hasAnyRole('ROLE_TRAINER')" class="no-sort"></th>
+						<th sec:authorize="hasAnyRole('ROLE_USER, ROLE_PREREGISTERED')" class="no-sort"></th>				
 					</tr>
 				</thead>
 				<tbody>
@@ -116,7 +115,7 @@
 
 
 						<!-- Start Only Admin or Trainer -->
-						<th:block sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
+						<th:block sec:authorize="hasAnyRole('ROLE_TRAINER')">
 
 							<!-- Delete Training -->
 							<td class="text-center">

@@ -15,14 +15,14 @@
  */
 package org.cuacfm.members.model.userservice;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -77,7 +77,8 @@ public class UserService implements UserDetailsService {
 	 * @return the authentication
 	 */
 	private Authentication authenticate(Account account) {
-		return new UsernamePasswordAuthenticationToken(createUser(account), null, Collections.singleton(createAuthority(account)));
+//		return new UsernamePasswordAuthenticationToken(createUser(account), null, Collections.singleton(createAuthority(account)));
+		return new UsernamePasswordAuthenticationToken(createUser(account), null, createAuthority(account));
 	}
 
 	/**
@@ -93,8 +94,11 @@ public class UserService implements UserDetailsService {
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
 
+//		return new User(account.getLogin(), account.getPassword(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
+//				Collections.singleton(createAuthority(account)));
+		
 		return new User(account.getLogin(), account.getPassword(), enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
-				Collections.singleton(createAuthority(account)));
+				createAuthority(account));
 	}
 
 	/**
@@ -103,8 +107,25 @@ public class UserService implements UserDetailsService {
 	 * @param account the account
 	 * @return the granted authority
 	 */
-	private GrantedAuthority createAuthority(Account account) {
-		return new SimpleGrantedAuthority(String.valueOf(account.getRole()));
+//	private GrantedAuthority createAuthority(Account account) {
+//		return new SimpleGrantedAuthority(String.valueOf(account.getRole()));
+//	}
+
+	/**
+	 * Creates the authority.
+	 *
+	 * @param account the account
+	 * @return the granted authority
+	 */
+	private List<SimpleGrantedAuthority> createAuthority(Account account) {
+	    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+	    authorities.add(new SimpleGrantedAuthority(account.getRole().toString()));
+	    //String[] authStrings = account.getRole().toString().split(", ");
+	    for(String authString : account.getPermissions()) {
+	        authorities.add(new SimpleGrantedAuthority(authString));
+	    }
+	    return authorities;
 	}
+	
 
 }

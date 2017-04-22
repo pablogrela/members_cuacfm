@@ -15,7 +15,8 @@
  */
 
 // Show and evaluate function
-
+// Set application language
+var language = window.navigator.language || navigator.browserLanguage;
 
 function showModal(modal) {
 	$(document).ready(function() {
@@ -23,14 +24,12 @@ function showModal(modal) {
 	});
 }
 
-
 // Show and evaluate function
 function evaluateModal2(evaluateModal) {
 	$(document).ready(function() {
 		$(evaluateModal).modal('show');
 	});
 }
-
 
 // Show and evaluate function
 function evaluateModal(form, evaluateModal, accept) {
@@ -41,7 +40,6 @@ function evaluateModal(form, evaluateModal, accept) {
 		});
 	});
 }
-
 
 // Change check checkbox
 function switchCheckbox(checkbox1, checkbox2) {
@@ -55,15 +53,15 @@ function switchCheckbox(checkbox1, checkbox2) {
 }
 
 // Check required checkbox
-function validateCheckbox() {
-	if (document.getElementById('studentTrue').checked || document.getElementById('studentFalse').checked) {
-		document.getElementById('studentTrue').required = false;
+function validateCheckbox(check1, check2) {
+
+	if (document.getElementById(check1 + 'True').checked || document.getElementById(check1 + 'False').checked) {
+		document.getElementById(check1 + 'True').required = false;
 	}
-	if (document.getElementById('emitProgramTrue').checked || document.getElementById('emitProgramFalse').checked) {
-		document.getElementById('emitProgramTrue').required = false;
+	if (document.getElementById(check2 + 'True').checked || document.getElementById(check2 + 'False').checked) {
+		document.getElementById(check2 + 'True').required = false;
 	}
 }
-
 
 // lock and unlock camp depends on check
 function unlockText(checkbox, camp) {
@@ -75,7 +73,6 @@ function unlockText(checkbox, camp) {
 		}
 	}
 }
-
 
 // lock and unlock camp depends on check, and visibility div
 function unlockText2(checkbox, divVisible, camp1, camp2) {
@@ -91,7 +88,6 @@ function unlockText2(checkbox, divVisible, camp1, camp2) {
 		}
 	}
 }
-
 
 // Unlock Password to validate email and new password
 function unlockPassword() {
@@ -127,15 +123,63 @@ function unlockPassword() {
 	}
 }
 
-
 // Return previous page
 function previousPage() {
 	window.location = document.referrer;
 }
 
+// Function to zoom
+function toggleFullscreen(elem) {
+	elem = elem || document.documentElement;
+	if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+		if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+		} else if (elem.msRequestFullscreen) {
+			elem.msRequestFullscreen();
+		} else if (elem.mozRequestFullScreen) {
+			elem.mozRequestFullScreen();
+		} else if (elem.webkitRequestFullscreen) {
+			elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+		}
+	} else {
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
+		} else if (document.mozCancelFullScreen) {
+			document.mozCancelFullScreen();
+		} else if (document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		}
+	}
+}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// LISTENERS  //////////////////////////////////////////////////////////////////////////////////
+// Function load photos
+function loadInputPhotos() {
+	$("#photos").fileinput({
+		language : language,
+		uploadUrl : '#', // you must set a valid URL here else you will get an error
+		// allowedFileExtensions: ['jpg', 'png', 'gif'],
+		// overwriteInitial: false,
+		// maxFileSize: 1000,
+		maxFilesNum : 10,
+		showUpload : false,
+		// showUploadedThumbs: false,
+		// showZoom: false,
+		// showUploadedThumbs: false,
+		// dropZoneEnabled : false,
+		// allowedFileTypes: ['image', 'video', 'flash'],
+		fileActionSettings : {
+			showUpload : false,
+		},
+		slugCallback : function(filename) {
+			return filename.replace('(', '_').replace(']', '_');
+		}
+	})
+}
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////// LISTENERS //////////////////////////////////////////////////////////////////////////////////
 // Listener profile modify
 // Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
 $(function() {
@@ -145,7 +189,6 @@ $(function() {
 		updateUser($('#profileForm'), 'password', 'email', 'onEmail', 'newPassword', 'onPassword');
 	});
 });
-
 
 // Listener signin modify
 // Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
@@ -157,7 +200,6 @@ $(function() {
 	});
 });
 
-
 // Listener restore password
 // Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
 $(function() {
@@ -168,9 +210,8 @@ $(function() {
 	});
 });
 
-
-//Listener reset password
-//Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
+// Listener reset password
+// Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
 $(function() {
 	$('#resetPasswordForm').on('submit', function(e) {
 		// Prevent form from submitting (Deshabilita el submit y se hace manual)
@@ -179,9 +220,8 @@ $(function() {
 	});
 });
 
-
-//Listener reset password
-//Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
+// Listener reset password
+// Se hace asi para que funcionenen las validaciones del submit, en vez de usar un onClick
 $(function() {
 	$('#signupFirebaseManualForm').on('submit', function(e) {
 		// Prevent form from submitting (Deshabilita el submit y se hace manual)
@@ -189,11 +229,10 @@ $(function() {
 		signupFirebaseManual($('#signupFirebaseManualForm'), 'email', 'password')
 	});
 });
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////// TEST CODE  //////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////// TEST CODE //////////////////////////////////////////////////////////////////////////////////
 
 // Este codigo esta en pruebas
 $(document).ready(
@@ -266,4 +305,4 @@ $(document).ready(
 // }, function(err) {
 // console.log(err);
 // });
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -141,7 +141,7 @@ public class PayMemberRepositoryImpl implements PayMemberRepository {
 	public List<String> getUsernamesByFeeMember(Long feeMemberId) {
 		// No running Concat(a.name, ' - ', a.nickname)
 		List<Account> accounts = entityManager
-				.createQuery("select a from Account a " + "where a.role in ('ROLE_USER', 'ROLE_TRAINER', 'ROLE_PREREGISTERED')"
+				.createQuery("select a from Account a " + "where a.role in ('ROLE_USER', 'ROLE_PREREGISTERED')"
 						+ "and a.active = true " + "and a.id not in " + "(select c.id from Account c, PayMember p "
 						+ "where p.feeMember.id = :feeMemberId and p.account.id = c.id) " + "order by a.login", Account.class)
 				.setParameter("feeMemberId", feeMemberId).getResultList();

@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,7 +29,7 @@ import org.cuacfm.members.model.bankaccount.BankAccount;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.bankremittanceservice.BankRemittanceService;
 import org.cuacfm.members.model.directdebit.DirectDebit;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -45,7 +44,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class CreatePayRoll {
 
 	private static final Logger logger = LoggerFactory.getLogger(BankRemittanceService.class);
-	
+
 	/** The Constant NOTEBOOK_VERSION. */
 	private static final String NOTEBOOK_VERSION = "19143";
 
@@ -68,8 +67,8 @@ public class CreatePayRoll {
 		File archivo = new File(path);
 		BufferedWriter bw;
 
-		String dateChargeFormat = DisplayDate.dateToDirectDebit(bankRemittance.getDateCharge());
-		String dateDebitFormat = DisplayDate.dateToDirectDebit(bankRemittance.getDateDebit());
+		String dateChargeFormat = DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE_DIRECTDEBIT);
+		String dateDebitFormat = DateUtils.format(bankRemittance.getDateDebit(), DateUtils.FORMAT_DATE_DIRECTDEBIT);
 		bw = new BufferedWriter(new FileWriter(archivo));
 
 		// Line 1, Head Presenter
@@ -182,12 +181,12 @@ public class CreatePayRoll {
 		headPresenter = headPresenter + presenterName;
 
 		// field 06: Fecha de creación del fichero: en formato AAAAMMDD, 8ch
-		String date = DisplayDate.dateToDirectDebit(new Date());
+		String date = DateUtils.format(DateUtils.FORMAT_DATE_DIRECTDEBIT);
 		headPresenter = headPresenter + date;
 
 		// Time = HHMMSSmmmmm (hora minuto segundo y 5 posiciones de
 		// milisegundos = 11 caracteres)
-		String time = DisplayDate.timeToDirectDebit(new Date());
+		String time = DateUtils.format(DateUtils.FORMAT_TIME_DIRECTDEBIT);
 
 		// field 07: Identificación del fichero, 35 ch
 		String presenterIdRef = messageSource.getMessage("presenterIdRef", null, Locale.getDefault());

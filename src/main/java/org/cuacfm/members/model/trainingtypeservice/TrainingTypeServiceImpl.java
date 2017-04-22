@@ -24,6 +24,7 @@ import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.training.TrainingRepository;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.trainingtype.TrainingTypeRepository;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,11 +52,11 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
 		Object[] arguments = { trainingType.getName() };
 
 		if (trainingTypeRepository.findByName(trainingType.getName()) != null) {
-			eventService.save("trainingType.existentName", null, 2, arguments);
+			eventService.save("trainingType.existentName", null, levels.HIGH, arguments);
 			throw new UniqueException("Name", trainingType.getName());
 		}
 
-		eventService.save("trainingType.successCreate", null, 2, arguments);
+		eventService.save("trainingType.successCreate", null, levels.HIGH, arguments);
 		return trainingTypeRepository.save(trainingType);
 	}
 
@@ -66,11 +67,11 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
 
 		TrainingType trainingTypeSearch = trainingTypeRepository.findByName(trainingType.getName());
 		if ((trainingTypeSearch != null) && (trainingTypeSearch.getId() != trainingType.getId())) {
-			eventService.save("trainingType.existentName", null, 2, arguments);
+			eventService.save("trainingType.existentName", null, levels.HIGH, arguments);
 			throw new UniqueException("Name", trainingType.getName());
 		}
 
-		eventService.save("trainingType.successModify", null, 2, arguments);
+		eventService.save("trainingType.successModify", null, levels.HIGH, arguments);
 		return trainingTypeRepository.update(trainingType);
 	}
 
@@ -80,12 +81,12 @@ public class TrainingTypeServiceImpl implements TrainingTypeService {
 		Object[] arguments = { trainingType.getName() };
 
 		if (!trainingRepository.getTrainingListByTrainingTypeId(trainingType.getId()).isEmpty()) {
-			eventService.save("trainingType.existDependenciesTrainings", null, 2, arguments);
+			eventService.save("trainingType.existDependenciesTrainings", null, levels.HIGH, arguments);
 			throw new ExistTrainingsException();
 
 		}
 		trainingTypeRepository.delete(trainingType.getId());
-		eventService.save("trainingType.successDelete", null, 2, arguments);
+		eventService.save("trainingType.successDelete", null, levels.HIGH, arguments);
 	}
 
 	@Override

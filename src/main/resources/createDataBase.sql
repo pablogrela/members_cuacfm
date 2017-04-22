@@ -1,51 +1,79 @@
+--
+-- Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+--
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+--         http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-- 
+
+
+-- INFO English
+ -- Example data to use the application
+ -- To import the tables to the database, it must exist
+ -- Can be done by command line or with the workbench
+
+
+-- INFO Español
+ -- Datos de ejemplo para usar la aplicación
+ -- Para importar la tablas a la base de datos, esta debe existir
+ -- Se puede hacer por linea de comandos o con el workbench
+
+
 use members;
--- Datos de ejemplo para usar la aplicación
 
 
 -- Insert Account:
 insert into Account values 
 (2, 'Juan', 'B', null, '84364835F', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'user', 'user@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (3, 'Pepe', 'el otro', null, '92053447H', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'trainer', 'trainer@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 1, 1, 1, false, false, null, true, '', '', '', '', 'ROLE_TRAINER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 1, 1, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_TRAINER', CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (4, 'Pablo', 'Grela', null, '45093757A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.grela', 'pablo@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 3, 1, true, false, null, true, '', '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 3, 1, true, false, null, true, '', '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (5, 'Manuel', 'Fernández', null, '29244308S', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manuel.fernandez', 'manu@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 4, 1, false, true, null, true, '', '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 2, 4, 1, false, true, null, true, '', '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (6, 'Lorena', 'Borrazás', null, '27069088C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.borrazas', 'lore@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (7, 'Lorena', 'Fernández', 'lorenita', '10147938Q', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.fernandez', 'loref@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 	
 insert into Account values 
 (8, 'Manuel', 'Borrazás', null, '01635941C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manu.borrazas', 'manuf@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (9, 'Pablo', 'Martínez Pérez', 'pau', '45440822K', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.martinez.perez', 'pmp@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (10, 'Conservera Martínez', '', null, '38959964B', 'Puerto A Coruña', 'A coruña', 'A coruña', 'ES', 'conservera.martinez', 'conservera.martinez@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 5 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 5 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 	
 insert into Account values 
 (11, 'Pera', 'Olart', 'pera', '95252576P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pera', 'pera@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (12, 'Manolo', 'el del bombo', 'bombo', '22347678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'bombo', 'bombo@udc.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
 	
 	
 insert into BankAccount values 	

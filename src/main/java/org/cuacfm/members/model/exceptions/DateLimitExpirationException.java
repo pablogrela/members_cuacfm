@@ -17,7 +17,7 @@ package org.cuacfm.members.model.exceptions;
 
 import java.util.Date;
 
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 
 /** The Class DateLimitExpirationException. */
 @SuppressWarnings("serial")
@@ -36,7 +36,7 @@ public class DateLimitExpirationException extends Exception {
 	 * @param dateLimit the date limit
 	 */
 	public DateLimitExpirationException(String trainingName, Date dateLimit) {
-		super("The training " + trainingName + " expired at " + DisplayDate.dateTimeToString(dateLimit));
+		super("The training " + trainingName + " expired at " + DateUtils.format(dateLimit, DateUtils.FORMAT_DISPLAY));
 		this.trainingName = trainingName;
 		this.dateLimit = dateLimit;
 	}

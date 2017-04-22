@@ -19,8 +19,8 @@
 
  * ======================================================================== */
 
-var ln = window.navigator.language||navigator.browserLanguage;
-if(ln == 'es'){
+var language = window.navigator.language||navigator.browserLanguage;
+if(language == 'es'){
 	$(document).ready(function() {
 		   $('#customTable').dataTable( {
 		       "language": {
@@ -35,7 +35,7 @@ if(ln == 'es'){
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
 	} );
-} else if(ln == 'gl'){
+} else if(language == 'gl'){
 		$(document).ready(function() {
 			   $('#customTable').dataTable( {
 			       "language": {

@@ -1,0 +1,165 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<body>
+
+	<div th:fragment="reportform">
+
+		<!-- Program, Selected option in droplist -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('programId')}? 'has-error'">
+			<label for="program" class="col-lg-10 control-label" th:text="#{program}">program</label>
+			<div class="col-lg-10 col-lg-6-edit">
+				<select class="form-control" id="program" name="programId" th:field="*{programId}" required="required">
+					<option th:if="${programId == null}" th:value="''"></option>
+					<option th:field="*{programId}" th:each="program : ${reportForm.programs}" th:value="${program.id}" th:text="${program.name}">program</option>
+				</select>
+			</div>
+			<div class="col-lg-20 ws-errorbox help-block with-errors" th:if="${#fields.hasErrors('programId')}" th:errors="*{programId}">Incorrect
+				programId</div>
+			<div class="col-lg-20 ws-errorbox" hidden=""></div>
+		</div>
+
+
+		<br />
+		<!-- Info Station -->
+		<span class="text-center" th:text="#{report.station.info}">Info Station</span>
+		<hr />
+
+
+		<!-- Dirt -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('dirt')}? 'has-error'">
+			<label for="dirt" class="col-lg-20 control-label" th:text="#{report.dirt}">dirt</label>
+			<div class="col-lg-10">
+				<label th:each="i : ${#numbers.sequence( 1, 5)}" class="radio-inline">
+					<input type="radio" name="dirt" id="dirt" th:value="${i}" th:text="${i}" th:field="*{dirt}"  required="required" />
+				</label>
+				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('dirt')}" th:errors="*{dirt}">Incorrect dirt</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+
+		<!-- Tidy -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('tidy')}? 'has-error'">
+			<label for="tidy" class="col-lg-20 control-label" th:text="#{report.tidy}">dirt</label>
+			<div class="col-lg-10">
+				<label th:each="i : ${#numbers.sequence( 1, 5)}" class="radio-inline">
+					<input type="radio" name="tidy" id="tidy" th:value="${i}" th:text="${i}" th:field="*{tidy}" required="required" />
+				</label>
+				<span class="col-lg-10-edit help-block with-errors" th:if="${#fields.hasErrors('tidy')}" th:errors="*{tidy}">Incorrect tidy</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<!-- Configuration -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('configuration')}? 'has-error'">
+			<label for="configuration" class="col-lg-20 control-label" th:text="#{report.configuration}">configuration</label>
+			<div class="col-lg-10">
+				<label th:each="i : ${#numbers.sequence( 1, 5)}" class="radio-inline">
+					<input type="radio" name="configuration" id="configuration" th:value="${i}" th:text="${i}"  th:field="*{configuration}" required="required" />
+				</label>
+				<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('configuration')}" th:errors="*{configuration}"> Incorrect configuration</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<hr />
+
+
+		<!-- openDoor -->
+		<div class="form-group" data-onload="validateCheckbox('openDoorFalse', 'openDoorTrue')"
+			th:classappend="${#fields.hasErrors('openDoor')}? 'has-error'">
+			<label class="col-lg-20 control-label" th:text="#{report.openDoor}"></label>
+			<div class="col-lg-10 control">
+				<label for="text" class="col-lg-1"></label>				
+				<label class="radio-inline">
+					<input type="radio" name="openDoor" id="openDoor" th:value="true" th:text="#{true}" th:field="*{openDoor}" required="required" />
+				</label>				
+				<label class="radio-inline">
+					<input type="radio" name="openDoor" id="openDoor" th:value="false" th:text="#{false}" th:field="*{openDoor}"  required="required" />
+				</label>
+				<div class="help-block" th:if="${#fields.hasErrors('openDoor')}" th:errors="*{openDoor}"></div>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<!-- viewMembers -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('viewMembers')}? 'has-error'">
+			<label class="col-lg-20 control-label" th:text="#{report.viewMembers}"></label>
+			<div class="col-lg-10 control">
+				<label for="text" class="col-lg-1"></label>
+				<label class="radio-inline">
+					<input type="radio" name="viewMembers" id="viewMembers" th:value="true" th:text="#{true}" th:field="*{viewMembers}" required="required" />
+				</label>				
+				<label class="radio-inline">
+					<input type="radio" name="viewMembers" id="viewMembers" th:value="false" th:text="#{false}" th:field="*{viewMembers}"  required="required" />
+				</label>
+				<div class="help-block" th:if="${#fields.hasErrors('viewMembers')}" th:errors="*{viewMembers}"></div>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<!-- Insert Place -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('location')}? 'has-error'">
+			<label for="location" class="col-lg-2 control-label" th:text="#{location}">location</label>
+			<div class="col-lg-10">
+				<input type="text" class="form-control" id="place" th:placeholder="#{place}" th:field="*{location}" maxlength="50" required="required" />
+				<span class="help-block" th:if="${#fields.hasErrors('location')}" th:errors="*{place}">Incorrect location</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+			
+			
+		<!-- Description -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+			<label for="description" class="col-lg-20 control-label" th:text="#{description}">Description</label>
+			<div class="col-lg-20">
+				<textarea class="form-control" id="description" th:placeholder="#{report.description}" th:field="*{description}" rows="10" cols="40"
+					maxlength="500">Description</textarea>
+				<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+
+
+		<!-- Photos -->
+		<div class="form-group" th:classappend="${#fields.hasErrors('photos')}? 'has-error'">
+			<label for="file" class="col-lg-20 control-label" th:text="#{report.photos}"></label>
+			<br></br>
+			<div class="col-lg-20">
+				<span class="col-lg-20" th:text="#{report.photos.info}"></span>
+			</div>
+			<div class="col-lg-20">
+				<input type="file" class="form-control" id="photos" name="photos" accept="image/*;capture=camera" multiple="multiple" 
+					th:field="*{photos}" data-overwrite-initial="false" data-min-file-count="2" />
+				<span class="help-block with-errors" th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}">Incorrect photos</span>
+				<div class="ws-errorbox" hidden=""></div>
+			</div>
+		</div>
+		
+
+	</div>
+
+</body>
+</html>

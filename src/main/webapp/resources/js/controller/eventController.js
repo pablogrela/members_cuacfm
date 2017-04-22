@@ -18,14 +18,17 @@
 membersApp.controller('EventController', [ '$scope', '$rootScope', 'EventService', function($scope, $rootScope, EventService) {
 	var self = this;
 	self.events;
+	self.eventsOriginal;
+	self.isLastMonth = true;
+	$scope.enableLastMonth = true;
 	self.highlight = highlight;
 	self.remove = remove;
-
 	fetchAllEvents();
 
 	function fetchAllEvents() {
 		EventService.fetchAllEvents().then(function(d) {
 			self.events = d;
+			self.eventsOriginal = d;
 		}, function(errorResponse) {
 			console.error('Error while fetching Events', errorResponse);
 		});
@@ -47,4 +50,21 @@ membersApp.controller('EventController', [ '$scope', '$rootScope', 'EventService
 		fetchAllEvents();
 	});
 
+	$scope.last_month = function () {
+		if (self.isLastMonth) {
+			var newEvents = [];
+			var newDate = new Date();
+			var lastMonth = newDate.setMonth(newDate.getMonth() - 1)
+			for (var i = 0; i < self.events.length; i++) {
+				var event = self.events[i];
+				if (event.dateEvent > lastMonth) {
+					newEvents.push(event);
+				}
+			}
+			self.events = newEvents;
+		} else {
+			self.events = self.eventsOriginal;
+		}
+		self.isLastMonth = !self.isLastMonth;
+	}
 } ]);

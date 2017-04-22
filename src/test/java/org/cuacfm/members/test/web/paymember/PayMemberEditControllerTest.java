@@ -40,8 +40,8 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -124,8 +124,8 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
 		accountService.save(account);
 
 		// Create Payment
-		feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-03-01"),
-				DisplayDate.stringToDate2("2015-09-01"), "pay of 2015");
+		feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-03-01", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-09-01", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		pay = payMemberService.getPayMemberListByAccountId(user.getId()).get(0);

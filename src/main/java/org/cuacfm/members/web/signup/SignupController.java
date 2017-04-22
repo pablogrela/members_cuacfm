@@ -56,7 +56,7 @@ public class SignupController {
 	private AccountService accountService;
 
 	@Value("${recaptcha.data.sitekey}")
-	public String recaptchaDataSitekey;
+	private String recaptchaDataSitekey;
 
 	/**
 	 * Instantiates a new signup Controller.

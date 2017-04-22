@@ -40,14 +40,16 @@
 
 		<!-- List events -->
 		<div data-ng-controller="EventController as ctrl" data-ng-show="ctrl.eventsClose">
-			<div data-ng-repeat="event in ctrl.eventsClose">
-
+			<div th:include="fragments/sortColumn :: search"></div>
+			<br></br> <br></br>
+			<div pagination-id="paginate" dir-paginate="event in ctrl.eventsClose | filter:search | itemsPerPage:numPerPage">
 				<!-- Start Only Admin -->
 				<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
 					<div th:include="home/event :: eventClose" class="alert alert-default" data-ng-if="event.priority == 0"></div>
 				</th:block>
 
 			</div>
+			<dir-pagination-controls pagination-id="paginate" class="pagination-sm pull-right" boundary-links="true" auto-hide="false"></dir-pagination-controls>
 		</div>
 	</div>
 </body>

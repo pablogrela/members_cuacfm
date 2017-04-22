@@ -36,6 +36,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.directdebit.DirectDebit;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.sepa.BankRemittanceUtils;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.AccountIdentification4Choice;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.ActiveOrHistoricCurrencyAndAmount;
@@ -68,7 +69,6 @@ import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.Purpose2
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.RemittanceInformation5;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.SequenceType1Code;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.ServiceLevel8Choice;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -156,7 +156,7 @@ public class BankRemittanceSEPAXML {
 	private GroupHeader39 generateGroupHeader() throws DatatypeConfigurationException {
 
 		GroupHeader39 groupHeader = factory.createGroupHeader39();
-		groupHeader.setMsgId("CUACFM" + DisplayDate.format(new Date(), "yyyyMMdd"));
+		groupHeader.setMsgId("CUACFM" + DateUtils.format(new Date(), "yyyyMMdd"));
 		GregorianCalendar today = new GregorianCalendar();
 		XMLGregorianCalendar todayXML = DatatypeFactory.newInstance().newXMLGregorianCalendar(today);
 		todayXML.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);

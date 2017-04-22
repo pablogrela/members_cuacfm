@@ -25,8 +25,8 @@ import java.util.Locale;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -85,7 +85,7 @@ public class JsonToAccount {
 			Date dateCreate;
 			if (dateString != null && !dateString.isEmpty()) {
 				String[] dateConvert = dateString.split("GMT");
-				dateCreate = DisplayDate.format(dateConvert[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+				dateCreate = DateUtils.format(dateConvert[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
 			} else {
 				dateCreate = new Date();
 			}
@@ -93,13 +93,13 @@ public class JsonToAccount {
 			Date dateDown = null;
 			if (dateString != null && !dateString.isEmpty()) {
 				String[] dateConvert2 = dateString.split("GMT");
-				dateDown = DisplayDate.format(dateConvert2[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+				dateDown = DateUtils.format(dateConvert2[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
 			}
 			dateString = FileUtils.split((String) jsonObjectRow.get("dateBirth"), MAX_CHARACTERS);
 			Date dateBirth = null;
 			if (dateString != null && !dateString.isEmpty()) {
 				String[] dateConvert2 = dateString.split("GMT");
-				dateBirth = DisplayDate.format(dateConvert2[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+				dateBirth = DateUtils.format(dateConvert2[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
 			}
 
 			String name = FileUtils.split((String) jsonObjectRow.get("name"), MAX_CHARACTERS);
