@@ -107,6 +107,14 @@ public interface ReportService {
 	public List<Report> getReportListByUser(Account account);
 
 	/**
+	 * Gets the report list by user.
+	 *
+	 * @param account the account
+	 * @return the report list by user
+	 */
+	public List<Report> getReportListActiveByUser(Account account);
+
+	/**
 	 * Gets the report list close.
 	 *
 	 * @return the report list close
@@ -131,9 +139,10 @@ public interface ReportService {
 	 * Answer.
 	 *
 	 * @param report the report
+	 * @param account the account
 	 * @param answer the answer
 	 */
-	public void answer(Report report, String answer);
+	public void answer(Report report, Account account, String answer);
 
 	/**
 	 * Gets the reports DTO.

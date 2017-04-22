@@ -46,42 +46,46 @@
 			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
 			<br></br>
 		</div>
-			
+
 		<!-- List events -->
 		<div data-ng-controller="EventController as ctrl">
-			
+
 			<!-- Welcome message -->
 			<div data-ng-if="ctrl.events.length &lt; 3" class="text-center">
 				<h1 th:text="#{home.welcome}">Welcome</h1>
 				<br></br>
 			</div>
 
-			<!-- Button redirect to event list close-->
-			<div data-ng-show="ctrl.events" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
-				<div>
-					<a href="#" class="btn btn-primary btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
+			<!-- Button redirect to event list close -->
+			<div data-ng-show="ctrl.events">
+				<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
+					<div>
+						<a href="#" class="btn btn-primary btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
+					</div>
+					<br></br>
+					<div th:include="fragments/sortColumn :: search"></div>
+					<br></br> <br></br> <br></br>
 				</div>
-				<br></br>			
-			</div>
-			
-			<div data-ng-show="ctrl.events" data-ng-repeat="event in ctrl.events">
-				<!-- Start messages only admin -->
-				<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-					<div th:include="home/event :: eventImportant" class="alert alert-danger" data-ng-if="event.priority == 1"></div>
-					<div th:include="home/event :: eventNormal" class="alert alert-warning" data-ng-if="event.priority == 2"></div>
-					<div th:include="home/event :: eventNormal" class="alert alert-info" data-ng-if="event.priority == 3"></div>
-					<div th:include="home/event :: eventNormal" class="alert alert-success" data-ng-if="event.priority == 4"></div>
+  
+				<div pagination-id="paginate" dir-paginate="event in ctrl.events | filter:search | itemsPerPage:numPerPage">
+					<!-- Start messages only admin -->
+					<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<div th:include="home/event :: eventImportant" class="alert alert-danger" data-ng-if="event.priority == 1"></div>
+						<div th:include="home/event :: eventNormal" class="alert alert-warning" data-ng-if="event.priority == 2"></div>
+						<div th:include="home/event :: eventNormal" class="alert alert-info" data-ng-if="event.priority == 3"></div>
+						<div th:include="home/event :: eventNormal" class="alert alert-success" data-ng-if="event.priority == 4"></div>
 
-				</th:block>
-				<!-- Finish messages only admin -->
+					</th:block>
+					<!-- Finish messages only admin -->
 
-				<!-- Start messages no admin -->
-				<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
-					<div th:include="home/event :: eventUser" class="alert alert-info"></div>
-				</th:block>
-				<!-- Finish messages no admin -->
+					<!-- Start messages no admin -->
+					<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+						<div th:include="home/event :: eventUser" class="alert alert-info"></div>
+					</th:block>
+					<!-- Finish messages no admin -->
+				</div>
+				<dir-pagination-controls pagination-id="paginate" class="pagination-sm pull-right" boundary-links="true" auto-hide="false"></dir-pagination-controls>
 			</div>
-			
 		</div>
 
 	</div>

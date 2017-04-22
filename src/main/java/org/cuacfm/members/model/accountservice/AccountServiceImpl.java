@@ -33,6 +33,7 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Value("${path}${pathJsonToAccount}")
 	private String pathJsonToAccount;
-	
+
 	@Autowired
 	private AccountRepository accountRepository;
 
@@ -63,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private JsonToAccount jsonToAccount;
 
@@ -98,8 +99,8 @@ public class AccountServiceImpl implements AccountService {
 		account.setPassword(passwordEncoder.encode(account.getPassword()));
 		Account accountNew = accountRepository.save(account);
 
-		Object[] arguments = { account.getName() + " " + account.getSurname()};
-		eventService.save("account.successCreate", account, 1, arguments);
+		Object[] arguments = { account.getName() + " " + account.getSurname() };
+		eventService.save("account.successCreate", account, levels.CRITICAL, arguments);
 
 		return accountNew;
 	}
@@ -138,10 +139,10 @@ public class AccountServiceImpl implements AccountService {
 
 		// Save Message Event
 		if (profile) {
-			Object[] arguments = { account.getName() + " " + account.getSurname()};
-			eventService.save("profile.success", accountUpdate, 3, arguments);
+			Object[] arguments = { account.getName() + " " + account.getSurname() };
+			eventService.save("profile.success", accountUpdate, levels.MEDIUM, arguments);
 		} else {
-			eventService.save("account.admin.successModify", accountUpdate, 3);
+			eventService.save("account.admin.successModify", accountUpdate, levels.MEDIUM);
 		}
 
 		return accountUpdate;
@@ -153,40 +154,40 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public void removeToken(Account account){
+	public void removeToken(Account account) {
 		account.setToken(null);
 		accountRepository.update(account);
 		Object[] arguments = { account.getName() + ' ' + account.getSurname() };
-		eventService.save("account.admin.successFirebase", account, 2, arguments);
+		eventService.save("account.admin.successFirebase", account, levels.HIGH, arguments);
 	}
-	
+
 	@Override
 	public void subscribe(Account account) {
 		account.setActive(true);
 		account.setRole(roles.ROLE_USER);
 		accountRepository.update(account);
-		eventService.save("account.admin.successSubscribe", account, 3);
+		eventService.save("account.admin.successSubscribe", account, levels.MEDIUM);
 	}
 
 	@Override
 	public void orderUp(Account account) {
-		eventService.save("profile.orderUp", account, 1);
+		eventService.save("profile.orderUp", account, levels.CRITICAL);
 	}
-	
+
 	@Override
 	public void unsubscribe(Account account) {
 		account.setActive(false);
 		account.setRole(roles.ROLE_EXUSER);
 		account.setDateDown(new Date());
 		accountRepository.update(account);
-		eventService.save("account.admin.successUnsubscribe", account, 3);
+		eventService.save("account.admin.successUnsubscribe", account, levels.MEDIUM);
 	}
 
 	@Override
 	public void orderDown(Account account) {
-		eventService.save("profile.orderDown", account, 1);
+		eventService.save("profile.orderDown", account, levels.CRITICAL);
 	}
-	
+
 	@Override
 	public Account findByDni(String dni) {
 		return accountRepository.findByDni(dni);
@@ -248,8 +249,8 @@ public class AccountServiceImpl implements AccountService {
 
 		if (account != null) {
 			accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getPhone(),
-					account.getMobile(), account.getName(), account.getSurname(),account.getNickName(), account.getAddress(), account.isActive(), account.getRole(),
-					account.getInstallments(), account.getDateCreate(), account.getDateDown());
+					account.getMobile(), account.getName(), account.getSurname(), account.getNickName(), account.getAddress(), account.isActive(),
+					account.getRole(), account.getPermissions(), account.getInstallments(), account.getDateCreate(), account.getDateDown());
 
 			if (account.getAccountType() != null) {
 				accountDTO.setAccountType(account.getAccountType().getName());
@@ -296,7 +297,7 @@ public class AccountServiceImpl implements AccountService {
 			adminName = auth.getName();
 		}
 		Object[] arguments = { adminName, bankAccount.getAccount().getName(), bankAccount.getBank() };
-		eventService.save("account.admin.successCreateBankAccount", bankAccount.getAccount(), 3, arguments);
+		eventService.save("account.admin.successCreateBankAccount", bankAccount.getAccount(), levels.MEDIUM, arguments);
 
 		return bankAccountRepository.save(bankAccount);
 	}
@@ -320,7 +321,7 @@ public class AccountServiceImpl implements AccountService {
 		try {
 			byte[] bytes = file.getBytes();
 			FileUtils.createFolderIfNoExist(pathJsonToAccount);
-			
+
 			String[] originalFilename = file.getOriginalFilename().split(".json");
 			Path pathJson = Paths.get(pathJsonToAccount + originalFilename[0] + DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".json");
 			Files.write(pathJson, bytes);
@@ -329,11 +330,11 @@ public class AccountServiceImpl implements AccountService {
 		} catch (Exception e) {
 			logger.error("processJson: ", e);
 			Object[] arguments = {};
-			eventService.save("account.failUpload", null, 2, arguments);
+			eventService.save("account.failUpload", null, levels.HIGH, arguments);
 			return "account.failUpload";
 		}
 		Object[] arguments = { file.getOriginalFilename() };
-		eventService.save("account.successUpload", null, 2, arguments);
+		eventService.save("account.successUpload", null, levels.HIGH, arguments);
 		return "account.successUpload";
 	}
 }

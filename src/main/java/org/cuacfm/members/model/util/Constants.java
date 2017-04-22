@@ -81,7 +81,7 @@ public class Constants {
 	 */
 	public enum levels {
 
-		DISABLE(0), CRITICAL(1), LOW(2), MEDIUM(3), GOOD(4), HIGH(5);
+		DISABLE(0), CRITICAL(1), HIGH(2), MEDIUM(3), LOW(4), GOOD(5);
 
 		private int value;
 

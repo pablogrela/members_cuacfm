@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-membersApp.controller('ReportController', [ '$scope', 'ReportService', function($scope, ReportService) {
+membersApp.controller('ReportUserController', [ '$scope', 'ReportService', function($scope, ReportService) {
 	$scope.sortType = '';
 	$scope.search = '';
 	$scope.sortReverse = false;
@@ -22,33 +22,35 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 	$scope.accounts = '';
 	$scope.report = '';
 	$scope.reports = '';
+	$scope.program = '';
 	$scope.message = '';
 
 	var self = this;
-	self.reportUp = reportUp;
-	self.infoDelete = infoDelete;
 	self.infoAccount = infoAccount;
 	self.infoAccounts = infoAccounts;
 	self.infoProgram = infoProgram;
 	self.infoReport = infoReport;
+	self.reportAnswer = reportAnswer;
+	self.infoReportAnswer = infoReportAnswer;
 
-	fetchAllReportsClose();
+	fetchUserReports();
 
-	function fetchAllReportsClose() {
-		ReportService.fetchAllReportsClose().then(function(data) {
+	function fetchUserReports() {
+		ReportService.fetchUserReports().then(function(data) {
 			$scope.reports = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
 	}
 
-	function reportUp(id) {
-		ReportService.reportUp(id).then(function(data) {
+	function reportAnswer(id, answer) {
+		ReportService.reportUserAnswer(id, answer).then(function(data) {
 			$scope.message = data;
-			fetchAllReportsClose();
-			showModal(modal);
+			fetchUserReports();
+			$('#close').click();
+			$scope.answer = '';
 		}, function(errorResponse) {
-			console.error('Error while Up Report', errorResponse);
+			console.error('Error while answer Report', errorResponse);
 		});
 	}
 
@@ -58,6 +60,14 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 		}
 		return (v1.value < v2.value) ? -1 : 1;
 	};
+
+	function infoReport(aux) {
+		$('#data-slide-0').attr('class', 'active');
+		$('#data-slide-1').attr('class', '');
+		$('#image-index-0').attr('class', 'item active');
+		$('#image-index-1').attr('class', 'item');
+		$scope.report = aux;
+	}
 
 	$scope.dirt_average = function() {
 		var total = 0;
@@ -83,7 +93,7 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 			var report = $scope.reportsFilter[i];
 			total += report.configuration;
 		}
-		return round(total / $scope.reportsFilter.length, 1);
+		return total / $scope.reportsFilter.length;
 	}
 
 	function infoAccount(aux) {
@@ -94,18 +104,12 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 		$scope.accounts = aux;
 	}
 
-	function infoReport(aux) {
-		// Reset carousel to first image
-		// $('#carousel-reports').carousel(0);
-		$('#data-slide-0').attr('class', 'active');
-		$('#data-slide-1').attr('class', '');
-		$('#image-index-0').attr('class', 'item active');
-		$('#image-index-1').attr('class', 'item');
-		$scope.report = aux;
-	}
-
 	function infoProgram(aux) {
 		$scope.program = aux;
+	}
+
+	function infoReportAnswer(aux) {
+		$scope.report = aux;
 	}
 
 } ]);

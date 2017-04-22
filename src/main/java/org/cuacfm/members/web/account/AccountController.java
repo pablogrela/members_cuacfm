@@ -22,6 +22,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.validator.routines.checkdigit.IBANCheckDigit;
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.permissions;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
@@ -126,6 +127,8 @@ public class AccountController {
 		profileForm.setObservations(account.getObservations());
 		profileForm.setRole(String.valueOf(account.getRole()));
 		profileForm.setRoles(java.util.Arrays.asList(roles.values()));
+		profileForm.setPermissionReport(account.getPermissions().contains(permissions.ROLE_REPORT.toString()));
+		profileForm.setPermissionTrainer(account.getPermissions().contains(permissions.ROLE_TRAINER.toString()));
 		model.addAttribute(profileForm);
 
 		model.addAttribute("payMembers", payMemberService.getPayMemberListByAccountId(account.getId()));
@@ -246,6 +249,20 @@ public class AccountController {
 		// Role
 		if (profileForm.isOnRole()) {
 			account.setRole(roles.valueOf(profileForm.getRole()));
+		}
+
+		// Permission ROLE_REPORT
+		if (profileForm.isPermissionReport()) {
+			account.addPermissions(permissions.ROLE_REPORT);
+		} else {
+			account.removePermissions(permissions.ROLE_REPORT);
+		}
+
+		// Permission ROLE_TRAINER
+		if (profileForm.isPermissionTrainer()) {
+			account.addPermissions(permissions.ROLE_TRAINER);
+		} else {
+			account.removePermissions(permissions.ROLE_TRAINER);
 		}
 
 		// If correct

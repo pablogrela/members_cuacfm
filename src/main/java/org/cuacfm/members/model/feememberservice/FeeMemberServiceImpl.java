@@ -29,6 +29,7 @@ import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feemember.FeeMemberRepository;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,7 +101,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 		}
 
 		Object[] arguments = { feeMember.getName() };
-		eventService.save("feeMember.successCreate", null, 2, arguments);
+		eventService.save("feeMember.successCreate", null, levels.HIGH, arguments);
 		return feeMember;
 	}
 
@@ -153,7 +154,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 		}
 
 		Object[] arguments = { account.getName() + " " + account.getSurname(), feeMember.getName() };
-		eventService.save("payMember.admin.successJoin", null, 2, arguments);
+		eventService.save("payMember.admin.successJoin", null, levels.HIGH, arguments);
 	}
 
 	@Override
@@ -166,7 +167,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 		}
 
 		Object[] arguments = { feeMember.getName() };
-		eventService.save("feeMember.successModify", null, 2, arguments);
+		eventService.save("feeMember.successModify", null, levels.HIGH, arguments);
 		return feeMemberRepository.update(feeMember);
 	}
 

@@ -37,7 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class SigninController {
 
-	//private static final Logger logger = LoggerFactory.getLogger(SigninController.class);
+	//private static final Logger logger = LoggerFactory.getLogger(SigninController.class)
 
 	public static final String SIGNIN_VIEW_NAME = "signin/signin";
 	public static final String SIGNIN_REDIRECT = "redirect:/signin";

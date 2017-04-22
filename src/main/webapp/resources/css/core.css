@@ -163,6 +163,9 @@ div.scroll {
 		margin-left: 20px;
 	}
 
+.form-group-elements {
+	width: 250px;
+}
 	/********************  portrait  **************************************/
 	@media ( orientation : portrait ) {
 		/* 	clase para aumentar el css al doble */
@@ -971,6 +974,17 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
 	-moz-border-radius-topright: 5px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+}
+
+/* color food table */
+tr.foot td{
+	background-color: #F08109; /* orange */
+}
+
+.level {
+	float: left;
+	width: 20px;
+	margin-top: 4px;
 }
 
 .btn-orange {

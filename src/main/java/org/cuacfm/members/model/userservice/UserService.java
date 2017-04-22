@@ -16,7 +16,6 @@
 package org.cuacfm.members.model.userservice;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
@@ -24,7 +23,6 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -121,8 +119,9 @@ public class UserService implements UserDetailsService {
 	 */
 	private List<SimpleGrantedAuthority> createAuthority(Account account) {
 	    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-	    String[] authStrings = account.getRole().toString().split(", ");
-	    for(String authString : authStrings) {
+	    authorities.add(new SimpleGrantedAuthority(account.getRole().toString()));
+	    //String[] authStrings = account.getRole().toString().split(", ");
+	    for(String authString : account.getPermissions()) {
 	        authorities.add(new SimpleGrantedAuthority(authString));
 	    }
 	    return authorities;

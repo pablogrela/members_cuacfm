@@ -57,7 +57,6 @@ public class ProfileController {
 	@Autowired
 	private MethodPaymentService methodPaymentService;
 
-	/** The user service. */
 	@Autowired
 	private UserService userService;
 

@@ -20,6 +20,7 @@ import java.util.List;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.event.Event;
 import org.cuacfm.members.model.event.EventDTO;
+import org.cuacfm.members.model.util.Constants.levels;
 
 /**
  * The Interface EventService.
@@ -43,7 +44,7 @@ public interface EventService {
 	 * @param arguments the arguments
 	 * @return the string
 	 */
-	public String save(String message, Account account, int priority, Object[] arguments);
+	public String save(String message, Account account, levels priority, Object[] arguments);
 
 	/**
 	 * Save.
@@ -52,7 +53,7 @@ public interface EventService {
 	 * @param account the account
 	 * @param priority the priority
 	 */
-	public void save(String message, Account account, int priority);
+	public String save(String message, Account account, levels priority);
 
 	/**
 	 * Find by id.

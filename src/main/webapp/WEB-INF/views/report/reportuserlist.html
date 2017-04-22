@@ -18,35 +18,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title th:text="#{report.list.title}"></title>
+<title th:text="#{report.list.user.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 <script th:src="@{/resources/js/service/reportService.js}"></script>
-<script th:src="@{/resources/js/controller/reportController.js}"></script>
+<script th:src="@{/resources/js/controller/reportUserController.js}"></script>
 </head>
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='reports')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='report.list.user')">&nbsp;</div>
 
-	<!-- Div of buttons -->
-	<div sec:authorize="hasAnyRole('ROLE_REPORT')" class="container-fluid text-center containerColums">
+
+	<!-- If user has role ExUser, its apear message -->
+	<div sec:authorize="hasAnyRole('ROLE_EXUSER')" class="container-fluid">
+		<h2 class="text-center" th:text="#{profile.upToContinue}"></h2>
+		<div th:include="profile/profile :: profileUp"></div>
+	</div>
+	
+	<div sec:authorize="!hasAnyRole('ROLE_EXUSER')" class="container-fluid">
 
 		<!-- Button Create New Report -->
-		<div class="columLeft">
-			<div>
-				<a href="#" class="btn btn-orange btn-lg" th:href="@{/reportList/reportCreate}" th:text="#{report.create.new}"></a>
-			</div>
-			<br></br>
+		<div class="text-center">
+			<a href="#" class="btn btn-orange btn-lg" th:href="@{/reportUserList/reportUserCreate}" th:text="#{report.create.new}"></a>
 		</div>
 
-		<!-- Button redirect to report list close -->
-		<div class="columRight">
-			<a href="#" class="btn btn-primary btn-lg" th:href="@{/reportList/close}" th:text="#{report.list.close.view}"></a> <br></br>
+		<div data-ng-app="membersApp" data-ng-controller="ReportUserController as ctrl">
+			<div th:include="report/reportlisttable :: reportlisttable(#{report.list.user}, #{report.list.user.empty})"></div>
 		</div>
-	</div>
-
-	<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="ReportController as ctrl">
-		<div th:include="report/reportlisttable :: reportlisttable(#{report.list}, #{report.list.empty})"></div>
 	</div>
 	
 </body>

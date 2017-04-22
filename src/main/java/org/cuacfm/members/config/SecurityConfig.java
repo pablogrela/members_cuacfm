@@ -113,19 +113,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .hasAnyRole("USER", "PREREGISTERED")
             
             .antMatchers("/userPayments/**")
-            .hasAnyRole("TRAINER", "USER", "EXUSER", "PREREGISTERED")
+            .hasAnyRole("USER", "EXUSER", "PREREGISTERED")
 
-            .antMatchers("/programList", "/programList/", "/programList/programEdit/**", "/reportList")
-            .hasAnyRole("ADMIN", "TRAINER", "USER", "EXUSER")
+            .antMatchers("/programList", "/programList/", "/programList/programEdit/**", "/reportList", "/reportList/image/**")
+            .hasAnyRole("ADMIN", "USER", "EXUSER")
             
-            .antMatchers("/programList/**", "/reportList/**")
-            .hasAnyRole("ADMIN", "TRAINER", "USER")
+            .antMatchers("/reportList/**")
+            .hasAnyRole("REPORT")
+            
+            .antMatchers("/reportUserList/**")
+            .hasAnyRole("USER")
+            
+            .antMatchers("/programList/**")
+            .hasAnyRole("ADMIN", "USER")
             
             .antMatchers("/trainingList", "/trainingList/trainingView/**")
-            .hasAnyRole("ADMIN", "TRAINER", "USER", "EXUSER", "PREREGISTERED")
+            .hasAnyRole("ADMIN", "USER", "EXUSER", "PREREGISTERED")
 
             .antMatchers("/trainingTypeList/**", "/trainingList/**")
-            .hasAnyRole("ADMIN", "TRAINER")
+            .hasAnyRole("TRAINER")
 
             .antMatchers("/programList/programDown/**" ,"/programList/programUp/**",
                   "/payInscriptionList/**", "/feeProgramList/**", "/accountList/**", "/configuration/**", "/bankRemittance/**", "/directDebit/**", "/user/**")

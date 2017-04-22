@@ -28,6 +28,7 @@ import org.cuacfm.members.model.feemember.FeeMemberRepository;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymember.PayMemberRepository;
 import org.cuacfm.members.model.util.Constants;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.CreatePdf;
@@ -75,7 +76,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 	@Override
 	public PayMember update(PayMember payMember) throws ExistTransactionIdException {
 		Object[] arguments = { payMember.getFeeMember().getName(), payMember.getAccount().getName() };
-		eventService.save("payMember.successModify", null, 2, arguments);
+		eventService.save("payMember.successModify", null, levels.MEDIUM, arguments);
 		return payMemberRepository.update(payMember);
 	}
 
@@ -87,7 +88,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 		payMemberRepository.update(payMember);
 
 		Object[] arguments = { payMember.getFeeMember().getName() };
-		eventService.save("payMember.successPay", null, 2, arguments);
+		eventService.save("payMember.successPay", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -112,7 +113,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 		payMemberRepository.update(payMember);
 
 		Object[] arguments = { payMember.getFeeMember().getName() };
-		eventService.save("userPayments.successPayPal", null, 2, arguments);
+		eventService.save("userPayments.successPayPal", null, levels.MEDIUM, arguments);
 	}
 
 	@Override

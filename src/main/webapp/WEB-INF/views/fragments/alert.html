@@ -325,8 +325,9 @@
 					<span data-ng-if="!report.active" th:text="#{false}"></span>
 					<br></br>
 					<label th:text="#{report.answer} + ': ' "></label>
-					<span data-ng-bind="report.answer"></span>
-					<br></br>
+<!-- 					<span data-ng-bind="report.answer"></span> -->
+<!-- 					<br></br> -->
+					<pre data-ng-bind="report.answer"></pre>
 					<label th:text="#{report.photos.view} + ': ' "></label>
 					<span data-ng-if="report.files.length == 0" th:text="#{report.photos.false}"></span>
 					<!-- Carrousel -->
@@ -388,7 +389,8 @@
 					<span data-ng-if="!report.active" th:text="#{false}"></span>
 					<br></br>
 					<label th:text="#{report.answer} + ': ' "></label>
-					<textarea class="form-control" data-ng-model="report.answer" th:placeholder="#{report.answer.info}" rows="10" cols="40" maxlength="500"></textarea>
+					<textarea class="form-control" data-ng-model="answer" th:placeholder="#{report.answer.info}" rows="6" cols="40" maxlength="500"></textarea>
+					<pre data-ng-bind="report.answer"></pre>
 <!-- 					<br></br> -->
 <!-- 					<div class="form-group"> -->
 <!-- 						<div class="col-lg-10"> -->
@@ -399,7 +401,7 @@
 					<br></br>
 				</div>
 				<div class="modal-footer">
-					<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.reportAnswer(report.id, report.answer)" class="btn btn-orange btn-form"
+					<button sec:authorize="hasAnyRole('ROLE_USER, ROLE_REPORT')" data-ng-click="ctrl.reportAnswer(report.id, answer)" class="btn btn-orange btn-form"
 								th:title="#{report.answer.info}" th:text="#{report.answer}"></button>
 					<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
 				</div>

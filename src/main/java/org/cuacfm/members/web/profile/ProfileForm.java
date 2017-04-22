@@ -140,6 +140,9 @@ public class ProfileForm {
 	/** The role. */
 	private String role;
 
+	private boolean permissionReport;
+	private boolean permissionTrainer;
+
 	/** The on login. */
 	private boolean onLogin;
 
@@ -391,6 +394,22 @@ public class ProfileForm {
 
 	public void setKnowledge(String knowledge) {
 		this.knowledge = knowledge;
+	}
+
+	public boolean isPermissionReport() {
+		return permissionReport;
+	}
+
+	public void setPermissionReport(boolean permissionReport) {
+		this.permissionReport = permissionReport;
+	}
+
+	public boolean isPermissionTrainer() {
+		return permissionTrainer;
+	}
+
+	public void setPermissionTrainer(boolean permissionTrainer) {
+		this.permissionTrainer = permissionTrainer;
 	}
 
 	public boolean isOnLogin() {

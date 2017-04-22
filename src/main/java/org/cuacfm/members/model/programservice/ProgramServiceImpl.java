@@ -35,6 +35,7 @@ import org.cuacfm.members.model.program.ProgramLanguage;
 import org.cuacfm.members.model.program.ProgramRepository;
 import org.cuacfm.members.model.program.ProgramThematic;
 import org.cuacfm.members.model.program.ProgramType;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
 import org.slf4j.Logger;
@@ -82,7 +83,7 @@ public class ProgramServiceImpl implements ProgramService {
 
 		// Save Message Event
 		Object[] arguments = { program.getName() };
-		eventService.save("program.successCreate", null, 3, arguments);
+		eventService.save("program.successCreate", null, levels.MEDIUM, arguments);
 		return programRepository.save(program);
 	}
 
@@ -96,7 +97,7 @@ public class ProgramServiceImpl implements ProgramService {
 
 		// Save Message Event
 		Object[] arguments = { program.getName() };
-		eventService.save("program.successModify", null, 3, arguments);
+		eventService.save("program.successModify", null, levels.MEDIUM, arguments);
 		return programRepository.update(program);
 
 	}
@@ -115,7 +116,7 @@ public class ProgramServiceImpl implements ProgramService {
 		programRepository.delete(program);
 
 		Object[] arguments = { program.getName() };
-		eventService.save("program.successDelete", account, 3, arguments);
+		eventService.save("program.successDelete", account, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -159,7 +160,7 @@ public class ProgramServiceImpl implements ProgramService {
 		programRepository.update(program);
 
 		Object[] arguments = { program.getName() };
-		eventService.save("program.successUp", null, 3, arguments);
+		eventService.save("program.successUp", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -169,7 +170,7 @@ public class ProgramServiceImpl implements ProgramService {
 		programRepository.update(program);
 
 		Object[] arguments = { program.getName() };
-		eventService.save("program.successDown", null, 3, arguments);
+		eventService.save("program.successDown", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -190,12 +191,11 @@ public class ProgramServiceImpl implements ProgramService {
 			programCategoryName = program.getProgramCategory().getName();
 		}
 
-		ProgramDTO programDTO = new ProgramDTO(program.getId(), program.getName(), program.getDescription(), program.getPeriodicity(),
-				program.getDuration(), accountService.getAccountsDTO(program.getAccounts()), accountService.getAccountDTO(program.getAccountPayer()),
+		return new ProgramDTO(program.getId(), program.getName(), program.getDescription(), program.getPeriodicity(), program.getDuration(),
+				accountService.getAccountsDTO(program.getAccounts()), accountService.getAccountDTO(program.getAccountPayer()),
 				program.getProgramType().getName(), program.getProgramThematic().getName(), program.getProgramLanguage().getName(),
 				programCategoryName, program.getEmail(), program.getTwitter(), program.getFacebook(), program.getPodcast(), program.getWeb(),
 				program.isActive(), program.getDateCreate(), program.getDateDown());
-		return programDTO;
 	}
 
 	@Override
@@ -273,11 +273,11 @@ public class ProgramServiceImpl implements ProgramService {
 		} catch (Exception e) {
 			logger.error("processJson: ", e);
 			Object[] arguments = {};
-			eventService.save("program.failUpload", null, 2, arguments);
+			eventService.save("program.failUpload", null, levels.HIGH, arguments);
 			return "program.failUpload";
 		}
 		Object[] arguments = { file.getOriginalFilename() };
-		eventService.save("program.successUpload", null, 2, arguments);
+		eventService.save("program.successUpload", null, levels.HIGH, arguments);
 		return "program.successUpload";
 	}
 

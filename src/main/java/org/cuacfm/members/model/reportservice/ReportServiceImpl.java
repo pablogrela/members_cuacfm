@@ -15,10 +15,6 @@
  */
 package org.cuacfm.members.model.reportservice;
 
-import static org.cuacfm.members.model.util.Constants.levels.CRITICAL;
-import static org.cuacfm.members.model.util.Constants.levels.LOW;
-import static org.cuacfm.members.model.util.Constants.levels.MEDIUM;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,6 +31,7 @@ import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.model.report.Report;
 import org.cuacfm.members.model.report.ReportDTO;
 import org.cuacfm.members.model.report.ReportRepository;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
 import org.slf4j.Logger;
@@ -118,21 +115,21 @@ public class ReportServiceImpl implements ReportService {
 		} catch (Exception e) {
 			logger.error("save: ", e);
 			Object[] arguments = { report.getProgram().getName() };
-			eventService.save("program.failUpload", null, 2, arguments);
+			eventService.save("program.failUpload", null, levels.HIGH, arguments);
 		}
 
-		int reportLevel = MEDIUM.getValue();
+		levels reportLevel = levels.MEDIUM;
 
 		// Add description if level is low
 		String description = report.getDescription();
 		report.setDescription("");
-		if (report.getDirt() < reportLevel) {
+		if (report.getDirt() < reportLevel.getValue()) {
 			report.setDescription(report.getDescription() + messageSource.getMessage("report.dirt.low", null, Locale.getDefault()) + "\n");
 		}
-		if (report.getTidy() < reportLevel) {
+		if (report.getTidy() < reportLevel.getValue()) {
 			report.setDescription(report.getDescription() + messageSource.getMessage("report.tidy.low", null, Locale.getDefault()) + "\n");
 		}
-		if (report.getConfiguration() < reportLevel) {
+		if (report.getConfiguration() < reportLevel.getValue()) {
 			report.setDescription(report.getDescription() + messageSource.getMessage("report.configuration.low", null, Locale.getDefault()) + "\n");
 		}
 		report.setDescription(report.getDescription() + description);
@@ -140,7 +137,7 @@ public class ReportServiceImpl implements ReportService {
 		// If it accomplish these requirements is active
 		if ((report.getDescription() != null && !report.getDescription().isEmpty()) || report.getFile() != null) {
 			report.setActive(true);
-			reportLevel = CRITICAL.getValue();
+			reportLevel = levels.CRITICAL;
 		}
 
 		// Save Message Event
@@ -154,7 +151,7 @@ public class ReportServiceImpl implements ReportService {
 
 		// Save Message Event
 		Object[] arguments = { report.getProgram().getName() };
-		eventService.save("report.edit.success", null, MEDIUM.getValue(), arguments);
+		eventService.save("report.edit.success", null, levels.MEDIUM, arguments);
 		return reportRepository.update(report);
 
 	}
@@ -195,6 +192,11 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
+	public List<Report> getReportListActiveByUser(Account account) {
+		return reportRepository.getReportListActiveByUser(account);
+	}
+
+	@Override
 	public List<Report> getReportListClose() {
 		return reportRepository.getReportListClose();
 	}
@@ -205,7 +207,7 @@ public class ReportServiceImpl implements ReportService {
 		reportRepository.update(report);
 
 		Object[] arguments = { report.getProgram().getName() };
-		eventService.save("report.up.sucess", null, MEDIUM.getValue(), arguments);
+		eventService.save("report.up.sucess", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -215,21 +217,25 @@ public class ReportServiceImpl implements ReportService {
 		reportRepository.update(report);
 
 		Object[] arguments = { report.getProgram().getName() };
-		eventService.save("report.down.success", null, MEDIUM.getValue(), arguments);
+		eventService.save("report.down.success", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
-	public void answer(Report report, String answer) {
-		report.setAnswer(answer);
+	public void answer(Report report, Account account, String answer) {
+		String log = "";
+		if (report.getAnswer() != null) {
+			log = report.getAnswer();
+		}
+		String aux = DateUtils.format(new Date(), DateUtils.FORMAT_DISPLAY) + " - " + account.getName() + "\n";
+		report.setAnswer(aux + "\t" + answer + "\n" + log);
 		reportRepository.update(report);
 
-		Object[] arguments = { report.getProgram().getName() };
-		eventService.save("report.answer.admin", report.getAccount(), LOW.getValue(), arguments);
+		Object[] arguments = { account.getFullName(), report.getProgram().getName() };
+		eventService.save("report.answer.user", report.getAccount(), levels.HIGH, arguments);
 	}
 
 	@Override
 	public List<ReportDTO> getReportsDTO(List<Report> reports) {
-
 		List<ReportDTO> reportsDTO = new ArrayList<>();
 		for (Report report : reports) {
 			reportsDTO.add(getReportDTO(report));

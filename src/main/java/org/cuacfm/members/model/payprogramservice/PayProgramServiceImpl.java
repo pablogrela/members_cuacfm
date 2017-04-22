@@ -30,6 +30,7 @@ import org.cuacfm.members.model.feeprogram.FeeProgramRepository;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogram.PayProgramRepository;
 import org.cuacfm.members.model.util.Constants;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.CreatePdf;
@@ -78,7 +79,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 	@Override
 	public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException {
 		Object[] arguments = { payProgram.getFeeProgram().getName(), payProgram.getProgram().getName() };
-		eventService.save("payProgram.successModify.event", null, 2, arguments);
+		eventService.save("payProgram.successModify.event", null, levels.MEDIUM, arguments);
 		return payProgramRepository.update(payProgram);
 	}
 
@@ -95,7 +96,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 		payProgramRepository.update(payProgram);
 
 		Object[] arguments = { payProgram.getFeeProgram().getName() };
-		eventService.save("payProgram.successPay", null, 2, arguments);
+		eventService.save("payProgram.successPay", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -121,7 +122,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 		payProgramRepository.update(payProgram);
 
 		Object[] arguments = { payProgram.getFeeProgram().getName() };
-		eventService.save("payProgram.successModify", null, 2, arguments);
+		eventService.save("payProgram.successModify", null, levels.MEDIUM, arguments);
 	}
 
 	@Override

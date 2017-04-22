@@ -34,8 +34,10 @@
 			</div>
 		</form>
 
+
 		<!-- Form search -->
 		<form>
+
 			<div class="form-group form-group-search pull-right mobile-search">
 				<div class="input-group">
 					<div class="input-group-addon">
@@ -44,6 +46,13 @@
 					<input type="text" class="form-control" th:placeholder="#{search.info}" data-ng-model="search" />
 				</div>
 			</div>
+
+			<div data-ng-if="enableLastMonth" class="btn-group pull-right" data-toggle="buttons" >
+				<label class="btn btn-default" data-ng-click="last_month()" th:title="#{filter.last.month.info}">
+					<input type="checkbox" autocomplete="off" th:text="#{filter.last.month}" />
+				</label>
+			</div>
+			
 		</form>
 	</div>
 

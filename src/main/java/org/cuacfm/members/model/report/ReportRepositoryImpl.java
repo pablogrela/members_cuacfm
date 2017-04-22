@@ -86,10 +86,14 @@ public class ReportRepositoryImpl implements ReportRepository {
 
 	@Override
 	public List<Report> getReportListActive() {
-		return entityManager.createQuery("select p from Report p where p.active = true order by p.dateCreate desc", Report.class)
-				.getResultList();
+		return entityManager.createQuery("select p from Report p where p.active = true order by p.dateCreate desc", Report.class).getResultList();
 	}
 
+	@Override
+	public List<Report> getReportListClose() {
+		return entityManager.createQuery("select p from Report p where p.active = false order by p.dateCreate desc", Report.class).getResultList();
+	}
+	
 	@Override
 	public List<Report> getReportListByUser(Account account) {
 		return entityManager.createQuery("select p from Report p where p.account.id = :accountId order by p.dateCreate desc", Report.class)
@@ -97,8 +101,9 @@ public class ReportRepositoryImpl implements ReportRepository {
 	}
 
 	@Override
-	public List<Report> getReportListClose() {
-		return entityManager.createQuery("select p from Report p where p.active = false order by p.dateCreate desc", Report.class)
-				.getResultList();
+	public List<Report> getReportListActiveByUser(Account account) {
+		return entityManager.createQuery("select p from Report p where p.account.id = :accountId and p.active = true order by p.dateCreate desc", Report.class)
+				.setParameter("accountId", account.getId()).getResultList();
 	}
+
 }

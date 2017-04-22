@@ -311,7 +311,7 @@
 						</div>
 						<div class="col-lg-20">
 							<textarea class="form-control" name="personality" id="personality" th:placeholder="#{personality}" th:field="*{personality}" rows="5" cols="40">
-            	Observations</textarea>
+            				</textarea>
 							<span class="help-block" th:if="${#fields.hasErrors('personality')}" th:errors="*{personality}">Incorrect personality</span>
 							<div class="ws-errorbox" hidden=""></div>
 						</div>
@@ -328,7 +328,7 @@
 						<div class="col-lg-20">
 							<textarea class="form-control" name="observations" id="knowledge" th:placeholder="#{account.knowledge}" th:field="*{knowledge}" rows="5"
 								cols="40">
-            	Observations</textarea>
+            				</textarea>
 							<span class="help-block" th:if="${#fields.hasErrors('knowledge')}" th:errors="*{knowledge}">Incorrect knowledge</span>
 							<div class="ws-errorbox" hidden=""></div>
 						</div>
@@ -400,11 +400,47 @@
 						</div>
 					</div>
 
+
+					<br />
+					<!-- Info Permissions -->
+					<h4 class="text-center" th:text="#{permissions.info}">Info Station</h4>
+					<hr />
+
+
+					<!--  permission report, revision i18n -->
+					<div class="form-group">
+						<div class="col-lg-6">
+							<div class="input-group">
+								<label for="role" class="col-lg-2" th:text="#{permissions.ROLE_REPORT}">permission</label>
+								<span class="input-group-btn">
+									<input type="checkbox" id="permissionReport" name="permissionReport" th:field="*{permissionReport}" data-toggle="toggle" data-on="Sí"
+										data-off="No" data-onstyle="success" data-offstyle="danger" />
+								</span>
+							</div>
+						</div>
+					</div>
+
+
+					<!--  permission trainer, revision i18n  -->
+					<div class="form-group">
+						<div class="col-lg-6">
+							<div class="input-group">
+								<label for="role" class="col-lg-2" th:text="#{permissions.ROLE_TRAINER}">permission</label>
+								<span class="input-group-btn">
+									<input type="checkbox" id="permissionTrainer" name="permissionTrainer" th:field="*{permissionTrainer}" data-toggle="toggle" data-on="Sí"
+										data-off="No" data-onstyle="success" data-offstyle="danger" />
+								</span>
+							</div>
+						</div>
+					</div>
+					<hr />
+
+
 					<!-- Button Modify, visible if a checkbox enable is pressed -->
 					<div>
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
-								<button type="submit" class="btn btn-orange btn-lg" th:text="#{account.edit}"></button>
+								<button type="submit" class="btn btn-orange btn-form" th:text="#{account.edit}"></button>
 							</div>
 						</div>
 					</div>
@@ -485,7 +521,7 @@
 					<div>
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
-								<button type="submit" class="btn btn-orange btn-lg" th:text="#{account.createNewBankAccount}">createNewBankAccount</button>
+								<button type="submit" class="btn btn-orange btn-form" th:text="#{account.createNewBankAccount}">createNewBankAccount</button>
 							</div>
 						</div>
 					</div>

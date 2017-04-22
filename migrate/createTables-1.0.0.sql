@@ -29,7 +29,7 @@
 
 -- Workbench 
 -- 	Se accede a Data Import / Import From Disk / Import from Sel-container File
---     Seleccionar el fichero createTablesTest.sql
+--     Seleccionar el fichero createTables-1.0.0.sql
 --     Seleccionar el target schema members
 --     Seleccionar la modalidad de carga Dump Structure, Dump Data o ambas.
 --         Para members selecionar la modalidad Dump Structure and Data 
@@ -37,13 +37,13 @@
  
 -- Terminal
 -- 	Import MYSQL:
--- 		mysql -u root -p membersTest < createTablesTest.sql
+-- 		mysql -u root -p members < createTables-1.0.0.sql
  
 --	Export MYSQL:
--- 		mysqldump -u root -p membersTest > createTablesTest.sql
+-- 		mysqldump -u root -p members > createTables-1.0.0.sql
 
-
-use membersTest;
+ 
+use members;
 
 DROP TABLE IF EXISTS Configuration;
 DROP TABLE IF EXISTS DirectDebitPayPrograms;
@@ -59,7 +59,6 @@ DROP TABLE IF EXISTS FeeMember;
 DROP TABLE IF EXISTS Inscription;
 DROP TABLE IF EXISTS Training;
 DROP TABLE IF EXISTS TrainingType;
-DROP TABLE IF EXISTS Report;
 DROP TABLE IF EXISTS Program;
 DROP TABLE IF EXISTS ProgramType;
 DROP TABLE IF EXISTS ProgramThematic;
@@ -132,7 +131,6 @@ CREATE TABLE Account(
     knowledge VARCHAR(500),   
     programName VARCHAR(50),
     role VARCHAR(20) NOT NULL,
-    permissions VARCHAR(100),
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateDown TIMESTAMP NULL,
     token VARCHAR(500),
@@ -209,7 +207,7 @@ CREATE TABLE Program(
     accountPayer INT,
     programType INT NOT NULL,
     programThematic INT NOT NULL,
-    programCategory INT NOT NULL,
+    programCategory INT,
     programLanguage INT NOT NULL,   
     email VARCHAR(50),
     twitter VARCHAR(50),
@@ -236,31 +234,9 @@ CREATE TABLE UserPrograms(
     CONSTRAINT UserProgramsId_PK PRIMARY KEY (id),
     CONSTRAINT UserPrograms_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
     CONSTRAINT UserPrograms_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
-    CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId,programId)
+    CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId, programId)
 );	
 
-
-CREATE TABLE Report(
-    id BIGINT NOT NULL auto_increment,
-    account INT NOT NULL,
-    program INT NOT NULL,
-    dirt TINYINT NOT NULL, 
-    tidy TINYINT NOT NULL, 
-    configuration TINYINT NOT NULL, 
-    openDoor BOOLEAN NOT NULL, 
-    viewMembers BOOLEAN NOT NULL, 
-    location VARCHAR(50),
-    description VARCHAR(500),
-    file VARCHAR(100),
-    files VARCHAR(500),
-    answer VARCHAR(500),	
-    dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-    dateRevision TIMESTAMP NULL,
-    active BOOLEAN NOT NULL, 
-    CONSTRAINT Report_PK PRIMARY KEY (id),
-    CONSTRAINT Report_AccountId_FK FOREIGN KEY (account) REFERENCES Account(id),
-    CONSTRAINT Report_ProgramId_FK FOREIGN KEY (program) REFERENCES Program(id)
-); 
 
 
 CREATE TABLE TrainingType(
@@ -449,6 +425,34 @@ CREATE TABLE Event(
 ); 
 
 
+-- Solo para la base de datos principal, para el test no se debe cargar
+-- Insert Configuration:
+insert into Configuration values (1, 'CuacFM', 'cuacfm@hotmail.com', 981666666, 24, 25, 'Comprométome a coñecer e cumprir a normativa interna da asociación, así coma a asumir a responsabilidade das informacións e opinións que difunda en antena e a facer un bo uso das instalacións e material da asociación.
+
+Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na asociación cultural  Colectivo de Universitarios ACtivos, cousa que NON ACONTECE, se marquei as opcións "simpatizante" ou "patrocinador web"            ');
+
+
+insert into Account values 
+(1, 'admin', '', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_TRAINER', null, null, null);
+
+
+-- Insert Method Payment:
+insert into MethodPayment values (1, 'Exento', false, 'No tiene que pagar');
+insert into MethodPayment values (2, 'Efectivo', false, 'Pago en efectivo');
+insert into MethodPayment values (3, 'Domiciliado', true, 'Domiciliado');
+insert into MethodPayment values (4, 'Paypal', false, 'Paypal');	
+insert into MethodPayment values (5, 'Ingreso', false, 'Pago mediante un ingreso bancario');	
+
+
+-- Insert Account Types:
+insert into AccountType values (1, 'Exento', false, 'No tiene que pagar', 100);
+insert into AccountType values (2, 'Adulto', false, 'Tarifa adulta', 0);
+insert into AccountType values (3, 'Juvenil', false, 'Tarifa juvenil', 50);
+insert into AccountType values (4, 'Jubilado', false, 'Tarifa adulta', 50);
+insert into AccountType values (5, 'Persona Juridica', true, 'Tarifa adulta', 0);
+	
+
 -- Insert Program Type:
 insert into ProgramType values (1, 'Outro', 'Outro');	
 insert into ProgramType values (2, 'Musical', 'Musical');
@@ -459,9 +463,8 @@ insert into ProgramType values (6, 'Educativo', 'Educativo');
 insert into ProgramType values (7, 'Entrevistas', 'Entrevistas');	
 
 
-
 -- Insert Program Thematic:
-insert into ProgramThematic values (1, 'Outros temas', 'Outros temas');	
+insert into ProgramThematic values (1, 'Otros temas', 'Otros temas');	
 insert into ProgramThematic values (2, 'Sociedade', ' Sociedade');
 insert into ProgramThematic values (3, 'Política', 'Política');
 insert into ProgramThematic values (4, 'Cultura', ' Cultura');
@@ -471,22 +474,22 @@ insert into ProgramThematic values (7, 'Actualidade', 'Actualidade');
 insert into ProgramThematic values (8, 'Ciencia', 'Ciencia');	
 
 
-
 -- Insert ProgramCategory:
-insert into ProgramCategory values (1, 'Others', ' Others');
-insert into ProgramCategory values (2, 'Política', 'Política');
-insert into ProgramCategory values (3, 'Cultura', ' Cultura');
-insert into ProgramCategory values (4, 'Deportes', 'Deportes');	
-insert into ProgramCategory values (5, 'Humor', 'Humor');	
-insert into ProgramCategory values (6, 'Actualidade', 'Actualidade');	
-insert into ProgramCategory values (7, 'Ciencia', 'Ciencia');	
-insert into ProgramCategory values (8, 'Outros temas', 'Outros temas');	
-
+-- Examples, use category podcast, search in web
+insert into ProgramCategory values (1, 'Otros', ' Otros');
+insert into ProgramCategory values (2, 'Sociedade', ' Sociedade');
+insert into ProgramCategory values (3, 'Política', 'Política');
+insert into ProgramCategory values (4, 'Cultura', ' Cultura');
+insert into ProgramCategory values (5, 'Deportes', 'Deportes');	
+insert into ProgramCategory values (6, 'Humor', 'Humor');	
+insert into ProgramCategory values (7, 'Actualidade', 'Actualidade');	
+insert into ProgramCategory values (8, 'Ciencia', 'Ciencia');	
 
 
 -- Insert Program Thematic:
-insert into ProgramLanguage values (1, 'Otro', ' Otro');
-insert into ProgramLanguage values (2, 'Español', ' Español');
-insert into ProgramLanguage values (3, 'Gallego', 'Gallego');
+insert into ProgramLanguage values (1, 'Outro', ' Outro');
+insert into ProgramLanguage values (2, 'Castelán', ' Castelán');
+insert into ProgramLanguage values (3, 'Galego', 'Galego');
 insert into ProgramLanguage values (4, 'Inglés', ' Inglés');
+
 

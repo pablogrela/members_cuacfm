@@ -16,31 +16,31 @@
 
  
 -- INFO English
- -- Creating the tables to use the application
- -- To import the tables to the database, it must exist
- -- Can be done by command line or with the workbench
+-- 	Creating the tables to use the application
+-- 	To import the tables to the database, it must exist
+-- 	Can be done by command line or with the workbench
  
 
- -- INFO Español
- -- Creacion de las tablas para usar la aplicación 
- -- Para importar la tablas a la base de datos, esta debe existir
- -- Se puede hacer por linea de comandos o con el workbench
+-- INFO Español
+-- 	Creacion de las tablas para usar la aplicación 
+-- 	Para importar la tablas a la base de datos, esta debe existir
+-- 	Se puede hacer por linea de comandos o con el workbench
  
 
- -- Workbench 
- -- 	Se accede a Data Import / Import From Disk / Import from Sel-container File
- --     Seleccionar el fichero createTables.sql
- --     Seleccionar el target schema members
- --     Seleccionar la modalidad de carga Dump Structure, Dump Data o ambas.
- --         Para members selecionar la modalidad Dump Structure and Data
- --         Para membersTest seleccionar la modalidad Dump Structure only
+-- Workbench 
+-- 	Se accede a Data Import / Import From Disk / Import from Sel-container File
+--     Seleccionar el fichero createTables.sql
+--     Seleccionar el target schema members
+--     Seleccionar la modalidad de carga Dump Structure, Dump Data o ambas.
+--         Para members selecionar la modalidad Dump Structure and Data 
+--         Para membersTest seleccionar la modalidad Dump Structure only
  
- -- Terminal
- -- 	Import MYSQL:
- -- 	mysql -u root -p members < createTables.sql
+-- Terminal
+-- 	Import MYSQL:
+-- 		mysql -u root -p members < createTables.sql
  
- --		Export MYSQL:
- -- 	mysqldump -u root -p members > createTables.sql
+--	Export MYSQL:
+-- 		mysqldump -u root -p members > createTables.sql
 
  
  use members;
@@ -132,6 +132,7 @@ CREATE TABLE Account(
     knowledge VARCHAR(500),   
     programName VARCHAR(50),
     role VARCHAR(20) NOT NULL,
+    permissions VARCHAR(100),
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateDown TIMESTAMP NULL,
     token VARCHAR(500),
@@ -252,7 +253,7 @@ CREATE TABLE Report(
     description VARCHAR(500),
     file VARCHAR(100),
     files VARCHAR(500),
-    answer VARCHAR(500),	
+    answer VARCHAR(5000),	
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateRevision TIMESTAMP NULL,
     active BOOLEAN NOT NULL, 
@@ -457,7 +458,7 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 insert into Account values 
 (1, 'admin', '', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', null, null, null);
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_TRAINER', null, null, null);
 
 
 -- Insert Method Payment:

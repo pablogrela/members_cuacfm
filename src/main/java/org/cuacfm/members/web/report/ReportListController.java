@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.permissions;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
@@ -56,8 +57,9 @@ import com.google.gson.Gson;
 public class ReportListController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ReportListController.class);
-	private static final String PROGRAM_VIEW_NAME = "report/reportlist";
-	private static final String PROGRAM_CLOSE_VIEW_NAME = "report/reportlistclose";
+	private static final String REPORT_VIEW_NAME = "report/reportlist";
+	private static final String REPORT_CLOSE_VIEW_NAME = "report/reportlistclose";
+	private static final String REPORT_USER_VIEW_NAME = "report/reportuserlist";
 
 	@Autowired
 	private ReportService reportService;
@@ -83,8 +85,8 @@ public class ReportListController {
 	 */
 
 	@RequestMapping(value = "reportList")
-	public String getreportListView() throws UniqueException {
-		return PROGRAM_VIEW_NAME;
+	public String getReportListView() {
+		return REPORT_VIEW_NAME;
 	}
 
 	/**
@@ -93,8 +95,18 @@ public class ReportListController {
 	 * @return the report list close view
 	 */
 	@RequestMapping(value = "reportList/close")
-	public String getreportListCloseView() {
-		return PROGRAM_CLOSE_VIEW_NAME;
+	public String getReportListCloseView() {
+		return REPORT_CLOSE_VIEW_NAME;
+	}
+
+	/**
+	 * Gets the report user list view.
+	 *
+	 * @return the report user list view
+	 */
+	@RequestMapping(value = "reportUserList")
+	public String getReportUserListView() {
+		return REPORT_USER_VIEW_NAME;
 	}
 
 	/**
@@ -110,11 +122,27 @@ public class ReportListController {
 
 		// List of reports
 		List<ReportDTO> reportsDTO;
-		if (account.getRole() == roles.ROLE_ADMIN) {
+		if (account.getPermissions().contains(permissions.ROLE_REPORT.toString())) {
 			reportsDTO = reportService.getReportsDTO(reportService.getReportListActive());
 		} else {
-			reportsDTO = reportService.getReportsDTO(reportService.getReportListByUser(account));
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
+		return new ResponseEntity<>(reportsDTO, HttpStatus.OK);
+	}
+
+	/**
+	 * Gets the reports user.
+	 *
+	 * @param principal the principal
+	 * @return the reports user
+	 */
+	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "reportUserList/")
+	public ResponseEntity<List<ReportDTO>> getReportsUser(Principal principal) {
+
+		Account account = accountService.findByLogin(principal.getName());
+
+		// List of reports
+		List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListByUser(account));
 
 		if (reportsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -136,13 +164,36 @@ public class ReportListController {
 
 		if (email != null) {
 			Account account = accountService.findByEmail(email);
-			List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListByUser(account));
+			if (account.getPermissions().contains(permissions.ROLE_REPORT.toString())) {
+				List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListActive());
+				String reportsJson = new Gson().toJson(reportsDTO);
+				// Return with data "{ \"data\": " + reportsJson + " }" instead of reportsJson
+				return new ResponseEntity<>(reportsJson, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+	}
+
+	/**
+	 * Gets the reports API.
+	 *
+	 * @param token the token
+	 * @return the reports API
+	 */
+	@RequestMapping(value = "api/reportUserList/")
+	public ResponseEntity<String> getReportsUserAPI(@RequestParam(value = "token") String token) {
+
+		// Validate Token and retrieve email
+		String email = getEmailOfToken(token);
+
+		if (email != null) {
+			Account account = accountService.findByEmail(email);
+			List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListActiveByUser(account));
 			String reportsJson = new Gson().toJson(reportsDTO);
 			// Return with data "{ \"data\": " + reportsJson + " }" instead of reportsJson
 			return new ResponseEntity<>(reportsJson, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
+		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 	}
 
 	/**
@@ -190,19 +241,19 @@ public class ReportListController {
 	}
 
 	/**
-	 * Report asnwer.
+	 * Report answer.
 	 *
 	 * @param id the id
 	 * @param answer the answer
 	 * @param ra the ra
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "reportList/reportAnswer/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, ?>> reportAnswer(@PathVariable("id") Long id, @RequestParam(value = "answer") String answer,
-			RedirectAttributes ra) {
+	@RequestMapping(value = {"reportList/reportAnswer/{id}", "reportUserList/reportAnswer/{id}"}, method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> reportAnswer(Principal principal, @PathVariable("id") Long id,
+			@RequestParam(value = "answer") String answer, RedirectAttributes ra) {
 
 		Report report = reportService.findById(id);
-		reportService.answer(report, answer);
+		reportService.answer(report, accountService.findByLogin(principal.getName()), answer);
 
 		Object[] arguments = { report.getProgram().getName() };
 		MessageHelper.addInfoAttribute(ra, messageSource.getMessage("report.answer.success", arguments, Locale.getDefault()));
@@ -236,7 +287,7 @@ public class ReportListController {
 	 * @param imageName the image name
 	 * @return the image report
 	 */
-	@RequestMapping(value = "reportList/image/{reportId}")
+	@RequestMapping(value = {"reportList/image/{reportId}", "reportUserList/image/{reportId}"})
 	@ResponseBody
 	public byte[] getImageReport(@PathVariable("reportId") Long reportId, @RequestParam(value = "imageName") String imageName) {
 

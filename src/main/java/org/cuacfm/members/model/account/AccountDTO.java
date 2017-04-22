@@ -16,6 +16,7 @@
 package org.cuacfm.members.model.account;
 
 import java.util.Date;
+import java.util.List;
 
 import org.cuacfm.members.model.account.Account.roles;
 
@@ -34,6 +35,7 @@ public class AccountDTO {
 	private String mobile;
 	private boolean active;
 	private roles role;
+	private List<String> permissions;
 	private String methodPayment;
 	private String accountType;
 	private int installments;
@@ -78,7 +80,7 @@ public class AccountDTO {
 	 * @param installments the installments
 	 */
 	public AccountDTO(Long id, String login, String dni, String email, String phone, String mobile, String name, String surname, String nickName,
-			String address, boolean active, roles role, int installments, Date dateCreate, Date dateDown) {
+			String address, boolean active, roles role, List<String> permissions, int installments, Date dateCreate, Date dateDown) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -92,6 +94,7 @@ public class AccountDTO {
 		this.mobile = mobile;
 		this.active = active;
 		this.role = role;
+		this.permissions = permissions;
 		this.installments = installments;
 		this.dateCreate = dateCreate;
 		this.dateDown = dateDown;
@@ -191,6 +194,14 @@ public class AccountDTO {
 
 	public void setRole(roles role) {
 		this.role = role;
+	}
+
+	public List<String> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<String> permissions) {
+		this.permissions = permissions;
 	}
 
 	public int getInstallments() {

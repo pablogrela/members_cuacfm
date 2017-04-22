@@ -24,7 +24,7 @@
 <body onload="loadInputPhotos()">
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='reports')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active=${report})">&nbsp;</div>
 
 	<!-- Button redirect to Report List-->
 	<div class="text-center">
@@ -34,7 +34,7 @@
 
 	<div class="form-narrow">
 
-		<form class="form-horizontal ws-validate" method="post" th:action="@{'reportCreate?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${reportForm}" enctype="multipart/form-data">
+		<form class="form-horizontal ws-validate" method="post" th:action="@{${reportCreate}+'?'+${_csrf.parameterName}+'='+${_csrf.token}}" th:object="${reportForm}" enctype="multipart/form-data">
 			
 			<!-- /* Handle the flash message, The message code is returned from the @Controller */ -->
 			<div class="text-center" th:if="${message != null}">

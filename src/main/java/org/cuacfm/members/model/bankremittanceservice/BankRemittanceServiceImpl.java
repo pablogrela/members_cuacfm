@@ -34,6 +34,7 @@ import org.cuacfm.members.model.directdebit.DirectDebit;
 import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.DateUtils;
@@ -101,13 +102,13 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 			}
 		}
 		Object[] arguments = { DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE) };
-		eventService.save("bankRemittance.successCreate", null, 2, arguments);
+		eventService.save("bankRemittance.successCreate", null, levels.HIGH, arguments);
 	}
 
 	@Override
 	public BankRemittance update(BankRemittance bankRemittance) {
 		Object[] arguments = { DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE) };
-		eventService.save("bankRemittance.successManagement", null, 2, arguments);
+		eventService.save("bankRemittance.successManagement", null, levels.HIGH, arguments);
 		return bankRemittanceRepository.update(bankRemittance);
 	}
 
@@ -133,14 +134,14 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 	public String payBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException {
 		updateStateBankRemittance(bankRemittance, states.PAY, methods.DIRECTDEBIT);
 		Object[] arguments = { DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE) };
-		return eventService.save("bankRemittance.successPay", null, 2, arguments);
+		return eventService.save("bankRemittance.successPay", null, levels.HIGH, arguments);
 	}
 
 	@Override
 	public String managementBankRemittance(BankRemittance bankRemittance) throws ExistTransactionIdException {
 		updateStateBankRemittance(bankRemittance, states.MANAGEMENT, methods.DIRECTDEBIT);
 		Object[] arguments = { DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE) };
-		return eventService.save("bankRemittance.successManagement", null, 2, arguments);
+		return eventService.save("bankRemittance.successManagement", null, levels.HIGH, arguments);
 	}
 
 	@Override
@@ -190,11 +191,11 @@ public class BankRemittanceServiceImpl implements BankRemittanceService {
 		} catch (Exception e) {
 			logger.error("processXML: ", e);
 			Object[] arguments = {};
-			eventService.save("bankRemittance.failUpload", null, 2, arguments);
+			eventService.save("bankRemittance.failUpload", null, levels.HIGH, arguments);
 			return "bankRemittance.failUpload";
 		}
 		Object[] arguments = { file.getOriginalFilename() };
-		eventService.save("bankRemittance.successUpload", null, 2, arguments);
+		eventService.save("bankRemittance.successUpload", null, levels.HIGH, arguments);
 		return "bankRemittance.successUpload";
 	}
 

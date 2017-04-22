@@ -78,17 +78,26 @@ public interface ReportRepository {
 	public List<Report> getReportListActive();
 
 	/**
+	 * Gets the report list close.
+	 *
+	 * @return the report list close
+	 */
+	public List<Report> getReportListClose();
+
+	/**
 	 * Gets the report list by user.
 	 *
 	 * @param account the account
 	 * @return the report list by user
 	 */
 	public List<Report> getReportListByUser(Account account);
-	
+
 	/**
-	 * Gets the report list close.
+	 * Gets the report list by user.
 	 *
-	 * @return the report list close
+	 * @param account the account
+	 * @return the report list by user
 	 */
-	public List<Report> getReportListClose();
+	public List<Report> getReportListActiveByUser(Account account);
+
 }

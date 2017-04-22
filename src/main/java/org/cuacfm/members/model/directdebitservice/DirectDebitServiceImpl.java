@@ -31,9 +31,10 @@ import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
-import org.cuacfm.members.model.util.DateUtils;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
+import org.cuacfm.members.model.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,7 +94,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		for (Account account : accountService.getAccounts()) {
 			save(account);
 		}
-		return eventService.save("directDebit.successRefresh", null, 1, null);
+		return eventService.save("directDebit.successRefresh", null, levels.CRITICAL);
 	}
 
 	@Override
@@ -165,9 +166,9 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		List<DirectDebitDTO> directDebitsDTO = new ArrayList<>();
 		for (DirectDebit directDebit : directDebits) {
 			DirectDebitDTO directDebitDTO = new DirectDebitDTO(directDebit.getId(), accountService.getAccountDTO(directDebit.getAccount()),
-					directDebit.getConcept(), directDebit.getPrice(), directDebit.getDateCreate(), directDebit.getDateUpdate(), directDebit.getDatePay(), directDebit.getState(),
-					directDebit.getMethod(), directDebit.getSecuence(), directDebit.getIdPayer(), directDebit.getIdTxn(),
-					directDebit.getEmailPayer());
+					directDebit.getConcept(), directDebit.getPrice(), directDebit.getDateCreate(), directDebit.getDateUpdate(),
+					directDebit.getDatePay(), directDebit.getState(), directDebit.getMethod(), directDebit.getSecuence(), directDebit.getIdPayer(),
+					directDebit.getIdTxn(), directDebit.getEmailPayer());
 
 			if (directDebit.getReturnReason() != null) {
 				directDebitDTO.setReturnReason(directDebit.getReturnReason().getDescription());
@@ -199,7 +200,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	public String directDebit(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		updateDirectDebit(directDebit, states.PAY, methods.DIRECTDEBIT, new Date());
 		Object[] arguments = { directDebit.getConcept() };
-		return eventService.save("directDebit.successDirectDebit", account, 2, arguments);
+		return eventService.save("directDebit.successDirectDebit", account, levels.HIGH, arguments);
 	}
 
 	@Override
@@ -207,7 +208,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		if (directDebit.getState().equals(states.NO_PAY) || directDebit.getState().equals(states.RETURN_BILL)) {
 			updateDirectDebit(directDebit, states.MANAGEMENT, methods.BANK_DEPOSIT, null);
 			Object[] arguments = { directDebit.getConcept() };
-			return eventService.save("directDebit.successBankDeposit.mark", account, 2, arguments);
+			return eventService.save("directDebit.successBankDeposit.mark", account, levels.HIGH, arguments);
 		}
 		return null;
 	}
@@ -217,7 +218,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		if (directDebit.getMethod().equals(methods.BANK_DEPOSIT) || directDebit.getState().equals(states.MANAGEMENT)) {
 			updateDirectDebit(directDebit, states.NO_PAY, null, null);
 			Object[] arguments = { directDebit.getConcept() };
-			return eventService.save("directDebit.successBankDeposit.cancel", account, 2, arguments);
+			return eventService.save("directDebit.successBankDeposit.cancel", account, levels.HIGH, arguments);
 		}
 		return null;
 	}
@@ -225,9 +226,9 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	@Override
 	public String confirmBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		if (directDebit.getMethod().equals(methods.BANK_DEPOSIT) || directDebit.getState().equals(states.MANAGEMENT)) {
-			updateDirectDebit(directDebit, states.PAY, methods.BANK_DEPOSIT,  new Date());
+			updateDirectDebit(directDebit, states.PAY, methods.BANK_DEPOSIT, new Date());
 			Object[] arguments = { directDebit.getConcept() };
-			return eventService.save("directDebit.successBankDeposit.pay", account, 2, arguments);
+			return eventService.save("directDebit.successBankDeposit.pay", account, levels.HIGH, arguments);
 		}
 		return null;
 	}
@@ -235,19 +236,19 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	@Override
 	public String confirmPaypal(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		if (directDebit.getMethod().equals(methods.PAYPAL) || directDebit.getState().equals(states.MANAGEMENT)) {
-			updateDirectDebit(directDebit, states.PAY, methods.PAYPAL,  new Date());
+			updateDirectDebit(directDebit, states.PAY, methods.PAYPAL, new Date());
 			Object[] arguments = { directDebit.getConcept() };
-			return eventService.save("directDebit.successPayPal.pay", account, 2, arguments);
+			return eventService.save("directDebit.successPayPal.pay", account, levels.HIGH, arguments);
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String cash(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		if (directDebit.getState().equals(states.NO_PAY) || directDebit.getState().equals(states.RETURN_BILL)) {
 			updateDirectDebit(directDebit, states.PAY, methods.CASH, new Date());
 			Object[] arguments = { directDebit.getConcept() };
-			return eventService.save("directDebit.successCash", account, 2, arguments);
+			return eventService.save("directDebit.successCash", account, levels.HIGH, arguments);
 		}
 		return null;
 	}
@@ -274,7 +275,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 
 			updateDirectDebit(directDebit, directDebit.getState(), directDebit.getMethod(), directDebit.getDatePay());
 			Object[] arguments = { directDebit.getConcept() };
-			eventService.save("directDebit.successPayPal", account, 2, arguments);
+			eventService.save("directDebit.successPayPal", account, levels.HIGH, arguments);
 		}
 	}
 
@@ -282,20 +283,20 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	public String returnBill(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		updateDirectDebit(directDebit, states.RETURN_BILL, methods.DIRECTDEBIT, null);
 		Object[] arguments = { directDebit.getConcept() };
-		return eventService.save("directDebit.successReturnBill", account, 2, arguments);
+		return eventService.save("directDebit.successReturnBill", account, levels.HIGH, arguments);
 	}
 
 	@Override
 	public String management(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		updateDirectDebit(directDebit, states.MANAGEMENT, methods.DIRECTDEBIT, null);
 		Object[] arguments = { directDebit.getConcept() };
-		return eventService.save("directDebit.successManagement", account, 2, arguments);
+		return eventService.save("directDebit.successManagement", account, levels.HIGH, arguments);
 	}
 
 	@Override
 	public String cancel(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
 		updateDirectDebit(directDebit, states.CANCEL, null, null);
 		Object[] arguments = { directDebit.getConcept() };
-		return eventService.save("directDebit.successCancel", account, 2, arguments);
+		return eventService.save("directDebit.successCancel", account, levels.HIGH, arguments);
 	}
 }
