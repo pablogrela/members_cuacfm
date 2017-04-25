@@ -221,7 +221,7 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
-	public void answer(Report report, Account account, String answer) {
+	public Report answer(Report report, Account account, String answer) {
 		String log = "";
 		if (report.getAnswer() != null) {
 			log = report.getAnswer();
@@ -232,6 +232,8 @@ public class ReportServiceImpl implements ReportService {
 
 		Object[] arguments = { account.getFullName(), report.getProgram().getName() };
 		eventService.save("report.answer.user", report.getAccount(), levels.HIGH, arguments);
+
+		return report;
 	}
 
 	@Override

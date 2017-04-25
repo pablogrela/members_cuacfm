@@ -141,8 +141,9 @@ public interface ReportService {
 	 * @param report the report
 	 * @param account the account
 	 * @param answer the answer
+	 * @return the report
 	 */
-	public void answer(Report report, Account account, String answer);
+	public Report answer(Report report, Account account, String answer);
 
 	/**
 	 * Gets the reports DTO.

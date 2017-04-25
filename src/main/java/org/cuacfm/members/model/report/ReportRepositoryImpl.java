@@ -81,7 +81,7 @@ public class ReportRepositoryImpl implements ReportRepository {
 
 	@Override
 	public List<Report> getReportList() {
-		return entityManager.createQuery("select p from Report p order by p.name", Report.class).getResultList();
+		return entityManager.createQuery("select p from Report p order by p.name order by p.dateCreate desc", Report.class).getResultList();
 	}
 
 	@Override

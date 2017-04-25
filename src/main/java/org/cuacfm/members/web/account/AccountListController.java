@@ -16,6 +16,8 @@
 
 package org.cuacfm.members.web.account;
 
+import static org.cuacfm.members.model.util.FirebaseUtils.getEmailOfToken;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,6 +35,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -46,8 +49,8 @@ public class AccountListController {
 	private AccountService accountService;
 
 	@Autowired
-	private MessageSource messageSource; 
-	
+	private MessageSource messageSource;
+
 	public static final String ACCOUNT_VIEW_NAME = "account/accountlist";
 	public static final String REDIRECT_ACCOUNT = "redirect:/accountList";
 
@@ -81,6 +84,7 @@ public class AccountListController {
 	 * Unsubscribe.
 	 *
 	 * @param id the id
+	 * @param ra the ra
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "accountList/unsubscribe/{id}", method = RequestMethod.POST)
@@ -102,6 +106,7 @@ public class AccountListController {
 	 * Subscribe.
 	 *
 	 * @param id the id
+	 * @param ra the ra
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "accountList/subscribe/{id}", method = RequestMethod.POST)
@@ -109,11 +114,30 @@ public class AccountListController {
 
 		Account account = accountService.findById(id);
 		accountService.subscribe(account);
-		
-		Object[] arguments = { account.getName() + " " + account.getSurname()};
+
+		Object[] arguments = { account.getName() + " " + account.getSurname() };
 		String messageI18n = messageSource.getMessage("account.successSubscribe", arguments, Locale.getDefault());
 		MessageHelper.addInfoAttribute(ra, messageI18n);
-		
+
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
+	}
+
+	/**
+	 * Gets the account API.
+	 *
+	 * @param token the token
+	 * @return the account API
+	 */
+	@RequestMapping(value = "api/accountList/account")
+	public ResponseEntity<AccountDTO> getAccountAPI(@RequestParam(value = "token") String token) {
+
+		// Validate Token and retrieve email
+		String email = getEmailOfToken(token);
+
+		if (email != null) {
+			AccountDTO accountDTO = accountService.getAccountDTO(accountService.findByEmail(email));
+			return new ResponseEntity<>(accountDTO, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 	}
 }

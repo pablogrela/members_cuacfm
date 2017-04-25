@@ -223,13 +223,32 @@ public class ProgramListController {
 		String email = getEmailOfToken(token);
 
 		if (email != null) {
-			Account account = accountService.findByEmail(email);
-			List<ProgramDTO> programsDTO = programService.getProgramsDTO(programService.getProgramListActiveByUser(account));
+			List<ProgramDTO> programsDTO = programService.getProgramsDTO(programService.getProgramListActive());
 			String programsJson = new Gson().toJson(programsDTO);
 			// Return with data "{ \"data\": " + programsJson + " }" instead of incidencesJson
 			return new ResponseEntity<>(programsJson, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 		}
+		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+	}
+
+	/**
+	 * Gets the programs API.
+	 *
+	 * @param token the token
+	 * @return the programs API
+	 */
+	@RequestMapping(value = "api/programUserList/")
+	public ResponseEntity<String> getProgramsUserAPI(@RequestParam(value = "token") String token) {
+
+		// Validate Token and retrieve email
+		String email = getEmailOfToken(token);
+
+		if (email != null) {
+			Account account = accountService.findByEmail(email);
+			List<ProgramDTO> programsDTO = programService.getProgramsDTO(programService.getProgramListActiveByUser(account));
+			String programsJson = new Gson().toJson(programsDTO);
+			return new ResponseEntity<>(programsJson, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 	}
 }

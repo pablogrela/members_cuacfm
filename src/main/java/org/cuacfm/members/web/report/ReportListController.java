@@ -248,11 +248,11 @@ public class ReportListController {
 	 * @param ra the ra
 	 * @return the response entity
 	 */
-	@RequestMapping(value = {"reportList/reportAnswer/{id}", "reportUserList/reportAnswer/{id}"}, method = RequestMethod.POST)
-	public ResponseEntity<Map<String, ?>> reportAnswer(Principal principal, @PathVariable("id") Long id,
+	@RequestMapping(value = {"reportList/reportAnswer/{reportId}", "reportUserList/reportAnswer/{reportId}"}, method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> reportAnswer(Principal principal, @PathVariable("reportId") Long reportId,
 			@RequestParam(value = "answer") String answer, RedirectAttributes ra) {
 
-		Report report = reportService.findById(id);
+		Report report = reportService.findById(reportId);
 		reportService.answer(report, accountService.findByLogin(principal.getName()), answer);
 
 		Object[] arguments = { report.getProgram().getName() };
@@ -261,6 +261,35 @@ public class ReportListController {
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
+	
+	
+	
+	
+	
+	@RequestMapping(value = {"api/reportList/reportAnswer/{reportId}", "api/reportUserList/reportAnswer/{reportId}"}, method = RequestMethod.POST)
+	public ResponseEntity<String> portAnswerAPI(@PathVariable("reportId") Long reportId, @RequestParam(value = "token") String token,
+			@RequestParam(value = "answer") String answer) {
+
+		// Validate Token and retrieve email
+		String email = getEmailOfToken(token);
+
+		if (email != null) {
+			Account account = accountService.findByEmail(email);
+			Report report = reportService.findById(reportId);
+			
+			reportService.answer(report, account, answer);
+			
+			ReportDTO newReportDTO = reportService.getReportDTO(report);
+			String newReportJson = new Gson().toJson(newReportDTO);
+			return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Report down.
 	 *
