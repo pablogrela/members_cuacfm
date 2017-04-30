@@ -18,7 +18,7 @@ package org.cuacfm.members.model.trainingservice;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
@@ -37,19 +37,19 @@ public interface TrainingService {
 	 *
 	 * @param training the training
 	 * @return the training
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 * @throws UniqueException the unique exception
 	 */
-	public Training save(Training training) throws DateLimitException, UniqueException;
+	public Training save(Training training) throws DatesException, UniqueException;
 
 	/**
 	 * Update, updates an user registered into bd depending if he wants to update his password or not.
 	 *
 	 * @param training the training
 	 * @return the training
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 */
-	public Training update(Training training) throws DateLimitException;
+	public Training update(Training training) throws DatesException;
 
 	/**
 	 * Delete.

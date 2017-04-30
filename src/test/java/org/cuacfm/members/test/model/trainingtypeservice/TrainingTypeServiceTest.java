@@ -21,7 +21,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.ExistTrainingsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
@@ -51,17 +51,16 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 	@Inject
 	private TrainingTypeService trainingTypeService;
 
-
 	/**
 	 * Save and find by TrainingType test.
-	 * @throws UniqueException 
+	 * 
+	 * @throws UniqueException
 	 */
 	@Test
 	public void saveTrainingTypeTest() throws UniqueException {
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
 		// findById
@@ -73,14 +72,14 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Save and find by TrainingType test with UniqueException.
-	 * @throws UniqueException 
+	 * 
+	 * @throws UniqueException
 	 */
 	@Test(expected = UniqueException.class)
 	public void saveTrainingTypeUniqueExceptionTest() throws UniqueException {
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
 		trainingTypeService.save(trainingType);
@@ -88,21 +87,20 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * findByName test.
-	 * @throws UniqueException 
+	 * 
+	 * @throws UniqueException
 	 */
 	@Test
 	public void findByNameTest() throws UniqueException {
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
 		// findById
 		TrainingType trainingTypeSearch;
 
-		trainingTypeSearch = trainingTypeService.findByName(trainingType
-				.getName());
+		trainingTypeSearch = trainingTypeService.findByName(trainingType.getName());
 		assertEquals(trainingType, trainingTypeSearch);
 	}
 
@@ -110,14 +108,13 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 	 * deleteTrainingType test.
 	 * 
 	 * @throws ExistTrainingsException
-	 * @throws UniqueException 
+	 * @throws UniqueException
 	 */
 	@Test
 	public void deleteTrainingTypeTest() throws ExistTrainingsException, UniqueException {
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 		TrainingType trainingTypeSearch;
 
@@ -148,22 +145,19 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 	 * ExistTrainingsException test.
 	 * 
 	 * @throws ExistTrainingsException
-	 * @throws DateLimitException
-	 * @throws UniqueException 
+	 * @throws DatesException
+	 * @throws UniqueException
 	 */
 	@Test(expected = ExistTrainingsException.class)
-	public void existTrainingsExceptionTest() throws ExistTrainingsException,
-			DateLimitException, UniqueException {
+	public void existTrainingsExceptionTest() throws ExistTrainingsException, DatesException, UniqueException {
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
 		// Create training
-		Training training = new Training(trainingType, "training1",
-				DateUtils.stringToDate("10:30,2015-12-05"), DateUtils.stringToDate("10:30,2015-12-05"),
-				"description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.format("2015-12-05 10:30", DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format("2015-12-05 10:30", DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		// Delete, ExistTrainingsException
@@ -172,36 +166,34 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 
 	/**
 	 * Update Training test with UniqueException.
-	 * @throws UniqueException 
+	 * 
+	 * @throws UniqueException
 	 */
 	@Test(expected = UniqueException.class)
 	public void UpdateTrainingUniqueExceptionTest() throws UniqueException {
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		TrainingType trainingType2 = new TrainingType("Locution2", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType2 = new TrainingType("Locution2", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
-		
+
 		// Update
-		TrainingType trainingType3 = new TrainingType("Locution2", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType3 = new TrainingType("Locution2", true, "Very interesting", "livingRoom", 90);
 		trainingType3.setId(trainingType.getId());
 		trainingTypeService.update(trainingType3);
 	}
 
 	/**
 	 * Update Training test.
-	 * @throws UniqueException 
+	 * 
+	 * @throws UniqueException
 	 */
 	@Test
 	public void UpdateTrainingTest() throws UniqueException {
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
 		// Update
@@ -213,41 +205,35 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 		trainingTypeService.update(trainingType);
 
 		// Assert
-		TrainingType trainingTypeSearch = trainingTypeService
-				.findById(trainingType.getId());
+		TrainingType trainingTypeSearch = trainingTypeService.findById(trainingType.getId());
 		assertEquals(trainingType, trainingTypeSearch);
 		assertEquals(trainingType.getName(), trainingTypeSearch.getName());
 		assertEquals(trainingType.isRequired(), trainingTypeSearch.isRequired());
-		assertEquals(trainingType.getDescription(),
-				trainingTypeSearch.getDescription());
+		assertEquals(trainingType.getDescription(), trainingTypeSearch.getDescription());
 		assertEquals(trainingType.getPlace(), trainingTypeSearch.getPlace());
-		assertEquals(trainingType.getDuration(),
-				trainingTypeSearch.getDuration());
-		
-	    TrainingType trainingType2 = new TrainingType("Locution2", true,
-	            "Very interesting", "livingRoom", 90);
-	      trainingTypeService.update(trainingType2);
+		assertEquals(trainingType.getDuration(), trainingTypeSearch.getDuration());
+
+		TrainingType trainingType2 = new TrainingType("Locution2", true, "Very interesting", "livingRoom", 90);
+		trainingTypeService.update(trainingType2);
 	}
 
 	/**
 	 * getTrainingTypeList test.
-	 * @throws UniqueException 
+	 * 
+	 * @throws UniqueException
 	 */
 	@Test
 	public void getTrainingTypeListTest() throws UniqueException {
 
 		// getTrainingTypeList, no TrainingTypes
-		List<TrainingType> trainingTypeList = trainingTypeService
-				.getTrainingTypeList();
+		List<TrainingType> trainingTypeList = trainingTypeService.getTrainingTypeList();
 		// Assert
 		assertEquals(trainingTypeList.size(), 0);
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		TrainingType trainingType2 = new TrainingType("Filming", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType2 = new TrainingType("Filming", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType2);
 
 		// getTrainingTypeList
@@ -262,34 +248,29 @@ public class TrainingTypeServiceTest extends WebSecurityConfigurationAware {
 	 * @throws ExistInscriptionsException
 	 * @throws MaximumCapacityException
 	 * @throws UnsubscribeException
-	 * @throws DateLimitException
-	 * @throws UniqueException 
+	 * @throws DatesException
+	 * @throws UniqueException
 	 */
 	@Test
 	public void getTrainingListByTrainingTypeIdTest()
-			throws ExistInscriptionsException, MaximumCapacityException,
-			UnsubscribeException, DateLimitException, UniqueException {
+			throws ExistInscriptionsException, MaximumCapacityException, UnsubscribeException, DatesException, UniqueException {
 
 		// Save
-		TrainingType trainingType = new TrainingType("Locution", true,
-				"Very interesting", "livingRoom", 90);
+		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
 
 		// getTrainingTypeList
-		List<Training> trainingList = trainingTypeService
-				.getTrainingListByTrainingTypeId(trainingType.getId());
+		List<Training> trainingList = trainingTypeService.getTrainingListByTrainingTypeId(trainingType.getId());
 		// Assert
 		assertEquals(trainingList.size(), 0);
 
 		// Create training
-		Training training = new Training(trainingType, "training1",
-				DateUtils.stringToDate("10:30,2015-12-05"), DateUtils.stringToDate("10:30,2015-12-05"),
-				"description", "place", 90, 10);
+		Training training = new Training(trainingType, "training1", DateUtils.format("2015-12-05 10:30", DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format("2015-12-05 10:30", DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		// getTrainingTypeList
-		trainingList = trainingTypeService
-				.getTrainingListByTrainingTypeId(trainingType.getId());
+		trainingList = trainingTypeService.getTrainingListByTrainingTypeId(trainingType.getId());
 		// Assert
 		assertEquals(trainingList.size(), 1);
 	}

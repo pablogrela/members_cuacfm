@@ -158,11 +158,6 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public void delete(Report report) {
-		delete(report, null);
-	}
-
-	@Override
-	public void delete(Report report, Account account) {
 		reportRepository.delete(report);
 	}
 
@@ -221,18 +216,24 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
-	public Report answer(Report report, Account account, String answer) {
+	public Report answer(Report report, Account account, String answer, Boolean manage) {
 		String log = "";
 		if (report.getAnswer() != null) {
 			log = report.getAnswer();
 		}
 		String aux = DateUtils.format(new Date(), DateUtils.FORMAT_DISPLAY) + " - " + account.getName() + "\n";
 		report.setAnswer(aux + "\t" + answer + "\n" + log);
-		reportRepository.update(report);
 
 		Object[] arguments = { account.getFullName(), report.getProgram().getName() };
 		eventService.save("report.answer.user", report.getAccount(), levels.HIGH, arguments);
 
+		if (manage == null) {
+			reportRepository.update(report);
+		} else if (manage) {
+			up(report);
+		} else {
+			down(report);
+		}
 		return report;
 	}
 

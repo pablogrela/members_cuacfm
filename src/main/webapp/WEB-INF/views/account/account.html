@@ -419,6 +419,20 @@
 							</div>
 						</div>
 					</div>
+					
+					
+					<!--  permission space, revision i18n -->
+					<div class="form-group">
+						<div class="col-lg-6">
+							<div class="input-group">
+								<label for="role" class="col-lg-2" th:text="#{permissions.ROLE_RESERVE}">permission</label>
+								<span class="input-group-btn">
+									<input type="checkbox" id="permissionReserve" name="permissionReserve" th:field="*{permissionReserve}" data-toggle="toggle" data-on="Si"
+										data-off="No" data-onstyle="success" data-offstyle="danger" />
+								</span>
+							</div>
+						</div>
+					</div>
 
 
 					<!--  permission trainer, revision i18n  -->

@@ -39,7 +39,7 @@
 		<br></br>
 
 		<!-- List events -->
-		<div data-ng-controller="EventController as ctrl" data-ng-show="ctrl.eventsClose">
+		<div class="ng-cloak" data-ng-controller="EventController as ctrl" data-ng-show="ctrl.eventsClose">
 			<div th:include="fragments/sortColumn :: search"></div>
 			<br></br> <br></br>
 			<div pagination-id="paginate" dir-paginate="event in ctrl.eventsClose | filter:search | itemsPerPage:numPerPage">

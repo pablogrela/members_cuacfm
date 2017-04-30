@@ -21,7 +21,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
@@ -121,12 +121,12 @@ public class PayProgramEditController {
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return the string
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 */
 
 	@RequestMapping(value = "feeProgramList/payProgramList/payProgramEdit", method = RequestMethod.POST)
 	public String editPayProgram(@Valid @ModelAttribute PayProgramForm payProgramForm, Errors errors, RedirectAttributes ra)
-			throws DateLimitException {
+			throws DatesException {
 
 		if (errors.hasErrors()) {
 			return PAYPROGRAM_VIEW_NAME;

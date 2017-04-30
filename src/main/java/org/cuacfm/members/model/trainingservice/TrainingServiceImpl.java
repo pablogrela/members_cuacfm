@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.eventservice.EventService;
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
@@ -59,12 +59,12 @@ public class TrainingServiceImpl implements TrainingService {
 	}
 
 	@Override
-	public Training save(Training training) throws DateLimitException, UniqueException {
+	public Training save(Training training) throws DatesException, UniqueException {
 		Object[] arguments = { training.getName() };
 
 		if (training.getDateTraining().before(training.getDateLimit())) {
 			eventService.save("training.dateLimit.error", null, levels.HIGH, arguments);
-			throw new DateLimitException(training.getDateLimit(), training.getDateTraining());
+			throw new DatesException(training.getDateLimit(), training.getDateTraining());
 		}
 		// Update dependecy
 		TrainingType trainingType = training.getTrainingType();
@@ -76,12 +76,12 @@ public class TrainingServiceImpl implements TrainingService {
 	}
 
 	@Override
-	public Training update(Training training) throws DateLimitException {
+	public Training update(Training training) throws DatesException {
 		Object[] arguments = { training.getName() };
 
 		if (training.getDateTraining().before(training.getDateLimit())) {
 			eventService.save("training.dateLimit.error", null, levels.HIGH, arguments);
-			throw new DateLimitException(training.getDateLimit(), training.getDateTraining());
+			throw new DatesException(training.getDateLimit(), training.getDateTraining());
 		}
 
 		eventService.save("training.successModify", null, levels.HIGH, arguments);

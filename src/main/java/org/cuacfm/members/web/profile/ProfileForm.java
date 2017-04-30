@@ -142,6 +142,7 @@ public class ProfileForm {
 
 	private boolean permissionReport;
 	private boolean permissionTrainer;
+	private boolean permissionReserve;
 
 	/** The on login. */
 	private boolean onLogin;
@@ -410,6 +411,14 @@ public class ProfileForm {
 
 	public void setPermissionTrainer(boolean permissionTrainer) {
 		this.permissionTrainer = permissionTrainer;
+	}
+
+	public boolean isPermissionReserve() {
+		return permissionReserve;
+	}
+
+	public void setPermissionReserve(boolean permissionReserve) {
+		this.permissionReserve = permissionReserve;
 	}
 
 	public boolean isOnLogin() {

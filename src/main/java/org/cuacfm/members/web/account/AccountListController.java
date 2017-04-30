@@ -16,8 +16,6 @@
 
 package org.cuacfm.members.web.account;
 
-import static org.cuacfm.members.model.util.FirebaseUtils.getEmailOfToken;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -35,7 +33,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -122,22 +119,4 @@ public class AccountListController {
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
-	/**
-	 * Gets the account API.
-	 *
-	 * @param token the token
-	 * @return the account API
-	 */
-	@RequestMapping(value = "api/accountList/account")
-	public ResponseEntity<AccountDTO> getAccountAPI(@RequestParam(value = "token") String token) {
-
-		// Validate Token and retrieve email
-		String email = getEmailOfToken(token);
-
-		if (email != null) {
-			AccountDTO accountDTO = accountService.getAccountDTO(accountService.findByEmail(email));
-			return new ResponseEntity<>(accountDTO, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-	}
 }

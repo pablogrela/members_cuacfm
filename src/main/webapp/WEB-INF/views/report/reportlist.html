@@ -45,7 +45,7 @@
 		</div>
 	</div>
 
-	<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="ReportController as ctrl">
+	<div class="container-fluid ng-cloak" data-ng-app="membersApp" data-ng-controller="ReportController" data-ng-init="fetchAllReports()">
 		<div th:include="report/reportlisttable :: reportlisttable(#{report.list}, #{report.list.empty})"></div>
 	</div>
 	

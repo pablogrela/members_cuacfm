@@ -35,7 +35,7 @@
 	</div>
 
 	<!-- Table list of directDebits -->
-	<div class="container-fluid" sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp"
+	<div class="container-fluid ng-cloak" sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp"
 		data-ng-controller="DirectDebitAdminCloseController as ctrl">
 		<div th:include="directdebit/directdebittable :: directdebittable(#{directDebit.directDebitListClose}, #{directDebit.directDebitListCloseEmpty})"></div>
 	</div>

@@ -51,8 +51,8 @@ DROP TABLE IF EXISTS Report;
 
 CREATE TABLE Report(
     id BIGINT NOT NULL auto_increment,
-    account INT NOT NULL,
-    program INT NOT NULL,
+    accountId INT NOT NULL,
+    programId INT NOT NULL,
     dirt TINYINT NOT NULL, 
     tidy TINYINT NOT NULL, 
     configuration TINYINT NOT NULL, 
@@ -67,6 +67,6 @@ CREATE TABLE Report(
     dateRevision TIMESTAMP NULL,
     active BOOLEAN NOT NULL, 
     CONSTRAINT Report_PK PRIMARY KEY (id),
-    CONSTRAINT Report_AccountId_FK FOREIGN KEY (account) REFERENCES Account(id),
-    CONSTRAINT Report_ProgramId_FK FOREIGN KEY (program) REFERENCES Program(id)
+    CONSTRAINT Report_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT Report_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id)
 ); 

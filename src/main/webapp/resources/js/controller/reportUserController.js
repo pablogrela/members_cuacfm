@@ -14,39 +14,52 @@
  * limitations under the License.
  */
 membersApp.controller('ReportUserController', [ '$scope', 'ReportService', function($scope, ReportService) {
-	$scope.sortType = '';
-	$scope.search = '';
+	$scope.sortType;
+	$scope.search;
+	$scope.isLastMonth = true;
+	$scope.enableLastMonth = true;
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
-	$scope.account = '';
-	$scope.accounts = '';
-	$scope.report = '';
-	$scope.reports = '';
-	$scope.program = '';
-	$scope.message = '';
+	$scope.account;
+	$scope.report;
+	$scope.reports;
+	$scope.reportsFilter;
+	$scope.reportsOriginal;
+	$scope.program;
+	$scope.message;
 
-	var self = this;
-	self.infoAccount = infoAccount;
-	self.infoAccounts = infoAccounts;
-	self.infoProgram = infoProgram;
-	self.infoReport = infoReport;
-	self.reportAnswer = reportAnswer;
-	self.infoReportAnswer = infoReportAnswer;
-
-	fetchUserReports();
-
-	function fetchUserReports() {
+	$scope.fetchUserReports = function() {
 		ReportService.fetchUserReports().then(function(data) {
 			$scope.reports = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
 	}
-
-	function reportAnswer(id, answer) {
+	
+	$scope.reportUp = function(id) {
+		ReportService.reportUp(id).then(function(data) {
+			$scope.message = data;
+			$scope.fetchUserReports();
+			showModal(modal);
+		}, function(errorResponse) {
+			console.error('Error while Up Report', errorResponse);
+		});
+	}
+	
+	$scope.reportDown = function(id) {
+		ReportService.reportDown(id).then(function(data) {
+			$scope.message = data;
+			$scope.fetchUserReports();
+			showModal(modal);
+		}, function(errorResponse) {
+			console.error('Error while Down Report', errorResponse);
+		});
+	}
+	
+	$scope.reportAnswer = function(id, answer) {
 		ReportService.reportUserAnswer(id, answer).then(function(data) {
 			$scope.message = data;
-			fetchUserReports();
+			$scope.fetchUserReports();
 			$('#close').click();
 			$scope.answer = '';
 		}, function(errorResponse) {
@@ -61,7 +74,58 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 		return (v1.value < v2.value) ? -1 : 1;
 	};
 
-	function infoReport(aux) {
+	$scope.lastMonth = function() {
+		if (self.isLastMonth) {
+			var newReport = [];
+			var newDate = new Date();
+			var month = newDate.setMonth(newDate.getMonth() - 1)
+			for (var i = 0; i < self.reports.length; i++) {
+				var event = self.report[i];
+				if (event.dateEvent > month) {
+					newReport.push(event);
+				}
+			}
+			self.reports = newReport;
+		} else {
+			self.reports = self.reportOriginal;
+		}
+		self.isLastMonth = !self.isLastMonth;
+	}
+
+	$scope.dirtAverage = function() {
+		if ($scope.reportsFilter != null) {
+			var total = 0;
+			for (var i = 0; i < $scope.reportsFilter.length; i++) {
+				var report = $scope.reportsFilter[i];
+				total += report.dirt;
+			}
+			return total / $scope.reportsFilter.length;
+		}
+	}
+
+	$scope.tidyAverage = function() {
+		if ($scope.reportsFilter != null) {
+			var total = 0;
+			for (var i = 0; i < $scope.reportsFilter.length; i++) {
+				var report = $scope.reportsFilter[i];
+				total += report.tidy;
+			}
+			return total / $scope.reportsFilter.length;
+		}
+	}
+
+	$scope.configurationAverage = function() {
+		if ($scope.reportsFilter != null) {
+			var total = 0;
+			for (var i = 0; i < $scope.reportsFilter.length; i++) {
+				var report = $scope.reportsFilter[i];
+				total += report.configuration;
+			}
+			return total / $scope.reportsFilter.length;
+		}
+	}
+
+	$scope.infoReport = function(aux) {
 		$('#data-slide-0').attr('class', 'active');
 		$('#data-slide-1').attr('class', '');
 		$('#image-index-0').attr('class', 'item active');
@@ -69,47 +133,16 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 		$scope.report = aux;
 	}
 
-	$scope.dirt_average = function() {
-		var total = 0;
-		for (var i = 0; i < $scope.reportsFilter.length; i++) {
-			var report = $scope.reportsFilter[i];
-			total += report.dirt;
-		}
-		return total / $scope.reportsFilter.length;
+	$scope.infoReportAnswer = function(aux) {
+		$scope.report = aux;
 	}
 
-	$scope.tidy_average = function() {
-		var total = 0;
-		for (var i = 0; i < $scope.reportsFilter.length; i++) {
-			var report = $scope.reportsFilter[i];
-			total += report.tidy;
-		}
-		return total / $scope.reportsFilter.length;
-	}
-
-	$scope.configuration_average = function() {
-		var total = 0;
-		for (var i = 0; i < $scope.reportsFilter.length; i++) {
-			var report = $scope.reportsFilter[i];
-			total += report.configuration;
-		}
-		return total / $scope.reportsFilter.length;
-	}
-
-	function infoAccount(aux) {
+	$scope.infoAccount = function(aux) {
 		$scope.account = aux;
 	}
 
-	function infoAccounts(aux) {
-		$scope.accounts = aux;
-	}
-
-	function infoProgram(aux) {
+	$scope.infoProgram = function(aux) {
 		$scope.program = aux;
-	}
-
-	function infoReportAnswer(aux) {
-		$scope.report = aux;
 	}
 
 } ]);

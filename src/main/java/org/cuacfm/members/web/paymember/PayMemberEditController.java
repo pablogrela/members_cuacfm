@@ -17,7 +17,7 @@ package org.cuacfm.members.web.paymember;
 
 import javax.validation.Valid;
 
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
@@ -106,10 +106,10 @@ public class PayMemberEditController {
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return the string
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 */
 	@RequestMapping(value = "feeMemberList/payMemberList/payMemberEdit", method = RequestMethod.POST)
-	public String payMember(@Valid @ModelAttribute PayMemberForm payMemberForm, Errors errors, RedirectAttributes ra) throws DateLimitException {
+	public String payMember(@Valid @ModelAttribute PayMemberForm payMemberForm, Errors errors, RedirectAttributes ra) throws DatesException {
 
 		if (errors.hasErrors()) {
 			return PAYMEMBER_VIEW_NAME;

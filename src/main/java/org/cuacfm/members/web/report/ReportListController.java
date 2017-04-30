@@ -15,20 +15,16 @@
  */
 package org.cuacfm.members.web.report;
 
-import static org.cuacfm.members.model.util.FirebaseUtils.getEmailOfToken;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.permissions;
-import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.report.Report;
@@ -49,8 +45,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.google.gson.Gson;
 
 /** The Class ReportListController. */
 @Controller
@@ -127,6 +121,9 @@ public class ReportListController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
+		if (reportsDTO.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<>(reportsDTO, HttpStatus.OK);
 	}
 
@@ -151,52 +148,6 @@ public class ReportListController {
 	}
 
 	/**
-	 * Gets the reports API.
-	 *
-	 * @param token the token
-	 * @return the reports API
-	 */
-	@RequestMapping(value = "api/reportList/")
-	public ResponseEntity<String> getReportsAPI(@RequestParam(value = "token") String token) {
-
-		// Validate Token and retrieve email
-		String email = getEmailOfToken(token);
-
-		if (email != null) {
-			Account account = accountService.findByEmail(email);
-			if (account.getPermissions().contains(permissions.ROLE_REPORT.toString())) {
-				List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListActive());
-				String reportsJson = new Gson().toJson(reportsDTO);
-				// Return with data "{ \"data\": " + reportsJson + " }" instead of reportsJson
-				return new ResponseEntity<>(reportsJson, HttpStatus.OK);
-			}
-		}
-		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-	}
-
-	/**
-	 * Gets the reports API.
-	 *
-	 * @param token the token
-	 * @return the reports API
-	 */
-	@RequestMapping(value = "api/reportUserList/")
-	public ResponseEntity<String> getReportsUserAPI(@RequestParam(value = "token") String token) {
-
-		// Validate Token and retrieve email
-		String email = getEmailOfToken(token);
-
-		if (email != null) {
-			Account account = accountService.findByEmail(email);
-			List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListActiveByUser(account));
-			String reportsJson = new Gson().toJson(reportsDTO);
-			// Return with data "{ \"data\": " + reportsJson + " }" instead of reportsJson
-			return new ResponseEntity<>(reportsJson, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-	}
-
-	/**
 	 * Gets the reports close.
 	 *
 	 * @param principal the principal
@@ -209,12 +160,11 @@ public class ReportListController {
 
 		// List of reports
 		List<ReportDTO> reportsDTO;
-		if (account.getRole() == roles.ROLE_ADMIN) {
+		if (account.getPermissions().contains(permissions.ROLE_REPORT.toString())) {
 			reportsDTO = reportService.getReportsDTO(reportService.getReportListClose());
 		} else {
-			reportsDTO = reportService.getReportsDTO(reportService.getReportListByUser(account));
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
-
 		if (reportsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -222,7 +172,7 @@ public class ReportListController {
 	}
 
 	/**
-	 * Unsubscribe.
+	 * Report down.
 	 *
 	 * @param id the id
 	 * @param ra the ra
@@ -243,17 +193,18 @@ public class ReportListController {
 	/**
 	 * Report answer.
 	 *
-	 * @param id the id
+	 * @param principal the principal
+	 * @param reportId the report id
 	 * @param answer the answer
 	 * @param ra the ra
 	 * @return the response entity
 	 */
-	@RequestMapping(value = {"reportList/reportAnswer/{reportId}", "reportUserList/reportAnswer/{reportId}"}, method = RequestMethod.POST)
+	@RequestMapping(value = { "reportList/reportAnswer/{reportId}", "reportUserList/reportAnswer/{reportId}" }, method = RequestMethod.POST)
 	public ResponseEntity<Map<String, ?>> reportAnswer(Principal principal, @PathVariable("reportId") Long reportId,
 			@RequestParam(value = "answer") String answer, RedirectAttributes ra) {
 
 		Report report = reportService.findById(reportId);
-		reportService.answer(report, accountService.findByLogin(principal.getName()), answer);
+		reportService.answer(report, accountService.findByLogin(principal.getName()), answer, null);
 
 		Object[] arguments = { report.getProgram().getName() };
 		MessageHelper.addInfoAttribute(ra, messageSource.getMessage("report.answer.success", arguments, Locale.getDefault()));
@@ -261,41 +212,12 @@ public class ReportListController {
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
-	
-	
-	
-	
-	
-	@RequestMapping(value = {"api/reportList/reportAnswer/{reportId}", "api/reportUserList/reportAnswer/{reportId}"}, method = RequestMethod.POST)
-	public ResponseEntity<String> portAnswerAPI(@PathVariable("reportId") Long reportId, @RequestParam(value = "token") String token,
-			@RequestParam(value = "answer") String answer) {
-
-		// Validate Token and retrieve email
-		String email = getEmailOfToken(token);
-
-		if (email != null) {
-			Account account = accountService.findByEmail(email);
-			Report report = reportService.findById(reportId);
-			
-			reportService.answer(report, account, answer);
-			
-			ReportDTO newReportDTO = reportService.getReportDTO(report);
-			String newReportJson = new Gson().toJson(newReportDTO);
-			return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
-		}
-		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-	}
-	
-	
-	
-	
-	
 	/**
-	 * Report down.
+	 * Report up.
 	 *
 	 * @param id the id
 	 * @param ra the ra
-	 * @return the string
+	 * @return the response entity
 	 */
 	@RequestMapping(value = "reportList/reportUp/{id}", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, ?>> reportUp(@PathVariable("id") Long id, RedirectAttributes ra) {
@@ -316,7 +238,7 @@ public class ReportListController {
 	 * @param imageName the image name
 	 * @return the image report
 	 */
-	@RequestMapping(value = {"reportList/image/{reportId}", "reportUserList/image/{reportId}"})
+	@RequestMapping(value = { "reportList/image/{reportId}", "reportUserList/image/{reportId}" })
 	@ResponseBody
 	public byte[] getImageReport(@PathVariable("reportId") Long reportId, @RequestParam(value = "imageName") String imageName) {
 
@@ -333,54 +255,4 @@ public class ReportListController {
 		return image;
 	}
 
-	/**
-	 * Gets the image report API.
-	 *
-	 * @param reportId the report id
-	 * @param imageName the image name
-	 * @param token the token
-	 * @return the image report API
-	 */
-	@RequestMapping(value = "api/reportList/image/{reportId}")
-	@ResponseBody
-	public byte[] getImageReportAPI(@PathVariable("reportId") Long reportId, @RequestParam(value = "imageName") String imageName,
-			@RequestParam(value = "token") String token) {
-
-		byte[] image = null;
-
-		// Validate Token and retrieve email
-		if (getEmailOfToken(token) != null) {
-			image = getImageReport(reportId, imageName);
-		}
-		return image;
-	}
-
-	/**
-	 * Gets the images report API.
-	 *
-	 * @param reportId the report id
-	 * @param token the token
-	 * @return the images report API in format Gson
-	 */
-	@RequestMapping(value = "api/imagesReport/{reportId}")
-	public ResponseEntity<String> getImagesReportAPI(@PathVariable("reportId") Long reportId, @RequestParam(value = "token") String token) {
-
-		// Validate Token and retrieve email
-		if (getEmailOfToken(token) != null) {
-			Report report = reportService.findById(reportId);
-
-			List<byte[]> files = new ArrayList<>();
-			try {
-				for (String imageName : report.getFiles()) {
-					File serverFile = new File(report.getFile() + imageName);
-					files.add(Files.readAllBytes(serverFile.toPath()));
-				}
-			} catch (IOException e) {
-				logger.error("getImageReport", e);
-			}
-
-			return new ResponseEntity<>(new Gson().toJson(files), HttpStatus.OK);
-		}
-		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-	}
 }

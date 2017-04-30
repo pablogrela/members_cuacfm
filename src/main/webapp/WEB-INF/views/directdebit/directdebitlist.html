@@ -59,7 +59,7 @@
 
 
 		<!-- Table list of directDebits -->
-		<div data-ng-app="membersApp" data-ng-controller="DirectDebitAdminController as ctrl">
+		<div class="ng-cloak" data-ng-app="membersApp" data-ng-controller="DirectDebitAdminController as ctrl">
 			<div th:include="directdebit/directdebittable :: directdebittable(#{directDebit.directDebitList}, #{directDebit.directDebitListEmpty})"></div>
 		</div>
 	</div>

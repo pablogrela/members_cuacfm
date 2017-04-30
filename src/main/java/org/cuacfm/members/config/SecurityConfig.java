@@ -103,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	   // csrf().ignoringAntMatchers() ignora la validacion de csrf para las peticiones de la api
 	   // csrf().disable() deshabilita la validacion crsf para todo
        http.csrf().ignoringAntMatchers("/api/**").and().
-       authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signup", "/logout/**", "/signin/**", "/api/**")
+       authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signup", "/logout/**", "/signin/**", "/api/**", "/push/**")
             .permitAll()
 
             .antMatchers("/trainingUserList")
@@ -115,13 +115,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/userPayments/**")
             .hasAnyRole("USER", "EXUSER", "PREREGISTERED")
 
-            .antMatchers("/programList", "/programList/", "/programList/programEdit/**", "/reportList", "/reportList/image/**")
+            .antMatchers("/programList", "/programList/", "/programList/programEdit/**", "/reportList", "/reportList/image/**", "/reserveList")
             .hasAnyRole("ADMIN", "USER", "EXUSER")
             
             .antMatchers("/reportList/**")
             .hasAnyRole("REPORT")
             
-            .antMatchers("/reportUserList/**")
+            .antMatchers("/reserveList/**")
+            .hasAnyRole("RESERVE")
+            
+            .antMatchers("/reportUserList/**", "/reserveUserList/**")
             .hasAnyRole("USER")
             
             .antMatchers("/programList/**")

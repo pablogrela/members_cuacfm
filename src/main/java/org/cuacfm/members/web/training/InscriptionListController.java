@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
 import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
@@ -148,11 +148,11 @@ public class InscriptionListController {
 	 * @param submit the submit
 	 * @param ra the ra
 	 * @return the string
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 */
 	@RequestMapping(value = "trainingList/inscriptionList/save", method = RequestMethod.POST)
 	public String save(@Valid @ModelAttribute InscriptionsForm inscriptionsForm, @RequestParam("submit") String submit, RedirectAttributes ra)
-			throws DateLimitException {
+			throws DatesException {
 
 		List<Inscription> insUpdate = inscriptionsForm.getInscriptions();
 		boolean modify = false;

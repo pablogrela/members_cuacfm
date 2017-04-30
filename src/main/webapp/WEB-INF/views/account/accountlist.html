@@ -34,7 +34,7 @@
 		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 	</div>
 
-	<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="AccountController as ctrl">
+	<div class="container-fluid ng-cloak" data-ng-app="membersApp" data-ng-controller="AccountController as ctrl">
 
 		<!-- Show info account -->
 		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>

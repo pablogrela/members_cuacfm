@@ -149,13 +149,27 @@
 									<li class="active"><a href="#" th:href="@{/reportUserList}" th:text="#{report.list.user}">user report list</a></li>
 								</th:block>
 								<th:block th:if="${active != 'reports'}" sec:authorize="hasAnyRole('ROLE_REPORT')">
-									<li><a href="#" th:href="@{/reportList}" th:text="#{reports}">program list</a></li>
+									<li><a href="#" th:href="@{/reportList}" th:text="#{reports}">report list</a></li>
 								</th:block>
 								<th:block th:if="${active == 'reports'}" sec:authorize="hasAnyRole('ROLE_REPORT')">
 									<li class="active"><a href="#" th:href="@{/reportList}" th:text="#{reports}">report list</a></li>
 								</th:block>
 
 
+								<!-- Button Reserves -->
+								<th:block th:if="${active != 'reserve.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li><a href="#" th:href="@{/reserveUserList}" th:text="#{reserve.list.user}">user reserve list</a></li>
+								</th:block>
+								<th:block th:if="${active == 'reserve.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li class="active"><a href="#" th:href="@{/reserveUserList}" th:text="#{reserve.list.user}">user reserve list</a></li>
+								</th:block>
+								<th:block th:if="${active != 'reserves'}" sec:authorize="hasAnyRole('ROLE_RESERVE')">
+									<li><a href="#" th:href="@{/reserveList}" th:text="#{reserves}">reserve list</a></li>
+								</th:block>
+								<th:block th:if="${active == 'reserves'}" sec:authorize="hasAnyRole('ROLE_RESERVE')">
+									<li class="active"><a href="#" th:href="@{/reserveList}" th:text="#{reserves}">reserve list</a></li>
+								</th:block>
+								
 
 								<!-- Button User Payments -->
 								<th:block th:if="${active != 'userPayments'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">

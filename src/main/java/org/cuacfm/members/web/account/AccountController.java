@@ -128,6 +128,7 @@ public class AccountController {
 		profileForm.setRole(String.valueOf(account.getRole()));
 		profileForm.setRoles(java.util.Arrays.asList(roles.values()));
 		profileForm.setPermissionReport(account.getPermissions().contains(permissions.ROLE_REPORT.toString()));
+		profileForm.setPermissionReserve(account.getPermissions().contains(permissions.ROLE_RESERVE.toString()));
 		profileForm.setPermissionTrainer(account.getPermissions().contains(permissions.ROLE_TRAINER.toString()));
 		model.addAttribute(profileForm);
 
@@ -256,6 +257,13 @@ public class AccountController {
 			account.addPermissions(permissions.ROLE_REPORT);
 		} else {
 			account.removePermissions(permissions.ROLE_REPORT);
+		}
+
+		// Permission ROLE_SPACE
+		if (profileForm.isPermissionReserve()) {
+			account.addPermissions(permissions.ROLE_RESERVE);
+		} else {
+			account.removePermissions(permissions.ROLE_RESERVE);
 		}
 
 		// Permission ROLE_TRAINER

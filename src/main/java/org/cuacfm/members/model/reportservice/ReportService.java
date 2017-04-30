@@ -18,7 +18,6 @@ package org.cuacfm.members.model.reportservice;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.exceptions.ExistPaymentsException;
 import org.cuacfm.members.model.report.Report;
 import org.cuacfm.members.model.report.ReportDTO;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,15 +57,6 @@ public interface ReportService {
 	 * @param report the report
 	 */
 	public void delete(Report report);
-
-	/**
-	 * Delete.
-	 *
-	 * @param report the report
-	 * @param account the account
-	 * @throws ExistPaymentsException the exist payments exception
-	 */
-	public void delete(Report report, Account account) throws ExistPaymentsException;
 
 	/**
 	 * Find by Name the report.
@@ -141,9 +131,10 @@ public interface ReportService {
 	 * @param report the report
 	 * @param account the account
 	 * @param answer the answer
+	 * @param manage the manage
 	 * @return the report
 	 */
-	public Report answer(Report report, Account account, String answer);
+	public Report answer(Report report, Account account, String answer, Boolean manage);
 
 	/**
 	 * Gets the reports DTO.

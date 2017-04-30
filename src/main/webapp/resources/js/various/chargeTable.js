@@ -34,6 +34,12 @@ if(language == 'es'){
 		       },
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
+		   $('#customTable3').dataTable( {
+		       "language": {
+		    	   "sUrl": "/members/resources/json/datatables/Spanish.json"
+		       },
+		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+		   } );
 	} );
 } else if(language == 'gl'){
 		$(document).ready(function() {
@@ -49,6 +55,12 @@ if(language == 'es'){
 			       },
 			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 			   } );
+			   $('#customTable3').dataTable( {
+			       "language": {
+			    	   "sUrl": "/members/resources/json/datatables/Galician.json"
+			       },
+			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+			   } );
 		} );
 // By defect English	
 } else {
@@ -57,6 +69,9 @@ if(language == 'es'){
 	        "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 	    } );
 	    $('#customTable2').dataTable( {
+	        "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+	    } );
+	    $('#customTable3').dataTable( {
 	        "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 	    } );
 	} );

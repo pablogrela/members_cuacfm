@@ -26,14 +26,13 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='configuration')">&nbsp;</div>
 
-	<!-- Button redirect to Program List-->
+	<!-- Button redirect to Configuration -->
 	<div class="text-center">
 		<a href="#" class="btn btn-primary btn-lg" th:href="@{/configuration}" th:text="#{configuration.backConfiguration}"> </a>
 	</div>
 	<br></br>
-	
-	<form class="form-narrow form-horizontal ws-validate" method="post"
-		th:action="@{accountTypeEdit}" th:object="${accountTypeForm}">
+
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{accountTypeEdit}" th:object="${accountTypeForm}">
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${accountTypeForm.*}')}">
@@ -49,30 +48,27 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}"
-						required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect
-						name</span>
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" required="required" />
+					<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-	        <!-- Insert Organization -->
-	        <div class="form-group">
-	            <label for="organization" class="col-lg-2" th:text="#{accountType.organization}">Organization</label>
-	            <div class="col-lg-2">
-	                <input type="checkbox" class="form-check-input" id="organization" name="organization" th:field="*{organization}" th:title="#{accountType.infoOrganization}"/>            
-	            </div>
-	        </div>
-	        
+			<!-- Insert Organization -->
+			<div class="form-group">
+				<label for="organization" class="col-lg-2" th:text="#{accountType.organization}">Organization</label>
+				<div class="col-lg-2">
+					<input type="checkbox" class="form-check-input" id="organization" name="organization" th:field="*{organization}"
+						th:title="#{accountType.infoOrganization}" />
+				</div>
+			</div>
+
 			<!-- Edit Description -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
 				<div class="col-lg-10">
-					<textarea class="form-control" id="description" th:placeholder="#{description}"
-						th:field="*{description}" rows="5" cols="40" required="required"> Description </textarea>
-					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect
-						description</span>
+					<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" rows="5" cols="40" required="required"> Description </textarea>
+					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
@@ -82,12 +78,11 @@
 				<label for="discount" class="col-lg-2 control-label" th:text="#{discount}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="discount" th:placeholder="#{discount}"
-							th:field="*{discount}" min="0" max="100" required="required" />
+						<input type="number" class="form-control" id="discount" th:placeholder="#{discount}" th:field="*{discount}" min="0" max="100"
+							required="required" />
 					</div>
 					<br></br>
-					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('discount')}"
-						th:errors="*{discount}">Incorrect discount</span>
+					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}">Incorrect discount</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>

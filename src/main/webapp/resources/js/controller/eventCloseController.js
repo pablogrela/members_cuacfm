@@ -40,14 +40,14 @@ angular.module('membersApp').controller('EventController', [ '$scope', 'EventSer
 		});
 	}
 	
-	$scope.last_month = function() {
+	$scope.lastMonth = function() {
 		if (self.isLastMonth) {
 			var newEvents = [];
 			var newDate = new Date();
-			var lastMonth = newDate.setMonth(newDate.getMonth() - 1)
+			var month = newDate.setMonth(newDate.getMonth() - 1)
 			for (var i = 0; i < self.events.length; i++) {
 				var event = self.events[i];
-				if (event.dateEvent > lastMonth) {
+				if (event.dateEvent > month) {
 					newEvents.push(event);
 				}
 			}

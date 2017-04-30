@@ -41,7 +41,7 @@ public class AccountType implements Serializable {
 
 	/** Instantiates a new account type. */
 	protected AccountType() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

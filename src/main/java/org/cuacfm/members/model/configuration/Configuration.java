@@ -15,14 +15,17 @@
  */
 package org.cuacfm.members.model.configuration;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /** The Class Configuration. */
-@SuppressWarnings("serial")
 @Entity
-public class Configuration implements java.io.Serializable {
+public class Configuration implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -34,9 +37,9 @@ public class Configuration implements java.io.Serializable {
 	private Double feeProgram;
 	private String descriptionRule;
 
-	/** Instantiates a new account type. */
+	/** Instantiates a new configuration. */
 	protected Configuration() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**

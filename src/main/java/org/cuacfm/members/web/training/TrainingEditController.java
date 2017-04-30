@@ -17,7 +17,7 @@ package org.cuacfm.members.web.training;
 
 import javax.validation.Valid;
 
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.util.DateUtils;
@@ -118,8 +118,8 @@ public class TrainingEditController {
 		String timeTraining = trainingForm.getTimeTraining();
 		String dateTraining = trainingForm.getDateTraining();
 		training.setName(trainingForm.getName());
-		training.setDateLimit(DateUtils.stringToDate(timeLimit + "," + dateLimit));
-		training.setDateTraining(DateUtils.stringToDate(timeTraining + "," + dateTraining));
+		training.setDateLimit(DateUtils.format(dateLimit + " " + timeLimit, DateUtils.FORMAT_LOCAL_DATE));
+		training.setDateTraining(DateUtils.format(dateTraining + " " + timeTraining, DateUtils.FORMAT_LOCAL_DATE));
 		training.setDescription(trainingForm.getDescription());
 		training.setPlace(trainingForm.getPlace());
 		training.setDuration(trainingForm.getDuration());
@@ -129,7 +129,7 @@ public class TrainingEditController {
 
 		try {
 			trainingService.update(training);
-		} catch (DateLimitException e) {
+		} catch (DatesException e) {
 			errors.rejectValue("dateLimit", "dateLimit.message", new Object[] { e.getDateTraining() }, "dateTraining");
 			return TRAINING_VIEW_NAME;
 		}

@@ -52,7 +52,7 @@ public class Account implements Serializable {
 	}
 
 	public enum permissions {
-		ROLE_REPORT, ROLE_TRAINER,
+		ROLE_REPORT, ROLE_RESERVE, ROLE_TRAINER,
 	}
 
 	@Id
@@ -92,7 +92,7 @@ public class Account implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "accounts")
 	private List<Program> programs;
 
-	@OrderBy("dateCreated DESC")
+	@OrderBy("dateCreate DESC")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private List<BankAccount> bankAccounts;
 

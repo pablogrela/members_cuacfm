@@ -26,25 +26,23 @@ import org.hibernate.validator.constraints.NotBlank;
 /** The Class AccountTypeForm. */
 public class AccountTypeForm {
 
-	/** The name. */
 	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
 	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String name;
 
-	/** The organization. */
 	private boolean organization;
 
-	/** The description. */
 	@NotBlank(message = Constants.NOT_BLANK_MESSAGE)
 	@Size(max = 500, message = Constants.MAX_CHARACTERS)
 	private String description;
 
-	/** The discount. */
 	@Min(0)
 	@Max(100)
 	private int discount;
 
-	/** Instantiates a new training form. */
+	/**
+	 * Instantiates a new account type form.
+	 */
 	public AccountTypeForm() {
 		super();
 	}

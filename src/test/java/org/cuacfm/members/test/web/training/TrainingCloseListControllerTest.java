@@ -122,8 +122,8 @@ public class TrainingCloseListControllerTest extends WebSecurityConfigurationAwa
 	public void displaysTrainingCloseListwithDatabaseTest() throws Exception {    
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";	
-		Training training = new Training (trainingType, "training1", DateUtils.stringToDate(dateTraining),DateUtils.stringToDate(dateTraining), 
+		String dateTraining = "2015-12-05 10:30";	
+		Training training = new Training (trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), 
 				"description", "place", 90, 10);
 		training.setClose(true);
 		trainingService.save(training);

@@ -72,7 +72,8 @@ public class TrainingViewControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_USER);
+		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer",
+				roles.ROLE_USER);
 		trainer.addPermissions(permissions.ROLE_TRAINER);
 		accountService.save(trainer);
 		defaultSession = getDefaultSession("trainer@udc.es");
@@ -97,9 +98,9 @@ public class TrainingViewControllerTest extends WebSecurityConfigurationAware {
 	public void displaysTrainingViewTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DateUtils.stringToDate(dateTraining), DateUtils.stringToDate(dateTraining),
-				"description", "place", 90, 10);
+		String dateTraining = "2015-12-05 10:30";
+		Training training = new Training(trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		mockMvc.perform(post("/trainingList/trainingView/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))

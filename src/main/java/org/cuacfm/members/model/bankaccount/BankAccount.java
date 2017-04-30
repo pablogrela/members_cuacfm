@@ -53,7 +53,7 @@ public class BankAccount implements Serializable {
 	/** Fecha en la que se firma el pdf del mandato. */
 	private Date dateMandate;
 
-	private Date dateCreated;
+	private Date dateCreate;
 
 	private boolean active;
 
@@ -80,7 +80,7 @@ public class BankAccount implements Serializable {
 		this.bic = bic;
 		this.iban = iban;
 		this.dateMandate = dateMandate;
-		this.dateCreated = new Date();
+		this.dateCreate = new Date();
 		this.active = true;
 	}
 
@@ -120,8 +120,8 @@ public class BankAccount implements Serializable {
 		this.dateMandate = dateMandate;
 	}
 
-	public Date getDateCreated() {
-		return dateCreated;
+	public Date getDateCreate() {
+		return dateCreate;
 	}
 
 	public boolean isActive() {
@@ -135,7 +135,7 @@ public class BankAccount implements Serializable {
 	@Override
 	public String toString() {
 		return "BankAccount [id=" + id + ", account=" + account + ", bank=" + bank + ", bic=" + bic + ", iban=" + iban + ", mandate=" + mandate
-				+ ", dateMandate=" + dateMandate + ", dateCreated=" + dateCreated + ", active=" + active + "]";
+				+ ", dateMandate=" + dateMandate + ", dateCreate=" + dateCreate + ", active=" + active + "]";
 	}
 
 }

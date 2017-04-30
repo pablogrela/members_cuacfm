@@ -22,38 +22,34 @@
 <body>
 
 	<div th:fragment="search">
+		
 		<!-- Form number of elements -->
-		<form>
-			<div class="form-group form-group-elements pull-left mobile-search">
-				<div class="input-group">
-					<div class="input-group-addon">
-						<i th:text="#{elements}" class="fa fa-search"></i>
-					</div>
-					<input type="number" class="form-control" th:placeholder="#{elements.info}" data-ng-model="numPerPage" />
+		<div class="form-group form-group-elements mobile-search pull-left">
+			<div class="input-group">
+				<div class="input-group-addon">
+					<i th:text="#{elements}" class="fa fa-search"></i>
 				</div>
+				<input type="number" class="form-control" th:placeholder="#{elements.info}" data-ng-model="numPerPage" />
 			</div>
-		</form>
-
+		</div>
 
 		<!-- Form search -->
-		<form>
-
-			<div class="form-group form-group-search pull-right mobile-search">
-				<div class="input-group">
-					<div class="input-group-addon">
-						<i th:text="#{search}" class="fa fa-search"></i>
-					</div>
-					<input type="text" class="form-control" th:placeholder="#{search.info}" data-ng-model="search" />
+		<div class="form-group form-group-search mobile-search pull-right">
+			<div class="input-group">
+				<div class="input-group-addon">
+					<i th:text="#{search}" class="fa fa-search"></i>
 				</div>
+				<input type="text" class="form-control" th:placeholder="#{search.info}" data-ng-model="search" />
 			</div>
+		</div>
 
-			<div data-ng-if="enableLastMonth" class="btn-group pull-right" data-toggle="buttons" >
-				<label class="btn btn-default" data-ng-click="last_month()" th:title="#{filter.last.month.info}">
-					<input type="checkbox" autocomplete="off" th:text="#{filter.last.month}" />
-				</label>
-			</div>
-			
-		</form>
+		<!-- Form last month -->
+		<div data-ng-if="enableLastMonth" class="btn-group mobile-search pull-right" data-toggle="buttons">
+			<label class="btn btn-default" data-ng-click="lastMonth()" th:title="#{filter.last.month.info}">
+				<input type="checkbox" autocomplete="off" th:text="#{filter.last.month}" />
+			</label>
+		</div>
+
 	</div>
 
 

@@ -35,7 +35,7 @@
 			<a href="#" class="btn btn-primary btn-lg" th:href="@{/programList}" th:text="#{program.viewProgramList}"></a> 
 		</div>
 
-		<div data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
+		<div class="ng-cloak" data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
 			<div th:include="program/programlisttable :: programlisttable(#{program.programListClose}, #{program.programListCloseEmpty})"></div>
 		</div>
 

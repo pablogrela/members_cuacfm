@@ -14,29 +14,21 @@
  * limitations under the License.
  */
 membersApp.controller('ReportController', [ '$scope', 'ReportService', function($scope, ReportService) {
-	$scope.sortType = '';
-	$scope.search = '';
+	$scope.sortType;
+	$scope.search;
+	$scope.isLastMonth = true;
+	$scope.enableLastMonth = true;
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
-	$scope.account = '';
-	$scope.accounts = '';
-	$scope.report = '';
-	$scope.reports = '';
-	$scope.program = '';
-	$scope.message = '';
+	$scope.account;
+	$scope.report;
+	$scope.reports;
+	$scope.reportsFilter;
+	$scope.reportsOriginal;
+	$scope.program;
+	$scope.message;
 
-	var self = this;
-	self.reportDown = reportDown;
-	self.infoAccount = infoAccount;
-	self.infoAccounts = infoAccounts;
-	self.infoProgram = infoProgram;
-	self.infoReport = infoReport;
-	self.reportAnswer = reportAnswer;
-	self.infoReportAnswer = infoReportAnswer;
-
-	fetchAllReports();
-
-	function fetchAllReports() {
+	$scope.fetchAllReports = function() {
 		ReportService.fetchAllReports().then(function(data) {
 			$scope.reports = data;
 		}, function(errorResponse) {
@@ -44,20 +36,38 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 		});
 	}
 
-	function reportDown(id) {
+	$scope.fetchAllReportsClose = function() {
+		ReportService.fetchAllReportsClose().then(function(data) {
+			$scope.reports = data;
+		}, function(errorResponse) {
+			console.error('Error while fetching Users', errorResponse);
+		});
+	}
+
+	$scope.reportUp = function(id) {
+		ReportService.reportUp(id).then(function(data) {
+			$scope.message = data;
+			$scope.fetchAllReportsClose();
+			showModal(modal);
+		}, function(errorResponse) {
+			console.error('Error while Up Report', errorResponse);
+		});
+	}
+	
+	$scope.reportDown = function(id) {
 		ReportService.reportDown(id).then(function(data) {
 			$scope.message = data;
-			fetchAllReports();
+			$scope.fetchAllReports();
 			showModal(modal);
 		}, function(errorResponse) {
 			console.error('Error while Down Report', errorResponse);
 		});
 	}
 
-	function reportAnswer(id, answer) {
+	$scope.reportAnswer = function(id, answer) {
 		ReportService.reportAnswer(id, answer).then(function(data) {
 			$scope.message = data;
-			fetchAllReports();
+			$scope.fetchAllReports();
 			// showModal(modal);
 			// Close modal report
 			$('#close').click();
@@ -74,34 +84,58 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 		return (v1.value < v2.value) ? -1 : 1;
 	};
 
-	$scope.dirt_average = function() {
-		var total = 0;
-		for (var i = 0; i < $scope.reportsFilter.length; i++) {
-			var report = $scope.reportsFilter[i];
-			total += report.dirt;
+	$scope.lastMonth = function() {
+		if (self.isLastMonth) {
+			var newReport = [];
+			var newDate = new Date();
+			var month = newDate.setMonth(newDate.getMonth() - 1)
+			for (var i = 0; i < self.reportsFilter.length; i++) {
+				var event = self.report[i];
+				if (event.dateEvent > month) {
+					newReport.push(event);
+				}
+			}
+			self.reports = newReport;
+		} else {
+			self.reports = self.reportOriginal;
 		}
-		return total / $scope.reportsFilter.length;
+		self.isLastMonth = !self.isLastMonth;
 	}
 
-	$scope.tidy_average = function() {
-		var total = 0;
-		for (var i = 0; i < $scope.reportsFilter.length; i++) {
-			var report = $scope.reportsFilter[i];
-			total += report.tidy;
+	$scope.dirtAverage = function() {
+		if ($scope.reportsFilter != null) {
+			var total = 0;
+			for (var i = 0; i < $scope.reportsFilter.length; i++) {
+				var report = $scope.reportsFilter[i];
+				total += report.dirt;
+			}
+			return total / $scope.reportsFilter.length;
 		}
-		return total / $scope.reportsFilter.length;
 	}
 
-	$scope.configuration_average = function() {
-		var total = 0;
-		for (var i = 0; i < $scope.reportsFilter.length; i++) {
-			var report = $scope.reportsFilter[i];
-			total += report.configuration;
+	$scope.tidyAverage = function() {
+		if ($scope.reportsFilter != null) {
+			var total = 0;
+			for (var i = 0; i < $scope.reportsFilter.length; i++) {
+				var report = $scope.reportsFilter[i];
+				total += report.tidy;
+			}
+			return total / $scope.reportsFilter.length;
 		}
-		return total / $scope.reportsFilter.length;
 	}
 
-	function infoReport(aux) {
+	$scope.configurationAverage = function() {
+		if ($scope.reportsFilter != null) {
+			var total = 0;
+			for (var i = 0; i < $scope.reportsFilter.length; i++) {
+				var report = $scope.reportsFilter[i];
+				total += report.configuration;
+			}
+			return total / $scope.reportsFilter.length;
+		}
+	}
+
+	$scope.infoReport = function(aux) {
 		// Reset carousel to first image
 		// $('#carousel-reports').carousel(0);
 		$('#data-slide-0').attr('class', 'active');
@@ -111,19 +145,15 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 		$scope.report = aux;
 	}
 
-	function infoAccount(aux) {
+	$scope.infoAccount = function(aux) {
 		$scope.account = aux;
 	}
 
-	function infoAccounts(aux) {
-		$scope.accounts = aux;
-	}
-
-	function infoProgram(aux) {
+	$scope.infoProgram = function(aux) {
 		$scope.program = aux;
 	}
 
-	function infoReportAnswer(aux) {
+	$scope.infoReportAnswer = function(aux) {
 		$scope.report = aux;
 	}
 
