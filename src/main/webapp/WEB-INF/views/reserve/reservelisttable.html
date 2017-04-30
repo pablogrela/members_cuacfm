@@ -1,0 +1,147 @@
+<!--
+
+    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+</head>
+<body>
+
+	<div th:fragment="reservelisttable(title, titleEmpty)">
+
+
+		<!-- Show info account -->
+		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
+		<div th:replace="reserve/modalreserve :: infoElement">&nbsp;</div>
+		<div th:replace="reserve/modalreserve :: infoReserve">&nbsp;</div>
+		<div th:replace="reserve/modalreserve :: infoReserveAnswer">&nbsp;</div>
+
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<object data-ng-show="message" class="text-center">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+		</object>
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<br></br>
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
+
+		<!-- Message if directDebits is empty -->
+		<div data-ng-show="!reserves">
+			<h2 class="text-center" th:text="${titleEmpty}"></h2>
+		</div>
+
+
+		<div data-ng-show="reserves">
+			<h2 class="text-center" th:text="${title}"></h2>
+
+			<div th:include="fragments/sortColumn :: search"></div>
+			<table class="dataTable display table-striped">
+				<thead>
+					<tr>
+					
+						<td><a href="#" data-ng-click="sortType = 'dateCreate'; sortReverse = !sortReverse"> <span th:text="#{dateCreate}">dateCreate</span> <span
+									data-ng-show="sortType == 'dateCreate' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'dateCreate' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
+						</a></td>
+						
+						<td><a href="#" data-ng-click="sortType = 'element.name'; sortReverse = !sortReverse"> <span th:text="#{element}">element</span> <span
+									data-ng-show="sortType == 'element.name' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'element.name' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
+						</a></td>
+						
+						<td><a href="#" data-ng-click="sortType = 'account.name+account.surname'; sortReverse = !sortReverse"> <span th:text="#{account}">account</span>
+								<span data-ng-show="sortType == 'account.name+account.surname' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'account.name+account.surname' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
+						</a></td>
+						
+						
+						<td><a href="#" data-ng-click="sortType = 'dateStart'; sortReverse = !sortReverse"> <span th:text="#{dateStart}">dateStart</span> <span
+									data-ng-show="sortType == 'dirt' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'dirt' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
+						</a></td>
+						
+						
+						<td><a href="#" data-ng-click="sortType = 'dateEnd'; sortReverse = !sortReverse"> <span th:text="#{dateEnd}">dateEnd</span>
+								<span data-ng-show="sortType == 'tidy' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'tidy' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
+						</a></td>
+
+
+						<td><a href="#" data-ng-click="sortType = 'active'; sortReverse = !sortReverse"> <span th:text="#{state}">state</span> <span
+									data-ng-show="sortType == 'active' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+									data-ng-show="sortType == 'active' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
+						</a></td>
+
+
+						<th sec:authorize="hasAnyRole('ROLE_USER, ROLE_RESERVE')" class="no-sort"></th>
+
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr pagination-id="paginate" dir-paginate="reserve in (reservesFilter = ( reserves | orderBy:sortType:sortReverse:localeSensitiveComparator | filter:search | itemsPerPage:numPerPage ) )">
+
+						<td><span data-ng-bind="reserve.dateCreate | date : 'short'" th:title="#{reserve.info}" data-ng-click="infoReserve(reserve)" 
+								data-toggle="modal" data-target="#infoReserve"></span></td>
+								
+						<td><span data-ng-bind="reserve.element.name" th:title="#{element.info}" data-ng-click="infoElement(reserve.element)" 
+								data-toggle="modal" data-target="#infoElement"></span></td>
+								
+						<td><span data-ng-bind="reserve.account.name + ' ' + reserve.account.surname" th:title="#{account.infoAccount}" data-ng-click="infoAccount(reserve.account)"
+								data-toggle="modal" data-target="#infoAccount"></span></td>
+								
+						<td><span data-ng-bind="reserve.dateStart | date : 'short'"></span></td>
+						<td><span data-ng-bind="reserve.dateEnd | date : 'short'"></span></td>
+				
+						<td >
+							<span data-ng-if="reserve.state == 'MANAGEMENT'" th:text="#{states.MANAGEMENT}"> </span>
+							<span data-ng-if="reserve.state == 'ACCEPT'" th:text="#{states.ACCEPT}"> </span>
+							<span data-ng-if="reserve.state == 'DENY'" th:text="#{states.DENY}"> </span>
+							<!-- Down Reserve -->
+							<button data-ng-if="reserve.active" sec:authorize="hasAnyRole('ROLE_ADMIN, ROLE_RESERVE')" data-ng-click="reserveAccept(reserve.id)" 
+								class="btnTable btn-link glyphicon glyphicon glyphicon-ok pull-right" th:title="#{reserve.accept.info}" style="color: green">
+							</button>
+							<button data-ng-if="reserve.active" sec:authorize="hasAnyRole('ROLE_ADMIN, ROLE_RESERVE')" data-ng-click="reserveDeny(reserve.id)" 
+								class="btnTable btn-link glyphicon glyphicon glyphicon-remove pull-right" th:title="#{reserve.deny.info}" style="color: red">
+							</button>
+							<!-- Up Reserve -->
+							<button data-ng-if="!reserve.active" sec:authorize="hasAnyRole('ROLE_ADMIN, ROLE_RESERVE')" data-ng-click="reserveUp(reserve.id)" 
+								class="btnTable btn-link glyphicon  glyphicon-chevron-up pull-right" th:title="#{reserve.up.info}" style="color: green">
+							</button>
+						</td>
+
+
+						<!-- Answer Reserve -->
+						<td sec:authorize="hasAnyRole('ROLE_USER, ROLE_RESERVE')" >
+							<button type="button" data-ng-if="reserve.active" data-toggle="modal" data-ng-click="infoReserveAnswer(reserve)" data-target="#infoReserveAnswer"
+							class="btnTable btn-link glyphicon glyphicon-comment" th:title="#{reserve.answer.info}" style="color: green"></button> 
+						</td>
+						
+					</tr>
+					
+				</tbody>
+			</table>
+			<dir-pagination-controls pagination-id="paginate" class="pagination-sm pull-right" boundary-links="true" auto-hide="false"></dir-pagination-controls>
+		</div>
+	</div>
+</body>
+</html>

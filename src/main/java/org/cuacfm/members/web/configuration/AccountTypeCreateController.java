@@ -77,7 +77,7 @@ public class AccountTypeCreateController {
 			errors.rejectValue("name", "accountType.existentName", new Object[] { e.getValue() }, "name");
 			return ACCOUNTYPE_VIEW_NAME;
 		}
-		MessageHelper.addSuccessAttribute(ra, "accountType.successCreate", accountTypeForm.getName());
+		MessageHelper.addSuccessAttribute(ra, "accountType.create.success", accountTypeForm.getName());
 		return "redirect:/configuration";
 	}
 }

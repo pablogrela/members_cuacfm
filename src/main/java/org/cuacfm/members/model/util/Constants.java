@@ -37,43 +37,14 @@ public class Constants {
 	 * The Enum states.
 	 */
 	public enum states {
-
-		/** The no pay. */
-		NO_PAY,
-
-		/** The pay. */
-		PAY,
-
-		/** The management. */
-		MANAGEMENT,
-
-		/** The return bill. */
-		RETURN_BILL,
-
-		/** Cancel. */
-		CANCEL
+		NO_PAY, PAY, MANAGEMENT, RETURN_BILL, CANCEL, ACCEPT, DENY
 	}
 
 	/**
 	 * The Enum method.
 	 */
 	public enum methods {
-
-		/** The no pay. */
-		NO_PAY,
-
-		/** The paypal. */
-		PAYPAL,
-
-		/** The directdebit. */
-		DIRECTDEBIT,
-
-		/** The cash. */
-		CASH,
-
-		/** The bank deposit. */
-		BANK_DEPOSIT
-
+		NO_PAY, PAYPAL, DIRECTDEBIT, CASH, BANK_DEPOSIT
 	}
 
 	/**

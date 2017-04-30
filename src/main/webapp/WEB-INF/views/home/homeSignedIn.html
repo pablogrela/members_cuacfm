@@ -41,14 +41,14 @@
 
 
 		<!-- Table List of directDebits -->
-		<div sec:authorize="!hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp" data-ng-controller="DirectDebitOpenController as ctrl">
+		<div class="ng-cloak" sec:authorize="!hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp" data-ng-controller="DirectDebitOpenController as ctrl">
 			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
 			<br></br>
 		</div>
 
 		<!-- List events -->
-		<div data-ng-controller="EventController as ctrl">
+		<div class="ng-cloak" data-ng-controller="EventController as ctrl">
 
 			<!-- Welcome message -->
 			<div data-ng-if="ctrl.events.length &lt; 3" class="text-center">

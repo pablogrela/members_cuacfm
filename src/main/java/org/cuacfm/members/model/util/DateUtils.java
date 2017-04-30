@@ -47,27 +47,6 @@ public class DateUtils {
 	}
 
 	/**
-	 * Convert String to date.
-	 *
-	 * @param date the date
-	 * @return the date
-	 */
-	public static Date stringToDate(String date) {
-		Date newDate = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm,yyyy-MM-dd");
-
-		if (!",".equals(date)) {
-			try {
-				newDate = dateFormat.parse(date);
-			} catch (ParseException ex) {
-				ex.getMessage();
-
-			}
-		}
-		return newDate;
-	}
-
-	/**
 	 * Format.
 	 *
 	 * @param date the date
@@ -76,18 +55,15 @@ public class DateUtils {
 	 */
 	public static Date format(String date, String format) {
 		if (date != null && !date.isEmpty()) {
-			Date newDate = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat(format);
-
 			try {
-				newDate = dateFormat.parse(date);
-				return newDate;
+				return dateFormat.parse(date);
 			} catch (ParseException e) {
 				logger.error("format", e);
 			}
 		}
 		return null;
-	}
+	}	
 
 	/**
 	 * Format.
@@ -99,12 +75,9 @@ public class DateUtils {
 	 */
 	public static Date format(String date, String format, Locale locale) {
 		if (date != null && !date.isEmpty()) {
-			Date newDate = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat(format, locale);
-
 			try {
-				newDate = dateFormat.parse(date);
-				return newDate;
+				return dateFormat.parse(date);
 			} catch (ParseException e) {
 				logger.error("format", e);
 			}

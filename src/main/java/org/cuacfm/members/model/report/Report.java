@@ -1,4 +1,5 @@
 /**
+
  * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,12 +42,12 @@ public class Report implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "account")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "accountId")
 	private Account account;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "program")
+	@JoinColumn(name = "programId")
 	private Program program;
 
 	private int dirt;

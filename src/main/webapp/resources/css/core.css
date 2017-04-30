@@ -20,6 +20,10 @@ body {
 	/* 	background-color: #f5f5f5; 	grey */
 }
 
+/* hidden angular if no load */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
 
 /* Start - Button zoom in image */
 .image-zoom {

@@ -52,7 +52,7 @@
 			<a href="#" class="btn btn-orange btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}"></a>
 		</div>
 
-		<div data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
+		<div class="ng-cloak" data-ng-app="membersApp" data-ng-controller="ProgramController as ctrl">
 			<div th:include="program/programlisttable :: programlisttable(#{program.programList}, #{program.programListEmpty})"></div>
 		</div>
 	</div>

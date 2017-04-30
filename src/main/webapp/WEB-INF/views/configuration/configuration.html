@@ -246,13 +246,72 @@
 					<td>
 						<form th:action="@{'configuration/methodPaymentDelete/'+${methodPayment.id}}" method="post">
 							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{methodPayment.infoRemove}"
-								style="color: red" onclick="evaluateModal(this.form, modal2, accept2)"></button>
+								style="color: red" onclick="evaluateModal(this.form, modalDeleteMethodPayment, accept2)"></button>
 						</form>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+
+
+
+	<!-- ************************************ Elements ************************************-->
+	<br></br>
+	<!-- Title elements -->
+	<h2 th:if="${!#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list}"></h2>	
+	<h2 th:if="${#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list.empty}"></h2>
+	
+	<!-- Button Create New Element -->
+	<br></br>
+	<div class="text-center">
+		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/elementCreate}"
+			th:text="#{element.create}">Create Element </a>
+	</div>
+
+	<!-- Verify if exits accountTypes -->
+	<div class="container-fluid" th:unless="${#lists.isEmpty(elements)}">
+
+		<!-- Table List of Training Types -->
+		<table class="display" id="customTable3">
+			<thead class="">
+				<tr>
+					<th th:text="#{name}">Name</th>
+					<th th:text="#{description}">Description</th>
+					<th th:text="#{element.reservable}">Reservable</th>
+					<th th:text="#{element.location}">Location</th>
+					<th class="no-sort"></th>
+					<th class="no-sort"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Table entry -->
+				<tr th:each="element : ${elements}">
+					<td th:text="${element.name}">name</td>
+					<td th:text="${element.description}">Description</td>
+					<td><input type="checkbox" th:checked="${element.reservable}"
+							th:title="#{element.reservable.info}" onClick="return false"/></td>
+					<td><input type="checkbox" th:checked="${element.location}"
+							th:title="#{element.location.info}" onClick="return false"/></td>
+
+					<!-- Modify element -->
+					<td>
+						<form th:action="@{'configuration/elementEdit/'+${element.id}}" method="post">
+							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+						</form>
+					</td>
+					<!-- Delete element -->
+					<td>
+						<form th:action="@{'configuration/elementDelete/'+${element.id}}" method="post">
+							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{element.delete.info}"
+								style="color: red" onclick="evaluateModal(this.form, modalDeleteElement, accept)"></button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- **********************************************************************************-->
 
 
 	<!-- Modal accountType.infoModalDelete	-->
@@ -276,7 +335,7 @@
 
 
 	<!-- Modal methodPayment.infoModalDelete	-->
-	<div id="modal2" class="modal fade">
+	<div id="modalDeleteMethodPayment" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content  panel-danger">
 				<div class="modal-header  modal-header-danger">
@@ -295,7 +354,26 @@
 	</div>
 
 
-<!-- 	TODO revisar -->
+	<!-- MomodalDeleteElement -->
+	<div id="modalDeleteElement" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content panel-danger">
+				<div class="modal-header  modal-header-danger">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" th:text="#{confirm}">Confirmation</h4>
+				</div>
+				<div class="modal-body">
+					<p th:text="#{element.delete.info.modal}">Message</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" th:text="#{accept}" id="accept2" name="accept2">Accept</button>
+					<button type="button" class="btn btn-default" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
 	<!-- Upload migrations -->
 	<br></br>
 	<h3 class="text-center" th:text="#{configuration.uploadDatabase}"></h3>

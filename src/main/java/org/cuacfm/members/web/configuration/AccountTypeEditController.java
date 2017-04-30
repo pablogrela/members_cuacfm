@@ -92,7 +92,7 @@ public class AccountTypeEditController {
 			errors.rejectValue("name", "accountType.existentName", new Object[] { e.getValue() }, "name");
 			return ACCOUNTYPE_VIEW_NAME;
 		}
-		MessageHelper.addWarningAttribute(ra, "accountType.successModify", accountTypeForm.getName());
+		MessageHelper.addWarningAttribute(ra, "accountType.edit.success", accountTypeForm.getName());
 		return "redirect:/configuration";
 	}
 

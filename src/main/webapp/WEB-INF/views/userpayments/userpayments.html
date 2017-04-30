@@ -43,7 +43,7 @@
 
 
 		<!-- Table List of directDebits -->
-		<div data-ng-app="membersApp" data-ng-controller="DirectDebitController as ctrl">
+		<div class="ng-cloak" data-ng-app="membersApp" data-ng-controller="DirectDebitController as ctrl">
 			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
 		</div>

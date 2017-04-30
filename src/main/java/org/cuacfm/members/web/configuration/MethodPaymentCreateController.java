@@ -79,7 +79,7 @@ public class MethodPaymentCreateController {
 			errors.rejectValue("name", "methodPayment.existentName", new Object[] { e.getValue() }, "name");
 			return METHODPAYMENT_VIEW_NAME;
 		}
-		MessageHelper.addSuccessAttribute(ra, "methodPayment.successCreate", methodPaymentForm.getName());
+		MessageHelper.addSuccessAttribute(ra, "methodPayment.create.success", methodPaymentForm.getName());
 		return "redirect:/configuration";
 	}
 }

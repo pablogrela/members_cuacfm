@@ -46,8 +46,8 @@ public class AccountListController {
 	private AccountService accountService;
 
 	@Autowired
-	private MessageSource messageSource; 
-	
+	private MessageSource messageSource;
+
 	public static final String ACCOUNT_VIEW_NAME = "account/accountlist";
 	public static final String REDIRECT_ACCOUNT = "redirect:/accountList";
 
@@ -81,6 +81,7 @@ public class AccountListController {
 	 * Unsubscribe.
 	 *
 	 * @param id the id
+	 * @param ra the ra
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "accountList/unsubscribe/{id}", method = RequestMethod.POST)
@@ -102,6 +103,7 @@ public class AccountListController {
 	 * Subscribe.
 	 *
 	 * @param id the id
+	 * @param ra the ra
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "accountList/subscribe/{id}", method = RequestMethod.POST)
@@ -109,11 +111,12 @@ public class AccountListController {
 
 		Account account = accountService.findById(id);
 		accountService.subscribe(account);
-		
-		Object[] arguments = { account.getName() + " " + account.getSurname()};
+
+		Object[] arguments = { account.getName() + " " + account.getSurname() };
 		String messageI18n = messageSource.getMessage("account.successSubscribe", arguments, Locale.getDefault());
 		MessageHelper.addInfoAttribute(ra, messageI18n);
-		
+
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
+
 }

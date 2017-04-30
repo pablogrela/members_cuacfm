@@ -43,7 +43,7 @@
 -- 		mysqldump -u root -p members > createTables.sql
 
  
- use members;
+use members;
 
 DROP TABLE IF EXISTS Configuration;
 DROP TABLE IF EXISTS DirectDebitPayPrograms;
@@ -67,6 +67,8 @@ DROP TABLE IF EXISTS ProgramCategory;
 DROP TABLE IF EXISTS ProgramLanguage;
 DROP TABLE IF EXISTS BankAccount;
 DROP TABLE IF EXISTS Event;
+DROP TABLE IF EXISTS Reserve;
+DROP TABLE IF EXISTS Element;
 DROP TABLE IF EXISTS Account;
 DROP TABLE IF EXISTS AccountType;
 DROP TABLE IF EXISTS MethodPayment;
@@ -157,11 +159,42 @@ CREATE TABLE BankAccount(
     iban VARCHAR(34) NOT NULL,
     mandate VARCHAR(24) NOT NULL,
     dateMandate TIMESTAMP NULL,
-    dateCreated TIMESTAMP NULL,
+    dateCreate TIMESTAMP NULL,
     active BOOLEAN,
     CONSTRAINT BankAccountId_PK PRIMARY KEY (id),
     CONSTRAINT BankAccount_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
 ); 
+
+
+CREATE TABLE Element (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(100),
+    reservable BOOLEAN NOT NULL, 
+    location BOOLEAN NOT NULL, 
+    dateCreate TIMESTAMP NULL,
+    CONSTRAINT ElementId_PK PRIMARY KEY (id),
+    CONSTRAINT ElementUniqueKey UNIQUE (name)
+);
+
+
+CREATE TABLE Reserve (
+    id INT NOT NULL auto_increment, 
+    accountId INT NOT NULL,
+    elementId INT NOT NULL,
+    description VARCHAR(100),
+    answer VARCHAR(5000),
+    dateCreate TIMESTAMP NOT NULL,
+    dateStart TIMESTAMP NOT NULL,
+    dateEnd TIMESTAMP NOT NULL,
+    dateRevision TIMESTAMP NULL,
+    dateApproval TIMESTAMP NULL,
+ 	state VARCHAR(20) NOT NULL,
+    active BOOLEAN NOT NULL, 
+    CONSTRAINT ReserveId_PK PRIMARY KEY (id),
+    CONSTRAINT Reserve_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT Reserve_ElementId_FK FOREIGN KEY (elementId) REFERENCES Element(id)
+);
 
 
 CREATE TABLE ProgramType (
@@ -242,8 +275,8 @@ CREATE TABLE UserPrograms(
 
 CREATE TABLE Report(
     id BIGINT NOT NULL auto_increment,
-    account INT NOT NULL,
-    program INT NOT NULL,
+    accountId INT NOT NULL,
+    programId INT NOT NULL,
     dirt TINYINT NOT NULL, 
     tidy TINYINT NOT NULL, 
     configuration TINYINT NOT NULL, 
@@ -258,8 +291,8 @@ CREATE TABLE Report(
     dateRevision TIMESTAMP NULL,
     active BOOLEAN NOT NULL, 
     CONSTRAINT Report_PK PRIMARY KEY (id),
-    CONSTRAINT Report_AccountId_FK FOREIGN KEY (account) REFERENCES Account(id),
-    CONSTRAINT Report_ProgramId_FK FOREIGN KEY (program) REFERENCES Program(id)
+    CONSTRAINT Report_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT Report_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id)
 ); 
 
 
@@ -457,8 +490,8 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 
 insert into Account values 
-(1, 'admin', '', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@udc.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_TRAINER', null, null, null);
+(1, 'admin', '', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@test.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_RESERVE, ROLE_TRAINER', null, null, null);
 
 
 -- Insert Method Payment:

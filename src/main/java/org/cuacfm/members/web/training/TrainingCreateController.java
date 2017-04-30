@@ -17,7 +17,7 @@ package org.cuacfm.members.web.training;
 
 import javax.validation.Valid;
 
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.trainingtype.TrainingType;
@@ -118,7 +118,7 @@ public class TrainingCreateController {
 
 		try {
 			trainingService.save(trainingForm.createTraining(trainingType));
-		} catch (DateLimitException e) {
+		} catch (DatesException e) {
 			errors.rejectValue("dateLimit", "dateLimit.message", new Object[] { e.getDateTraining() }, "dateTraining");
 			return TRAINING_VIEW_NAME;
 		}

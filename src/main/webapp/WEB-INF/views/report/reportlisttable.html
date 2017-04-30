@@ -25,11 +25,9 @@
 
 		<!-- Show info account -->
 		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
-		<div th:replace="fragments/alert :: infoAccounts">&nbsp;</div>
-		<div th:replace="fragments/alert :: infoReport">&nbsp;</div>
-		<div th:replace="fragments/alert :: infoReportAnswer">&nbsp;</div>
-		<div th:replace="fragments/alert :: infoDelete">&nbsp;</div>
 		<div th:replace="fragments/alert :: infoProgram">&nbsp;</div>
+		<div th:replace="report/modalreport :: infoReport">&nbsp;</div>
+		<div th:replace="report/modalreport :: infoReportAnswer">&nbsp;</div>
 
 
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
@@ -108,13 +106,13 @@
 				<tbody>
 					<tr pagination-id="paginate" dir-paginate="report in (reportsFilter = ( reports | orderBy:sortType:sortReverse:localeSensitiveComparator | filter:search | itemsPerPage:numPerPage ) )">
 
-						<td><span data-ng-bind="report.dateCreate | date : 'short'" th:title="#{report.info}" data-ng-click="ctrl.infoReport(report)" 
+						<td><span data-ng-bind="report.dateCreate | date : 'short'" th:title="#{report.info}" data-ng-click="infoReport(report)" 
 								data-toggle="modal" data-target="#infoReport"></span></td>
 								
-						<td><span data-ng-bind="report.program.name" th:title="#{program.infoProgram}" data-ng-click="ctrl.infoProgram(report.program)" 
+						<td><span data-ng-bind="report.program.name" th:title="#{program.infoProgram}" data-ng-click="infoProgram(report.program)" 
 								data-toggle="modal" data-target="#infoProgram"></span></td>
 								
-						<td><span data-ng-bind="report.account.name + ' ' + report.account.surname" th:title="#{account.infoAccount}" data-ng-click="ctrl.infoAccount(report.account)"
+						<td><span data-ng-bind="report.account.name + ' ' + report.account.surname" th:title="#{account.infoAccount}" data-ng-click="infoAccount(report.account)"
 								data-toggle="modal" data-target="#infoAccount"></span></td>
 								
 						<td data-ng-if="report.dirt &lt; 3"><span class="level" data-ng-bind="report.dirt"></span> <img th:src="@{/resources/images/icon_face_angry.png}"/></td>		
@@ -132,7 +130,7 @@
 						<!-- Down Report -->
 						<td data-ng-if="report.active">
 							<span th:text="#{active}"></span>
-							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.reportDown(report.id)" 
+							<button sec:authorize="hasAnyRole('ROLE_REPORT')" data-ng-click="reportDown(report.id)" 
 								class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down pull-right" th:title="#{report.down.info}" style="color: red">
 							</button>
 						</td>
@@ -141,7 +139,7 @@
 						<!-- Up Report -->
 						<td data-ng-if="!report.active">
 							<span th:text="#{down}"></span>
-							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.reportUp(report.id)" 
+							<button sec:authorize="hasAnyRole('ROLE_REPORT')" data-ng-click="reportUp(report.id)" 
 								class="btnTable btn-link glyphicon  glyphicon-chevron-up pull-right" th:title="#{report.up.info}" style="color: green">
 							</button>
 						</td>
@@ -149,10 +147,10 @@
 
 						<td sec:authorize="hasAnyRole('ROLE_USER, ROLE_REPORT')" >
 							<!-- Delete Report -->
-							<!-- <button type="button" data-toggle="modal" data-ng-click="ctrl.infoDelete(report)" data-target="#infoDelete" -->
+							<!-- <button type="button" data-toggle="modal" data-ng-click="infoDelete(report)" data-target="#infoDelete" -->
 								<!-- class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{report.infoRemove}" style="color: red"></button>  -->
 								
-							<button type="button" data-ng-if="report.active" data-toggle="modal" data-ng-click="ctrl.infoReportAnswer(report)" data-target="#infoReportAnswer"
+							<button type="button" data-ng-if="report.active" data-toggle="modal" data-ng-click="infoReportAnswer(report)" data-target="#infoReportAnswer"
 							class="btnTable btn-link glyphicon glyphicon-comment" th:title="#{report.answer.info}" style="color: green"></button> 
 								
 							<!-- Modify report -->
@@ -169,17 +167,17 @@
 						<td></td>								
 						<td></td>
 								
-						<td data-ng-if="dirt_average() &lt; 3"><span class="level" data-ng-bind="dirt_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_angry.png}"/></td>		
-						<td data-ng-if="dirt_average()   == 3"><span class="level" data-ng-bind="dirt_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_medium.png}"/></td>	
-						<td data-ng-if="dirt_average() &gt; 3"><span class="level" data-ng-bind="dirt_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_good.png}"/></td>	
+						<td data-ng-if="dirtAverage() &lt; 3"><span class="level" data-ng-bind="dirtAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_angry.png}"/></td>		
+						<td data-ng-if="dirtAverage()   == 3"><span class="level" data-ng-bind="dirtAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_medium.png}"/></td>	
+						<td data-ng-if="dirtAverage() &gt; 3"><span class="level" data-ng-bind="dirtAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_good.png}"/></td>	
 						
-						<td data-ng-if="tidy_average() &lt; 3"><span class="level" data-ng-bind="tidy_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_angry.png}"/></td>		
-						<td data-ng-if="tidy_average()   == 3"><span class="level" data-ng-bind="tidy_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_medium.png}"/></td>	
-						<td data-ng-if="tidy_average() &gt; 3"><span class="level" data-ng-bind="tidy_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_good.png}"/></td>	
+						<td data-ng-if="tidyAverage() &lt; 3"><span class="level" data-ng-bind="tidyAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_angry.png}"/></td>		
+						<td data-ng-if="tidyAverage()   == 3"><span class="level" data-ng-bind="tidyAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_medium.png}"/></td>	
+						<td data-ng-if="tidyAverage() &gt; 3"><span class="level" data-ng-bind="tidyAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_good.png}"/></td>	
 						
-						<td data-ng-if="configuration_average() &lt; 3"><span class="level" data-ng-bind="configuration_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_angry.png}"/></td>		
-						<td data-ng-if="configuration_average()   == 3"><span class="level" data-ng-bind="configuration_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_medium.png}"/></td>	
-						<td data-ng-if="configuration_average() &gt; 3"><span class="level" data-ng-bind="configuration_average() | number:1"></span> <img th:src="@{/resources/images/icon_face_good.png}"/></td>	
+						<td data-ng-if="configurationAverage() &lt; 3"><span class="level" data-ng-bind="configurationAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_angry.png}"/></td>		
+						<td data-ng-if="configurationAverage()   == 3"><span class="level" data-ng-bind="configurationAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_medium.png}"/></td>	
+						<td data-ng-if="configurationAverage() &gt; 3"><span class="level" data-ng-bind="configurationAverage() | number:1"></span> <img th:src="@{/resources/images/icon_face_good.png}"/></td>	
 
 						<td></td>
 						<td sec:authorize="hasAnyRole('ROLE_USER, ROLE_REPORT')" ></td>

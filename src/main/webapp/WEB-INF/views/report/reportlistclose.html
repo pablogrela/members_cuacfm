@@ -21,7 +21,7 @@
 <title th:text="#{report.list.close.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 <script th:src="@{/resources/js/service/reportService.js}"></script>
-<script th:src="@{/resources/js/controller/reportCloseController.js}"></script>
+<script th:src="@{/resources/js/controller/reportController.js}"></script>
 </head>
 <body>
 
@@ -32,10 +32,10 @@
 
 		<!-- Button redirect to directDebit list close-->
 		<div class="text-center">
-			<a href="#" class="btn btn-primary btn-lg" th:href="@{/reportList}" th:text="#{report.list.view}"></a> 
+			<a href="#" class="btn btn-primary btn-lg" th:href="@{/reportList}" th:text="#{report.list.view}"></a>
 		</div>
 
-		<div data-ng-app="membersApp" data-ng-controller="ReportController as ctrl">
+		<div class="ng-cloak" data-ng-app="membersApp" data-ng-controller="ReportController" data-ng-init="fetchAllReportsClose()">
 			<div th:include="report/reportlisttable :: reportlisttable(#{report.list.close}, #{report.list.close})"></div>
 		</div>
 

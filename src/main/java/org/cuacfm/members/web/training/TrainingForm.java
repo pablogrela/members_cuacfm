@@ -180,8 +180,9 @@ public class TrainingForm {
 	 * @return the training
 	 */
 	public Training createTraining(TrainingType trainingType) {
-		return new Training(trainingType, getName(), DateUtils.stringToDate(timeTraining + "," + dateTraining),
-				DateUtils.stringToDate(timeLimit + "," + dateLimit), getDescription(), getPlace(), getDuration(), getMaxPlaces());
+		return new Training(trainingType, getName(), DateUtils.format(dateTraining + " " + timeTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateLimit + " " + timeLimit, DateUtils.FORMAT_LOCAL_DATE), getDescription(), getPlace(), getDuration(),
+				getMaxPlaces());
 	}
 
 }

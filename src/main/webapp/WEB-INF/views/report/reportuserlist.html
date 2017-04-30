@@ -29,7 +29,7 @@
 	<div th:replace="fragments/header :: header(active='report.list.user')">&nbsp;</div>
 
 
-	<!-- If user has role ExUser, its apear message -->
+	<!-- If user has role ExUser, its appear message -->
 	<div sec:authorize="hasAnyRole('ROLE_EXUSER')" class="container-fluid">
 		<h2 class="text-center" th:text="#{profile.upToContinue}"></h2>
 		<div th:include="profile/profile :: profileUp"></div>
@@ -42,7 +42,7 @@
 			<a href="#" class="btn btn-orange btn-lg" th:href="@{/reportUserList/reportUserCreate}" th:text="#{report.create.new}"></a>
 		</div>
 
-		<div data-ng-app="membersApp" data-ng-controller="ReportUserController as ctrl">
+		<div class="ng-cloak" data-ng-app="membersApp" data-ng-controller="ReportUserController" data-ng-init="fetchUserReports()">
 			<div th:include="report/reportlisttable :: reportlisttable(#{report.list.user}, #{report.list.user.empty})"></div>
 		</div>
 	</div>

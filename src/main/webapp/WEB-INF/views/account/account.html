@@ -413,7 +413,21 @@
 							<div class="input-group">
 								<label for="role" class="col-lg-2" th:text="#{permissions.ROLE_REPORT}">permission</label>
 								<span class="input-group-btn">
-									<input type="checkbox" id="permissionReport" name="permissionReport" th:field="*{permissionReport}" data-toggle="toggle" data-on="Sí"
+									<input type="checkbox" id="permissionReport" name="permissionReport" th:field="*{permissionReport}" data-toggle="toggle" data-on="Si"
+										data-off="No" data-onstyle="success" data-offstyle="danger" />
+								</span>
+							</div>
+						</div>
+					</div>
+					
+					
+					<!--  permission space, revision i18n -->
+					<div class="form-group">
+						<div class="col-lg-6">
+							<div class="input-group">
+								<label for="role" class="col-lg-2" th:text="#{permissions.ROLE_RESERVE}">permission</label>
+								<span class="input-group-btn">
+									<input type="checkbox" id="permissionReserve" name="permissionReserve" th:field="*{permissionReserve}" data-toggle="toggle" data-on="Si"
 										data-off="No" data-onstyle="success" data-offstyle="danger" />
 								</span>
 							</div>
@@ -427,7 +441,7 @@
 							<div class="input-group">
 								<label for="role" class="col-lg-2" th:text="#{permissions.ROLE_TRAINER}">permission</label>
 								<span class="input-group-btn">
-									<input type="checkbox" id="permissionTrainer" name="permissionTrainer" th:field="*{permissionTrainer}" data-toggle="toggle" data-on="Sí"
+									<input type="checkbox" id="permissionTrainer" name="permissionTrainer" th:field="*{permissionTrainer}" data-toggle="toggle" data-on="Si"
 										data-off="No" data-onstyle="success" data-offstyle="danger" />
 								</span>
 							</div>

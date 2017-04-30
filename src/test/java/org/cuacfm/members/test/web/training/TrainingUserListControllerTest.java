@@ -43,68 +43,63 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
 /** The class ProfileControlTest. */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class TrainingUserListControllerTest extends WebSecurityConfigurationAware {
 
-    /** The default session. */
-    private MockHttpSession defaultSession;
+	/** The default session. */
+	private MockHttpSession defaultSession;
 
-    /** The account service. */
+	/** The account service. */
 	@Inject
 	private AccountService accountService;
-	
+
 	/** The training Type service. */
 	@Inject
 	private TrainingTypeService trainingTypeService;
-	
+
 	/** The training service. */
 	@Inject
 	private TrainingService trainingService;
-	
-	
-    /**
-     * Initialize default session.
-     * @throws UniqueException 
-     */
-    @Before
-    public void initializeDefaultSession() throws UniqueException, UniqueListException {
+
+	/**
+	 * Initialize default session.
+	 * 
+	 * @throws UniqueException
+	 */
+	@Before
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account user = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "user", roles.ROLE_USER);
 		accountService.save(user);
-        defaultSession = getDefaultSession("user@udc.es");
-    }
+		defaultSession = getDefaultSession("user@udc.es");
+	}
 
-	
-    /**
-     * Display TrainingView page without signin in test.
-     *
-     * @throws Exception
-     *             the exception
-     */
-    @Test
-    public void displayTrainingViewPageWithoutSiginInTest() throws Exception {
-        mockMvc.perform(get("/trainingList/trainingUserList")).andExpect(
-                redirectedUrl("http://localhost/signin"));
-    }
-    
 	/**
-	 * Send displaysTrainingView.
+	 * Display TrainingView page without signin in test.
+	 *
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void displaysTrainingViewTest() throws Exception {    
+	public void displayTrainingViewPageWithoutSiginInTest() throws Exception {
+		mockMvc.perform(get("/trainingList/trainingUserList")).andExpect(redirectedUrl("http://localhost/signin"));
+	}
+
+	/**
+	 * Send displaysTrainingView.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysTrainingViewTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";	
-		Training training = new Training (trainingType, "training1", DateUtils.stringToDate(dateTraining),DateUtils.stringToDate(dateTraining), 
-				"description", "place", 90, 10);		
+		String dateTraining = "2015-12-05 10:30";
+		Training training = new Training(trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
-		mockMvc.perform(get("/trainingUserList").locale(Locale.ENGLISH).session(defaultSession))
-				.andExpect(view().name("training/traininguserlist"))
+		mockMvc.perform(get("/trainingUserList").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("training/traininguserlist"))
 				.andExpect(content().string(containsString("<title>My formations</title>")));
-	}	
+	}
 }

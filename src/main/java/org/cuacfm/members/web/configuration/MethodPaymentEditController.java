@@ -91,7 +91,7 @@ public class MethodPaymentEditController {
 			errors.rejectValue("name", "methodPayment.existentName", new Object[] { e.getValue() }, "name");
 			return METHODPAYMENT_VIEW_NAME;
 		}
-		MessageHelper.addWarningAttribute(ra, "methodPayment.successModify", methodPaymentForm.getName());
+		MessageHelper.addWarningAttribute(ra, "methodPayment.edit.success", methodPaymentForm.getName());
 		return "redirect:/configuration";
 	}
 

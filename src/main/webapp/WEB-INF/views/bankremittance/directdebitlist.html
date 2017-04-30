@@ -36,7 +36,7 @@
 
 
 	<!-- Table list of directDebits -->
-	<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="DirectDebitAdminRemittanceController as ctrl">
+	<div class="container-fluid ng-cloak" data-ng-app="membersApp" data-ng-controller="DirectDebitAdminRemittanceController as ctrl">
 		<div
 			th:include="directdebit/directdebittable :: directdebittable(#{directDebit.directDebitList.bankRemittance} + ' ' + ${#dates.format(bankRemittance.monthCharge, #messages.msg('dateFormatMonthOfYear'))}, 
 			#{directDebit.directDebitList.bankRemittanceEmpty} + ' ' 

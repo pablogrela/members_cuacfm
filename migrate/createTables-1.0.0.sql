@@ -155,7 +155,7 @@ CREATE TABLE BankAccount(
     iban VARCHAR(34) NOT NULL,
     mandate VARCHAR(24) NOT NULL,
     dateMandate TIMESTAMP NULL,
-    dateCreated TIMESTAMP NULL,
+    dateCreate TIMESTAMP NULL,
     active BOOLEAN,
     CONSTRAINT BankAccountId_PK PRIMARY KEY (id),
     CONSTRAINT BankAccount_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)

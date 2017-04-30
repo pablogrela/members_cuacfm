@@ -20,13 +20,14 @@ import java.util.Date;
 import org.cuacfm.members.model.util.DateUtils;
 
 /** The Class DateLimitException. */
-@SuppressWarnings("serial")
-public class DateLimitException extends Exception {
+public class DatesException extends Exception {
 
-	/** The date limit. */
+	private static final long serialVersionUID = 1L;
+
+	/** The date limit or date start. */
 	private final Date dateLimit;
 
-	/** The date training. */
+	/** The date training or date end. */
 	private final Date dateTraining;
 
 	/**
@@ -35,7 +36,7 @@ public class DateLimitException extends Exception {
 	 * @param dateLimit the date limit
 	 * @param dateTraining the date training
 	 */
-	public DateLimitException(Date dateLimit, Date dateTraining) {
+	public DatesException(Date dateLimit, Date dateTraining) {
 		super("The date limit " + DateUtils.format(dateLimit, DateUtils.FORMAT_DISPLAY) + " should be after or equals to date "
 				+ DateUtils.format(dateTraining, DateUtils.FORMAT_DISPLAY));
 
@@ -44,7 +45,7 @@ public class DateLimitException extends Exception {
 	}
 
 	/**
-	 * Gets the date limit.
+	 * Gets the date limit or date start
 	 *
 	 * @return the date limit
 	 */
@@ -53,7 +54,7 @@ public class DateLimitException extends Exception {
 	}
 
 	/**
-	 * Gets the date training.
+	 * Gets the date training or date end
 	 *
 	 * @return the date training
 	 */

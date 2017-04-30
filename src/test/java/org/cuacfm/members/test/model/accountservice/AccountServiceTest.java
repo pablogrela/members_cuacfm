@@ -472,7 +472,7 @@ public class AccountServiceTest extends WebSecurityConfigurationAware {
       assertEquals(bankAccount.getBic(), bankAccountSearched.getBic());
       assertEquals(bankAccount.getMandate(), bankAccountSearched.getMandate());
       assertEquals(bankAccount.getBank(), bankAccountSearched.getBank());
-      assertEquals(bankAccount.getDateCreated(), bankAccountSearched.getDateCreated());
+      assertEquals(bankAccount.getDateCreate(), bankAccountSearched.getDateCreate());
       assertEquals(bankAccount.isActive(), bankAccountSearched.isActive());
       
       // New BankAccount

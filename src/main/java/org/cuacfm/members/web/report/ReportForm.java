@@ -138,6 +138,10 @@ public class ReportForm {
 		this.location = location;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -150,13 +154,10 @@ public class ReportForm {
 		this.photos = photos;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	/**
 	 * Creates the report.
 	 *
+	 * @param account the account
 	 * @return the report
 	 */
 	public Report createReport(Account account) {

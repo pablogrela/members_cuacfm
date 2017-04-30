@@ -105,7 +105,7 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		payMember.setInstallment(3);
 		payMember.setInstallments(3);
 		payMember.setPrice(Double.valueOf(30));
-		payMember.setDatePay(DateUtils.stringToDate("2015-12-04"));
+		payMember.setDatePay(DateUtils.format("2015-12-04", DateUtils.FORMAT_DATE));
 		payMember.setDateCharge(DateUtils.format("2015-12-04", DateUtils.FORMAT_DATE));
 		payMemberService.update(payMember);
 

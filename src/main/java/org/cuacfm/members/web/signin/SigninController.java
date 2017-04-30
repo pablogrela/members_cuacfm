@@ -61,7 +61,7 @@ public class SigninController {
 	 * Instantiates a new Signin controller.
 	 */
 	public SigninController() {
-		// Default empty constructor.
+		super();
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class SigninController {
 		if (error != null) {
 			message = "firebase." + error;
 		} else {
-			
+
 			// Check if the user exists, si no existe en los miembros se redirige un signup
 			Account account = accountService.findByEmail(email);
 			if (account == null) {
@@ -125,7 +125,6 @@ public class SigninController {
 
 		MessageHelper.addErrorAttribute(ra, message, "");
 		return SIGNIN_REDIRECT;
-
 	}
 
 	/**

@@ -207,7 +207,7 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> cancelBankDeposit(@PathVariable String directDebitId, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-		
+
 		try {
 			String message = directDebitService.cancelBankDeposit(directDebit, null);
 			MessageHelper.addWarningAttribute(ra, message);
@@ -241,7 +241,7 @@ public class DirectDebitListController {
 			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
 			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
 			MessageHelper.addErrorAttribute(ra, messageI18n);
-			
+
 		}
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
@@ -269,7 +269,7 @@ public class DirectDebitListController {
 		}
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Direct debit by cancel.
 	 *
