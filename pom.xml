@@ -20,11 +20,11 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>1.3.1</version>
+	<version>1.4.1</version>
 	<inceptionYear>2015</inceptionYear>
 	<name>members</name>
 	<url>https://github.com/pablogrela/members_cuacfm</url>
-	<description>Member management: accounts, trainings, programs, reports, reserves, fee members, fee programs, directDebits, bankRemitances, bank accounts, ...
+	<description>Member management: accounts, trainings, programs, reports, reserves, fee members, fee programs, directDebits, bankRemitances, bank accounts, push, ...
 Management of events of each important action.
 Authentication with Firebase</description>
 

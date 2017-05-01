@@ -229,9 +229,11 @@ public class ReportServiceImpl implements ReportService {
 		eventService.save("report.answer.user", report.getAccount(), levels.HIGH, arguments);
 
 		// Send push
-		Object[] arguments2 = { DateUtils.format(report.getDateCreate(), DateUtils.FORMAT_DISPLAY) };
-		String title = messageSource.getMessage("report.answer.push.title", arguments2, Locale.getDefault());
-		PushService.sendPushNotificationToDevice(report.getAccount().getDevicesToken(), title, answer);
+		if (!account.getId().equals(report.getAccount().getId())) {
+			Object[] arguments2 = { DateUtils.format(report.getDateCreate(), DateUtils.FORMAT_DISPLAY) };
+			String title = messageSource.getMessage("report.answer.push.title", arguments2, Locale.getDefault());
+			PushService.sendPushNotificationToDevice(report.getAccount().getDevicesToken(), title, answer);
+		}
 
 		if (manage == null) {
 			reportRepository.update(report);

@@ -200,10 +200,12 @@ public class ReserveServiceImpl implements ReserveService {
 		eventService.save("reserve.answer.user", reserve.getAccount(), levels.HIGH, arguments);
 
 		// Send push
-		Object[] arguments2 = { reserve.getElement().getName() };
-		String title = messageSource.getMessage("reserve.answer.push.title", arguments2, Locale.getDefault());
-		PushService.sendPushNotificationToDevice(reserve.getAccount().getDevicesToken(), title, answer);
-		
+		if (!account.getId().equals(reserve.getAccount().getId())) {
+			Object[] arguments2 = { reserve.getElement().getName() };
+			String title = messageSource.getMessage("reserve.answer.push.title", arguments2, Locale.getDefault());
+			PushService.sendPushNotificationToDevice(reserve.getAccount().getDevicesToken(), title, answer);
+		}
+
 		if (manage == null) {
 			reserveRepository.update(reserve);
 		} else if (manage) {
