@@ -104,7 +104,7 @@
 					<h4 class="modal-title" th:text="#{members}"></h4>
 				</div>
 				<div data-ng-repeat="account in accounts" class="modal-body">
-					<div th:replace="fragments/alert :: dataAccount">&nbsp;</div>
+					<div th:replace="fragments/alert :: dataAccount"></div>
 				</div>
 			</div>
 		</div>
@@ -275,6 +275,104 @@
 		</div>
 	</div>
 
-	
+
+	<!-- Modal Info push Account -->
+	<div th:fragment="modalPushAccount" id="modalPushAccount" class="modal fade mobile">
+		<div class="modal-dialog">
+			<form class="ws-validate">
+				<div class="modal-content panel-primary">
+					<div class="modal-header modal-header-primary">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" data-ng-bind="account.name + ' ' + account.surname"></h4>
+					</div>
+					<div class="modal-body">
+
+						<h3 class="modal-title" th:text="#{push.info}"></h3>
+						<br></br>
+
+						<!-- Title -->
+						<div class="form-group">
+							<label for="title" class="control-label" th:text="#{push.head}"></label>
+							<div class="">
+								<input type="text" class="form-control" id="title" data-ng-model="title" th:placeholder="#{push.head}" required="required" />
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</div>
+
+
+						<!-- Description -->
+						<div class="form-group">
+							<label for="body" class="control-label" th:text="#{push.body}"></label>
+							<div class="">
+								<textarea class="form-control" id="body" data-ng-model="body" th:placeholder="#{push.body}" rows="6" cols="40" maxlength="500"
+									required="required">Description</textarea>
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="push(account.id, title, body)" class="btn btn-orange btn-form"
+							th:title="#{push.send.info}" th:text="#{push.send}"></button>
+						<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+	<!-- Modal Info push Program -->
+	<div th:fragment="modalPushProgram" id="modalPushProgram" class="modal fade mobile">
+		<div class="modal-dialog">
+			<form class="ws-validate">
+				<div class="modal-content panel-primary">
+					<div class="modal-header modal-header-primary">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" data-ng-bind="program.name"></h4>
+					</div>
+					<div class="modal-body">
+
+						<h3 class="modal-title" th:text="#{push.info}"></h3>
+						<br></br>
+
+						<!-- Title -->
+						<div class="form-group">
+							<label for="title" class="control-label" th:text="#{push.head}"></label>
+							<div class="">
+								<input type="text" class="form-control" id="title" data-ng-model="title" th:placeholder="#{push.head}" required="required" />
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</div>
+
+
+						<!-- Description -->
+						<div class="form-group">
+							<label for="body" class="control-label" th:text="#{push.body}"></label>
+							<div class="">
+								<textarea class="form-control" id="body" data-ng-model="body" th:placeholder="#{push.body}" rows="6" cols="40" maxlength="500"
+									required="required">Description</textarea>
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</div>
+
+
+						<label th:text="#{program.push.members} + ': ' "></label>
+						<br></br>
+						<table>
+							<tr data-ng-repeat="account in program.accounts">
+								<td data-ng-if="account.deviceToken" data-ng-bind="account.name + ' ' + account.surname"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="programPush(program.id, title, body)"
+							class="btn btn-orange btn-form" th:title="#{push.send.info}" th:text="#{push.send}"></button>
+						<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </body>
 </html>

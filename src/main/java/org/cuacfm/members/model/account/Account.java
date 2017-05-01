@@ -121,6 +121,8 @@ public class Account implements Serializable {
 
 	private String permissions;
 
+	private String devicesToken;
+
 	private Date dateCreate;
 
 	private Date dateDown;
@@ -236,8 +238,11 @@ public class Account implements Serializable {
 		this.nickName = nickName;
 	}
 
-	public String getFullNameAndNick() {
-		return getFullName() + "(" + nickName + ")";
+	public String getFullNameNick() {
+		if (nickName != null && !nickName.isEmpty()){
+			return getFullName() + " (" + nickName + ")";
+		}
+		return getFullName();
 	}
 
 	public String getDni() {
@@ -440,6 +445,31 @@ public class Account implements Serializable {
 		this.permissions = permissionsString.toString();
 	}
 
+	public List<String> getDevicesToken() {
+		List<String> newDevicesToken = new ArrayList<>();
+		if (devicesToken != null && !devicesToken.isEmpty() && !"[]".equals(devicesToken)) {
+			String roleAux = devicesToken.replace("[", "").replace("]", "");
+			newDevicesToken = Arrays.asList(roleAux.split(", "));
+		}
+		return newDevicesToken;
+	}
+
+	public void setDevicesToken(List<String> devicesToken) {
+		this.devicesToken = devicesToken.toString();
+	}
+
+	public void addDeviceToken(String deviceToken) {
+		Set<String> devicesTokenString = new LinkedHashSet<>(getDevicesToken());
+		devicesTokenString.add(deviceToken);
+		this.devicesToken = devicesTokenString.toString();
+	}
+
+	public void removeDevicesToken(String deviceToken) {
+		List<String> permissionsString = new ArrayList<>(getDevicesToken());
+		permissionsString.remove(deviceToken);
+		this.devicesToken = permissionsString.toString();
+	}
+
 	public boolean isEmitProgram() {
 		return emitProgram;
 	}
@@ -490,10 +520,6 @@ public class Account implements Serializable {
 
 	public void setToken(String token) {
 		this.token = token;
-	}
-
-	public void setPermissions(String permissions) {
-		this.permissions = permissions;
 	}
 
 }

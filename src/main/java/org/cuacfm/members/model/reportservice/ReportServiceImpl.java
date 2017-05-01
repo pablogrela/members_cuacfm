@@ -34,6 +34,7 @@ import org.cuacfm.members.model.report.ReportRepository;
 import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
+import org.cuacfm.members.model.util.PushService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -226,6 +227,11 @@ public class ReportServiceImpl implements ReportService {
 
 		Object[] arguments = { account.getFullName(), report.getProgram().getName() };
 		eventService.save("report.answer.user", report.getAccount(), levels.HIGH, arguments);
+
+		// Send push
+		Object[] arguments2 = { DateUtils.format(report.getDateCreate(), DateUtils.FORMAT_DISPLAY) };
+		String title = messageSource.getMessage("report.answer.push.title", arguments2, Locale.getDefault());
+		PushService.sendPushNotificationToDevice(report.getAccount().getDevicesToken(), title, answer);
 
 		if (manage == null) {
 			reportRepository.update(report);

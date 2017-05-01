@@ -107,6 +107,13 @@ public interface AccountRepository {
 	public List<Account> getAccounts();
 
 	/**
+	 * Gets the accounts with device token.
+	 *
+	 * @return the accounts with device token
+	 */
+	public List<Account> getAccountsWithDeviceToken();
+
+	/**
 	 * Gets the accounts order by active.
 	 *
 	 * @return the accounts order by active

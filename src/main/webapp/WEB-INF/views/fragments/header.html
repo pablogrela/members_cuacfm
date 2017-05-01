@@ -225,6 +225,15 @@
 								</th:block>
 
 
+								<!-- Button Push -->
+								<th:block th:if="${active != 'push'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/push}" th:text="#{push}">push</a></li>
+								</th:block>
+								<th:block th:if="${active == 'push'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/push}" th:text="#{push}">push</a></li>
+								</th:block>
+								
+
 								<!-- Button Configuration -->
 								<th:block th:if="${active != 'configuration'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
 									<li><a href="#" th:href="@{/configuration}" th:text="#{configuration}">configuration</a></li>
@@ -242,7 +251,7 @@
 
 								<!-- Button logout -->
 								<li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="signOut(this.form);" th:text="#{logout}">Logout</a>
-									<form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form></li>
+									<form style="visibility: hidden" id="form" method="post" th:action="@{/logout}"></form></li>
 
 
 								<!-- Message Login, welcome -->

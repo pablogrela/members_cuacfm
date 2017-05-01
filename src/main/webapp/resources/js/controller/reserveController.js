@@ -74,14 +74,16 @@ membersApp.controller('ReserveController', [ '$scope', 'ReserveService', functio
 	}
 
 	$scope.reserveAnswer = function(id, answer) {
-		ReserveService.reserveAnswer(id, answer).then(function(data) {
-			$scope.message = data;
-			$scope.fetchAllReserves();
-			$('#close').click();
-			$scope.answer = '';
-		}, function(errorResponse) {
-			console.error('Error while answer Reserve', errorResponse);
-		});
+		if (answer != null && !jQuery.isEmptyObject(answer)) {
+			ReserveService.reserveAnswer(id, answer).then(function(data) {
+				$scope.message = data;
+				$scope.fetchAllReserves();
+				$('#close').click();
+				$scope.answer = '';
+			}, function(errorResponse) {
+				console.error('Error while answer Reserve', errorResponse);
+			});
+		}
 	}
 
 	$scope.localeSensitiveComparator = function(v1, v2) {

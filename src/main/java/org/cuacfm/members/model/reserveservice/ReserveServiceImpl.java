@@ -32,6 +32,7 @@ import org.cuacfm.members.model.reserve.ReserveRepository;
 import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.DateUtils;
+import org.cuacfm.members.model.util.PushService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,6 +199,11 @@ public class ReserveServiceImpl implements ReserveService {
 		Object[] arguments = { account.getFullName(), reserve.getElement().getName() };
 		eventService.save("reserve.answer.user", reserve.getAccount(), levels.HIGH, arguments);
 
+		// Send push
+		Object[] arguments2 = { reserve.getElement().getName() };
+		String title = messageSource.getMessage("reserve.answer.push.title", arguments2, Locale.getDefault());
+		PushService.sendPushNotificationToDevice(reserve.getAccount().getDevicesToken(), title, answer);
+		
 		if (manage == null) {
 			reserveRepository.update(reserve);
 		} else if (manage) {

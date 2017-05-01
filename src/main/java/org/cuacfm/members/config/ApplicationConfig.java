@@ -82,7 +82,8 @@ public class ApplicationConfig {
 
 			// Add Resources properties
 			addResource(pathConfig, "configBankRemittance", "/bankRemittance.properties");
-			addResource(pathConfig, "configFirebaseWeb", "/firebaseWeb.properties");
+			addResource(pathConfig, "configFirebaseMessaging", "/firebaseMessaging.properties");
+			addResource(pathConfig, "configFirebaseWeb", "/firebaseWeb.properties");	
 			addResource(pathConfig, "configHibernate", "/hibernate.properties");
 			addResource(pathConfig, "configPaypal", "/paypal.properties");
 			addResource(pathConfig, "configReCaptcha", "/recaptcha.properties");
@@ -92,7 +93,7 @@ public class ApplicationConfig {
 			changeLogBack(pathConfig, "configLogBack");
 
 			// Inicialice firebase
-			initializeFirebase(pathConfig, "configFirebase", "/members-firebase-adminsdk.json");
+			initializeFirebase(pathConfig, "configFirebaseAdmin", "/firebaseAdmin.json");
 
 			ppc.setProperties(properties);
 		} catch (Exception e) {

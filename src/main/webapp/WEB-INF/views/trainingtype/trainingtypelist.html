@@ -26,33 +26,33 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='trainingTypes')">&nbsp;</div>
 
+
 	<div class="container-fluid">
+
+
 		<!-- Button Create New Training Type -->
 		<div class="text-center">
 			<a href="#" class="btn btn-orange btn-lg" id="createNewTrainingType" th:href="@{/trainingTypeList/trainingTypeCreate}"
 				th:text="#{trainingType.createNewTrainingType}">Create New Training Type </a>
 		</div>
-
 		<br></br>
-		<!-- Message Info -->
-		<div class="text-center ">
-			<!-- /* Handle the flash message */-->
-			<th:block th:if="${message != null}">
-				<!-- /* The message code is returned from the @Controller */ -->
-				<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, 
-				message=#{${message.message}(${message.args[0]})})">&nbsp;
-				</div>
-			</th:block>
+
+
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})"></div>
 		</div>
+
 
 		<!-- Show message, if training type list is empty -->
 		<div th:if="${#lists.isEmpty(trainingTypes)}">
 			<h2 class="text-center" th:text="#{trainingType.trainingTypeListEmpty}">List of Training Types</h2>
 		</div>
 
+
 		<fieldset>
 
-			<!-- Verify if exits Trainings -->
+			<!-- Verify if exits trainings -->
 			<div th:unless="${#lists.isEmpty(trainingTypes)}">
 
 				<h2 class="text-center" th:text="#{trainingType.trainingTypeList}">List of Training Types</h2>
@@ -88,7 +88,7 @@
 											onclick="evaluateModal(this.form, modal, accept)"></button>
 									</th:block>
 
-									<!-- It doesn´t delete TrainingType because TrainingType has trainings-->
+									<!-- If doesn´t delete TrainingType because TrainingType has trainings-->
 									<th:block th:if="${trainingType.hasTrainings}">
 										<button class="btnTableLocked btn-link glyphicon glyphicon-remove" th:title="#{trainingType.infoRemoveLocked}" style="color: black">
 										</button>

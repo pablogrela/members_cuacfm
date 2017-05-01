@@ -32,17 +32,17 @@
 
 
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+		<div class="text-center" th:if="${message != null}">
+			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		</div>
+		
+		
+		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<object data-ng-show="message" class="text-center">
-			<br></br>
 			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 		</object>
 
-		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
-		<div class="text-center" th:if="${message != null}">
-			<br></br>
-			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
-		</div>
 
 		<!-- Message if directDebits is empty -->
 		<div data-ng-show="!reserves">

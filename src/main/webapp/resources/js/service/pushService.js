@@ -15,15 +15,13 @@
  */
 'use strict';
 
-angular.module('membersApp').factory('AccountService', [ '$http', '$q', function($http, $q) {
+angular.module('membersApp').factory('PushService', [ '$http', '$q', function($http, $q) {
 
-	var REST_SERVICE_URI = 'accountList/';
+	var REST_SERVICE_URI = 'push/';
 	var csrf = '?' + document.getElementById("csrf.parameterName").value + '=' + document.getElementById("csrf.token").value;
 
 	var factory = {
 		fetchAllUsers : fetchAllUsers,
-		unsubscribe : unsubscribe,
-		subscribe : subscribe,
 		push : push
 	};
 
@@ -31,7 +29,7 @@ angular.module('membersApp').factory('AccountService', [ '$http', '$q', function
 
 	function fetchAllUsers() {
 		var deferred = $q.defer();
-		$http.get(REST_SERVICE_URI + csrf).then(function(response) {
+		$http.get(REST_SERVICE_URI + "accountList/" + csrf).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
 			console.error('Error while fetching Users');
@@ -40,35 +38,12 @@ angular.module('membersApp').factory('AccountService', [ '$http', '$q', function
 		return deferred.promise;
 	}
 
-	function unsubscribe(id) {
-		var deferred = $q.defer();
-		var url = REST_SERVICE_URI + 'unsubscribe/' + id + csrf;
-		$http.post(url).then(function(response) {
-			deferred.resolve(response.data);
-		}, function(errResponse) {
-			console.error('Error while unsubscribe User');
-			deferred.reject(errResponse);
-		});
-		return deferred.promise;
-	}
-
-	function subscribe(id) {
-		var deferred = $q.defer();
-		var url = REST_SERVICE_URI + 'subscribe/' + id + csrf;
-		$http.post(url).then(function(response) {
-			deferred.resolve(response.data);
-		}, function(errResponse) {
-			console.error('Error while subscribe User');
-			deferred.reject(errResponse);
-		});
-		return deferred.promise;
-	}
-
-	function push(id, title, body) {
+	function push(accounts, title, body) {
 		var deferred = $q.defer();
 		var data = "&title=" + title + "&body=" + body;
-		var url = REST_SERVICE_URI + 'push/' + id + csrf + data;
-		$http.post(url).then(function(response) {
+		var url = REST_SERVICE_URI + csrf + data;		
+//		JSON.stringify(accounts)
+		$http.post(url, accounts).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
 			console.error('Error while push account');

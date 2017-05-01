@@ -23,6 +23,7 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.util.PushService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -32,10 +33,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
- * The Class AccountListAjaxController.
+ * The Class AccountListController.
  */
 //@RestController
 @Controller
@@ -114,6 +116,31 @@ public class AccountListController {
 		Object[] arguments = { account.getName() + " " + account.getSurname() };
 		String messageI18n = messageSource.getMessage("account.successSubscribe", arguments, Locale.getDefault());
 		MessageHelper.addInfoAttribute(ra, messageI18n);
+
+		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
+	}
+
+	/**
+	 * Push.
+	 *
+	 * @param id the id
+	 * @param title the title
+	 * @param body the body
+	 * @param ra the ra
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "accountList/push/{id}", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> push(@PathVariable("id") Long id, @RequestParam(value = "title") String title,
+			@RequestParam(value = "body") String body, RedirectAttributes ra) {
+
+		Account account = accountService.findById(id);
+		Object[] arguments = { account.getName() + " " + account.getSurname() };
+
+		if (PushService.sendPushNotificationToDevice(account.getDevicesToken(), title, body)) {
+			MessageHelper.addInfoAttribute(ra, messageSource.getMessage("account.push.success", arguments, Locale.getDefault()));
+		} else {
+			MessageHelper.addInfoAttribute(ra, messageSource.getMessage("account.push.error", arguments, Locale.getDefault()));
+		}
 
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}

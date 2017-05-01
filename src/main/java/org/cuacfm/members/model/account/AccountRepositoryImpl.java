@@ -127,6 +127,12 @@ public class AccountRepositoryImpl implements AccountRepository {
 	}
 
 	@Override
+	public List<Account> getAccountsWithDeviceToken() {
+		return entityManager.createQuery("select a from Account a where a.devicesToken is not null and a.devicesToken <> '' and a.devicesToken <> '[]' ", Account.class)
+				.getResultList();
+	}
+
+	@Override
 	public List<Account> getAccountsOrderByActive() {
 		return entityManager.createQuery("select a from Account a order by a.active desc", Account.class).getResultList();
 	}

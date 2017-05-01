@@ -13,53 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-membersApp.controller('AccountController', [ '$scope', 'AccountService', function($scope, AccountService) {
+membersApp.controller('PushController', [ '$scope', 'PushService', function($scope, PushService) {
 	$scope.sortType;
 	$scope.search;
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
 	$scope.account;
 	$scope.accounts;
+	$scope.accountsFilter = [];
 	$scope.message;
 
 	$scope.fetchAllUsers = function() {
-		AccountService.fetchAllUsers().then(function(data) {
+		PushService.fetchAllUsers().then(function(data) {
 			$scope.accounts = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
 	}
 
-	$scope.unsubscribe = function(id) {
-		AccountService.unsubscribe(id).then(function(data) {
-			$scope.message = data;
-			$scope.fetchAllUsers();
-			showModal(modal);
-		}, function(errorResponse) {
-			console.error('Error while unsubscribe User', errorResponse);
-		});
-	}
-
-	$scope.subscribe = function(id) {
-		AccountService.subscribe(id).then(function(data) {
-			$scope.message = data;
-			$scope.fetchAllUsers();
-			showModal(modal);
-		}, function(errorResponse) {
-			console.error('Error while subscribe User', errorResponse);
-		});
-	}
-
-	$scope.push = function(id, title, body) {
+	$scope.push = function(title, body) {
 		if (title != null && !jQuery.isEmptyObject(title) && body != null && !jQuery.isEmptyObject(body)) {
-			AccountService.push(id, title, body).then(function(data) {
+			PushService.push($scope.accountsFilter, title, body).then(function(data) {
 				$scope.message = data;
-				$('#close').click();
 				$scope.title = '';
 				$scope.body = '';
+				$scope.accountsFilter = [];
 			}, function(errorResponse) {
 				console.error('Error while push account', errorResponse);
 			});
+		}
+	}
+
+	$scope.addAccount = function(account) {
+		if (account != null && !jQuery.isEmptyObject(account)) {
+			$scope.accountsFilter.push(account);
+			var index = $scope.accounts.indexOf(account);
+			if (index > -1) {
+				$scope.accounts.splice(index, 1);
+			}
+			$scope.selected = '';
+		}
+	}
+
+	$scope.removeAccount = function(account) {
+		$scope.accounts.push(account);
+		var index = $scope.accountsFilter.indexOf(account);
+		if (index > -1) {
+			$scope.accountsFilter.splice(index, 1);
 		}
 	}
 

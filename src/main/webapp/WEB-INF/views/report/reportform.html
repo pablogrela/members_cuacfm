@@ -21,6 +21,11 @@
 
 	<div th:fragment="reportform">
 
+	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
+	<div class="container-fluid text-center" th:if="${message != null}">
+		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+	</div>
+	
 		<!-- Program, Selected option in droplist -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('programId')}? 'has-error'">
 			<label for="program" class="col-lg-10 control-label" th:text="#{program}">program</label>

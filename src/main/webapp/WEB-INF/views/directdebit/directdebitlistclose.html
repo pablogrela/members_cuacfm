@@ -33,6 +33,7 @@
 	<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
 		<a href="#" class="btn btn-primary btn-lg" th:href="@{/directDebitList}" th:text="#{directDebit.viewDirectDebitListOpen}"> </a>
 	</div>
+	<br></br>
 
 	<!-- Table list of directDebits -->
 	<div class="container-fluid ng-cloak" sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp"

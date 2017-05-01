@@ -17,10 +17,14 @@ package org.cuacfm.members.web.api;
 
 import static org.cuacfm.members.model.util.FirebaseUtils.getEmailOfToken;
 
+import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.AccountDTO;
 import org.cuacfm.members.model.accountservice.AccountService;
+import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.userservice.UserService;
 import org.cuacfm.members.web.home.HomeController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +36,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 /** The Class AccountController. */
 @Controller
 public class AccountAPIController {
+
+	private static final Logger logger = LoggerFactory.getLogger(AccountAPIController.class);
 
 	@Autowired
 	private AccountService accountService;
@@ -50,17 +56,29 @@ public class AccountAPIController {
 	 * Gets the account API.
 	 *
 	 * @param token the token
+	 * @param deviceToken the device token
 	 * @return the account API
+	 * @throws UniqueListException the unique list exception
 	 */
 	@RequestMapping(value = "api/accountList/account")
-	public ResponseEntity<AccountDTO> getAccountAPI(@RequestParam(value = "token") String token) {
+	public ResponseEntity<AccountDTO> getAccountAPI(@RequestParam(value = "token") String token,
+			@RequestParam(value = "deviceToken", required = false) String deviceToken) throws UniqueListException {
 
 		// Validate Token and retrieve email
 		String email = getEmailOfToken(token);
 
-		if (email != null) {
-			AccountDTO accountDTO = accountService.getAccountDTO(accountService.findByEmail(email));
-			return new ResponseEntity<>(accountDTO, HttpStatus.OK);
+		if (email != null && !email.isEmpty()) {
+			try {
+				Account account = accountService.findByEmail(email);
+				if (deviceToken != null && !deviceToken.isEmpty()) {
+					account.addDeviceToken(deviceToken);
+					accountService.update(account, false, false);
+					return new ResponseEntity<>(accountService.getAccountDTO(account), HttpStatus.OK);
+				}
+			} catch (Exception e) {
+				logger.error("error", e);
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 	}
@@ -73,11 +91,11 @@ public class AccountAPIController {
 	 */
 	@RequestMapping(value = "api/", method = RequestMethod.GET)
 	public String signinAPI(@RequestParam(value = "token") String token) {
-		
+
 		// Validate Token and retrieve email
 		String email = getEmailOfToken(token);
-		
-		if (email != null) {
+
+		if (email != null && !email.isEmpty()) {
 			userService.signin(accountService.findByEmail(email));
 		}
 		return HomeController.REDIRECT_HOME;

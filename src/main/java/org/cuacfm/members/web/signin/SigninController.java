@@ -25,7 +25,6 @@ import org.cuacfm.members.model.userservice.UserService;
 import org.cuacfm.members.web.home.HomeController;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,12 +43,6 @@ public class SigninController {
 	public static final String RESTORE_PASSWORD_VIEW_NAME = "signin/restorepassword";
 	public static final String RESET_PASSWORD_VIEW_NAME = "signin/resetpassword";
 	public static final String BADCREDENTIALS = "signin.errorBadCredentials";
-
-	@Value("${pathConfig}")
-	private String pathConfig;
-
-	@Value("${configFirebase}")
-	private String configFirebase;
 
 	@Autowired
 	private UserService userService;

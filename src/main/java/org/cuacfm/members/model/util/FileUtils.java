@@ -169,10 +169,10 @@ public class FileUtils {
 	}
 
 	/**
-	 * Devuelve un on o un N.
+	 * Gets the boolean of String value
 	 *
 	 * @param value the value
-	 * @return String on o N
+	 * @return the boolean
 	 */
 	public static Boolean getBoolean(String value) {
 		if (value != null && !value.isEmpty()) {

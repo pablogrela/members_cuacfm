@@ -53,7 +53,7 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 			console.error('Error while Up Report', errorResponse);
 		});
 	}
-	
+
 	$scope.reportDown = function(id) {
 		ReportService.reportDown(id).then(function(data) {
 			$scope.message = data;
@@ -65,16 +65,18 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 	}
 
 	$scope.reportAnswer = function(id, answer) {
-		ReportService.reportAnswer(id, answer).then(function(data) {
-			$scope.message = data;
-			$scope.fetchAllReports();
-			// showModal(modal);
-			// Close modal report
-			$('#close').click();
-			$scope.answer = '';
-		}, function(errorResponse) {
-			console.error('Error while answer Report', errorResponse);
-		});
+		if (answer != null && !jQuery.isEmptyObject(answer)) {
+			ReportService.reportAnswer(id, answer).then(function(data) {
+				$scope.message = data;
+				$scope.fetchAllReports();
+				// showModal(modal);
+				// Close modal report
+				$('#close').click();
+				$scope.answer = '';
+			}, function(errorResponse) {
+				console.error('Error while answer Report', errorResponse);
+			});
+		}
 	}
 
 	$scope.localeSensitiveComparator = function(v1, v2) {

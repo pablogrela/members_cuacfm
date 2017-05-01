@@ -25,7 +25,8 @@ angular.module('membersApp').factory('ProgramService', [ '$http', '$q', function
 		fetchAllProgramsClose : fetchAllProgramsClose,
 		programUp : programUp,
 		programDown : programDown,
-		programDelete : programDelete
+		programDelete : programDelete,
+		programPush : programPush,
 	};
 
 	return factory;
@@ -51,7 +52,7 @@ angular.module('membersApp').factory('ProgramService', [ '$http', '$q', function
 		});
 		return deferred.promise;
 	}
-	
+
 	function programUp(id) {
 		var deferred = $q.defer();
 		var url = REST_SERVICE_URI + 'programUp/' + id + csrf;
@@ -83,6 +84,19 @@ angular.module('membersApp').factory('ProgramService', [ '$http', '$q', function
 			deferred.resolve(response.data);
 		}, function(errResponse) {
 			console.error('Error while remove program');
+			deferred.reject(errResponse);
+		});
+		return deferred.promise;
+	}
+
+	function programPush(id, title, body) {
+		var deferred = $q.defer();
+		var data = "&title=" + title + "&body=" + body;
+		var url = REST_SERVICE_URI + 'programPush/' + id + csrf + data;
+		$http.post(url).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(errResponse) {
+			console.error('Error while push program');
 			deferred.reject(errResponse);
 		});
 		return deferred.promise;

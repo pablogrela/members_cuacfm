@@ -28,17 +28,19 @@
 		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
 		<div th:replace="fragments/alert :: infoDirectDebit">&nbsp;</div>
 
+
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
-		<object data-ng-show="message">
-			<br></br>
+		<object class="text-center" data-ng-show="message">
 			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 		</object>
+
 
 		<!-- Message if directDebits is empty -->
 		<div data-ng-show="!directDebits">
 			<h2 class="text-center" th:text="${tittleEmpty}"></h2>
 		</div>
+
 
 		<div data-ng-show="directDebits">
 

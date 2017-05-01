@@ -21,16 +21,18 @@
 <title th:text="#{reserve.create.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
-<body onload="loadInputPhotos()">
+<body>
 
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active=${reserve})">&nbsp;</div>
+
 
 	<!-- Button redirect to Reserve List-->
 	<div class="text-center">
 		<a href="#" class="btn btn-primary btn-lg" th:href="@{/reserveList}" th:text="#{reserve.list.back}"> </a>
 	</div>
 	<br></br>
+
 
 	<div class="form-narrow">
 

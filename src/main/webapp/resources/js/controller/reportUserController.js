@@ -35,7 +35,7 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 			console.error('Error while fetching Users', errorResponse);
 		});
 	}
-	
+
 	$scope.reportUp = function(id) {
 		ReportService.reportUp(id).then(function(data) {
 			$scope.message = data;
@@ -45,7 +45,7 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 			console.error('Error while Up Report', errorResponse);
 		});
 	}
-	
+
 	$scope.reportDown = function(id) {
 		ReportService.reportDown(id).then(function(data) {
 			$scope.message = data;
@@ -55,16 +55,18 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 			console.error('Error while Down Report', errorResponse);
 		});
 	}
-	
+
 	$scope.reportAnswer = function(id, answer) {
-		ReportService.reportUserAnswer(id, answer).then(function(data) {
-			$scope.message = data;
-			$scope.fetchUserReports();
-			$('#close').click();
-			$scope.answer = '';
-		}, function(errorResponse) {
-			console.error('Error while answer Report', errorResponse);
-		});
+		if (answer != null && !jQuery.isEmptyObject(answer)) {
+			ReportService.reportUserAnswer(id, answer).then(function(data) {
+				$scope.message = data;
+				$scope.fetchUserReports();
+				$('#close').click();
+				$scope.answer = '';
+			}, function(errorResponse) {
+				console.error('Error while answer Report', errorResponse);
+			});
+		}
 	}
 
 	$scope.localeSensitiveComparator = function(v1, v2) {
