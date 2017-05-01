@@ -51,6 +51,7 @@ class ApplicationConfigTest {
 		resourceLst.add(new ClassPathResource("/hibernateTest.properties"));
 		resourceLst.add(new ClassPathResource("/config.properties"));
 		resourceLst.add(new ClassPathResource("/bankRemittance.properties"));
+		resourceLst.add(new ClassPathResource("/firebaseMessaging.properties"));
 		resourceLst.add(new ClassPathResource("/firebaseWeb.properties"));
 		resourceLst.add(new ClassPathResource("/paypal.properties"));
 		resourceLst.add(new ClassPathResource("/recaptcha.properties"));
