@@ -33,6 +33,7 @@ public class DateUtils {
 	public static final String FORMAT_PAYPAL = "HH:mm:ss MMM dd, yyyy";
 	public static final String FORMAT_DISPLAY = "HH:mm dd/MM/yyyy";
 	public static final String FORMAT_LOCAL_DATE = "yyyy-MM-dd HH:mm";
+	public static final String FORMAT_LOCAL = "dd/MM/yyyy HH:mm";
 	public static final String FORMAT_FILE = "yyyy-MM-dd_HH-mm-ss";
 	public static final String FORMAT_DATE = "yyyy-MM-dd";
 	public static final String FORMAT_MONTH_YEAR = "yyyy-MM";

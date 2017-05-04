@@ -206,19 +206,24 @@ public class ReportAPIController {
 		String email = getEmailOfToken(token);
 
 		if (email != null) {
-			Type listType = new TypeToken<ArrayList<byte[]>>() {
-			}.getType();
-			List<byte[]> photosAux = new Gson().fromJson(photos, listType);
+			try {
+				Type listType = new TypeToken<ArrayList<byte[]>>() {
+				}.getType();
+				List<byte[]> photosAux = new Gson().fromJson(photos, listType);
 
-			Account account = accountService.findByEmail(email);
-			ReportDTO reportDTO = new Gson().fromJson(reportJson, ReportDTO.class);
+				Account account = accountService.findByEmail(email);
+				ReportDTO reportDTO = new Gson().fromJson(reportJson, ReportDTO.class);
 
-			Report report = reportService.getReport(reportDTO, account);
-			report = reportService.save(report, photosAux);
+				Report report = reportService.getReport(reportDTO, account);
+				report = reportService.save(report, photosAux);
 
-			ReportDTO newReportDTO = reportService.getReportDTO(report);
-			String newReportJson = new Gson().toJson(newReportDTO);
-			return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
+				ReportDTO newReportDTO = reportService.getReportDTO(report);
+				String newReportJson = new Gson().toJson(newReportDTO);
+				return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
+			} catch (Exception e) {
+				logger.error("createReportAPI", e);
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 
 		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);

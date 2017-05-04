@@ -45,4 +45,5 @@
 
 use members;
 
+Alter TABLE BankAccount CHANGE COLUMN dateCreated dateCreate TIMESTAMP NULL;
 Alter TABLE Account add devicesToken VARCHAR(1000); 

@@ -49,7 +49,10 @@
 
 		<!-- Button Create New Program -->
 		<div sec:authorize="hasAnyRole('ROLE_USER')" class="text-center">
-			<a href="#" class="btn btn-orange btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}"></a>
+			<div>
+				<a href="#" class="btn btn-orange btn-lg" th:href="@{/programList/programCreate}" th:text="#{program.createNewProgram}"></a>
+			</div>
+			<br></br>
 		</div>
 
 		<div class="ng-cloak" data-ng-app="membersApp" data-ng-controller="ProgramController" data-ng-init="fetchAllPrograms()">

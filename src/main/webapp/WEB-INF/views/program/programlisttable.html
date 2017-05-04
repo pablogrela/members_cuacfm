@@ -30,7 +30,6 @@
 		<div th:replace="fragments/alert :: modalPushProgram">&nbsp;</div>
 		<div th:replace="fragments/alert :: infoDelete">&nbsp;</div>
 
-
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<object class="text-center" data-ng-show="message">
 			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
