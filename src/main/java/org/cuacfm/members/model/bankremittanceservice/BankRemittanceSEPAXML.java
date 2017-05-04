@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cuacfm.members.model.bankremittanceservice;
 
 import java.io.FileOutputStream;
@@ -36,6 +35,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.directdebit.DirectDebit;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.sepa.BankRemittanceUtils;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.AccountIdentification4Choice;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.ActiveOrHistoricCurrencyAndAmount;
@@ -68,7 +68,6 @@ import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.Purpose2
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.RemittanceInformation5;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.SequenceType1Code;
 import org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation.ServiceLevel8Choice;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -156,7 +155,7 @@ public class BankRemittanceSEPAXML {
 	private GroupHeader39 generateGroupHeader() throws DatatypeConfigurationException {
 
 		GroupHeader39 groupHeader = factory.createGroupHeader39();
-		groupHeader.setMsgId("CUACFM" + DisplayDate.format(new Date(), "yyyyMMdd"));
+		groupHeader.setMsgId("CUACFM" + DateUtils.format(new Date(), "yyyyMMdd"));
 		GregorianCalendar today = new GregorianCalendar();
 		XMLGregorianCalendar todayXML = DatatypeFactory.newInstance().newXMLGregorianCalendar(today);
 		todayXML.setMillisecond(DatatypeConstants.FIELD_UNDEFINED);

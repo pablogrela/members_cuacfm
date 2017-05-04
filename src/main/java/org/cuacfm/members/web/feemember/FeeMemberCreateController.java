@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -74,9 +74,9 @@ public class FeeMemberCreateController {
 		feeMemberForm.setPrice(configurationService.getConfiguration().getFeeMember());
 		feeMemberForm.setDescription(feeProgramFile + " " + LocalDate.now().getYear());
 		feeMemberForm.setYear(LocalDate.now().getYear());
-		String monthLimit = DisplayDate.format(LocalDateTime.now().plusMonths(2), "yyyy-MM");
+		String monthLimit = DateUtils.format(LocalDateTime.now().plusMonths(2), "yyyy-MM");
 		feeMemberForm.setDateLimit1(monthLimit);
-		monthLimit = DisplayDate.format(LocalDateTime.now().plusMonths(10), "yyyy-MM");
+		monthLimit = DateUtils.format(LocalDateTime.now().plusMonths(10), "yyyy-MM");
 		feeMemberForm.setDateLimit2(monthLimit);
 		model.addAttribute(feeMemberForm);
 

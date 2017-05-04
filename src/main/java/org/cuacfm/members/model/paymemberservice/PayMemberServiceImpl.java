@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,11 +28,12 @@ import org.cuacfm.members.model.feemember.FeeMemberRepository;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymember.PayMemberRepository;
 import org.cuacfm.members.model.util.Constants;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.CreatePdf;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -75,7 +76,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 	@Override
 	public PayMember update(PayMember payMember) throws ExistTransactionIdException {
 		Object[] arguments = { payMember.getFeeMember().getName(), payMember.getAccount().getName() };
-		eventService.save("payMember.successModify", null, 2, arguments);
+		eventService.save("payMember.successModify", null, levels.MEDIUM, arguments);
 		return payMemberRepository.update(payMember);
 	}
 
@@ -87,7 +88,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 		payMemberRepository.update(payMember);
 
 		Object[] arguments = { payMember.getFeeMember().getName() };
-		eventService.save("payMember.successPay", null, 2, arguments);
+		eventService.save("payMember.successPay", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -102,7 +103,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 		payMember.setIdTxn(idTxn);
 		payMember.setEmailPayer(emailPayer);
 		payMember.setIdPayer(idPayer);
-		payMember.setDatePay(DisplayDate.stringPaypalToDate(datePay));
+		payMember.setDatePay(DateUtils.format(datePay, DateUtils.FORMAT_PAYPAL, Locale.US));
 		payMember.setMethod(methods.NO_PAY);
 		payMember.setState(states.MANAGEMENT);
 		if (statusPay.contains("Completed")) {
@@ -112,7 +113,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 		payMemberRepository.update(payMember);
 
 		Object[] arguments = { payMember.getFeeMember().getName() };
-		eventService.save("userPayments.successPayPal", null, 2, arguments);
+		eventService.save("userPayments.successPayPal", null, levels.MEDIUM, arguments);
 	}
 
 	@Override
@@ -166,9 +167,8 @@ public class PayMemberServiceImpl implements PayMemberService {
 		FeeMember feeMember = feeMemberRepository.findById(feeMemberId);
 		List<PayMember> payMembers = payMemberRepository.getPayMemberListByFeeMemberId(feeMemberId);
 
-		Date date = new Date();
-		String fileNameFeeMember = messageSource.getMessage("fileNameFeeMember", null, Locale.getDefault()) + DisplayDate.dateTimeToStringSp(date)
-				+ ".pdf";
+		String fileNameFeeMember = messageSource.getMessage("fileNameFeeMember", null, Locale.getDefault()) + "_"
+				+ DateUtils.format(new Date(), DateUtils.FORMAT_FILE) + ".pdf";
 
 		FileUtils.createFolderIfNoExist(pathFeeMember);
 		String path = pathFeeMember + fileNameFeeMember;
@@ -180,7 +180,6 @@ public class PayMemberServiceImpl implements PayMemberService {
 			title = feeMember.getName() + " - " + messageSource.getMessage("feeMember.printNoPayList", null, Locale.getDefault());
 		} else {
 			title = feeMember.getName() + " - " + messageSource.getMessage("feeMember.printAllList", null, Locale.getDefault());
-
 		}
 		CreatePdf pdf = new CreatePdf();
 		PdfPTable table = pdf.createTablePayMembers(messageSource, option, payMembers);

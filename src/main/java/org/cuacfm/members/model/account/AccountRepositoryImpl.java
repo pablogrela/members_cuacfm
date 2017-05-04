@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountRepositoryImpl implements AccountRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(AccountRepositoryImpl.class);
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -124,6 +124,12 @@ public class AccountRepositoryImpl implements AccountRepository {
 	@Override
 	public List<Account> getAccounts() {
 		return entityManager.createQuery("select a from Account a", Account.class).getResultList();
+	}
+
+	@Override
+	public List<Account> getAccountsWithDeviceToken() {
+		return entityManager.createQuery("select a from Account a where a.devicesToken is not null and a.devicesToken <> '' and a.devicesToken <> '[]' ", Account.class)
+				.getResultList();
 	}
 
 	@Override

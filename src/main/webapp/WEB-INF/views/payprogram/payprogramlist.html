@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='payProgram')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='feePrograms')">&nbsp;</div>
 
 	<!-- Button redirect to fee program list-->
 	<div class="text-center">
@@ -32,42 +32,39 @@
 	</div>
 	<br></br>
 
+	<!-- Form to refresh -->
+	<div class="text-center">
+		<form method="post" th:action="@{payProgramList/refresh}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+			<button type="submit" class="btn btn-danger btn-lg" th:title="#{feeProgram.infoRefresh}" th:text="#{feeProgram.refresh}"></button>
+		</form>
+	</div>
+
 	<div class="container-fluid">
 		<h1 class="text-center" th:text="*{feeProgram.name}">Fee Program</h1>
-		<br></br>
 
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<div class="text-center" th:if="${message != null}">
 			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 		</div>
 
-		<!-- Div of buttons -->
-		<div class="container text-center containerColums-5">
 
-			<!-- Form to refresh -->
-			<div class="columLeft">
-				<form method="post" th:action="@{payProgramList/refresh}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-					<button type="submit" class="btn btn-danger btn-lg" th:title="#{feeProgram.infoRefresh}" th:text="#{feeProgram.refresh}"></button>
-				</form>
-				<br></br>
-			</div>
+		<!-- Form to print -->
+		<!-- Note: target="_blank" open result of form in a new tab -->
+		<div class="text-center">
+			<form class="form-narrow form-horizontal" th:action="@{'payProgramList/createPdf/'+${feeProgram.id}}" method="post">
+				<fieldset>
+					<!-- Title -->
+					<legend th:text="#{feeProgram.infoPrint}">Print </legend>
 
-
-			<div class="columRight">
-				<form class="form-narrow form-horizontal" th:action="@{'payProgramList/createPdf/'+${feeProgram.id}}" method="post">
-					<fieldset>
-						<!-- Title -->
-						<legend th:text="#{feeProgram.infoPrint}">Print </legend>
-
-						<!-- Div of buttons -->
-						<div>
-							<button class="btn btn-primary" th:name="createPdf" th:value="ALL" th:title="#{feeProgram.infoAllList}" th:text="#{feeMember.printAllList}"></button>
-							<button class="btn btn-primary" th:name="createPdf" th:value="NOPAY" th:title="#{feeProgram.infoNoPayList}" th:text="#{feeMember.printNoPayList}"></button>
-							<button class="btn btn-primary" th:name="createPdf" th:value="PAY" th:title="#{feeProgram.infoPayList}" th:text="#{feeMember.printPayList}"></button>
-						</div>
-					</fieldset>
-				</form>
-			</div>
+					<!-- Div of buttons -->
+					<div>
+						<button class="btn btn-primary" th:name="createPdf" th:value="ALL" th:title="#{feeProgram.infoAllList}" th:text="#{feeMember.printAllList}"></button>
+						<button class="btn btn-primary" th:name="createPdf" th:value="NOPAY" th:title="#{feeProgram.infoNoPayList}"
+							th:text="#{feeMember.printNoPayList}"></button>
+						<button class="btn btn-primary" th:name="createPdf" th:value="PAY" th:title="#{feeProgram.infoPayList}" th:text="#{feeMember.printPayList}"></button>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 
 

@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,8 +35,8 @@ import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -72,7 +72,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 	public void saveFeeProgramTest() throws UniqueException {
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -100,7 +100,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.up(program);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -120,7 +120,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 	public void saveFeeProgramExceptionTest() throws UniqueException, UniqueListException {
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 		feeProgramService.save(feeProgram);
@@ -146,7 +146,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 		programService.save(program);
 		programService.update(program);
 
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -165,7 +165,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 	public void UpdateFeeProgramTest() throws UniqueException {
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -186,7 +186,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(feeProgram.getPrice(), feeProgramSearch.getPrice());
 		assertEquals(feeProgram.getDescription(), feeProgramSearch.getDescription());
 
-		date = DisplayDate.stringToMonthOfYear("2016-12");
+		date = DateUtils.format("2016-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram2 = new FeeProgram("new name", Double.valueOf(25), date, date, "description");
 		feeProgramService.update(feeProgram2);
 	}
@@ -200,10 +200,10 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 	public void UpdateFeeProgramExceptionTest() throws UniqueException {
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
-		Date date2 = DisplayDate.stringToMonthOfYear("2016-12");
+		Date date2 = DateUtils.format("2016-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram2 = new FeeProgram("name2", Double.valueOf(25), date2, date2, "description");
 		feeProgramService.save(feeProgram2);
 
@@ -221,7 +221,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 	public void findByNameTest() throws UniqueException {
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -240,7 +240,7 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 	public void findByDateTest() throws UniqueException {
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 
@@ -264,10 +264,10 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 		assertTrue(feeProgramList.isEmpty());
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
-		Date date2 = DisplayDate.stringToMonthOfYear("2016-12");
+		Date date2 = DateUtils.format("2016-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram2 = new FeeProgram("name", Double.valueOf(25), date2, date2, "description");
 		feeProgramService.save(feeProgram2);
 

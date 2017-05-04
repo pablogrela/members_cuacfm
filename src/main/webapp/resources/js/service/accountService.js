@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,8 @@ angular.module('membersApp').factory('AccountService', [ '$http', '$q', function
 	var factory = {
 		fetchAllUsers : fetchAllUsers,
 		unsubscribe : unsubscribe,
-		subscribe : subscribe
+		subscribe : subscribe,
+		push : push
 	};
 
 	return factory;
@@ -63,4 +64,17 @@ angular.module('membersApp').factory('AccountService', [ '$http', '$q', function
 		return deferred.promise;
 	}
 
+	function push(id, title, body) {
+		var deferred = $q.defer();
+		var data = "&title=" + title + "&body=" + body;
+		var url = REST_SERVICE_URI + 'push/' + id + csrf + data;
+		$http.post(url).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(errResponse) {
+			console.error('Error while push account');
+			deferred.reject(errResponse);
+		});
+		return deferred.promise;
+	}
+	
 } ]);

@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,14 +26,13 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='configuration')">&nbsp;</div>
 
-	<!-- Button redirect to Program List-->
+	<!-- Button redirect to Configuration -->
 	<div class="text-center">
 		<a href="#" class="btn btn-primary btn-lg" th:href="@{/configuration}" th:text="#{configuration.backConfiguration}"> </a>
 	</div>
 	<br></br>
-	
-	<form class="form-narrow form-horizontal ws-validate" method="post"
-		th:action="@{methodPaymentCreate}" th:object="${methodPaymentForm}">
+
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{methodPaymentCreate}" th:object="${methodPaymentForm}">
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${methodPaymentForm.*}')}">
@@ -49,30 +48,27 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}"
-						required="required" />
-					<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect
-						name</span>
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" required="required" />
+					<span class="help-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
 
-	        <!-- Insert DirectDebit -->
-	        <div class="form-group">
-	            <label for="directDebit" class="col-lg-2-edit control-label" th:text="#{methodPayment.directDebit}">directDebit</label>
-	            <div class="col-lg-2">
-	                <input type="checkbox" class="form-control-edit" id="directDebit" name="directDebit" th:title="#{methodPayment.infoDirectDebit}"/>            
-	            </div>
-	        </div>
-	        
+			<!-- Insert DirectDebit -->
+			<div class="form-group">
+				<label for="directDebit" class="col-lg-2" th:text="#{methodPayment.directDebit}">directDebit</label>
+				<div class="col-lg-2">
+					<input type="checkbox" class="form-check-input" id="directDebit" name="directDebit" th:field="*{directDebit}"
+						th:title="#{methodPayment.infoDirectDebit}" />
+				</div>
+			</div>
+
 			<!-- Insert Description -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
 				<div class="col-lg-10">
-					<textarea class="form-control" id="description" th:placeholder="#{description}"
-						th:field="*{description}" rows="5" cols="40" required="required"> Description </textarea>
-					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect
-						description</span>
+					<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" rows="5" cols="40" required="required"> Description </textarea>
+					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>

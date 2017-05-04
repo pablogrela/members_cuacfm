@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,9 +41,9 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -115,8 +115,8 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
 		accountService.update(user, false, true);
 
 		// Create Payment
-		feeMember = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
-				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		feeMember = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DateUtils.format("2016-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2016-07-05", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.save(feeMember);
 	}
 
@@ -260,8 +260,8 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
 		accountService.save(user3);
 		Account user4 = new Account("user4", "4", "45555555C", "London", "user4", "user4@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user4);
-		FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember2);
 		List<PayMember> payMembers = payMemberService.findByPayMemberIds(user2.getId(), feeMember2.getId());
 		payMemberService.pay(payMembers.get(0));
@@ -287,8 +287,8 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
 		accountService.save(user3);
 		Account user4 = new Account("user4", "4", "45555555C", "London", "user4", "user4@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user4);
-		FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember2);
 		List<PayMember> payMembers = payMemberService.findByPayMemberIds(user2.getId(), feeMember2.getId());
 		payMemberService.pay(payMembers.get(0));
@@ -314,8 +314,8 @@ public class PayMemberListControllerTest extends WebSecurityConfigurationAware {
 		accountService.save(user3);
 		Account user4 = new Account("user4", "4S", "45555555C", "London", "user4", "user4@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user4);
-		FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember2 = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember2);
 		List<PayMember> payMembers = payMemberService.findByPayMemberIds(user2.getId(), feeMember2.getId());
 		payMemberService.pay(payMembers.get(0));

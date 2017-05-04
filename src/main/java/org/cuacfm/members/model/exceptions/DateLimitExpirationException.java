@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,7 @@ package org.cuacfm.members.model.exceptions;
 
 import java.util.Date;
 
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 
 /** The Class DateLimitExpirationException. */
 @SuppressWarnings("serial")
@@ -36,7 +36,7 @@ public class DateLimitExpirationException extends Exception {
 	 * @param dateLimit the date limit
 	 */
 	public DateLimitExpirationException(String trainingName, Date dateLimit) {
-		super("The training " + trainingName + " expired at " + DisplayDate.dateTimeToString(dateLimit));
+		super("The training " + trainingName + " expired at " + DateUtils.format(dateLimit, DateUtils.FORMAT_DISPLAY));
 		this.trainingName = trainingName;
 		this.dateLimit = dateLimit;
 	}

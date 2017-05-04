@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='trainingType')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='trainingTypes')">&nbsp;</div>
 
 	<!-- Button redirect to training type list-->
 	<div class="text-center">
@@ -41,8 +41,11 @@
 
 		<fieldset>
 
+
+
 			<!-- Message help-->
 			<legend th:text="#{trainingType.infoCreate}">Create Training Type</legend>
+
 
 
 			<!-- Insert Name -->
@@ -56,13 +59,15 @@
 			</div>
 
 
+
 			<!-- Insert Required -->
 			<div class="form-group">
-				<label for="required" class="col-lg-2 control-label" th:text="#{trainingType.required}">Required</label>
-				<div class="col-lg-2-bigCheck">
-					<input type="checkbox" class="form-control-edit" id="required" name="required" th:title="#{trainingType.infoRequired}" />
+				<label for="required" class="col-lg-2" th:text="#{trainingType.required}">Required</label>
+				<div class="col-lg-2">
+					<input type="checkbox" class="form-check-input" id="required" name="required" th:field="*{required}" th:title="#{trainingType.infoRequired}" />
 				</div>
 			</div>
+
 
 
 			<!-- Insert Description -->
@@ -70,12 +75,12 @@
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
 				<div class="col-lg-10">
 					<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" rows="5" cols="40" maxlength="500"
-						required="required">
-            	Description</textarea>
+						required="required"> Description</textarea>
 					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
+
 
 
 			<!-- Insert Place -->
@@ -89,11 +94,12 @@
 			</div>
 
 
+
 			<!-- Insert Duration -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
 				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
 				<div class="col-lg-10">
-					<div class="input-group col-lg-4-edit">
+					<div class="input-group col-lg-6-edit">
 						<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
 						<span class="input-group-addon" th:text="#{minutes}">minutes</span>
 					</div>
@@ -103,12 +109,15 @@
 			</div>
 
 
+
 			<!-- Button Create Training -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-orange btn-lg" id="create" th:text="#{trainingType.create}">Create</button>
+					<button type="submit" class="btn btn-orange btn-form" id="create" th:text="#{trainingType.create}">Create</button>
 				</div>
 			</div>
+
+
 
 		</fieldset>
 	</form>

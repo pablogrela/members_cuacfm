@@ -1,25 +1,49 @@
- use membersTest;
- -- Creacion de las tablas para usar la aplicación 
+--
+-- Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+--
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+--         http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
 
- -- Para importar la tablas a la base de datos, esta debe existir
- -- Se puede hacer por linea de comandos o con el workbench
  
- -- Por Workbench 
- -- 	Se accede a Data Import / Import From Disk / Import from Sel-container File
- --     Seleccionar el fichero CreateTables.sql
- --     Seleccionar el target schema members
- --     Seleccionar la modalidad de carga Dump Structure, Dump Data o ambas.
- --         Para members selecionar la modalidad Dump Structure and Data
- --         Para membersTest seleccionar la modalidad Dump Structure only
+-- INFO English
+-- 	Creating the tables to use the application
+-- 	To import the tables to the database, it must exist
+-- 	Can be done by command line or with the workbench
  
- -- Por terminal
- -- 	Import MYSQL:
- -- 	mysql -u root -p members < CreateTables.sql
+
+-- INFO Español
+-- 	Creacion de las tablas para usar la aplicación 
+-- 	Para importar la tablas a la base de datos, esta debe existir
+-- 	Se puede hacer por linea de comandos o con el workbench
  
- --		Export MYSQL:
- -- 	mysqldump -u root -p members > CreateTables.sql
+
+-- Workbench 
+-- 	Se accede a Data Import / Import From Disk / Import from Sel-container File
+--     Seleccionar el fichero createTablesTest.sql
+--     Seleccionar el target schema members
+--     Seleccionar la modalidad de carga Dump Structure, Dump Data o ambas.
+--         Para members selecionar la modalidad Dump Structure and Data 
+--         Para membersTest seleccionar la modalidad Dump Structure only
+ 
+-- Terminal
+-- 	Import MYSQL:
+-- 		mysql -u root -p membersTest < createTablesTest.sql
+ 
+--	Export MYSQL:
+-- 		mysqldump -u root -p membersTest > createTablesTest.sql
 
 
+use membersTest;
 
 DROP TABLE IF EXISTS Configuration;
 DROP TABLE IF EXISTS DirectDebitPayPrograms;
@@ -35,6 +59,7 @@ DROP TABLE IF EXISTS FeeMember;
 DROP TABLE IF EXISTS Inscription;
 DROP TABLE IF EXISTS Training;
 DROP TABLE IF EXISTS TrainingType;
+DROP TABLE IF EXISTS Report;
 DROP TABLE IF EXISTS Program;
 DROP TABLE IF EXISTS ProgramType;
 DROP TABLE IF EXISTS ProgramThematic;
@@ -42,6 +67,8 @@ DROP TABLE IF EXISTS ProgramCategory;
 DROP TABLE IF EXISTS ProgramLanguage;
 DROP TABLE IF EXISTS BankAccount;
 DROP TABLE IF EXISTS Event;
+DROP TABLE IF EXISTS Reserve;
+DROP TABLE IF EXISTS Element;
 DROP TABLE IF EXISTS Account;
 DROP TABLE IF EXISTS AccountType;
 DROP TABLE IF EXISTS MethodPayment;
@@ -107,6 +134,8 @@ CREATE TABLE Account(
     knowledge VARCHAR(500),   
     programName VARCHAR(50),
     role VARCHAR(20) NOT NULL,
+    permissions VARCHAR(100),
+    devicesToken VARCHAR(1000),
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateDown TIMESTAMP NULL,
     token VARCHAR(500),
@@ -131,11 +160,42 @@ CREATE TABLE BankAccount(
     iban VARCHAR(34) NOT NULL,
     mandate VARCHAR(24) NOT NULL,
     dateMandate TIMESTAMP NULL,
-    dateCreated TIMESTAMP NULL,
+    dateCreate TIMESTAMP NULL,
     active BOOLEAN,
     CONSTRAINT BankAccountId_PK PRIMARY KEY (id),
     CONSTRAINT BankAccount_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
 ); 
+
+
+CREATE TABLE Element (
+    id INT NOT NULL auto_increment, 
+    name VARCHAR(50) NOT NULL,
+    description VARCHAR(100),
+    reservable BOOLEAN NOT NULL, 
+    location BOOLEAN NOT NULL, 
+    dateCreate TIMESTAMP NULL,
+    CONSTRAINT ElementId_PK PRIMARY KEY (id),
+    CONSTRAINT ElementUniqueKey UNIQUE (name)
+);
+
+
+CREATE TABLE Reserve (
+    id INT NOT NULL auto_increment, 
+    accountId INT NOT NULL,
+    elementId INT NOT NULL,
+    description VARCHAR(100),
+    answer VARCHAR(5000),
+    dateCreate TIMESTAMP NOT NULL,
+    dateStart TIMESTAMP NOT NULL,
+    dateEnd TIMESTAMP NOT NULL,
+    dateRevision TIMESTAMP NULL,
+    dateApproval TIMESTAMP NULL,
+ 	state VARCHAR(20) NOT NULL,
+    active BOOLEAN NOT NULL, 
+    CONSTRAINT ReserveId_PK PRIMARY KEY (id),
+    CONSTRAINT Reserve_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT Reserve_ElementId_FK FOREIGN KEY (elementId) REFERENCES Element(id)
+);
 
 
 CREATE TABLE ProgramType (
@@ -183,7 +243,7 @@ CREATE TABLE Program(
     accountPayer INT,
     programType INT NOT NULL,
     programThematic INT NOT NULL,
-    programCategory INT NOT NULL,
+    programCategory INT,
     programLanguage INT NOT NULL,   
     email VARCHAR(50),
     twitter VARCHAR(50),
@@ -210,8 +270,31 @@ CREATE TABLE UserPrograms(
     CONSTRAINT UserProgramsId_PK PRIMARY KEY (id),
     CONSTRAINT UserPrograms_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
     CONSTRAINT UserPrograms_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id),
-    CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId,programId)
+    CONSTRAINT AccountProgramUniqueKey UNIQUE (accountId, programId)
 );	
+	
+
+CREATE TABLE Report(
+    id BIGINT NOT NULL auto_increment,
+    accountId INT NOT NULL,
+    programId INT NOT NULL,
+    dirt TINYINT NOT NULL, 
+    tidy TINYINT NOT NULL, 
+    configuration TINYINT NOT NULL, 
+    openDoor BOOLEAN NOT NULL, 
+    viewMembers BOOLEAN NOT NULL, 
+    location VARCHAR(50),
+    description VARCHAR(500),
+    file VARCHAR(100),
+    files VARCHAR(500),
+    answer VARCHAR(5000),	
+    dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    dateRevision TIMESTAMP NULL,
+    active BOOLEAN NOT NULL, 
+    CONSTRAINT Report_PK PRIMARY KEY (id),
+    CONSTRAINT Report_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT Report_ProgramId_FK FOREIGN KEY (programId) REFERENCES Program(id)
+); 
 
 
 CREATE TABLE TrainingType(
@@ -398,7 +481,7 @@ CREATE TABLE Event(
     CONSTRAINT EventId_PK PRIMARY KEY (id),
     CONSTRAINT Event_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
 ); 
-
+	
 
 -- Insert Program Type:
 insert into ProgramType values (1, 'Outro', 'Outro');	
@@ -410,9 +493,8 @@ insert into ProgramType values (6, 'Educativo', 'Educativo');
 insert into ProgramType values (7, 'Entrevistas', 'Entrevistas');	
 
 
-
 -- Insert Program Thematic:
-insert into ProgramThematic values (1, 'Outros temas', 'Outros temas');	
+insert into ProgramThematic values (1, 'Otros temas', 'Otros temas');	
 insert into ProgramThematic values (2, 'Sociedade', ' Sociedade');
 insert into ProgramThematic values (3, 'Política', 'Política');
 insert into ProgramThematic values (4, 'Cultura', ' Cultura');
@@ -422,22 +504,22 @@ insert into ProgramThematic values (7, 'Actualidade', 'Actualidade');
 insert into ProgramThematic values (8, 'Ciencia', 'Ciencia');	
 
 
-
 -- Insert ProgramCategory:
-insert into ProgramCategory values (1, 'Others', ' Others');
-insert into ProgramCategory values (2, 'Política', 'Política');
-insert into ProgramCategory values (3, 'Cultura', ' Cultura');
-insert into ProgramCategory values (4, 'Deportes', 'Deportes');	
-insert into ProgramCategory values (5, 'Humor', 'Humor');	
-insert into ProgramCategory values (6, 'Actualidade', 'Actualidade');	
-insert into ProgramCategory values (7, 'Ciencia', 'Ciencia');	
-insert into ProgramCategory values (8, 'Outros temas', 'Outros temas');	
-
+-- Examples, use category podcast, search in web
+insert into ProgramCategory values (1, 'Otros', ' Otros');
+insert into ProgramCategory values (2, 'Sociedade', ' Sociedade');
+insert into ProgramCategory values (3, 'Política', 'Política');
+insert into ProgramCategory values (4, 'Cultura', ' Cultura');
+insert into ProgramCategory values (5, 'Deportes', 'Deportes');	
+insert into ProgramCategory values (6, 'Humor', 'Humor');	
+insert into ProgramCategory values (7, 'Actualidade', 'Actualidade');	
+insert into ProgramCategory values (8, 'Ciencia', 'Ciencia');	
 
 
 -- Insert Program Thematic:
-insert into ProgramLanguage values (1, 'Otro', ' Otro');
-insert into ProgramLanguage values (2, 'Español', ' Español');
-insert into ProgramLanguage values (3, 'Gallego', 'Gallego');
+insert into ProgramLanguage values (1, 'Outro', ' Outro');
+insert into ProgramLanguage values (2, 'Castelán', ' Castelán');
+insert into ProgramLanguage values (3, 'Galego', 'Galego');
 insert into ProgramLanguage values (4, 'Inglés', ' Inglés');
+
 

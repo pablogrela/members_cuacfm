@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -112,13 +112,10 @@ membersApp.controller('DirectDebitAdminRemittanceController', [ '$scope', 'Direc
 	}
 	
 	$scope.localeSensitiveComparator = function(v1, v2) {
-		// If we don't get strings, just compare by index
-		if (v1.type !== 'string' || v2.type !== 'string') {
-			return (v1.index < v2.index) ? -1 : 1;
+		if (v1.type == 'string' || v2.type == 'string') {
+			return v1.value.localeCompare(v2.value);
 		}
-
-		// Compare strings alphabetically, taking locale into account
-		return v1.value.localeCompare(v2.value);
+		return (v1.value < v2.value) ? -1 : 1;
 	};
 	
 } ]);

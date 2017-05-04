@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,7 +26,7 @@
 	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header(active='configuration')">&nbsp;</div>
 
-	<!-- Button redirect to Program List-->
+	<!-- Button redirect to Configuration -->
 	<div class="text-center">
 		<a href="#" class="btn btn-primary btn-lg" th:href="@{/configuration}" th:text="#{configuration.backConfiguration}"> </a>
 	</div>
@@ -59,9 +59,9 @@
 
 	        <!-- Insert Organization -->
 	        <div class="form-group">
-	            <label for="organization" class="col-lg-2-edit control-label" th:text="#{accountType.organization}">Organization</label>
+	            <label for="organization" class="col-lg-2" th:text="#{accountType.organization}">Organization</label>
 	            <div class="col-lg-2">
-	                <input type="checkbox" class="form-control-edit" id="organization" name="organization" th:title="#{accountType.infoOrganization}"/>            
+	                <input type="checkbox" class="form-check-input" id="organization" name="organization" th:field="*{organization}" th:title="#{accountType.infoOrganization}"/>            
 	            </div>
 	        </div>
         

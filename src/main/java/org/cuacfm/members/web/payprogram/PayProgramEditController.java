@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,13 +21,13 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -103,7 +103,7 @@ public class PayProgramEditController {
 			payProgramForm.setIdPayer(payProgram.getIdPayer());
 			payProgramForm.setEmailPayer(payProgram.getEmailPayer());
 			payProgramForm.setIdPayer(payProgram.getIdPayer());
-			payProgramForm.setDatePay(DisplayDate.dateTimeToString(payProgram.getDatePay()));
+			payProgramForm.setDatePay(DateUtils.format(payProgram.getDatePay(), DateUtils.FORMAT_DISPLAY));
 			model.addAttribute(payProgram);
 			model.addAttribute(payProgramForm);
 			return PAYPROGRAM_VIEW_NAME;
@@ -121,12 +121,12 @@ public class PayProgramEditController {
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return the string
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 */
 
 	@RequestMapping(value = "feeProgramList/payProgramList/payProgramEdit", method = RequestMethod.POST)
 	public String editPayProgram(@Valid @ModelAttribute PayProgramForm payProgramForm, Errors errors, RedirectAttributes ra)
-			throws DateLimitException {
+			throws DatesException {
 
 		if (errors.hasErrors()) {
 			return PAYPROGRAM_VIEW_NAME;

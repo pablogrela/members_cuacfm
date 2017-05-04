@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,10 @@ package org.cuacfm.members.web.training;
 
 import javax.validation.Valid;
 
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,10 +72,10 @@ public class TrainingEditController {
 		if (training != null) {
 			TrainingForm trainingForm = new TrainingForm();
 			trainingForm.setName(training.getName());
-			trainingForm.setTimeLimit(DisplayDate.timeToString(training.getDateLimit()));
-			trainingForm.setDateLimit(DisplayDate.dateToString(training.getDateLimit()));
-			trainingForm.setTimeTraining(DisplayDate.timeToString(training.getDateTraining()));
-			trainingForm.setDateTraining(DisplayDate.dateToString(training.getDateTraining()));
+			trainingForm.setTimeLimit(DateUtils.format(training.getDateLimit(), DateUtils.FORMAT_TIME));
+			trainingForm.setDateLimit(DateUtils.format(training.getDateLimit(), DateUtils.FORMAT_DATE));
+			trainingForm.setTimeTraining(DateUtils.format(training.getDateTraining(), DateUtils.FORMAT_TIME));
+			trainingForm.setDateTraining(DateUtils.format(training.getDateTraining(), DateUtils.FORMAT_DATE));
 			trainingForm.setDescription(training.getDescription());
 			trainingForm.setPlace(training.getPlace());
 			trainingForm.setDuration(training.getDuration());
@@ -118,8 +118,8 @@ public class TrainingEditController {
 		String timeTraining = trainingForm.getTimeTraining();
 		String dateTraining = trainingForm.getDateTraining();
 		training.setName(trainingForm.getName());
-		training.setDateLimit(DisplayDate.stringToDate(timeLimit + "," + dateLimit));
-		training.setDateTraining(DisplayDate.stringToDate(timeTraining + "," + dateTraining));
+		training.setDateLimit(DateUtils.format(dateLimit + " " + timeLimit, DateUtils.FORMAT_LOCAL_DATE));
+		training.setDateTraining(DateUtils.format(dateTraining + " " + timeTraining, DateUtils.FORMAT_LOCAL_DATE));
 		training.setDescription(trainingForm.getDescription());
 		training.setPlace(trainingForm.getPlace());
 		training.setDuration(trainingForm.getDuration());
@@ -129,7 +129,7 @@ public class TrainingEditController {
 
 		try {
 			trainingService.update(training);
-		} catch (DateLimitException e) {
+		} catch (DatesException e) {
 			errors.rejectValue("dateLimit", "dateLimit.message", new Object[] { e.getDateTraining() }, "dateTraining");
 			return TRAINING_VIEW_NAME;
 		}

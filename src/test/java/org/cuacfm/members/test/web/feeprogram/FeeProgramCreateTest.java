@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,8 +36,8 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -151,7 +151,7 @@ public class FeeProgramCreateTest extends WebSecurityConfigurationAware {
 	@Test
 	public void dateAlreadyExistFeeProgramCreateTest() throws Exception {
 		// Create Payment
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		FeeProgram feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 

@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,6 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -58,7 +57,7 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /** The Class CreatePdf. */
-@Service("payProgramServicees")
+@Service("payProgramServices")
 public class CreatePdf {
 
 	private static final Logger logger = LoggerFactory.getLogger(CreatePdf.class);
@@ -87,6 +86,23 @@ public class CreatePdf {
 		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
 	}
 
+	public static ResponseEntity<byte[]> getImage(String path, String file, MediaType mediaType) {
+		Path path2 = Paths.get(path);
+		byte[] contents = null;
+		try {
+			contents = Files.readAllBytes(path2);
+		} catch (IOException e) {
+			logger.error("getImage", e);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(mediaType);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().path("/{file}").buildAndExpand(file).toUri());
+		headers.add("content-disposition", "attachment; filename=" + file + ";");
+		return new ResponseEntity<>(contents, headers, HttpStatus.OK);
+	}
+	
 	/** The Class HeaderFooter. */
 	class HeaderFooter extends PdfPageEventHelper {
 
@@ -101,7 +117,7 @@ public class CreatePdf {
 			ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, headers[0], document.left() + 80, document.bottom() - 20, 0);
 
 			Date day = new Date();
-			headers[1] = new Phrase(DisplayDate.dateTimeToString(day));
+			headers[1] = new Phrase(DateUtils.format(day, DateUtils.FORMAT_DISPLAY));
 			ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, headers[1], (document.right() - document.left()) / 2 + document.leftMargin(),
 					document.bottom() - 20, 0);
 

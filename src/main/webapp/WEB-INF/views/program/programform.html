@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -67,9 +67,9 @@
 
 		<!-- Duration -->
 		<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
-			<label for="duration" class="col-lg-20 control-label" th:text="#{duration}">place</label>
+			<label for="duration" class="col-lg-20 control-label" th:text="#{duration}">duration</label>
 			<div class="col-lg-10">
-				<div class="input-group col-lg-4-edit">
+				<div class="input-group col-lg-6-edit">
 					<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
 					<span class="input-group-addon" th:text="#{minutes}">minutes</span>
 				</div>
@@ -83,7 +83,7 @@
 		<div class="form-group" th:classappend="${#fields.hasErrors('programTypeId')}? 'has-error'">
 			<label for="programType" class="col-lg-20 control-label" th:text="#{program.programType}">programType</label>
 			<div class="col-lg-20" th:text="#{program.programType.info}"></div>
-			<div class="col-lg-10 col-lg-4-edit">
+			<div class="col-lg-10 col-lg-6-edit">
 				<select class="form-control" id="programType" name="programTypeId" th:field="*{programTypeId}" required="required">
 					<option th:if="${programTypeId == null}" th:value="''"></option>
 					<option th:field="*{programTypeId}" th:each="programType : ${programForm.programTypes}" th:value="${programType.id}"
@@ -100,7 +100,7 @@
 		<div class="form-group" th:classappend="${#fields.hasErrors('programThematicId')}? 'has-error'">
 			<label for="programThematic" class="col-lg-20 control-label" th:text="#{program.programThematic}">programThematic</label>
 			<div class="col-lg-20" th:text="#{program.programThematic.info}"></div>
-			<div class="col-lg-10 col-lg-4-edit">
+			<div class="col-lg-10 col-lg-6-edit">
 				<select class="form-control" id="programThematicId" name="programThematicId" th:field="*{programThematicId}" required="required">
 					<option th:if="${programThematicId == null}" th:value="''"></option>
 					<option th:field="*{programThematicId}" th:each="programThematic : ${programForm.programThematics}" th:value="${programThematic.id}"
@@ -117,7 +117,7 @@
 		<div class="form-group" th:classappend="${#fields.hasErrors('programCategoryId')}? 'has-error'">
 			<label for="programCategory" class="col-lg-20 control-label" th:text="#{program.programCategory}">programCategory</label>
 			<div class="col-lg-20" th:text="#{program.programCategory.info}"></div>
-			<div class="col-lg-10 col-lg-4-edit">
+			<div class="col-lg-10 col-lg-6-edit">
 				<select class="form-control" id="programCategoryId" name="programCategoryId" th:field="*{programCategoryId}" required="required">
 					<option th:if="${programCategoryId == null}" th:value="''"></option>
 					<option th:field="*{programCategoryId}" th:each="programCategory : ${programForm.programCategories}" th:value="${programCategory.id}"
@@ -134,7 +134,7 @@
 		<div class="form-group" th:classappend="${#fields.hasErrors('programLanguageId')}? 'has-error'">
 			<label for="programLanguage" class="col-lg-20 control-label" th:text="#{program.programLanguage}">programLanguage</label>
 			<div class="col-lg-20" th:text="#{program.programLanguage.info}"></div>
-			<div class="col-lg-10 col-lg-4-edit">
+			<div class="col-lg-10 col-lg-6-edit">
 				<select class="form-control" id="programLanguageId" name="programLanguageId" th:field="*{programLanguageId}" required="required">
 					<option th:if="${programLanguageId == null}" th:value="''"></option>
 					<option th:field="*{programLanguageId}" th:each="programLanguage : ${programForm.programLanguages}" th:value="${programLanguage.id}"
@@ -145,7 +145,6 @@
 				programLanguageId</div>
 			<div class="col-lg-20 ws-errorbox" hidden=""></div>
 		</div>
-		<br></br>
 
 
 		<!-- Email -->
@@ -201,11 +200,11 @@
 				<div class="ws-errorbox" hidden=""></div>
 			</div>
 		</div>
-		<br></br>
 
-		<h3 class="text-center" th:text="#{members}">List of Programs Empty</h3>
-		<br></br>
-		
+
+		<!-- Members -->
+		<h3 class="text-center" th:text="#{members}">List of Members</h3>
+				
 		<!-- Form to add user by login -->
 		<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="form-group" th:classappend="${#fields.hasErrors('login')}? 'has-error'">
 			<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
@@ -282,7 +281,7 @@
 						
 						<!-- Form add account payer by admin --> 
 						<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<div class="col-lg-9 text-danger">
+							<div class="col-lg-10 text-danger">
 								<input th:if="*{accountPayer} == null" type="text" class="form-control" list="userlist" th:placeholder="#{program.acountPayer}" th:field="*{accountPayerName}" autocomplete="off"/>
 								<input th:if="*{accountPayer} != null" type="text" class="form-control" th:field="*{accountPayerName}" readonly="readonly" />
 									
@@ -299,7 +298,7 @@
 						<!-- Form add account payer by no admin --> 
 						<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
 							<label th:if="*{accountPayer} == null" for="login" class="col-lg-2 control-label" th:text="#{dni}">DNI</label>
-							<div class="col-lg-9 text-danger">
+							<div class="col-lg-10 text-danger">
 								<input th:if="*{accountPayer} == null" type="text" class="form-control" th:placeholder="#{dni}" th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}" autocomplete="off" />
 								<input th:if="*{accountPayer} != null" type="text" class="form-control"  th:field="*{accountPayerName}" th:title="#{program.infoAccountPayerByDni}" readonly="readonly" />
 								<span class="help-block" th:if="${#fields.hasErrors('accountPayerName')}" th:errors="*{accountPayerName}"> Incorrect accountPayerName</span>

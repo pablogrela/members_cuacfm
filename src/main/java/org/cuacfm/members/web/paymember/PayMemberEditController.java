@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,13 +17,13 @@ package org.cuacfm.members.web.paymember;
 
 import javax.validation.Valid;
 
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +88,7 @@ public class PayMemberEditController {
 			payMemberForm.setIdPayer(payMember.getIdPayer());
 			payMemberForm.setEmailPayer(payMember.getEmailPayer());
 			payMemberForm.setIdPayer(payMember.getIdPayer());
-			payMemberForm.setDatePay(DisplayDate.dateTimeToString(payMember.getDatePay()));
+			payMemberForm.setDatePay(DateUtils.format(payMember.getDatePay(), DateUtils.FORMAT_DISPLAY));
 			model.addAttribute(payMember);
 			model.addAttribute(payMemberForm);
 			return PAYMEMBER_VIEW_NAME;
@@ -106,10 +106,10 @@ public class PayMemberEditController {
 	 * @param errors the errors
 	 * @param ra the ra
 	 * @return the string
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 */
 	@RequestMapping(value = "feeMemberList/payMemberList/payMemberEdit", method = RequestMethod.POST)
-	public String payMember(@Valid @ModelAttribute PayMemberForm payMemberForm, Errors errors, RedirectAttributes ra) throws DateLimitException {
+	public String payMember(@Valid @ModelAttribute PayMemberForm payMemberForm, Errors errors, RedirectAttributes ra) throws DatesException {
 
 		if (errors.hasErrors()) {
 			return PAYMEMBER_VIEW_NAME;

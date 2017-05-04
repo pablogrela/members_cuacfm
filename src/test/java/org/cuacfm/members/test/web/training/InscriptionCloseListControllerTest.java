@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,6 +30,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.permissions;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
@@ -73,8 +74,8 @@ public class InscriptionCloseListControllerTest extends WebSecurityConfiguration
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer",
-				roles.ROLE_TRAINER);
+		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_USER);
+		trainer.addPermissions(permissions.ROLE_TRAINER);
 		accountService.save(trainer);
 		defaultSession = getDefaultSession("trainer@udc.es");
 	}

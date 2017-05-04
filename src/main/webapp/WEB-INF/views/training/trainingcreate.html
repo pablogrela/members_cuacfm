@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='trainings')">&nbsp;</div>
 
 	<!-- Button redirect to Program List-->
 	<div class="text-center">
@@ -59,22 +59,22 @@
 			<!-- Insert DateLimit -->
 			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateLimit')}? 'has-error'">
 				<label for="dateLimit" class="col-lg-1 control-label" th:text="#{training.dateLimit}">DateLimit</label>
-				<div class="col-lg-10">
-					<input type="time" class="form-control" id="timeLimit" th:placeholder="#{training.timeLimit}" th:field="*{timeLimit}" required="required" />
+				<div class="col-lg-10">			
 					<input type="date" class="form-control" id="dateLimit" th:placeholder="#{training.dateLimit}" th:field="*{dateLimit}" required="required" />
+					<input type="time" class="form-control" id="timeLimit" th:placeholder="#{training.timeLimit}" th:field="*{timeLimit}" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('dateLimit')}" th:errors="*{dateLimit}">Incorrect dateLimit</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
-
-
+			
+			
 			<!-- Insert DateTraining -->
 			<div class="form-inline form-group" th:classappend="${#fields.hasErrors('dateTraining')}? 'has-error'">
 				<label for="dateTraining" class="col-lg-1 control-label" th:text="#{training.dateTraining}">DateTraining</label>
 				<div class="col-lg-10">
-					<input type="time" class="form-control" id="timeTraining" th:placeholder="#{training.timeTraining}" th:field="*{timeTraining}"
-						required="required" />
 					<input type="date" class="form-control" id="dateTraining" th:placeholder="#{training.dateTraining}" th:field="*{dateTraining}"
+						required="required" />
+					<input type="time" class="form-control" id="timeTraining" th:placeholder="#{training.timeTraining}" th:field="*{timeTraining}"
 						required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('dateTraining')}" th:errors="*{dateTraining}">Incorrect dateTraining</span>
 					<div class="ws-errorbox" hidden=""></div>
@@ -110,7 +110,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
 				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
 				<div class="col-lg-10">
-					<div class="input-group col-lg-4-edit">
+					<div class="input-group col-lg-6-edit">
 						<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
 						<span class="input-group-addon" th:text="#{minutes}">minutes</span>
 					</div>
@@ -138,7 +138,7 @@
 			<!-- Button Create Training -->
 			<div class="form-group">
 				<div class="text-center">
-					<button type="submit" class="btn btn-orange btn-lg" id="create" th:text="#{training.create}">Create</button>
+					<button type="submit" class="btn btn-orange btn-form" id="create" th:text="#{training.create}">Create</button>
 				</div>
 			</div>
 

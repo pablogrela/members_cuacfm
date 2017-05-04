@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,14 +21,14 @@ import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
 import org.cuacfm.members.model.exceptions.UserAlreadyJoinedException;
 import org.cuacfm.members.model.inscription.Inscription;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -148,11 +148,11 @@ public class InscriptionListController {
 	 * @param submit the submit
 	 * @param ra the ra
 	 * @return the string
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 */
 	@RequestMapping(value = "trainingList/inscriptionList/save", method = RequestMethod.POST)
 	public String save(@Valid @ModelAttribute InscriptionsForm inscriptionsForm, @RequestParam("submit") String submit, RedirectAttributes ra)
-			throws DateLimitException {
+			throws DatesException {
 
 		List<Inscription> insUpdate = inscriptionsForm.getInscriptions();
 		boolean modify = false;
@@ -247,7 +247,7 @@ public class InscriptionListController {
 
 		} catch (DateLimitExpirationException e) {
 			MessageHelper.addErrorAttribute(ra, "training.dateLimitExpirationException", e.getTrainingName(),
-					DisplayDate.dateTimeToString(e.getDateLimit()));
+					DateUtils.format(e.getDateLimit(), DateUtils.FORMAT_DISPLAY));
 		}
 
 		return REDIRECT_TRAINING;

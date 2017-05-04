@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,11 +24,11 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='feeProgram')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='feePrograms')">&nbsp;</div>
 
 	<!-- Button redirect to fee program list-->
 	<div class="text-center">
-		<a href="#" class="btn btn-primary btn-lg" th:href="@{/feeProgramList}" th:text="#{feeMember.backFeeProgramList}"> </a>
+		<a href="#" class="btn btn-primary btn-lg" th:href="@{/feeProgramList}" th:text="#{feeProgram.backFeeProgramList}"> </a>
 	</div>
 	<br></br>
 
@@ -105,7 +105,7 @@
 			<!-- Button Edit FeeProgram -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-orange btn-lg" th:text="#{feeProgram.modify}">Create</button>
+					<button type="submit" class="btn btn-orange btn-form" th:text="#{feeProgram.modify}">Create</button>
 				</div>
 			</div>
 

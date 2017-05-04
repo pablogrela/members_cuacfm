@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cuacfm.members.model.programservice;
 
 import java.io.FileInputStream;
@@ -32,8 +31,8 @@ import org.cuacfm.members.model.program.ProgramCategory;
 import org.cuacfm.members.model.program.ProgramLanguage;
 import org.cuacfm.members.model.program.ProgramThematic;
 import org.cuacfm.members.model.program.ProgramType;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -87,7 +86,7 @@ public class JsonToProgram {
 
 			String dateString = FileUtils.split((String) jsonObjectRow.get("dateCreate"), MAX_CHARACTERS);
 			String[] dateConvert = dateString.split("GMT");
-			Date dateCreate = DisplayDate.format(dateConvert[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+			Date dateCreate = DateUtils.format(dateConvert[0].trim(), "E MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
 
 			String name = FileUtils.split((String) jsonObjectRow.get("name"), MAX_CHARACTERS);
 			String description = FileUtils.split((String) jsonObjectRow.get("description"), MAX_AREA);

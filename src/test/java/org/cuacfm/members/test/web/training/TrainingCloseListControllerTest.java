@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Locale;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.permissions;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
@@ -33,8 +34,8 @@ import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,7 +71,8 @@ public class TrainingCloseListControllerTest extends WebSecurityConfigurationAwa
      */
     @Before
     public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_TRAINER);
+		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer", roles.ROLE_USER);
+		trainer.addPermissions(permissions.ROLE_TRAINER);
 		accountService.save(trainer);
         defaultSession = getDefaultSession("trainer@udc.es");
     }
@@ -120,8 +122,8 @@ public class TrainingCloseListControllerTest extends WebSecurityConfigurationAwa
 	public void displaysTrainingCloseListwithDatabaseTest() throws Exception {    
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";	
-		Training training = new Training (trainingType, "training1", DisplayDate.stringToDate(dateTraining),DisplayDate.stringToDate(dateTraining), 
+		String dateTraining = "2015-12-05 10:30";	
+		Training training = new Training (trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), 
 				"description", "place", 90, 10);
 		training.setClose(true);
 		trainingService.save(training);

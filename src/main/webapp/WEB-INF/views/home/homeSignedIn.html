@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@
 <body data-ng-app="membersApp">
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='Home')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='home')">&nbsp;</div>
 
 	<div class="container-fluid">
 
@@ -41,47 +41,51 @@
 
 
 		<!-- Table List of directDebits -->
-		<div sec:authorize="!hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp" data-ng-controller="DirectDebitOpenController as ctrl">
+		<div class="ng-cloak" sec:authorize="!hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp" data-ng-controller="DirectDebitOpenController as ctrl">
 			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
 			<br></br>
 		</div>
-			
+
 		<!-- List events -->
-		<div data-ng-controller="EventController as ctrl">
-			
+		<div class="ng-cloak" data-ng-controller="EventController as ctrl">
+
 			<!-- Welcome message -->
 			<div data-ng-if="ctrl.events.length &lt; 3" class="text-center">
 				<h1 th:text="#{home.welcome}">Welcome</h1>
 				<br></br>
 			</div>
 
-			<!-- Button redirect to event list close-->
-			<div data-ng-show="ctrl.events" sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
-				<div>
-					<a href="#" class="btn btn-primary btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
+			<!-- Button redirect to event list close -->
+			<div data-ng-show="ctrl.events">
+				<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
+					<div>
+						<a href="#" class="btn btn-primary btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
+					</div>
+					<br></br>
+					<div th:include="fragments/sortColumn :: search"></div>
+					<br></br> <br></br> <br></br>
 				</div>
-				<br></br>			
-			</div>
-			
-			<div data-ng-show="ctrl.events" data-ng-repeat="event in ctrl.events">
-				<!-- Start messages only admin -->
-				<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-					<div th:include="home/event :: eventImportant" class="alert alert-danger" data-ng-if="event.priority == 1"></div>
-					<div th:include="home/event :: eventNormal" class="alert alert-warning" data-ng-if="event.priority == 2"></div>
-					<div th:include="home/event :: eventNormal" class="alert alert-info" data-ng-if="event.priority == 3"></div>
-					<div th:include="home/event :: eventNormal" class="alert alert-success" data-ng-if="event.priority == 4"></div>
+  
+				<div pagination-id="paginate" dir-paginate="event in ctrl.events | filter:search | itemsPerPage:numPerPage">
+					<!-- Start messages only admin -->
+					<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+						<div th:include="home/event :: eventImportant" class="alert alert-danger" data-ng-if="event.priority == 1"></div>
+						<div th:include="home/event :: eventNormal" class="alert alert-warning" data-ng-if="event.priority == 2"></div>
+						<div th:include="home/event :: eventNormal" class="alert alert-info" data-ng-if="event.priority == 3"></div>
+						<div th:include="home/event :: eventNormal" class="alert alert-success" data-ng-if="event.priority == 4"></div>
 
-				</th:block>
-				<!-- Finish messages only admin -->
+					</th:block>
+					<!-- Finish messages only admin -->
 
-				<!-- Start messages no admin -->
-				<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
-					<div th:include="home/event :: eventUser" class="alert alert-info"></div>
-				</th:block>
-				<!-- Finish messages no admin -->
+					<!-- Start messages no admin -->
+					<th:block sec:authorize="!hasAnyRole('ROLE_ADMIN')">
+						<div th:include="home/event :: eventUser" class="alert alert-info"></div>
+					</th:block>
+					<!-- Finish messages no admin -->
+				</div>
+				<dir-pagination-controls pagination-id="paginate" class="pagination-sm pull-right" boundary-links="true" auto-hide="false"></dir-pagination-controls>
 			</div>
-			
 		</div>
 
 	</div>

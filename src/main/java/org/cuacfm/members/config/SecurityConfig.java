@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -100,32 +100,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    // Por defecto el csrf esta enable para bloquear posibles ataques.
    @Override
    protected void configure(HttpSecurity http) throws Exception {
-	   // Se añadio csrf().disable() al http para permitir ajax
-       http.authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signup/**", "/signin/**")
+	   // csrf().ignoringAntMatchers() ignora la validacion de csrf para las peticiones de la api
+	   // csrf().disable() deshabilita la validacion crsf para todo
+       http.csrf().ignoringAntMatchers("/api/**").and().
+       authorizeRequests().antMatchers("/", "/#", "/favicon.ico", "/resources/**", "/signup", "/signup", "/logout/**", "/signin/**", "/api/**")
             .permitAll()
 
-            .antMatchers("/userPayments/**")
-            .hasAnyRole("TRAINER", "USER", "EXUSER", "PREREGISTERED")
-
-            .antMatchers("/programList/**")
-            .hasAnyRole("ADMIN", "USER", "EXUSER", "TRAINER")
-
-            .antMatchers("/programList/programCreate")
-            .hasAnyRole("ADMIN", "USER", "TRAINER")
-            
             .antMatchers("/trainingUserList")
             .hasAnyRole("USER", "EXUSER", "PREREGISTERED")
-
+            
             .antMatchers("/trainingUserList/**")
             .hasAnyRole("USER", "PREREGISTERED")
             
+            .antMatchers("/userPayments/**")
+            .hasAnyRole("USER", "EXUSER", "PREREGISTERED")
+
+            .antMatchers("/programList", "/programList/", "/programList/programEdit/**", "/reportList", "/reportList/image/**", "/reserveList")
+            .hasAnyRole("ADMIN", "USER", "EXUSER")
+            
+            .antMatchers("/reportList/**")
+            .hasAnyRole("REPORT")
+            
+            .antMatchers("/reserveList/**")
+            .hasAnyRole("RESERVE")
+            
+            .antMatchers("/reportUserList/**", "/reserveUserList/**")
+            .hasAnyRole("USER")
+            
+            .antMatchers("/programList/**")
+            .hasAnyRole("ADMIN", "USER")
+            
             .antMatchers("/trainingList", "/trainingList/trainingView/**")
-            .hasAnyRole("ADMIN", "TRAINER", "USER", "EXUSER", "PREREGISTERED")
+            .hasAnyRole("ADMIN", "USER", "EXUSER", "PREREGISTERED")
 
-            .antMatchers("/trainingTypeList/**","/trainingList/**")
-            .hasAnyRole("ADMIN", "TRAINER")
+            .antMatchers("/trainingTypeList/**", "/trainingList/**")
+            .hasAnyRole("TRAINER")
 
-            .antMatchers("/programList/programDown/**","/programList/programUp/**",
+            .antMatchers("/programList/programDown/**" ,"/programList/programUp/**",
                   "/payInscriptionList/**", "/feeProgramList/**", "/accountList/**", "/configuration/**", "/bankRemittance/**", "/directDebit/**", "/user/**")
             .hasRole("ADMIN")
 

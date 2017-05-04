@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -96,6 +96,14 @@ public interface ProgramService {
 	 * @return List<Program>
 	 */
 	public List<Program> getProgramListActive();
+
+	/**
+	 * Gets the program list active by user.
+	 *
+	 * @param account the account
+	 * @return the program list active by user
+	 */
+	public List<Program> getProgramListActiveByUser(Account account);
 
 	/**
 	 * Gets the program list close.

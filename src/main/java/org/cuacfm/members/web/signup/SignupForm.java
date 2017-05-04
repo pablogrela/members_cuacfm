@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,13 +56,8 @@ public class SignupForm {
 	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String email;
 
-	private boolean student;
-	private boolean studentTrue;
-	private boolean studentFalse;
-
-	private boolean emitProgram;
-	private boolean emitProgramTrue;
-	private boolean emitProgramFalse;
+	private Boolean student;
+	private Boolean emitProgram;
 
 	/** The phone. */
 	@Size(max = 20, message = Constants.MAX_CHARACTERS)
@@ -201,52 +196,20 @@ public class SignupForm {
 		this.rePassword = rePassword;
 	}
 
-	public boolean isStudent() {
+	public Boolean getStudent() {
 		return student;
 	}
 
-	public void setStudent(boolean student) {
+	public void setStudent(Boolean student) {
 		this.student = student;
 	}
 
-	public boolean isStudentTrue() {
-		return studentTrue;
-	}
-
-	public void setStudentTrue(boolean studentTrue) {
-		this.studentTrue = studentTrue;
-	}
-
-	public boolean isStudentFalse() {
-		return studentFalse;
-	}
-
-	public void setStudentFalse(boolean studentFalse) {
-		this.studentFalse = studentFalse;
-	}
-
-	public boolean isEmitProgram() {
+	public Boolean getEmitProgram() {
 		return emitProgram;
 	}
 
-	public void setEmitProgram(boolean emitProgram) {
+	public void setEmitProgram(Boolean emitProgram) {
 		this.emitProgram = emitProgram;
-	}
-
-	public boolean isEmitProgramTrue() {
-		return emitProgramTrue;
-	}
-
-	public void setEmitProgramTrue(boolean emitProgramTrue) {
-		this.emitProgramTrue = emitProgramTrue;
-	}
-
-	public boolean isEmitProgramFalse() {
-		return emitProgramFalse;
-	}
-
-	public void setEmitProgramFalse(boolean emitProgramFalse) {
-		this.emitProgramFalse = emitProgramFalse;
 	}
 
 	public String getPersonality() {
@@ -288,6 +251,6 @@ public class SignupForm {
 	 */
 	public Account createAccount() {
 		return new Account(getName(), getSurname(), getDni(), getAddress(), getLogin(), getEmail(), getPhone(), getMobile(), getPassword(),
-				roles.ROLE_PREREGISTERED, getProgramName(), isStudentTrue(), isEmitProgramTrue(), getPersonality(), getKnowledge());
+				roles.ROLE_PREREGISTERED, getProgramName(), getStudent(), getEmitProgram(), getPersonality(), getKnowledge());
 	}
 }

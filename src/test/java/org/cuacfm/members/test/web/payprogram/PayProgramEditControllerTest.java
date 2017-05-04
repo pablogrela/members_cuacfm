@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,8 +45,8 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -122,7 +122,8 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 		Account account = new Account("user", "1", "22222222C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		accounts.add(account);
-		Account account2 = new Account("user2", "2", "33333333C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "2", "33333333C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		accounts.add(account2);
 
@@ -139,7 +140,7 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 		programService.up(program2);
 
 		// Save
-		Date date = DisplayDate.stringToMonthOfYear("2015-12");
+		Date date = DateUtils.format("2015-12", DateUtils.FORMAT_MONTH_YEAR);
 		feeProgram = new FeeProgram("name", Double.valueOf(25), date, date, "description");
 		feeProgramService.save(feeProgram);
 

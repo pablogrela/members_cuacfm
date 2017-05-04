@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,8 +19,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import org.cuacfm.members.Application;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +31,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-import org.cuacfm.members.Application;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * The Class JPAConfig.
@@ -105,6 +105,10 @@ class JpaConfig implements TransactionManagementConfigurer {
 
       Properties jpaProperties = new Properties();
       jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
+      
+      // This property resolve org.hibernate.lazyinitializationexception 
+      // Another solution is change @PersistenceContext to @PersistenceContext(type = PersistenceContextType.EXTENDED) in class repository  
+      jpaProperties.put("hibernate.enable_lazy_load_no_trans", true);
 
       // Comentado por que no se utiliza
       // jpaProperties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, hbm2ddlAuto)

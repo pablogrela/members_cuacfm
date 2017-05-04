@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='feeMember')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='feeMembers')">&nbsp;</div>
 
 	<!-- Button redirect to fee member list-->
 	<div class="text-center">
@@ -73,7 +73,7 @@
 									</datalist>
 								</div>
 								<span class="help-block pull-left" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
-								<div class="ws-errorbox pull-left" hidden=""></div>
+								<span class="ws-errorbox pull-left" hidden=""></span>
 							</div>
 						</div>
 					</fieldset>
@@ -96,7 +96,7 @@
 							<button class="btn btn-primary" th:name="createPdf" th:value="PAY" th:title="#{feeMember.infoPayList}" th:text="#{feeMember.printPayList}"></button>
 						</div>
 					</fieldset>
-				</form>
+				</form>			
 			</div>
 		</div>
 

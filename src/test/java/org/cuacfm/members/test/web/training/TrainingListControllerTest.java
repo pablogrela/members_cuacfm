@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,6 +31,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import org.cuacfm.members.model.account.Account;
+import org.cuacfm.members.model.account.Account.permissions;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
@@ -39,8 +40,8 @@ import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,10 +56,10 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 
 	/** The default session. */
 	private MockHttpSession defaultSession;
-	
+
 	/** The default session. */
 	private MockHttpSession userSession;
-	
+
 	/** The account service. */
 	@Inject
 	private AccountService accountService;
@@ -72,7 +73,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	private TrainingService trainingService;
 
 	private Account user;
-	
+
 	/**
 	 * Initialize default session.
 	 * 
@@ -81,12 +82,12 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
 		Account trainer = new Account("trainer", "", "55555555C", "London", "trainer", "trainer@udc.es", "666666666", "666666666", "trainer",
-				roles.ROLE_TRAINER);
+				roles.ROLE_USER);
+		trainer.addPermissions(permissions.ROLE_TRAINER);
 		accountService.save(trainer);
 		defaultSession = getDefaultSession("trainer@udc.es");
-		
-		user = new Account("user", "1", "3333333C", "London", "user", "user@udc.es", "666666666", "666666666", "user",
-				roles.ROLE_USER);
+
+		user = new Account("user", "1", "3333333C", "London", "user", "user@udc.es", "666666666", "666666666", "user", roles.ROLE_USER);
 		accountService.save(user);
 		userSession = getDefaultSession("user@udc.es");
 	}
@@ -121,9 +122,9 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	public void displaysTrainingListwithDatabaseTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
-				"description", "place", 90, 10);
+		String dateTraining = "2015-12-05 10:30";
+		Training training = new Training(trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		mockMvc.perform(get("/trainingList").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("training/traininglist"))
@@ -139,13 +140,13 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	public void deleteTrainingListTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
-				"description", "place", 90, 10);
+		String dateTraining = "2015-12-05 10:30";
+		Training training = new Training(trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		mockMvc.perform(post("/trainingList/trainingDelete/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession));
-				//.andExpect(view().name("redirect:/trainingList"));
+		//.andExpect(view().name("redirect:/trainingList"));
 
 		//Assert, it remove training
 		//assertEquals(trainingService.findById(training.getId()), null);
@@ -167,7 +168,7 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 		trainingService.createInscription(user, training);
 
 		mockMvc.perform(post("/trainingList/trainingDelete/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession));
-				//.andExpect(view().name("redirect:/trainingList"));
+		//.andExpect(view().name("redirect:/trainingList"));
 
 		//Assert, it don´t remove training
 		assertEquals(trainingService.findById(training.getId()), training);
@@ -182,9 +183,9 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	public void createInscriptionTrainingListTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
-				"description", "place", 90, 10);
+		String dateTraining = "2015-12-05 10:30";
+		Training training = new Training(trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		mockMvc.perform(post("/trainingUserList/trainingJoin/" + training.getId()).locale(Locale.ENGLISH).session(userSession))
@@ -200,9 +201,9 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	public void userAlreadyJoinedExceptionTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
-				"description", "place", 90, 10);
+		String dateTraining = "2015-12-05 10:30";
+		Training training = new Training(trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		mockMvc.perform(post("/trainingUserList/trainingJoin/" + training.getId()).locale(Locale.ENGLISH).session(userSession))
@@ -261,9 +262,9 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	public void createInscriptionsDateLimitExpirationExceptionInTrainingListTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-01-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
-				"description", "place", 90, 1);
+		String dateTraining = "2015-01-05 10:30";
+		Training training = new Training(trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 1);
 		trainingService.save(training);
 
 		mockMvc.perform(post("/trainingUserList/trainingJoin/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
@@ -303,13 +304,13 @@ public class TrainingListControllerTest extends WebSecurityConfigurationAware {
 	public void TrainingEditFromTrainingListTest() throws Exception {
 		TrainingType trainingType = new TrainingType("Locution", true, "Very interesting", "livingRoom", 90);
 		trainingTypeService.save(trainingType);
-		String dateTraining = "10:30,2015-12-05";
-		Training training = new Training(trainingType, "training1", DisplayDate.stringToDate(dateTraining), DisplayDate.stringToDate(dateTraining),
-				"description", "place", 90, 10);
+		String dateTraining = "2015-12-05 10:30";
+		Training training = new Training(trainingType, "training1", DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE),
+				DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL_DATE), "description", "place", 90, 10);
 		trainingService.save(training);
 
 		// FAIL FIX
 		mockMvc.perform(post("/trainingList/trainingEdit/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession));
-//				.andExpect(view().name("redirect:/trainingList/trainingEdit"));
+		//				.andExpect(view().name("redirect:/trainingList/trainingEdit"));
 	}
 }

@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,6 +42,7 @@ public class ProgramDTO {
 	private String podcast;
 	private String web;
 	private boolean active;
+	private boolean deviceToken;
 	private Date dateCreate;
 	private Date dateDown;
 
@@ -98,6 +99,12 @@ public class ProgramDTO {
 		this.active = active;
 		this.dateCreate = dateCreate;
 		this.dateDown = dateDown;
+		for (AccountDTO account : accounts) {
+			if (account.isDeviceToken()) {
+				this.deviceToken = true;
+				break;
+			}
+		}
 	}
 
 	public Long getId() {
@@ -236,6 +243,14 @@ public class ProgramDTO {
 		this.active = active;
 	}
 
+	public boolean isDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(boolean deviceToken) {
+		this.deviceToken = deviceToken;
+	}
+
 	public Date getDateCreate() {
 		return dateCreate;
 	}
@@ -257,8 +272,8 @@ public class ProgramDTO {
 		return "ProgramDTO [id=" + id + ", name=" + name + ", description=" + description + ", periodicity=" + periodicity + ", duration=" + duration
 				+ ", accounts=" + accounts + ", accountPayer=" + accountPayer + ", programType=" + programType + ", programThematic="
 				+ programThematic + ", programLanguage=" + programLanguage + ", programCategory=" + programCategory + ", email=" + email
-				+ ", twitter=" + twitter + ", facebook=" + facebook + ", podcast=" + podcast + ", web=" + web + ", active=" + active + ", dateCreate="
-				+ dateCreate + ", dateDown=" + dateDown + "]";
+				+ ", twitter=" + twitter + ", facebook=" + facebook + ", podcast=" + podcast + ", web=" + web + ", active=" + active
+				+ ", deviceToken=" + deviceToken + ", dateCreate=" + dateCreate + ", dateDown=" + dateDown + "]";
 	}
 
 }

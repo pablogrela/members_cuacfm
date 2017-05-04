@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,21 +27,21 @@
 		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
 		<div th:replace="fragments/alert :: infoAccounts">&nbsp;</div>
 		<div th:replace="fragments/alert :: infoProgram">&nbsp;</div>
+		<div th:replace="fragments/alert :: modalPushProgram">&nbsp;</div>
 		<div th:replace="fragments/alert :: infoDelete">&nbsp;</div>
 
-
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
-		<object data-ng-show="message">
-			<br></br>
+		<object class="text-center" data-ng-show="message">
 			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 		</object>
 
+
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<div class="text-center" th:if="${message != null}">
-			<br></br>
 			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 		</div>
+
 
 		<!-- Message if directDebits is empty -->
 		<div data-ng-show="!programs">
@@ -91,7 +91,7 @@
 				<tbody>
 					<tr pagination-id="paginate" dir-paginate="program in programs | orderBy:sortType:sortReverse:localeSensitiveComparator | filter:search | itemsPerPage:numPerPage">
 
-						<td><span data-ng-bind="program.name" th:title="#{program.infoProgram}" data-ng-click="ctrl.infoProgram(program)" data-toggle="modal"
+						<td><span data-ng-bind="program.name" th:title="#{program.infoProgram}" data-ng-click="infoProgram(program)" data-toggle="modal"
 								data-target="#infoProgram"></span></td>
 
 						<!-- start If`s role -->
@@ -105,34 +105,45 @@
 						<td><span data-ng-bind="program.duration"></span></td>
 
 						<td><table data-ng-repeat="account in program.accounts" data-ng-bind="account.name + ' ' + account.surname" th:title="#{account.infoAccounts}"
-								data-ng-click="ctrl.infoAccounts(program.accounts)" data-toggle="modal" data-target="#infoAccounts"></table></td>
+								data-ng-click="infoAccounts(program.accounts)" data-toggle="modal" data-target="#infoAccounts"></table></td>
 
-						<td><span data-ng-bind="program.accountPayer.name + ' ' + program.accountPayer.surname" th:title="#{account.infoAccount}" data-ng-click="ctrl.infoAccount(program.accountPayer)"
+						<td><span data-ng-bind="program.accountPayer.name + ' ' + program.accountPayer.surname" th:title="#{account.infoAccount}" data-ng-click="infoAccount(program.accountPayer)"
 								data-toggle="modal" data-target="#infoAccount"></span></td>
 
 
 						<!-- Down Program -->
-						<td data-ng-if="program.active"><span th:text="#{active}"></span>
-							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.programDown(program.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
-								th:title="#{program.infoDown}" style="color: red"></button></td>
+						<td data-ng-if="program.active">
+							<span th:text="#{active}"></span>
+							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="programDown(program.id)" 
+								class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down pull-right" th:title="#{program.infoDown}" style="color: red">
+							</button>
+						</td>
 
 
 						<!-- Up Program -->
-						<td data-ng-if="!program.active"><span th:text="#{down}"></span>
-							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="ctrl.programUp(program.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up" th:title="#{program.infoUp}"
-								style="color: green"></button></td>
+						<td data-ng-if="!program.active">
+							<span th:text="#{down}"></span>
+							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="programUp(program.id)" 
+								class="btnTable btn-link glyphicon  glyphicon-chevron-up pull-right"
+								 th:title="#{program.infoUp}" style="color: green">
+							</button>
+						</td>
 
 
 						<td>
 							<!-- Delete Program -->
-							<button type="button" data-toggle="modal" data-ng-click="ctrl.infoDelete(program)" data-target="#infoDelete"
-								class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemove}" style="color: red"></button> 
+							<button type="button" data-toggle="modal" data-ng-click="infoDelete(program)" data-target="#infoDelete"
+								class="btnTable btn-link glyphicon glyphicon-remove pull-right" th:title="#{program.infoRemove}" style="color: red"></button> 
 								
 							<!-- Modify program -->
-							<form action="{{'programList/programEdit/' + program.id}} " method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+							<form action="{{'/members/programList/programEdit/' + program.id}} " method="post">
+								<button class="btnTable btn-link glyphicon glyphicon-edit pull-right" th:title="#{edit}" style="color: orange"></button>
 								<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 							</form>
+							
+							<!-- Push Message -->
+							<button sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-if="program.deviceToken"  data-ng-click="infoProgram(program)" class="btnTable btn-link glyphicon glyphicon glyphicon-phone pull-right" 
+								th:title="#{push.info}" data-toggle="modal" data-target="#modalPushProgram" style="color: blue"></button>
 						</td>
 						
 					</tr>

@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,10 +51,10 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -150,8 +150,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		defaultSession = getDefaultSession("user@udc.es");
 
 		// Create Payment
-		feeMember = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
-				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		feeMember = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DateUtils.format("2016-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2016-07-05", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.save(feeMember);
 
 		// Create Program and Payments
@@ -165,8 +165,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		programService.save(program);
 		programService.up(program);
 
-		feeProgram = new FeeProgram("Fee March 2015", Double.valueOf(25), DisplayDate.stringToMonthOfYear("2016-03"),
-				DisplayDate.stringToMonthOfYear("2016-03"), "Fee for program");
+		feeProgram = new FeeProgram("Fee March 2015", Double.valueOf(25), DateUtils.format("2016-03", DateUtils.FORMAT_MONTH_YEAR),
+				DateUtils.format("2016-03", DateUtils.FORMAT_MONTH_YEAR), "Fee for program");
 		feeProgramService.save(feeProgram);
 
 		user.setPrograms(programs);
@@ -264,8 +264,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 	//
 	//		PayMember userFeeMember = userFeeMemberService.findByPayMemberIds(user.getId(), feeMember.getId()).get(0);
 	//
-	//		FeeMember feeMember2 = new FeeMember("pay of 2017", 2017, Double.valueOf(20), DisplayDate.stringToDate2("2017-04-05"),
-	//				DisplayDate.stringToDate2("2017-07-05"), "pay of 2017");
+	//		FeeMember feeMember2 = new FeeMember("pay of 2017", 2017, Double.valueOf(20), DisplayDate.format("2017-04-05", DisplayDate.FORMAT_DATE),
+	//				DisplayDate.format("2017-07-05", DisplayDate.FORMAT_DATE), "pay of 2017");
 	//		feeMemberService.save(feeMember2);
 	//
 	//		PayMember userFeeMember2 = userFeeMemberService.findByPayMemberIds(user.getId(), feeMember2.getId()).get(0);
@@ -374,8 +374,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 
 		PayProgram payProgram = payProgramService.findByPayProgramIds(program.getId(), feeProgram.getId());
 
-		FeeProgram feeProgram2 = new FeeProgram("Fee April 2015", Double.valueOf(25), DisplayDate.stringToMonthOfYear("2016-04"),
-				DisplayDate.stringToMonthOfYear("2016-04"), "Fee for program");
+		FeeProgram feeProgram2 = new FeeProgram("Fee April 2015", Double.valueOf(25), DateUtils.format("2016-04", DateUtils.FORMAT_MONTH_YEAR),
+				DateUtils.format("2016-04", DateUtils.FORMAT_MONTH_YEAR), "Fee for program");
 		feeProgramService.save(feeProgram2);
 		PayProgram payProgram2 = payProgramService.findByPayProgramIds(program.getId(), feeProgram2.getId());
 
@@ -426,8 +426,8 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		programService.save(program2);
 		programService.up(program2);
 
-		FeeProgram feeProgram2 = new FeeProgram("Fee Jun 2015", Double.valueOf(25), DisplayDate.stringToMonthOfYear("2016-06"),
-				DisplayDate.stringToMonthOfYear("2016-08"), "Fee for program");
+		FeeProgram feeProgram2 = new FeeProgram("Fee Jun 2015", Double.valueOf(25), DateUtils.format("2016-06", DateUtils.FORMAT_MONTH_YEAR),
+				DateUtils.format("2016-08", DateUtils.FORMAT_MONTH_YEAR), "Fee for program");
 		feeProgramService.save(feeProgram2);
 
 		PayProgram payProgramProbe = payProgramService.findByPayProgramIds(program2.getId(), feeProgram2.getId());

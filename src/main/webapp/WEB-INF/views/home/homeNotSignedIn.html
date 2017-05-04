@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,12 +22,16 @@
 <object th:include="fragments/head :: head" th:remove="tag"></object>
 </head>
 <body>
+
+	<!-- Generic Header -->
 	<div th:replace="fragments/header :: header"></div>
+	
 	<div class="container">
 		<div class="text-center">
-			<p class="lead" th:text="#{home.notsigin}">Welcome</p>
+			<p class="lead mobile" th:text="#{home.notsigin}">Welcome</p>
 			<p>
 				<a href="/signup" th:href="@{/signup}" class="btn btn-orange btn-lg" th:text="#{signup}">Sign Up</a>
+				<a href="/signin" th:href="@{/signin}" class="btn btn-default btn-lg" th:text="#{signin}"></a>
 			</p>
 		</div>
 		<!-- <div th:replace="fragments/footer :: footer">&copy; 2013 CuacFM</div> -->

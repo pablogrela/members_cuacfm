@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,9 +41,10 @@
 		<input type="hidden" id="firebase.web.storageBucket" th:value="#{firebase.web.storageBucket}" />
 		<input type="hidden" id="firebase.web.messagingSenderId" th:value="#{firebase.web.messagingSenderId}" />
 
+
 		<!-- Image title with hiperlink at home-->
 		<div class="container-fluid">
-			<div class="text-center containerImage">
+			<div class="text-center containerImage hidden-xs">
 				<a href="/" th:href="@{/}"> <img th:src="@{/resources/images/cuacfm.png}" />
 				</a>
 			</div>
@@ -53,157 +54,217 @@
 		<!-- Menu -->
 		<div>
 			<div class="navbar navbar-inverse">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<!-- <span class="navbar-brand" th:text="#{menu}">Menu</span> -->
-				</div>
-				<div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
 
 
-						<!-- Button Home -->
-						<th:block th:if="${active != 'Home'}">
-							<li><a href="/" th:href="@{/}" th:text="#{home}">Home</a></li>
-						</th:block>
-						<th:block th:if="${active == 'Home'}">
-							<li class="active"><a href="#" th:href="@{/}" th:text="#{home}">Home</a></li>
-						</th:block>
+						<!-- mobile -->
+						<div class="navbar-header ">
+							<button type="button" class="navbar-toggle pull-left" data-toggle="collapse" data-target=".navbar-collapse">
+								<!-- <span class="sr-only">Toggle navigation</span> -->
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a class="navbar-brand pull-center visible-xs" th:href="@{/}"> <img class="image-navbar" th:src="@{/resources/images/cuacfm.png}" />
+							</a>
+						</div>
 
 
-						<!-- Button Trainings of User -->
-						<th:block th:if="${active != 'trainingUserList'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
-							<li><a href="#" th:href="@{/trainingUserList}" th:text="#{training.trainingUserList}">trainingUser</a></li>
-						</th:block>
-						<th:block th:if="${active == 'trainingUserList'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
-							<li class="active"><a href="#" th:href="@{/trainingUserList}" th:text="#{training.trainingUserList}">trainingUser</a></li>
-						</th:block>
+<!-- 						mobile -->
+<!-- 						<div class="navbar-header"> -->
+<!-- 							shown image in navbar -->
+<!-- 							<a class="visible-xs" href="/" th:href="@{/}"> <img th:src="@{/resources/images/cuacfm.png}" /></a> -->
+
+<!-- 							show button -->
+<!-- 							<span class="navbar-brand visible-xs" th:text="#{menu}">Menu</span> -->
+<!-- 							<span class="navbar-brand navbar-brand-active visible-xs text-center" th:if="${active}" th:text="#{${active}}">Menu</span> -->
+<!-- 							show button navbar -->
+<!-- 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> -->
+<!-- 								<span class="icon-bar"></span> -->
+<!-- 								<span class="icon-bar"></span> -->
+<!-- 								<span class="icon-bar"></span> -->
+<!-- 							</button> -->
+<!-- 						</div> -->
+
+						<!-- normal, expand -->
+						<div class="collapse navbar-collapse">
+							<ul class="nav navbar-nav">
 
 
-						<!-- Button Training Type -->
-						<th:block th:if="${active != 'trainingType'}" sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/trainingTypeList}" th:text="#{trainingType}">trainingList</a></li>
-						</th:block>
-						<th:block th:if="${active == 'trainingType'}" sec:authorize="hasAnyRole('ROLE_TRAINER , ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/trainingTypeList}" th:text="#{trainingType}">trainingList</a></li>
-						</th:block>
+								<!-- Button Home -->
+								<th:block th:if="${active != 'home'}">
+									<li><a href="/" th:href="@{/}" th:text="#{home}">Home</a></li>
+								</th:block>
+								<th:block th:if="${active == 'home'}">
+									<li class="active"><a href="#" th:href="@{/}" th:text="#{home}">Home</a></li>
+								</th:block>
 
 
-						<!-- Button Training -->
-						<th:block th:if="${active != 'training'}" sec:authorize="isAuthenticated()">
-							<li><a href="#" th:href="@{/trainingList}" th:text="#{trainings}">trainingList</a></li>
-						</th:block>
-						<th:block th:if="${active == 'training'}" sec:authorize="isAuthenticated()">
-							<li class="active"><a href="#" th:href="@{/trainingList}" th:text="#{trainings}">trainingList</a></li>
-						</th:block>
+								<!-- Button Trainings of User -->
+								<th:block th:if="${active != 'trainingUserList'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
+									<li><a href="#" th:href="@{/trainingUserList}" th:text="#{training.trainingUserList}">trainingUser</a></li>
+								</th:block>
+								<th:block th:if="${active == 'trainingUserList'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
+									<li class="active"><a href="#" th:href="@{/trainingUserList}" th:text="#{training.trainingUserList}">trainingUser</a></li>
+								</th:block>
 
 
-						<!-- Button Program -->
-						<th:block th:if="${active != 'program'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/programList}" th:text="#{programs}">program list</a></li>
-						</th:block>
-						<th:block th:if="${active == 'program'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/programList}" th:text="#{programs}">program list</a></li>
-						</th:block>
-						<th:block th:if="${active != 'program'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
-							<li><a href="#" th:href="@{/programList}" th:text="#{program.userPrograms}">user programs list</a></li>
-						</th:block>
-						<th:block th:if="${active == 'program'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER')">
-							<li class="active"><a href="#" th:href="@{/programList}" th:text="#{program.userPrograms}">user programs list</a></li>
-						</th:block>
+								<!-- Button Training Type -->
+								<th:block th:if="${active != 'trainingTypes'}" sec:authorize="hasAnyRole('ROLE_TRAINER')">
+									<li><a href="#" th:href="@{/trainingTypeList}" th:text="#{trainingTypes}">trainingTypes</a></li>
+								</th:block>
+								<th:block th:if="${active == 'trainingTypes'}" sec:authorize="hasAnyRole('ROLE_TRAINER')">
+									<li class="active"><a href="#" th:href="@{/trainingTypeList}" th:text="#{trainingTypes}">trainingTypes</a></li>
+								</th:block>
 
 
-						<!-- Button User Payments -->
-						<th:block th:if="${active != 'userPayments'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
-							<li><a href="#" th:href="@{/userPayments}" th:text="#{userPayments}">userPayments</a></li>
-						</th:block>
-						<th:block th:if="${active == 'userPayments'}" sec:authorize="hasAnyRole('ROLE_TRAINER, ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
-							<li class="active"><a href="#" th:href="@{/userPayments}" th:text="#{userPayments}">userPayments</a></li>
-						</th:block>
+								<!-- Button Training -->
+								<th:block th:if="${active != 'trainings'}" sec:authorize="isAuthenticated()">
+									<li><a href="#" th:href="@{/trainingList}" th:text="#{trainings}">trainingList</a></li>
+								</th:block>
+								<th:block th:if="${active == 'trainings'}" sec:authorize="isAuthenticated()">
+									<li class="active"><a href="#" th:href="@{/trainingList}" th:text="#{trainings}">trainingList</a></li>
+								</th:block>
 
 
-						<!-- Button Pay Inscription -->
-						<th:block th:if="${active != 'feeMember'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/feeMemberList}" th:text="#{feeMember}">feeMemberList</a></li>
-						</th:block>
-						<th:block th:if="${active == 'feeMember'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/feeMemberList}" th:text="#{feeMember}">feeMemberList</a></li>
-						</th:block>
+								<!-- Button Program -->
+								<th:block th:if="${active != 'programs'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/programList}" th:text="#{programs}">program list</a></li>
+								</th:block>
+								<th:block th:if="${active == 'programs'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/programList}" th:text="#{programs}">program list</a></li>
+								</th:block>
+								<th:block th:if="${active != 'programs'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li><a href="#" th:href="@{/programList}" th:text="#{program.userPrograms}">user program list</a></li>
+								</th:block>
+								<th:block th:if="${active == 'programs'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li class="active"><a href="#" th:href="@{/programList}" th:text="#{program.userPrograms}">user program list</a></li>
+								</th:block>
 
 
-						<!-- Button Fee Program -->
-						<th:block th:if="${active != 'feeProgram'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/feeProgramList}" th:text="#{feePrograms}">feeProgramList</a></li>
-						</th:block>
-						<th:block th:if="${active == 'feeProgram'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/feeProgramList}" th:text="#{feePrograms}">feeProgramList</a></li>
-						</th:block>
+								<!-- Button Reports -->
+								<th:block th:if="${active != 'report.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li><a href="#" th:href="@{/reportUserList}" th:text="#{report.list.user}">user report list</a></li>
+								</th:block>
+								<th:block th:if="${active == 'report.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li class="active"><a href="#" th:href="@{/reportUserList}" th:text="#{report.list.user}">user report list</a></li>
+								</th:block>
+								<th:block th:if="${active != 'reports'}" sec:authorize="hasAnyRole('ROLE_REPORT')">
+									<li><a href="#" th:href="@{/reportList}" th:text="#{reports}">report list</a></li>
+								</th:block>
+								<th:block th:if="${active == 'reports'}" sec:authorize="hasAnyRole('ROLE_REPORT')">
+									<li class="active"><a href="#" th:href="@{/reportList}" th:text="#{reports}">report list</a></li>
+								</th:block>
 
 
-						<!-- Button DirectDebit -->
-						<th:block th:if="${active != 'directDebit'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/directDebitList}" th:text="#{directDebits}">directDebitList</a></li>
-						</th:block>
-						<th:block th:if="${active == 'directDebit'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/directDebitList}" th:text="#{directDebits}">directDebitList</a></li>
-						</th:block>
+								<!-- Button Reserves -->
+								<th:block th:if="${active != 'reserve.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li><a href="#" th:href="@{/reserveUserList}" th:text="#{reserve.list.user}">user reserve list</a></li>
+								</th:block>
+								<th:block th:if="${active == 'reserve.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li class="active"><a href="#" th:href="@{/reserveUserList}" th:text="#{reserve.list.user}">user reserve list</a></li>
+								</th:block>
+								<th:block th:if="${active != 'reserves'}" sec:authorize="hasAnyRole('ROLE_RESERVE')">
+									<li><a href="#" th:href="@{/reserveList}" th:text="#{reserves}">reserve list</a></li>
+								</th:block>
+								<th:block th:if="${active == 'reserves'}" sec:authorize="hasAnyRole('ROLE_RESERVE')">
+									<li class="active"><a href="#" th:href="@{/reserveList}" th:text="#{reserves}">reserve list</a></li>
+								</th:block>
+								
+
+								<!-- Button User Payments -->
+								<th:block th:if="${active != 'userPayments'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
+									<li><a href="#" th:href="@{/userPayments}" th:text="#{userPayments}">userPayments</a></li>
+								</th:block>
+								<th:block th:if="${active == 'userPayments'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER, ROLE_PREREGISTERED')">
+									<li class="active"><a href="#" th:href="@{/userPayments}" th:text="#{userPayments}">userPayments</a></li>
+								</th:block>
 
 
-						<!-- Button BankRemittance -->
-						<th:block th:if="${active != 'bankRemittance'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/bankRemittanceList}" th:text="#{bankRemittances}">/bankRemittance</a></li>
-						</th:block>
-						<th:block th:if="${active == 'bankRemittance'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/bankRemittanceList}" th:text="#{bankRemittances}">bankRemittance</a></li>
-						</th:block>
+								<!-- Button Pay Inscription -->
+								<th:block th:if="${active != 'feeMembers'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/feeMemberList}" th:text="#{feeMember}">feeMemberList</a></li>
+								</th:block>
+								<th:block th:if="${active == 'feeMembers'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/feeMemberList}" th:text="#{feeMember}">feeMemberList</a></li>
+								</th:block>
 
 
-						<!-- Button Accounts -->
-						<th:block th:if="${active != 'account'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/accountList}" th:text="#{accounts}">accountList</a></li>
-						</th:block>
-						<th:block th:if="${active == 'account'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/accountList}" th:text="#{accounts}">accountList</a></li>
-						</th:block>
+								<!-- Button Fee Program -->
+								<th:block th:if="${active != 'feePrograms'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/feeProgramList}" th:text="#{feePrograms}">feeProgramList</a></li>
+								</th:block>
+								<th:block th:if="${active == 'feePrograms'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/feeProgramList}" th:text="#{feePrograms}">feeProgramList</a></li>
+								</th:block>
 
 
-						<!-- Button Configuration -->
-						<th:block th:if="${active != 'configuration'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li><a href="#" th:href="@{/configuration}" th:text="#{configuration}">configuration</a></li>
-						</th:block>
-						<th:block th:if="${active == 'configuration'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-							<li class="active"><a href="#" th:href="@{/configuration}" th:text="#{configuration}">configuration</a></li>
-						</th:block>
+								<!-- Button DirectDebit -->
+								<th:block th:if="${active != 'directDebits'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/directDebitList}" th:text="#{directDebits}">directDebitList</a></li>
+								</th:block>
+								<th:block th:if="${active == 'directDebits'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/directDebitList}" th:text="#{directDebits}">directDebitList</a></li>
+								</th:block>
 
 
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-
-						<!-- Button SignIn -->
-						<li sec:authorize="!isAuthenticated()"><a href="/signin" id="signin" th:href="@{/signin}" th:text="#{signin}">Sign In</a></li>
-
-						<!-- Button logout -->
-						<li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="signOut(this.form);" th:text="#{logout}">Logout</a>
-							<form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form></li>
+								<!-- Button BankRemittance -->
+								<th:block th:if="${active != 'bankRemittances'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/bankRemittanceList}" th:text="#{bankRemittances}">/bankRemittance</a></li>
+								</th:block>
+								<th:block th:if="${active == 'bankRemittances'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/bankRemittanceList}" th:text="#{bankRemittances}">bankRemittance</a></li>
+								</th:block>
 
 
-						<!-- Message Login, welcome -->
-						<li sec:authorize="isAuthenticated()">
-							<th:block th:if="${active != 'profile'}">
-								<li><a href="/profile" th:href="@{/profile}" id="nameAuthenticated" sec:authentication="name">Name</a></li>
-							</th:block> 
-							<th:block th:if="${active == 'profile'}">
-								<li class="active"><a href="/profile" id="nameAuthenticated" th:href="@{/profile}" sec:authentication="name">Name</a></li>
-							</th:block></li>
-					</ul>
+								<!-- Button Accounts -->
+								<th:block th:if="${active != 'accounts'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/accountList}" th:text="#{accounts}">accountList</a></li>
+								</th:block>
+								<th:block th:if="${active == 'accounts'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/accountList}" th:text="#{accounts}">accountList</a></li>
+								</th:block>
+
+
+								<!-- Button Push -->
+								<th:block th:if="${active != 'push'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/push}" th:text="#{push}">push</a></li>
+								</th:block>
+								<th:block th:if="${active == 'push'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/push}" th:text="#{push}">push</a></li>
+								</th:block>
+								
+
+								<!-- Button Configuration -->
+								<th:block th:if="${active != 'configuration'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/configuration}" th:text="#{configuration}">configuration</a></li>
+								</th:block>
+								<th:block th:if="${active == 'configuration'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/configuration}" th:text="#{configuration}">configuration</a></li>
+								</th:block>
+
+
+							</ul>
+							<ul class="nav navbar-nav navbar-right">
+
+								<!-- Button SignIn -->
+								<li sec:authorize="!isAuthenticated()"><a href="/signin" id="signin" th:href="@{/signin}" th:text="#{signin}">Sign In</a></li>
+
+								<!-- Button logout -->
+								<li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="signOut(this.form);" th:text="#{logout}">Logout</a>
+									<form style="visibility: hidden" id="form" method="post" th:action="@{/logout}"></form></li>
+
+
+								<!-- Message Login, welcome -->
+								<li sec:authorize="isAuthenticated()"><th:block th:if="${active != 'profile'}">
+										<li><a href="/profile" th:href="@{/profile}" id="nameAuthenticated" sec:authentication="name">Name</a></li>
+									</th:block> <th:block th:if="${active == 'profile'}">
+										<li class="active"><a href="/profile" id="nameAuthenticated" th:href="@{/profile}" sec:authentication="name">Name</a></li>
+									</th:block></li>
+							</ul>
+						</div>
+					</div>
+					<!--/.nav-collapse -->
 				</div>
 			</div>
-			<!--/.nav-collapse -->
-		</div>
-	</div>
 </body>
 </html>

@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +16,12 @@
 package org.cuacfm.members.model.account;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,18 +47,12 @@ public class Account implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/** The Enum roles. */
 	public enum roles {
-		/** The role user. */
-		ROLE_USER,
-		/** The role user. */
-		ROLE_EXUSER,
-		/** The role admin. */
-		ROLE_ADMIN,
-		/** The role trainer. */
-		ROLE_TRAINER,
-		/** The role prescription. */
-		ROLE_PREREGISTERED
+		ROLE_PREREGISTERED, ROLE_USER, ROLE_EXUSER, ROLE_ADMIN,
+	}
+
+	public enum permissions {
+		ROLE_REPORT, ROLE_RESERVE, ROLE_TRAINER,
 	}
 
 	@Id
@@ -62,20 +60,15 @@ public class Account implements Serializable {
 	private Long id;
 
 	private String name;
-	
 	private String surname;
-
 	private String nickName;
 
 	@Column(unique = true)
 	private String dni;
 
 	private String address;
-
 	private String cp;
-
 	private String province;
-
 	private String codeCountry;
 
 	@Column(unique = true)
@@ -85,9 +78,7 @@ public class Account implements Serializable {
 	private String email;
 
 	private String phone;
-
 	private String mobile;
-
 	private String password;
 
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
@@ -101,7 +92,7 @@ public class Account implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "accounts")
 	private List<Program> programs;
 
-	@OrderBy("dateCreated DESC")
+	@OrderBy("dateCreate DESC")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
 	private List<BankAccount> bankAccounts;
 
@@ -128,6 +119,10 @@ public class Account implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private roles role;
 
+	private String permissions;
+
+	private String devicesToken;
+
 	private Date dateCreate;
 
 	private Date dateDown;
@@ -153,7 +148,8 @@ public class Account implements Serializable {
 	 * @param password the password
 	 * @param role the role
 	 */
-	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password, roles role) {
+	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password,
+			roles role) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -188,8 +184,8 @@ public class Account implements Serializable {
 	 * @param personality the personality
 	 * @param knowledge the knowledge
 	 */
-	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password, roles role,
-			String programName, boolean student, boolean emitProgram, String personality, String knowledge) {
+	public Account(String name, String surname, String dni, String address, String login, String email, String phone, String mobile, String password,
+			roles role, String programName, boolean student, boolean emitProgram, String personality, String knowledge) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -230,12 +226,23 @@ public class Account implements Serializable {
 		this.surname = surname;
 	}
 
+	public String getFullName() {
+		return name + " " + surname;
+	}
+
 	public String getNickName() {
 		return nickName;
 	}
 
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+
+	public String getFullNameNick() {
+		if (nickName != null && !nickName.isEmpty()){
+			return getFullName() + " (" + nickName + ")";
+		}
+		return getFullName();
 	}
 
 	public String getDni() {
@@ -413,6 +420,56 @@ public class Account implements Serializable {
 		this.role = role;
 	}
 
+	public List<String> getPermissions() {
+		List<String> newRoles = new ArrayList<>();
+		if (permissions != null && !permissions.isEmpty() && !"[]".equals(permissions)) {
+			String roleAux = permissions.replace("[", "").replace("]", "");
+			newRoles = Arrays.asList(roleAux.split(", "));
+		}
+		return newRoles;
+	}
+
+	public void setPermissions(List<permissions> permissions) {
+		this.permissions = permissions.toString();
+	}
+
+	public void addPermissions(permissions permissions) {
+		Set<String> permissionsString = new LinkedHashSet<>(getPermissions());
+		permissionsString.add(permissions.toString());
+		this.permissions = permissionsString.toString();
+	}
+
+	public void removePermissions(permissions permissions) {
+		List<String> permissionsString = new ArrayList<>(getPermissions());
+		permissionsString.remove(permissions.toString());
+		this.permissions = permissionsString.toString();
+	}
+
+	public List<String> getDevicesToken() {
+		List<String> newDevicesToken = new ArrayList<>();
+		if (devicesToken != null && !devicesToken.isEmpty() && !"[]".equals(devicesToken)) {
+			String roleAux = devicesToken.replace("[", "").replace("]", "");
+			newDevicesToken = Arrays.asList(roleAux.split(", "));
+		}
+		return newDevicesToken;
+	}
+
+	public void setDevicesToken(List<String> devicesToken) {
+		this.devicesToken = devicesToken.toString();
+	}
+
+	public void addDeviceToken(String deviceToken) {
+		Set<String> devicesTokenString = new LinkedHashSet<>(getDevicesToken());
+		devicesTokenString.add(deviceToken);
+		this.devicesToken = devicesTokenString.toString();
+	}
+
+	public void removeDevicesToken(String deviceToken) {
+		List<String> permissionsString = new ArrayList<>(getDevicesToken());
+		permissionsString.remove(deviceToken);
+		this.devicesToken = permissionsString.toString();
+	}
+
 	public boolean isEmitProgram() {
 		return emitProgram;
 	}
@@ -463,17 +520,6 @@ public class Account implements Serializable {
 
 	public void setToken(String token) {
 		this.token = token;
-	}
-
-	@Override
-	public String toString() {
-		return "Account [id=" + id + ", name=" + name + ", surname=" + surname + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address + ", cp=" + cp
-				+ ", province=" + province + ", codeCountry=" + codeCountry + ", login=" + login + ", email=" + email + ", phone=" + phone
-				+ ", mobile=" + mobile + ", password=" + password + ", methodPayment=" + methodPayment + ", accountType=" + accountType
-				+ ", programs=" + programs + ", bankAccounts=" + bankAccounts + ", installments=" + installments + ", active=" + active + ", student="
-				+ student + ", emitProgram=" + emitProgram + ", dateBirth=" + dateBirth + ", observations=" + observations + ", personality="
-				+ personality + ", knowledge=" + knowledge + ", programName=" + programName + ", role=" + role + ", dateCreate=" + dateCreate
-				+ ", dateDown=" + dateDown + "]";
 	}
 
 }

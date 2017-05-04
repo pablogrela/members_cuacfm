@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +18,7 @@ package org.cuacfm.members.model.trainingservice;
 import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
@@ -37,19 +37,19 @@ public interface TrainingService {
 	 *
 	 * @param training the training
 	 * @return the training
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 * @throws UniqueException the unique exception
 	 */
-	public Training save(Training training) throws DateLimitException, UniqueException;
+	public Training save(Training training) throws DatesException, UniqueException;
 
 	/**
 	 * Update, updates an user registered into bd depending if he wants to update his password or not.
 	 *
 	 * @param training the training
 	 * @return the training
-	 * @throws DateLimitException the date limit exception
+	 * @throws DatesException the date limit exception
 	 */
-	public Training update(Training training) throws DateLimitException;
+	public Training update(Training training) throws DatesException;
 
 	/**
 	 * Delete.

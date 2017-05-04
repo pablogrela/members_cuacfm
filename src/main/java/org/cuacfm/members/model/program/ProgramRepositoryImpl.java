@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProgramRepositoryImpl implements ProgramRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProgramRepositoryImpl.class);
-	
+
 	/** The entity manager. */
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -86,12 +87,21 @@ public class ProgramRepositoryImpl implements ProgramRepository {
 
 	@Override
 	public List<Program> getProgramListActive() {
-		return entityManager.createQuery("select p from Program p where p.active = true or (p.active = false and p.dateDown is null) order by p.name", Program.class).getResultList();
+		return entityManager.createQuery("select p from Program p where p.active = true or (p.active = false and p.dateDown is null) order by p.name",
+				Program.class).getResultList();
+	}
+
+	@Override
+	public List<Program> getProgramListActiveByUser(Account account) {
+		return entityManager
+				.createQuery("select p from Account a join a.programs p where a.id = :accountId and p.active = true order by p.name", Program.class)
+				.setParameter("accountId", account.getId()).getResultList();
 	}
 
 	@Override
 	public List<Program> getProgramListClose() {
-		return entityManager.createQuery("select p from Program p where p.active = false and p.dateDown is not null order by p.name", Program.class).getResultList();
+		return entityManager.createQuery("select p from Program p where p.active = false and p.dateDown is not null order by p.name", Program.class)
+				.getResultList();
 	}
 
 	@Override

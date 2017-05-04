@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,6 +26,7 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.event.Event;
 import org.cuacfm.members.model.event.EventDTO;
 import org.cuacfm.members.model.event.EventRepository;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
@@ -53,7 +54,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public String save(String message, Account account, int priority, Object[] arguments) {
+	public String save(String message, Account account, levels priority, Object[] arguments) {
 		String messageI18n = messageSource.getMessage(message, arguments, Locale.getDefault());
 
 		// Si es nula se asume que es el administrador
@@ -65,21 +66,21 @@ public class EventServiceImpl implements EventService {
 		}
 		// If account is null, it is not save message
 		if (account != null) {
-			eventRepository.save(new Event(account, new Date(), priority, messageI18n));
+			eventRepository.save(new Event(account, new Date(), priority.getValue(), messageI18n));
 		}
 
 		return messageI18n;
 	}
 
 	@Override
-	public void save(String message, Account account, int priority) {
+	public String save(String message, Account account, levels priority) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String adminName = null;
 		if (auth != null) {
 			adminName = auth.getName();
 		}
 		Object[] arguments = { adminName, account.getName() + " " + account.getSurname() };
-		save(message, account, priority, arguments);
+		return save(message, account, priority, arguments);
 	}
 
 	@Override

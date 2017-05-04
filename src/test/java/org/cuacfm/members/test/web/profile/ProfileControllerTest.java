@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -127,7 +127,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void displaysAccount2FormTest() throws Exception {
 
-		Account user2 = new Account("user2", "2",  "11111111D", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "11111111D", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession)).andExpect(model().attributeExists("profileForm"))
@@ -264,8 +264,8 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("mobile", "12356789").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
-				.param("mobile", "11111111").param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456").param("newPassword", "123456")
-				.param("rePassword", "123333")).andExpect(content().string(containsString("Passwords are not equal")))
+				.param("mobile", "11111111").param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456")
+				.param("newPassword", "123456").param("rePassword", "123333")).andExpect(content().string(containsString("Passwords are not equal")))
 				.andExpect(view().name("profile/profile"));
 	}
 
@@ -309,7 +309,8 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("mobile", "12356789").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
-				.param("mobile", "111111111").param("dateBirth", "1990-05-02")).andExpect(view().name("redirect:/profile"));
+				.param("mobile", "111111111").param("student", "true").param("emitProgram", "true").param("dateBirth", "1990-05-02"))
+				.andExpect(view().name("redirect:/profile"));
 	}
 
 	/**
@@ -325,8 +326,8 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 				.param("dni", "95716045G").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("onLogin", "true").param("login", "login").param("onEmail", "true").param("email", "email2@udc.es").param("phone", "12356789")
 				.param("mobile", "12356789").param("student", "true").param("dateBirth", "1990-05-02").param("onPassword", "true")
-				.param("newPassword", "123456").param("rePassword", "123456").param("installments", "1").param("accountTypeId", "1")
-				.param("methodPaymentId", "1")).andExpect(view().name("redirect:/profile"));
+				.param("newPassword", "123456").param("rePassword", "123456").param("installments", "1").param("student", "true")
+				.param("emitProgram", "true").param("accountTypeId", "1").param("methodPaymentId", "1")).andExpect(view().name("redirect:/profile"));
 	}
 
 	/**
@@ -355,7 +356,8 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN").param("mobile", "111111111")
 				.param("dateBirth", "1990-05-02").param("onName", "false").param("name", "name").param("onLogin", "false").param("login", "login")
-				.param("onEmail", "false").param("email", "email@example.es").param("onPassword", "false")).andExpect(view().name("redirect:/profile"));
+				.param("onEmail", "false").param("email", "email@example.es").param("student", "true").param("emitProgram", "true")
+				.param("onPassword", "false")).andExpect(view().name("redirect:/profile"));
 	}
 
 	/**
@@ -368,7 +370,8 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(get("/profile").locale(Locale.ENGLISH).session(defaultSession));
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("mobile", "12356789").param("cp", "cp").param("mobile", "111111111").param("province", "province")
-				.param("codeCountry", "EN").param("dateBirth", "1990-05-02")).andExpect(view().name("redirect:/profile"));
+				.param("codeCountry", "EN").param("student", "true").param("emitProgram", "true").param("dateBirth", "1990-05-02"))
+				.andExpect(view().name("redirect:/profile"));
 	}
 
 	/**

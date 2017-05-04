@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='training')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='trainings')">&nbsp;</div>
 
 	<!-- Button redirect to Program List-->
 	<div class="text-center">
@@ -88,7 +88,7 @@
 				<label for="password" class="col-lg-2 control-label" th:text="#{description}">Description</label>
 				<div class="col-lg-10">
 					<textarea class="form-control" id="description" th:placeholder="#{description}" th:field="*{description}" maxlength="500" rows="5" cols="40" required="required">
-            	Description</textarea>
+            		Description</textarea>
 					<span class="help-block" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Incorrect description</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -109,9 +109,9 @@
 
 			<!-- Edit Duration -->
 			<div class="form-group" th:classappend="${#fields.hasErrors('duration')}? 'has-error'">
-				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">place</label>
+				<label for="duration" class="col-lg-2 control-label" th:text="#{duration}">duration</label>
 				<div class="col-lg-10">
-					<div class="input-group col-lg-4-edit">
+					<div class="input-group col-lg-6-edit">
 						<input type="number" class="form-control" id="duration" th:placeholder="#{duration}" th:field="*{duration}" min="1" required="required" />
 						<span class="input-group-addon" th:text="#{minutes}">minutes</span>
 					</div>
@@ -126,8 +126,7 @@
 				<label for="countPlaces" class="col-lg-2 control-label" th:text="#{training.countPlaces}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="countPlaces" th:placeholder="#{training.countPlaces}" th:field="*{countPlaces}" min="0"
-							required="required" />
+						<input type="number" class="form-control" id="countPlaces" th:placeholder="#{training.countPlaces}" th:field="*{countPlaces}" min="0" required="required" />
 					</div>
 					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('countPlaces')}" th:errors="*{countPlaces}"> Incorrect countPlaces</span>
@@ -141,8 +140,7 @@
 				<label for="maxPlaces" class="col-lg-2 control-label" th:text="#{training.maxPlaces}">place</label>
 				<div class="col-lg-10">
 					<div class="col-lg-3-edit">
-						<input type="number" class="form-control" id="maxPlaces" th:placeholder="#{training.maxPlaces}" th:field="*{maxPlaces}" min="1"
-							required="required" />
+						<input type="number" class="form-control" id="maxPlaces" th:placeholder="#{training.maxPlaces}" th:field="*{maxPlaces}" min="1" required="required" />
 					</div>
 					<br></br>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('maxPlaces')}" th:errors="*{maxPlaces}">Incorrect maxPlaces</span>
@@ -150,12 +148,12 @@
 				</div>
 			</div>
 
-
+			
 			<!-- Edit Close -->
 			<div class="form-group">
-				<label for="close" class="col-lg-2-edit control-label" th:text="#{close}">Close</label>
+				<label for="close" class="col-lg-2" th:text="#{close}">Close</label>
 				<div class="col-lg-2">
-					<input type="checkbox" class="form-control-edit" th:checked="${training.close}" id="close" name="close" th:title="#{training.infoClose}" />
+					<input type="checkbox" class="form-check-input" th:checked="${training.close}" id="close" name="close" th:title="#{training.infoClose}" />
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
@@ -164,7 +162,7 @@
 			<!-- Button Create Training -->
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<button type="submit" class="btn btn-orange btn-lg" th:text="#{training.modify}">Create</button>
+					<button type="submit" class="btn btn-orange btn-form" th:text="#{training.modify}">Create</button>
 				</div>
 			</div>
 

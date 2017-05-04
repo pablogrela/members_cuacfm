@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import org.cuacfm.members.model.bankremittance.BankRemittance;
 import org.cuacfm.members.model.bankremittanceservice.BankRemittanceService;
 import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +92,8 @@ public class BankRemittanceListController {
 		BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
 		bankRemittanceService.managementBankRemittance(bankRemittance);
 
-		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successManagement", DisplayDate.dateToString(bankRemittance.getDateCharge()));
+		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successManagement",
+				DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE));
 		return REDIRECT_BANKREMITTANCE;
 	}
 
@@ -109,7 +110,8 @@ public class BankRemittanceListController {
 		BankRemittance bankRemittance = bankRemittanceService.findById(bankRemittanceId);
 		bankRemittanceService.payBankRemittance(bankRemittance);
 
-		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successPay", DisplayDate.dateToString(bankRemittance.getDateCharge()));
+		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successPay",
+				DateUtils.format(bankRemittance.getDateCharge(), DateUtils.FORMAT_DATE));
 		return REDIRECT_BANKREMITTANCE;
 	}
 
@@ -155,8 +157,8 @@ public class BankRemittanceListController {
 	@RequestMapping(value = "bankRemittanceList", method = RequestMethod.POST)
 	public String createBankRemittance(@Valid @ModelAttribute BankRemittanceForm bankRemittanceForm, RedirectAttributes ra) {
 
-		bankRemittanceService.createBankRemittance(DisplayDate.stringToDate2(bankRemittanceForm.getDateCharge()),
-				DisplayDate.stringToMonthOfYear(bankRemittanceForm.getMonthCharge()));
+		bankRemittanceService.createBankRemittance(DateUtils.format(bankRemittanceForm.getDateCharge(), DateUtils.FORMAT_DATE),
+				DateUtils.format(bankRemittanceForm.getMonthCharge(), DateUtils.FORMAT_MONTH_YEAR));
 		MessageHelper.addSuccessAttribute(ra, "bankRemittance.successCreate", bankRemittanceForm.getDateCharge());
 		return REDIRECT_BANKREMITTANCE;
 	}

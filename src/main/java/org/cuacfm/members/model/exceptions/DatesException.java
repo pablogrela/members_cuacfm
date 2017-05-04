@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,16 +17,17 @@ package org.cuacfm.members.model.exceptions;
 
 import java.util.Date;
 
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 
 /** The Class DateLimitException. */
-@SuppressWarnings("serial")
-public class DateLimitException extends Exception {
+public class DatesException extends Exception {
 
-	/** The date limit. */
+	private static final long serialVersionUID = 1L;
+
+	/** The date limit or date start. */
 	private final Date dateLimit;
 
-	/** The date training. */
+	/** The date training or date end. */
 	private final Date dateTraining;
 
 	/**
@@ -35,16 +36,16 @@ public class DateLimitException extends Exception {
 	 * @param dateLimit the date limit
 	 * @param dateTraining the date training
 	 */
-	public DateLimitException(Date dateLimit, Date dateTraining) {
-		super("The date limit " + DisplayDate.dateTimeToString(dateLimit) + " should be after or equals to date "
-				+ DisplayDate.dateTimeToString(dateTraining));
+	public DatesException(Date dateLimit, Date dateTraining) {
+		super("The date limit " + DateUtils.format(dateLimit, DateUtils.FORMAT_DISPLAY) + " should be after or equals to date "
+				+ DateUtils.format(dateTraining, DateUtils.FORMAT_DISPLAY));
 
 		this.dateLimit = dateLimit;
 		this.dateTraining = dateTraining;
 	}
 
 	/**
-	 * Gets the date limit.
+	 * Gets the date limit or date start
 	 *
 	 * @return the date limit
 	 */
@@ -53,7 +54,7 @@ public class DateLimitException extends Exception {
 	}
 
 	/**
-	 * Gets the date training.
+	 * Gets the date training or date end
 	 *
 	 * @return the date training
 	 */

@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,18 +19,24 @@
 <html xmlns:ng="http://angularjs.org" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head layout:fragment="head">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=767"/>
 <link rel="shortcut icon" th:href="@{/resources/images/favicon.ico}" />
+
 
 <!-- CSS -->
 <link rel="stylesheet" th:href="@{/resources/css/libraries/bootstrap.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/libraries/bootstrap.datatables.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/libraries/bootstrap-toggle.min.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/libraries/fileinput.min.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/core.css}" />
 <link rel="stylesheet" th:href="@{/resources/css/dataTables.css}" />
 
 
 <!-- SCRIPT -->
 <script th:src="@{/resources/js/libraries/jquery.min.js}"></script>
+<script th:src="@{/resources/js/libraries/fileinput.min.js}"></script>
+<script th:src="@{/resources/js/libraries/locales/fileinput-es.js}"></script>
+<script th:src="@{/resources/js/libraries/locales/fileinput-gl.js}"></script>
 <script th:src="@{/resources/js/libraries/jquery.validate.min.js}"></script>
 <script th:src="@{/resources/js/libraries/additional-methods.min.js}"></script>
 <script th:src="@{/resources/js/libraries/angular.min.js}"></script>
@@ -42,8 +48,8 @@
 <script th:src="@{/resources/js/libraries/angular-locale_es-es.min.js}"></script>
 <script th:src="@{/resources/js/libraries/ui-bootstrap-tpls.min.js}"></script>
 <script th:src="@{/resources/js/libraries/polyfiller.min.js}"></script>
-<script th:src="@{/resources/js/libraries/firebase.js}"></script>
-<script th:src="@{/resources/js/libraries/dirPagination.js}"></script>
+<script th:src="@{/resources/js/libraries/firebase.min.js}"></script>
+<script th:src="@{/resources/js/libraries/dirPagination.min.js}"></script>
 
 <script th:src="@{/resources/js/various/formcfg-es.js}"></script>
 <script th:src="@{/resources/js/various/formcfg-gl.js}"></script>
@@ -51,7 +57,6 @@
 <script th:src="@{/resources/js/various/chargeTable.js}"></script>
 <script th:src="@{/resources/js/various/functions.js}"></script>
 <script th:src="@{/resources/js/various/loadFirebase.js}"></script>
-
 <script th:src="@{/resources/js/app/membersApp.js}"></script>
 
 </head>

@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,7 @@ table.dataTable {
 	border: 2px solid #000000;
 	
 	border-spacing: 0;
-	border: 2px solid #ddd
+	border: 2px solid #ddd;
 	
 	/*
    * Header and footer styles
@@ -45,6 +45,8 @@ table.dataTable {
 	/*
    * Body styles
    */
+	/* zoom: 200%; */
+	/* table-layout:fixed; */
 }
 
 /* Color enlaces cabecera */
@@ -69,6 +71,8 @@ table.dataTable thead th, table.dataTable thead td {
 	
 	/* black Color, negro, borde bajo de cabecera*/
 	border-bottom: 1px solid #111111;
+	
+	word-wrap:break-word;
 }
 
 table.dataTable thead th:active, table.dataTable thead td:active {
@@ -118,8 +122,19 @@ table.dataTable tbody tr.selected {
 	background-color: #b0bed9;
 }
 
-table.dataTable tbody th, table.dataTable tbody td {
-	padding: 8px 10px;
+@media ( max-width : 768px) {
+	table.dataTable tbody th, table.dataTable tbody td {
+		padding: 4px 2px;
+		/* 	cortar palabras */
+		/* 	word-wrap: break-word; */
+		/* 	white-space: pre-line; */
+	}
+}
+@media ( min-width : 768px) {
+	table.dataTable tbody th, table.dataTable tbody td {
+		padding: 8px 10px;
+		/* 	white-space: nowrap; */
+	}
 }
 
 table.dataTable.row-border tbody th, table.dataTable.row-border tbody td,
@@ -128,29 +143,24 @@ table.dataTable.row-border tbody th, table.dataTable.row-border tbody td,
 }
 
 table.dataTable.row-border tbody tr:first-child th, table.dataTable.row-border tbody tr:first-child td,
-	table.dataTable.display tbody tr:first-child th, table.dataTable.display tbody tr:first-child td
-	{
+	table.dataTable.display tbody tr:first-child th, table.dataTable.display tbody tr:first-child td {
 	border-top: none;
 }
 
-table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td
-	{
+table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {
 	border-top: 1px solid #dddddd;
 	border-right: 1px solid #dddddd;
 }
 
-table.dataTable.cell-border tbody tr th:first-child, table.dataTable.cell-border tbody tr td:first-child
-	{
+table.dataTable.cell-border tbody tr th:first-child, table.dataTable.cell-border tbody tr td:first-child {
 	border-left: 1px solid #dddddd;
 }
 
-table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border tbody tr:first-child td
-	{
+table.dataTable.cell-border tbody tr:first-child th, table.dataTable.cell-border tbody tr:first-child td {
 	border-top: none;
 }
 
-.table-striped>tbody>tr:nth-of-type(odd), table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd
-	{
+.table-striped>tbody>tr:nth-of-type(odd), table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
 	/* Modificado, Color del striped de la tabla */
 	background-color: #e8e5e5;
 }

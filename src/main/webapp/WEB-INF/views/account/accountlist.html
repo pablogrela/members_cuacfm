@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,17 +27,18 @@
 
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='account')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='accounts')">&nbsp;</div>
 
 	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 	<div class="container-fluid text-center" th:if="${message != null}">
 		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 	</div>
 
-	<div class="container-fluid" data-ng-app="membersApp" data-ng-controller="AccountController as ctrl">
+	<div class="container-fluid ng-cloak" data-ng-app="membersApp" data-ng-controller="AccountController" data-ng-init="fetchAllUsers()">
 
 		<!-- Show info account -->
-		<div th:replace="fragments/alert :: infoAccount">&nbsp;</div>
+		<div th:replace="fragments/alert :: infoAccount"></div>
+		<div th:replace="fragments/alert :: modalPushAccount"></div>
 
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<object class="text-center" data-ng-show="message">
@@ -49,7 +50,7 @@
 
 		<div th:include="fragments/sortColumn :: search"></div>
 
-		<table class="dataTable display table-striped">
+		<table class="dataTable display table-striped wrap">
 			<thead>
 				<tr>
 					<td><a href="#" data-ng-click="sortType = 'name+surname'; sortReverse = !sortReverse"> <span th:text="#{name}">Name</span> <span
@@ -72,10 +73,10 @@
 							<span data-ng-show="sortType == 'accountType' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 								data-ng-show="sortType == 'accountType' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 					</a></td>
-					<td><a href="#" data-ng-click="sortType = 'installments'; sortReverse = !sortReverse"> <span th:text="#{installments}">installments</span>
-							<span data-ng-show="sortType == 'installments' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
-								data-ng-show="sortType == 'installments' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
-					</a></td>
+<!-- 					<td><a href="#" data-ng-click="sortType = 'installments'; sortReverse = !sortReverse"> <span th:text="#{installments}">installments</span> -->
+<!-- 							<span data-ng-show="sortType == 'installments' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span -->
+<!-- 								data-ng-show="sortType == 'installments' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span> -->
+<!-- 					</a></td> -->
 					<td><a href="#" data-ng-click="sortType = 'role'; sortReverse = !sortReverse"> <span th:text="#{role}">role</span> <span
 								data-ng-show="sortType == 'role' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 								data-ng-show="sortType == 'role' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
@@ -90,42 +91,47 @@
 
 			<tbody>
 				<tr pagination-id="paginate" dir-paginate="account in accounts | orderBy:sortType:sortReverse:localeSensitiveComparator | filter:search | itemsPerPage:numPerPage">
-					<td><span th:title="#{account.infoAccount}" data-ng-bind="account.name + ' ' + account.surname" data-ng-click="ctrl.infoAccount(account)" data-toggle="modal"
+					<td><span th:title="#{account.infoAccount}" data-ng-bind="account.name + ' ' + account.surname" data-ng-click="infoAccount(account)" data-toggle="modal"
 							data-target="#infoAccount"></span></td>
 					<td><span data-ng-bind="account.mobile"></span></td>
 					<td><span data-ng-bind="account.email"></span></td>
 					<td><span data-ng-bind="account.methodPayment"></span></td>
 					<td><span data-ng-bind="account.accountType"></span></td>
-					<td><span data-ng-bind="account.installments"></span></td>
+<!-- 					<td><span data-ng-bind="account.installments"></span></td> -->
 
 					<!-- start If`s role -->
 					<td data-ng-if="account.role == 'ROLE_ADMIN'"><span th:text="#{roles.ROLE_ADMIN}"> </span></td>
 					<td data-ng-if="account.role == 'ROLE_EXUSER'"><span th:text="#{roles.ROLE_EXUSER}"> </span></td>
 					<td data-ng-if="account.role == 'ROLE_PREREGISTERED'"><span th:text="#{roles.ROLE_PREREGISTERED}"> </span></td>
-					<td data-ng-if="account.role == 'ROLE_TRAINER'"><span th:text="#{roles.ROLE_TRAINER}"> </span></td>
+<!-- 					<td data-ng-if="account.role == 'ROLE_TRAINER'"><span th:text="#{roles.ROLE_TRAINER}"> </span></td> -->
 					<td data-ng-if="account.role == 'ROLE_USER'"><span th:text="#{roles.ROLE_USER}"> </span></td>
 					<!-- end If`s role -->
 
 					<!-- start If`s active -->
 					<td data-ng-if="account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{active}"></span>
-						<button data-ng-click="ctrl.unsubscribe(account.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down"
+						<button data-ng-click="unsubscribe(account.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down pull-right"
 							th:title="#{account.infoUnsubscribe}" style="color: red"></button></td>
 					
 					<td data-ng-if="!account.active &amp;&amp; account.role != 'ROLE_ADMIN'"><span th:text="#{down}"></span>
-						<button data-ng-click="ctrl.subscribe(account.id)" class="btnTable btn-link glyphicon  glyphicon-chevron-up" th:title="#{account.infoSubscribe}"
-							style="color: green"></button></td>
+						<button data-ng-click="subscribe(account.id)" class="btnTable btn-link glyphicon glyphicon-chevron-up pull-right" 
+							th:title="#{account.infoSubscribe}" style="color: green"></button></td>
 					
 					<!-- Fill table entry -->
 					<td data-ng-if="account.active &amp;&amp; account.role == 'ROLE_ADMIN'"></td>
 					<!-- end If`s active -->
 
-					<!-- Modify Account -->
+	
 					<td>
+						<!-- Edit Account -->
 						<form action="{{'account/' + account.id}} " method="post">
-							<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+							<button class="btnTable btn-link glyphicon glyphicon-edit pull-right" th:title="#{edit}" style="color: orange"></button>
 							<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 						</form>
-
+						
+						<!-- Push Message -->
+						<button data-ng-if="account.deviceToken" data-ng-click="infoAccount(account)" class="btnTable btn-link glyphicon glyphicon glyphicon-phone pull-right" 
+							th:title="#{push.info}" data-toggle="modal"
+							data-target="#modalPushAccount" style="color: blue"></button>
 					</td>
 				</tr>
 			</tbody>

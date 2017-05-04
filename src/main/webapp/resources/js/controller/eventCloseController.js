@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,10 @@
 
 angular.module('membersApp').controller('EventController', [ '$scope', 'EventService', function($scope, EventService) {
 	var self = this;
-	self.eventsClose = [];
+	self.eventsClose;
+	self.eventsOriginal;
+	self.isLastMonth = true;
+	$scope.enableLastMonth = true;
 	self.highlight = highlight;
 
 	fetchAllEventsClose();
@@ -25,6 +28,7 @@ angular.module('membersApp').controller('EventController', [ '$scope', 'EventSer
 	function fetchAllEventsClose() {
 		EventService.fetchAllEventsClose().then(function(d) {
 			self.eventsClose = d;
+			self.eventsOriginal = d;
 		}, function(errorResponse) {
 			console.error('Error while fetching Events', errorResponse);
 		});
@@ -34,6 +38,24 @@ angular.module('membersApp').controller('EventController', [ '$scope', 'EventSer
 		EventService.highlight(id).then(fetchAllEventsClose, function(errorResponse) {
 			console.error('Error while highlight Event', errorResponse);
 		});
+	}
+	
+	$scope.lastMonth = function() {
+		if (self.isLastMonth) {
+			var newEvents = [];
+			var newDate = new Date();
+			var month = newDate.setMonth(newDate.getMonth() - 1)
+			for (var i = 0; i < self.events.length; i++) {
+				var event = self.events[i];
+				if (event.dateEvent > month) {
+					newEvents.push(event);
+				}
+			}
+			self.events = newEvents;
+		} else {
+			self.events = self.eventsOriginal;
+		}
+		self.isLastMonth = !self.isLastMonth;
 	}
 
 } ]);

@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,8 +19,8 @@
 
  * ======================================================================== */
 
-var ln = window.navigator.language||navigator.browserLanguage;
-if(ln == 'es'){
+var language = window.navigator.language||navigator.browserLanguage;
+if(language == 'es'){
 	$(document).ready(function() {
 		   $('#customTable').dataTable( {
 		       "language": {
@@ -34,8 +34,14 @@ if(ln == 'es'){
 		       },
 		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 		   } );
+		   $('#customTable3').dataTable( {
+		       "language": {
+		    	   "sUrl": "/members/resources/json/datatables/Spanish.json"
+		       },
+		       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+		   } );
 	} );
-} else if(ln == 'gl'){
+} else if(language == 'gl'){
 		$(document).ready(function() {
 			   $('#customTable').dataTable( {
 			       "language": {
@@ -49,6 +55,12 @@ if(ln == 'es'){
 			       },
 			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 			   } );
+			   $('#customTable3').dataTable( {
+			       "language": {
+			    	   "sUrl": "/members/resources/json/datatables/Galician.json"
+			       },
+			       "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+			   } );
 		} );
 // By defect English	
 } else {
@@ -57,6 +69,9 @@ if(ln == 'es'){
 	        "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 	    } );
 	    $('#customTable2').dataTable( {
+	        "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
+	    } );
+	    $('#customTable3').dataTable( {
 	        "aoColumnDefs" : [ { "bSortable" : false, "aTargets" : [ "no-sort" ] } ]
 	    } );
 	} );

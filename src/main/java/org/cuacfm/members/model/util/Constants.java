@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,50 +30,38 @@ public class Constants {
 	public static final String ERRORIDEXCEPTION = "userPayments.errorIdException";
 	public static final String SUCCESSPAYPAL = "userPayments.successPayPal";
 	public static final String ERRORPAYPAL = "userPayments.errorPayPal";
-	
-	public static final String NO_RESULT = "NoResult";
 
+	public static final String NO_RESULT = "NoResult";
 
 	/**
 	 * The Enum states.
 	 */
 	public enum states {
-
-		/** The no pay. */
-		NO_PAY,
-
-		/** The pay. */
-		PAY,
-
-		/** The management. */
-		MANAGEMENT,
-
-		/** The return bill. */
-		RETURN_BILL,
-
-		/** Cancel. */
-		CANCEL
+		NO_PAY, PAY, MANAGEMENT, RETURN_BILL, CANCEL, ACCEPT, DENY
 	}
 
 	/**
 	 * The Enum method.
 	 */
 	public enum methods {
+		NO_PAY, PAYPAL, DIRECTDEBIT, CASH, BANK_DEPOSIT
+	}
 
-		/** The no pay. */
-		NO_PAY,
+	/**
+	 * The Enum leves.
+	 */
+	public enum levels {
 
-		/** The paypal. */
-		PAYPAL,
+		DISABLE(0), CRITICAL(1), HIGH(2), MEDIUM(3), LOW(4), GOOD(5);
 
-		/** The directdebit. */
-		DIRECTDEBIT,
+		private int value;
 
-		/** The cash. */
-		CASH,
+		levels(int value) {
+			this.value = value;
+		}
 
-		/** The bank deposit. */
-		BANK_DEPOSIT
-
+		public int getValue() {
+			return value;
+		}
 	}
 }

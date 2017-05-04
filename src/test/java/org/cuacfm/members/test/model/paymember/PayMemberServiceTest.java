@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,9 +35,9 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
-import org.cuacfm.members.web.support.DisplayDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,11 +92,11 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		user.setInstallments(2);
 		accountService.update(user, false, true);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 		PayMember payMember = new PayMember(user, feeMember, feeMember.getPrice(), 1, user.getInstallments(),
-				DisplayDate.stringToDate2("2015-01-01"));
+				DateUtils.format("2015-01-01", DateUtils.FORMAT_DATE));
 		payMemberService.save(payMember);
 
 		// Update
@@ -105,8 +105,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		payMember.setInstallment(3);
 		payMember.setInstallments(3);
 		payMember.setPrice(Double.valueOf(30));
-		payMember.setDatePay(DisplayDate.stringToDate("2015-12-04"));
-		payMember.setDateCharge(DisplayDate.stringToDate2("2015-12-04"));
+		payMember.setDatePay(DateUtils.format("2015-12-04", DateUtils.FORMAT_DATE));
+		payMember.setDateCharge(DateUtils.format("2015-12-04", DateUtils.FORMAT_DATE));
 		payMemberService.update(payMember);
 
 		// Assert
@@ -151,8 +151,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		account.setInstallments(2);
 		accountService.update(account, false, true);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// Assert
@@ -211,8 +211,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		account.setInstallments(2);
 		accountService.update(account, false, true);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// Assert
@@ -253,8 +253,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		account.setInstallments(2);
 		accountService.update(account, false, true);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// Assert
@@ -300,8 +300,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		account.setInstallments(2);
 		accountService.update(account, false, true);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		// Assert
@@ -334,8 +334,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		user.setInstallments(2);
 		accountService.update(user, false, true);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		List<PayMember> payMembers = payMemberService.getPayMemberListByFeeMemberId(feeMember.getId());
@@ -368,8 +368,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		user.setInstallments(2);
 		accountService.update(user, false, true);
 
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		PayMember payMember = payMemberService.getPayMemberListByFeeMemberId(feeMember.getId()).get(0);
@@ -399,11 +399,11 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 		assertTrue(feeMemberList.isEmpty());
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
-		FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DisplayDate.stringToDate2("2016-04-05"),
-				DisplayDate.stringToDate2("2016-07-05"), "pay of 2016");
+		FeeMember feeMember2 = new FeeMember("pay of 2016", 2016, Double.valueOf(20), DateUtils.format("2016-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2016-07-05", DateUtils.FORMAT_DATE), "pay of 2016");
 		feeMemberService.save(feeMember2);
 
 		// getFeeMemberList
@@ -422,8 +422,8 @@ public class PayMemberServiceTest extends WebSecurityConfigurationAware {
 	public void getUsernamesByFeeMember() throws UniqueException, UniqueListException {
 
 		// Save
-		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DisplayDate.stringToDate2("2015-04-05"),
-				DisplayDate.stringToDate2("2015-07-05"), "pay of 2015");
+		FeeMember feeMember = new FeeMember("pay of 2015", 2015, Double.valueOf(20), DateUtils.format("2015-04-05", DateUtils.FORMAT_DATE),
+				DateUtils.format("2015-07-05", DateUtils.FORMAT_DATE), "pay of 2015");
 		feeMemberService.save(feeMember);
 
 		AccountType accountType = new AccountType("Adult", false, "Fee for adults", 0);

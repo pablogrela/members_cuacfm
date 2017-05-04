@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.eventservice.EventService;
-import org.cuacfm.members.model.exceptions.DateLimitException;
+import org.cuacfm.members.model.exceptions.DatesException;
 import org.cuacfm.members.model.exceptions.DateLimitExpirationException;
 import org.cuacfm.members.model.exceptions.ExistInscriptionsException;
 import org.cuacfm.members.model.exceptions.MaximumCapacityException;
@@ -33,6 +33,7 @@ import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.training.TrainingRepository;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,32 +59,32 @@ public class TrainingServiceImpl implements TrainingService {
 	}
 
 	@Override
-	public Training save(Training training) throws DateLimitException, UniqueException {
+	public Training save(Training training) throws DatesException, UniqueException {
 		Object[] arguments = { training.getName() };
 
 		if (training.getDateTraining().before(training.getDateLimit())) {
-			eventService.save("training.dateLimit.error", null, 2, arguments);
-			throw new DateLimitException(training.getDateLimit(), training.getDateTraining());
+			eventService.save("training.dateLimit.error", null, levels.HIGH, arguments);
+			throw new DatesException(training.getDateLimit(), training.getDateTraining());
 		}
 		// Update dependecy
 		TrainingType trainingType = training.getTrainingType();
 		trainingType.setHasTrainings(true);
 		trainingTypeService.update(trainingType);
 
-		eventService.save("training.successCreate", null, 2, arguments);
+		eventService.save("training.successCreate", null, levels.HIGH, arguments);
 		return trainingRepository.save(training);
 	}
 
 	@Override
-	public Training update(Training training) throws DateLimitException {
+	public Training update(Training training) throws DatesException {
 		Object[] arguments = { training.getName() };
 
 		if (training.getDateTraining().before(training.getDateLimit())) {
-			eventService.save("training.dateLimit.error", null, 2, arguments);
-			throw new DateLimitException(training.getDateLimit(), training.getDateTraining());
+			eventService.save("training.dateLimit.error", null, levels.HIGH, arguments);
+			throw new DatesException(training.getDateLimit(), training.getDateTraining());
 		}
 
-		eventService.save("training.successModify", null, 2, arguments);
+		eventService.save("training.successModify", null, levels.HIGH, arguments);
 		return trainingRepository.update(training);
 	}
 
@@ -93,7 +94,7 @@ public class TrainingServiceImpl implements TrainingService {
 
 		// If Exist Dependencies Inscriptions
 		if (!inscriptionRepository.getInscriptionListByTrainingId(training.getId()).isEmpty()) {
-			eventService.save("training.existDependenciesTrainingsException", null, 2, arguments);
+			eventService.save("training.existDependenciesTrainingsException", null, levels.HIGH, arguments);
 			throw new ExistInscriptionsException();
 		}
 
@@ -109,7 +110,7 @@ public class TrainingServiceImpl implements TrainingService {
 			trainingTypeService.update(trainingType);
 		}
 
-		eventService.save("training.successDelete", null, 2, arguments);
+		eventService.save("training.successDelete", null, levels.HIGH, arguments);
 	}
 
 	@Override
@@ -166,7 +167,7 @@ public class TrainingServiceImpl implements TrainingService {
 		Inscription inscription = new Inscription(account, training);
 		inscriptionRepository.save(inscription);
 		Object[] arguments = { training.getName() };
-		eventService.save("training.successJoin", account, 2, arguments);
+		eventService.save("training.successJoin", account, levels.HIGH, arguments);
 	}
 
 	@Override
@@ -188,7 +189,7 @@ public class TrainingServiceImpl implements TrainingService {
 		inscription.setUnsubscribe(true);
 		inscriptionRepository.update(inscription);
 		Object[] arguments = { training.getName() };
-		eventService.save("training.removeJoin", account, 2, arguments);
+		eventService.save("training.removeJoin", account, levels.HIGH, arguments);
 	}
 
 	@Override

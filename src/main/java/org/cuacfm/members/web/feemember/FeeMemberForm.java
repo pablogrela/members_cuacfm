@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.util.Constants;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.hibernate.validator.constraints.NotBlank;
 
 /** The Class FeeMemberForm. */
@@ -117,8 +117,8 @@ public class FeeMemberForm {
 	 * @return FeeMember
 	 */
 	public FeeMember createFeeMember() {
-		return new FeeMember(getName(), getYear(), getPrice(), DisplayDate.stringToMonthOfYear(dateLimit1),
-				DisplayDate.stringToMonthOfYear(dateLimit2), getDescription());
+		return new FeeMember(getName(), getYear(), getPrice(), DateUtils.format(dateLimit1, DateUtils.FORMAT_MONTH_YEAR),
+				DateUtils.format(dateLimit2, DateUtils.FORMAT_MONTH_YEAR), getDescription());
 	}
 
 	/**
@@ -132,8 +132,8 @@ public class FeeMemberForm {
 		feeMember.setYear(getYear());
 		feeMember.setPrice(getPrice());
 		feeMember.setDescription(getDescription());
-		feeMember.setDateLimit1(DisplayDate.stringToMonthOfYear(getDateLimit1()));
-		feeMember.setDateLimit2(DisplayDate.stringToMonthOfYear(getDateLimit2()));
+		feeMember.setDateLimit1(DateUtils.format(getDateLimit1(), DateUtils.FORMAT_MONTH_YEAR));
+		feeMember.setDateLimit2(DateUtils.format(getDateLimit2(), DateUtils.FORMAT_MONTH_YEAR));
 		return feeMember;
 	}
 }

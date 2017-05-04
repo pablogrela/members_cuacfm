@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,9 +23,9 @@ import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.util.Constants;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.web.support.DisplayDate;
 
 /** The Class PayProgramForm. */
 public class PayProgramForm {
@@ -191,7 +191,7 @@ public class PayProgramForm {
 			payProgram.setIdPayer(getIdPayer());
 		}
 		if (getDatePay() != "") {
-			payProgram.setDatePay(DisplayDate.stringToDateTime(getDatePay()));
+			payProgram.setDatePay(DateUtils.format(getDatePay(), DateUtils.FORMAT_DISPLAY));
 		}
 		return payProgram;
 	}

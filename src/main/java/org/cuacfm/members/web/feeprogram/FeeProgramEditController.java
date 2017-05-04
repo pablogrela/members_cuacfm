@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
-import org.cuacfm.members.web.support.DisplayDate;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,8 +74,8 @@ public class FeeProgramEditController {
 			feeProgramForm.setName(feeProgram.getName());
 			feeProgramForm.setPrice(feeProgram.getPrice());
 			feeProgramForm.setDescription(feeProgram.getDescription());
-			feeProgramForm.setDate(DisplayDate.monthOfYearToString(feeProgram.getDate()));
-			feeProgramForm.setDateLimit(DisplayDate.monthOfYearToString(feeProgram.getDateLimit()));
+			feeProgramForm.setDate(DateUtils.format(feeProgram.getDate(),DateUtils.FORMAT_MONTH_YEAR));
+			feeProgramForm.setDateLimit(DateUtils.format(feeProgram.getDateLimit(), DateUtils.FORMAT_MONTH_YEAR));
 			model.addAttribute(feeProgram);
 			model.addAttribute(feeProgramForm);
 			return FEEPROGRAM_VIEW_NAME;
