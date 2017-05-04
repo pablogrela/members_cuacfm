@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,6 +26,7 @@ import org.cuacfm.members.model.exceptions.UserAlreadyReserveException;
 import org.cuacfm.members.model.reserve.Reserve;
 import org.cuacfm.members.model.reserve.ReserveDTO;
 import org.cuacfm.members.model.reserveservice.ReserveService;
+import org.cuacfm.members.model.util.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /** The Class ReserveListController. */
 @Controller
@@ -140,12 +142,15 @@ public class ReserveAPIController {
 		String email = getEmailOfToken(token);
 
 		if (email != null) {
-			Account account = accountService.findByEmail(email);
-			ReserveDTO reserveDTO = new Gson().fromJson(reserveJson, ReserveDTO.class);
-
-			Reserve reserve = reserveService.getReserve(reserveDTO, account);
 			try {
+				Account account = accountService.findByEmail(email);
+				Gson gson = new GsonBuilder().setDateFormat(DateUtils.FORMAT_LOCAL).create();
+				ReserveDTO reserveDTO = gson.fromJson(reserveJson, ReserveDTO.class);
+				Reserve reserve = reserveService.getReserve(reserveDTO, account);
 				reserve = reserveService.save(reserve);
+				ReserveDTO newReserveDTO = reserveService.getReserveDTO(reserve);
+				String newReserveJson = new Gson().toJson(newReserveDTO);
+				return new ResponseEntity<>(newReserveJson, HttpStatus.CREATED);
 			} catch (UserAlreadyReserveException e) {
 				logger.error("createReserveAPI UserAlreadyReserveException", e);
 				return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -153,10 +158,6 @@ public class ReserveAPIController {
 				logger.error("createReserveAPI", e);
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-
-			ReserveDTO newReserveDTO = reserveService.getReserveDTO(reserve);
-			String newReserveJson = new Gson().toJson(newReserveDTO);
-			return new ResponseEntity<>(newReserveJson, HttpStatus.CREATED);
 		}
 
 		return new ResponseEntity<>(HttpStatus.FORBIDDEN);

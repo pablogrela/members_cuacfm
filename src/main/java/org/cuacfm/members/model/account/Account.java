@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -120,6 +120,8 @@ public class Account implements Serializable {
 	private roles role;
 
 	private String permissions;
+
+	private String devicesToken;
 
 	private Date dateCreate;
 
@@ -236,8 +238,11 @@ public class Account implements Serializable {
 		this.nickName = nickName;
 	}
 
-	public String getFullNameAndNick() {
-		return getFullName() + "(" + nickName + ")";
+	public String getFullNameNick() {
+		if (nickName != null && !nickName.isEmpty()){
+			return getFullName() + " (" + nickName + ")";
+		}
+		return getFullName();
 	}
 
 	public String getDni() {
@@ -440,6 +445,31 @@ public class Account implements Serializable {
 		this.permissions = permissionsString.toString();
 	}
 
+	public List<String> getDevicesToken() {
+		List<String> newDevicesToken = new ArrayList<>();
+		if (devicesToken != null && !devicesToken.isEmpty() && !"[]".equals(devicesToken)) {
+			String roleAux = devicesToken.replace("[", "").replace("]", "");
+			newDevicesToken = Arrays.asList(roleAux.split(", "));
+		}
+		return newDevicesToken;
+	}
+
+	public void setDevicesToken(List<String> devicesToken) {
+		this.devicesToken = devicesToken.toString();
+	}
+
+	public void addDeviceToken(String deviceToken) {
+		Set<String> devicesTokenString = new LinkedHashSet<>(getDevicesToken());
+		devicesTokenString.add(deviceToken);
+		this.devicesToken = devicesTokenString.toString();
+	}
+
+	public void removeDevicesToken(String deviceToken) {
+		List<String> permissionsString = new ArrayList<>(getDevicesToken());
+		permissionsString.remove(deviceToken);
+		this.devicesToken = permissionsString.toString();
+	}
+
 	public boolean isEmitProgram() {
 		return emitProgram;
 	}
@@ -490,10 +520,6 @@ public class Account implements Serializable {
 
 	public void setToken(String token) {
 		this.token = token;
-	}
-
-	public void setPermissions(String permissions) {
-		this.permissions = permissions;
 	}
 
 }

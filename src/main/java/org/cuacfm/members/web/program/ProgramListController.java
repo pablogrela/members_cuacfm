@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,7 @@
 package org.cuacfm.members.web.program;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -28,6 +29,7 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.program.ProgramDTO;
 import org.cuacfm.members.model.programservice.ProgramService;
+import org.cuacfm.members.model.util.PushService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /** The Class ProgramListController. */
@@ -59,7 +62,7 @@ public class ProgramListController {
 	private MessageSource messageSource;
 
 	/**
-	 * Instantiates a new training Controller.
+	 * Instantiates a new program list controller.
 	 */
 	public ProgramListController() {
 		super();
@@ -78,9 +81,9 @@ public class ProgramListController {
 	}
 
 	/**
-	 * Direct debit view.
+	 * Gets the program list close view.
 	 *
-	 * @return the string
+	 * @return the program list close view
 	 */
 	@RequestMapping(value = "programList/close")
 	public String getprogramListCloseView() {
@@ -201,6 +204,37 @@ public class ProgramListController {
 		programService.up(program);
 		Object[] arguments = { program.getName() };
 		MessageHelper.addInfoAttribute(ra, messageSource.getMessage("program.successUp", arguments, Locale.getDefault()));
+
+		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
+	}
+
+	/**
+	 * Program push.
+	 *
+	 * @param id the id
+	 * @param title the title
+	 * @param body the body
+	 * @param ra the ra
+	 * @return the response entity
+	 */
+	@RequestMapping(value = "programList/programPush/{id}", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> programPush(@PathVariable("id") Long id, @RequestParam(value = "title") String title,
+			@RequestParam(value = "body") String body, RedirectAttributes ra) {
+
+		Program program = programService.findById(id);
+		Object[] arguments = { program.getName() };
+
+		// Add devices token to send push
+		List<String> devicesToken = new ArrayList<>();
+		for (Account account : program.getAccounts()) {
+			devicesToken.addAll(account.getDevicesToken());
+		}
+
+		if (PushService.sendPushNotificationToDevice(devicesToken, title, body)) {
+			MessageHelper.addInfoAttribute(ra, messageSource.getMessage("program.push.success", arguments, Locale.getDefault()));
+		} else {
+			MessageHelper.addInfoAttribute(ra, messageSource.getMessage("program.push.error", arguments, Locale.getDefault()));
+		}
 
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}

@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -74,14 +74,16 @@ membersApp.controller('ReserveController', [ '$scope', 'ReserveService', functio
 	}
 
 	$scope.reserveAnswer = function(id, answer) {
-		ReserveService.reserveAnswer(id, answer).then(function(data) {
-			$scope.message = data;
-			$scope.fetchAllReserves();
-			$('#close').click();
-			$scope.answer = '';
-		}, function(errorResponse) {
-			console.error('Error while answer Reserve', errorResponse);
-		});
+		if (answer != null && !jQuery.isEmptyObject(answer)) {
+			ReserveService.reserveAnswer(id, answer).then(function(data) {
+				$scope.message = data;
+				$scope.fetchAllReserves();
+				$('#close').click();
+				$scope.answer = '';
+			}, function(errorResponse) {
+				console.error('Error while answer Reserve', errorResponse);
+			});
+		}
 	}
 
 	$scope.localeSensitiveComparator = function(v1, v2) {

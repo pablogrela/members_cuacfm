@@ -135,6 +135,7 @@ CREATE TABLE Account(
     programName VARCHAR(50),
     role VARCHAR(20) NOT NULL,
     permissions VARCHAR(100),
+    devicesToken VARCHAR(1000),
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateDown TIMESTAMP NULL,
     token VARCHAR(500),
@@ -491,7 +492,7 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 insert into Account values 
 (1, 'admin', '', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@test.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_RESERVE, ROLE_TRAINER', null, null, null);
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_RESERVE, ROLE_TRAINER', null, CURRENT_TIMESTAMP, null, null);
 
 
 -- Insert Method Payment:

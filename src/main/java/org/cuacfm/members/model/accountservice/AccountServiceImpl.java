@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,9 +31,9 @@ import org.cuacfm.members.model.bankaccount.BankAccountRepository;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
+import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.model.util.Constants.levels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -229,6 +229,11 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
+	public List<Account> getAccountsWithDeviceToken() {
+		return accountRepository.getAccountsWithDeviceToken();
+	}
+	
+	@Override
 	public List<Account> getAccountsOrderByActive() {
 		return accountRepository.getAccountsOrderByActive();
 	}
@@ -248,9 +253,11 @@ public class AccountServiceImpl implements AccountService {
 		AccountDTO accountDTO = null;
 
 		if (account != null) {
+			boolean deviceMovil = (!account.getDevicesToken().isEmpty()) ? true : false;
 			accountDTO = new AccountDTO(account.getId(), account.getLogin(), account.getDni(), account.getEmail(), account.getPhone(),
 					account.getMobile(), account.getName(), account.getSurname(), account.getNickName(), account.getAddress(), account.isActive(),
-					account.getRole(), account.getPermissions(), account.getInstallments(), account.getDateCreate(), account.getDateDown());
+					deviceMovil, account.getRole(), account.getPermissions(), account.getInstallments(), account.getDateCreate(),
+					account.getDateDown());
 
 			if (account.getAccountType() != null) {
 				accountDTO.setAccountType(account.getAccountType().getName());

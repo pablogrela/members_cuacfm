@@ -33,51 +33,51 @@ use members;
 -- Insert Account:
 insert into Account values 
 (2, 'Juan', 'B', null, '84364835F', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'user', 'user@test.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (3, 'Pepe', 'el otro', null, '92053447H', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'trainer', 'trainer@test.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 1, 1, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_TRAINER', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 1, 1, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_TRAINER', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (4, 'Pablo', 'Grela', null, '45093757A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.grela', 'pablo@test.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 3, 1, true, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_REPORT, ROLE_RESERVE', CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 3, 1, true, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_REPORT, ROLE_RESERVE', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (5, 'Manuel', 'Fernández', null, '29244308S', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manuel.fernandez', 'manu@test.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 4, 1, false, true, null, true, '', '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 2, 4, 1, false, true, null, true, '', '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (6, 'Lorena', 'Borrazás', null, '27069088C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.borrazas', 'lore@test.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (7, 'Lorena', 'Fernández', 'lorenita', '10147938Q', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'lore.fernandez', 'loref@test.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 2, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 	
 insert into Account values 
 (8, 'Manuel', 'Borrazás', null, '01635941C', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manu.borrazas', 'manuf@test.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 2 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (9, 'Pablo', 'Martínez Pérez', 'pau', '45440822K', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.martinez.perez', 'pmp@test.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (10, 'Conservera Martínez', '', null, '38959964B', 'Puerto A Coruña', 'A coruña', 'A coruña', 'ES', 'conservera.martinez', 'conservera.martinez@test.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 5 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 5 , 1, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 	
 insert into Account values 
 (11, 'Pera', 'Olart', 'pera', '95252576P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pera', 'pera@test.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (12, 'Manolo', 'el del bombo', 'bombo', '22347678P', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'bombo', 'bombo@test.es', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 2 , 2, false, false, null, true, null, '', '', '', 'ROLE_USER', null, null, CURRENT_TIMESTAMP, null, null);
 	
 insert into Account values 
 (13, 'Pablo', 'Grela', null, '5338884J', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'grela', 'pablo.grela.palleiro@gmail.com', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_REPORT, ROLE_RESERVE', CURRENT_TIMESTAMP, null, null);	
+	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_REPORT, ROLE_RESERVE', null, CURRENT_TIMESTAMP, null, null);	
 	
 	
 	

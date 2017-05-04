@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,40 +60,46 @@
 					<h4 class="modal-title" data-ng-bind="reserve.element.name + ' : '  + (reserve.dateCreate | date : 'short')"></h4>
 				</div>
 				<div class="modal-body">
-					<label th:text="#{dateCreate} + ': ' "></label>
-					<span data-ng-bind="reserve.dateCreate | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{element} + ': ' "></label>
-					<span data-ng-bind="reserve.element.name"></span>
-					<br></br>
-					<label th:text="#{account} + ': ' "></label>
-					<span data-ng-bind="reserve.account.name + ' ' + reserve.account.surname"></span>
-					<br></br>
-					<label th:text="#{dateStart} + ': ' "></label>
-					<span data-ng-bind="reserve.dateStart | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{dateEnd} + ': ' "></label>
-					<span data-ng-bind="reserve.dateEnd | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{dateRevision} + ': ' "></label>
-					<span data-ng-bind="reserve.dateRevision | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{reserve.dateApproval} + ': ' "></label>
-					<span data-ng-bind="reserve.dateApproval | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{description} + ': ' "></label>
-					<pre data-ng-bind="reserve.description"></pre>
-					<label th:text="#{state} + ': ' "></label>
-					<span data-ng-if="reserve.state == 'MANAGEMENT'" th:text="#{states.MANAGEMENT}"> </span>
-					<span data-ng-if="reserve.state == 'ACCEPT'" th:text="#{states.ACCEPT}"> </span>
-					<span data-ng-if="reserve.state == 'DENY'" th:text="#{states.DENY}"> </span>
-					<br></br>
-					<label th:text="#{active} + ': ' "></label>
-					<span data-ng-if="reserve.active" th:text="#{true}"></span>
-					<span data-ng-if="!reserve.active" th:text="#{false}"></span>
-					<br></br>
-					<label th:text="#{reserve.answer} + ': ' "></label>
-					<pre data-ng-bind="reserve.answer"></pre>
+
+					<!-- Data reserve -->
+					<div th:fragment="dataReserve">
+						<label th:text="#{dateCreate} + ': ' "></label>
+						<span data-ng-bind="reserve.dateCreate | date : 'short'"></span>
+						<br></br>
+						<label th:text="#{element} + ': ' "></label>
+						<span data-ng-bind="reserve.element.name"></span>
+						<br></br>
+						<label th:text="#{account} + ': ' "></label>
+						<span data-ng-bind="reserve.account.name + ' ' + reserve.account.surname"></span>
+						<br></br>
+						<label th:text="#{dateStart} + ': ' "></label>
+						<span data-ng-bind="reserve.dateStart | date : 'short'"></span>
+						<br></br>
+						<label th:text="#{dateEnd} + ': ' "></label>
+						<span data-ng-bind="reserve.dateEnd | date : 'short'"></span>
+						<br></br>
+						<label th:text="#{dateRevision} + ': ' "></label>
+						<span data-ng-bind="reserve.dateRevision | date : 'short'"></span>
+						<br></br>
+						<label th:text="#{reserve.dateApproval} + ': ' "></label>
+						<span data-ng-bind="reserve.dateApproval | date : 'short'"></span>
+						<br></br>
+						<label th:text="#{description} + ': ' "></label>
+						<pre data-ng-bind="reserve.description"></pre>
+						<label th:text="#{state} + ': ' "></label>
+						<span data-ng-if="reserve.state == 'MANAGEMENT'" th:text="#{states.MANAGEMENT}"> </span>
+						<span data-ng-if="reserve.state == 'ACCEPT'" th:text="#{states.ACCEPT}"> </span>
+						<span data-ng-if="reserve.state == 'DENY'" th:text="#{states.DENY}"> </span>
+						<br></br>
+						<label th:text="#{active} + ': ' "></label>
+						<span data-ng-if="reserve.active" th:text="#{true}"></span>
+						<span data-ng-if="!reserve.active" th:text="#{false}"></span>
+					</div>
+
+					<!-- Log answer -->
+					<label data-ng-if="reserve.answer" th:text="#{reserve.answer} + ': ' "></label>
+					<pre data-ng-if="reserve.answer" data-ng-bind="reserve.answer"></pre>
+
 				</div>
 			</div>
 		</div>
@@ -103,57 +109,41 @@
 	<!-- Modal Info Reserve Answer -->
 	<div th:fragment="infoReserveAnswer" id="infoReserveAnswer" class="modal fade mobile">
 		<div class="modal-dialog">
-			<div class="modal-content panel-primary">
-				<div class="modal-header modal-header-primary">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" data-ng-bind="reserve.element.name + ' : '  + (reserve.dateCreate | date : 'short')"></h4>
+			<form class="ws-validate">
+				<div class="modal-content panel-primary">
+					<div class="modal-header modal-header-primary">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" data-ng-bind="reserve.element.name + ' : '  + (reserve.dateCreate | date : 'short')"></h4>
+					</div>
+					<div class="modal-body">
+
+						<!-- Data reserve -->
+						<div th:replace="reserve/modalreserve :: dataReserve"></div>
+
+						<!-- Answer -->
+						<div class="form-group">
+							<label for="answer" class=" control-label" th:text="#{reserve.answer}"></label>
+							<div class="">
+								<textarea class="form-control" id="answer" data-ng-model="answer" th:placeholder="#{reserve.answer.info}" rows="6" cols="40" maxlength="500"
+									required="required">answer</textarea>
+								<div class="ws-errorbox" hidden=""></div>
+							</div>
+						</div>
+
+						<!-- Log answer -->
+						<pre data-ng-if="reserve.answer" data-ng-bind="reserve.answer"></pre>
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" sec:authorize="hasAnyRole('ROLE_USER, ROLE_REPORT')" data-ng-click="reserveAnswer(reserve.id, answer)"
+							class="btn btn-orange btn-form" th:title="#{reserve.answer.info}" th:text="#{reserve.answer}"></button>
+						<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+					</div>
 				</div>
-				<div class="modal-body">
-					<label th:text="#{dateCreate} + ': ' "></label>
-					<span data-ng-bind="reserve.dateCreate | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{element} + ': ' "></label>
-					<span data-ng-bind="reserve.element.name"></span>
-					<br></br>
-					<label th:text="#{account} + ': ' "></label>
-					<span data-ng-bind="reserve.account.name + ' ' + reserve.account.surname"></span>
-					<br></br>
-					<label th:text="#{dateStart} + ': ' "></label>
-					<span data-ng-bind="reserve.dateStart | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{dateEnd} + ': ' "></label>
-					<span data-ng-bind="reserve.dateEnd | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{dateRevision} + ': ' "></label>
-					<span data-ng-bind="reserve.dateRevision | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{reserve.dateApproval} + ': ' "></label>
-					<span data-ng-bind="reserve.dateApproval | date : 'short'"></span>
-					<br></br>
-					<label th:text="#{description} + ': ' "></label>
-					<pre data-ng-bind="reserve.description"></pre>
-					<label th:text="#{state} + ': ' "></label>
-					<span data-ng-if="reserve.state == 'MANAGEMENT'" th:text="#{states.MANAGEMENT}"> </span>
-					<span data-ng-if="reserve.state == 'ACCEPT'" th:text="#{states.ACCEPT}"> </span>
-					<span data-ng-if="reserve.state == 'DENY'" th:text="#{states.DENY}"> </span>
-					<br></br>
-					<label th:text="#{active} + ': ' "></label>
-					<span data-ng-if="reserve.active" th:text="#{true}"></span>
-					<span data-ng-if="!reserve.active" th:text="#{false}"></span>
-					<br></br>
-					<label th:text="#{reserve.answer} + ': ' "></label>
-					<textarea class="form-control" data-ng-model="answer" th:placeholder="#{reserve.answer.info}" rows="6" cols="40" maxlength="500"></textarea>
-					<pre data-ng-bind="reserve.answer"></pre>
-				</div>
-				<div class="modal-footer">
-					<button sec:authorize="hasAnyRole('ROLE_USER, ROLE_REPORT')" data-ng-click="reserveAnswer(reserve.id, answer)" class="btn btn-orange btn-form"
-						th:title="#{reserve.answer.info}" th:text="#{reserve.answer}"></button>
-					<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
-	
-	
+
+
 </body>
 </html>

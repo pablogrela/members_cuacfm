@@ -135,6 +135,7 @@ CREATE TABLE Account(
     programName VARCHAR(50),
     role VARCHAR(20) NOT NULL,
     permissions VARCHAR(100),
+    devicesToken VARCHAR(1000),
     dateCreate TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     dateDown TIMESTAMP NULL,
     token VARCHAR(500),

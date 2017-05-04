@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -206,19 +206,24 @@ public class ReportAPIController {
 		String email = getEmailOfToken(token);
 
 		if (email != null) {
-			Type listType = new TypeToken<ArrayList<byte[]>>() {
-			}.getType();
-			List<byte[]> photosAux = new Gson().fromJson(photos, listType);
+			try {
+				Type listType = new TypeToken<ArrayList<byte[]>>() {
+				}.getType();
+				List<byte[]> photosAux = new Gson().fromJson(photos, listType);
 
-			Account account = accountService.findByEmail(email);
-			ReportDTO reportDTO = new Gson().fromJson(reportJson, ReportDTO.class);
+				Account account = accountService.findByEmail(email);
+				ReportDTO reportDTO = new Gson().fromJson(reportJson, ReportDTO.class);
 
-			Report report = reportService.getReport(reportDTO, account);
-			report = reportService.save(report, photosAux);
+				Report report = reportService.getReport(reportDTO, account);
+				report = reportService.save(report, photosAux);
 
-			ReportDTO newReportDTO = reportService.getReportDTO(report);
-			String newReportJson = new Gson().toJson(newReportDTO);
-			return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
+				ReportDTO newReportDTO = reportService.getReportDTO(report);
+				String newReportJson = new Gson().toJson(newReportDTO);
+				return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
+			} catch (Exception e) {
+				logger.error("createReportAPI", e);
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 
 		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);

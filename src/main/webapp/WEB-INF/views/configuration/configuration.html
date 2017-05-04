@@ -1,12 +1,12 @@
 <!--
 
-    Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-            http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +16,7 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <title th:text="#{configuration.title}"></title>
 <object th:include="fragments/head :: head" th:remove="tag"></object>
@@ -30,11 +29,11 @@
 
 	<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 	<div class="container-fluid text-center" th:if="${message != null}">
-		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
+		<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})"></div>
 	</div>
 
-	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/configuration}"
-		th:object="${configurationForm}">
+
+	<form class="form-narrow form-horizontal ws-validate" method="post" th:action="@{/configuration}" th:object="${configurationForm}">
 
 		<!--/* Show general error message when form contains errors */-->
 		<th:block th:if="${#fields.hasErrors('${configurationForm.*}')}">
@@ -53,8 +52,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 				<label for="name" class="col-lg-2 control-label" th:text="#{name}">Name</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="50"
-						required="required" />
+					<input type="text" class="form-control" id="name" th:placeholder="#{name}" th:field="*{name}" maxlength="50" required="required" />
 					<span class="help-block ws-errorbox" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Incorrect name</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -66,8 +64,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
 				<label for="email" class="col-lg-2 control-label" th:text="#{email}">Email</label>
 				<div class="col-lg-10">
-					<input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50"
-						required="required" />
+					<input type="email" class="form-control" id="email" th:placeholder="#{email}" th:field="*{email}" maxlength="50" required="required" />
 					<span class="help-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect email</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -79,8 +76,7 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('phone')}? 'has-error'">
 				<label for="phone" class="col-lg-2 control-label" th:text="#{phone}">phone</label>
 				<div class="col-lg-10">
-					<input type="number" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" maxlength="20"
-						value="" />
+					<input type="number" class="form-control" id="phone" th:placeholder="#{phone}" th:field="*{phone}" maxlength="20" value="" />
 					<span class="help-block" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Incorrect phone</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
@@ -93,7 +89,8 @@
 				<label for="feeMember" class="col-lg-1 control-label" th:text="#{feeMember}">feeMember</label>
 				<div class="col-lg-10">
 					<div class="input-group col-lg-4-edit">
-						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}" step="0.01" min="0.01" required="required" />
+						<input type="number" class="form-control" id="feeMember" th:placeholder="#{feeMember}" th:field="*{feeMember}" step="0.01" min="0.01"
+							required="required" />
 						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeMember')}" th:errors="*{feeMember}"> Incorrect feeMember</span>
@@ -108,7 +105,8 @@
 				<label for="feeProgram" class="col-lg-1 control-label" th:text="#{feeProgram}">feeProgram</label>
 				<div class="col-lg-10">
 					<div class="input-group col-lg-4-edit">
-						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}" step="0.01" min="0.01" required="required"></input>
+						<input type="number" class="form-control" id="feeProgram" th:placeholder="#{feeProgram}" th:field="*{feeProgram}" step="0.01" min="0.01"
+							required="required"></input>
 						<span class="input-group-addon" th:text="#{currency}">currency</span>
 					</div>
 					<span class="col-lg-10-edit help-block" th:if="${#fields.hasErrors('feeProgram')}" th:errors="*{feeProgram}"> Incorrect feeProgram</span>
@@ -122,11 +120,10 @@
 			<div class="form-group" th:classappend="${#fields.hasErrors('descriptionRule')}? 'has-error'">
 				<label for="descriptionRule" class="col-lg-20" th:text="#{descriptionRule}">descriptionRule</label>
 				<div class="col-lg-20">
-					<textarea class="form-control" id="descriptionRule" th:placeholder="#{descriptionRule}" th:field="*{descriptionRule}"
-						rows="5" cols="40" maxlength="500" required="required">
+					<textarea class="form-control" id="descriptionRule" th:placeholder="#{descriptionRule}" th:field="*{descriptionRule}" rows="5" cols="40"
+						maxlength="500" required="required">
             	Description</textarea>
-					<span class="help-block" th:if="${#fields.hasErrors('descriptionRule')}" th:errors="*{descriptionRule}">Incorrect
-						descriptionRule</span>
+					<span class="help-block" th:if="${#fields.hasErrors('descriptionRule')}" th:errors="*{descriptionRule}">Incorrect descriptionRule</span>
 					<div class="ws-errorbox" hidden=""></div>
 				</div>
 			</div>
@@ -145,11 +142,11 @@
 
 	<br></br>
 	<h2 class="text-center" th:text="#{accountType.accountTypes}">List of Account Types Inscriptions</h2>
-		
+
 	<!-- Button Create New Account Type -->
 	<div class="text-center">
-		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/accountTypeCreate}"
-			th:text="#{accountType.create}">Create New Account Type </a>
+		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/accountTypeCreate}" th:text="#{accountType.create}">Create New Account Type
+		</a>
 	</div>
 
 	<!-- Message if accountTypes is Empty -->
@@ -177,8 +174,7 @@
 				<!-- Table entry -->
 				<tr th:each="accountType : ${accountTypes}">
 					<td th:text="${accountType.name}">name</td>
-					<td><input type="checkbox" th:checked="${accountType.organization}"
-							th:title="#{accountType.infoOrganization}" onClick="return false"/></td>
+					<td><input type="checkbox" th:checked="${accountType.organization}" th:title="#{accountType.infoOrganization}" onClick="return false" /></td>
 					<td th:text="${accountType.description}">Description</td>
 					<td th:text="${accountType.discount}">20%</td>
 					<!-- Modify AccountType -->
@@ -190,8 +186,8 @@
 					<!-- Delete AccountType -->
 					<td>
 						<form th:action="@{'configuration/accountTypeDelete/'+${accountType.id}}" method="post">
-							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{accountType.infoRemove}"
-								style="color: red" onclick="evaluateModal(this.form, modal, accept)"></button>
+							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{accountType.infoRemove}" style="color: red"
+								onclick="evaluateModal(this.form, modal, accept)"></button>
 						</form>
 					</td>
 				</tr>
@@ -206,8 +202,8 @@
 
 	<!-- Button Create New Method Payment -->
 	<div class="text-center">
-		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/methodPaymentCreate}"
-			th:text="#{methodPayment.create}">Create Method Payment </a>
+		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/methodPaymentCreate}" th:text="#{methodPayment.create}">Create Method
+			Payment </a>
 	</div>
 
 	<!-- Message if methodPayments is Empty -->
@@ -233,8 +229,7 @@
 				<!-- Table entry -->
 				<tr th:each="methodPayment : ${methodPayments}">
 					<td th:text="${methodPayment.name}">name</td>
-					<td><input type="checkbox" th:checked="${methodPayment.directDebit}"
-							th:title="#{methodPayment.infoDirectDebit}" onClick="return false"/></td>
+					<td><input type="checkbox" th:checked="${methodPayment.directDebit}" th:title="#{methodPayment.infoDirectDebit}" onClick="return false" /></td>
 					<td th:text="${methodPayment.description}">Description</td>
 					<!-- Modify MethodPayment -->
 					<td>
@@ -245,8 +240,8 @@
 					<!-- Delete MethodPayment -->
 					<td>
 						<form th:action="@{'configuration/methodPaymentDelete/'+${methodPayment.id}}" method="post">
-							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{methodPayment.infoRemove}"
-								style="color: red" onclick="evaluateModal(this.form, modalDeleteMethodPayment, accept2)"></button>
+							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{methodPayment.infoRemove}" style="color: red"
+								onclick="evaluateModal(this.form, modalDeleteMethodPayment, accept2)"></button>
 						</form>
 					</td>
 				</tr>
@@ -259,14 +254,13 @@
 	<!-- ************************************ Elements ************************************-->
 	<br></br>
 	<!-- Title elements -->
-	<h2 th:if="${!#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list}"></h2>	
+	<h2 th:if="${!#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list}"></h2>
 	<h2 th:if="${#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list.empty}"></h2>
-	
+
 	<!-- Button Create New Element -->
 	<br></br>
 	<div class="text-center">
-		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/elementCreate}"
-			th:text="#{element.create}">Create Element </a>
+		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/elementCreate}" th:text="#{element.create}">Create Element </a>
 	</div>
 
 	<!-- Verify if exits accountTypes -->
@@ -289,10 +283,8 @@
 				<tr th:each="element : ${elements}">
 					<td th:text="${element.name}">name</td>
 					<td th:text="${element.description}">Description</td>
-					<td><input type="checkbox" th:checked="${element.reservable}"
-							th:title="#{element.reservable.info}" onClick="return false"/></td>
-					<td><input type="checkbox" th:checked="${element.location}"
-							th:title="#{element.location.info}" onClick="return false"/></td>
+					<td><input type="checkbox" th:checked="${element.reservable}" th:title="#{element.reservable.info}" onClick="return false" /></td>
+					<td><input type="checkbox" th:checked="${element.location}" th:title="#{element.location.info}" onClick="return false" /></td>
 
 					<!-- Modify element -->
 					<td>
@@ -303,8 +295,8 @@
 					<!-- Delete element -->
 					<td>
 						<form th:action="@{'configuration/elementDelete/'+${element.id}}" method="post">
-							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{element.delete.info}"
-								style="color: red" onclick="evaluateModal(this.form, modalDeleteElement, accept)"></button>
+							<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{element.delete.info}" style="color: red"
+								onclick="evaluateModal(this.form, modalDeleteElement, accept)"></button>
 						</form>
 					</td>
 				</tr>
@@ -372,14 +364,14 @@
 			</div>
 		</div>
 	</div>
-	
+
 
 	<!-- Upload migrations -->
 	<br></br>
 	<h3 class="text-center" th:text="#{configuration.uploadDatabase}"></h3>
 	<br></br>
 	<div class="container-fluid text-center containerColums">
-		
+
 		<!-- Upload json accounts-->
 		<div class="columLeft-form">
 			<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}"
@@ -393,7 +385,7 @@
 				</fieldset>
 			</form>
 		</div>
-	
+
 		<!-- Upload json programs-->
 		<div class="columRight-form">
 			<form class="form-narrow form-horizontal ws-validate" th:if="${_csrf != null}"
@@ -408,6 +400,6 @@
 			</form>
 		</div>
 	</div>
-	
+
 </body>
 </html>

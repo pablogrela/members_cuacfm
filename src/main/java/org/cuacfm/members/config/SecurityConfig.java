@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -103,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	   // csrf().ignoringAntMatchers() ignora la validacion de csrf para las peticiones de la api
 	   // csrf().disable() deshabilita la validacion crsf para todo
        http.csrf().ignoringAntMatchers("/api/**").and().
-       authorizeRequests().antMatchers("/", "/favicon.ico", "/resources/**", "/signup", "/signup", "/logout/**", "/signin/**", "/api/**", "/push/**")
+       authorizeRequests().antMatchers("/", "/#", "/favicon.ico", "/resources/**", "/signup", "/signup", "/logout/**", "/signin/**", "/api/**")
             .permitAll()
 
             .antMatchers("/trainingUserList")

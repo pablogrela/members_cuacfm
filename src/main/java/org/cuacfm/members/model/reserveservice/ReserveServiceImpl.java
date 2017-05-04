@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,6 +32,7 @@ import org.cuacfm.members.model.reserve.ReserveRepository;
 import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.model.util.DateUtils;
+import org.cuacfm.members.model.util.PushService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,6 +198,13 @@ public class ReserveServiceImpl implements ReserveService {
 
 		Object[] arguments = { account.getFullName(), reserve.getElement().getName() };
 		eventService.save("reserve.answer.user", reserve.getAccount(), levels.HIGH, arguments);
+
+		// Send push
+		if (!account.getId().equals(reserve.getAccount().getId())) {
+			Object[] arguments2 = { reserve.getElement().getName() };
+			String title = messageSource.getMessage("reserve.answer.push.title", arguments2, Locale.getDefault());
+			PushService.sendPushNotificationToDevice(reserve.getAccount().getDevicesToken(), title, answer);
+		}
 
 		if (manage == null) {
 			reserveRepository.update(reserve);

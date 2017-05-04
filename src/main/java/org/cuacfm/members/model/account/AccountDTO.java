@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,6 +34,7 @@ public class AccountDTO {
 	private String phone;
 	private String mobile;
 	private boolean active;
+	private boolean deviceToken;
 	private roles role;
 	private List<String> permissions;
 	private String methodPayment;
@@ -80,7 +81,8 @@ public class AccountDTO {
 	 * @param installments the installments
 	 */
 	public AccountDTO(Long id, String login, String dni, String email, String phone, String mobile, String name, String surname, String nickName,
-			String address, boolean active, roles role, List<String> permissions, int installments, Date dateCreate, Date dateDown) {
+			String address, boolean active, boolean deviceToken, roles role, List<String> permissions, int installments, Date dateCreate,
+			Date dateDown) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -93,6 +95,7 @@ public class AccountDTO {
 		this.phone = phone;
 		this.mobile = mobile;
 		this.active = active;
+		this.deviceToken = deviceToken;
 		this.role = role;
 		this.permissions = permissions;
 		this.installments = installments;
@@ -124,6 +127,18 @@ public class AccountDTO {
 		this.surname = surname;
 	}
 
+	public String getFullName() {
+		return name + " " + surname;
+	}
+	
+	public String getFullNameNick() {
+		if (nickName != null && !nickName.isEmpty()){
+			return getFullName() + " (" + nickName + ")";
+		}
+		return getFullName();
+	}
+
+	
 	public String getNickName() {
 		return nickName;
 	}
@@ -188,6 +203,14 @@ public class AccountDTO {
 		this.active = active;
 	}
 
+	public boolean isDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(boolean deviceToken) {
+		this.deviceToken = deviceToken;
+	}
+
 	public roles getRole() {
 		return role;
 	}
@@ -246,10 +269,10 @@ public class AccountDTO {
 
 	@Override
 	public String toString() {
-		return "AccountDTO [id=" + id + ", name=" + name + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address + ", login=" + login
-				+ ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", active=" + active + ", role=" + role + ", methodPayment="
-				+ methodPayment + ", accountType=" + accountType + ", installments=" + installments + ", dateCreate=" + dateCreate + ", dateDown="
-				+ dateDown + "]";
+		return "AccountDTO [id=" + id + ", name=" + name + ", surname=" + surname + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address
+				+ ", login=" + login + ", email=" + email + ", phone=" + phone + ", mobile=" + mobile + ", active=" + active + ", deviceToken="
+				+ deviceToken + ", role=" + role + ", permissions=" + permissions + ", methodPayment=" + methodPayment + ", accountType="
+				+ accountType + ", installments=" + installments + ", dateCreate=" + dateCreate + ", dateDown=" + dateDown + "]";
 	}
 
 }

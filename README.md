@@ -97,6 +97,8 @@ The necessary files for configuration are the following:
 
 - The **bankRemittance.properties** file contains all the necessary variables for bank remittances.
 - The **config.properties** file contains all the necessary variables for the backend part(paths, bankRemittance).
+- The **firebaseAdmin.json** file contains the configuration of Firebase´s backend.
+- The **firebaseMessaging.properties** file contains the configuration of Firebase´s messaging.
 - The **firebaseWeb.properties** ile contains the configuration of Firebase´s web.
 - The **hibernate.properties** file contains all the variables needed for database connection.
 - The **hibernateTest.properties** file contains all the variables needed for database test connection.
@@ -107,8 +109,6 @@ The necessary files for configuration are the following:
 	- The messages of angular, datables or another javascript is not customizable, outside war.
 - The **paypal.properties** file contains all the necessary variables for paypal.
 - The **recaptcha.properties** file contains all the necessary variables for recaptcha.
-
-- The **members-firebase-adminsdk.json** file contains the configuration of Firebase´s backend.
 
 
 
@@ -121,12 +121,15 @@ The necessary files for configuration are the following:
 
 - Create a new project and access to your application
 
-- Configure web to connect to firebase, in the file **firebaseWeb.properties**
-	Get values in web configuration on the firebase console.
+- Configure web to connect to firebase, in the file **firebaseMessaging.properties**
+	Get server key value in configuration/cloud messaging on the Firebase console.
 	
-- Configure java to connect to firebase, in the file **members-firebase-adminsdk.json**
-	Get the json file on the firebase console inside the java sdk admin
+- Configure java to connect to Firebase, in the file **firebaseAdmin.json**
+	Get the JSON file on the Firebase console inside the java SDK Admin
 
+- Configure web to connect to Firebase, in the file **firebaseWeb.properties**
+	Get values in web configuration on the Firebase console.
+	
 - Go to Authentication
 
 	- In Login Method
@@ -169,15 +172,40 @@ An API has been created to be used by another application through a REST service
 In all cases a firebase validation token is necessary, which is only possible if the user is registered in the application of the members and in the client application, and in case of being wrong, the server will return a 403 message of forbidden.
 
 ##### The functions implemented as public are the following:
-- **/members /api/incidenceList/**
-	Recovers user issues
-	- **/members/api/incidenceList/incidenceCreate**
-		Create a new incidence
-	- **/members/api/incidenceList/image**
-		Recover the image of an incident
+All you need is the token of firebase, if it is not indicated there will be no answer and if it is invalid it will give a forbidden answer
 
-- **/members/api/programList/** 
-Recovers user programs
+- **/members/api/accountList/account/** 
+	Recovers user programs
+
+- **/members/api/elementList/** 
+	Recovers user programs
+
+- **/members /api/programList/**
+	Recovers all programs
+	- **/members /api/programUserList/**
+		Recovers user programs	
+	
+- **/members /api/reportList/**
+	Recovers all reports
+	- **/members /api/reportList/**
+		Recovers user reports
+	- **/members/api/reportList/reportCreate**
+		Create a new reports
+	- **/members/api/reportList/image**
+		Recover the image of an report
+	- **/members/api/reserveList/reportAnswer/{reserveId}**
+		Respond to an incidence	
+
+- **/members /api/reserveList/**
+	Recovers all reserves
+	- **/members /api/reportList/**
+		Recovers user reserves
+	- **/members/api/reserveList/reserveCreate**
+		Create a new reserves
+	- **/members/api/reserveList/image**
+		Recover the image of an reserves
+	- **/members/api/reserveList/reserveAnswer/{reserveId}**
+		Respond to an reserve			
 
 
 <br><br>

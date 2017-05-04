@@ -1,11 +1,11 @@
 /**
- * Copyright (C) 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+ * Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,6 +33,7 @@ public class DateUtils {
 	public static final String FORMAT_PAYPAL = "HH:mm:ss MMM dd, yyyy";
 	public static final String FORMAT_DISPLAY = "HH:mm dd/MM/yyyy";
 	public static final String FORMAT_LOCAL_DATE = "yyyy-MM-dd HH:mm";
+	public static final String FORMAT_LOCAL = "dd/MM/yyyy HH:mm";
 	public static final String FORMAT_FILE = "yyyy-MM-dd_HH-mm-ss";
 	public static final String FORMAT_DATE = "yyyy-MM-dd";
 	public static final String FORMAT_MONTH_YEAR = "yyyy-MM";
