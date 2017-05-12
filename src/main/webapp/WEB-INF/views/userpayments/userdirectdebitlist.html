@@ -94,10 +94,10 @@
 						
 						<!-- mark bank deposit -->
 						<button data-ng-if="!directDebit.method &amp;&amp; directDebit.state != 'CANCEL'" data-ng-click="ctrl.markBankDeposit(directDebit.id)"
-							class="btnTable btn-link glyphicon glyphicon-file" th:title="#{directDebit.infoBankDeposit.mark}" style="color: orange"></button> <!-- cancel bank deposit -->
+							class="btn-link glyphicon glyphicon-file" th:title="#{directDebit.infoBankDeposit.mark}" style="color: orange"></button> <!-- cancel bank deposit -->
 
 						<button data-ng-if="directDebit.method == 'BANK_DEPOSIT' &amp;&amp; directDebit.state == 'MANAGEMENT'"
-							data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+							data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btn-link glyphicon glyphicon-file"
 							th:title="#{directDebit.infoBankDeposit.cancel}" style="color: red"></button>
 					</td>
 				</tr>

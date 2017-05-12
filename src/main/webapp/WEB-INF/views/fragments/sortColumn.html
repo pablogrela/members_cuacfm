@@ -53,7 +53,7 @@
 	</div>
 
 
-	<th:object th:fragment="sortColumn (column)">
+	<th:object th:fragment="sortColumn(column)">
 		<a href="#" data-ng-click="sortType = 'column'; sortReverse = !sortReverse"> <span th:text="#{${column}}"></span> <span
 				data-ng-show="sortType == '{{column}}' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
 				data-ng-show="sortType == '{{column}}' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>

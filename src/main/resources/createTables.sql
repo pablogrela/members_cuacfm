@@ -67,7 +67,7 @@ DROP TABLE IF EXISTS ProgramCategory;
 DROP TABLE IF EXISTS ProgramLanguage;
 DROP TABLE IF EXISTS BankAccount;
 DROP TABLE IF EXISTS Event;
-DROP TABLE IF EXISTS Reserve;
+DROP TABLE IF EXISTS Book;
 DROP TABLE IF EXISTS Element;
 DROP TABLE IF EXISTS Account;
 DROP TABLE IF EXISTS AccountType;
@@ -171,7 +171,7 @@ CREATE TABLE Element (
     id INT NOT NULL auto_increment, 
     name VARCHAR(50) NOT NULL,
     description VARCHAR(100),
-    reservable BOOLEAN NOT NULL, 
+    book BOOLEAN NOT NULL, 
     location BOOLEAN NOT NULL, 
     dateCreate TIMESTAMP NULL,
     CONSTRAINT ElementId_PK PRIMARY KEY (id),
@@ -179,7 +179,7 @@ CREATE TABLE Element (
 );
 
 
-CREATE TABLE Reserve (
+CREATE TABLE Book (
     id INT NOT NULL auto_increment, 
     accountId INT NOT NULL,
     elementId INT NOT NULL,
@@ -192,9 +192,9 @@ CREATE TABLE Reserve (
     dateApproval TIMESTAMP NULL,
  	state VARCHAR(20) NOT NULL,
     active BOOLEAN NOT NULL, 
-    CONSTRAINT ReserveId_PK PRIMARY KEY (id),
-    CONSTRAINT Reserve_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
-    CONSTRAINT Reserve_ElementId_FK FOREIGN KEY (elementId) REFERENCES Element(id)
+    CONSTRAINT BookId_PK PRIMARY KEY (id),
+    CONSTRAINT Book_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT Book_ElementId_FK FOREIGN KEY (elementId) REFERENCES Element(id)
 );
 
 
@@ -492,7 +492,7 @@ Se marquei na categoría "soci@", estou a solicitar formalmente o ingreso na aso
 
 insert into Account values 
 (1, 'admin', '', null, 'C04496998', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'admin', 'admin@test.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_RESERVE, ROLE_TRAINER', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, null, null, 1, false, false, null, true, '', '', '', '', 'ROLE_ADMIN', 'ROLE_REPORT, ROLE_BOOK, ROLE_TRAINER', null, CURRENT_TIMESTAMP, null, null);
 
 
 -- Insert Method Payment:

@@ -103,7 +103,7 @@ public class PayProgramEditController {
 			payProgramForm.setIdPayer(payProgram.getIdPayer());
 			payProgramForm.setEmailPayer(payProgram.getEmailPayer());
 			payProgramForm.setIdPayer(payProgram.getIdPayer());
-			payProgramForm.setDatePay(DateUtils.format(payProgram.getDatePay(), DateUtils.FORMAT_DISPLAY));
+			payProgramForm.setDatePay(DateUtils.format(payProgram.getDatePay(), DateUtils.FORMAT_LOCAL));
 			model.addAttribute(payProgram);
 			model.addAttribute(payProgramForm);
 			return PAYPROGRAM_VIEW_NAME;

@@ -200,7 +200,7 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 
 		mockMvc.perform(post("/feeProgramList/payProgramList/payProgramEdit").locale(Locale.ENGLISH).session(defaultSession).param("price", "24")
 				.param("state", "PAY").param("method", "CASH").param("AccountPayer", "pepe").param("idPayer", "1G3210").param("idTxn", "1G3210")
-				.param("emailPayer", "user@hotmail.com").param("datePay", "10:10 10/10/2015"))
+				.param("emailPayer", "user@hotmail.com").param("datePay", "10/10/2015 10:10"))
 				.andExpect(view().name("redirect:/feeProgramList/payProgramList"));
 	}
 
@@ -241,7 +241,7 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 				.param("idTxn", "1G3210111111111111111111111111111111111111111123123123213123123111231231231232131")
 				.param("emailPayer", "user@hotmail.com11111111111111111111111111")
 				.param("statusPay", "Completed11111111111111111111111111111111112312313123122222222222222222312321")
-				.param("datePay", "10:10 10/10/2015")).andExpect(content().string(containsString("Maximum 50 characters")))
+				.param("datePay", "10/10/2015 10:10")).andExpect(content().string(containsString("Maximum 50 characters")))
 				.andExpect(view().name("payprogram/payprogramedit"));
 
 	}
@@ -259,7 +259,7 @@ public class PayProgramEditControllerTest extends WebSecurityConfigurationAware 
 	//
 	//		mockMvc.perform(post("/feeProgramList/payProgramList/payProgramEdit").locale(Locale.ENGLISH).session(defaultSession).param("price", "24")
 	//				.param("state", "PAY").param("method", "CASH").param("AccountPayer", "pepe").param("idPayer", "1G3210").param("idTxn", "1G3210")
-	//				.param("emailPayer", "user@hotmail.com").param("datePay", "10:10 10/10/2015")).andExpect(view().name("payprogram/payprogramedit"));
+	//				.param("emailPayer", "user@hotmail.com").param("datePay", "10/10/2015 10:10")).andExpect(view().name("payprogram/payprogramedit"));
 	//
 	//	}
 }

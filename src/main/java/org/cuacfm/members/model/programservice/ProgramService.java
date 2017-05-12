@@ -32,11 +32,12 @@ import org.springframework.web.multipart.MultipartFile;
 /** The Class ProgramService. */
 public interface ProgramService {
 
+
 	/**
 	 * Save an training into database.
 	 *
-	 * @param program the training
-	 * @return Program
+	 * @param program the program
+	 * @return the program
 	 * @throws UniqueException the unique exception
 	 */
 	public Program save(Program program) throws UniqueException;

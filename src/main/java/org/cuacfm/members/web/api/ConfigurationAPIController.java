@@ -50,7 +50,7 @@ public class ConfigurationAPIController {
 		String email = getEmailOfToken(token);
 
 		if (email != null) {
-			List<ElementDTO> elementsDTO = elementService.getElementsDTO(elementService.getElementListReservable());
+			List<ElementDTO> elementsDTO = elementService.getElementsDTO(elementService.getElementListBook());
 			String elementsJson = new Gson().toJson(elementsDTO);
 			return new ResponseEntity<>(elementsJson, HttpStatus.OK);
 		}

@@ -247,7 +247,7 @@ public class InscriptionListController {
 
 		} catch (DateLimitExpirationException e) {
 			MessageHelper.addErrorAttribute(ra, "training.dateLimitExpirationException", e.getTrainingName(),
-					DateUtils.format(e.getDateLimit(), DateUtils.FORMAT_DISPLAY));
+					DateUtils.format(e.getDateLimit(), DateUtils.FORMAT_LOCAL));
 		}
 
 		return REDIRECT_TRAINING;

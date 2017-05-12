@@ -58,8 +58,6 @@
 						<th th:text="#{price}">Price</th>
 						<th th:text="#{description}">Description</th>
 						<th class="no-sort"></th>
-						<th class="no-sort"></th>
-						<th class="no-sort"></th>
 					</tr>
 				</thead>
 				<tbody class="table-bordered">
@@ -71,25 +69,26 @@
 						<td id="feeMemberPrice" th:text="${feeMember.price}">price</td>
 						<td id="feeMemberDescription" th:text="${feeMember.description}">description</td>
 
-
-						<!-- Modify FeeMember -->
+						
 						<td>
+							<!-- Modify FeeMember -->
 							<form th:action="@{'feeMemberList/feeMemberEdit/'+${feeMember.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" id="feeMemberEdit" style="color: orange"></button>
+								<button class="btn-link glyphicon glyphicon-edit pull-right" th:title="#{edit}" id="feeMemberEdit" style="color: orange"></button>
 							</form>
-						</td>
-
-						<!-- View Inscriptions -->
-						<td>
+	
+							<!-- Notification Message -->
+							<form th:action="@{'feeMemberList/notification/'+${feeMember.id}}" method="post">
+								<button class="btn-link glyphicon glyphicon-envelope pull-right" th:title="#{notification.info}" style="color: brown"></button>
+							</form>
+									
+							<!-- View Inscriptions -->
 							<form th:action="@{'feeMemberList/payMemberList/'+${feeMember.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-user" th:title="#{feeMember.infoPayMemberList}" id="payMemberList" style="color: green"></button>
+								<button class="btn-link glyphicon glyphicon-user pull-right" th:title="#{feeMember.infoPayMemberList}" id="payMemberList" style="color: green"></button>
 							</form>
-						</td>
-
-						<!-- Print All List of feeMember-->
-						<td>
+	
+							<!-- Print All List of feeMember-->
 							<form th:action="@{'feeMemberList/payMemberList/createPdf/'+${feeMember.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-download-alt" th:name="createPdf" th:value="ALL" th:title="#{feeMember.infoAllList}"></button>
+								<button class="btn-link glyphicon glyphicon-download-alt pull-right" th:name="createPdf" th:value="ALL" th:title="#{feeMember.infoAllList}"></button>
 							</form>
 						</td>
 

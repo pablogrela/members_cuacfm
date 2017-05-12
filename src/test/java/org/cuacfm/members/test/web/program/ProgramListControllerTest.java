@@ -202,7 +202,8 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 				"", "", "", "");
 		programService.save(program);
 
-		Account account2 = new Account("user2", "1", "555555552C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account account2 = new Account("user2", "1", "555555552C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+				roles.ROLE_USER);
 		accountService.save(account2);
 		defaultSession = getDefaultSession("user2@udc.es");
 		mockMvc.perform(post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession));
@@ -233,7 +234,7 @@ public class ProgramListControllerTest extends WebSecurityConfigurationAware {
 		feeProgramService.save(feeProgram);
 
 		mockMvc.perform(post("/programList/programDelete/" + program.getId()).locale(Locale.ENGLISH).session(defaultSession));
-		//				.andExpect(view().name("redirect:/programList"));
+		// .andExpect(view().name("redirect:/programList"));
 
 		// Assert, it don´t remove program
 		assertEquals(programService.findById(program.getId()), program);

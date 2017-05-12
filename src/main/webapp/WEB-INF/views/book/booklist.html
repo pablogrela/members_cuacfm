@@ -1,0 +1,53 @@
+<!--
+
+    Copyright © 2015 Pablo Grela Palleiro (pablogp_9@hotmail.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title th:text="#{book.list.title}"></title>
+<object th:include="fragments/head :: head" th:remove="tag"></object>
+<script th:src="@{/resources/js/service/bookService.js}"></script>
+<script th:src="@{/resources/js/controller/bookController.js}"></script>
+</head>
+<body>
+
+	<!-- Generic Header -->
+	<div th:replace="fragments/header :: header(active='books')">&nbsp;</div>
+
+	<!-- Div of buttons -->
+	<div sec:authorize="hasAnyRole('ROLE_REPORT')" class="container-fluid text-center containerColums">
+
+		<!-- Button Create New Book -->
+		<div class="columLeft">
+			<div>
+				<a href="#" class="btn btn-orange btn-lg" th:href="@{/bookList/bookCreate}" th:text="#{book.create.new}"></a>
+			</div>
+			<br></br>
+		</div>
+
+		<!-- Button redirect to book list close -->
+		<div class="columRight">
+			<a href="#" class="btn btn-primary btn-lg" th:href="@{/bookList/close}" th:text="#{book.list.close.view}"></a> <br></br>
+		</div>
+	</div>
+
+	<div class="container-fluid ng-cloak" data-ng-app="membersApp" data-ng-controller="BookController" data-ng-init="fetchAllBooks()">
+		<div th:include="book/booklisttable :: booklisttable(#{book.list}, #{book.list.empty})"></div>
+	</div>
+	
+</body>
+</html>

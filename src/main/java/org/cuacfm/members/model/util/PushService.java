@@ -22,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import org.cuacfm.members.model.util.Constants.typePush;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,28 +30,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /** The Class PushService. */
-@Service
+@Service("pushService")
 public class PushService {
 
 	private static final Logger logger = LoggerFactory.getLogger(PushService.class);
-	private static String urlApiFCM;
-	private static String authenticationKeyFCM;
+	@Value("${firebase.fcm.api.url}")
+
+	private String urlApiFCM;
+
+	@Value("${firebase.fcm.auth.key}")
+	private String authenticationKeyFCM;
 
 	/**
 	 * Instantiates a new push service.
 	 */
 	public PushService() {
 		super();
-	}
-
-	@Value("${firebase.fcm.api.url}")
-	public void setUrlApiFCM(String value) {
-		urlApiFCM = value;
-	}
-
-	@Value("${firebase.fcm.auth.key}")
-	public void setAuthenticationKeyFCM(String value) {
-		authenticationKeyFCM = value;
 	}
 
 	/**
@@ -61,7 +56,7 @@ public class PushService {
 	 * @param message the message
 	 * @return true, if successful
 	 */
-	public static boolean sendPushNotificationToDevice(List<String> devicesToken, String title, String message) {
+	public boolean sendPushNotificationToDevice(List<String> devicesToken, String title, String message, typePush typePush, String json) {
 
 		if (devicesToken == null || devicesToken.isEmpty()) {
 			return false;
@@ -88,20 +83,23 @@ public class PushService {
 				jsonSend.put("registration_ids", devicesToken);
 			}
 
-			JSONObject info = new JSONObject();
-			// Notification title
+			// Info
+			//			JSONObject info = new JSONObject();
+			//			info.put("title", title);
+			//			info.put("body", message);
+			//			jsonSend.put("notification", info);
 
-			info.put("title", title);
-
-			// Notification body
-			info.put("body", message);
-
-			jsonSend.put("notification", info);
+			// Data, it is necessary to put everything in the data for the onMessageReceived to run on android
+			JSONObject data = new JSONObject();
+			data.put("title", title);
+			data.put("body", message);
+			data.put("type", typePush);
+			data.put("value", json);
+			jsonSend.put("data", data);
 
 			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 			wr.write(jsonSend.toString());
 			wr.flush();
-
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
 			String output;

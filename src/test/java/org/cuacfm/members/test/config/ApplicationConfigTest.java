@@ -28,6 +28,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 
 /** The Class ApplicationConfigTest. */
@@ -74,6 +76,11 @@ class ApplicationConfigTest {
 		return messageSource;
 	}
 
+	@Bean
+	public JavaMailSender javaMailSender() {
+		return new JavaMailSenderImpl();
+	}
+	
 	/**
 	 * Initialize firebase.
 	 *

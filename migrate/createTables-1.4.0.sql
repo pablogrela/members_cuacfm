@@ -45,5 +45,27 @@
 
 use members;
 
+Alter TABLE Element CHANGE COLUMN reservable book BOOLEAN NOT NULL;
 Alter TABLE BankAccount CHANGE COLUMN dateCreated dateCreate TIMESTAMP NULL;
 Alter TABLE Account add devicesToken VARCHAR(1000); 
+
+DROP TABLE IF EXISTS Reserve;
+DROP TABLE IF EXISTS Book;
+
+CREATE TABLE Book (
+    id INT NOT NULL auto_increment, 
+    accountId INT NOT NULL,
+    elementId INT NOT NULL,
+    description VARCHAR(100),
+    answer VARCHAR(5000),
+    dateCreate TIMESTAMP NOT NULL,
+    dateStart TIMESTAMP NOT NULL,
+    dateEnd TIMESTAMP NOT NULL,
+    dateRevision TIMESTAMP NULL,
+    dateApproval TIMESTAMP NULL,
+ 	state VARCHAR(20) NOT NULL,
+    active BOOLEAN NOT NULL, 
+    CONSTRAINT BookId_PK PRIMARY KEY (id),
+    CONSTRAINT Book_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT Book_ElementId_FK FOREIGN KEY (elementId) REFERENCES Element(id)
+);

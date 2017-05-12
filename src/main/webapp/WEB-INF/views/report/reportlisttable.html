@@ -131,7 +131,7 @@
 						<td data-ng-if="report.active">
 							<span th:text="#{active}"></span>
 							<button sec:authorize="hasAnyRole('ROLE_REPORT')" data-ng-click="reportDown(report.id)" 
-								class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down pull-right" th:title="#{report.down.info}" style="color: red">
+								class="btn-link glyphicon glyphicon glyphicon-chevron-down pull-right" th:title="#{report.down.info}" style="color: red">
 							</button>
 						</td>
 
@@ -140,7 +140,7 @@
 						<td data-ng-if="!report.active">
 							<span th:text="#{down}"></span>
 							<button sec:authorize="hasAnyRole('ROLE_REPORT')" data-ng-click="reportUp(report.id)" 
-								class="btnTable btn-link glyphicon  glyphicon-chevron-up pull-right" th:title="#{report.up.info}" style="color: green">
+								class="btn-link glyphicon  glyphicon-chevron-up pull-right" th:title="#{report.up.info}" style="color: green">
 							</button>
 						</td>
 
@@ -148,14 +148,14 @@
 						<td sec:authorize="hasAnyRole('ROLE_USER, ROLE_REPORT')" >
 							<!-- Delete Report -->
 							<!-- <button type="button" data-toggle="modal" data-ng-click="infoDelete(report)" data-target="#infoDelete" -->
-								<!-- class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{report.infoRemove}" style="color: red"></button>  -->
+								<!-- class="btn-link glyphicon glyphicon-remove" th:title="#{report.infoRemove}" style="color: red"></button>  -->
 								
 							<button type="button" data-ng-if="report.active" data-toggle="modal" data-ng-click="infoReportAnswer(report)" data-target="#infoReportAnswer"
-							class="btnTable btn-link glyphicon glyphicon-comment" th:title="#{report.answer.info}" style="color: green"></button> 
+							class="btn-link glyphicon glyphicon-comment" th:title="#{report.answer.info}" style="color: green"></button> 
 								
 							<!-- Modify report -->
 							<!-- <form action="{{'/members/reportList/reportEdit/' + report.id}}" method="post"> -->
-							<!-- 	<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button> -->
+							<!-- 	<button class="btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button> -->
 							<!-- 	<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" /> -->
 							<!-- </form> -->
 						</td>

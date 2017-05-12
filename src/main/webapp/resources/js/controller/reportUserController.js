@@ -129,9 +129,9 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 
 	$scope.infoReport = function(aux) {
 		$('#data-slide-0').attr('class', 'active');
-		$('#data-slide-1').attr('class', '');
+		$('.indicator.active').attr('class', 'indicator');
+		$('.item.active').attr('class', 'item');
 		$('#image-index-0').attr('class', 'item active');
-		$('#image-index-1').attr('class', 'item');
 		$scope.report = aux;
 	}
 

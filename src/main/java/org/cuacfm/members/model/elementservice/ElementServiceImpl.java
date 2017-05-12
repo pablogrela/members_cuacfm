@@ -93,8 +93,8 @@ public class ElementServiceImpl implements ElementService {
 	}
 
 	@Override
-	public List<Element> getElementListReservable() {
-		return elementRepository.getElementListReservable();
+	public List<Element> getElementListBook() {
+		return elementRepository.getElementListBook();
 	}
 
 	@Override
@@ -103,8 +103,8 @@ public class ElementServiceImpl implements ElementService {
 	}
 
 	@Override
-	public List<Element> getElementListReservableLocation() {
-		return elementRepository.getElementListReservableLocation();
+	public List<Element> getElementListBookLocation() {
+		return elementRepository.getElementListBookLocation();
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class ElementServiceImpl implements ElementService {
 		ElementDTO elementDTO = null;
 
 		if (element != null) {
-			elementDTO = new ElementDTO(element.getId(), element.getName(), element.getDescription(), element.isReservable(), element.isLocation(),
+			elementDTO = new ElementDTO(element.getId(), element.getName(), element.getDescription(), element.isBook(), element.isLocation(),
 					element.getDateCreate());
 		}
 		return elementDTO;

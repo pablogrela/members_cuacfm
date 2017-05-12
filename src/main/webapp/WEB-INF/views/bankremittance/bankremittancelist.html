@@ -126,7 +126,7 @@
 						<!-- View Direct Debits -->
 						<td>
 							<form th:action="@{'bankRemittanceList/directDebitList/'+${bankRemittance.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-user" th:title="#{bankRemittance.infoDirectDebitList}" style="color: green"></button>
+								<button class="btn-link glyphicon glyphicon-user" th:title="#{bankRemittance.infoDirectDebitList}" style="color: green"></button>
 							</form>
 						</td>
 
@@ -135,20 +135,20 @@
 							<!-- Management bank Remittance -->
 							<form th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).NO_PAY}"
 								th:action="@{'bankRemittanceList/management/'+${bankRemittance.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-repeat" th:title="#{bankRemittance.infoManagement}" style="color: green"></button>
+								<button class="btn-link glyphicon glyphicon-repeat" th:title="#{bankRemittance.infoManagement}" style="color: green"></button>
 							</form> 
 							
 							<!-- Pay bank Remittance -->
 							<form th:if="${bankRemittance.state == T(org.cuacfm.members.model.util.Constants.states).MANAGEMENT}"
 								th:action="@{'bankRemittanceList/pay/'+${bankRemittance.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-ok-circle" th:title="#{payCheck}" style="color: green"></button>
+								<button class="btn-link glyphicon glyphicon-ok-circle" th:title="#{payCheck}" style="color: green"></button>
 							</form>
 						</td>
 
 						<!-- Print All List of feeMember-->
 						<td>
 							<form th:action="@{'bankRemittanceList/downloadBankRemittance/'+${bankRemittance.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-download-alt" th:name="createPdf" th:value="ALL"
+								<button class="btn-link glyphicon glyphicon-download-alt" th:name="createPdf" th:value="ALL"
 									th:title="#{bankRemittance.infoDownload}"></button>
 							</form>
 						</td>

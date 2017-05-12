@@ -84,14 +84,14 @@ public interface ElementService {
 	 *
 	 * @return the element list by user
 	 */
-	public List<Element> getElementListReservable();
+	public List<Element> getElementListBook();
 
 	/**
 	 * Gets the element list by user.
 	 *
 	 * @return the element list by user
 	 */
-	public List<Element> getElementListReservableLocation();
+	public List<Element> getElementListBookLocation();
 
 	/**
 	 * Gets the elements DTO.

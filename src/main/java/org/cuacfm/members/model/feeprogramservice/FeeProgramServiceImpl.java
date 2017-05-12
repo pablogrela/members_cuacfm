@@ -15,11 +15,9 @@
  */
 package org.cuacfm.members.model.feeprogramservice;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.eventservice.EventService;
 import org.cuacfm.members.model.exceptions.UniqueException;
@@ -31,7 +29,6 @@ import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.model.util.Constants.levels;
 import org.cuacfm.members.model.util.Constants.states;
-import org.cuacfm.members.model.util.PushService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,8 +64,6 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 		}
 		feeProgramRepository.save(feeProgram);
 
-		List<String> devicesToken = new ArrayList<>();
-
 		// Create payments of programs
 		for (Program program : programService.getProgramListActive()) {
 			// Duration in minutes, fee in hours, it is necessary convert price to minutes
@@ -78,20 +73,12 @@ public class FeeProgramServiceImpl implements FeeProgramService {
 			if (program.getAccountPayer() != null) {
 				directDebitService.save(program.getAccountPayer());
 			}
-
-			// Add devices token to send push
-			for (Account account : program.getAccounts()) {
-				devicesToken.addAll(account.getDevicesToken());
-			}
 		}
 
 		Object[] arguments = { feeProgram.getName() };
 
 		// Save event
 		eventService.save("feeProgram.successCreate", null, levels.HIGH, arguments);
-
-		// Send push
-		PushService.sendPushNotificationToDevice(devicesToken, feeProgram.getName(), feeProgram.getDescription());
 
 		return feeProgram;
 	}

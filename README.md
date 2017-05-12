@@ -172,7 +172,6 @@ An API has been created to be used by another application through a REST service
 In all cases a firebase validation token is necessary, which is only possible if the user is registered in the application of the members and in the client application, and in case of being wrong, the server will return a 403 message of forbidden.
 
 ##### The functions implemented as public are the following:
-All you need is the token of firebase, if it is not indicated there will be no answer and if it is invalid it will give a forbidden answer
 
 - **/members/api/accountList/account/** 
 	Recovers user programs

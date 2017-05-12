@@ -41,7 +41,7 @@ insert into Account values
 
 insert into Account values 
 (4, 'Pablo', 'Grela', null, '45093757A', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'pablo.grela', 'pablo@test.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 3, 3, 1, true, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_REPORT, ROLE_RESERVE', null, CURRENT_TIMESTAMP, null, null);
+	981666666, 666666666, 3, 3, 1, true, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_REPORT, ROLE_BOOK', null, CURRENT_TIMESTAMP, null, null);
 
 insert into Account values 
 (5, 'Manuel', 'Fernández', null, '29244308S', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'manuel.fernandez', 'manu@test.es','e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
@@ -77,7 +77,7 @@ insert into Account values
 	
 insert into Account values 
 (13, 'Pablo', 'Grela', null, '5338884J', 'CuacFM', 'A coruña', 'A coruña', 'ES', 'grela', 'pablo.grela.palleiro@gmail.com', 'e496b021d9b009464b104f43e4669c6dd6ecdf00226aba628efbf72e2d68d96115de602b85749e72', 
-	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_REPORT, ROLE_RESERVE', null, CURRENT_TIMESTAMP, null, null);	
+	981666666, 666666666, 2, 2, 1, false, false, null, true, '', '', '', '', 'ROLE_USER', 'ROLE_REPORT, ROLE_BOOK', null, CURRENT_TIMESTAMP, null, null);	
 	
 	
 	

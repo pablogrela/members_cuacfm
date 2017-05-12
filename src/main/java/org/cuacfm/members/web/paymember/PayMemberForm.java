@@ -205,7 +205,7 @@ public class PayMemberForm {
 			payMember.setIdPayer(getIdPayer());
 		}
 		if (getDatePay() != "") {
-			payMember.setDatePay(DateUtils.format(getDatePay(), DateUtils.FORMAT_DISPLAY));
+			payMember.setDatePay(DateUtils.format(getDatePay(), DateUtils.FORMAT_LOCAL));
 		}
 		return payMember;
 	}

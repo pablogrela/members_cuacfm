@@ -26,7 +26,7 @@ angular.module('membersApp').factory('ProgramService', [ '$http', '$q', function
 		programUp : programUp,
 		programDown : programDown,
 		programDelete : programDelete,
-		programPush : programPush,
+		programNotification : programNotification,
 	};
 
 	return factory;
@@ -89,10 +89,10 @@ angular.module('membersApp').factory('ProgramService', [ '$http', '$q', function
 		return deferred.promise;
 	}
 
-	function programPush(id, title, body) {
+	function programNotification(id, title, body) {
 		var deferred = $q.defer();
 		var data = "&title=" + title + "&body=" + body;
-		var url = REST_SERVICE_URI + 'programPush/' + id + csrf + data;
+		var url = REST_SERVICE_URI + 'programNotification/' + id + csrf + data;
 		$http.post(url).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {

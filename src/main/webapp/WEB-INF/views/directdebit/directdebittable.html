@@ -117,43 +117,43 @@
 						
 							<!-- Mark bank deposit --> 
 							<object data-ng-if="(directDebit.state == 'NO_PAY' || directDebit.state == 'RETURN_BILL')">
-								<button data-ng-click="ctrl.markBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+								<button data-ng-click="ctrl.markBankDeposit(directDebit.id)" class="btn-link glyphicon glyphicon-file pull-right"
 									th:title="#{directDebit.infoBankDeposit.mark}" style="color: orange"></button>
 							</object> 
 							
 							<!-- Cancel bank deposit --> 
 							<object data-ng-if="directDebit.state == 'MANAGEMENT' &amp;&amp; directDebit.method == 'BANK_DEPOSIT'">
-								<button data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+								<button data-ng-click="ctrl.cancelBankDeposit(directDebit.id)" class="btn-link glyphicon glyphicon-file pull-right"
 									th:title="#{directDebit.infoBankDeposit.cancel}" style="color: red"></button>
 							</object> 
 							
 							<!-- Confirm pay bank deposit --> 
 							<object data-ng-if="directDebit.state == 'MANAGEMENT' &amp;&amp; directDebit.method == 'BANK_DEPOSIT'">
-								<button data-ng-click="ctrl.confirmBankDeposit(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-file"
+								<button data-ng-click="ctrl.confirmBankDeposit(directDebit.id)" class="btn-link glyphicon glyphicon-file pull-right"
 									th:title="#{directDebit.infoBankDeposit.pay}" style="color: green"></button>
 							</object> 
 							
 							<!-- Confirm pay by paypal --> 
 							<object data-ng-if="directDebit.state == 'MANAGEMENT' &amp;&amp; directDebit.method == 'PAYPAL'">
-								<input type="image" data-ng-click="ctrl.confirmPaypal(directDebit.id)" th:src="@{/resources/images/paypal.png}" 
+								<input type="image" data-ng-click="ctrl.confirmPaypal(directDebit.id)" th:src="@{/resources/images/paypal.png}" class="pull-right"
 									th:title="#{payPaypal.confirm}" />
 							</object> 
 							
 							<!-- Pay Cash --> 
 							<object data-ng-if="(directDebit.state == 'NO_PAY' || directDebit.state == 'RETURN_BILL')">
-								<button data-ng-click="ctrl.cash(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}"
+								<button data-ng-click="ctrl.cash(directDebit.id)" class="btn-link glyphicon glyphicon-euro pull-right" th:title="#{payCheck}"
 									style="color: green"></button>
 							</object> 
 							
 							<!-- Return Bill --> 
 							<object data-ng-if="(directDebit.state == 'PAY' || directDebit.state == 'MANAGEMENT') &amp;&amp; directDebit.method == 'DIRECTDEBIT'">
-								<button data-ng-click="ctrl.returnBill(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-share-alt"
+								<button data-ng-click="ctrl.returnBill(directDebit.id)" class="btn-link glyphicon glyphicon-share-alt pull-right"
 									th:title="#{directDebit.infoReturnBill}" style="color: red"></button>
 							</object> 
 							
 							<!-- Cancel --> 
 							<object data-ng-if="(directDebit.state == 'NO_PAY' || directDebit.state != 'CANCEL')  ">
-								<button data-ng-click="ctrl.cancel(directDebit.id)" class="btnTable btn-link glyphicon glyphicon-ban-circle"
+								<button data-ng-click="ctrl.cancel(directDebit.id)" class="btn-link glyphicon glyphicon-ban-circle pull-right"
 									th:title="#{directDebit.infoCancel}" style="color: red"></button>
 							</object>
 

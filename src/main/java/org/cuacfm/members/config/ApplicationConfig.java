@@ -32,6 +32,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
@@ -111,6 +113,22 @@ public class ApplicationConfig {
 		return properties;
 	}
 
+	@Bean
+	public JavaMailSender javaMailSender() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+	    mailSender.setHost(properties.getProperty("email.host"));
+	    mailSender.setPort(Integer.valueOf(properties.getProperty("email.port")));
+	    mailSender.setUsername(properties.getProperty("email.username"));
+	    mailSender.setPassword(properties.getProperty("email.password"));
+	     
+	    Properties props = mailSender.getJavaMailProperties();
+	    props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+	     
+	    return mailSender;
+	}
+	
 	/**
 	 * Message source.
 	 *

@@ -52,7 +52,7 @@ public class Account implements Serializable {
 	}
 
 	public enum permissions {
-		ROLE_REPORT, ROLE_RESERVE, ROLE_TRAINER,
+		ROLE_REPORT, ROLE_BOOK, ROLE_TRAINER,
 	}
 
 	@Id

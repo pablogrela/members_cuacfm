@@ -33,23 +33,22 @@ public class Constants {
 
 	public static final String NO_RESULT = "NoResult";
 
-	/**
-	 * The Enum states.
-	 */
 	public enum states {
 		NO_PAY, PAY, MANAGEMENT, RETURN_BILL, CANCEL, ACCEPT, DENY
 	}
 
-	/**
-	 * The Enum method.
-	 */
 	public enum methods {
 		NO_PAY, PAYPAL, DIRECTDEBIT, CASH, BANK_DEPOSIT
 	}
 
-	/**
-	 * The Enum leves.
-	 */
+	public enum typePush {
+		BOOK, DEFAULT, MEMBERS, REPORT,
+	}
+	
+	public enum typeDestinataries {
+		ALL, EMAIL, MOBILE,
+	}
+
 	public enum levels {
 
 		DISABLE(0), CRITICAL(1), HIGH(2), MEDIUM(3), LOW(4), GOOD(5);

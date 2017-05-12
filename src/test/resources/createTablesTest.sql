@@ -67,7 +67,7 @@ DROP TABLE IF EXISTS ProgramCategory;
 DROP TABLE IF EXISTS ProgramLanguage;
 DROP TABLE IF EXISTS BankAccount;
 DROP TABLE IF EXISTS Event;
-DROP TABLE IF EXISTS Reserve;
+DROP TABLE IF EXISTS Book;
 DROP TABLE IF EXISTS Element;
 DROP TABLE IF EXISTS Account;
 DROP TABLE IF EXISTS AccountType;
@@ -171,7 +171,7 @@ CREATE TABLE Element (
     id INT NOT NULL auto_increment, 
     name VARCHAR(50) NOT NULL,
     description VARCHAR(100),
-    reservable BOOLEAN NOT NULL, 
+    book BOOLEAN NOT NULL, 
     location BOOLEAN NOT NULL, 
     dateCreate TIMESTAMP NULL,
     CONSTRAINT ElementId_PK PRIMARY KEY (id),
@@ -179,7 +179,7 @@ CREATE TABLE Element (
 );
 
 
-CREATE TABLE Reserve (
+CREATE TABLE Book (
     id INT NOT NULL auto_increment, 
     accountId INT NOT NULL,
     elementId INT NOT NULL,
@@ -192,9 +192,9 @@ CREATE TABLE Reserve (
     dateApproval TIMESTAMP NULL,
  	state VARCHAR(20) NOT NULL,
     active BOOLEAN NOT NULL, 
-    CONSTRAINT ReserveId_PK PRIMARY KEY (id),
-    CONSTRAINT Reserve_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
-    CONSTRAINT Reserve_ElementId_FK FOREIGN KEY (elementId) REFERENCES Element(id)
+    CONSTRAINT BookId_PK PRIMARY KEY (id),
+    CONSTRAINT Book_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id),
+    CONSTRAINT Book_ElementId_FK FOREIGN KEY (elementId) REFERENCES Element(id)
 );
 
 

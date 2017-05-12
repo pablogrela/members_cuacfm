@@ -64,7 +64,7 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand pull-center visible-xs" th:href="@{/}"> <img class="image-navbar" th:src="@{/resources/images/cuacfm.png}" />
+							<a class="navbar-brand visible-xs" th:href="@{/}"> <img class="image-navbar" th:src="@{/resources/images/cuacfm.png}" />
 							</a>
 						</div>
 
@@ -156,18 +156,18 @@
 								</th:block>
 
 
-								<!-- Button Reserves -->
-								<th:block th:if="${active != 'reserve.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
-									<li><a href="#" th:href="@{/reserveUserList}" th:text="#{reserve.list.user}">user reserve list</a></li>
+								<!-- Button Books -->
+								<th:block th:if="${active != 'book.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li><a href="#" th:href="@{/bookUserList}" th:text="#{book.list.user}">user book list</a></li>
 								</th:block>
-								<th:block th:if="${active == 'reserve.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
-									<li class="active"><a href="#" th:href="@{/reserveUserList}" th:text="#{reserve.list.user}">user reserve list</a></li>
+								<th:block th:if="${active == 'book.list.user'}" sec:authorize="hasAnyRole('ROLE_USER, ROLE_EXUSER')">
+									<li class="active"><a href="#" th:href="@{/bookUserList}" th:text="#{book.list.user}">user book list</a></li>
 								</th:block>
-								<th:block th:if="${active != 'reserves'}" sec:authorize="hasAnyRole('ROLE_RESERVE')">
-									<li><a href="#" th:href="@{/reserveList}" th:text="#{reserves}">reserve list</a></li>
+								<th:block th:if="${active != 'books'}" sec:authorize="hasAnyRole('ROLE_BOOK')">
+									<li><a href="#" th:href="@{/bookList}" th:text="#{books}">book list</a></li>
 								</th:block>
-								<th:block th:if="${active == 'reserves'}" sec:authorize="hasAnyRole('ROLE_RESERVE')">
-									<li class="active"><a href="#" th:href="@{/reserveList}" th:text="#{reserves}">reserve list</a></li>
+								<th:block th:if="${active == 'books'}" sec:authorize="hasAnyRole('ROLE_BOOK')">
+									<li class="active"><a href="#" th:href="@{/bookList}" th:text="#{books}">book list</a></li>
 								</th:block>
 								
 
@@ -225,12 +225,12 @@
 								</th:block>
 
 
-								<!-- Button Push -->
-								<th:block th:if="${active != 'push'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-									<li><a href="#" th:href="@{/push}" th:text="#{push}">push</a></li>
+								<!-- Button notification -->
+								<th:block th:if="${active != 'notification'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li><a href="#" th:href="@{/notification}" th:text="#{notification}">notification</a></li>
 								</th:block>
-								<th:block th:if="${active == 'push'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-									<li class="active"><a href="#" th:href="@{/push}" th:text="#{push}">push</a></li>
+								<th:block th:if="${active == 'notification'}" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+									<li class="active"><a href="#" th:href="@{/notification}" th:text="#{notification}">notification</a></li>
 								</th:block>
 								
 

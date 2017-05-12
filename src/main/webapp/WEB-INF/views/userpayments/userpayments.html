@@ -131,13 +131,13 @@
 				<thead class="table-bordered">
 					<tr>
 						<th th:text="#{program}">Program</th>
-						<th th:text="#{members}">Accounts</th>
+						<th th:text="#{members}" class="hidden-xs">Accounts</th>
 						<th th:text="#{fee}">Date</th>
 						<th th:text="#{price}">Price</th>
 						<th th:text="#{state}" th:title="#{infoState}">State</th>
 						<th th:text="#{methodPayment}" th:title="#{infoMethodPayment}">Method</th>
 						<th th:text="#{payerAccount}">Mobile</th>
-						<th class="no-sort"></th>
+						<th class="hidden-xs no-sort"></th>
 					</tr>
 				</thead>
 				<tbody class="table-bordered">
@@ -145,13 +145,13 @@
 					<!-- Table entry -->
 					<tr th:each="payProgram : ${payPrograms}">
 						<td th:text="${payProgram.program.name}">name</td>
-						<td><span th:each="account : ${payProgram.program.accounts}" th:text="${account.name} + ' , '"></span></td>
+						<td class="hidden-xs"><span th:each="account : ${payProgram.program.accounts}" th:text="${account.fullName} + ' , '"></span></td>
 						<td th:text="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
 						<td th:text="${payProgram.price}">price</td>
 						<td th:text="#{${'states.' + payProgram.state}}">State</td>
 						<td th:if="${payProgram.method == null}"></td>
 						<td th:if="${payProgram.method != null}" th:text="#{${'methods.' + payProgram.method}}">Method</td>
-						<td th:text="${payProgram.accountPayer}">mobile</td>
+						<td class="hidden-xs" th:text="${payProgram.accountPayer}">mobile</td>
 
 						<!-- Pay Program -->
 						<td class="text-center">

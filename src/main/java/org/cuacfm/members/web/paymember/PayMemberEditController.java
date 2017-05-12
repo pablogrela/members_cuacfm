@@ -88,7 +88,7 @@ public class PayMemberEditController {
 			payMemberForm.setIdPayer(payMember.getIdPayer());
 			payMemberForm.setEmailPayer(payMember.getEmailPayer());
 			payMemberForm.setIdPayer(payMember.getIdPayer());
-			payMemberForm.setDatePay(DateUtils.format(payMember.getDatePay(), DateUtils.FORMAT_DISPLAY));
+			payMemberForm.setDatePay(DateUtils.format(payMember.getDatePay(), DateUtils.FORMAT_LOCAL));
 			model.addAttribute(payMember);
 			model.addAttribute(payMemberForm);
 			return PAYMEMBER_VIEW_NAME;

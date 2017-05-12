@@ -17,7 +17,6 @@ package org.cuacfm.members.model.feememberservice;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +30,6 @@ import org.cuacfm.members.model.feemember.FeeMemberRepository;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.model.util.Constants.levels;
-import org.cuacfm.members.model.util.PushService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +66,6 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 		}
 
 		feeMemberRepository.save(feeMember);
-		List<String> devicesToken = new ArrayList<>();
 		int percent;
 
 		// Create payments of users
@@ -101,18 +98,12 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 					directDebitService.save(user);
 				}
 			}
-
-			// Add devices token to send push
-			devicesToken.addAll(user.getDevicesToken());
 		}
 
 		Object[] arguments = { feeMember.getName() };
 
 		// Save event
 		eventService.save("feeMember.successCreate", null, levels.HIGH, arguments);
-
-		// Send push
-		PushService.sendPushNotificationToDevice(devicesToken, feeMember.getName(), feeMember.getDescription());
 
 		return feeMember;
 	}

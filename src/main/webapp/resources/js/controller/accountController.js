@@ -63,6 +63,19 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 		}
 	}
 
+	$scope.email = function(id, title, body) {
+		if (title != null && !jQuery.isEmptyObject(title) && body != null && !jQuery.isEmptyObject(body)) {
+			AccountService.email(id, title, body).then(function(data) {
+				$scope.message = data;
+				$('#close').click();
+				$scope.title = '';
+				$scope.body = '';
+			}, function(errorResponse) {
+				console.error('Error while push account', errorResponse);
+			});
+		}
+	}
+	
 	$scope.infoAccount = function(aux) {
 		$scope.account = aux;
 	}

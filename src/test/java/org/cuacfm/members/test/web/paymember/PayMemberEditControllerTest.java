@@ -184,7 +184,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
 
 		mockMvc.perform(post("/feeMemberList/payMemberList/payMemberEdit").locale(Locale.ENGLISH).session(defaultSession).param("price", "24")
 				.param("state", "PAY").param("method", "CASH").param("installment", "1").param("installments", "1").param("idPayer", "1G3210")
-				.param("idTxn", "1G3210").param("emailPayer", "user@hotmail.com").param("datePay", "10:10 10/10/2015"))
+				.param("idTxn", "1G3210").param("emailPayer", "user@hotmail.com").param("datePay", "10/10/2015 10:10"))
 				.andExpect(view().name("redirect:/feeMemberList/payMemberList"));
 	}
 
@@ -225,7 +225,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
 				.param("idTxn", "1G321011111111111111111111111111111111111111111111111111111111111111111111111111111111")
 				.param("emailPayer", "user@hotmail.com11111111111111111111111111111111111111111111111111111111111111111")
 				.param("statusPay", "Completed1111111111111111111111111111111111111111111111111111111111111111111111111")
-				.param("datePay", "10:10 10/10/2015")).andExpect(content().string(containsString("Maximum 50 characters")))
+				.param("datePay", "10/10/2015 10:10")).andExpect(content().string(containsString("Maximum 50 characters")))
 				.andExpect(view().name("paymember/paymemberedit"));
 
 	}
@@ -246,7 +246,7 @@ public class PayMemberEditControllerTest extends WebSecurityConfigurationAware {
 	//                  .session(defaultSession).param("price", "24").param("state", "PAY").param("method", "CASH")
 	//                  .param("installment", "1").param("installments", "1").param("idPayer", "1")
 	//                  .param("idTxn", "1G3210").param("emailPayer", "user@hotmail.com")
-	//                  .param("datePay", "10:10 10/10/2015")).andExpect(
+	//                  .param("datePay", "10/10/2015 10:10")).andExpect(
 	//            view().name("paymember/paymemberedit"));
 	//
 	//   }

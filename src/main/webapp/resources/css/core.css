@@ -21,25 +21,52 @@ body {
 }
 
 /* hidden angular if no load */
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak,
+	.x-ng-cloak {
+	display: none !important;
 }
 
 /* Start - Button zoom in image */
 .image-zoom {
 	cursor: zoom-in;
+	height: 100%;
+	max-width: auto;
 }
+
 .image-zoom:-webkit-full-screen {
 	cursor: zoom-out;
+	max-width: 100%;
+	max-height: 100%;
 }
+
 .image-zoom:-moz-full-screen {
 	cursor: zoom-out;
+	max-width: 100%;
+	max-height: 100%;
 }
+
 .image-zoom:-ms-fullscreen {
 	cursor: zoom-out;
+	max-width: 100%;
+	max-height: 100%;
 }
+
 .image-zoom:fullscreen {
 	cursor: zoom-out;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.carousel-inner>.item {
+	height: 320px;
+	max-height: 320px;
+}
+
+/* removed property height: 100%; qith the same name in bootstrap css*/
+.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive,
+	.thumbnail a>img, .thumbnail>img {
+	display: block;
+	margin: 0 auto;
 }
 /* End - Button zoom in image */
 
@@ -112,6 +139,17 @@ div.scroll {
 /********************  mobile               ********************************/
 /***************************************************************************/
 @media ( max-width : 768px) {
+	/* 	Caja principal de la aplicacion */
+	.container-fluid {
+		padding-left: 0px;
+		padding-right: 0px;
+		font-size: 19px;
+	}
+
+    .glyphicon{
+    	zoom: 110%;
+    }
+    
 	/* formularios */
 	.form-narrow {
 		zoom: 100%;
@@ -136,6 +174,15 @@ div.scroll {
 		/* 	fondo de barra */
 		background-color: #FFD801; /*blanco*/
 		border-color: #FFFFFF;
+	}
+	.navbar-inverse {
+		border-color: #080808
+	}
+	/* 	remove border black line in menu */
+	.navbar {
+		border: 0px solid transparent;
+		/* border-top: 1px solid transparent; */
+		border-bottom: 1px solid transparent;
 	}
 	.navbar-inverse {
 		/* fondo de barra */
@@ -166,10 +213,9 @@ div.scroll {
 	.navbar-toggle {
 		margin-left: 20px;
 	}
-
-.form-group-elements {
-	width: 250px;
-}
+	.form-group-elements {
+		width: 250px;
+	}
 	/********************  portrait  **************************************/
 	@media ( orientation : portrait ) {
 		/* 	clase para aumentar el css al doble */
@@ -193,19 +239,17 @@ div.scroll {
 
 		/* 	elementos de la cabecera, logo y boton */
 		.navbar-header {
-			/* 				font-size: large; */
-			/* 			 */
-			/* 			width: 50%; */
+			/* font-size: large; */
+			/* width: 50%; */
 			zoom: 130%;
-			
 		}
 
 		/* 	elementos de la cabecera, los seleccionables */
 		.navbar-nav {
-			/* 				font-size: large; */
+			/* font-size: large; */
 			zoom: 150%;
 			margin-left: 10px;
-			/* 			width: 50%; */
+			/* width: 50%; */
 		}
 		.alert {
 			zoom: 150%;
@@ -474,28 +518,8 @@ div.scroll {
 	text-align: left;
 }
 
-/* Botón metido en las tablas*/
-.btnTable {
-	display: inline-block;
-	margin-bottom: 0;
-	font-size: 14px;
-	font-weight: normal;
-	line-height: 1.42857143;
-	text-align: center;
-	white-space: nowrap;
-	-ms-touch-action: manipulation;
-	touch-action: manipulation;
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	background-image: none;
-	border: 1px solid transparent;
-	border-radius: 4px;
-}
 
-/* Botón bloqueado metido en las tablas*/
+/* Boton bloqueado metido en las tablas*/
 .btnTableLocked {
 	display: inline-block;
 	margin-bottom: 0;
@@ -981,7 +1005,7 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
 }
 
 /* color food table */
-tr.foot td{
+tr.foot td {
 	background-color: #F08109; /* orange */
 }
 
