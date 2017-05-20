@@ -46,17 +46,16 @@
 
 		<!-- Show message, if training type list is empty -->
 		<div th:if="${#lists.isEmpty(trainingTypes)}">
-			<h2 class="text-center" th:text="#{trainingType.trainingTypeListEmpty}">List of Training Types</h2>
+			<h1 class="text-center" th:text="#{trainingType.trainingTypeListEmpty}">List of Training Types</h1>
 		</div>
 
+		<!-- Verify if exits trainings -->
+		<div th:unless="${#lists.isEmpty(trainingTypes)}">
 
-		<fieldset>
+			<h1 class="text-center" th:text="#{trainingType.trainingTypeList}">List of Training Types</h1>
 
-			<!-- Verify if exits trainings -->
-			<div th:unless="${#lists.isEmpty(trainingTypes)}">
-
-				<h2 class="text-center" th:text="#{trainingType.trainingTypeList}">List of Training Types</h2>
-
+			<br></br>
+			<div>
 				<!-- Table List of Training Types -->
 				<table class="display" id="customTable">
 					<thead class="table-bordered">
@@ -88,9 +87,9 @@
 											onclick="evaluateModal(this.form, modal, accept)"></button>
 									</th:block>
 
-									<!-- If doesn´t delete TrainingType because TrainingType has trainings-->
+									<!-- If does not delete TrainingType because TrainingType has trainings-->
 									<th:block th:if="${trainingType.hasTrainings}">
-										<button class="btnTableLocked btn-link glyphicon glyphicon-remove" th:title="#{trainingType.infoRemoveLocked}" style="color: black">
+										<button class="btnLocked btn-link glyphicon glyphicon-remove" th:title="#{trainingType.infoRemoveLocked}" style="color: black">
 										</button>
 									</th:block>
 
@@ -108,9 +107,7 @@
 					</tbody>
 				</table>
 			</div>
-
-
-		</fieldset>
+		</div>
 
 		<!-- Modal Info Delete TrainingType	-->
 		<div id="modal" class="modal fade">

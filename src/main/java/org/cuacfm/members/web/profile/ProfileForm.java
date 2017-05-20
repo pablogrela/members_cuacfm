@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.cuacfm.members.model.account.Account;
@@ -89,7 +90,10 @@ public class ProfileForm {
 	@Size(max = 50, message = Constants.MAX_CHARACTERS)
 	private String programName;
 
+	@NotNull
 	private Boolean student;
+	
+	@NotNull
 	private Boolean emitProgram;
 
 	/** The date birth. */

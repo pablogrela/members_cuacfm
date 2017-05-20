@@ -60,7 +60,7 @@ public interface DirectDebitService {
 	 * @param datePay the date pay
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public void updateDirectDebit(DirectDebit directDebit, states state, methods method, Date datePay) throws ExistTransactionIdException;
+	public void updateDirectDebit(DirectDebit directDebit, states state, methods method, Date datePay);
 
 	/**
 	 * Find by id.
@@ -147,7 +147,7 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String directDebit(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String directDebit(DirectDebit directDebit, Account account);
 
 	/**
 	 * Bank deposit.
@@ -157,7 +157,7 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String markBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String markBankDeposit(DirectDebit directDebit, Account account);
 
 	/**
 	 * Cancel bank deposit.
@@ -167,7 +167,7 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String cancelBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String cancelBankDeposit(DirectDebit directDebit, Account account);
 
 	/**
 	 * Confirm bankDeposit.
@@ -177,7 +177,7 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String confirmBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String confirmBankDeposit(DirectDebit directDebit, Account account);
 
 	/**
 	 * Confirm pay by paypal.
@@ -187,7 +187,7 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String confirmPaypal(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String confirmPaypal(DirectDebit directDebit, Account account);
 
 	/**
 	 * Cash.
@@ -197,7 +197,7 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String cash(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String cash(DirectDebit directDebit, Account account);
 
 	/**
 	 * Paypal.
@@ -222,7 +222,7 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String returnBill(DirectDebit directDebi, Account accountt) throws ExistTransactionIdException;
+	public String returnBill(DirectDebit directDebi, Account accountt);
 
 	/**
 	 * Management direct debit.
@@ -232,7 +232,7 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String management(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String management(DirectDebit directDebit, Account account);
 
 	/**
 	 * Cancel direct debit.
@@ -242,5 +242,5 @@ public interface DirectDebitService {
 	 * @return the string
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public String cancel(DirectDebit directDebit, Account account) throws ExistTransactionIdException;
+	public String cancel(DirectDebit directDebit, Account account);
 }

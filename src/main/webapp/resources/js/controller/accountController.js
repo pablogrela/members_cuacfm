@@ -26,7 +26,7 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 		AccountService.fetchAllUsers().then(function(data) {
 			$scope.accounts = data;
 		}, function(errorResponse) {
-			console.error('Error while fetching Users', errorResponse);
+			console.error('Error while fetching accounts', errorResponse);
 		});
 	}
 
@@ -36,7 +36,7 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 			$scope.fetchAllUsers();
 			showModal(modal);
 		}, function(errorResponse) {
-			console.error('Error while unsubscribe User', errorResponse);
+			console.error('Error while unsubscribe account', errorResponse);
 		});
 	}
 
@@ -46,7 +46,7 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 			$scope.fetchAllUsers();
 			showModal(modal);
 		}, function(errorResponse) {
-			console.error('Error while subscribe User', errorResponse);
+			console.error('Error while subscribe account', errorResponse);
 		});
 	}
 
@@ -54,7 +54,7 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 		if (title != null && !jQuery.isEmptyObject(title) && body != null && !jQuery.isEmptyObject(body)) {
 			AccountService.push(id, title, body).then(function(data) {
 				$scope.message = data;
-				$('#close').click();
+				$('#closePush').click();
 				$scope.title = '';
 				$scope.body = '';
 			}, function(errorResponse) {
@@ -67,7 +67,7 @@ membersApp.controller('AccountController', [ '$scope', 'AccountService', functio
 		if (title != null && !jQuery.isEmptyObject(title) && body != null && !jQuery.isEmptyObject(body)) {
 			AccountService.email(id, title, body).then(function(data) {
 				$scope.message = data;
-				$('#close').click();
+				$('#closeEmail').click();
 				$scope.title = '';
 				$scope.body = '';
 			}, function(errorResponse) {

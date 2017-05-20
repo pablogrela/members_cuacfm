@@ -23,11 +23,12 @@
 
 	<div th:fragment="userdirectdebitlist">
 
-		<h2 data-ng-show="directDebits" class="text-center" th:text="#{directDebit.directDebitList.directPay}"></h2>
-
+		<h1 data-ng-show="directDebits" class="text-center" th:text="#{directDebit.directDebitList.directPay}"></h1>
+		<br></br>
+		
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<object data-ng-show="message">
-			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			<div th:replace="fragments/alert :: alert (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )"></div>
 		</object>
 
 		<table data-ng-show="directDebits" class="dataTable display table-striped">

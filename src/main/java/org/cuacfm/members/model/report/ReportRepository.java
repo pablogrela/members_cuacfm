@@ -56,14 +56,6 @@ public interface ReportRepository {
 	public Report findById(Long id);
 
 	/**
-	 * Find by login.
-	 *
-	 * @param name the name of report
-	 * @return Report
-	 */
-	public Report findByName(String name);
-
-	/**
 	 * Get all reports.
 	 *
 	 * @return List<Report>

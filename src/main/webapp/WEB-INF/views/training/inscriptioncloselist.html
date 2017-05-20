@@ -39,9 +39,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<div class="container" th:unless="${#lists.isEmpty(inscriptions)}">
 
 		<!-- Tittle -->
-		<h2 class="text-center"
+		<h1 class="text-center"
 			th:text="#{inscription.inscriptionList} + ' ' +  ${training.name}">
-			List of Training Types</h2>
+			List of Training Types</h1>
 
 		<!-- Message Info -->
 		<div class="container text-center ">
@@ -96,9 +96,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 	<!-- Show message, if inscription list is empty -->
 	<div th:unless="!${#lists.isEmpty(inscriptions)}">
-		<h2 class="text-center"
+		<h1 class="text-center"
 			th:text="#{inscription.inscriptionListEmpty} + ' ' +  ${training.name}">
-			List of Training Types</h2>
+			List of Training Types</h1>
 	</div>
 
 </body>

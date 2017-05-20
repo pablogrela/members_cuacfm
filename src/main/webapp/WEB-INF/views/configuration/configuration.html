@@ -139,10 +139,10 @@
 	</form>
 
 
-
+	<!-- ************************************ Account types ************************************-->
+	<br></br><hr />
+	<h1 class="text-center" th:text="#{accountType.accountTypes}">List of Account Types Inscriptions</h1>
 	<br></br>
-	<h2 class="text-center" th:text="#{accountType.accountTypes}">List of Account Types Inscriptions</h2>
-
 	<!-- Button Create New Account Type -->
 	<div class="text-center">
 		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/accountTypeCreate}" th:text="#{accountType.create}">Create New Account Type
@@ -151,7 +151,7 @@
 
 	<!-- Message if accountTypes is Empty -->
 	<th:block th:if="${#lists.isEmpty(accountTypes)}">
-		<h2 class="text-center" th:text="#{accountType.accountTypesEmpty}">List of Account Types Empty</h2>
+		<h1 class="text-center" th:text="#{accountType.accountTypesEmpty}">List of Account Types Empty</h1>
 		<br></br>
 	</th:block>
 
@@ -196,10 +196,10 @@
 	</div>
 
 
-
+	<!-- ************************************method payments ************************************-->
+	<br></br><hr />
+	<h1 class="text-center" th:text="#{methodPayment.methodPayments}">List of MethodPayments</h1>
 	<br></br>
-	<h2 class="text-center" th:text="#{methodPayment.methodPayments}">List of MethodPayments</h2>
-
 	<!-- Button Create New Method Payment -->
 	<div class="text-center">
 		<a href="#" class="btn btn-orange btn-lg" th:href="@{/configuration/methodPaymentCreate}" th:text="#{methodPayment.create}">Create Method
@@ -208,7 +208,7 @@
 
 	<!-- Message if methodPayments is Empty -->
 	<th:block th:if="${#lists.isEmpty(methodPayments)}">
-		<h2 class="text-center" th:text="#{methodPayment.methodPaymentsEmpty}">List of Account Types Empty</h2>
+		<h1 class="text-center" th:text="#{methodPayment.methodPaymentsEmpty}">List of Account Types Empty</h1>
 	</th:block>
 
 	<!-- Verify if exits methodPayments -->
@@ -252,10 +252,10 @@
 
 
 	<!-- ************************************ Elements ************************************-->
-	<br></br>
+	<br></br><hr />
 	<!-- Title elements -->
-	<h2 th:if="${!#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list}"></h2>
-	<h2 th:if="${#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list.empty}"></h2>
+	<h1 th:if="${!#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list}"></h1>
+	<h1 th:if="${#lists.isEmpty(elements)}" class="text-center" th:text="#{element.list.empty}"></h1>
 
 	<!-- Button Create New Element -->
 	<br></br>
@@ -366,9 +366,10 @@
 	</div>
 
 
-	<!-- Upload migrations -->
-	<br></br>
-	<h3 class="text-center" th:text="#{configuration.uploadDatabase}"></h3>
+
+	<!-- ************************************ Upload migrations ************************************-->
+	<br></br><hr />
+	<h1 class="text-center" th:text="#{configuration.uploadDatabase}"></h1>
 	<br></br>
 	<div class="container-fluid text-center containerColums">
 

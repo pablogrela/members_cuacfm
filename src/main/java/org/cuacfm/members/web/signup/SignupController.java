@@ -113,7 +113,7 @@ public class SignupController {
 	 */
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra,
-			@RequestParam("g-recaptcha-response") String response, HttpServletRequest request)
+			@RequestParam("g-recaptcha-response") String captcha, HttpServletRequest request)
 			throws IOException, ScriptException, NoSuchMethodException {
 
 		// check that the password and rePassword are the same
@@ -130,7 +130,7 @@ public class SignupController {
 		}
 
 		// Los test tiene un error, ya que no pueden verificar los captcha, mejor probarlos sin internet
-		if (!VerifyRecaptcha.verify(response)) {
+		if (!VerifyRecaptcha.verify(captcha)) {
 			errors.rejectValue("captcha", "signup.captcha", new Object[] { "captcha" }, "captcha");
 		}
 
@@ -185,7 +185,7 @@ public class SignupController {
 
 		// If you are already registered you are redirected to signin
 		Account account = accountService.findByEmail(email);
-		if (account.getToken() == null || !account.getToken().equals(token)) {
+		if (account == null || account.getToken() == null || !account.getToken().equals(token)) {
 			return SigninController.SIGNIN_REDIRECT;
 		}
 

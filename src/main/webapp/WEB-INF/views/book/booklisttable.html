@@ -46,12 +46,12 @@
 
 		<!-- Message if directDebits is empty -->
 		<div data-ng-show="!books">
-			<h2 class="text-center" th:text="${titleEmpty}"></h2>
+			<h1 class="text-center" th:text="${titleEmpty}"></h1>
 		</div>
 
 
 		<div data-ng-show="books">
-			<h2 class="text-center" th:text="${title}"></h2>
+			<h1 class="text-center" th:text="${title}"></h1>
 
 			<div th:include="fragments/sortColumn :: search"></div>
 			<table class="dataTable display table-striped">

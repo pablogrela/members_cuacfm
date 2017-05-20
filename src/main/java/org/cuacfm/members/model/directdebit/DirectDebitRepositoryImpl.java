@@ -119,9 +119,9 @@ public class DirectDebitRepositoryImpl implements DirectDebitRepository {
 	public List<DirectDebit> findAllOpenByAccountId(Long accountId) {
 		return entityManager
 				.createQuery(
-						"select d from DirectDebit d where d.account.id = :accountId and (d.state = :state1 or d.state = :state2) order by d.id desc",
+						"select d from DirectDebit d where d.account.id = :accountId and (d.state != :state1 or d.state != :state2) order by d.id desc",
 						DirectDebit.class)
-				.setParameter("accountId", accountId).setParameter("state1", states.NO_PAY).setParameter("state2", states.MANAGEMENT).getResultList();
+				.setParameter("accountId", accountId).setParameter("state1", states.PAY).setParameter("state2", states.CANCEL).getResultList();
 	}
 
 	@Override

@@ -17,7 +17,6 @@ package org.cuacfm.members.web.userpayments;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
@@ -32,9 +31,11 @@ import org.cuacfm.members.model.paymemberservice.PayMemberService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.util.Constants;
+import org.cuacfm.members.model.util.Constants.states;
 import org.cuacfm.members.web.support.MessageHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -45,8 +46,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 /** The Class UserPaymentsController. */
 @Controller
 public class UserPaymentsController {
@@ -70,8 +70,8 @@ public class UserPaymentsController {
 	@Autowired
 	private DirectDebitService directDebitService;
 
-	@Autowired
-	private MessageSource messageSource;
+	//	@Autowired
+	//	private MessageSource messageSource;
 
 	private List<PayMember> payMembers;
 	private List<PayProgram> payPrograms;
@@ -226,16 +226,16 @@ public class UserPaymentsController {
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
 
 		// Verified if account is equals to account of userPayAccount
-		if (directDebit.getAccount().getId() == account.getId()) {
-			try {
-				String message = directDebitService.markBankDeposit(directDebit, account);
-				MessageHelper.addSuccessAttribute(ra, message);
-			} catch (ExistTransactionIdException e) {
-				logger.warn("directDebitByMarkBankDeposit - ExistTransactionIdException", e);
-				Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-				String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-				MessageHelper.addErrorAttribute(ra, messageI18n);
-			}
+		if (directDebit.getAccount().getId() == account.getId() && directDebit.getMethod() == null && !directDebit.getState().equals(states.CANCEL)) {
+			//  try {
+			String message = directDebitService.markBankDeposit(directDebit, account);
+			MessageHelper.addSuccessAttribute(ra, message);
+			//	} catch (ExistTransactionIdException e) {
+			//		logger.warn("directDebitByMarkBankDeposit - ExistTransactionIdException", e);
+			//		Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
+			//		String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
+			//		MessageHelper.addErrorAttribute(ra, messageI18n);
+			//	}
 		}
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
@@ -257,15 +257,15 @@ public class UserPaymentsController {
 
 		// Verified if account is equals to account of userPayAccount
 		if (directDebit.getAccount().getId() == account.getId()) {
-			try {
-				String message = directDebitService.cancelBankDeposit(directDebit, account);
-				MessageHelper.addWarningAttribute(ra, message);
-			} catch (ExistTransactionIdException e) {
-				logger.warn("directDebitByCancelBankDeposit - ExistTransactionIdException", e);
-				Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-				String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-				MessageHelper.addErrorAttribute(ra, messageI18n);
-			}
+			//	try {
+			String message = directDebitService.cancelBankDeposit(directDebit, account);
+			MessageHelper.addWarningAttribute(ra, message);
+			//	} catch (ExistTransactionIdException e) {
+			//		logger.warn("directDebitByCancelBankDeposit - ExistTransactionIdException", e);
+			//		Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
+			//		String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
+			//		MessageHelper.addErrorAttribute(ra, messageI18n);
+			//	}
 		}
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
@@ -331,7 +331,8 @@ public class UserPaymentsController {
 		// Verified if account is equals to account of userPayAccount
 		if (payProgram.getProgram().getAccounts().contains(account)) {
 			try {
-				payProgramService.payPayPal(payProgram, account.getName() + " " + account.getSurname(), idTxn, idPayer, emailPayer, statusPay, datePay);
+				payProgramService.payPayPal(payProgram, account.getName() + " " + account.getSurname(), idTxn, idPayer, emailPayer, statusPay,
+						datePay);
 				MessageHelper.addSuccessAttribute(ra, Constants.SUCCESSPAYPAL, payProgram.getProgram().getName());
 			} catch (ExistTransactionIdException e) {
 				logger.warn("payProgramByPayPal - ExistTransactionIdException", e);

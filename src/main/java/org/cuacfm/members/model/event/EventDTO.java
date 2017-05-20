@@ -33,7 +33,7 @@ public class EventDTO {
 	/**
 	 * Instantiates a new event.
 	 */
-	protected EventDTO() {
+	public EventDTO() {
 		super();
 	}
 

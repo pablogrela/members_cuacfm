@@ -21,7 +21,6 @@ import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.book.Book;
 import org.cuacfm.members.model.book.BookDTO;
 import org.cuacfm.members.model.exceptions.DatesException;
-import org.cuacfm.members.model.exceptions.ExistPaymentsException;
 import org.cuacfm.members.model.exceptions.UserAlreadyBookException;
 
 /** The Class BookService. */
@@ -49,15 +48,6 @@ public interface BookService {
 	 * @param book the book
 	 */
 	public void delete(Book book);
-
-	/**
-	 * Delete.
-	 *
-	 * @param book the book
-	 * @param account the account
-	 * @throws ExistPaymentsException the exist payments exception
-	 */
-	public void delete(Book book, Account account) throws ExistPaymentsException;
 
 	/**
 	 * Find by id returns book which has this identifier.

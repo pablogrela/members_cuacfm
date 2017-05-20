@@ -44,6 +44,13 @@ public interface InscriptionRepository {
 	public void delete(Long accountId, Long trainingId);
 
 	/**
+	 * Gets the all.
+	 *
+	 * @return the all
+	 */
+	public List<Inscription> getAll();
+
+	/**
 	 * Find by accountId.
 	 *
 	 * @param accountId the id of user

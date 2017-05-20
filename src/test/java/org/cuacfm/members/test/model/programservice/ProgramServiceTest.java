@@ -19,12 +19,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -37,15 +40,22 @@ import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
+import org.cuacfm.members.model.program.ProgramCategory;
+import org.cuacfm.members.model.program.ProgramDTO;
+import org.cuacfm.members.model.program.ProgramLanguage;
+import org.cuacfm.members.model.program.ProgramThematic;
+import org.cuacfm.members.model.program.ProgramType;
 import org.cuacfm.members.model.programservice.ProgramService;
-import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -126,6 +136,61 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 		//Assert by Name
 		programSearch = programService.findByName(program.getName());
 		assertEquals(program, programSearch);
+		
+		ProgramThematic programThematic = new ProgramThematic("ProgramThematic", "ProgramThematic");
+		programThematic.getId();
+		programThematic.getName();
+		programThematic.getDescription();
+		programThematic.toString();
+		programService.findProgramThematicById(1);
+		programService.findProgramThematicByName("ProgramThematic");
+		programThematic.setName("a");
+		programThematic.setDescription("a");
+		
+		ProgramLanguage programLanguage  = new ProgramLanguage ("ProgramLanguage ", "ProgramLanguage ");
+		programLanguage.getId();
+		programLanguage.getName();
+		programLanguage.getDescription();
+		programLanguage.toString();
+		programService.findProgramLanguageById(1);
+		programService.findProgramLanguageByName("ProgramThematic");
+		programLanguage.setName("a");
+		programLanguage.setDescription("a");
+		
+		ProgramType programType  = new ProgramType ("ProgramType ", "ProgramType ");
+		programType.getId();
+		programType.getName();
+		programType.getDescription();
+		programType.toString();
+		programService.findProgramTypeById(1);
+		programService.findProgramTypeByName("ProgramThematic");
+		programType.setName("a");
+		programType.setDescription("a");
+		
+		ProgramCategory programCategory  = new ProgramCategory ("ProgramCategory ", "ProgramCategory ");
+		programCategory.getId();
+		programCategory.getName();
+		programCategory.getDescription();
+		programCategory.toString();
+		programService.findProgramCategoryById(1);
+		programService.findProgramCategoryByName("ProgramThematic");
+		programCategory.setName("a");
+		programCategory.setDescription("a");
+		
+		program.toString();		
+		program.setProgramCategory(null);
+		programService.update(program);
+		programService.getProgramDTO(program);
+		
+		programService.processJson(null);
+		File file = new File("validation.txt");
+	    DiskFileItem fileItem = new DiskFileItem("file", "text/plain", false, file.getName(), (int) file.length() , file.getParentFile());
+	    try {
+			fileItem.getOutputStream();
+		    MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+			programService.processJson(multipartFile);
+		} catch (IOException e) {
+		}
 	}
 
 	/**
@@ -427,5 +492,31 @@ public class ProgramServiceTest extends WebSecurityConfigurationAware {
 
 		payProgramService.payPayPal(payProgram, "accountPayer", "idTxn", "idPayer", "emailPayer", "statusPay", "12:12:12 Jun 12, 2015");
 		payProgramService.payPayPal(payProgram2, "accountPayer", "idTxn", "idPayer", "emailPayer", "statusPay", "12:12:12 Jun 12, 2015");
+	}
+	
+	
+	@Test
+	public void getProgramDTO() throws UniqueException, UniqueListException {
+		List<Account> accounts = new ArrayList<Account>();
+		Account account = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		account.addDeviceToken("deviceToken");
+		accountService.save(account);
+		accounts.add(account);
+
+		// Save
+		Program program = new Program("Pepe", "Very interesting", Float.valueOf(1), 9, accounts, account, programService.findProgramTypeById(1),
+				programService.findProgramThematicById(1), programService.findProgramCategoryById(1), programService.findProgramLanguageById(1), "",
+				"", "", "", "");
+		programService.save(program);
+
+		// DTO
+		ProgramDTO programDTO = new ProgramDTO();
+		programDTO = programService.getProgramDTO(program);
+		programDTO.toString();
+		programDTO.setAccountPayer(null);
+		programDTO.setActive(false);
+		programDTO.setDateCreate(new Date());
+		programDTO.setPeriodicity(Float.valueOf(1));
+		programDTO.setEmail("a@test.es");
 	}
 }

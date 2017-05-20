@@ -117,7 +117,7 @@ public class InscriptionListController {
 			usernames = trainingService.getUsernamesByInscription(training.getId());
 			model.addAttribute("usernames", usernames);
 
-			users = accountService.getUsers();
+			users = accountService.getUsersActive();
 			model.addAttribute("users", users);
 
 			model.addAttribute(new FindUserForm());

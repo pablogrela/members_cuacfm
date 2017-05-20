@@ -76,7 +76,7 @@ public class NotificationController {
 
 		accountService.getAccountsWithDeviceToken();
 
-		List<AccountDTO> accountsDTO = accountService.getAccountsDTO(accountService.getAccountsOrderByActive());
+		List<AccountDTO> accountsDTO = accountService.getAccountsDTO(accountService.getUsersActive());
 
 		if (accountsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);

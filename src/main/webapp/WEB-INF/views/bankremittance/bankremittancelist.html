@@ -92,7 +92,7 @@
 
 		<!-- Show message, if bankRemittance list is empty -->
 		<div th:if="${#lists.isEmpty(bankRemittances)}">
-			<h2 class="text-center" th:text="#{bankRemittance.bankRemittancelistEmpty}">List of BankRemittance Types</h2>
+			<h1 class="text-center" th:text="#{bankRemittance.bankRemittancelistEmpty}">List of BankRemittance Types</h1>
 		</div>
 
 
@@ -100,7 +100,7 @@
 		<div th:unless="${#lists.isEmpty(bankRemittances)}">
 
 			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{bankRemittance.bankRemittancelist}">List of BankRemittances</h2>
+			<h1 class="text-center" th:text="#{bankRemittance.bankRemittancelist}">List of BankRemittances</h1>
 
 			<!-- Table List of BankRemittances -->
 			<table class="display" id="customTable">

@@ -232,10 +232,6 @@ public class SignupForm {
 		return captcha;
 	}
 
-	public void setCaptcha(String captcha) {
-		this.captcha = captcha;
-	}
-
 	public boolean isBlockEmail() {
 		return blockEmail;
 	}

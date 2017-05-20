@@ -42,12 +42,12 @@
 
 		<!-- Message if feeMembers is Empty -->
 		<th:block th:if="${#lists.isEmpty(feeMembers)}">
-			<h2 class="text-center" th:text="#{feeMember.feeMemberListEmpty}">List of feeMembers Empty</h2>
+			<h1 class="text-center" th:text="#{feeMember.feeMemberListEmpty}">List of feeMembers Empty</h1>
 		</th:block>
 
 		<!-- Verify if exits feeMembers -->
 		<div th:unless="${#lists.isEmpty(feeMembers)}">
-			<h2 class="text-center" th:text="#{feeMember.feeMemberList}">List of Pay Inscriptions</h2>
+			<h1 class="text-center" th:text="#{feeMember.feeMemberList}">List of Pay Inscriptions</h1>
 
 			<!-- Table List of Fee Members -->
 			<table class="display" id="customTable">

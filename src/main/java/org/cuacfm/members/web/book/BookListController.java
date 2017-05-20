@@ -21,7 +21,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.account.Account.permissions;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.book.Book;
 import org.cuacfm.members.model.book.BookDTO;
@@ -106,15 +105,9 @@ public class BookListController {
 	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "bookList/")
 	public ResponseEntity<List<BookDTO>> getBooks(Principal principal) {
 
-		Account account = accountService.findByLogin(principal.getName());
-
 		// List of books
-		List<BookDTO> booksDTO;
-		if (account.getPermissions().contains(permissions.ROLE_BOOK.toString())) {
-			booksDTO = bookService.getBooksDTO(bookService.getBookListActive());
-		} else {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
+		List<BookDTO> booksDTO = bookService.getBooksDTO(bookService.getBookListActive());
+
 		if (booksDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -134,7 +127,6 @@ public class BookListController {
 
 		// List of books
 		List<BookDTO> booksDTO = bookService.getBooksDTO(bookService.getBookListByUser(account));
-
 		if (booksDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -150,15 +142,8 @@ public class BookListController {
 	@RequestMapping(value = "bookList/close/")
 	public ResponseEntity<List<BookDTO>> getBooksClose(Principal principal) {
 
-		Account account = accountService.findByLogin(principal.getName());
-
 		// List of books
-		List<BookDTO> booksDTO;
-		if (account.getPermissions().contains(permissions.ROLE_BOOK.toString())) {
-			booksDTO = bookService.getBooksDTO(bookService.getBookListClose());
-		} else {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
+		List<BookDTO> booksDTO = bookService.getBooksDTO(bookService.getBookListClose());
 		if (booksDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

@@ -46,14 +46,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class MethodPaymentCreateControllerTest extends WebSecurityConfigurationAware {
 
-	/** The default session. */
 	private MockHttpSession defaultSession;
 
-	/** The account service. */
 	@Inject
 	private AccountService accountService;
 
-	/** The account Type service. */
 	@Inject
 	private MethodPaymentService methodPaymentService;
 

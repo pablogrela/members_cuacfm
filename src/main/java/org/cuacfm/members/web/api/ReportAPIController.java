@@ -30,7 +30,6 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.report.Report;
 import org.cuacfm.members.model.report.ReportDTO;
 import org.cuacfm.members.model.reportservice.ReportService;
-import org.cuacfm.members.web.report.ReportListController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,14 +148,19 @@ public class ReportAPIController {
 	 */
 	@RequestMapping(value = "api/reportList/image/{reportId}")
 	@ResponseBody
-	public byte[] getImageReportAPI(@PathVariable("reportId") Long reportId, @RequestParam(value = "imageName") String imageName,
-			@RequestParam(value = "token") String token) {
-
+	public byte[] getImageReportAPI(@PathVariable("reportId") Long reportId, @RequestParam(value = "token") String token,
+			@RequestParam(value = "imageName") String imageName) {
 		byte[] image = null;
 
 		// Validate Token and retrieve email
 		if (getEmailOfToken(token) != null) {
-			image = new ReportListController().getImageReport(reportId, imageName);
+			try {
+				Report report = reportService.findById(reportId);
+				File serverFile = new File(report.getFile() + imageName);
+				image = Files.readAllBytes(serverFile.toPath());
+			} catch (Exception e) {
+				logger.error("getImageReportAPI", e);
+			}
 		}
 		return image;
 	}

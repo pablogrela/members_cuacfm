@@ -20,7 +20,7 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>1.4.3</version>
+	<version>1.4.4</version>
 	<inceptionYear>2015</inceptionYear>
 	<name>members</name>
 	<url>https://github.com/pablogrela/members_cuacfm</url>
@@ -39,7 +39,7 @@ Authentication with Firebase</description>
 		<maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
 		<maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
 		<maven-war-plugin.version>3.0.0</maven-war-plugin.version>
-		<cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
+		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
 		<sonar-maven-plugin.version>2.6</sonar-maven-plugin.version>
 		<maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>		
 	</properties>
@@ -152,11 +152,6 @@ Authentication with Firebase</description>
 		   <artifactId>javax.el</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-		</dependency>
-
 	    <!-- Java Mail API -->
 	    <dependency>
 		    <groupId>javax.mail</groupId>
@@ -260,6 +255,12 @@ Authentication with Firebase</description>
 		</dependency>
 
 		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
@@ -316,15 +317,7 @@ Authentication with Firebase</description>
 			<scope>test</scope>
 		</dependency>
 		<!-- Selenium End -->
-
-		<!-- Necessary for selenium -->
-		<!-- <dependency> -->
-		<!-- <groupId>xml-apis</groupId> -->
-		<!-- <artifactId>xml-apis</artifactId> -->
-		<!-- <version>1.4.01</version> -->
-		<!-- </dependency> -->
 		<!-- Test End -->
-
 
 		<!-- Sonar -->
 		<dependency>
@@ -512,21 +505,17 @@ Authentication with Firebase</description>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>${cobertura-maven-plugin.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.ow2.asm</groupId>
-						<artifactId>asm</artifactId>
-						<version>5.0.3</version>
-					</dependency>
-				</dependencies>
 				<configuration>
 					<instrumentation>
-						<ignores>
-							<ignore>com.example.boringcode.*</ignore>
-						</ignores>
 						<excludes>
-							<exclude>com/example/dullcode/**/*.class</exclude>
-							<exclude>com/example/**/*Test.class</exclude>
+							<exclude>org/cuacfm/members/config/**/*.class</exclude>
+							<exclude>org/cuacfm/members/model/accountservice/JsonToAccount.class</exclude>
+							<exclude>org/cuacfm/members/model/programservice/JsonToProgram.class</exclude>							
+							<exclude>org/cuacfm/members/model/util/**/*.class</exclude>
+							<exclude>org/cuacfm/members/web/api/**/*.class</exclude>
+							<exclude>org/cuacfm/members/web/error/CustomErrorController.class</exclude>
+							<exclude>org/cuacfm/members/web/signin/SigninController.class</exclude>
+							<exclude>org/cuacfm/members/web/support/**/*.class</exclude>
 						</excludes>
 					</instrumentation>
 					<formats>

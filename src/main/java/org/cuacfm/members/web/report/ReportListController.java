@@ -24,7 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.cuacfm.members.model.account.Account;
-import org.cuacfm.members.model.account.Account.permissions;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.report.Report;
@@ -112,15 +111,8 @@ public class ReportListController {
 	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, value = "reportList/")
 	public ResponseEntity<List<ReportDTO>> getReports(Principal principal) {
 
-		Account account = accountService.findByLogin(principal.getName());
-
 		// List of reports
-		List<ReportDTO> reportsDTO;
-		if (account.getPermissions().contains(permissions.ROLE_REPORT.toString())) {
-			reportsDTO = reportService.getReportsDTO(reportService.getReportListActive());
-		} else {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
+		List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListActive());
 		if (reportsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -140,7 +132,6 @@ public class ReportListController {
 
 		// List of reports
 		List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListByUser(account));
-
 		if (reportsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -156,15 +147,8 @@ public class ReportListController {
 	@RequestMapping(value = "reportList/close/")
 	public ResponseEntity<List<ReportDTO>> getReportsClose(Principal principal) {
 
-		Account account = accountService.findByLogin(principal.getName());
-
 		// List of reports
-		List<ReportDTO> reportsDTO;
-		if (account.getPermissions().contains(permissions.ROLE_REPORT.toString())) {
-			reportsDTO = reportService.getReportsDTO(reportService.getReportListClose());
-		} else {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
+		List<ReportDTO> reportsDTO = reportService.getReportsDTO(reportService.getReportListClose());
 		if (reportsDTO.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

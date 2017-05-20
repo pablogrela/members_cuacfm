@@ -61,10 +61,14 @@ public class InscriptionRepositoryImpl implements InscriptionRepository {
 	}
 
 	@Override
+	public List<Inscription> getAll() {
+		return entityManager.createQuery("select i from Inscription i", Inscription.class).getResultList();
+	}
+	
+	@Override
 	public List<Inscription> getByAccountId(Long accountId) {
 		return entityManager.createQuery("select i from Inscription i where i.account.id = :accountId", Inscription.class)
 				.setParameter("accountId", accountId).getResultList();
-
 	}
 
 	@Override

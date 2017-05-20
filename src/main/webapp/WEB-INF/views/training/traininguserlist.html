@@ -24,21 +24,22 @@
 <body>
 
 	<!-- Generic Header -->
-	<div th:replace="fragments/header :: header(active='trainingUserList')">&nbsp;</div>
+	<div th:replace="fragments/header :: header(active='trainingUserList')"></div>
 
 
 	<div class="container-fluid">
 
 		<!-- Message if trainingUserList is Empty -->
 		<th:block th:if="${#lists.isEmpty(inscriptions)}">
-			<h2 class="text-center" th:text="#{training.trainingUserListEmpty}">List of trainings Empty</h2>
+			<h1 class="text-center" th:text="#{training.trainingUserListEmpty}">List of trainings Empty</h1>
 		</th:block>
 
 		<!-- Verify if exits Trainings -->
 		<div th:unless="${#lists.isEmpty(inscriptions)}">
 
+
 			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{training.trainingUserList}">List of trainings</h2>
+			<h1 class="text-center" th:text="#{training.trainingUserList}">List of trainings</h1>
 
 
 			<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
@@ -46,45 +47,48 @@
 				<br></br>
 				<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 			</div>
+			
+			
+			<br></br>	
+			<div>
+				<!-- Table List of Trainings by Inscriptions-->
+				<table class="display" id="customTable">
+					<thead class="table-bordered">
+						<tr>
+							<th th:text="#{name}">Name</th>
+							<th class="hidden-xs" th:text="#{training.dateLimit}">Date Limit</th>
+							<th th:text="#{training.dateTraining}">Date Training</th>
+							<th class="hidden-xs" th:text="#{training.countPlaces}">Place</th>
+							<th class="hidden-xs" th:text="#{training.maxPlaces}">Place</th>
+							<th th:text="#{close}">Close</th>
+							<th th:text="#{inscription.pass}">Pass</th>
+							<th th:text="#{inscription.unsubscribe}">Pass</th>
+							<th class="no-sort"></th>
+						</tr>
+					</thead>
+					<tbody class="table-bordered">
 
+						<tr th:each="inscription : ${inscriptions}" id="inscriptions">
 
-			<!-- Table List of Trainings by Inscriptions-->
-			<table class="display" id="customTable">
-				<thead class="table-bordered">
-					<tr>
-						<th th:text="#{name}">Name</th>
-						<th th:text="#{training.dateLimit}">Date Limit</th>
-						<th th:text="#{training.dateTraining}">Date Training</th>
-						<th th:text="#{training.countPlaces}">Place</th>
-						<th th:text="#{training.maxPlaces}">Place</th>
-						<th th:text="#{close}">Close</th>
-						<th th:text="#{inscription.pass}">Pass</th>
-						<th th:text="#{inscription.unsubscribe}">Pass</th>
-						<th class="no-sort"></th>
-					</tr>
-				</thead>
-				<tbody class="table-bordered">
+							<td th:text="${inscription.training.name}">name</td>
+							<td class="hidden-xs" th:text="${{inscription.training.dateLimit}}">13/01/2015</td>
+							<td th:text="${{inscription.training.dateTraining}}">15/01/2015</td>
+							<td class="hidden-xs" th:text="${inscription.training.countPlaces}">place</td>
+							<td class="hidden-xs" th:text="${inscription.training.maxPlaces}">place</td>
+							<td class="text-center"><input type="checkbox" th:checked="${inscription.training.close}" onClick="return false" /></td>
+							<td class="text-center"><input type="checkbox" th:checked="${inscription.pass}" onClick="return false" /></td>
+							<td class="text-center"><input type="checkbox" th:checked="${inscription.unsubscribe}" onClick="return false" /></td>
 
-					<tr th:each="inscription : ${inscriptions}" id="inscriptions">
+							<td class="text-center">
+								<form th:action="@{'trainingList/trainingView/'+${inscription.training.id}}" method="post">
+									<button class="btn-link glyphicon glyphicon-search" th:title="#{info}" style="color: blue"></button>
+								</form>
+							</td>
 
-						<td th:text="${inscription.training.name}">name</td>
-						<td th:text="${{inscription.training.dateLimit}}">13/01/2015</td>
-						<td th:text="${{inscription.training.dateTraining}}">15/01/2015</td>
-						<td th:text="${inscription.training.countPlaces}">place</td>
-						<td th:text="${inscription.training.maxPlaces}">place</td>
-						<td class="text-center"><input type="checkbox" th:checked="${inscription.training.close}" onClick="return false" /></td>
-						<td class="text-center"><input type="checkbox" th:checked="${inscription.pass}" onClick="return false" /></td>
-						<td class="text-center"><input type="checkbox" th:checked="${inscription.unsubscribe}" onClick="return false" /></td>
-
-						<td class="text-center">
-							<form th:action="@{'trainingList/trainingView/'+${inscription.training.id}}" method="post">
-								<button class="btn-link glyphicon glyphicon-search" th:title="#{info}" style="color: blue"></button>
-							</form>
-						</td>
-
-					</tr>
-				</tbody>
-			</table>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </body>

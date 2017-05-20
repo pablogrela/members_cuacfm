@@ -135,7 +135,7 @@ public interface AccountService {
 	 *
 	 * @return the users
 	 */
-	public List<Account> getUsers();
+	public List<Account> getUsersActive();
 
 	/**
 	 * Gets the users direct debit.

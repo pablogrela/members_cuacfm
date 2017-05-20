@@ -17,7 +17,7 @@
 
 angular.module('membersApp').factory('EventService', [ '$http', '$q', function($http, $q) {
 
-	var REST_SERVICE_URI = 'events/';
+	var REST_SERVICE_URI = 'eventList/';
 	var csrf = '?' + document.getElementById("csrf.parameterName").value + '=' + document.getElementById("csrf.token").value;
 
 	var factory = {
@@ -43,7 +43,7 @@ angular.module('membersApp').factory('EventService', [ '$http', '$q', function($
 
 	function fetchAllEventsClose() {
 		var deferred = $q.defer();
-		$http.get('eventListClose/' + csrf).then(function(response) {
+		$http.get(REST_SERVICE_URI + 'close/' + csrf).then(function(response) {
 			deferred.resolve(response.data);
 		}, function(errResponse) {
 			console.error('Error while fetching Events Close');

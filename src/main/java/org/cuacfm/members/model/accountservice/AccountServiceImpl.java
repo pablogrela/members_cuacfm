@@ -68,6 +68,9 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private JsonToAccount jsonToAccount;
 
+	/**
+	 * Instantiates a new account service impl.
+	 */
 	public AccountServiceImpl() {
 		// Default empty constructor.
 	}
@@ -214,8 +217,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<Account> getUsers() {
-		return accountRepository.getUsers();
+	public List<Account> getUsersActive() {
+		return accountRepository.getUsersActive();
 	}
 
 	@Override
@@ -232,7 +235,7 @@ public class AccountServiceImpl implements AccountService {
 	public List<Account> getAccountsWithDeviceToken() {
 		return accountRepository.getAccountsWithDeviceToken();
 	}
-	
+
 	@Override
 	public List<Account> getAccountsOrderByActive() {
 		return accountRepository.getAccountsOrderByActive();
@@ -270,23 +273,12 @@ public class AccountServiceImpl implements AccountService {
 		return accountDTO;
 	}
 
-	/**
-	 * Gets the name users with role=ROLE_USER an active=true.
-	 *
-	 * @return the name users
-	 */
 	@Override
 	public List<String> getUsernames() {
 		return accountRepository.getUsernames();
 
 	}
 
-	/**
-	 * Save bank account.
-	 *
-	 * @param bankAccount the bank account
-	 * @return the bank account
-	 */
 	@Override
 	public BankAccount saveBankAccount(BankAccount bankAccount) {
 		int id = 0;
@@ -309,15 +301,8 @@ public class AccountServiceImpl implements AccountService {
 		return bankAccountRepository.save(bankAccount);
 	}
 
-	/**
-	 * Active bank account by account id.
-	 *
-	 * @param accountId the account id
-	 * @return the bank account
-	 */
 	@Override
 	public BankAccount activeBankAccountByAccountId(Long accountId) {
-		// eventRepository.save(new Event(bankAccount.getAccount(), new Date(), 3, "prueba"));
 		return bankAccountRepository.activeBankAccountByAccountId(accountId);
 	}
 

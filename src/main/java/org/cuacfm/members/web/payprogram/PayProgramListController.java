@@ -170,7 +170,7 @@ public class PayProgramListController {
 			accounts.addAll(payProgram.getProgram().getAccounts());
 		}
 
-		if (notificationService.sendNotification(typeDestinataries.ALL, accounts, feeProgram.getName(), feeProgram.getDescription(), typePush.DEFAULT,
+		if (notificationService.sendNotification(typeDestinataries.ALL, accounts, feeProgram.getName(), feeProgram.getDescription(), typePush.MEMBERS,
 				null)) {
 			MessageHelper.addInfoAttribute(ra, "notification.send.success", feeProgram.getName());
 		} else {

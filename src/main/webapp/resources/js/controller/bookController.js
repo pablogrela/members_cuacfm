@@ -19,6 +19,7 @@ membersApp.controller('BookController', [ '$scope', 'BookService', function($sco
 	$scope.booksOriginal;
 	$scope.isLastMonth = true;
 	$scope.enableLastMonth = true;
+	$scope.endDate = new Date();
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
 	$scope.account;
@@ -30,6 +31,7 @@ membersApp.controller('BookController', [ '$scope', 'BookService', function($sco
 	$scope.fetchAllBooks = function() {
 		BookService.fetchAllBooks().then(function(data) {
 			$scope.books = data;
+			$scope.booksOriginal = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
@@ -38,6 +40,7 @@ membersApp.controller('BookController', [ '$scope', 'BookService', function($sco
 	$scope.fetchAllBooksClose = function() {
 		BookService.fetchAllBooksClose().then(function(data) {
 			$scope.books = data;
+			$scope.booksOriginal = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
@@ -83,6 +86,21 @@ membersApp.controller('BookController', [ '$scope', 'BookService', function($sco
 			}, function(errorResponse) {
 				console.error('Error while answer Book', errorResponse);
 			});
+		}
+	}
+
+	$scope.searchDates = function() {
+		if ($scope.endDate != null && $scope.startDate != null) {
+			$scope.books = [];
+			for (var i = 0; i < $scope.booksOriginal.length; i++) {
+				var book = $scope.booksOriginal[i];
+				if (book.dateCreate > $scope.startDate && book.dateCreate <= $scope.endDate) {
+					$scope.books.push(book);
+				} else {
+					var index = $scope.books.indexOf(event);
+					$scope.books.splice(index, 1);
+				}
+			}
 		}
 	}
 

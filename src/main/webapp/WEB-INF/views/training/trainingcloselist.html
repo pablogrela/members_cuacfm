@@ -46,14 +46,14 @@
 
 		<!-- Show message, if close training list is empty -->
 		<div th:if="${#lists.isEmpty(closeTrainings)}">
-			<h2 class="text-center" th:text="#{training.trainingCloseListEmpty} + #{from} + ${yearShow}">List of training types</h2>
+			<h1 class="text-center" th:text="#{training.trainingCloseListEmpty} + #{from} + ${yearShow}">List of training types</h1>
 		</div>
 
 		<!-- Verify if exits close trainings -->
 		<div th:unless="${#lists.isEmpty(closeTrainings)}">
 
 			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{training.trainingCloseList} + #{from} + ${yearShow}">List of Trainings</h2>
+			<h1 class="text-center" th:text="#{training.trainingCloseList} + #{from} + ${yearShow}">List of Trainings</h1>
 
 
 			<!-- Table List of Trainings -->

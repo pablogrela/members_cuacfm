@@ -82,7 +82,7 @@ public class HomeController {
 	 * @param principal the principal
 	 * @return the string
 	 */
-	@RequestMapping(value = "/eventListClose", method = RequestMethod.GET)
+	@RequestMapping(value = "eventList/close", method = RequestMethod.GET)
 	public String eventListClose(Principal principal) {
 		return EVENTLISTCLOSE;
 	}
@@ -92,7 +92,7 @@ public class HomeController {
 	 *
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "/events/", method = RequestMethod.GET)
+	@RequestMapping(value = "eventList/", method = RequestMethod.GET)
 	public ResponseEntity<List<EventDTO>> getEventList() {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -115,7 +115,7 @@ public class HomeController {
 	 *
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "/eventListClose/", method = RequestMethod.GET)
+	@RequestMapping(value = "eventList/close/", method = RequestMethod.GET)
 	public ResponseEntity<List<EventDTO>> getEventListClose() {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -136,7 +136,7 @@ public class HomeController {
 	 * @param id the id
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "events/highlight/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "eventList/highlight/{id}", method = RequestMethod.POST)
 	public ResponseEntity<EventDTO> highlight(@PathVariable("id") long id) {
 
 		Event event = eventService.findById(id);
@@ -155,7 +155,7 @@ public class HomeController {
 	 * @param id the id
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "events/remove/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "eventList/remove/{id}", method = RequestMethod.POST)
 	public ResponseEntity<EventDTO> remove(@PathVariable("id") long id) {
 
 		Event event = eventService.findById(id);

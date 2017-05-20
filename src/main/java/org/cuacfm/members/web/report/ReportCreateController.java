@@ -126,7 +126,7 @@ public class ReportCreateController {
 	 * @param ra the ra
 	 * @return the string
 	 */
-	@RequestMapping(value = "reportList/reportCreate", method = RequestMethod.POST, params = { "create" })
+	@RequestMapping(value = "reportList/reportCreate", method = RequestMethod.POST)
 	public String createReportAuthorize(@Valid @ModelAttribute ReportForm reportForm, Principal principal, Errors errors, RedirectAttributes ra) {
 		return createReport(reportForm, principal, errors, ra, "redirect:/reportList");
 	}
@@ -140,7 +140,7 @@ public class ReportCreateController {
 	 * @param ra the ra
 	 * @return the string
 	 */
-	@RequestMapping(value = "reportUserList/reportUserCreate", method = RequestMethod.POST, params = { "create" })
+	@RequestMapping(value = "reportUserList/reportUserCreate", method = RequestMethod.POST)
 	public String createReportUser(@Valid @ModelAttribute ReportForm reportForm, Principal principal, Errors errors, RedirectAttributes ra) {
 		return createReport(reportForm, principal, errors, ra, "redirect:/reportUserList");
 	}

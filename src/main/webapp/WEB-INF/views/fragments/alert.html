@@ -314,7 +314,7 @@
 					<div class="modal-footer">
 						<button type="submit" sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="push(account.id, title, body)" class="btn btn-orange btn-form"
 							th:title="#{push.send.info}" th:text="#{push.send}"></button>
-						<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+						<button type="button" id="closePush" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
 					</div>
 				</div>
 			</form>
@@ -360,7 +360,7 @@
 					<div class="modal-footer">
 						<button type="submit" sec:authorize="hasAnyRole('ROLE_ADMIN')" data-ng-click="email(account.id, title, body)" class="btn btn-orange btn-form"
 							th:title="#{email.send.info}" th:text="#{email.send}"></button>
-						<button type="button" id="close" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
+						<button type="button" id="closeEmail" class="btn btn-default btn-form" th:text="#{cancel}" data-dismiss="modal">Cancel</button>
 					</div>
 				</div>
 			</form>

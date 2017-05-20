@@ -121,7 +121,7 @@ public class BookCreateController {
 	 * @param ra the ra
 	 * @return the string
 	 */
-	@RequestMapping(value = "bookList/bookCreate", method = RequestMethod.POST, params = { "create" })
+	@RequestMapping(value = "bookList/bookCreate", method = RequestMethod.POST)
 	public String createBookAuthorize(@Valid @ModelAttribute BookForm bookForm, Principal principal, Errors errors, RedirectAttributes ra) {
 		return createBook(bookForm, principal, errors, ra, "redirect:/bookList");
 	}
@@ -135,7 +135,7 @@ public class BookCreateController {
 	 * @param ra the ra
 	 * @return the string
 	 */
-	@RequestMapping(value = "bookUserList/bookUserCreate", method = RequestMethod.POST, params = { "create" })
+	@RequestMapping(value = "bookUserList/bookUserCreate", method = RequestMethod.POST)
 	public String createBookUser(@Valid @ModelAttribute BookForm bookForm, Principal principal, Errors errors, RedirectAttributes ra) {
 		return createBook(bookForm, principal, errors, ra, "redirect:/bookUserList");
 	}
@@ -170,11 +170,11 @@ public class BookCreateController {
 			return BOOK_VIEW_NAME;
 		} catch (UserAlreadyBookException e) {
 			logger.error("createBook", e);
-			errors.rejectValue("name", "book.create.error.already", new Object[] { e.getName() }, "name");
+			errors.rejectValue("elementId", "book.create.error.already", new Object[] { e.getName() }, "elementId");
 			return BOOK_VIEW_NAME;
 		} catch (Exception e) {
 			logger.error("createBook", e);
-			errors.rejectValue("element", "book.create.error", new Object[] { e }, "element");
+			errors.rejectValue("elementId", "book.create.error", new Object[] { e }, "elementId");
 			return BOOK_VIEW_NAME;
 		}
 

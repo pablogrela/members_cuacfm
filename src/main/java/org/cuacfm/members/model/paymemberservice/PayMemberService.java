@@ -42,7 +42,7 @@ public interface PayMemberService {
 	 * @return PayMember
 	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public PayMember update(PayMember payMember) throws ExistTransactionIdException;
+	public PayMember update(PayMember payMember);
 
 	/**
 	 * Pay the PayMember.

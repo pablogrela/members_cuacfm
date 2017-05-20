@@ -479,7 +479,7 @@ CREATE TABLE Event(
     priority INT NOT NULL,
     description VARCHAR(500) NOT NULL,
     CONSTRAINT EventId_PK PRIMARY KEY (id),
-    CONSTRAINT Event_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id)
+    CONSTRAINT Event_AccountId_FK FOREIGN KEY (accountId) REFERENCES Account(id) on DELETE CASCADE
 ); 
 	
 

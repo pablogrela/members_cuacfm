@@ -265,7 +265,7 @@ public class ProfileControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/profile").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("mobile", "12356789").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("mobile", "11111111").param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456")
-				.param("newPassword", "123456").param("rePassword", "123333")).andExpect(content().string(containsString("Passwords are not equal")))
+				.param("newPassword", "123456").param("rePassword", "123333").param("student", "true").param("emitProgram", "true")).andExpect(content().string(containsString("Passwords are not equal")))
 				.andExpect(view().name("profile/profile"));
 	}
 

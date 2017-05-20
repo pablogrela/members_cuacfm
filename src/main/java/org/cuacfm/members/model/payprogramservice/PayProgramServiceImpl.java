@@ -77,7 +77,7 @@ public class PayProgramServiceImpl implements PayProgramService {
 	}
 
 	@Override
-	public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException {
+	public PayProgram update(PayProgram payProgram){
 		Object[] arguments = { payProgram.getFeeProgram().getName(), payProgram.getProgram().getName() };
 		eventService.save("payProgram.successModify.event", null, levels.MEDIUM, arguments);
 		return payProgramRepository.update(payProgram);

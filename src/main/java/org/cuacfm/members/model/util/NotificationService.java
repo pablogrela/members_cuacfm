@@ -60,7 +60,7 @@ public class NotificationService {
 		if (accounts != null && !accounts.isEmpty()) {
 			accountsAux.addAll(accounts);
 		} else {
-			accountsAux.addAll(accountService.getAccountsOrderByActive());
+			accountsAux.addAll(accountService.getUsersActive());
 		}
 
 		// Add devices token to send push

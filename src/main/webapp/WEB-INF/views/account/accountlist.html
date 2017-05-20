@@ -47,7 +47,7 @@
 			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 		</object>
 
-		<h2 class="text-center" th:text="#{account.accountList}">Account List</h2>
+		<h1 class="text-center" th:text="#{account.accountList}">Account List</h1>
 
 		<div th:include="fragments/sortColumn :: search"></div>
 

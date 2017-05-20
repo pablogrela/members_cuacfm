@@ -74,7 +74,7 @@ public class BookForm {
 
 	public Element getElement() {
 		for (Element element : elements) {
-			if (element.getId() == elementId) {
+			if (element.getId().equals(elementId)) {
 				return element;
 			}
 		}

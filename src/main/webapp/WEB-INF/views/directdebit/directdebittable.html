@@ -38,14 +38,14 @@
 
 		<!-- Message if directDebits is empty -->
 		<div data-ng-show="!directDebits">
-			<h2 class="text-center" th:text="${tittleEmpty}"></h2>
+			<h1 class="text-center" th:text="${tittleEmpty}"></h1>
 		</div>
 
 
 		<div data-ng-show="directDebits">
 
 			<!-- Title of table -->
-			<h2 class="text-center" th:text="${tittle}"></h2>
+			<h1 class="text-center" th:text="${tittle}"></h1>
 
 			<!-- Search and index -->
 			<div th:include="fragments/sortColumn :: search"></div>

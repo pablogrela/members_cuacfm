@@ -82,7 +82,7 @@ public class DirectDebit implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private methods method;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "returnReasonId")
 	private ReturnReason returnReason;
 
@@ -263,7 +263,11 @@ public class DirectDebit implements Serializable {
 	}
 
 	public String getConceptShort() {
-		return getConcept().substring(0, 140);
+		String conceptShort = getConcept();
+		if (conceptShort.isEmpty() && conceptShort.length() > 140) {
+			conceptShort = conceptShort.substring(0, 140);
+		}
+		return conceptShort;
 	}
 
 	@Override

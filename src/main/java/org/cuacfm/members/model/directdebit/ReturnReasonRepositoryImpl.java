@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReturnReasonRepositoryImpl implements ReturnReasonRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(ReturnReasonRepositoryImpl.class);
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -58,7 +58,7 @@ public class ReturnReasonRepositoryImpl implements ReturnReasonRepository {
 	@Override
 	public ReturnReason findById(String id) {
 		try {
-			return entityManager.createQuery("select d from ReturnReason d where d.id = :id", ReturnReason.class).setParameter("id", id)
+			return entityManager.createQuery("select r from ReturnReason r where r.id = :id", ReturnReason.class).setParameter("id", id)
 					.getSingleResult();
 		} catch (NoResultException e) {
 			logger.info("NoResult" + e.getMessage());
@@ -68,6 +68,6 @@ public class ReturnReasonRepositoryImpl implements ReturnReasonRepository {
 
 	@Override
 	public List<ReturnReason> findAll() {
-		return entityManager.createQuery("select d from ReturnReason d order by d.id asc ", ReturnReason.class).getResultList();
+		return entityManager.createQuery("select r from ReturnReason r order by r.id asc ", ReturnReason.class).getResultList();
 	}
 }

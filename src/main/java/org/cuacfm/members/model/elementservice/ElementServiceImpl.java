@@ -72,9 +72,11 @@ public class ElementServiceImpl implements ElementService {
 
 	@Override
 	public void delete(Element element) {
-		Object[] arguments = { element.getName() };
-		elementRepository.delete(element);
-		eventService.save("element.delete.success", null, levels.MEDIUM, arguments);
+		if (element != null) {
+			Object[] arguments = { element.getName() };
+			elementRepository.delete(element);
+			eventService.save("element.delete.success", null, levels.MEDIUM, arguments);
+		}
 	}
 
 	@Override

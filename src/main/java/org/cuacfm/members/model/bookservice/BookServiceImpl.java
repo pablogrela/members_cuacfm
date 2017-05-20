@@ -107,8 +107,9 @@ public class BookServiceImpl implements BookService {
 		logger.info("update book");
 		Object[] arguments = { book.getElement().getName() };
 
-		if (book.getDateEnd().before(book.getDateStart())) {
-			eventService.save("book.dateStart.error", null, levels.HIGH, arguments);
+		if (book.getDateStart().before(new Date())) {
+			throw new DatesException(book.getDateStart(), new Date());
+		} else if (book.getDateEnd().before(book.getDateStart())) {
 			throw new DatesException(book.getDateStart(), book.getDateEnd());
 		}
 
@@ -120,12 +121,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public void delete(Book book) {
-		delete(book, null);
-	}
-
-	@Override
-	public void delete(Book book, Account account) {
-		bookRepository.delete(book);
+		if (book != null) {
+			delete(null);
+		}
 	}
 
 	@Override
@@ -212,7 +210,8 @@ public class BookServiceImpl implements BookService {
 			String title = messageSource.getMessage("book.answer.push.title", arguments2, Locale.getDefault());
 			List<Account> sendAccounts = new ArrayList<>();
 			sendAccounts.add(book.getAccount());
-			notificationService.sendNotification(typeDestinataries.ALL, sendAccounts, title, answer, typePush.BOOK, new Gson().toJson(getBookDTO(book)));
+			notificationService.sendNotification(typeDestinataries.ALL, sendAccounts, title, answer, typePush.BOOK,
+					new Gson().toJson(getBookDTO(book)));
 		}
 
 		if (manage == null) {
@@ -239,10 +238,9 @@ public class BookServiceImpl implements BookService {
 		BookDTO bookDTO = null;
 
 		if (book != null) {
-			bookDTO = new BookDTO(book.getId(), accountService.getAccountDTO(book.getAccount()),
-					elementService.getElementDTO(book.getElement()), book.getDescription(), book.getAnswer(), book.getDateCreate(),
-					book.getDateStart(), book.getDateEnd(), book.getDateRevision(), book.getDateApproval(), book.getState(),
-					book.isActive());
+			bookDTO = new BookDTO(book.getId(), accountService.getAccountDTO(book.getAccount()), elementService.getElementDTO(book.getElement()),
+					book.getDescription(), book.getAnswer(), book.getDateCreate(), book.getDateStart(), book.getDateEnd(), book.getDateRevision(),
+					book.getDateApproval(), book.getState(), book.isActive());
 		}
 		return bookDTO;
 	}
@@ -253,8 +251,8 @@ public class BookServiceImpl implements BookService {
 			account = accountService.findByEmail(bookDTO.getAccount().getEmail());
 		}
 
-		return new Book(account, elementService.findByName(bookDTO.getElement().getName()), bookDTO.getDescription(),
-				bookDTO.getDateStart(), bookDTO.getDateEnd());
+		return new Book(account, elementService.findByName(bookDTO.getElement().getName()), bookDTO.getDescription(), bookDTO.getDateStart(),
+				bookDTO.getDateEnd());
 	}
 
 }

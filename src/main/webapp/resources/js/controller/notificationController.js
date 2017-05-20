@@ -46,20 +46,41 @@ membersApp.controller('NotificationController', [ '$scope', 'NotificationService
 		}
 	}
 
-	$scope.addAccount = function(account) {
-		if (account != null && !jQuery.isEmptyObject(account) && $scope.accounts.indexOf(account) > -1) {
-			$scope.accountsFilter.notification(account);
-			var index = $scope.accounts.indexOf(account);
-			if (index > -1) {
-				$scope.accounts.splice(index, 1);
+	function contains(value) {
+		for (var i = 0; i < $scope.accounts.length; i++) {
+			if ($scope.accounts[i].fullName.toUpperCase() === value.toUpperCase()) {
+				return $scope.accounts[i];
 			}
-			$scope.selected = '';
+			if ($scope.accounts[i].email.toUpperCase() === value.toUpperCase()) {
+				return $scope.accounts[i];
+			}
+		}
+		return null;
+	}
+
+	$scope.addAccount = function(value) {
+		if (value != null && !jQuery.isEmptyObject(value)) {
+			var account;
+			if ($scope.accounts.indexOf(value) > -1) {
+				account = value;
+			} else {
+				account = contains(value);
+			}
+
+			if (account != null) {
+				$scope.accountsFilter.push(account);
+				var index = $scope.accounts.indexOf(account);
+				if (index > -1) {
+					$scope.accounts.splice(index, 1);
+				}
+				$scope.selected = '';
+			}
 		}
 	}
 
 	$scope.removeAccount = function(account) {
 		if (account != null && !jQuery.isEmptyObject(account) && $scope.accountsFilter.indexOf(account) > -1) {
-			$scope.accounts.notification(account);
+			$scope.accounts.push(account);
 			var index = $scope.accountsFilter.indexOf(account);
 			if (index > -1) {
 				$scope.accountsFilter.splice(index, 1);
@@ -74,7 +95,7 @@ membersApp.controller('NotificationController', [ '$scope', 'NotificationService
 	$scope.changeDestinataries = function(aux) {
 		$scope.destinataries = aux;
 	}
-	
+
 	$scope.localeSensitiveComparator = function(v1, v2) {
 		if (v1.type == 'string' || v2.type == 'string') {
 			return v1.value.localeCompare(v2.value);

@@ -41,8 +41,8 @@ public class DirectDebitDTO {
 	private String emailPayer;
 
 	/** Instantiates a direct debit. */
-	protected DirectDebitDTO() {
-		// Default empty constructor.
+	public DirectDebitDTO() {
+		super();
 	}
 
 	/**

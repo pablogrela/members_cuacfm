@@ -18,6 +18,7 @@ membersApp.controller('BookUserController', [ '$scope', 'BookService', function(
 	$scope.search;
 	$scope.isLastMonth = true;
 	$scope.enableLastMonth = true;
+	$scope.endDate = new Date();
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
 	$scope.account;
@@ -30,6 +31,7 @@ membersApp.controller('BookUserController', [ '$scope', 'BookService', function(
 	$scope.fetchUserBooks = function() {
 		BookService.fetchUserBooks().then(function(data) {
 			$scope.books = data;
+			$scope.booksOriginal = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
@@ -78,12 +80,40 @@ membersApp.controller('BookUserController', [ '$scope', 'BookService', function(
 		}
 	}
 
+	$scope.searchDates = function() {
+		if ($scope.endDate != null && $scope.startDate != null) {
+			$scope.books = [];
+			for (var i = 0; i < $scope.booksOriginal.length; i++) {
+				var book = $scope.booksOriginal[i];
+				if (book.dateCreate > $scope.startDate && book.dateCreate <= $scope.endDate) {
+					$scope.books.push(book);
+				} else {
+					var index = $scope.books.indexOf(event);
+					$scope.books.splice(index, 1);
+				}
+			}
+		}
+	}
+	
 	$scope.localeSensitiveComparator = function(v1, v2) {
 		if (v1.type == 'string' || v2.type == 'string') {
 			return v1.value.localeCompare(v2.value);
 		}
 		return (v1.value < v2.value) ? -1 : 1;
 	};
+
+	$scope.bookAnswer = function(id, answer) {
+		if (answer != null && !jQuery.isEmptyObject(answer)) {
+			BookService.bookAnswer(id, answer).then(function(data) {
+				$scope.message = data;
+				$scope.fetchAllBooks();
+				$('#close').click();
+				$scope.answer = '';
+			}, function(errorResponse) {
+				console.error('Error while answer Book', errorResponse);
+			});
+		}
+	}
 
 	$scope.lastMonth = function() {
 		if (self.isLastMonth) {

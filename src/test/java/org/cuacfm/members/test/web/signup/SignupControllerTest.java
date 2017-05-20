@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.Locale;
@@ -35,7 +34,6 @@ import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
 import org.cuacfm.members.test.config.WebAppConfigurationAware;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -48,7 +46,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 
 	// Puede dar fallo de capthca erroreno
 	private static final String KEY = "03AHJ_VuvqYXuoskARGRCMeWTSNE-IOq7iC9wPVuVjDdEaQdzQTz6vCOSIki14anHed50uYq2iu5Q7-uS579V3GpZkv1LFq3nVk4HosQNI4Kq-jD3WmhlcXDRuOeiwtFC_rVpTQLMZNamCvDoKi4CscN8rBGPKwogAFXO_0NTUePTd98LMOh1e6dkbK0aNbQPmB8jd6wSlC8UnTVLLyHD3ml_3pRe6VWMjqZdnhz2Y5LhQXlwSavdQt0Ew0XeP1phNAzLEMcKYLGw9qQVM4qankfurhYOy5Tjo54Xkz5jpax1LsJFeNZOCpVMSHF8MzY5K_Iy4qWFFcshZ4tMrIfk3MDukLrXjeVwpZnSjCq9VCkcwq1hBeEJ3C9ZqNfa4DbCfPzqqO4fPIfGdmu8SgrM5azZTze3inaSK-NJJ0aEgjIt4N3SZk1tQ25_9TT74Gx8PES_eSLIrVRKej9yp9nM_9G_NwNiWnu0M-azAMituf3w-CcI_SWC2M6iEX1WqnRNLzlrgufbWYJ_kCBM1hcveSRgghgs9M9VU4XuiriDp8XHfILI7GhfKDgVhrJyvihRcqy56qQ_1TqyoTZtuNNHMrjqY48R9tVO99V9QhNkp7IKZhPyPtcrxLlLRrY9nVOOujma9gkRXLzOpHGUoeRXN7a_6PlPrkDYga8vvkSbWcy5QWnh922HGs1CmdUNcvmyMjZMsJBXWTqyvRy8FBMEk1ibaUZFGxYO-yS61AaOxDg7fmNrtiRGr_3sA9M4K7msa7de8NQjsJWYEXDvJcp3ExbFweTyQji934zFUwTtbl6PaPyWuGuDFjwJELyp_cOKxOOS3r0KXR5cpYAiFgX3aZaqpBMgqnhfd7BJrxHeQC0d_lhf6XSOe9Iaw8Kojm0xMX2ZD-LtyZb28Spey3M_Qdm22vOduvTY0XfKMTPBp0CT-k-KRT0SiKqcuCK7eu8axx1J1PHjFIkEihQ0DRG8CsSnb0FNX35QEPwvrTQzpOZB3jWem3aIB1-mpyKr93ncIG4vzLc3SVwCNdcTb9qgOCdoibNV2hMJ4DhmWAIsHD-tuKXZGx6pSshs";
-	
+
 	/** The configuration service. */
 	@Inject
 	private ConfigurationService configurationService;
@@ -72,10 +70,76 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	public void displaysSignupForm() throws Exception {
+	public void displaysSignupFormtest() throws Exception {
 		mockMvc.perform(get("/signup").locale(Locale.ENGLISH)).andExpect(model().attributeExists("signupForm"))
 				.andExpect(view().name("signup/signup"))
 				.andExpect(content().string(allOf(containsString("<title>Sign Up</title>"), containsString("<legend>Please Sign Up</legend>"))));
+	}
+
+	/**
+	 * Displays signup form with email test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysSignupFormWithEmailTest() throws Exception {
+		mockMvc.perform(get("/signup").locale(Locale.ENGLISH).param("email", "user@test.es")).andExpect(model().attributeExists("signupForm"))
+				.andExpect(view().name("signup/signup"))
+				.andExpect(content().string(allOf(containsString("<title>Sign Up</title>"), containsString("<legend>Please Sign Up</legend>"))));
+	}
+
+	/**
+	 * Gets the signup form firebase test.
+	 *
+	 * @return the signup form firebase test
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void getSignupFormFirebaseTest() throws Exception {
+		mockMvc.perform(get("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("email", "a").param("token", "a"))
+				.andExpect(view().name("redirect:/signin"));
+		mockMvc.perform(get("/signup/signupFirebaseManual").locale(Locale.ENGLISH)).andExpect(view().name("redirect:/signin"));
+		mockMvc.perform(get("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("email", "a")).andExpect(view().name("redirect:/signin"));
+		mockMvc.perform(get("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("token", "a")).andExpect(view().name("redirect:/signin"));
+
+		Account user = new Account("user", "", "55555555C", "London", "user", "user@test.es", "666666666", "666666666", "user", roles.ROLE_USER);
+		accountServiceMock.save(user);
+
+		mockMvc.perform(get("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("email", user.getEmail()).param("token", user.getToken()))
+				.andExpect(view().name("redirect:/signin"));
+
+		user.setToken("1");
+		accountServiceMock.update(user, false, true);
+		mockMvc.perform(get("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("email", user.getEmail()).param("token", user.getToken()))
+				.andExpect(view().name("signup/signupfirebasemanual"));
+	}
+
+	/**
+	 * Post signup form firebase test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void postSignupFormFirebaseTest() throws Exception {
+		mockMvc.perform(post("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("username", "a").param("token", "a"))
+				.andExpect(view().name("redirect:/signup/signupFirebaseManual?email=" + "a" + "&token=" + "a"));
+		mockMvc.perform(post("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("error", "").param("username", "a").param("token", "a"))
+				.andExpect(view().name("redirect:/signup/signupFirebaseManual?email=" + "a" + "&token=" + "a"));
+		mockMvc.perform(post("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("error", "auth/email-already-in-use").param("username", "a")
+				.param("token", "a")).andExpect(view().name("redirect:/signin"));
+
+		Account user = new Account("user", "", "55555555C", "London", "user", "user@test.es", "666666666", "666666666", "user", roles.ROLE_USER);
+		accountServiceMock.save(user);
+
+		mockMvc.perform(
+				post("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("username", user.getEmail()).param("token", user.getToken()))
+				.andExpect(view().name("redirect:/signup/signupFirebaseManual?email=" + user.getEmail() + "&token=" + user.getToken()));
+
+		user.setToken("1");
+		accountServiceMock.update(user, false, true);
+		mockMvc.perform(
+				post("/signup/signupFirebaseManual").locale(Locale.ENGLISH).param("username", user.getEmail()).param("token", user.getToken()))
+				.andExpect(view().name("redirect:/profile"));
 	}
 
 	/**
@@ -96,17 +160,15 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	@Ignore
-	// Falla el validar el recaptcha
 	public void dniAlreadyExists() throws Exception {
-		Account demoUser = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account demoUser = new Account("user", "1", "11111111H", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountServiceMock.save(demoUser);
 
-		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "55555555C").param("address", "London")
+		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111H").param("address", "London")
 				.param("login", "user").param("email", "user@example.es").param("phone", "12356789").param("mobile", "12356789")
 				.param("programName", "12356789").param("password", "123456").param("rePassword", "123456").param("rule", "true")
 				.param("student", "true").param("emitProgram", "true").param("g-recaptcha-response", KEY))
-				.andExpect(content().string(containsString("Already existent dni 55555555C, please choose another")))
+				.andExpect(content().string(containsString("Already existent dni 11111111H, please choose another")))
 				.andExpect(view().name("signup/signup"));
 	}
 
@@ -116,13 +178,11 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	@Ignore
-	// Falla el validar el recaptcha
 	public void emailAlreadyExists() throws Exception {
 		Account demoUser = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountServiceMock.save(demoUser);
 
-		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111F").param("address", "London")
+		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111H").param("address", "London")
 				.param("login", "user2").param("email", "user@udc.es").param("phone", "12356789").param("mobile", "12356789")
 				.param("programName", "12356789").param("password", "123456").param("rePassword", "123456").param("rule", "true")
 				.param("student", "true").param("emitProgram", "true").param("g-recaptcha-response", KEY))
@@ -160,13 +220,12 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	@Ignore
 	// Falla el validar el recaptcha
 	public void loginAlreadyExist() throws Exception {
-		Account demoUser = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account demoUser = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "11111111H", "666666666", "demo", roles.ROLE_USER);
 
 		accountServiceMock.save(demoUser);
-		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111F").param("address", "London")
+		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111H").param("address", "London")
 				.param("login", "user").param("email", "email@example.es").param("phone", "12356789").param("mobile", "12356789")
 				.param("programName", "12356789").param("student", "true").param("emitProgram", "true").param("password", "123456")
 				.param("rePassword", "123456").param("rule", "true").param("student", "true").param("emitProgram", "true")
@@ -211,7 +270,7 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	public void diferentPasswords() throws Exception {
 
 		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("login", "login").param("email", "email@example.es")
-				.param("password", "123456").param("rePassword", "1233").param("g-recaptcha-response", KEY))
+				.param("password", "123456").param("rePassword", "1233").param("g-recaptcha-response", "fail"))
 				.andExpect(content().string(containsString("Passwords are not equal"))).andExpect(view().name("signup/signup"));
 	}
 
@@ -221,14 +280,39 @@ public class SignupControllerTest extends WebAppConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	@Ignore
-	// Falla el validar el recaptcha
-	public void succesfulSignUp() throws Exception {
-
-		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "55555555C").param("address", "London")
+	public void succesfulSignUpTest() throws Exception {
+		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111H").param("address", "London")
 				.param("login", "login").param("email", "email@example.es").param("phone", "12356789").param("mobile", "12356789")
 				.param("programName", "12356789").param("password", "123456").param("rePassword", "123456").param("rule", "true")
-				.param("student", "true").param("emitProgram", "true").param("g-recaptcha-response", KEY)).andExpect(redirectedUrl("/"));
+				.param("student", "true").param("emitProgram", "true").param("g-recaptcha-response", KEY))
+				.andExpect(view().name("signup/signupfirebase"));
+	}
+
+	/**
+	 * Error recaptcha test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void errorRecaptchaTest() throws Exception {
+		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("dni", "11111111H").param("address", "London")
+				.param("login", "login").param("email", "email@example.es").param("phone", "12356789").param("mobile", "12356789")
+				.param("programName", "12356789").param("password", "123456").param("rePassword", "123456").param("rule", "true")
+				.param("student", "true").param("emitProgram", "true").param("g-recaptcha-response", "")).andExpect(view().name("signup/signup"));
+	}
+
+	/**
+	 * Succesful sign up complete test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void succesfulSignUpCompleteTest() throws Exception {
+		mockMvc.perform(post("/signup").locale(Locale.ENGLISH).param("name", "name").param("surname", "surname").param("dni", "11111111H")
+				.param("address", "London").param("login", "login").param("email", "email@example.es").param("phone", "12356789")
+				.param("mobile", "12356789").param("programName", "12356789").param("password", "123456").param("rePassword", "123456")
+				.param("rule", "true").param("student", "true").param("emitProgram", "true").param("personality", "true").param("knowledge", "true")
+				.param("g-recaptcha-response", KEY)).andExpect(view().name("signup/signupfirebase"));
 	}
 
 	/**

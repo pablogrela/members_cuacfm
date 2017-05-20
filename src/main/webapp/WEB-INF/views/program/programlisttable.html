@@ -45,12 +45,12 @@
 
 		<!-- Message if directDebits is empty -->
 		<div data-ng-show="!programs">
-			<h2 class="text-center" th:text="${tittleEmpty}"></h2>
+			<h1 class="text-center" th:text="${tittleEmpty}"></h1>
 		</div>
 
 
 		<div data-ng-show="programs">
-			<h2 class="text-center" th:text="${tittle}"></h2>
+			<h1 class="text-center" th:text="${tittle}"></h1>
 
 			<div th:include="fragments/sortColumn :: search"></div>
 			<table class="dataTable display table-striped">
@@ -73,7 +73,7 @@
 
 						<th th:text="#{members}">Accounts</th>
 
-						<td class="hidden-xs" ><a href="#" data-ng-click="sortType = 'accountPayer.fullName'; sortReverse = !sortReverse"> <span th:text="#{program.acountPayer}">accountPayer.name</span>
+						<td class="hidden-xs"><a href="#" data-ng-click="sortType = 'accountPayer.fullName'; sortReverse = !sortReverse"> <span th:text="#{program.acountPayer}">accountPayer.name</span>
 								<span data-ng-show="sortType == 'accountPayer.fullName' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 									data-ng-show="sortType == 'accountPayer.fullName' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>

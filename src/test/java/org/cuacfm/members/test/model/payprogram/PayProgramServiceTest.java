@@ -160,12 +160,12 @@ public class PayProgramServiceTest extends WebSecurityConfigurationAware {
 
 		payPrograms = payProgramService.getPayProgramListByAccountId(account2.getId());
 		assertEquals(payPrograms.size(), 0);
-
+		payProgramService.getPayProgramNoPayListByDirectDebit(new Date());
 		payPrograms = payProgramService.getPayProgramList();
 		assertEquals(payPrograms.size(), 1);
 		for (PayProgram payProgram : payPrograms) {
 			assertEquals(payProgram.getFeeProgram(), feeProgram);
-		}
+		}		
 	}
 
 	/**

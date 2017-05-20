@@ -166,12 +166,9 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public void delete(Report report) {
-		reportRepository.delete(report);
-	}
-
-	@Override
-	public Report findByName(String login) {
-		return reportRepository.findByName(login);
+		if (report != null) {
+			reportRepository.delete(report);
+		}
 	}
 
 	@Override
@@ -241,7 +238,8 @@ public class ReportServiceImpl implements ReportService {
 			String title = messageSource.getMessage("report.answer.push.title", arguments2, Locale.getDefault());
 			List<Account> sendAccounts = new ArrayList<>();
 			sendAccounts.add(report.getAccount());
-			notificationService.sendNotification(typeDestinataries.ALL, sendAccounts, title, answer, typePush.REPORT, new Gson().toJson(getReportDTO(report)));
+			notificationService.sendNotification(typeDestinataries.ALL, sendAccounts, title, answer, typePush.REPORT,
+					new Gson().toJson(getReportDTO(report)));
 		}
 
 		if (manage == null) {

@@ -219,7 +219,7 @@ public class PayMemberListController {
 			accounts.add(payMember.getAccount());
 		}
 
-		if (notificationService.sendNotification(typeDestinataries.ALL, accounts, feeMember.getName(), feeMember.getDescription(), typePush.DEFAULT,
+		if (notificationService.sendNotification(typeDestinataries.ALL, accounts, feeMember.getName(), feeMember.getDescription(), typePush.MEMBERS,
 				null)) {
 			MessageHelper.addInfoAttribute(ra, "notification.send.success", feeMember.getName());
 		} else {

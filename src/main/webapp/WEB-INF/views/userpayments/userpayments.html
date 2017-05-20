@@ -38,7 +38,7 @@
 
 		<!-- Message if UserList is Empty -->
 		<th:block th:if="${#lists.isEmpty(payMembers) and #lists.isEmpty(payPrograms)}">
-			<h2 class="text-center" th:text="#{userPayments.listEmpty}">List of FeeMember Empty</h2>
+			<h1 class="text-center" th:text="#{userPayments.listEmpty}">List of FeeMember Empty</h1>
 		</th:block>
 
 
@@ -51,9 +51,10 @@
 
 
 		<!-- Table of feeMembers -->
+		<br></br>
 		<div th:unless="${#lists.isEmpty(payMembers)}">
 
-			<h2 class="text-center" th:text="#{userPayments.payMemberList}">List of User Pay Inscriptions</h2>
+			<h1 class="text-center" th:text="#{userPayments.payMemberList}">List of User Pay Inscriptions</h1>
 
 			<!-- Table List of pay members-->
 			<table class="display" id="customTable">
@@ -124,7 +125,7 @@
 		<!-- Verify if exits feePrograms -->
 		<div th:unless="${#lists.isEmpty(payPrograms)}">
 
-			<h2 class="text-center" th:text="#{userPayments.payProgramsList}">List of pay programs</h2>
+			<h1 class="text-center" th:text="#{userPayments.payProgramsList}">List of pay programs</h1>
 
 			<!-- Table List of pay program -->
 			<table class="display" id="customTable2">

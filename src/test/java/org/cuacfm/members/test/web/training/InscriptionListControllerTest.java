@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -35,11 +36,13 @@ import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
+import org.cuacfm.members.model.inscription.Inscription;
 import org.cuacfm.members.model.training.Training;
 import org.cuacfm.members.model.trainingservice.TrainingService;
 import org.cuacfm.members.model.trainingtype.TrainingType;
 import org.cuacfm.members.model.trainingtypeservice.TrainingTypeService;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
+import org.cuacfm.members.web.training.InscriptionsForm;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,18 +55,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class InscriptionListControllerTest extends WebSecurityConfigurationAware {
 
-	/** The default session. */
 	private MockHttpSession defaultSession;
 
-	/** The account service. */
 	@Inject
 	private AccountService accountService;
 
-	/** The training Type service. */
 	@Inject
 	private TrainingTypeService trainingTypeService;
 
-	/** The training service. */
 	@Inject
 	private TrainingService trainingService;
 
@@ -156,17 +155,17 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		mockMvc.perform(get("/trainingList/inscriptionList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(content().string(containsString(user.getName())));
 
-		//List<Inscription> inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
-		//InscriptionsForm inscriptionsForm = new InscriptionsForm();
-		//inscriptionsForm.setInscriptions(inscriptions);
+		List<Inscription> inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
+		InscriptionsForm inscriptionsForm = new InscriptionsForm();
+		inscriptionsForm.setInscriptions(inscriptions);
 
 		mockMvc.perform(post("/trainingList/inscriptionList/save").locale(Locale.ENGLISH).session(defaultSession).param("submit", "update")
-		//.param("inscriptionsForm", String.valueOf(inscriptionsForm))
-		//.param("inscriptions", String.valueOf(inscriptions))
-		//.param("attend", "true")
-		//.param("note", "He is a good student")
-		//.param("pass", "true")
-		//.param("unsubscribe", "true")
+		.param("inscriptionsForm", String.valueOf(inscriptionsForm))
+		.param("inscriptions", String.valueOf(inscriptions))
+		.param("attend", "true")
+		.param("note", "He is a good student")
+		.param("pass", "true")
+		.param("unsubscribe", "true")
 		//)
 		//.andExpect(view().name("redirect:/trainingList")
 		);
@@ -185,23 +184,26 @@ public class InscriptionListControllerTest extends WebSecurityConfigurationAware
 		LocalDateTime date = LocalDateTime.now().plusMonths(10);
 		Date dateTraining = Date.from(date.toInstant(ZoneOffset.UTC));
 
+		for(Inscription inscription : trainingService.getInscriptionsAll()){
+			trainingService.deleteInscription(inscription.getAccount().getId(), inscription.getTraining().getId());
+		}
+		
 		Training training = new Training(trainingType, "training1", dateTraining, dateTraining, "description", "place", 90, 10);
 		trainingService.save(training);
 		Account user = new Account("user", "1", "55555555B", "London", "user", "user@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user);
 		trainingService.createInscription(user, training);
-		//List<Inscription> inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
-		//System.out.println("incriptions: " + inscriptions + "tamaño: " + inscriptions.size());
+		List<Inscription> inscriptions = trainingService.getInscriptionsByTrainingId(training.getId());
 
 		mockMvc.perform(post("/trainingList/inscriptionList/" + training.getId()).locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("redirect:/trainingList/inscriptionList"));
 
 		mockMvc.perform(post("/trainingList/inscriptionList/save").locale(Locale.ENGLISH).session(defaultSession).param("submit", "save")
-		//.param("inscriptions", String.valueOf(inscriptions))
-		//.param("attend", "true")
-		//.param("note", "He is a good student")
-		//.param("pass", "true")
-		//.param("unsubscribe", "true")
+		.param("inscriptions", String.valueOf(inscriptions))
+		.param("attend", "true")
+		.param("note", "He is a good student")
+		.param("pass", "true")
+		.param("unsubscribe", "true")
 		//)
 		//.andExpect(view().name("redirect:/trainingList")
 		);

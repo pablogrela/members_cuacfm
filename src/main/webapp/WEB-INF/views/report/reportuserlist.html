@@ -31,7 +31,7 @@
 
 	<!-- If user has role ExUser, its appear message -->
 	<div sec:authorize="hasAnyRole('ROLE_EXUSER')" class="container-fluid">
-		<h2 class="text-center" th:text="#{profile.upToContinue}"></h2>
+		<h1 class="text-center" th:text="#{profile.upToContinue}"></h1>
 		<div th:include="profile/profile :: profileUp"></div>
 	</div>
 

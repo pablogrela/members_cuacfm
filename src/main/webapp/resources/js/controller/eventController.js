@@ -18,8 +18,10 @@
 membersApp.controller('EventController', [ '$scope', '$rootScope', 'EventService', function($scope, $rootScope, EventService) {
 	var self = this;
 	self.events;
+	self.eventsFilter;
 	self.eventsOriginal;
 	self.isLastMonth = true;
+	$scope.endDate = new Date();
 	$scope.enableLastMonth = true;
 	self.highlight = highlight;
 	self.remove = remove;
@@ -50,7 +52,22 @@ membersApp.controller('EventController', [ '$scope', '$rootScope', 'EventService
 		fetchAllEvents();
 	});
 
-	$scope.lastMonth = function () {
+	$scope.searchDates = function() {
+		if ($scope.endDate != null && $scope.startDate != null) {
+			self.events = [];
+			for (var i = 0; i < self.eventsOriginal.length; i++) {
+				var event = self.eventsOriginal[i];
+				if (event.dateEvent > $scope.startDate && event.dateEvent <= $scope.endDate) {
+					self.events.push(event);
+				} else {
+					var index = self.events.indexOf(event);
+					self.events.splice(index, 1);
+				}
+			}
+		}
+	}
+
+	$scope.lastMonth = function() {
 		if (self.isLastMonth) {
 			var newEvents = [];
 			var newDate = new Date();

@@ -17,7 +17,6 @@ package org.cuacfm.members.web.bankremittance;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.cuacfm.members.model.bankremittance.BankRemittance;
@@ -25,13 +24,8 @@ import org.cuacfm.members.model.bankremittanceservice.BankRemittanceService;
 import org.cuacfm.members.model.directdebit.DirectDebit;
 import org.cuacfm.members.model.directdebit.DirectDebitDTO;
 import org.cuacfm.members.model.directdebitservice.DirectDebitService;
-import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
-import org.cuacfm.members.model.util.Constants;
 import org.cuacfm.members.web.support.MessageHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -46,7 +40,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class DirectDebitListController {
 
-	private static final Logger logger = LoggerFactory.getLogger(DirectDebitListController.class);
+	//	private static final Logger logger = LoggerFactory.getLogger(DirectDebitListController.class);
 	private static final String DIRECTDEBIT_REMITTANCE_VIEW_NAME = "bankremittance/directdebitlist";
 	private static final String DIRECTDEBIT_VIEW_NAME = "directdebit/directdebitlist";
 	private static final String DIRECTDEBIT_CLOSE_VIEW_NAME = "directdebit/directdebitlistclose";
@@ -57,8 +51,8 @@ public class DirectDebitListController {
 	@Autowired
 	private DirectDebitService directDebitService;
 
-	@Autowired
-	private MessageSource messageSource;
+	//	@Autowired
+	//	private MessageSource messageSource;
 
 	// Se almacena el bankRemittance para la consulta
 	private BankRemittance bankRemittance;
@@ -183,16 +177,8 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> markBankDeposit(@PathVariable String directDebitId, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-
-		try {
-			String message = directDebitService.markBankDeposit(directDebit, null);
-			MessageHelper.addSuccessAttribute(ra, message);
-		} catch (ExistTransactionIdException e) {
-			logger.warn("markBankDeposit - ExistTransactionIdException", e);
-			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-			MessageHelper.addErrorAttribute(ra, messageI18n);
-		}
+		String message = directDebitService.markBankDeposit(directDebit, null);
+		MessageHelper.addSuccessAttribute(ra, message);
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
@@ -207,16 +193,8 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> cancelBankDeposit(@PathVariable String directDebitId, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-
-		try {
-			String message = directDebitService.cancelBankDeposit(directDebit, null);
-			MessageHelper.addWarningAttribute(ra, message);
-		} catch (ExistTransactionIdException e) {
-			logger.warn("cancelBankDeposit - ExistTransactionIdException", e);
-			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-			MessageHelper.addErrorAttribute(ra, messageI18n);
-		}
+		String message = directDebitService.cancelBankDeposit(directDebit, null);
+		MessageHelper.addWarningAttribute(ra, message);
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
@@ -232,17 +210,8 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> confirmBankDeposit(@PathVariable String directDebitId, Principal principal, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-
-		try {
-			String message = directDebitService.confirmBankDeposit(directDebit, null);
-			MessageHelper.addWarningAttribute(ra, message);
-		} catch (ExistTransactionIdException e) {
-			logger.warn("confirmBankDeposit - ExistTransactionIdException", e);
-			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-			MessageHelper.addErrorAttribute(ra, messageI18n);
-
-		}
+		String message = directDebitService.confirmBankDeposit(directDebit, null);
+		MessageHelper.addWarningAttribute(ra, message);
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
@@ -257,16 +226,15 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> confirmPaypal(@PathVariable String directDebitId, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-
-		try {
-			String message = directDebitService.confirmPaypal(directDebit, null);
-			MessageHelper.addWarningAttribute(ra, message);
-		} catch (ExistTransactionIdException e) {
-			logger.warn("confirmPaypal - ExistTransactionIdException", e);
-			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-			MessageHelper.addErrorAttribute(ra, messageI18n);
-		}
+		//		try {
+		String message = directDebitService.confirmPaypal(directDebit, null);
+		MessageHelper.addWarningAttribute(ra, message);
+		//		} catch (ExistTransactionIdException e) {
+		//			logger.warn("confirmPaypal - ExistTransactionIdException", e);
+		//			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
+		//			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
+		//			MessageHelper.addErrorAttribute(ra, messageI18n);
+		//		}
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
@@ -281,16 +249,8 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> directDebitByCancel(@PathVariable String directDebitId, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-
-		try {
-			String message = directDebitService.cancel(directDebit, null);
-			MessageHelper.addWarningAttribute(ra, message);
-		} catch (ExistTransactionIdException e) {
-			logger.warn("directDebitByCancel - ExistTransactionIdException", e);
-			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-			MessageHelper.addErrorAttribute(ra, messageI18n);
-		}
+		String message = directDebitService.cancel(directDebit, null);
+		MessageHelper.addWarningAttribute(ra, message);
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
@@ -305,16 +265,8 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> directDebitByCash(@PathVariable String directDebitId, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-
-		try {
-			String message = directDebitService.cash(directDebit, null);
-			MessageHelper.addWarningAttribute(ra, message);
-		} catch (ExistTransactionIdException e) {
-			logger.warn("directDebitByCash - ExistTransactionIdException", e);
-			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-			MessageHelper.addErrorAttribute(ra, messageI18n);
-		}
+		String message = directDebitService.cash(directDebit, null);
+		MessageHelper.addWarningAttribute(ra, message);
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
@@ -329,16 +281,8 @@ public class DirectDebitListController {
 	public ResponseEntity<Map<String, ?>> directDebitByReturnBill(@PathVariable String directDebitId, RedirectAttributes ra) {
 
 		DirectDebit directDebit = directDebitService.findById(directDebitId);
-
-		try {
-			String message = directDebitService.returnBill(directDebit, null);
-			MessageHelper.addWarningAttribute(ra, message);
-		} catch (ExistTransactionIdException e) {
-			logger.warn("directDebitByReturnBill - ExistTransactionIdException", e);
-			Object[] arguments = { directDebit.getIdTxn(), directDebit.getConcept() };
-			String messageI18n = messageSource.getMessage(Constants.ERRORIDEXCEPTION, arguments, Locale.getDefault());
-			MessageHelper.addErrorAttribute(ra, messageI18n);
-		}
+		String message = directDebitService.returnBill(directDebit, null);
+		MessageHelper.addWarningAttribute(ra, message);
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);
 	}
 
@@ -350,8 +294,8 @@ public class DirectDebitListController {
 	 */
 	@RequestMapping(value = "directDebitList/refresh", method = RequestMethod.POST)
 	public String directDebitRefresh(RedirectAttributes ra) {
-		directDebitService.refresh();
 
+		directDebitService.refresh();
 		MessageHelper.addErrorAttribute(ra, "directDebit.successRefresh", "");
 		return "redirect:/directDebitList";
 	}

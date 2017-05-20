@@ -44,8 +44,9 @@ import org.cuacfm.members.model.methodpayment.MethodPayment;
 import org.cuacfm.members.model.methodpaymentservice.MethodPaymentService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
-import org.cuacfm.members.model.util.DateUtils;
+import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,30 +61,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DirectDebitListControllerTest extends WebSecurityConfigurationAware {
 
-	/** The default session. */
 	private MockHttpSession defaultSession;
 
-	/** The fee member service. */
 	@Autowired
 	private FeeMemberService feeMemberService;
 
-	/** The account service. */
 	@Autowired
 	private AccountService accountService;
 
-	/** The method payment service. */
 	@Autowired
 	private MethodPaymentService methodPaymentService;
 
-	/** The program service. */
 	@Autowired
 	private ProgramService programService;
 
-	/** The fee program service. */
 	@Autowired
 	private FeeProgramService feeProgramService;
 
-	/** The bank remittance service. */
 	@Autowired
 	private BankRemittanceService bankRemittanceService;
 
@@ -91,25 +85,27 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	private DirectDebitService directDebitService;
 
 	private BankRemittance bankRemittance;
+	private Account account;
 
 	/**
 	 * Initialize default session.
 	 *
 	 * @throws UniqueException the unique exception
+	 * @throws UniqueListException the unique list exception
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
-		Account admin = new Account("admin", "", "55555555B", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
+		Account admin = new Account("admin", "", "55555555B", "London", "admin", "admin@test.es", "666666666", "666666666", "admin",
+				roles.ROLE_ADMIN);
 		accountService.save(admin);
-		defaultSession = getDefaultSession("admin@udc.es");
+		defaultSession = getDefaultSession(admin.getEmail());
 
 		MethodPayment methodPayment = new MethodPayment("name", true, "domiciliacion");
 		methodPaymentService.save(methodPayment);
 
 		// Create User
 		List<Account> accounts = new ArrayList<Account>();
-		Account account = new Account("user1", "1", "11111111C", "London", "user11", "user1@udc.es", "666666666", "666666666", "demo",
-				roles.ROLE_USER);
+		account = new Account("user1", "1", "11111111C", "London", "user11", "user1@test.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(account);
 		List<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 		BankAccount bankAccount = new BankAccount(account, "Banco", "BSCHESMMXXX", "ES7620770024003102575766", new Date());
@@ -120,7 +116,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		accountService.update(account, false, true);
 		accounts.add(account);
 
-		Account account2 = new Account("user2", "2", "12222222C", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo",
+		Account account2 = new Account("user2", "2", "12222222C", "London", "user2", "user2@test.es", "666666666", "666666666", "demo",
 				roles.ROLE_USER);
 		accountService.save(account2);
 		account2.setMethodPayment(methodPayment);
@@ -132,7 +128,7 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 		accountService.update(account2, false, true);
 		accounts.add(account2);
 
-		Account account3 = new Account("user3", "3", "33333333C", "London", "user3", "user3@udc.es", "666666666", "666666666", "demo",
+		Account account3 = new Account("user3", "3", "33333333C", "London", "user3", "user3@test.es", "666666666", "666666666", "demo",
 				roles.ROLE_USER);
 		accountService.save(account3);
 
@@ -192,9 +188,58 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	 */
 	@Test
 	public void displaysBankRemittanceBecauseBankRemittanceIsNullTest() throws Exception {
-
 		mockMvc.perform(get("/bankRemittanceList").locale(Locale.ENGLISH).session(defaultSession))
 				.andExpect(view().name("bankremittance/bankremittancelist"));
+	}
+
+	/**
+	 * Displaysdirect debit list test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysdirectDebitListTest() throws Exception {
+		mockMvc.perform(get("/directDebitList").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("directdebit/directdebitlist"));
+		mockMvc.perform(get("/directDebitList/").locale(Locale.ENGLISH).session(defaultSession));
+
+		for (DirectDebit directDebit : directDebitService.findAll()) {
+			directDebitService.updateDirectDebit(directDebit, states.CANCEL, methods.NO_PAY, new Date());
+		}
+		mockMvc.perform(get("/directDebitList/").locale(Locale.ENGLISH).session(defaultSession));
+	}
+
+	/**
+	 * Displaysdirect debit list close test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysdirectDebitListCloseTest() throws Exception {
+		mockMvc.perform(get("/directDebitList/close").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("directdebit/directdebitlistclose"));
+		mockMvc.perform(get("/directDebitList/close/").locale(Locale.ENGLISH).session(defaultSession));
+
+		for (DirectDebit directDebit : directDebitService.findAll()) {
+			directDebitService.updateDirectDebit(directDebit, states.CANCEL, methods.NO_PAY, new Date());
+		}
+		mockMvc.perform(get("/directDebitList/close/").locale(Locale.ENGLISH).session(defaultSession));
+	}
+
+	/**
+	 * Displaysdirect debit list remittance test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysdirectDebitListRemittanceTest() throws Exception {
+		mockMvc.perform(get("/directDebitList/remittance").locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("bankremittance/directdebitlist"));
+		mockMvc.perform(get("/directDebitList/remittance/").locale(Locale.ENGLISH).session(defaultSession));
+
+		for (DirectDebit directDebit : directDebitService.findAll()) {
+			directDebitService.updateDirectDebit(directDebit, states.CANCEL, methods.NO_PAY, new Date());
+		}
+		mockMvc.perform(get("/directDebitList/remittance/").locale(Locale.ENGLISH).session(defaultSession));
 	}
 
 	/**
@@ -219,14 +264,61 @@ public class DirectDebitListControllerTest extends WebSecurityConfigurationAware
 	 */
 	@Test
 	public void payCashDirectDebitTest() throws Exception {
-
 		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
-
-		mockMvc.perform(post("/directDebitList/cash/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession))
-		//.andExpect(view().name("bankremittance/directdebitlist"))
-		;
+		mockMvc.perform(post("/directDebitList/cash/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
 		assertTrue(directDebit.getState().equals(states.PAY));
+	}
 
+	/**
+	 * Pay bank deposit debit test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void payBankDepositDirectDebitTest() throws Exception {
+		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
+		mockMvc.perform(post("/directDebitList/markBankDeposit/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.MANAGEMENT));
+		mockMvc.perform(post("/directDebitList/cancelBankDeposit/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.NO_PAY));
+		mockMvc.perform(post("/directDebitList/markBankDeposit/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.MANAGEMENT));
+		mockMvc.perform(post("/directDebitList/confirmBankDeposit/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.PAY));
+	}
+
+	/**
+	 * Cancel direct debit test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void cancelDirectDebitTest() throws Exception {
+		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
+		mockMvc.perform(post("/directDebitList/cancel/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.CANCEL));
+	}
+
+	/**
+	 * Confirm paypal direct debit test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void confirmPaypalDirectDebitTest() throws Exception {
+		DirectDebit directDebit = directDebitService.findAllByBankRemittanceId(bankRemittance.getId()).get(0);
+		mockMvc.perform(post("/directDebitList/confirmPaypal/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.NO_PAY));
+	}
+
+	/**
+	 * Refresh direct debit test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void refreshDirectDebitTest() throws Exception {
+		mockMvc.perform(post("/directDebitList/refresh").locale(Locale.ENGLISH).session(defaultSession));
 	}
 
 	/**

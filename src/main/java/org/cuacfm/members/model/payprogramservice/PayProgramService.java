@@ -40,9 +40,8 @@ public interface PayProgramService {
 	 *
 	 * @param payProgram the pay program
 	 * @return PayProgram
-	 * @throws ExistTransactionIdException the exist transaction id exception
 	 */
-	public PayProgram update(PayProgram payProgram) throws ExistTransactionIdException;
+	public PayProgram update(PayProgram payProgram);
 
 	/**
 	 * Removes the.

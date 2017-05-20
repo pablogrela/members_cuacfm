@@ -69,7 +69,7 @@ public class FeeMemberServiceImpl implements FeeMemberService {
 		int percent;
 
 		// Create payments of users
-		for (Account user : accountService.getUsers()) {
+		for (Account user : accountService.getUsersActive()) {
 			percent = 0;
 			if (user.getAccountType() != null) {
 				percent = user.getAccountType().getDiscount();
