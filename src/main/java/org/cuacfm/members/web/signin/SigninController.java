@@ -17,8 +17,6 @@ package org.cuacfm.members.web.signin;
 
 import static org.cuacfm.members.model.util.FirebaseUtils.getEmailOfToken;
 
-import java.io.IOException;
-
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.userservice.UserService;
@@ -61,10 +59,9 @@ public class SigninController {
 	 * Signin.
 	 *
 	 * @return the string
-	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@RequestMapping(value = "signin")
-	public String signin() throws IOException {
+	public String signin() {
 		return SIGNIN_VIEW_NAME;
 	}
 

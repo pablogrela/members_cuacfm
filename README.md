@@ -76,12 +76,20 @@ You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 
 ##### To run the coverage where the code coverage is displayed
 	cobertura:cobertura
-- To view: within the target enter the site / coverage and open the index
+- To view: within the target enter the site / coverage and open the index in navigator
 	
 ##### To run mycilla and add the licenses to files that do not have it
 	license:format
 
+##### To run the coverage with Jacoco where the code coverage is displayed
+	verify install or org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.test.failure.ignore=true
+- To view: within the target enter the site / jacoco and open the index in navigator
 
+##### To run the sonar analysis 
+	sonar:sonar
+- It is necessary to have sonar 6.3 or higher installed and running
+- open navigator in url: http://localhost:9000/ and select the name of the project
+- If Jacoco was executed, the coverage index
 
 <br><br>
 

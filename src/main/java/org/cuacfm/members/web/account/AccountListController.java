@@ -55,7 +55,7 @@ public class AccountListController {
 	private SpringEmailService emailService;
 	
 	@Autowired
-	private PushService PushService;
+	private PushService pushService;
 
 	public static final String ACCOUNT_VIEW_NAME = "account/accountlist";
 	public static final String REDIRECT_ACCOUNT = "redirect:/accountList";
@@ -144,7 +144,7 @@ public class AccountListController {
 		Account account = accountService.findById(id);
 		Object[] arguments = { account.getName() + " " + account.getSurname() };
 
-		if (PushService.sendPushNotificationToDevice(account.getDevicesToken(), title, body, typePush.DEFAULT, null)) {
+		if (pushService.sendPushNotificationToDevice(account.getDevicesToken(), title, body, typePush.DEFAULT, null)) {
 			MessageHelper.addInfoAttribute(ra, messageSource.getMessage("account.push.success", arguments, Locale.getDefault()));
 		} else {
 			MessageHelper.addInfoAttribute(ra, messageSource.getMessage("account.push.error", arguments, Locale.getDefault()));

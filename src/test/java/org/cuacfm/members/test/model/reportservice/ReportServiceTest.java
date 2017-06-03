@@ -45,10 +45,12 @@ import org.cuacfm.members.model.programservice.ProgramService;
 import org.cuacfm.members.model.report.Report;
 import org.cuacfm.members.model.report.ReportDTO;
 import org.cuacfm.members.model.reportservice.ReportService;
+import org.cuacfm.members.model.util.FileUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,6 +61,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 @Transactional
 public class ReportServiceTest extends WebSecurityConfigurationAware {
 
+	@Value("${path}${pathTest}")
+	private String pathTest;
+	
 	@Inject
 	private ReportService reportService;
 
@@ -146,7 +151,8 @@ public class ReportServiceTest extends WebSecurityConfigurationAware {
 		reportService.save(report3, multipartFiles);
 		
 		List<String> lines = Arrays.asList("The first line", "The second line");
-		Path file2 = Paths.get("the-file-name.txt");
+		FileUtils.createFolderIfNoExist(pathTest);
+		Path file2 = Paths.get(pathTest + "file.txt");
 		Files.write(file2, lines, Charset.forName("UTF-8"));
 		file2.toFile().length();
 		

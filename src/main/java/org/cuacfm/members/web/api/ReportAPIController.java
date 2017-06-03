@@ -132,8 +132,8 @@ public class ReportAPIController {
 			reportService.answer(report, account, answer, manage);
 
 			ReportDTO newReportDTO = reportService.getReportDTO(report);
-			String newReportJson = new Gson().toJson(newReportDTO);
-			return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
+			String newJsonReport = new Gson().toJson(newReportDTO);
+			return new ResponseEntity<>(newJsonReport, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 	}
@@ -198,12 +198,12 @@ public class ReportAPIController {
 	 * Creates the report API.
 	 *
 	 * @param token the token
-	 * @param reportJson the report json
+	 * @param jsonReport the report json
 	 * @param photos the photos
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "api/reportList/reportCreate", method = RequestMethod.POST)
-	public ResponseEntity<String> createReportAPI(@RequestParam(value = "token") String token, @RequestParam(value = "reportJson") String reportJson,
+	public ResponseEntity<String> createReportAPI(@RequestParam(value = "token") String token, @RequestParam(value = "jsonReport") String jsonReport,
 			@RequestParam(value = "photos") String photos) {
 
 		// Validate Token and retrieve email
@@ -216,14 +216,14 @@ public class ReportAPIController {
 				List<byte[]> photosAux = new Gson().fromJson(photos, listType);
 
 				Account account = accountService.findByEmail(email);
-				ReportDTO reportDTO = new Gson().fromJson(reportJson, ReportDTO.class);
+				ReportDTO reportDTO = new Gson().fromJson(jsonReport, ReportDTO.class);
 
 				Report report = reportService.getReport(reportDTO, account);
 				report = reportService.save(report, photosAux);
 
 				ReportDTO newReportDTO = reportService.getReportDTO(report);
-				String newReportJson = new Gson().toJson(newReportDTO);
-				return new ResponseEntity<>(newReportJson, HttpStatus.CREATED);
+				String newJsonReport = new Gson().toJson(newReportDTO);
+				return new ResponseEntity<>(newJsonReport, HttpStatus.CREATED);
 			} catch (Exception e) {
 				logger.error("createReportAPI", e);
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

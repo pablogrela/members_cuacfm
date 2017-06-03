@@ -35,8 +35,21 @@ public class FirebaseUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(FirebaseUtils.class);
 
+	/**
+	 * Instantiates a new firebase utils.
+	 */
+	 FirebaseUtils() {
+		super();
+	}
+
+	/**
+	 * Gets the email of token.
+	 *
+	 * @param token the token
+	 * @return the email of token
+	 */
 	public static String getEmailOfToken(String token) {
-		
+
 		if (token == null || token.isEmpty()) {
 			return null;
 		}

@@ -94,26 +94,13 @@ membersApp.controller('BookUserController', [ '$scope', 'BookService', function(
 			}
 		}
 	}
-	
+
 	$scope.localeSensitiveComparator = function(v1, v2) {
 		if (v1.type == 'string' || v2.type == 'string') {
 			return v1.value.localeCompare(v2.value);
 		}
 		return (v1.value < v2.value) ? -1 : 1;
 	};
-
-	$scope.bookAnswer = function(id, answer) {
-		if (answer != null && !jQuery.isEmptyObject(answer)) {
-			BookService.bookAnswer(id, answer).then(function(data) {
-				$scope.message = data;
-				$scope.fetchAllBooks();
-				$('#close').click();
-				$scope.answer = '';
-			}, function(errorResponse) {
-				console.error('Error while answer Book', errorResponse);
-			});
-		}
-	}
 
 	$scope.lastMonth = function() {
 		if (self.isLastMonth) {

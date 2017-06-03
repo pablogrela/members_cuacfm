@@ -106,8 +106,7 @@ public class BookAPIController {
 	 * @param manage the manage
 	 * @return the response entity
 	 */
-	@RequestMapping(value = { "api/bookList/bookAnswer/{bookId}",
-			"api/bookUserList/bookAnswer/{bookId}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "api/bookList/bookAnswer/{bookId}", "api/bookUserList/bookAnswer/{bookId}" }, method = RequestMethod.POST)
 	public ResponseEntity<String> bookAnswerAPI(@PathVariable("bookId") Long bookId, @RequestParam(value = "token") String token,
 			@RequestParam(value = "answer") String answer, @RequestParam(value = "manage") Boolean manage) {
 
@@ -121,8 +120,8 @@ public class BookAPIController {
 			book = bookService.answer(book, account, answer, manage);
 
 			BookDTO newBookDTO = bookService.getBookDTO(book);
-			String newBookJson = new Gson().toJson(newBookDTO);
-			return new ResponseEntity<>(newBookJson, HttpStatus.CREATED);
+			String newJsonBook = new Gson().toJson(newBookDTO);
+			return new ResponseEntity<>(newJsonBook, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
 	}
@@ -131,12 +130,11 @@ public class BookAPIController {
 	 * Creates the book API.
 	 *
 	 * @param token the token
-	 * @param bookJson the book json
+	 * @param jsonBook the book json
 	 * @return the response entity
 	 */
 	@RequestMapping(value = "api/bookList/bookCreate", method = RequestMethod.POST)
-	public ResponseEntity<String> createBookAPI(@RequestParam(value = "token") String token,
-			@RequestParam(value = "bookJson") String bookJson) {
+	public ResponseEntity<String> createBookAPI(@RequestParam(value = "token") String token, @RequestParam(value = "jsonBook") String jsonBook) {
 
 		// Validate Token and retrieve email
 		String email = getEmailOfToken(token);
@@ -145,12 +143,12 @@ public class BookAPIController {
 			try {
 				Account account = accountService.findByEmail(email);
 				Gson gson = new GsonBuilder().setDateFormat(DateUtils.FORMAT_LOCAL).create();
-				BookDTO bookDTO = gson.fromJson(bookJson, BookDTO.class);
+				BookDTO bookDTO = gson.fromJson(jsonBook, BookDTO.class);
 				Book book = bookService.getBook(bookDTO, account);
 				book = bookService.save(book);
 				BookDTO newBookDTO = bookService.getBookDTO(book);
-				String newBookJson = new Gson().toJson(newBookDTO);
-				return new ResponseEntity<>(newBookJson, HttpStatus.CREATED);
+				String newJsonBook = new Gson().toJson(newBookDTO);
+				return new ResponseEntity<>(newJsonBook, HttpStatus.CREATED);
 			} catch (UserAlreadyBookException e) {
 				logger.error("createBookAPI UserAlreadyBookException", e);
 				return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
