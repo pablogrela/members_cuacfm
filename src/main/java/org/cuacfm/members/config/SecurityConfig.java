@@ -101,9 +101,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity http) throws Exception {
 	   // csrf().ignoringAntMatchers() ignora la validacion de csrf para las peticiones de la api
-	   // csrf().disable() deshabilita la validacion crsf para todo
+	   // csrf().disable() deshabilita la validacion crsf para
        http.csrf().ignoringAntMatchers("/api/**").and().
-       authorizeRequests().antMatchers("/", "/#", "/favicon.ico", "/resources/**", "/signup", "/signup",  "/logout", "/logout/**", "/signin/**", "/api/**")
+       authorizeRequests().antMatchers("/", "/#", "/favicon.ico", "/resources/**", "/signup", "/signup",  "/logout", "/logout/**", "/signin/**", "/signin?logout", "/api/**")
             .permitAll()
 
             .antMatchers("/trainingUserList")

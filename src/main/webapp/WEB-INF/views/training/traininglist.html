@@ -73,13 +73,13 @@
 			<h1 class="text-center" th:text="#{training.trainingListEmpty}">List of Training Types</h1>
 		</div>
 
-		<!-- Verify if exits Trainings -->
+		<!-- Verify if exits trainings -->
 		<div th:unless="${#lists.isEmpty(trainings)}">
 
-			<!-- Tittle -->
+			<!-- Title -->
 			<h1 class="text-center" th:text="#{training.trainingList}">List of Trainings</h1>
 
-			<!-- Table List of Trainings -->
+			<!-- Table list of trainings -->
 			<table class="display" id="customTable">
 				<thead>
 					<tr>

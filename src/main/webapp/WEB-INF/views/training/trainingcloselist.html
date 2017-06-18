@@ -52,13 +52,13 @@
 		<!-- Verify if exits close trainings -->
 		<div th:unless="${#lists.isEmpty(closeTrainings)}">
 
-			<!-- Tittle -->
+			<!-- Title -->
 			<h1 class="text-center" th:text="#{training.trainingCloseList} + #{from} + ${yearShow}">List of Trainings</h1>
 
 
-			<!-- Table List of Trainings -->
-			<table class="disaplay" id="customTable">
-				<thead class="table-bordered">
+			<!-- Table List of trainings close-->
+			<table class="display" id="customTable">
+				<thead>
 					<tr>
 						<th th:text="#{name}">Name</th>
 						<th th:text="#{training.dateLimit}">Date Limit</th>
@@ -69,9 +69,10 @@
 						<th class="no-sort"></th>
 					</tr>
 				</thead>
-				<tbody class="table-bordered">
+				<tbody>
 
 					<tr th:each="training : ${closeTrainings}">
+					
 						<td th:text="${training.name}">name</td>
 						<td th:text="${{training.dateLimit}}">13/01/2015</td>
 						<td th:text="${{training.dateTraining}}">15/01/2015</td>

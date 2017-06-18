@@ -20,7 +20,7 @@
 	<groupId>org.cuacfm</groupId>
 	<artifactId>members</artifactId>
 	<packaging>war</packaging>
-	<version>1.4.5</version>
+	<version>1.4.6</version>
 	<inceptionYear>2015</inceptionYear>
 	<name>members</name>
 	<url>https://github.com/pablogrela/members_cuacfm</url>
@@ -35,7 +35,7 @@ Authentication with Firebase</description>
 		<assertj-core-version>1.7.1</assertj-core-version>
 		<slf4j.version>1.7.12</slf4j.version>
 		<valnif.version>2.0.1</valnif.version>
-		<firebase.version>4.1.7</firebase.version>
+		<firebase.version>5.2.0</firebase.version>
 		<maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
 		<maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
 		<maven-war-plugin.version>3.0.0</maven-war-plugin.version>

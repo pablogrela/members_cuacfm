@@ -41,8 +41,8 @@
 
 
 		<!-- Table List of directDebits -->
-		<div class="ng-cloak text-center" sec:authorize="!hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp" data-ng-controller="DirectDebitOpenController as ctrl">
-			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+		<div class="ng-cloak" sec:authorize="!hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp" data-ng-controller="DirectDebitOpenController as ctrl">
+			<div class="text-center" th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
 			<br></br>
 		</div>

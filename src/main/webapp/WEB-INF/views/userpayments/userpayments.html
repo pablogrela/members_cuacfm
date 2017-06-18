@@ -146,7 +146,7 @@
 					<!-- Table entry -->
 					<tr th:each="payProgram : ${payPrograms}">
 						<td th:text="${payProgram.program.name}">name</td>
-						<td class="hidden-xs"><span th:each="account : ${payProgram.program.accounts}" th:text="${account.fullName} + ' , '"></span></td>
+						<td class="hidden-xs"><span th:each="account : ${payProgram.program.accounts}" th:text="${account.fullName} + ', '"></span></td>
 						<td th:text="${#dates.format(payProgram.feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
 						<td th:text="${payProgram.price}">price</td>
 						<td th:text="#{${'states.' + payProgram.state}}">State</td>

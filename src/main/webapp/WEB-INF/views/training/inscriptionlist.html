@@ -55,7 +55,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						th:field="*{login}" required="required" autocomplete="off"/> 
 						
 						<!-- Datalist is a search by keyword-->
-						<datalist  id="userlist">
+						<datalist id="userlist">
 						  	<option th:each="username : ${usernames}" th:value="${username}"/>
 						</datalist>
 						

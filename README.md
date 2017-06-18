@@ -78,7 +78,7 @@ You need MySQL (5.7) and Apache Tomcat (7, 8, 8.5 or 9)
 	cobertura:cobertura
 - To view: within the target enter the site / coverage and open the index in navigator
 	
-##### To run mycilla and add the licenses to files that do not have it
+##### To run Mycilla and add the licenses to files that do not have it
 	license:format
 
 ##### To run the coverage with Jacoco where the code coverage is displayed
@@ -110,13 +110,13 @@ The necessary files for configuration are the following:
 - The **firebaseWeb.properties** ile contains the configuration of Firebase´s web.
 - The **hibernate.properties** file contains all the variables needed for database connection.
 - The **hibernateTest.properties** file contains all the variables needed for database test connection.
-- The **log4.properties** file contains the configuration of the logs hibernate.
-- The **logback.xml** file contains the configuration of the logs. Change the variable **<file>C** to change the destination file of the logs, example:
+- The **log4.properties** file contains the configuration of the logs Hibernate.
+- The **logback.xml** file contains the configuration of the logs. Change the variable **<file>** to change the destination file of the logs, example:
  	<file>/var/lib/cuacfm-members/logs/members.log</file>
 - The **messages.properties** file contains the messages of view application, by default use inside messages.
-	- The messages of angular, datables or another javascript is not customizable, outside war.
-- The **paypal.properties** file contains all the necessary variables for paypal.
-- The **recaptcha.properties** file contains all the necessary variables for recaptcha.
+	- The messages of angular, DataTables or another JavaScript is not customizable, outside war.
+- The **paypal.properties** file contains all the necessary variables for PayPal.
+- The **recaptcha.properties** file contains all the necessary variables for Recaptcha.
 
 
 
@@ -132,8 +132,8 @@ The necessary files for configuration are the following:
 - Configure web to connect to firebase, in the file **firebaseMessaging.properties**
 	Get server key value in configuration/cloud messaging on the Firebase console.
 	
-- Configure java to connect to Firebase, in the file **firebaseAdmin.json**
-	Get the JSON file on the Firebase console inside the java SDK Admin
+- Configure Java Server to connect to Firebase, in the file **firebaseAdmin.json**
+	Get the JSON file on the Firebase console inside the Java SDK Admin
 
 - Configure web to connect to Firebase, in the file **firebaseWeb.properties**
 	Get values in web configuration on the Firebase console.
@@ -144,18 +144,19 @@ The necessary files for configuration are the following:
 		Enable Email/password and google sign in
 		Add domain, it is necessary 
 		In advanced options, verify that only one account is used per email
-	
+		
+	- Url to register manual a email in firebase (example for localhost):
+		http://localhost:8080/members/signup/signupFirebaseManual?email=user@udc.es&token=123
+		- Email has to be registered on firebase
+	    - The token has to correspond to that user and is of only one use
+	    
 	- Edit action url on firebase console
 		Configure this variable in console Firebase (Authentication -> Email templates -> Edit -> Action URL)
 		- Example for localhost:
 			http://localhost:8080/members/signin/resetPassword
 	
-	- Url to register manual a email in firebase (example for localhost):
-		http://localhost:8080/members/signup/signupFirebaseManual?email=user@udc.es&token=123
-		- Email has to be registered on firebase
-	    - The token has to correspond to that user and is of only one use
-	
-	- Configure another email templates, for example reset password, verify email or change email. You can also change the domain.
+	- Configure another email templates, for example reset password, verify email or change email. 
+	- You can also change the domain.
 
 
 <br><br>
@@ -175,17 +176,17 @@ The necessary files for configuration are the following:
 
 ### API
 
-An API has been created to be used by another application through a REST service, in principle it is used by the radicom-android application
+An API has been created to be used by another application through a REST service, in principle it is used by the Radiocom-Android application
 
 In all cases a firebase validation token is necessary, which is only possible if the user is registered in the application of the members and in the client application, and in case of being wrong, the server will return a 403 message of forbidden.
 
 ##### The functions implemented as public are the following:
 
 - **/members/api/accountList/account/** 
-	Recovers user programs
+	Recover user info
 
 - **/members/api/elementList/** 
-	Recovers user programs
+	Recovers elements 
 
 - **/members /api/programList/**
 	Recovers all programs
@@ -203,16 +204,14 @@ In all cases a firebase validation token is necessary, which is only possible if
 	- **/members/api/reserveList/reportAnswer/{reserveId}**
 		Respond to an incidence	
 
-- **/members /api/reserveList/**
-	Recovers all reserves
-	- **/members /api/reportList/**
-		Recovers user reserves
-	- **/members/api/reserveList/reserveCreate**
-		Create a new reserves
-	- **/members/api/reserveList/image**
-		Recover the image of an reserves
-	- **/members/api/reserveList/reserveAnswer/{reserveId}**
-		Respond to an reserve			
+- **/members /api/bookList/**
+	Recovers all books
+	- **/members /api/bookUserList/**
+		Recovers user books
+	- **/members/api/bookList/bookCreate**
+		Create a new book
+	- **/members/api/bookList/bookAnswer/{bookId}**
+		Respond to an book			
 
 
 <br><br>

@@ -35,6 +35,9 @@ public class SpringEmailService {
 	@Value("${path}${email.path}")
 	private String path;
 
+	@Value("${email.from}")
+	private String from;
+
 	private static final Logger logger = LoggerFactory.getLogger(FirebaseUtils.class);
 
 	@Autowired
@@ -44,7 +47,8 @@ public class SpringEmailService {
 
 		try {
 			SimpleMailMessage message = new SimpleMailMessage();
-			
+
+			message.setFrom(from);
 			message.setTo(to);
 			message.setSubject(subject);
 			message.setText(msg);
@@ -65,6 +69,7 @@ public class SpringEmailService {
 			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+			helper.setFrom(from);
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(msg);
@@ -72,10 +77,10 @@ public class SpringEmailService {
 			FileUtils.createFolderIfNoExist(path);
 			FileSystemResource file = new FileSystemResource(new File(path + fileName));
 			helper.addAttachment("Invoice", file);
-			
+
 			javaMailSender.send(message);
 			return true;
-			
+
 		} catch (Exception e) {
 			logger.error("sendMailWithAttachment: ", e);
 			return false;
