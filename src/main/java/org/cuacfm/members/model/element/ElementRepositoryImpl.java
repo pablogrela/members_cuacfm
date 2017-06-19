@@ -84,8 +84,8 @@ public class ElementRepositoryImpl implements ElementRepository {
 	}
 
 	@Override
-	public List<Element> getElementListReservable() {
-		return entityManager.createQuery("select p from Element p where p.reservable = true order by p.name desc", Element.class).getResultList();
+	public List<Element> getElementListBook() {
+		return entityManager.createQuery("select p from Element p where p.book = true order by p.name desc", Element.class).getResultList();
 	}
 
 	@Override
@@ -94,9 +94,9 @@ public class ElementRepositoryImpl implements ElementRepository {
 	}
 
 	@Override
-	public List<Element> getElementListReservableLocation() {
+	public List<Element> getElementListBookLocation() {
 		return entityManager
-				.createQuery("select p from Element p where p.reservable = true and p.location = true order by p.name desc", Element.class)
+				.createQuery("select p from Element p where p.book = true and p.location = true order by p.name desc", Element.class)
 				.getResultList();
 	}
 

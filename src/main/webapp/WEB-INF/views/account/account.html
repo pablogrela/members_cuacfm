@@ -425,7 +425,7 @@
 					<div class="form-group">
 						<div class="col-lg-6">
 							<div class="input-group">
-								<label for="role" class="col-lg-2" th:text="#{permissions.ROLE_RESERVE}">permission</label>
+								<label for="role" class="col-lg-2" th:text="#{permissions.ROLE_BOOK}">permission</label>
 								<span class="input-group-btn">
 									<input type="checkbox" id="permissionReserve" name="permissionReserve" th:field="*{permissionReserve}" data-toggle="toggle" data-on="Si"
 										data-off="No" data-onstyle="success" data-offstyle="danger" />
@@ -579,7 +579,7 @@
 										<br></br>
 									</div>
 									<!-- Show message, if bank accounts is empty -->
-									<h2 class="text-center" th:if="${#lists.isEmpty(bankAccounts)}" th:text="#{account.bankAccount.bankAccountListEmpy}"></h2>
+									<h1 class="text-center" th:if="${#lists.isEmpty(bankAccounts)}" th:text="#{account.bankAccount.bankAccountListEmpy}"></h1>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-primary" th:text="#{accept}" data-dismiss="modal">Accept</button>
@@ -594,7 +594,7 @@
 
 			<!-- Div fee members -->
 			<div>
-				<h2 class="text-center" th:text="#{feesMemberName}">List of User Pay Inscriptions</h2>
+				<h1 class="text-center" th:text="#{feesMemberName}">List of User Pay Inscriptions</h1>
 				<br></br>
 
 				<div th:if="${#lists.isEmpty(payMembers)}" class="form-group text-center">

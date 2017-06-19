@@ -72,9 +72,11 @@ public class ElementServiceImpl implements ElementService {
 
 	@Override
 	public void delete(Element element) {
-		Object[] arguments = { element.getName() };
-		elementRepository.delete(element);
-		eventService.save("element.delete.success", null, levels.MEDIUM, arguments);
+		if (element != null) {
+			Object[] arguments = { element.getName() };
+			elementRepository.delete(element);
+			eventService.save("element.delete.success", null, levels.MEDIUM, arguments);
+		}
 	}
 
 	@Override
@@ -93,8 +95,8 @@ public class ElementServiceImpl implements ElementService {
 	}
 
 	@Override
-	public List<Element> getElementListReservable() {
-		return elementRepository.getElementListReservable();
+	public List<Element> getElementListBook() {
+		return elementRepository.getElementListBook();
 	}
 
 	@Override
@@ -103,8 +105,8 @@ public class ElementServiceImpl implements ElementService {
 	}
 
 	@Override
-	public List<Element> getElementListReservableLocation() {
-		return elementRepository.getElementListReservableLocation();
+	public List<Element> getElementListBookLocation() {
+		return elementRepository.getElementListBookLocation();
 	}
 
 	@Override
@@ -121,7 +123,7 @@ public class ElementServiceImpl implements ElementService {
 		ElementDTO elementDTO = null;
 
 		if (element != null) {
-			elementDTO = new ElementDTO(element.getId(), element.getName(), element.getDescription(), element.isReservable(), element.isLocation(),
+			elementDTO = new ElementDTO(element.getId(), element.getName(), element.getDescription(), element.isBook(), element.isLocation(),
 					element.getDateCreate());
 		}
 		return elementDTO;

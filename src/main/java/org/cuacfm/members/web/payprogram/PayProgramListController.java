@@ -15,12 +15,17 @@
  */
 package org.cuacfm.members.web.payprogram;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
+import org.cuacfm.members.model.util.Constants.typeDestinataries;
+import org.cuacfm.members.model.util.Constants.typePush;
+import org.cuacfm.members.model.util.NotificationService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +50,9 @@ public class PayProgramListController {
 
 	@Autowired
 	private PayProgramService payProgramService;
+
+	@Autowired
+	private NotificationService notificationService;
 
 	private FeeProgram feeProgram;
 	private List<PayProgram> payPrograms;
@@ -143,5 +151,32 @@ public class PayProgramListController {
 
 		MessageHelper.addErrorAttribute(ra, "feeProgram.successRefresh", "");
 		return REDIRECT_PAYPROGRAM;
+	}
+
+	/**
+	 * Notification.
+	 *
+	 * @param feeProgramId the fee program id
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeProgramList/notification/{feeProgramId}", method = RequestMethod.POST)
+	public String notification(@PathVariable Long feeProgramId, RedirectAttributes ra) {
+
+		FeeProgram feeProgram = feeProgramService.findById(feeProgramId);
+
+		List<Account> accounts = new ArrayList<>();
+		for (PayProgram payProgram : payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId())) {
+			accounts.addAll(payProgram.getProgram().getAccounts());
+		}
+
+		if (notificationService.sendNotification(typeDestinataries.ALL, accounts, feeProgram.getName(), feeProgram.getDescription(), typePush.MEMBERS,
+				null)) {
+			MessageHelper.addInfoAttribute(ra, "notification.send.success", feeProgram.getName());
+		} else {
+			MessageHelper.addWarningAttribute(ra, "notification.send.error", feeProgram.getName());
+		}
+
+		return "redirect:/feeProgramList";
 	}
 }

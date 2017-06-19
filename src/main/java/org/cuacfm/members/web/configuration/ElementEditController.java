@@ -59,7 +59,7 @@ public class ElementEditController {
 			ElementForm elementForm = new ElementForm();
 			elementForm.setName(element.getName());
 			elementForm.setDescription(element.getDescription());
-			elementForm.setReservable(element.isReservable());
+			elementForm.setBook(element.isBook());
 			elementForm.setLocation(element.isLocation());
 			model.addAttribute(elementForm);
 			return ELEMENT_VIEW_NAME;

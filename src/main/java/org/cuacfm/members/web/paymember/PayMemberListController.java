@@ -15,6 +15,7 @@
  */
 package org.cuacfm.members.web.paymember;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,6 +26,9 @@ import org.cuacfm.members.model.feemember.FeeMember;
 import org.cuacfm.members.model.feememberservice.FeeMemberService;
 import org.cuacfm.members.model.paymember.PayMember;
 import org.cuacfm.members.model.paymemberservice.PayMemberService;
+import org.cuacfm.members.model.util.Constants.typeDestinataries;
+import org.cuacfm.members.model.util.Constants.typePush;
+import org.cuacfm.members.model.util.NotificationService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.cuacfm.members.web.training.FindUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +58,9 @@ public class PayMemberListController {
 
 	@Autowired
 	private PayMemberService payMemberService;
+
+	@Autowired
+	private NotificationService notificationService;
 
 	private FindUserForm findUserform;
 	private FeeMember feeMember;
@@ -195,4 +202,30 @@ public class PayMemberListController {
 		return payMemberService.createPdfFeeMember(feeMemberId, createPdf);
 	}
 
+	/**
+	 * Notification.
+	 *
+	 * @param feeMemberId the fee member id
+	 * @param ra the ra
+	 * @return the string
+	 */
+	@RequestMapping(value = "feeMemberList/notification/{feeMemberId}", method = RequestMethod.POST)
+	public String notification(@PathVariable Long feeMemberId, RedirectAttributes ra) {
+
+		FeeMember feeMember = feeMemberService.findById(feeMemberId);
+
+		List<Account> accounts = new ArrayList<>();
+		for (PayMember payMember : payMemberService.getPayMemberListByFeeMemberId(feeMember.getId())) {
+			accounts.add(payMember.getAccount());
+		}
+
+		if (notificationService.sendNotification(typeDestinataries.ALL, accounts, feeMember.getName(), feeMember.getDescription(), typePush.MEMBERS,
+				null)) {
+			MessageHelper.addInfoAttribute(ra, "notification.send.success", feeMember.getName());
+		} else {
+			MessageHelper.addWarningAttribute(ra, "notification.send.error", feeMember.getName());
+		}
+
+		return "redirect:/feeMemberList";
+	}
 }

@@ -25,7 +25,10 @@ public class NoCsrfSecurityConfig extends SecurityConfig {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http.csrf().disable();
+        
+        http.authorizeRequests().antMatchers("/reportList/userCreate", "/reportUserList/userUserCreate")
+        .hasAnyRole("USER").and().csrf().ignoringAntMatchers("/**");
+        //http.csrf().disable();
     }
 
 }

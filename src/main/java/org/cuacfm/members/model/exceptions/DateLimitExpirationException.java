@@ -36,7 +36,7 @@ public class DateLimitExpirationException extends Exception {
 	 * @param dateLimit the date limit
 	 */
 	public DateLimitExpirationException(String trainingName, Date dateLimit) {
-		super("The training " + trainingName + " expired at " + DateUtils.format(dateLimit, DateUtils.FORMAT_DISPLAY));
+		super("The training " + trainingName + " expired at " + DateUtils.format(dateLimit, DateUtils.FORMAT_LOCAL));
 		this.trainingName = trainingName;
 		this.dateLimit = dateLimit;
 	}

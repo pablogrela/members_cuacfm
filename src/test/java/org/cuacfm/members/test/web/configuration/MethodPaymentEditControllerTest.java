@@ -48,18 +48,14 @@ import org.springframework.transaction.annotation.Transactional;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MethodPaymentEditControllerTest extends WebSecurityConfigurationAware {
 
-	/** The default session. */
 	private MockHttpSession defaultSession;
 
-	/** The account service. */
 	@Autowired
 	private AccountService accountService;
 
-	/** The account Type service. */
 	@Autowired
 	private MethodPaymentService methodPaymentService;
 
-	/** The method payment. */
 	private MethodPayment methodPayment;
 
 	/**

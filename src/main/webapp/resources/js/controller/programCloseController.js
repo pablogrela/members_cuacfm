@@ -62,9 +62,9 @@ membersApp.controller('ProgramController', [ '$scope', 'ProgramService', functio
 		});
 	}
 
-	$scope.programPush = function(id, title, body) {
+	$scope.programNotification = function(id, title, body) {
 		if (title != null && !jQuery.isEmptyObject(title) && body != null && !jQuery.isEmptyObject(body)) {
-			ProgramService.programPush(id, title, body).then(function(data) {
+			ProgramService.programNotification(id, title, body).then(function(data) {
 				$scope.message = data;
 				$('#close').click();
 				$scope.title = '';

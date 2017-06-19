@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +38,8 @@ import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
+import org.cuacfm.members.model.directdebit.DirectDebit;
+import org.cuacfm.members.model.directdebitservice.DirectDebitService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feemember.FeeMember;
@@ -51,9 +54,9 @@ import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
-import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;
@@ -108,28 +111,21 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 	@Inject
 	private PayProgramService payProgramService;
 
-	/** The user. */
+	@Inject
+	private DirectDebitService directDebitService;
+
 	private Account user;
-
-	/** The program */
 	private Program program;
-
-	/** The fee program. */
 	private FeeProgram feeProgram;
-
-	/** The account type. */
 	private AccountType accountType;
-
-	/** The method payment. */
 	private MethodPayment methodPayment;
-
-	/** The pay inscription. */
 	private FeeMember feeMember;
 
 	/**
 	 * Initialize default session.
-	 * 
-	 * @throws UniqueException
+	 *
+	 * @throws UniqueException the unique exception
+	 * @throws UniqueListException the unique list exception
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
@@ -172,6 +168,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 		user.setPrograms(programs);
 		accountService.update(user, false, true);
 
+		directDebitService.save(user);
 	}
 
 	/**
@@ -255,7 +252,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 	}
 
 	/**
-	 * Pay Exist TransactionId Exception Test
+	 * Pay Exist TransactionId Exception Test.
 	 *
 	 * @throws Exception the exception
 	 */
@@ -365,7 +362,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 	}
 
 	/**
-	 * Pay Exist TransactionId Exception Test
+	 * Pay Exist TransactionId Exception Test.
 	 *
 	 * @throws Exception the exception
 	 */
@@ -399,7 +396,7 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 	}
 
 	/**
-	 * Pay Other Account PayMember Test
+	 * Pay Other Account PayMember Test.
 	 *
 	 * @throws Exception the exception
 	 */
@@ -438,5 +435,85 @@ public class UserPaymentsTest extends WebSecurityConfigurationAware {
 
 		// Assert Pay
 		assertTrue(payProgram.getState().equals(states.NO_PAY));
+	}
+
+	/**
+	 * Direct debit list test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void directDebitListTest() throws Exception {
+
+		mockMvc.perform(get("userPayments/directDebitList/").locale(Locale.ENGLISH).session(defaultSession));
+		mockMvc.perform(get("userPayments/directDebitList/open").locale(Locale.ENGLISH).session(defaultSession));
+
+		DirectDebit directDebit = directDebitService.findAll().get(0);
+		// Assert no pay
+		assertTrue(directDebit.getState().equals(states.NO_PAY));
+
+		mockMvc.perform(post("/userPayments/directDebitList/paypal/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession)
+				.sessionAttr("_csrf", "csrf").param("payer_email", "email").param("payer_id", "id").param("payment_date", "10:10:10 Jun 10, 2015")
+				.param("payment_status", "Completed").param("txn_id", "txn")).andExpect(view().name("redirect:/userPayments"));
+		assertTrue(directDebit.getState().equals(states.PAY));
+
+		DirectDebit directDebit2 = new DirectDebit(user, "directDebit");
+		mockMvc.perform(post("/userPayments/directDebitList/markBankDeposit/" + directDebit2.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		mockMvc.perform(
+				post("/userPayments/directDebitList/cancelBankDeposit/" + directDebit2.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit2.getState().equals(states.NO_PAY));
+
+		mockMvc.perform(post("/userPayments/directDebitList/markBankDeposit/" + directDebit2.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		mockMvc.perform(
+				post("/userPayments/directDebitList/cancelBankDeposit/" + directDebit2.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit2.getState().equals(states.NO_PAY));
+	}
+
+	/**
+	 * Displaysdirect debit list test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysdirectDebitListTest() throws Exception {
+		mockMvc.perform(get("/userPayments/directDebitList/").locale(Locale.ENGLISH).session(defaultSession));
+
+		for (DirectDebit directDebit : directDebitService.findAll()) {
+			directDebitService.updateDirectDebit(directDebit, states.CANCEL, methods.NO_PAY, new Date());
+		}
+		mockMvc.perform(get("/directDebitList/").locale(Locale.ENGLISH).session(defaultSession));
+	}
+
+	/**
+	 * Displaysdirect debit list close test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysdirectDebitListCloseTest() throws Exception {
+		mockMvc.perform(get("/userPayments/directDebitList/open/").locale(Locale.ENGLISH).session(defaultSession));
+
+		for (DirectDebit directDebit : directDebitService.findAll()) {
+			directDebitService.updateDirectDebit(directDebit, states.CANCEL, methods.NO_PAY, new Date());
+		}
+		mockMvc.perform(get("/userPayments/directDebitList/open/").locale(Locale.ENGLISH).session(defaultSession));
+	}
+
+	/**
+	 * Pay bank deposit direct debit test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void payBankDepositDirectDebitTest() throws Exception {
+		DirectDebit directDebit = directDebitService.findAllOpenByAccountId(user.getId()).get(0);
+
+		mockMvc.perform(post("/userPayments//directDebitList/markBankDeposit/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.MANAGEMENT));
+		mockMvc.perform(
+				post("/userPayments/directDebitList/cancelBankDeposit/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.NO_PAY));
+		mockMvc.perform(post("/userPayments/directDebitList/markBankDeposit/" + directDebit.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		assertTrue(directDebit.getState().equals(states.NO_PAY));
 	}
 }

@@ -52,37 +52,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AccountListControllerTest extends WebSecurityConfigurationAware {
 
-	/** The default session. */
-	private MockHttpSession defaultSession;
-
-	/** The account service. */
 	@Autowired
 	private AccountService accountService;
 
-	/** The account type service. */
 	@Autowired
 	private AccountTypeService accountTypeService;
 
-	/** The method payment service. */
 	@Autowired
 	private MethodPaymentService methodPaymentService;
 
-	/** The admin. */
+	private MockHttpSession defaultSession;
 	private Account admin;
-
-	/** The user. */
 	private Account user;
-
-	/** The account type. */
 	private AccountType accountType;
-
-	/** The method payment. */
 	private MethodPayment methodPayment;
 
 	/**
 	 * Initialize default session.
 	 *
 	 * @throws UniqueException the unique exception
+	 * @throws UniqueListException the unique list exception
 	 */
 	@Before
 	public void initializeDefaultSession() throws UniqueException, UniqueListException {
@@ -103,9 +92,9 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 		accountService.save(user);
 		user.setAccountType(accountType);
 		user.setMethodPayment(methodPayment);
+		user.addDeviceToken("deviceToken");
 		user.setInstallments(1);
 		accountService.update(user, false, true);
-
 	}
 
 	/**
@@ -128,7 +117,7 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 		CsrfToken token = new DefaultCsrfToken("headerName", "parameterName", "token");
 		mockMvc.perform(get("/accountList").locale(Locale.ENGLISH).session(defaultSession).sessionAttr("_csrf", token))
 				.andExpect(view().name("account/accountlist"))
-				.andExpect(content().string(allOf(containsString("<title>Accounts</title>"), containsString("Account List</h2>"))));
+				.andExpect(content().string(allOf(containsString("<title>Accounts</title>"), containsString("Account List</h1>"))));
 	}
 
 	/**
@@ -139,7 +128,7 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void postAccountUnsubscribeTest() throws Exception {
 		mockMvc.perform(post("/accountList/unsubscribe/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession));
-		//		.andExpect(view().name("redirect:/accountList"));
+		// .andExpect(view().name("redirect:/accountList"));
 
 		//User is Unsubscribe
 		assertFalse(user.isActive());
@@ -152,9 +141,9 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void postAccountUnsubscribeAdminTest() throws Exception {
-		mockMvc.perform(post("/accountList/unsubscribe/"+admin.getId()).locale(Locale.ENGLISH).session(defaultSession));
-//		.andExpect(view().name("redirect:/accountList"));
-		
+		mockMvc.perform(post("/accountList/unsubscribe/" + admin.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		// .andExpect(view().name("redirect:/accountList"));
+
 		// Admin not unsubscribe
 		assertTrue(admin.isActive());
 	}
@@ -166,14 +155,47 @@ public class AccountListControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	public void postAccountSubscribeTest() throws Exception {
-		mockMvc.perform(post("/accountList/accountUnsubscribe/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		mockMvc.perform(post("/accountList/unsubscribe/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession));
 		//		.andExpect(view().name("redirect:/accountList"));
 
-		mockMvc.perform(post("/accountList/accountSubscribe/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession));
+		mockMvc.perform(post("/accountList/subscribe/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession));
 		//		.andExpect(view().name("redirect:/accountList"));
 
 		//Admin already subscribe
 		assertTrue(user.isActive());
 	}
 
+	/**
+	 * Display account list.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displayAccountListTest() throws Exception {
+		mockMvc.perform(get("/accountList/").locale(Locale.ENGLISH).session(defaultSession));
+		accountService.delete(user);
+		mockMvc.perform(get("/accountList/").locale(Locale.ENGLISH).session(defaultSession));
+	}
+
+	/**
+	 * Push.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void pushTest() throws Exception {
+		mockMvc.perform(post("/accountList/push/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession).param("title", "title").param("body",
+				"body"));
+	}
+
+	/**
+	 * Email.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void emailTest() throws Exception {
+		mockMvc.perform(post("/accountList/email/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession).param("title", "title")
+				.param("body", "body"));
+	}
 }

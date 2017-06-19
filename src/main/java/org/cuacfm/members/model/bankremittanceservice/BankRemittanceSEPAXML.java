@@ -134,15 +134,13 @@ public class BankRemittanceSEPAXML {
 	public void create(String path, BankRemittance bankRemittance, List<DirectDebit> directDebits)
 			throws IOException, JAXBException, DatatypeConfigurationException {
 
-		FileOutputStream file = new FileOutputStream(path);
-
-		JAXBElement<Document> element = factory.createDocument(generateDocument(bankRemittance, directDebits));
-		JAXBContext context = JAXBContext.newInstance("org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation");
-		Marshaller marshaller = context.createMarshaller();
-		marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
-		marshaller.marshal(element, file);
-
-		file.close();
+		try (FileOutputStream file = new FileOutputStream(path)) {
+			JAXBElement<Document> element = factory.createDocument(generateDocument(bankRemittance, directDebits));
+			JAXBContext context = JAXBContext.newInstance("org.cuacfm.members.model.util.sepa.customerdirectdebitinitiation");
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
+			marshaller.marshal(element, file);
+		}
 	}
 
 	/**

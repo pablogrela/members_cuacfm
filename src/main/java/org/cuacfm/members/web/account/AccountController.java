@@ -128,7 +128,7 @@ public class AccountController {
 		profileForm.setRole(String.valueOf(account.getRole()));
 		profileForm.setRoles(java.util.Arrays.asList(roles.values()));
 		profileForm.setPermissionReport(account.getPermissions().contains(permissions.ROLE_REPORT.toString()));
-		profileForm.setPermissionReserve(account.getPermissions().contains(permissions.ROLE_RESERVE.toString()));
+		profileForm.setPermissionReserve(account.getPermissions().contains(permissions.ROLE_BOOK.toString()));
 		profileForm.setPermissionTrainer(account.getPermissions().contains(permissions.ROLE_TRAINER.toString()));
 		model.addAttribute(profileForm);
 
@@ -242,10 +242,10 @@ public class AccountController {
 
 		// Email, solo el propio usuario puede cambiarlo
 		// Only the user can change it
-		//		String email = profileForm.getEmail();
-		//		if (profileForm.isOnEmail() && email != "") {
-		//			account.setEmail(email);
-		//		}
+		//	String email = profileForm.getEmail();
+		//	if (profileForm.isOnEmail() && email != "") {
+		//		account.setEmail(email);
+		//	}
 
 		// Role
 		if (profileForm.isOnRole()) {
@@ -261,9 +261,9 @@ public class AccountController {
 
 		// Permission ROLE_SPACE
 		if (profileForm.isPermissionReserve()) {
-			account.addPermissions(permissions.ROLE_RESERVE);
+			account.addPermissions(permissions.ROLE_BOOK);
 		} else {
-			account.removePermissions(permissions.ROLE_RESERVE);
+			account.removePermissions(permissions.ROLE_BOOK);
 		}
 
 		// Permission ROLE_TRAINER

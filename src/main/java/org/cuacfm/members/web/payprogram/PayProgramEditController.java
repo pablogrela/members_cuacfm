@@ -22,12 +22,11 @@ import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.exceptions.DatesException;
-import org.cuacfm.members.model.exceptions.ExistTransactionIdException;
 import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
-import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.Constants.methods;
 import org.cuacfm.members.model.util.Constants.states;
+import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -103,7 +102,7 @@ public class PayProgramEditController {
 			payProgramForm.setIdPayer(payProgram.getIdPayer());
 			payProgramForm.setEmailPayer(payProgram.getEmailPayer());
 			payProgramForm.setIdPayer(payProgram.getIdPayer());
-			payProgramForm.setDatePay(DateUtils.format(payProgram.getDatePay(), DateUtils.FORMAT_DISPLAY));
+			payProgramForm.setDatePay(DateUtils.format(payProgram.getDatePay(), DateUtils.FORMAT_LOCAL));
 			model.addAttribute(payProgram);
 			model.addAttribute(payProgramForm);
 			return PAYPROGRAM_VIEW_NAME;
@@ -132,12 +131,12 @@ public class PayProgramEditController {
 			return PAYPROGRAM_VIEW_NAME;
 		}
 
-		try {
+//		try {
 			payProgramService.update(payProgramForm.updatePayProgram(payProgram));
-		} catch (ExistTransactionIdException e) {
-			errors.rejectValue("idTxn", "existIdTxn.message", new Object[] { e.getIdTxn() }, "idTxn");
-			return PAYPROGRAM_VIEW_NAME;
-		}
+//		} catch (ExistTransactionIdException e) {
+//			errors.rejectValue("idTxn", "existIdTxn.message", new Object[] { e.getIdTxn() }, "idTxn");
+//			return PAYPROGRAM_VIEW_NAME;
+//		}
 		MessageHelper.addSuccessAttribute(ra, "payProgram.successModify", payProgram.getProgram().getName());
 		return "redirect:/feeProgramList/payProgramList";
 	}

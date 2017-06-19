@@ -210,7 +210,7 @@
 			<label for="login" class="col-lg-2 control-label" th:text="#{login}">Login</label>
 			<div class="col-lg-10">
 				<div class="input-group">
-					<input type="text" class="form-control text-danger" list="userlist" th:placeholder="#{login}" th:field="*{login}" autocomplete="off"/>
+					<input type="text" class="form-control text-danger" list="userlist" th:placeholder="#{login}" th:field="*{login}" />
 					<span class="input-group-btn">
 							<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign" th:title="#{inscription.addUser}" style="color: green"></button>
 					</span>
@@ -234,10 +234,6 @@
 					<span class="input-group-btn">
 							<button type="submit" th:name="addUser" class="btnTable btn-link glyphicon glyphicon-plus-sign" th:title="#{program.infoAddUserByDni}" style="color: green"></button>
 					</span>
-					<!-- Datalist is a search by keyword-->
-					<datalist id="userlist">
-						<option th:each="username : ${usernames}" th:value="${username}" />
-					</datalist>
 				</div>
 				<span class="help-block pull-left" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</span>
 				<div class="ws-errorbox pull-left" hidden=""></div>
@@ -258,7 +254,7 @@
 					<td th:text="${account.name} + ' ' + ${account.surname}"></td>
 					<!-- Delete User to Program -->
 					<td>
-						<button type="submit" th:value="${account.id}" th:name="removeUser" class="btnTable btn-link glyphicon glyphicon-remove-sign"
+						<button type="submit" th:value="${account.id}" th:name="removeUser" class="btn-link glyphicon glyphicon-remove-sign"
 							th:title="#{account.infoRemove}" style="color: red"></button>
 
 					</td>
@@ -282,11 +278,11 @@
 						<!-- Form add account payer by admin --> 
 						<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
 							<div class="col-lg-10 text-danger">
-								<input th:if="*{accountPayer} == null" type="text" class="form-control" list="userlist" th:placeholder="#{program.acountPayer}" th:field="*{accountPayerName}" autocomplete="off"/>
+								<input th:if="*{accountPayer} == null" type="text" class="form-control" list="userPayList" th:placeholder="#{program.acountPayer}" th:field="*{accountPayerName}"/>
 								<input th:if="*{accountPayer} != null" type="text" class="form-control" th:field="*{accountPayerName}" readonly="readonly" />
 									
 								<!-- Datalist is a search by keyword-->
-								<datalist id="userlist">
+								<datalist id="userPayList">
 									<option th:each="username : ${usernames}" th:value="${username}" />
 								</datalist>
 
@@ -310,12 +306,12 @@
 					<td>
 						<!-- Comfirm Account Payer -->
 						<button th:if="${programForm.accountPayer} == null" type="submit" th:value="*{accountPayerName}" th:name="addAccountPayer"
-							class="btnTable btn-link glyphicon glyphicon-ok" th:title="#{program.infoAddAcountPayer}" style="color: green">					
+							class="btn-link glyphicon glyphicon-ok" th:title="#{program.infoAddAcountPayer}" style="color: green">					
 						</button> 
 						
 						<!-- Remove Account Payer -->
 						<button type="submit" th:if="${programForm.accountPayer} != null" th:value="*{accountPayerName}" th:name="removeAccountPayer"
-							class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemoveAccountPayer}" style="color: red"></button>
+							class="btn-link glyphicon glyphicon-remove" th:title="#{program.infoRemoveAccountPayer}" style="color: red"></button>
 					</td>
 				</tr>
 			</tbody>

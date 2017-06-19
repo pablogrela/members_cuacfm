@@ -52,7 +52,7 @@ public class Account implements Serializable {
 	}
 
 	public enum permissions {
-		ROLE_REPORT, ROLE_RESERVE, ROLE_TRAINER,
+		ROLE_REPORT, ROLE_BOOK, ROLE_TRAINER,
 	}
 
 	@Id
@@ -239,7 +239,7 @@ public class Account implements Serializable {
 	}
 
 	public String getFullNameNick() {
-		if (nickName != null && !nickName.isEmpty()){
+		if (nickName != null && !nickName.isEmpty()) {
 			return getFullName() + " (" + nickName + ")";
 		}
 		return getFullName();
@@ -520,6 +520,17 @@ public class Account implements Serializable {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", name=" + name + ", surname=" + surname + ", nickName=" + nickName + ", dni=" + dni + ", address=" + address
+				+ ", cp=" + cp + ", province=" + province + ", codeCountry=" + codeCountry + ", login=" + login + ", email=" + email + ", phone="
+				+ phone + ", mobile=" + mobile + ", password=" + password + ", methodPayment=" + methodPayment + ", accountType=" + accountType
+				+ ", programs=" + programs + ", bankAccounts=" + bankAccounts + ", installments=" + installments + ", active=" + active + ", student="
+				+ student + ", emitProgram=" + emitProgram + ", dateBirth=" + dateBirth + ", observations=" + observations + ", personality="
+				+ personality + ", knowledge=" + knowledge + ", programName=" + programName + ", role=" + role + ", permissions=" + permissions
+				+ ", devicesToken=" + devicesToken + ", dateCreate=" + dateCreate + ", dateDown=" + dateDown + ", token=" + token + "]";
 	}
 
 }

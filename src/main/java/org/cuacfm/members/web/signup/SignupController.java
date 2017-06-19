@@ -16,8 +16,10 @@
 package org.cuacfm.members.web.signup;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.script.ScriptException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.cuacfm.members.model.account.Account;
@@ -25,11 +27,13 @@ import org.cuacfm.members.model.accountservice.AccountService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.userservice.UserService;
+import org.cuacfm.members.model.util.SpringEmailService;
 import org.cuacfm.members.web.signin.SigninController;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.cuacfm.members.web.support.VerifyRecaptcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -48,6 +52,12 @@ public class SignupController {
 	private static final String SIGNUP_VIEW_NAME = "signup/signup";
 	private static final String SIGNUP_FIREBASE_VIEW_NAME = "signup/signupfirebase";
 	private static final String SIGNUP_FIREBASE_MANUAL_VIEW_NAME = "signup/signupfirebasemanual";
+
+	@Autowired
+	private SpringEmailService emailService;
+
+	@Autowired
+	private MessageSource messageSource;
 
 	@Autowired
 	private UserService userService;
@@ -103,7 +113,8 @@ public class SignupController {
 	 */
 	@RequestMapping(value = "signup", method = RequestMethod.POST)
 	public String signup(@Valid @ModelAttribute SignupForm signupForm, Errors errors, RedirectAttributes ra,
-			@RequestParam("g-recaptcha-response") String response) throws IOException, ScriptException, NoSuchMethodException {
+			@RequestParam("g-recaptcha-response") String captcha, HttpServletRequest request)
+			throws IOException, ScriptException, NoSuchMethodException {
 
 		// check that the password and rePassword are the same
 		String password = signupForm.getPassword();
@@ -119,7 +130,7 @@ public class SignupController {
 		}
 
 		// Los test tiene un error, ya que no pueden verificar los captcha, mejor probarlos sin internet
-		if (!VerifyRecaptcha.verify(response)) {
+		if (!VerifyRecaptcha.verify(captcha)) {
 			errors.rejectValue("captcha", "signup.captcha", new Object[] { "captcha" }, "captcha");
 		}
 
@@ -135,6 +146,10 @@ public class SignupController {
 
 		try {
 			Account account = accountService.save(signupForm.createAccount());
+			String url = request.getRequestURL().toString().split(request.getRequestURI().substring(request.getContextPath().length()))[0];
+			Object[] arguments = { url };
+			emailService.sendMail(account.getEmail(), messageSource.getMessage("signup.message.title", null, Locale.getDefault()),
+					messageSource.getMessage("signup.message.body", arguments, Locale.getDefault()));
 			userService.signin(account);
 		} catch (UniqueListException e) {
 			for (UniqueException unique : e.getMessages()) {
@@ -170,7 +185,7 @@ public class SignupController {
 
 		// If you are already registered you are redirected to signin
 		Account account = accountService.findByEmail(email);
-		if (account.getToken() == null || !account.getToken().equals(token)) {
+		if (account == null || account.getToken() == null || !account.getToken().equals(token)) {
 			return SigninController.SIGNIN_REDIRECT;
 		}
 

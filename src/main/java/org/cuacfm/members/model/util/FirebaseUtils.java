@@ -23,10 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseToken;
-import com.google.firebase.internal.NonNull;
-import com.google.firebase.tasks.OnFailureListener;
-import com.google.firebase.tasks.OnSuccessListener;
 
 /**
  * The Class FileUtils.
@@ -35,37 +31,76 @@ public class FirebaseUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(FirebaseUtils.class);
 
+	/**
+	 * Instantiates a new firebase utils.
+	 */
+	FirebaseUtils() {
+		super();
+	}
+
+	/**
+	 * Gets the emailVerified of token.
+	 *
+	 * @param token the token
+	 * @return the emailVerified of token
+	 */
 	public static String getEmailOfToken(String token) {
-		
+
 		if (token == null || token.isEmpty()) {
 			return null;
 		}
 
-		final StringBuilder email = new StringBuilder();
+		final StringBuilder emailVerified = new StringBuilder();
 		final CountDownLatch countDownLatch = new CountDownLatch(1);
 
 		FirebaseApp app = FirebaseApp.getInstance("members");
-		FirebaseAuth.getInstance(app).verifyIdToken(token).addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
-			@Override
-			public void onSuccess(FirebaseToken decodedToken) {
-				email.append(decodedToken.getEmail());
-				countDownLatch.countDown();
-			}
-		}).addOnFailureListener(new OnFailureListener() {
-			@Override
-			public void onFailure(@NonNull Exception e) {
-				logger.error("verifyIdToken: ", e);
-				countDownLatch.countDown();
-			}
+		FirebaseAuth.getInstance(app).verifyIdToken(token).addOnSuccessListener(decodedToken -> {
+			emailVerified.append(decodedToken.getEmail());
+			countDownLatch.countDown();
+		}).addOnFailureListener(e -> {
+			logger.error("verifyIdToken: ", e);
+			countDownLatch.countDown();
 		});
 
 		try {
 			countDownLatch.await(30L, TimeUnit.SECONDS);
-			return email.toString();
+			return emailVerified.toString();
 		} catch (InterruptedException e) {
 			logger.error("verifyIdToken: ", e);
 			return null;
 		}
 	}
 
+	/**
+	 * Gets the user.
+	 *
+	 * @param email the email
+	 * @return the user
+	 */
+	public static String getUser(String email) {
+
+		if (email == null || email.isEmpty()) {
+			return null;
+		}
+
+		final StringBuilder emailVerified = new StringBuilder();
+		final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+		FirebaseApp app = FirebaseApp.getInstance("members");
+		FirebaseAuth.getInstance(app).getUserByEmail(email).addOnSuccessListener(userRecord -> {
+			emailVerified.append(userRecord.getEmail());
+			countDownLatch.countDown();
+		}).addOnFailureListener(e -> {
+			logger.error("getUser: ", e);
+			countDownLatch.countDown();
+		});
+
+		try {
+			countDownLatch.await(30L, TimeUnit.SECONDS);
+			return emailVerified.toString();
+		} catch (InterruptedException e) {
+			logger.error("getUser: ", e);
+			return null;
+		}
+	}
 }

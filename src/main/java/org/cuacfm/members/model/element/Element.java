@@ -33,7 +33,7 @@ public class Element implements Serializable {
 	private Long id;
 	private String name;
 	private String description;
-	private boolean reservable;
+	private boolean book;
 	private boolean location;
 	private Date dateCreate;
 
@@ -46,14 +46,14 @@ public class Element implements Serializable {
 	 * Instantiates a new element.
 	 *
 	 * @param name the name
-	 * @param reservable the reservable
+	 * @param book the book
 	 * @param location the location
 	 */
-	public Element(String name, String description, boolean reservable, boolean location) {
+	public Element(String name, String description, boolean book, boolean location) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.reservable = reservable;
+		this.book = book;
 		this.location = location;
 		this.dateCreate = new Date();
 	}
@@ -82,12 +82,12 @@ public class Element implements Serializable {
 		this.description = description;
 	}
 
-	public boolean isReservable() {
-		return reservable;
+	public boolean isBook() {
+		return book;
 	}
 
-	public void setReservable(boolean reservable) {
-		this.reservable = reservable;
+	public void setBook(boolean book) {
+		this.book = book;
 	}
 
 	public boolean isLocation() {
@@ -108,7 +108,7 @@ public class Element implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Element [id=" + id + ", name=" + name + ", description=" + description + ", reservable=" + reservable + ", location=" + location
+		return "Element [id=" + id + ", name=" + name + ", description=" + description + ", book=" + book + ", location=" + location
 				+ ", dateCreate=" + dateCreate + "]";
 	}
 

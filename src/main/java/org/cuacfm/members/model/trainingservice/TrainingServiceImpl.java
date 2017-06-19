@@ -198,6 +198,11 @@ public class TrainingServiceImpl implements TrainingService {
 	}
 
 	@Override
+	public List<Inscription> getInscriptionsAll(){
+		return inscriptionRepository.getAll();
+	}
+	
+	@Override
 	public Inscription findByInscriptionIds(Long accountId, Long trainingId) {
 		return inscriptionRepository.findByInscriptionIds(accountId, trainingId);
 	}

@@ -22,38 +22,66 @@
 <body>
 
 	<div th:fragment="search">
-		
-		<!-- Form number of elements -->
-		<div class="form-group form-group-elements mobile-search pull-left">
-			<div class="input-group">
-				<div class="input-group-addon">
-					<i th:text="#{elements}" class="fa fa-search"></i>
+		<br></br>
+
+
+		<div>
+			<!-- Form number of elements -->
+			<div class="form-group form-group-elements mobile-search pull-left">
+				<div class="input-group">
+					<div class="input-group-addon">
+						<i th:text="#{elements}" class="fa fa-search"></i>
+					</div>
+					<input type="number" class="form-control" th:title="#{elements.info}" data-ng-model="numPerPage" />
 				</div>
-				<input type="number" class="form-control" th:placeholder="#{elements.info}" data-ng-model="numPerPage" />
+			</div>
+
+
+			<!-- Form search -->
+			<div class="pull-right">
+
+				<div class="form-group form-group-search mobile-search ">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i th:text="#{search}" class="fa fa-search"></i>
+						</div>
+						<input type="text" class="form-control" th:placeholder="#{search.info}" data-ng-model="search" />
+					</div>
+				</div>
 			</div>
 		</div>
 
-		<!-- Form search -->
-		<div class="form-group form-group-search mobile-search pull-right">
-			<div class="input-group">
-				<div class="input-group-addon">
-					<i th:text="#{search}" class="fa fa-search"></i>
+
+		<!-- Form by dates -->
+		<div data-ng-hide="!enableLastMonth" class="pull-left">
+			<div class="form-group form-group-startDate mobile-search pull-left">
+				<div class="input-group">
+					<div class="input-group-addon">
+						<i th:text="#{date}" th:title="#{dateSearch.info}" class="fa fa-search"></i>
+					</div>
+					<input type="date" class="form-control" th:title="#{dateStart}" data-ng-model="startDate" data-ng-change="searchDates()" />
 				</div>
-				<input type="text" class="form-control" th:placeholder="#{search.info}" data-ng-model="search" />
+			</div>
+
+			<div class="form-group form-group-endDate mobile-search pull-left">
+				<div class="input-group">
+					<input type="date" class="form-control" th:title="#{dateEnd}" data-ng-model="endDate" data-ng-change="searchDates()" />
+				</div>
 			</div>
 		</div>
+
 
 		<!-- Form last month -->
-		<div data-ng-if="enableLastMonth" class="btn-group mobile-search pull-right" data-toggle="buttons">
-			<label class="btn btn-default" data-ng-click="lastMonth()" th:title="#{filter.last.month.info}">
-				<input type="checkbox" autocomplete="off" th:text="#{filter.last.month}" />
-			</label>
-		</div>
+		<!-- 		<div data-ng-if="enableLastMonth" class="btn-group mobile-search pull-right" data-toggle="buttons"> -->
+		<!-- 			<label class="btn btn-default" data-ng-click="lastMonth()" th:title="#{filter.last.month.info}"> -->
+		<!-- 				<input type="checkbox" autocomplete="off" th:text="#{filter.last.month}" /> -->
+		<!-- 			</label> -->
+		<!-- 		</div> -->
 
 	</div>
 
 
-	<th:object th:fragment="sortColumn (column)">
+	<th:object th:fragment="sortColumn(column)">
 		<a href="#" data-ng-click="sortType = 'column'; sortReverse = !sortReverse"> <span th:text="#{${column}}"></span> <span
 				data-ng-show="sortType == '{{column}}' &amp;&amp; !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span> <span
 				data-ng-show="sortType == '{{column}}' &amp;&amp; sortReverse" class="glyphicon glyphicon-triangle-top"></span>

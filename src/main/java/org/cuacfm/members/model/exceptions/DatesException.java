@@ -37,8 +37,8 @@ public class DatesException extends Exception {
 	 * @param dateTraining the date training
 	 */
 	public DatesException(Date dateLimit, Date dateTraining) {
-		super("The date limit " + DateUtils.format(dateLimit, DateUtils.FORMAT_DISPLAY) + " should be after or equals to date "
-				+ DateUtils.format(dateTraining, DateUtils.FORMAT_DISPLAY));
+		super("The date limit " + DateUtils.format(dateLimit, DateUtils.FORMAT_LOCAL) + " should be after or equals to date "
+				+ DateUtils.format(dateTraining, DateUtils.FORMAT_LOCAL));
 
 		this.dateLimit = dateLimit;
 		this.dateTraining = dateTraining;

@@ -25,8 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import org.cuacfm.members.model.account.Account;
 import org.cuacfm.members.model.account.Account.roles;
 import org.cuacfm.members.model.accountservice.AccountService;
@@ -34,6 +32,8 @@ import org.cuacfm.members.model.accounttype.AccountType;
 import org.cuacfm.members.model.accounttypeservice.AccountTypeService;
 import org.cuacfm.members.model.configuration.Configuration;
 import org.cuacfm.members.model.configurationservice.ConfigurationService;
+import org.cuacfm.members.model.element.Element;
+import org.cuacfm.members.model.elementservice.ElementService;
 import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.methodpayment.MethodPayment;
@@ -42,8 +42,11 @@ import org.cuacfm.members.test.config.WebSecurityConfigurationAware;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 /** The class ConfigurationControlTest. */
@@ -51,187 +54,188 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ConfigurationControllerTest extends WebSecurityConfigurationAware {
 
-   /** The default session. */
-   private MockHttpSession defaultSession;
+	private MockHttpSession defaultSession;
 
-   /** The configuration service. */
-   @Inject
-   private ConfigurationService configurationService;
+	@Autowired
+	private ConfigurationService configurationService;
 
-   /** The account service. */
-   @Inject
-   private AccountService accountService;
+	@Autowired
+	private AccountService accountService;
 
-   /** The account Type service. */
-   @Inject
-   private AccountTypeService accountTypeService;
+	@Autowired
+	private AccountTypeService accountTypeService;
 
-   /** The account Type service. */
-   @Inject
-   private MethodPaymentService methodPaymentService;
+	@Autowired
+	private MethodPaymentService methodPaymentService;
 
-   /** The account type. */
-   private AccountType accountType;
+	@Autowired
+	private ElementService elementService;
 
-   /** The method payment. */
-   private MethodPayment methodPayment;
+	private AccountType accountType;
+	private MethodPayment methodPayment;
+	private Element element;
 
-   /**
-    * Initialize default session.
-    *
-    * @throws UniqueException, UniqueListException
-    *            the unique exception
-    */
-   @Before
-   public void initializeDefaultSession() throws UniqueException, UniqueListException {
-      Account admin = new Account("admin", "", "55555555C", "London", "admin", "admin@udc.es",
-            "666666666", "666666666", "admin", roles.ROLE_ADMIN);
-      accountService.save(admin);
-      defaultSession = getDefaultSession("admin@udc.es");
+	/**
+	 * Initialize default session.
+	 *
+	 * @throws UniqueException the unique exception
+	 * @throws UniqueListException the unique list exception
+	 */
+	@Before
+	public void initializeDefaultSession() throws UniqueException, UniqueListException {
+		Account admin = new Account("admin", "", "55555555C", "London", "admin", "admin@udc.es", "666666666", "666666666", "admin", roles.ROLE_ADMIN);
+		accountService.save(admin);
+		defaultSession = getDefaultSession("admin@udc.es");
 
-      accountType = new AccountType("Adult", false, "Tax for Adult", 0);
-      accountTypeService.save(accountType);
+		accountType = new AccountType("Adult", false, "Tax for Adult", 0);
+		accountTypeService.save(accountType);
 
-      methodPayment = new MethodPayment("Paypal", false, "Pay by Paypal");
-      methodPaymentService.save(methodPayment);
+		methodPayment = new MethodPayment("Paypal", false, "Pay by Paypal");
+		methodPaymentService.save(methodPayment);
 
-      Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666,
-            Double.valueOf(24), Double.valueOf(25), "Rul");
-      configurationService.save(configuration);
-      configuration.getId();
-   }
+		element = new Element("element 1", "element 1", true, true);
+		elementService.save(element);
 
-   /**
-    * Display Configuration page without signin in test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displayConfigurationPageWithoutSiginInTest() throws Exception {
-      mockMvc.perform(get("/configuration")).andExpect(redirectedUrl("http://localhost/signin"));
-   }
+		Configuration configuration = new Configuration("CuacFM", "cuacfm@org", 6666666, Double.valueOf(24), Double.valueOf(25), "Rul");
+		configurationService.save(configuration);
+		configuration.getId();
+		configuration.toString();
+	}
 
-   /**
-    * Send displaysConfiguration.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displayConfiguration() throws Exception {
-      mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("configuration/configuration"))
-            .andExpect(content().string(containsString("<title>Configuration</title>")));
-   }
+	/**
+	 * Display Configuration page without signin in test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displayConfigurationPageWithoutSiginInTest() throws Exception {
+		mockMvc.perform(get("/configuration")).andExpect(redirectedUrl("http://localhost/signin"));
+	}
 
-   /**
-    * Send displaysConfiguration.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void displaysConfigurationWithDatabase() throws Exception {
-      mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("configuration/configuration"))
-            .andExpect(content().string(containsString("<title>Configuration</title>")));
-   }
+	/**
+	 * Send displaysConfiguration.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displayConfiguration() throws Exception {
+		mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("configuration/configuration"))
+				.andExpect(content().string(containsString("<title>Configuration</title>")));
+	}
 
-   /**
-    * Send displaysConfiguration.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void deleteAccountType() throws Exception {
-      mockMvc.perform(
-            post("/configuration/accountTypeDelete/" + accountType.getId()).locale(Locale.ENGLISH)
-                  .session(defaultSession)).andExpect(view().name("redirect:/configuration"));
+	/**
+	 * Send displaysConfiguration.
+	 * 
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void displaysConfigurationWithDatabase() throws Exception {
+		mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("configuration/configuration"))
+				.andExpect(content().string(containsString("<title>Configuration</title>")));
+	}
 
-      // Assert, it remove accountType
-      assertEquals(accountTypeService.findById(accountType.getId()), null);
-   }
+	/**
+	 * Delete account type test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void deleteAccountTypeTest() throws Exception {
+		mockMvc.perform(post("/configuration/accountTypeDelete/" + accountType.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/configuration"));
 
-   /**
-    * Send displaysConfiguration.
-    * 
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void deleteMethodPayment() throws Exception {
+		// Assert, it remove accountType
+		assertEquals(accountTypeService.findById(accountType.getId()), null);
+	}
 
-      mockMvc.perform(
-            post("/configuration/methodPaymentDelete/" + methodPayment.getId()).locale(
-                  Locale.ENGLISH).session(defaultSession)).andExpect(
-            view().name("redirect:/configuration"));
+	/**
+	 * Delete method payment test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void deleteMethodPaymentTest() throws Exception {
 
-      // Assert, it remove methodPayment
-      assertEquals(methodPaymentService.findById(methodPayment.getId()), null);
-   }
+		mockMvc.perform(post("/configuration/methodPaymentDelete/" + methodPayment.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/configuration"));
 
-   /**
-    * Post configuration succesfull test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void postConfigurationSuccesfullTest() throws Exception {
+		// Assert, it remove methodPayment
+		assertEquals(methodPaymentService.findById(methodPayment.getId()), null);
+	}
 
-      mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("configuration/configuration"))
-            .andExpect(content().string(containsString("<title>Configuration</title>")));
+	/**
+	 * Delete ement test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void deleteEmentTest() throws Exception {
+		mockMvc.perform(post("/configuration/elementDelete/" + element.getId()).locale(Locale.ENGLISH).session(defaultSession))
+				.andExpect(view().name("redirect:/configuration"));
 
-      mockMvc.perform(
-            post("/configuration").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("name", "New Name").param("email", "email@udc.es")
-                  .param("phone", "111111").param("feeMember", "30").param("feeProgram", "32")
-                  .param("descriptionRule", "New Description")).andExpect(
-            view().name("redirect:/configuration"));
-   }
+		// Assert, it remove accountType
+		assertEquals(accountTypeService.findById(element.getId()), null);
+	}
 
-   /**
-    * Not blank message configuration test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void notBlankMessageConfigurationTest() throws Exception {
+	/**
+	 * Json test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void jsonTest() throws Exception {
+		MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "some xml".getBytes());
+		MockMultipartFile jsonFile = new MockMultipartFile("file", "", "application/json", "{\"json\": \"someValue\"}".getBytes());
 
-      mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("configuration/configuration"))
-            .andExpect(content().string(containsString("<title>Configuration</title>")));
+		mockMvc.perform(MockMvcRequestBuilders.fileUpload("accountList/uploadJson").file(jsonFile).locale(Locale.ENGLISH).session(defaultSession));
 
-      mockMvc.perform(
-            post("/configuration").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("name", " ").param("email", " ").param("phone", " ")
-                  .param("descriptionRule", " ")).andExpect(
-            view().name("configuration/configuration"));
-   }
+		mockMvc.perform(MockMvcRequestBuilders.fileUpload("programList/uploadJson").file(file).locale(Locale.ENGLISH).session(defaultSession));
+	}
 
-   /**
-    * Max characters in configuration test.
-    *
-    * @throws Exception
-    *            the exception
-    */
-   @Test
-   public void maxCharactersInConfigurationTest() throws Exception {
+	/**
+	 * Post configuration succesfull test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void postConfigurationSuccesfullTest() throws Exception {
 
-      mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession))
-            .andExpect(view().name("configuration/configuration"))
-            .andExpect(content().string(containsString("<title>Configuration</title>")));
+		mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("configuration/configuration"))
+				.andExpect(content().string(containsString("<title>Configuration</title>")));
 
-      mockMvc.perform(
-            post("/configuration").locale(Locale.ENGLISH).session(defaultSession)
-                  .param("name", "111111111111111111111111111111111111")
-                  .param("email", "11111111111111111111111111111111111")
-                  .param("phone", "11111111111111111111111111111111111")
-                  .param("descriptionRule", "1111111111111111111111111111")).andExpect(
-            view().name("configuration/configuration"));
-   }
+		mockMvc.perform(post("/configuration").locale(Locale.ENGLISH).session(defaultSession).param("name", "New Name").param("email", "email@udc.es")
+				.param("phone", "111111").param("feeMember", "30").param("feeProgram", "32").param("descriptionRule", "New Description"))
+				.andExpect(view().name("redirect:/configuration"));
+	}
+
+	/**
+	 * Not blank message configuration test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void notBlankMessageConfigurationTest() throws Exception {
+
+		mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("configuration/configuration"))
+				.andExpect(content().string(containsString("<title>Configuration</title>")));
+
+		mockMvc.perform(post("/configuration").locale(Locale.ENGLISH).session(defaultSession).param("name", " ").param("email", " ")
+				.param("phone", " ").param("descriptionRule", " ")).andExpect(view().name("configuration/configuration"));
+	}
+
+	/**
+	 * Max characters in configuration test.
+	 *
+	 * @throws Exception the exception
+	 */
+	@Test
+	public void maxCharactersInConfigurationTest() throws Exception {
+
+		mockMvc.perform(get("/configuration").locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("configuration/configuration"))
+				.andExpect(content().string(containsString("<title>Configuration</title>")));
+
+		mockMvc.perform(post("/configuration").locale(Locale.ENGLISH).session(defaultSession).param("name", "111111111111111111111111111111111111")
+				.param("email", "11111111111111111111111111111111111").param("phone", "11111111111111111111111111111111111")
+				.param("descriptionRule", "1111111111111111111111111111")).andExpect(view().name("configuration/configuration"));
+	}
 }

@@ -25,7 +25,7 @@ public class ElementDTO {
 	private Long id;
 	private String name;
 	private String description;
-	private boolean reservable;
+	private boolean book;
 	private boolean location;
 	private Date dateCreate;
 
@@ -35,25 +35,21 @@ public class ElementDTO {
 	 * @param id the id
 	 * @param name the name
 	 * @param description the description
-	 * @param reservable the reservable
+	 * @param book the book
 	 * @param location the location
 	 */
-	public ElementDTO(Long id, String name, String description, boolean reservable, boolean location, Date dateCreate) {
+	public ElementDTO(Long id, String name, String description, boolean book, boolean location, Date dateCreate) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
-		this.reservable = reservable;
+		this.book = book;
 		this.location = location;
 		this.dateCreate = dateCreate;
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -72,12 +68,12 @@ public class ElementDTO {
 		this.description = description;
 	}
 
-	public boolean isReservable() {
-		return reservable;
+	public boolean isBook() {
+		return book;
 	}
 
-	public void setReservable(boolean reservable) {
-		this.reservable = reservable;
+	public void setBook(boolean book) {
+		this.book = book;
 	}
 
 	public boolean isLocation() {
@@ -98,7 +94,7 @@ public class ElementDTO {
 
 	@Override
 	public String toString() {
-		return "ElementDTO [id=" + id + ", name=" + name + ", description=" + description + ", reservable=" + reservable + ", location=" + location
+		return "ElementDTO [id=" + id + ", name=" + name + ", description=" + description + ", book=" + book + ", location=" + location
 				+ ", dateCreate=" + dateCreate + "]";
 	}
 

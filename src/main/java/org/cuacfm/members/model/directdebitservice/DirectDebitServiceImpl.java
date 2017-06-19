@@ -94,7 +94,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 		for (Account account : accountService.getAccounts()) {
 			save(account);
 		}
-		return eventService.save("directDebit.successRefresh", null, levels.CRITICAL);
+		return eventService.save("directDebit.successRefresh", null, levels.CRITICAL, null);
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public void updateDirectDebit(DirectDebit directDebit, states state, methods method, Date datePay) throws ExistTransactionIdException {
+	public void updateDirectDebit(DirectDebit directDebit, states state, methods method, Date datePay) {
 		directDebit.setState(state);
 		directDebit.setMethod(method);
 		directDebit.setDateUpdate(new Date());
@@ -197,14 +197,14 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public String directDebit(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String directDebit(DirectDebit directDebit, Account account) {
 		updateDirectDebit(directDebit, states.PAY, methods.DIRECTDEBIT, new Date());
 		Object[] arguments = { directDebit.getConcept() };
 		return eventService.save("directDebit.successDirectDebit", account, levels.HIGH, arguments);
 	}
 
 	@Override
-	public String markBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String markBankDeposit(DirectDebit directDebit, Account account) {
 		if (directDebit.getState().equals(states.NO_PAY) || directDebit.getState().equals(states.RETURN_BILL)) {
 			updateDirectDebit(directDebit, states.MANAGEMENT, methods.BANK_DEPOSIT, null);
 			Object[] arguments = { directDebit.getConcept() };
@@ -214,9 +214,10 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public String cancelBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
-		if (directDebit.getMethod().equals(methods.BANK_DEPOSIT) || directDebit.getState().equals(states.MANAGEMENT)) {
-			updateDirectDebit(directDebit, states.NO_PAY, null, null);
+	public String cancelBankDeposit(DirectDebit directDebit, Account account) {
+		if ((directDebit.getMethod() != null && directDebit.getMethod().equals(methods.BANK_DEPOSIT))
+				|| directDebit.getState().equals(states.MANAGEMENT)) {
+			updateDirectDebit(directDebit, states.NO_PAY, methods.BANK_DEPOSIT, null);
 			Object[] arguments = { directDebit.getConcept() };
 			return eventService.save("directDebit.successBankDeposit.cancel", account, levels.HIGH, arguments);
 		}
@@ -224,7 +225,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public String confirmBankDeposit(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String confirmBankDeposit(DirectDebit directDebit, Account account) {
 		if (directDebit.getMethod().equals(methods.BANK_DEPOSIT) || directDebit.getState().equals(states.MANAGEMENT)) {
 			updateDirectDebit(directDebit, states.PAY, methods.BANK_DEPOSIT, new Date());
 			Object[] arguments = { directDebit.getConcept() };
@@ -234,7 +235,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public String confirmPaypal(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String confirmPaypal(DirectDebit directDebit, Account account) {
 		if (directDebit.getMethod().equals(methods.PAYPAL) || directDebit.getState().equals(states.MANAGEMENT)) {
 			updateDirectDebit(directDebit, states.PAY, methods.PAYPAL, new Date());
 			Object[] arguments = { directDebit.getConcept() };
@@ -244,7 +245,7 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public String cash(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String cash(DirectDebit directDebit, Account account) {
 		if (directDebit.getState().equals(states.NO_PAY) || directDebit.getState().equals(states.RETURN_BILL)) {
 			updateDirectDebit(directDebit, states.PAY, methods.CASH, new Date());
 			Object[] arguments = { directDebit.getConcept() };
@@ -256,6 +257,12 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	@Override
 	public void paypal(DirectDebit directDebit, Account account, String idTxn, String idPayer, String emailPayer, String statusPay, String datePay)
 			throws ExistTransactionIdException {
+
+		DirectDebit paymentExist = directDebitRepository.findByIdTxn(idTxn);
+		if ((paymentExist != null) && (paymentExist.getId() != directDebit.getId())) {
+			throw new ExistTransactionIdException(idTxn);
+		}
+
 		if (directDebit.getMethod() == null || !directDebit.getState().equals(states.CANCEL)) {
 			DirectDebit directDebitExist = directDebitRepository.findByIdTxn(idTxn);
 			if (directDebitExist != null && directDebitExist.getId() != directDebit.getId()) {
@@ -280,21 +287,21 @@ public class DirectDebitServiceImpl implements DirectDebitService {
 	}
 
 	@Override
-	public String returnBill(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String returnBill(DirectDebit directDebit, Account account) {
 		updateDirectDebit(directDebit, states.RETURN_BILL, methods.DIRECTDEBIT, null);
 		Object[] arguments = { directDebit.getConcept() };
 		return eventService.save("directDebit.successReturnBill", account, levels.HIGH, arguments);
 	}
 
 	@Override
-	public String management(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String management(DirectDebit directDebit, Account account) {
 		updateDirectDebit(directDebit, states.MANAGEMENT, methods.DIRECTDEBIT, null);
 		Object[] arguments = { directDebit.getConcept() };
 		return eventService.save("directDebit.successManagement", account, levels.HIGH, arguments);
 	}
 
 	@Override
-	public String cancel(DirectDebit directDebit, Account account) throws ExistTransactionIdException {
+	public String cancel(DirectDebit directDebit, Account account) {
 		updateDirectDebit(directDebit, states.CANCEL, null, null);
 		Object[] arguments = { directDebit.getConcept() };
 		return eventService.save("directDebit.successCancel", account, levels.HIGH, arguments);

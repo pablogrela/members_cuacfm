@@ -191,7 +191,7 @@ public class PayProgramForm {
 			payProgram.setIdPayer(getIdPayer());
 		}
 		if (getDatePay() != "") {
-			payProgram.setDatePay(DateUtils.format(getDatePay(), DateUtils.FORMAT_DISPLAY));
+			payProgram.setDatePay(DateUtils.format(getDatePay(), DateUtils.FORMAT_LOCAL));
 		}
 		return payProgram;
 	}

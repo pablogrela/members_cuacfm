@@ -84,7 +84,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
     */
    @Before
    public void initializeDefaultSession() throws UniqueException, UniqueListException {
-      user = new Account("user", "1", "55555555C", "London", "user", "user@udc.es", "666666666",
+      user = new Account("user", "1", "55555555C", "London", "user", "user@test.es", "666666666",
             "666666666", "demo", roles.ROLE_USER);
       accountService.save(user);
 
@@ -98,7 +98,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
       user.setInstallments(1);
       accountService.update(user, false, true);
 
-      defaultSession = getDefaultSession("user@udc.es");
+      defaultSession = getDefaultSession("user@test.es");
    }
 
 	/**
@@ -130,7 +130,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void displaysAccount2FormTest() throws Exception {
 
-		Account user2 = new Account("user2", "2", "11111111D", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "11111111D", "London", "user2", "user2@test.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 
 		mockMvc.perform(post("/account/" + user2.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
@@ -175,7 +175,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void dniAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "2", "95716045G", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "95716045G", "London", "user2", "user2@test.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -199,7 +199,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	@Test
 	public void loginAlreadyExistsTest() throws Exception {
 
-		Account user2 = new Account("user2", "2", "95716045G", "London", "user2", "user2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "95716045G", "London", "user2", "user2@test.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
@@ -209,7 +209,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "33535129W")
 				.param("mobile", "12356789").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02").param("onLogin", "true").param("login", "user2").param("onEmail", "true")
-				.param("email", "email@udc.es").param("onPassword", "true").param("newPassword", "123456").param("rePassword", "123456")
+				.param("email", "email@test.es").param("onPassword", "true").param("newPassword", "123456").param("rePassword", "123456")
 				.param("onInstallments", "true").param("installments", "1").param("student", "true").param("emitProgram", "true"))
 				.andExpect(
 				      content().string(
@@ -224,23 +224,24 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	@Ignore
-	// Only the user can change it
+	// Only user can change email, the administrator can not change a user's email 
 	public void emailAlreadyExists() throws Exception {
 
-		Account user2 = new Account("user2", "2", "95716045G", "London", "user2", "email2@udc.es", "666666666", "666666666", "demo", roles.ROLE_USER);
+		Account user2 = new Account("user2", "2", "95716045G", "London", "user2", "email2@test.es", "666666666", "666666666", "demo", roles.ROLE_USER);
 		accountService.save(user2);
 		user2.setAccountType(accountType);
 		user2.setMethodPayment(methodPayment);
 		user2.setInstallments(1);
 		accountService.update(user2, false, true);
-
+		
+		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("mobile", "12356789")
 				.param("dni", "33535129W").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02").param("onLogin", "true").param("login", "login").param("onEmail", "true")
-				.param("email", "email2@udc.es"))
+				.param("email", "email2@test.es").param("student", "true").param("emitProgram", "true"))
 				.andExpect(
 				      content().string(
-				            containsString("Already existent email email2@udc.es, please choose another")))
+				            containsString("Already existent email email2@test.es, please choose another")))
 				.andExpect(view().name("account/account"));
 	}
 
@@ -251,13 +252,13 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	@Ignore
-	// Only the user can change it
+	// Only user can change email, the administrator can not change a user's email 
 	public void incorrectEmailFormat() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("login", "login")
 				.param("email", "email").param("mobile", "12356789").param("password", "1234").param("rePassword", "1234")
-				.param("onInstallments", "true").param("installments", "1"))
+				.param("onInstallments", "true").param("installments", "1").param("student", "true").param("emitProgram", "true"))
 				.andExpect(content().string(containsString("The value must be a valid email!"))).andExpect(view().name("account/account"));
 	}
 
@@ -307,7 +308,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 				.param("mobile", "12356789").param("address", "address").param("cp", "cp").param("province", "province").param("codeCountry", "EN")
 				.param("dateBirth", "1990-05-02").param("onName", "true").param("name", "user").param("onDni", "true").param("dni", "55555555C")
 				.param("onAddress", "true").param("address", "London").param("onLogin", "true").param("login", "user").param("onEmail", "true")
-				.param("email", "user@udc.es").param("onProgramName", "true").param("programName", "programName").param("onPhone", "true")
+				.param("email", "user@test.es").param("onProgramName", "true").param("programName", "programName").param("onPhone", "true")
 				.param("phone", "12356789").param("onMobile", "true").param("mobile", "12356789").param("onStudent", "true").param("student", "true")
 				.param("onDateBirth", "true").param("dateBirth", "1990-05-02").param("installments", "1"))
 				.andExpect(view().name("account/account"));
@@ -323,7 +324,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("onName", "true").param("name", "name")
-				.param("onEmail", "true").param("email", "email2@udc.es").param("mobile", "12356789").param("onPassword", "true")
+				.param("onEmail", "true").param("email", "email2@test.es").param("mobile", "12356789").param("onPassword", "true")
 				.param("password", "1234").param("rePassword", "1234").param("onInstallments", "true").param("installments", "1"))
 				.andExpect(view().name("account/account"));
 	}
@@ -342,7 +343,7 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 				.param("dateBirth", "1990-05-02").param("onName", "true").param("name", "name").param("onNickName", "true")
 				.param("nickName", "nickName").param("onLogin", "true").param("login", "login").param("onDni", "true")
 				.param("dni", "6666666666666666C").param("onAddress", "true").param("address", "France").param("onEmail", "true")
-				.param("email", "email2@udc.es").param("onPhone", "true").param("phone", "12356789").param("onMobile", "true")
+				.param("email", "email2@test.es").param("onPhone", "true").param("phone", "12356789").param("onMobile", "true")
 				.param("mobile", "12356789").param("onStudent", "true").param("student", "true").param("onDateBirth", "true")
 				.param("dateBirth", "1990-05-02").param("onInstallments", "true").param("installments", "1").param("onAccountType", "true")
 				.param("accountTypeId", "1").param("onMethodPayment", "true").param("methodPaymentId", "1").param("onInstallments", "true")
@@ -358,15 +359,15 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	@Ignore
-	// Only the user can change it
+	// Only user can change password, the administrator can not change a user's password 
 	public void insuficientCharactersPasswordsTest() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("onName", "true").param("name", "name")
 				.param("onNickName", "true").param("nickName", "nickName").param("onLogin", "true").param("login", "login").param("onDni", "true")
 				.param("dni", "6666666666666666C").param("onAddress", "true").param("address", "France").param("onEmail", "true")
-				.param("email", "email2@udc.es").param("onPhone", "true").param("phone", "12356789").param("onMobile", "true")
-				.param("mobile", "12356789").param("onStudent", "true").param("student", "true").param("onDateBirth", "true")
+				.param("email", "email2@test.es").param("onPhone", "true").param("phone", "12356789").param("onMobile", "true")
+				.param("mobile", "12356789").param("student", "true").param("emitProgram", "true").param("onDateBirth", "true")
 				.param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "12").param("rePassword", "12")
 				.param("onInstallments", "true").param("installments", "1").param("onAccountType", "true").param("accountTypeId", "1")
 				.param("onMethodPayment", "true").param("methodPaymentId", "1").param("onInstallments", "true").param("installments", "1")
@@ -382,13 +383,13 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 */
 	@Test
 	@Ignore
-	// Only the user can change it
+	// Now, the password is no used
 	public void diferentPasswordsTest() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));
 
 		mockMvc.perform(post("/account").locale(Locale.ENGLISH).session(defaultSession).param("name", "name").param("dni", "95716045G")
 				.param("address", "address").param("cp", "cp").param("province", "province").param("mobile", "111111111").param("codeCountry", "EN")
-				.param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456").param("rePassword", "123333"))
+				.param("dateBirth", "1990-05-02").param("onPassword", "true").param("password", "123456").param("rePassword", "123333").param("student", "true").param("emitProgram", "true"))
 				.andExpect(content().string(containsString("Passwords are not equal"))).andExpect(view().name("account/account"));
 	}
 
@@ -398,7 +399,6 @@ public class AccountControllerTest extends WebSecurityConfigurationAware {
 	 * @throws Exception the exception
 	 */
 	@Test
-	@Ignore
 	// Only the user can change it
 	public void notOnAndBlanckMessage() throws Exception {
 		mockMvc.perform(post("/account/" + user.getId()).locale(Locale.ENGLISH).session(defaultSession)).andExpect(view().name("redirect:/account"));

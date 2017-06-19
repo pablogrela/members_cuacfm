@@ -69,19 +69,8 @@ public class ReportRepositoryImpl implements ReportRepository {
 	}
 
 	@Override
-	public Report findByName(String name) {
-		try {
-			return entityManager.createQuery("select a from Report a where a.name = :name", Report.class).setParameter("name", name)
-					.getSingleResult();
-		} catch (NoResultException e) {
-			logger.info(Constants.NO_RESULT + e.getMessage());
-			return null;
-		}
-	}
-
-	@Override
 	public List<Report> getReportList() {
-		return entityManager.createQuery("select p from Report p order by p.name order by p.dateCreate desc", Report.class).getResultList();
+		return entityManager.createQuery("select p from Report p order by p.dateCreate desc", Report.class).getResultList();
 	}
 
 	@Override
@@ -93,7 +82,7 @@ public class ReportRepositoryImpl implements ReportRepository {
 	public List<Report> getReportListClose() {
 		return entityManager.createQuery("select p from Report p where p.active = false order by p.dateCreate desc", Report.class).getResultList();
 	}
-	
+
 	@Override
 	public List<Report> getReportListByUser(Account account) {
 		return entityManager.createQuery("select p from Report p where p.account.id = :accountId order by p.dateCreate desc", Report.class)
@@ -102,7 +91,8 @@ public class ReportRepositoryImpl implements ReportRepository {
 
 	@Override
 	public List<Report> getReportListActiveByUser(Account account) {
-		return entityManager.createQuery("select p from Report p where p.account.id = :accountId and p.active = true order by p.dateCreate desc", Report.class)
+		return entityManager
+				.createQuery("select p from Report p where p.account.id = :accountId and p.active = true order by p.dateCreate desc", Report.class)
 				.setParameter("accountId", account.getId()).getResultList();
 	}
 

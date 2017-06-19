@@ -16,6 +16,7 @@
 package org.cuacfm.members.config;
 
 import org.cuacfm.members.Application;
+import org.cuacfm.members.model.util.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	// Formateo de las fechas
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
-		DateFormatter dateFormatter = new DateFormatter("HH:mm dd/MM/yyyy");
+		DateFormatter dateFormatter = new DateFormatter(DateUtils.FORMAT_LOCAL);
 		registry.addFormatter(dateFormatter);
 	}
 

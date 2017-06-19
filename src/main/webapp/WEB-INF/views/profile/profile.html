@@ -475,7 +475,7 @@
 						<li th:text="${bankAccount.mandate}">mandate</li>
 					</ul>
 					<!-- Show message, if banck accounts list is empty -->
-					<h2 class="text-center" th:if="${#lists.isEmpty(bankAccounts)}" th:text="#{account.bankAccount.bankAccountListEmpy}"></h2>
+					<h1 class="text-center" th:if="${#lists.isEmpty(bankAccounts)}" th:text="#{account.bankAccount.bankAccountListEmpy}"></h1>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" th:text="#{accept}" data-dismiss="modal">Accept</button>

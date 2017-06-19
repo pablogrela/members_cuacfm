@@ -16,7 +16,6 @@
 package org.cuacfm.members.web.program;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -29,7 +28,9 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.program.ProgramDTO;
 import org.cuacfm.members.model.programservice.ProgramService;
-import org.cuacfm.members.model.util.PushService;
+import org.cuacfm.members.model.util.Constants.typeDestinataries;
+import org.cuacfm.members.model.util.Constants.typePush;
+import org.cuacfm.members.model.util.NotificationService;
 import org.cuacfm.members.web.support.MessageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +61,9 @@ public class ProgramListController {
 
 	@Autowired
 	private MessageSource messageSource;
+
+	@Autowired
+	private NotificationService notificationService;
 
 	/**
 	 * Instantiates a new program list controller.
@@ -217,23 +221,17 @@ public class ProgramListController {
 	 * @param ra the ra
 	 * @return the response entity
 	 */
-	@RequestMapping(value = "programList/programPush/{id}", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, ?>> programPush(@PathVariable("id") Long id, @RequestParam(value = "title") String title,
+	@RequestMapping(value = "programList/programNotification/{id}", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, ?>> programNotification(@PathVariable("id") Long id, @RequestParam(value = "title") String title,
 			@RequestParam(value = "body") String body, RedirectAttributes ra) {
 
 		Program program = programService.findById(id);
 		Object[] arguments = { program.getName() };
 
-		// Add devices token to send push
-		List<String> devicesToken = new ArrayList<>();
-		for (Account account : program.getAccounts()) {
-			devicesToken.addAll(account.getDevicesToken());
-		}
-
-		if (PushService.sendPushNotificationToDevice(devicesToken, title, body)) {
+		if (notificationService.sendNotification(typeDestinataries.ALL, program.getAccounts(), title, body, typePush.DEFAULT, null)) {
 			MessageHelper.addInfoAttribute(ra, messageSource.getMessage("program.push.success", arguments, Locale.getDefault()));
 		} else {
-			MessageHelper.addInfoAttribute(ra, messageSource.getMessage("program.push.error", arguments, Locale.getDefault()));
+			MessageHelper.addWarningAttribute(ra, messageSource.getMessage("program.push.error", arguments, Locale.getDefault()));
 		}
 
 		return new ResponseEntity<>(ra.getFlashAttributes(), HttpStatus.OK);

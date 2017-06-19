@@ -74,7 +74,7 @@ public class PayMemberServiceImpl implements PayMemberService {
 	}
 
 	@Override
-	public PayMember update(PayMember payMember) throws ExistTransactionIdException {
+	public PayMember update(PayMember payMember) {
 		Object[] arguments = { payMember.getFeeMember().getName(), payMember.getAccount().getName() };
 		eventService.save("payMember.successModify", null, levels.MEDIUM, arguments);
 		return payMemberRepository.update(payMember);

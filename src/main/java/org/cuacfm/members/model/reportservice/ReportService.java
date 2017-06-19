@@ -59,14 +59,6 @@ public interface ReportService {
 	public void delete(Report report);
 
 	/**
-	 * Find by Name the report.
-	 *
-	 * @param name the name
-	 * @return Report
-	 */
-	public Report findByName(String name);
-
-	/**
 	 * Find by id returns report which has this identifier.
 	 *
 	 * @param id the id

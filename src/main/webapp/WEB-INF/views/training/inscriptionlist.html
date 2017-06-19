@@ -55,7 +55,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 						th:field="*{login}" required="required" autocomplete="off"/> 
 						
 						<!-- Datalist is a search by keyword-->
-						<datalist  id="userlist">
+						<datalist id="userlist">
 						  	<option th:each="username : ${usernames}" th:value="${username}"/>
 						</datalist>
 						
@@ -83,18 +83,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 	<!-- Show message, if inscription list is empty -->
 	<div th:if="${#lists.isEmpty(inscriptionsForm.inscriptions)}">
-		<h2 class="text-center"
+		<h1 class="text-center"
 			th:text="#{inscription.inscriptionListEmpty} + ' ' +  ${training.name}">
-			List of Training Types</h2>
+			List of Training Types</h1>
 	</div>
 	
 	<!-- Verify if exits Inscriptions -->
 	<div class="container-fluid" th:unless="${#lists.isEmpty(inscriptionsForm.inscriptions)}">
 
 		<!-- Tittle -->
-		<h2 class="text-center"
+		<h1 class="text-center"
 			th:text="#{inscription.inscriptionList} + ' ' + ${training.name}">
-			List of Training Types</h2>
+			List of Training Types</h1>
 
 		<!-- Table List of Inscriptions -->
 		<form  method="post" th:action="@{/trainingList/inscriptionList/save}"

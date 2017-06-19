@@ -45,19 +45,18 @@
 
 		<!-- Message if directDebits is empty -->
 		<div data-ng-show="!reports">
-			<h2 class="text-center" th:text="${tittleEmpty}"></h2>
+			<h1 class="text-center" th:text="${tittleEmpty}"></h1>
 		</div>
 
 
 		<div data-ng-show="reports">
-			<h2 class="text-center" th:text="${tittle}"></h2>
+			<h1 class="text-center" th:text="${tittle}"></h1>
 
 			<div th:include="fragments/sortColumn :: search"></div>
 			<table class="dataTable display table-striped">
 				<thead>
 					<tr>
-					
-					
+										
 						<td><a href="#" data-ng-click="sortType = 'dateCreate'; sortReverse = !sortReverse"> <span th:text="#{dateCreate}">dateCreate</span> <span
 									data-ng-show="sortType == 'dateCreate' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 									data-ng-show="sortType == 'dateCreate' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
@@ -74,19 +73,22 @@
 						</a></td>
 						
 						
-						<td><a href="#" data-ng-click="sortType = 'dirt'; sortReverse = !sortReverse"> <span th:text="#{report.dirt}">dirt</span> <span
-									data-ng-show="sortType == 'dirt' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
+						<td><a href="#" data-ng-click="sortType = 'dirt'; sortReverse = !sortReverse"> 
+							<span class="hidden-xs" th:text="#{report.dirt}"></span><span class="visible-xs" th:text="#{report.dirt.min}"></span>						
+							<span data-ng-show="sortType == 'dirt' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 									data-ng-show="sortType == 'dirt' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>
 						
 						
-						<td><a href="#" data-ng-click="sortType = 'tidy'; sortReverse = !sortReverse"> <span th:text="#{report.tidy}">tidy</span>
+						<td><a href="#" data-ng-click="sortType = 'tidy'; sortReverse = !sortReverse"> 
+						<span class="hidden-xs" th:text="#{report.tidy}"></span> <span class="visible-xs" th:text="#{report.tidy.min}"></span>
 								<span data-ng-show="sortType == 'tidy' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 									data-ng-show="sortType == 'tidy' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>
 
 
-						<td><a href="#" data-ng-click="sortType = 'configuration'; sortReverse = !sortReverse"> <span th:utext="#{report.configuration.line}">configuration</span>
+						<td><a href="#" data-ng-click="sortType = 'configuration'; sortReverse = !sortReverse"> 
+						<span class="hidden-xs" th:utext="#{report.configuration.line}"></span> <span class="visible-xs" th:utext="#{report.configuration.min}"></span>
 								<span data-ng-show="sortType == 'configuration' &amp;&amp; !sortReverse" class="glyphicon glyphicon-sort-by-attributes pull-right"></span> <span
 									data-ng-show="sortType == 'configuration' &amp;&amp; sortReverse" class="glyphicon glyphicon-sort-by-attributes-alt pull-right"></span>
 						</a></td>
@@ -131,7 +133,7 @@
 						<td data-ng-if="report.active">
 							<span th:text="#{active}"></span>
 							<button sec:authorize="hasAnyRole('ROLE_REPORT')" data-ng-click="reportDown(report.id)" 
-								class="btnTable btn-link glyphicon glyphicon glyphicon-chevron-down pull-right" th:title="#{report.down.info}" style="color: red">
+								class="btn-link glyphicon glyphicon glyphicon-chevron-down pull-right" th:title="#{report.down.info}" style="color: red">
 							</button>
 						</td>
 
@@ -140,7 +142,7 @@
 						<td data-ng-if="!report.active">
 							<span th:text="#{down}"></span>
 							<button sec:authorize="hasAnyRole('ROLE_REPORT')" data-ng-click="reportUp(report.id)" 
-								class="btnTable btn-link glyphicon  glyphicon-chevron-up pull-right" th:title="#{report.up.info}" style="color: green">
+								class="btn-link glyphicon  glyphicon-chevron-up pull-right" th:title="#{report.up.info}" style="color: green">
 							</button>
 						</td>
 
@@ -148,14 +150,14 @@
 						<td sec:authorize="hasAnyRole('ROLE_USER, ROLE_REPORT')" >
 							<!-- Delete Report -->
 							<!-- <button type="button" data-toggle="modal" data-ng-click="infoDelete(report)" data-target="#infoDelete" -->
-								<!-- class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{report.infoRemove}" style="color: red"></button>  -->
+								<!-- class="btn-link glyphicon glyphicon-remove" th:title="#{report.infoRemove}" style="color: red"></button>  -->
 								
 							<button type="button" data-ng-if="report.active" data-toggle="modal" data-ng-click="infoReportAnswer(report)" data-target="#infoReportAnswer"
-							class="btnTable btn-link glyphicon glyphicon-comment" th:title="#{report.answer.info}" style="color: green"></button> 
+							class="btn-link glyphicon glyphicon-comment" th:title="#{report.answer.info}" style="color: green"></button> 
 								
 							<!-- Modify report -->
 							<!-- <form action="{{'/members/reportList/reportEdit/' + report.id}}" method="post"> -->
-							<!-- 	<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button> -->
+							<!-- 	<button class="btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button> -->
 							<!-- 	<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" /> -->
 							<!-- </form> -->
 						</td>

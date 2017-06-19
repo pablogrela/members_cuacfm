@@ -68,7 +68,7 @@
 		</div>
 
 
-		<h2 class="text-center" th:text="#{payProgram.payProgramList}">List of Pay Program</h2>
+		<h1 class="text-center" th:text="#{payProgram.payProgramList}">List of Pay Program</h1>
 
 		<!-- Verify if exits payPrograms -->
 		<div th:unless="${#lists.isEmpty(payPrograms)}">
@@ -103,7 +103,7 @@
 						<!-- Modify payProgram  -->
 						<td>
 							<form th:action="@{'payProgramList/payProgramEdit/'+${payProgram.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+								<button class="btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
 							</form>
 						</td>
 
@@ -114,7 +114,7 @@
 						${payProgram.state == T(org.cuacfm.members.model.util.Constants.states).RETURN_BILL}"
 							class="text-center">
 							<form th:action="@{'payProgramList/pay/'+${payProgram.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
+								<button class="btn-link glyphicon glyphicon-euro" th:title="#{payCheck}" style="color: green"></button>
 							</form>
 						</td>
 

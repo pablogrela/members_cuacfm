@@ -117,7 +117,7 @@ public class InscriptionListController {
 			usernames = trainingService.getUsernamesByInscription(training.getId());
 			model.addAttribute("usernames", usernames);
 
-			users = accountService.getUsers();
+			users = accountService.getUsersActive();
 			model.addAttribute("users", users);
 
 			model.addAttribute(new FindUserForm());
@@ -247,7 +247,7 @@ public class InscriptionListController {
 
 		} catch (DateLimitExpirationException e) {
 			MessageHelper.addErrorAttribute(ra, "training.dateLimitExpirationException", e.getTrainingName(),
-					DateUtils.format(e.getDateLimit(), DateUtils.FORMAT_DISPLAY));
+					DateUtils.format(e.getDateLimit(), DateUtils.FORMAT_LOCAL));
 		}
 
 		return REDIRECT_TRAINING;

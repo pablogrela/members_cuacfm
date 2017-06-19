@@ -47,7 +47,10 @@ public class ReportForm {
 	@Min(1)
 	private int configuration;
 
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
 	private Boolean openDoor;
+	
+	@NotNull(message = Constants.NOT_BLANK_MESSAGE)
 	private Boolean viewMembers;
 
 	private MultipartFile[] photos;
@@ -83,7 +86,7 @@ public class ReportForm {
 
 	public Program getProgram() {
 		for (Program program : programs) {
-			if (program.getId() == programId) {
+			if (program.getId().equals(programId)) {
 				return program;
 			}
 		}
@@ -163,25 +166,5 @@ public class ReportForm {
 	public Report createReport(Account account) {
 		return new Report(account, getProgram(), getDirt(), getTidy(), getConfiguration(), getOpenDoor(), getViewMembers(), getLocation(),
 				getDescription());
-	}
-
-	/**
-	 * Update report.
-	 *
-	 * @param report the report
-	 * @return the report
-	 */
-	public Report updateReport(Report report) {
-		//		report.setName(getName());
-		//		report.setDescription(getDescription());
-		//		report.setPeriodicity(getPeriodicity());
-		//		report.setDuration(getDuration());
-		//		report.setEmail(email);
-		//		report.setTwitter(twitter);
-		//		report.setFacebook(facebook);
-		//		report.setPodcast(podcast);
-		//		report.setWeb(web);
-
-		return report;
 	}
 }

@@ -18,12 +18,15 @@ package org.cuacfm.members.test.config;
 import org.cuacfm.members.config.WebMvcConfig;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.inject.Inject;
 
@@ -56,5 +59,10 @@ public abstract class WebAppConfigurationAware {
     public void before() {
         this.mockMvc = webAppContextSetup(this.wac).build();
     }
-
+    
+	// Bean name must be "multipartResolver", by default Spring uses method name as bean name.
+	@Bean
+	public MultipartResolver multipartResolver() {
+		return new CommonsMultipartResolver();
+	}
 }

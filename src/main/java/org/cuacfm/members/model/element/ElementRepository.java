@@ -73,7 +73,7 @@ public interface ElementRepository {
 	 *
 	 * @return List<Element>
 	 */
-	public List<Element> getElementListReservable();
+	public List<Element> getElementListBook();
 
 	/**
 	 * Gets the report list close.
@@ -87,6 +87,6 @@ public interface ElementRepository {
 	 *
 	 * @return the report list by user
 	 */
-	public List<Element> getElementListReservableLocation();
+	public List<Element> getElementListBookLocation();
 
 }

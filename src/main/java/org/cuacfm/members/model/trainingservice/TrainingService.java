@@ -139,6 +139,13 @@ public interface TrainingService {
 	public void deleteInscription(Long accountId, Long trainingId);
 
 	/**
+	 * Gets the inscriptions all.
+	 *
+	 * @return the inscriptions all
+	 */
+	public List<Inscription> getInscriptionsAll();
+
+	/**
 	 * Find Inscription by accountId and trainingId.
 	 *
 	 * @param accountId the id of user

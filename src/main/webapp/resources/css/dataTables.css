@@ -124,7 +124,7 @@ table.dataTable tbody tr.selected {
 
 @media ( max-width : 768px) {
 	table.dataTable tbody th, table.dataTable tbody td {
-		padding: 4px 2px;
+		padding: 6px 4px;
 		/* 	cortar palabras */
 		/* 	word-wrap: break-word; */
 		/* 	white-space: pre-line; */

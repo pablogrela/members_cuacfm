@@ -42,13 +42,13 @@
 
 		<!-- Message if feePrograms is Empty -->
 		<th:block th:if="${#lists.isEmpty(feePrograms)}">
-			<h2 class="text-center" th:text="#{feeProgram.feeProgramListEmpty}">List of feePrograms Empty</h2>
+			<h1 class="text-center" th:text="#{feeProgram.feeProgramListEmpty}">List of feePrograms Empty</h1>
 		</th:block>
 
 
 		<!-- Verify if exits feePrograms -->
 		<div th:unless="${#lists.isEmpty(feePrograms)}">
-			<h2 class="text-center" th:text="#{feeProgram.feeProgramList}">List of Pay Inscriptions</h2>
+			<h1 class="text-center" th:text="#{feeProgram.feeProgramList}">List of Pay Inscriptions</h1>
 
 			<!-- Table List of Fee Programs -->
 			<table class="display" id="customTable">
@@ -58,8 +58,6 @@
 						<th th:text="#{date}">Year</th>
 						<th th:text="#{price}">Price</th>
 						<th th:text="#{description}">Description</th>
-						<th class="no-sort"></th>
-						<th class="no-sort"></th>
 						<th class="no-sort"></th>
 					</tr>
 				</thead>
@@ -71,26 +69,26 @@
 						<td th:text="${#dates.format(feeProgram.date, #messages.msg('dateFormatMonthOfYear'))}">May of 2015</td>
 						<td th:text="${feeProgram.price}">price</td>
 						<td th:text="${feeProgram.description}">description</td>
-
-
-						<!-- Modify FeeProgram -->
+		
 						<td>
+							<!-- Modify FeeProgram -->
 							<form th:action="@{'feeProgramList/feeProgramEdit/'+${feeProgram.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-edit" th:title="#{edit}" style="color: orange"></button>
+								<button class="btn-link glyphicon glyphicon-edit pull-right" th:title="#{edit}" style="color: orange"></button>
 							</form>
-						</td>
 
-						<!-- View Inscriptions -->
-						<td>
+							<!-- Notification Message -->
+							<form th:action="@{'feeProgramList/notification/'+${feeProgram.id}}" method="post">
+								<button class=" btn-link glyphicon glyphicon-envelope pull-right" th:title="#{notification.info}" style="color: brown"></button>
+							</form>
+							
+							<!-- View Inscriptions -->
 							<form th:action="@{'feeProgramList/payProgramList/'+${feeProgram.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-headphones" th:title="#{feeProgram.infoPayProgramList}" style="color: green"></button>
+								<button class="btn-link glyphicon glyphicon-headphones pull-right" th:title="#{feeProgram.infoPayProgramList}" style="color: green"></button>
 							</form>
-						</td>
 
-						<!-- Print All List of feeProgram-->
-						<td>
+							<!-- Print All List of feeProgram-->
 							<form th:action="@{'feeProgramList/payProgramList/createPdf/'+${feeProgram.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-download-alt" th:name="createPdf" th:value="ALL" th:title="#{feeMember.infoAllList}"></button>
+								<button class="btn-link glyphicon glyphicon-download-alt pull-right" th:name="createPdf" th:value="ALL" th:title="#{feeMember.infoAllList}"></button>
 							</form>
 						</td>
 					</tr>

@@ -86,11 +86,11 @@ public interface AccountRepository {
 	public Account findByLogin(String login);
 
 	/**
-	 * Gets the users.
+	 * Gets the users active.
 	 *
-	 * @return the users
+	 * @return the users active
 	 */
-	public List<Account> getUsers();
+	public List<Account> getUsersActive();
 
 	/**
 	 * Gets the users direct debit.

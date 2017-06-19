@@ -32,6 +32,7 @@ import org.cuacfm.members.model.exceptions.UniqueException;
 import org.cuacfm.members.model.exceptions.UniqueListException;
 import org.cuacfm.members.model.feeprogram.FeeProgram;
 import org.cuacfm.members.model.feeprogramservice.FeeProgramService;
+import org.cuacfm.members.model.payprogram.PayProgram;
 import org.cuacfm.members.model.payprogramservice.PayProgramService;
 import org.cuacfm.members.model.program.Program;
 import org.cuacfm.members.model.programservice.ProgramService;
@@ -109,6 +110,18 @@ public class FeeProgramServiceTest extends WebSecurityConfigurationAware {
 		assertEquals(feeProgram, feeProgramSearch);
 
 		assertEquals(payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId()).size(), 1);
+		
+
+		// Refresh payments
+		feeProgramService.refresh(feeProgram);
+		List<PayProgram> payPrograms = payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId());
+		if (payPrograms != null && !payPrograms.isEmpty()) {
+			PayProgram payProgram = payPrograms.get(0);
+			payProgram.getProgram().setActive(false);
+			payProgramService.save(payProgram);
+			feeProgramService.refresh(feeProgram);
+			assertTrue(payProgramService.getPayProgramListByFeeProgramId(feeProgram.getId()).isEmpty());
+		}
 	}
 
 	/**

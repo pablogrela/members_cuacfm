@@ -42,10 +42,11 @@
 
 		<!-- Table List of directDebits -->
 		<div class="ng-cloak" sec:authorize="!hasAnyRole('ROLE_ADMIN')" data-ng-app="membersApp" data-ng-controller="DirectDebitOpenController as ctrl">
-			<div th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
+			<div class="text-center" th:replace="fragments/alert :: alertModal (type='{{message.message.type | lowercase}}', message='{{message.message.message}}' )">&nbsp;</div>
 			<div th:include="userpayments/userdirectdebitlist :: userdirectdebitlist"></div>
 			<br></br>
 		</div>
+
 
 		<!-- List events -->
 		<div class="ng-cloak" data-ng-controller="EventController as ctrl">
@@ -56,15 +57,18 @@
 				<br></br>
 			</div>
 
-			<!-- Button redirect to event list close -->
+		
 			<div data-ng-show="ctrl.events">
+			
+				<!-- Button redirect to event list close -->
 				<div sec:authorize="hasAnyRole('ROLE_ADMIN')" class="text-center">
 					<div>
-						<a href="#" class="btn btn-primary btn-lg" th:href="@{/eventListClose}" th:text="#{event.viewEventListClose}"> </a>
+						<a href="#" class="btn btn-primary btn-lg" th:href="@{/eventList/close}" th:text="#{event.viewEventListClose}"> </a>
 					</div>
-					<br></br>
 					<div th:include="fragments/sortColumn :: search"></div>
-					<br></br> <br></br> <br></br>
+					<br></br> <br></br> 
+					<br class="visible-xs"></br>
+					<br class="visible-xs"></br>
 				</div>
   
 				<div pagination-id="paginate" dir-paginate="event in ctrl.events | filter:search | itemsPerPage:numPerPage">

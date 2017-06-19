@@ -18,6 +18,7 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 	$scope.search;
 	$scope.isLastMonth = true;
 	$scope.enableLastMonth = true;
+	$scope.endDate = new Date();
 	$scope.sortReverse = false;
 	$scope.numPerPage = 20;
 	$scope.account;
@@ -31,6 +32,7 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 	$scope.fetchAllReports = function() {
 		ReportService.fetchAllReports().then(function(data) {
 			$scope.reports = data;
+			$scope.reportsOriginal = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
@@ -39,6 +41,7 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 	$scope.fetchAllReportsClose = function() {
 		ReportService.fetchAllReportsClose().then(function(data) {
 			$scope.reports = data;
+			$scope.reportsOriginal = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
@@ -86,8 +89,23 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 		return (v1.value < v2.value) ? -1 : 1;
 	};
 
+	$scope.searchDates = function() {
+		if ($scope.endDate != null && $scope.startDate != null) {
+			$scope.reports = [];
+			for (var i = 0; i < $scope.reportsOriginal.length; i++) {
+				var report = $scope.reportsOriginal[i];
+				if (report.dateCreate > $scope.startDate && report.dateCreate <= $scope.endDate) {
+					$scope.reports.push(report);
+				} else {
+					var index = $scope.reports.indexOf(event);
+					$scope.reports.splice(index, 1);
+				}
+			}
+		}
+	}
+	
 	$scope.lastMonth = function() {
-		if (self.isLastMonth) {
+		if ($scope.isLastMonth) {
 			var newReport = [];
 			var newDate = new Date();
 			var month = newDate.setMonth(newDate.getMonth() - 1)
@@ -97,11 +115,11 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 					newReport.push(event);
 				}
 			}
-			self.reports = newReport;
+			$scope.reports = newReport;
 		} else {
-			self.reports = self.reportOriginal;
+			$scope.reports = $scope.reportOriginal;
 		}
-		self.isLastMonth = !self.isLastMonth;
+		$scope.isLastMonth = !$scope.isLastMonth;
 	}
 
 	$scope.dirtAverage = function() {
@@ -141,9 +159,9 @@ membersApp.controller('ReportController', [ '$scope', 'ReportService', function(
 		// Reset carousel to first image
 		// $('#carousel-reports').carousel(0);
 		$('#data-slide-0').attr('class', 'active');
-		$('#data-slide-1').attr('class', '');
+		$('.indicator.active').attr('class', 'indicator');
+		$('.item.active').attr('class', 'item');
 		$('#image-index-0').attr('class', 'item active');
-		$('#image-index-1').attr('class', 'item');
 		$scope.report = aux;
 	}
 

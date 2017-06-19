@@ -16,10 +16,11 @@
 membersApp.controller('ReportUserController', [ '$scope', 'ReportService', function($scope, ReportService) {
 	$scope.sortType;
 	$scope.search;
+	$scope.numPerPage = 20;
 	$scope.isLastMonth = true;
 	$scope.enableLastMonth = true;
+	$scope.endDate = new Date();
 	$scope.sortReverse = false;
-	$scope.numPerPage = 20;
 	$scope.account;
 	$scope.report;
 	$scope.reports;
@@ -31,6 +32,7 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 	$scope.fetchUserReports = function() {
 		ReportService.fetchUserReports().then(function(data) {
 			$scope.reports = data;
+			$scope.reportsOriginal = data;
 		}, function(errorResponse) {
 			console.error('Error while fetching Users', errorResponse);
 		});
@@ -76,6 +78,21 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 		return (v1.value < v2.value) ? -1 : 1;
 	};
 
+	$scope.searchDates = function() {
+		if ($scope.endDate != null && $scope.startDate != null) {
+			$scope.reports = [];
+			for (var i = 0; i < $scope.reportsOriginal.length; i++) {
+				var report = $scope.reportsOriginal[i];
+				if (report.dateCreate > $scope.startDate && report.dateCreate <= $scope.endDate) {
+					$scope.reports.push(report);
+				} else {
+					var index = $scope.reports.indexOf(event);
+					$scope.reports.splice(index, 1);
+				}
+			}
+		}
+	}
+	
 	$scope.lastMonth = function() {
 		if (self.isLastMonth) {
 			var newReport = [];
@@ -129,9 +146,9 @@ membersApp.controller('ReportUserController', [ '$scope', 'ReportService', funct
 
 	$scope.infoReport = function(aux) {
 		$('#data-slide-0').attr('class', 'active');
-		$('#data-slide-1').attr('class', '');
+		$('.indicator.active').attr('class', 'indicator');
+		$('.item.active').attr('class', 'item');
 		$('#image-index-0').attr('class', 'item active');
-		$('#image-index-1').attr('class', 'item');
 		$scope.report = aux;
 	}
 

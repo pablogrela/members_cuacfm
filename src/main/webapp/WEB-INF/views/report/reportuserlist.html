@@ -31,21 +31,25 @@
 
 	<!-- If user has role ExUser, its appear message -->
 	<div sec:authorize="hasAnyRole('ROLE_EXUSER')" class="container-fluid">
-		<h2 class="text-center" th:text="#{profile.upToContinue}"></h2>
+		<h1 class="text-center" th:text="#{profile.upToContinue}"></h1>
 		<div th:include="profile/profile :: profileUp"></div>
 	</div>
-	
+
 	<div sec:authorize="!hasAnyRole('ROLE_EXUSER')" class="container-fluid">
 
 		<!-- Button Create New Report -->
 		<div class="text-center">
-			<a href="#" class="btn btn-orange btn-lg" th:href="@{/reportUserList/reportUserCreate}" th:text="#{report.create.new}"></a>
+			<div>
+				<a href="#" class="btn btn-orange btn-lg" th:href="@{/reportUserList/reportUserCreate}" th:text="#{report.create.new}"></a>
+			</div>
+			<br></br>
 		</div>
+
 
 		<div class="ng-cloak" data-ng-app="membersApp" data-ng-controller="ReportUserController" data-ng-init="fetchUserReports()">
 			<div th:include="report/reportlisttable :: reportlisttable(#{report.list.user}, #{report.list.user.empty})"></div>
 		</div>
 	</div>
-	
+
 </body>
 </html>

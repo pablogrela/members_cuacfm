@@ -20,6 +20,7 @@ angular.module('membersApp').controller('EventController', [ '$scope', 'EventSer
 	self.eventsClose;
 	self.eventsOriginal;
 	self.isLastMonth = true;
+	$scope.endDate = new Date();
 	$scope.enableLastMonth = true;
 	self.highlight = highlight;
 
@@ -38,6 +39,21 @@ angular.module('membersApp').controller('EventController', [ '$scope', 'EventSer
 		EventService.highlight(id).then(fetchAllEventsClose, function(errorResponse) {
 			console.error('Error while highlight Event', errorResponse);
 		});
+	}
+	
+	$scope.searchDates = function() {
+		if ($scope.endDate != null && $scope.startDate != null) {
+			self.eventsClose = [];
+			for (var i = 0; i < self.eventsOriginal.length; i++) {
+				var event = self.eventsOriginal[i];
+				if (event.dateEvent > $scope.startDate && event.dateEvent <= $scope.endDate) {
+					self.eventsClose.push(event);
+				} else {
+					var index = self.eventsClose.indexOf(event);
+					self.eventsClose.splice(index, 1);
+				}
+			}
+		}
 	}
 	
 	$scope.lastMonth = function() {

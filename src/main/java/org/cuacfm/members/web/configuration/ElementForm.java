@@ -34,7 +34,7 @@ public class ElementForm {
 
 	private boolean location;
 
-	private boolean reservable;
+	private boolean book;
 
 	/** Instantiates a new element */
 	public ElementForm() {
@@ -65,12 +65,12 @@ public class ElementForm {
 		this.location = location;
 	}
 
-	public boolean isReservable() {
-		return reservable;
+	public boolean isBook() {
+		return book;
 	}
 
-	public void setReservable(boolean reservable) {
-		this.reservable = reservable;
+	public void setBook(boolean book) {
+		this.book = book;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class ElementForm {
 	 * @return the element
 	 */
 	public Element createElement() {
-		return new Element(getName(), getDescription(), isReservable(), isLocation());
+		return new Element(getName(), getDescription(), isBook(), isLocation());
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class ElementForm {
 	public Element updateElement(Element element) {
 		element.setName(getName());
 		element.setDescription(getDescription());
-		element.setReservable(isReservable());
+		element.setBook(isBook());
 		element.setLocation(isLocation());
 		return element;
 	}

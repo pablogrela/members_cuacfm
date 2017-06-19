@@ -28,7 +28,7 @@
 		
 	<!-- If user has role ExUser, its apear message -->
 	<div sec:authorize="hasAnyRole('ROLE_EXUSER')" class="container-fluid">
-		<h2 class="text-center" th:text="#{profile.upToContinue}"></h2>
+		<h1 class="text-center" th:text="#{profile.upToContinue}"></h1>
 		<div th:include="profile/profile :: profileUp"></div>
 	</div>
 	
@@ -65,22 +65,21 @@
 
 		<!-- /* Handle the flash message, The message code is returned from the @Controller */-->
 		<div class="text-center" th:if="${message != null}">
-			<br></br>
 			<div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${message.args[0]})})">&nbsp;</div>
 		</div>
 
 		<!-- Show message, if training list is empty -->
 		<div th:if="${#lists.isEmpty(trainings)}">
-			<h2 class="text-center" th:text="#{training.trainingListEmpty}">List of Training Types</h2>
+			<h1 class="text-center" th:text="#{training.trainingListEmpty}">List of Training Types</h1>
 		</div>
 
-		<!-- Verify if exits Trainings -->
+		<!-- Verify if exits trainings -->
 		<div th:unless="${#lists.isEmpty(trainings)}">
 
-			<!-- Tittle -->
-			<h2 class="text-center" th:text="#{training.trainingList}">List of Trainings</h2>
+			<!-- Title -->
+			<h1 class="text-center" th:text="#{training.trainingList}">List of Trainings</h1>
 
-			<!-- Table List of Trainings -->
+			<!-- Table list of trainings -->
 			<table class="display" id="customTable">
 				<thead>
 					<tr>
@@ -109,7 +108,7 @@
 						<!-- View info of training -->
 						<td class="text-center">
 							<form th:action="@{'trainingList/trainingView/'+${training.id}}" method="post">
-								<button class="btnTable btn-link glyphicon glyphicon-search" th:title="#{info}" style="color: blue"></button>
+								<button class="btn-link glyphicon glyphicon-search" th:title="#{info}" style="color: blue"></button>
 							</form>
 						</td>
 
@@ -120,7 +119,7 @@
 							<!-- Delete Training -->
 							<td class="text-center">
 								<form th:action="@{'trainingList/trainingDelete/'+${training.id}}" method="post">
-									<button type="button" class="btnTable btn-link glyphicon glyphicon-remove" th:title="#{remove}" style="color: red"
+									<button type="button" class="btn-link glyphicon glyphicon-remove" th:title="#{remove}" style="color: red"
 										onclick="evaluateModal(this.form, modal, accept)"></button>
 								</form>
 							</td>
@@ -128,14 +127,14 @@
 							<!-- Modify Training -->
 							<td class="text-center">
 								<form th:action="@{'trainingList/trainingEdit/'+${training.id}}" method="post">
-									<button role="tooltip" class="btnTable btn-link glyphicon glyphicon-edit" data-toggle="popover" th:title="#{edit}" style="color: orange"></button>
+									<button role="tooltip" class="btn-link glyphicon glyphicon-edit" data-toggle="popover" th:title="#{edit}" style="color: orange"></button>
 								</form>
 							</td>
 
 							<!-- View Inscriptions -->
 							<td class="text-center">
 								<form th:action="@{'trainingList/inscriptionList/'+${training.id}}" method="post">
-									<button class="btnTable btn-link glyphicon glyphicon-user" th:title="#{training.infoInscriptions}" id="viewInscriptions" style="color: green"></button>
+									<button class="btn-link glyphicon glyphicon-user" th:title="#{training.infoInscriptions}" id="viewInscriptions" style="color: green"></button>
 								</form>
 							</td>
 						</th:block>
@@ -149,14 +148,14 @@
 								<!-- Join Training -->
 								<td th:if="!${#lists.contains(trainingAccountIds, training.id)}" class="text-center">
 									<form th:action="@{'trainingUserList/trainingJoin/'+${training.id}}" method="post">
-										<button class="btnTable btn-link glyphicon glyphicon-ok-sign" id="joinTraining" th:title="#{training.join}" style="color: green"></button>
+										<button class="btn-link glyphicon glyphicon-ok-sign" id="joinTraining" th:title="#{training.join}" style="color: green"></button>
 									</form>
 								</td>
 
 								<!-- Remove Join Training -->
 								<td th:if="${#lists.contains(trainingAccountIds, training.id)}" class="text-center">
 									<form th:action="@{'trainingUserList/trainingRemoveJoin/'+${training.id}}" method="post" id="formEvaluate2">
-										<button type="button" class="btnTable btn-link glyphicon glyphicon-remove-sign" th:title="#{training.infoRemoveJoin}" style="color: red"
+										<button type="button" class="btn-link glyphicon glyphicon-remove-sign" th:title="#{training.infoRemoveJoin}" style="color: red"
 											onclick="evaluateModal(this.form, modal2, accept2)"></button>
 									</form>
 								</td>

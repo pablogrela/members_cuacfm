@@ -24,7 +24,8 @@ angular.module('membersApp').factory('AccountService', [ '$http', '$q', function
 		fetchAllUsers : fetchAllUsers,
 		unsubscribe : unsubscribe,
 		subscribe : subscribe,
-		push : push
+		push : push,
+		email:email,
 	};
 
 	return factory;
@@ -77,4 +78,16 @@ angular.module('membersApp').factory('AccountService', [ '$http', '$q', function
 		return deferred.promise;
 	}
 	
+	function email(id, title, body) {
+		var deferred = $q.defer();
+		var data = "&title=" + title + "&body=" + body;
+		var url = REST_SERVICE_URI + 'email/' + id + csrf + data;
+		$http.post(url).then(function(response) {
+			deferred.resolve(response.data);
+		}, function(errResponse) {
+			console.error('Error while email account');
+			deferred.reject(errResponse);
+		});
+		return deferred.promise;
+	}
 } ]);

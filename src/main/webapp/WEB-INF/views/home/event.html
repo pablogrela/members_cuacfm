@@ -22,30 +22,28 @@
 <body>
 
 	<div th:fragment="eventImportant">
-		<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star" th:title="#{event.highlighted}"
+		<button data-ng-click="ctrl.highlight(event.id)" class="btn-link glyphicon glyphicon glyphicon-star pull-left" th:title="#{event.highlighted}"
 			style="color: yellow" disabled="disabled"></button>
-		<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
+		<button data-ng-click="ctrl.remove(event.id)" class="btn-link glyphicon glyphicon glyphicon-remove pull-left" th:title="#{event.infoRemove}"
 			style="color: red"></button>
-		<form class="btnTable" action="{{'account/' + event.account.id}} " method="post">
-			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
+		<form action="{{'account/' + event.account.id}} " method="post">
+			<button class="btn-link glyphicon glyphicon-user pull-left" th:title="#{profile.view}" style="color: green"></button>
 			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 		</form>
-		<b data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname"></b>
-		<br></br>
+		<b data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname"></b> <br></br>
 		<span data-ng-bind="event.description"></span>
 	</div>
 
 	<div th:fragment="eventNormal">
-		<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
-			th:title="#{event.infoHighlight}" style="color: grey"></button>
-		<button data-ng-click="ctrl.remove(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-remove" th:title="#{event.infoRemove}"
+		<button data-ng-click="ctrl.highlight(event.id)" class="btn-link glyphicon glyphicon glyphicon-star-empty pull-left" th:title="#{event.infoHighlight}"
+			style="color: grey"></button>
+		<button data-ng-click="ctrl.remove(event.id)" class="btn-link glyphicon glyphicon glyphicon-remove pull-left" th:title="#{event.infoRemove}"
 			style="color: red"></button>
-		<form class="btnTable" action="{{'account/' + event.account.id}} " method="post">
-			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
+		<form action="{{'account/' + event.account.id}} " method="post">
+			<button class="btn-link glyphicon glyphicon-user pull-left" th:title="#{profile.view}" style="color: green"></button>
 			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 		</form>
-		<b data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname"></b>
-		<br></br>
+		<b data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname"></b> <br></br>
 		<span data-ng-bind="event.description"></span>
 	</div>
 
@@ -54,13 +52,14 @@
 	</div>
 
 	<div th:fragment="eventClose">
-		<button data-ng-click="ctrl.highlight(event.id)" class="btnTable btn-link glyphicon glyphicon glyphicon-star-empty"
-			th:title="#{event.infoHighlight}" style="color: white"></button>	
-		<form class="btnTable" action="{{'account/' + event.account.id}} " method="post">
-			<button class="btnTable btn-link glyphicon glyphicon-user"  th:title="#{profile.view}" style="color: green"></button>
+		<button data-ng-click="ctrl.highlight(event.id)" class="btn-link glyphicon glyphicon glyphicon-star-empty  pull-left" th:title="#{event.infoHighlight}"
+			style="color: white"></button>
+		<form action="{{'account/' + event.account.id}} " method="post">
+			<button class="btn-link glyphicon glyphicon-user  pull-left" th:title="#{profile.view}" style="color: green"></button>
 			<input type="hidden" th:if="${_csrf != null}" name="_csrf" th:value="${_csrf.token}" />
 		</form>
-		<span data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname + ', ' + event.description"></span>
+		<b data-ng-bind="'{{ event.dateEvent | date : 'short' }}' + ', ' + event.account.name + ' ' + event.account.surname"></b> <br></br>
+		<span data-ng-bind="event.description"></span>
 	</div>
 
 </body>

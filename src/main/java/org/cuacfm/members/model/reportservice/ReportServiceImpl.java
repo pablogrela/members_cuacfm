@@ -32,9 +32,11 @@ import org.cuacfm.members.model.report.Report;
 import org.cuacfm.members.model.report.ReportDTO;
 import org.cuacfm.members.model.report.ReportRepository;
 import org.cuacfm.members.model.util.Constants.levels;
+import org.cuacfm.members.model.util.Constants.typeDestinataries;
+import org.cuacfm.members.model.util.Constants.typePush;
 import org.cuacfm.members.model.util.DateUtils;
 import org.cuacfm.members.model.util.FileUtils;
-import org.cuacfm.members.model.util.PushService;
+import org.cuacfm.members.model.util.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.Gson;
 
 /** The Class ReportServiceImpl. */
 @Service("reportService")
@@ -66,6 +70,9 @@ public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	private EventService eventService;
+
+	@Autowired
+	private NotificationService notificationService;
 
 	/** Instantiates a new report service. */
 	public ReportServiceImpl() {
@@ -159,12 +166,9 @@ public class ReportServiceImpl implements ReportService {
 
 	@Override
 	public void delete(Report report) {
-		reportRepository.delete(report);
-	}
-
-	@Override
-	public Report findByName(String login) {
-		return reportRepository.findByName(login);
+		if (report != null) {
+			reportRepository.delete(report);
+		}
 	}
 
 	@Override
@@ -222,17 +226,20 @@ public class ReportServiceImpl implements ReportService {
 		if (report.getAnswer() != null) {
 			log = report.getAnswer();
 		}
-		String aux = DateUtils.format(new Date(), DateUtils.FORMAT_DISPLAY) + " - " + account.getName() + "\n";
+		String aux = DateUtils.format(new Date(), DateUtils.FORMAT_LOCAL) + " - " + account.getName() + "\n";
 		report.setAnswer(aux + "\t" + answer + "\n" + log);
 
 		Object[] arguments = { account.getFullName(), report.getProgram().getName() };
 		eventService.save("report.answer.user", report.getAccount(), levels.HIGH, arguments);
 
-		// Send push
+		// Send notification
 		if (!account.getId().equals(report.getAccount().getId())) {
-			Object[] arguments2 = { DateUtils.format(report.getDateCreate(), DateUtils.FORMAT_DISPLAY) };
+			Object[] arguments2 = { DateUtils.format(report.getDateCreate(), DateUtils.FORMAT_LOCAL) };
 			String title = messageSource.getMessage("report.answer.push.title", arguments2, Locale.getDefault());
-			PushService.sendPushNotificationToDevice(report.getAccount().getDevicesToken(), title, answer);
+			List<Account> sendAccounts = new ArrayList<>();
+			sendAccounts.add(report.getAccount());
+			notificationService.sendNotification(typeDestinataries.ALL, sendAccounts, title, answer, typePush.REPORT,
+					new Gson().toJson(getReportDTO(report)));
 		}
 
 		if (manage == null) {

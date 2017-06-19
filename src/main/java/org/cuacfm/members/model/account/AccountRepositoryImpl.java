@@ -109,8 +109,10 @@ public class AccountRepositoryImpl implements AccountRepository {
 	}
 
 	@Override
-	public List<Account> getUsers() {
-		return entityManager.createQuery("select a from Account a where a.role <> 'ROLE_ADMIN' and a.active = true", Account.class).getResultList();
+	public List<Account> getUsersActive() {
+		return entityManager
+				.createQuery("select a from Account a where a.role <> 'ROLE_ADMIN' and a.active = true order by a.name, a.surname", Account.class)
+				.getResultList();
 	}
 
 	@Override
@@ -123,12 +125,14 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 	@Override
 	public List<Account> getAccounts() {
-		return entityManager.createQuery("select a from Account a", Account.class).getResultList();
+		return entityManager.createQuery("select a from Account a order by a.name, a.surname", Account.class).getResultList();
 	}
 
 	@Override
 	public List<Account> getAccountsWithDeviceToken() {
-		return entityManager.createQuery("select a from Account a where a.devicesToken is not null and a.devicesToken <> '' and a.devicesToken <> '[]' ", Account.class)
+		return entityManager
+				.createQuery("select a from Account a where a.devicesToken is not null and a.devicesToken <> '' and a.devicesToken <> '[]' ",
+						Account.class)
 				.getResultList();
 	}
 
@@ -139,19 +143,9 @@ public class AccountRepositoryImpl implements AccountRepository {
 
 	@Override
 	public List<String> getUsernames() {
-		// No running Concat(a.name, ' - ', a.nickname)
-		List<Account> accounts = entityManager
-				.createQuery("select a from Account a " + "where a.role <> 'ROLE_ADMIN' " + "and a.active = true " + "order by a.login",
-						Account.class)
-				.getResultList();
-
 		List<String> usernames = new ArrayList<>();
-		for (Account account : accounts) {
-			if (account.getNickName() != null) {
-				usernames.add(account.getId() + ": " + account.getName() + " " + account.getSurname() + " - " + account.getNickName());
-			} else {
-				usernames.add(account.getId() + ": " + account.getName() + " " + account.getSurname());
-			}
+		for (Account account : getUsersActive()) {
+			usernames.add(account.getId() + ": " + account.getFullNameNick());
 		}
 		return usernames;
 	}

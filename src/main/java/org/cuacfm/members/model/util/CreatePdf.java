@@ -117,7 +117,7 @@ public class CreatePdf {
 			ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, headers[0], document.left() + 80, document.bottom() - 20, 0);
 
 			Date day = new Date();
-			headers[1] = new Phrase(DateUtils.format(day, DateUtils.FORMAT_DISPLAY));
+			headers[1] = new Phrase(DateUtils.format(day, DateUtils.FORMAT_LOCAL));
 			ColumnText.showTextAligned(cb, Element.ALIGN_RIGHT, headers[1], (document.right() - document.left()) / 2 + document.leftMargin(),
 					document.bottom() - 20, 0);
 
